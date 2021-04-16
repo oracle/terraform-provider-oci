@@ -60,8 +60,16 @@ func (request ListSourceAssociationsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListSourceAssociationsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListSourceAssociationsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListSourceAssociationsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

@@ -119,8 +119,8 @@ func (client GoldenGateClient) ChangeDatabaseRegistrationCompartment(ctx context
 }
 
 // changeDatabaseRegistrationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseRegistrations/{databaseRegistrationId}/actions/changeCompartment")
+func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseRegistrations/{databaseRegistrationId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (client GoldenGateClient) ChangeDeploymentBackupCompartment(ctx context.Con
 }
 
 // changeDeploymentBackupCompartment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentBackups/{deploymentBackupId}/actions/changeCompartment")
+func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentBackups/{deploymentBackupId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +237,8 @@ func (client GoldenGateClient) ChangeDeploymentCompartment(ctx context.Context, 
 }
 
 // changeDeploymentCompartment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/changeCompartment")
+func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -296,8 +296,8 @@ func (client GoldenGateClient) CreateDatabaseRegistration(ctx context.Context, r
 }
 
 // createDatabaseRegistration implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) createDatabaseRegistration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseRegistrations")
+func (client GoldenGateClient) createDatabaseRegistration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseRegistrations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -355,8 +355,8 @@ func (client GoldenGateClient) CreateDeployment(ctx context.Context, request Cre
 }
 
 // createDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) createDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments")
+func (client GoldenGateClient) createDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -414,8 +414,8 @@ func (client GoldenGateClient) CreateDeploymentBackup(ctx context.Context, reque
 }
 
 // createDeploymentBackup implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) createDeploymentBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentBackups")
+func (client GoldenGateClient) createDeploymentBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentBackups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -468,8 +468,8 @@ func (client GoldenGateClient) DeleteDatabaseRegistration(ctx context.Context, r
 }
 
 // deleteDatabaseRegistration implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) deleteDatabaseRegistration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseRegistrations/{databaseRegistrationId}")
+func (client GoldenGateClient) deleteDatabaseRegistration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseRegistrations/{databaseRegistrationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -522,8 +522,8 @@ func (client GoldenGateClient) DeleteDeployment(ctx context.Context, request Del
 }
 
 // deleteDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) deleteDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/deployments/{deploymentId}")
+func (client GoldenGateClient) deleteDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/deployments/{deploymentId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -576,8 +576,8 @@ func (client GoldenGateClient) DeleteDeploymentBackup(ctx context.Context, reque
 }
 
 // deleteDeploymentBackup implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/deploymentBackups/{deploymentBackupId}")
+func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/deploymentBackups/{deploymentBackupId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -630,8 +630,8 @@ func (client GoldenGateClient) GetDatabaseRegistration(ctx context.Context, requ
 }
 
 // getDatabaseRegistration implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getDatabaseRegistration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseRegistrations/{databaseRegistrationId}")
+func (client GoldenGateClient) getDatabaseRegistration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseRegistrations/{databaseRegistrationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -684,8 +684,8 @@ func (client GoldenGateClient) GetDeployment(ctx context.Context, request GetDep
 }
 
 // getDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}")
+func (client GoldenGateClient) getDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -738,8 +738,8 @@ func (client GoldenGateClient) GetDeploymentBackup(ctx context.Context, request 
 }
 
 // getDeploymentBackup implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getDeploymentBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentBackups/{deploymentBackupId}")
+func (client GoldenGateClient) getDeploymentBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentBackups/{deploymentBackupId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -792,8 +792,8 @@ func (client GoldenGateClient) GetWorkRequest(ctx context.Context, request GetWo
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client GoldenGateClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -846,8 +846,8 @@ func (client GoldenGateClient) ListDatabaseRegistrations(ctx context.Context, re
 }
 
 // listDatabaseRegistrations implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listDatabaseRegistrations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseRegistrations")
+func (client GoldenGateClient) listDatabaseRegistrations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseRegistrations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -900,8 +900,8 @@ func (client GoldenGateClient) ListDeploymentBackups(ctx context.Context, reques
 }
 
 // listDeploymentBackups implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentBackups")
+func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentBackups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -954,8 +954,8 @@ func (client GoldenGateClient) ListDeployments(ctx context.Context, request List
 }
 
 // listDeployments implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listDeployments(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments")
+func (client GoldenGateClient) listDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1008,8 +1008,8 @@ func (client GoldenGateClient) ListWorkRequestErrors(ctx context.Context, reques
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client GoldenGateClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1062,8 +1062,8 @@ func (client GoldenGateClient) ListWorkRequestLogs(ctx context.Context, request 
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client GoldenGateClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1116,8 +1116,8 @@ func (client GoldenGateClient) ListWorkRequests(ctx context.Context, request Lis
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client GoldenGateClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1175,8 +1175,8 @@ func (client GoldenGateClient) RestoreDeployment(ctx context.Context, request Re
 }
 
 // restoreDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) restoreDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentBackups/{deploymentBackupId}/actions/restore")
+func (client GoldenGateClient) restoreDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentBackups/{deploymentBackupId}/actions/restore", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1234,8 +1234,8 @@ func (client GoldenGateClient) StartDeployment(ctx context.Context, request Star
 }
 
 // startDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) startDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/start")
+func (client GoldenGateClient) startDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1293,8 +1293,8 @@ func (client GoldenGateClient) StopDeployment(ctx context.Context, request StopD
 }
 
 // stopDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) stopDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/stop")
+func (client GoldenGateClient) stopDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1347,8 +1347,8 @@ func (client GoldenGateClient) UpdateDatabaseRegistration(ctx context.Context, r
 }
 
 // updateDatabaseRegistration implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) updateDatabaseRegistration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseRegistrations/{databaseRegistrationId}")
+func (client GoldenGateClient) updateDatabaseRegistration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseRegistrations/{databaseRegistrationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1401,8 +1401,8 @@ func (client GoldenGateClient) UpdateDeployment(ctx context.Context, request Upd
 }
 
 // updateDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) updateDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/deployments/{deploymentId}")
+func (client GoldenGateClient) updateDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/deployments/{deploymentId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1455,8 +1455,8 @@ func (client GoldenGateClient) UpdateDeploymentBackup(ctx context.Context, reque
 }
 
 // updateDeploymentBackup implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) updateDeploymentBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/deploymentBackups/{deploymentBackupId}")
+func (client GoldenGateClient) updateDeploymentBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/deploymentBackups/{deploymentBackupId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1514,8 +1514,8 @@ func (client GoldenGateClient) UpgradeDeployment(ctx context.Context, request Up
 }
 
 // upgradeDeployment implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) upgradeDeployment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/upgrade")
+func (client GoldenGateClient) upgradeDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/upgrade", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

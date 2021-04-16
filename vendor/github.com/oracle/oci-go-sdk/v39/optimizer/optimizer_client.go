@@ -119,8 +119,8 @@ func (client OptimizerClient) BulkApplyRecommendations(ctx context.Context, requ
 }
 
 // bulkApplyRecommendations implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) bulkApplyRecommendations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/recommendations/{recommendationId}/actions/bulkApplyRecommendations")
+func (client OptimizerClient) bulkApplyRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/recommendations/{recommendationId}/actions/bulkApplyRecommendations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (client OptimizerClient) CreateProfile(ctx context.Context, request CreateP
 }
 
 // createProfile implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) createProfile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/profiles")
+func (client OptimizerClient) createProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/profiles", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +232,8 @@ func (client OptimizerClient) DeleteProfile(ctx context.Context, request DeleteP
 }
 
 // deleteProfile implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) deleteProfile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/profiles/{profileId}")
+func (client OptimizerClient) deleteProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/profiles/{profileId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -286,8 +286,8 @@ func (client OptimizerClient) GetCategory(ctx context.Context, request GetCatego
 }
 
 // getCategory implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) getCategory(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/categories/{categoryId}")
+func (client OptimizerClient) getCategory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/categories/{categoryId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +340,8 @@ func (client OptimizerClient) GetEnrollmentStatus(ctx context.Context, request G
 }
 
 // getEnrollmentStatus implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) getEnrollmentStatus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enrollmentStatus/{enrollmentStatusId}")
+func (client OptimizerClient) getEnrollmentStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enrollmentStatus/{enrollmentStatusId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +394,8 @@ func (client OptimizerClient) GetProfile(ctx context.Context, request GetProfile
 }
 
 // getProfile implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) getProfile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/profiles/{profileId}")
+func (client OptimizerClient) getProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/profiles/{profileId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +448,8 @@ func (client OptimizerClient) GetRecommendation(ctx context.Context, request Get
 }
 
 // getRecommendation implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) getRecommendation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendations/{recommendationId}")
+func (client OptimizerClient) getRecommendation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendations/{recommendationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -502,8 +502,8 @@ func (client OptimizerClient) GetResourceAction(ctx context.Context, request Get
 }
 
 // getResourceAction implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) getResourceAction(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceActions/{resourceActionId}")
+func (client OptimizerClient) getResourceAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceActions/{resourceActionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -556,8 +556,8 @@ func (client OptimizerClient) GetWorkRequest(ctx context.Context, request GetWor
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client OptimizerClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -610,8 +610,8 @@ func (client OptimizerClient) ListCategories(ctx context.Context, request ListCa
 }
 
 // listCategories implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listCategories(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/categories")
+func (client OptimizerClient) listCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/categories", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -664,8 +664,8 @@ func (client OptimizerClient) ListEnrollmentStatuses(ctx context.Context, reques
 }
 
 // listEnrollmentStatuses implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listEnrollmentStatuses(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enrollmentStatus")
+func (client OptimizerClient) listEnrollmentStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enrollmentStatus", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -719,8 +719,8 @@ func (client OptimizerClient) ListHistories(ctx context.Context, request ListHis
 }
 
 // listHistories implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listHistories(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/histories")
+func (client OptimizerClient) listHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/histories", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -773,8 +773,8 @@ func (client OptimizerClient) ListProfiles(ctx context.Context, request ListProf
 }
 
 // listProfiles implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listProfiles(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/profiles")
+func (client OptimizerClient) listProfiles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/profiles", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -827,8 +827,8 @@ func (client OptimizerClient) ListRecommendationStrategies(ctx context.Context, 
 }
 
 // listRecommendationStrategies implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendationStrategies")
+func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendationStrategies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -881,8 +881,8 @@ func (client OptimizerClient) ListRecommendations(ctx context.Context, request L
 }
 
 // listRecommendations implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listRecommendations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendations")
+func (client OptimizerClient) listRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -935,8 +935,8 @@ func (client OptimizerClient) ListResourceActions(ctx context.Context, request L
 }
 
 // listResourceActions implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listResourceActions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceActions")
+func (client OptimizerClient) listResourceActions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceActions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -989,8 +989,8 @@ func (client OptimizerClient) ListWorkRequestErrors(ctx context.Context, request
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client OptimizerClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1043,8 +1043,8 @@ func (client OptimizerClient) ListWorkRequestLogs(ctx context.Context, request L
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client OptimizerClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1097,8 +1097,8 @@ func (client OptimizerClient) ListWorkRequests(ctx context.Context, request List
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client OptimizerClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1151,8 +1151,8 @@ func (client OptimizerClient) UpdateEnrollmentStatus(ctx context.Context, reques
 }
 
 // updateEnrollmentStatus implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) updateEnrollmentStatus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/enrollmentStatus/{enrollmentStatusId}")
+func (client OptimizerClient) updateEnrollmentStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/enrollmentStatus/{enrollmentStatusId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1205,8 +1205,8 @@ func (client OptimizerClient) UpdateProfile(ctx context.Context, request UpdateP
 }
 
 // updateProfile implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) updateProfile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/profiles/{profileId}")
+func (client OptimizerClient) updateProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/profiles/{profileId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1263,8 +1263,8 @@ func (client OptimizerClient) UpdateRecommendation(ctx context.Context, request 
 }
 
 // updateRecommendation implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) updateRecommendation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/recommendations/{recommendationId}")
+func (client OptimizerClient) updateRecommendation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/recommendations/{recommendationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1321,8 +1321,8 @@ func (client OptimizerClient) UpdateResourceAction(ctx context.Context, request 
 }
 
 // updateResourceAction implements the OCIOperation interface (enables retrying operations)
-func (client OptimizerClient) updateResourceAction(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/resourceActions/{resourceActionId}")
+func (client OptimizerClient) updateResourceAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/resourceActions/{resourceActionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

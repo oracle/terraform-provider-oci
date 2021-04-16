@@ -28,6 +28,14 @@ type ListAttributesRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match the entire business name given. The match is not case sensitive.
+	BusinessName *string `mandatory:"false" contributesTo:"query" name:"businessName"`
+
+	// A filter to return only resources that match display name or business name pattern given. The match is not case sensitive.
+	// For Example : /folders?displayOrBusinessNameContains=Cu.*
+	// The above would match all folders with display name or business name that starts with "Cu".
+	DisplayOrBusinessNameContains *string `mandatory:"false" contributesTo:"query" name:"displayOrBusinessNameContains"`
+
 	// A filter to return only resources that match display name pattern given. The match is not case sensitive.
 	// For Example : /folders?displayNameContains=Cu.*
 	// The above would match all folders with display name that starts with "Cu".
@@ -103,8 +111,16 @@ func (request ListAttributesRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListAttributesRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListAttributesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListAttributesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

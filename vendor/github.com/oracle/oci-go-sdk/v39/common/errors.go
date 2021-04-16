@@ -97,3 +97,16 @@ func (deadlineExceededByBackoffError) Error() string {
 // force the user to wait past the request deadline before re-issuing a request. This enables us to exit early, since
 // we cannot succeed based on the configured retry policy.
 var DeadlineExceededByBackoff error = deadlineExceededByBackoffError{}
+
+// NonSeekableRequestRetryFailure is the error returned when the request is with binary request body, and is configured
+// retry, but the request body is not retryable
+type NonSeekableRequestRetryFailure struct {
+	err error
+}
+
+func (ne NonSeekableRequestRetryFailure) Error() string {
+	if ne.err == nil {
+		return fmt.Sprintf("Unable to perform Retry on this request body type, which did not implement seek() interface")
+	}
+	return fmt.Sprintf("%s. Unable to perform Retry on this request body type, which did not implement seek() interface", ne.err.Error())
+}

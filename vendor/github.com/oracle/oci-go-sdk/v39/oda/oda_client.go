@@ -120,8 +120,8 @@ func (client OdaClient) ChangeOdaInstanceCompartment(ctx context.Context, reques
 }
 
 // changeOdaInstanceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/changeCompartment")
+func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +181,8 @@ func (client OdaClient) CreateOdaInstance(ctx context.Context, request CreateOda
 }
 
 // createOdaInstance implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) createOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances")
+func (client OdaClient) createOdaInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -236,8 +236,8 @@ func (client OdaClient) DeleteOdaInstance(ctx context.Context, request DeleteOda
 }
 
 // deleteOdaInstance implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaInstances/{odaInstanceId}")
+func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaInstances/{odaInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -290,8 +290,8 @@ func (client OdaClient) GetOdaInstance(ctx context.Context, request GetOdaInstan
 }
 
 // getOdaInstance implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}")
+func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -346,8 +346,8 @@ func (client OdaClient) GetWorkRequest(ctx context.Context, request GetWorkReque
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +404,8 @@ func (client OdaClient) ListOdaInstances(ctx context.Context, request ListOdaIns
 }
 
 // listOdaInstances implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances")
+func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -461,8 +461,8 @@ func (client OdaClient) ListWorkRequestErrors(ctx context.Context, request ListW
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client OdaClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -518,8 +518,8 @@ func (client OdaClient) ListWorkRequestLogs(ctx context.Context, request ListWor
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -575,8 +575,8 @@ func (client OdaClient) ListWorkRequests(ctx context.Context, request ListWorkRe
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -635,8 +635,8 @@ func (client OdaClient) StartOdaInstance(ctx context.Context, request StartOdaIn
 }
 
 // startOdaInstance implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/start")
+func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -696,8 +696,8 @@ func (client OdaClient) StopOdaInstance(ctx context.Context, request StopOdaInst
 }
 
 // stopOdaInstance implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/stop")
+func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -750,8 +750,8 @@ func (client OdaClient) UpdateOdaInstance(ctx context.Context, request UpdateOda
 }
 
 // updateOdaInstance implements the OCIOperation interface (enables retrying operations)
-func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/odaInstances/{odaInstanceId}")
+func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/odaInstances/{odaInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

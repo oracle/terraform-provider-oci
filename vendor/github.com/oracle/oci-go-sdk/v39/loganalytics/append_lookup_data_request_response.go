@@ -59,8 +59,22 @@ func (request AppendLookupDataRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request AppendLookupDataRequest) HTTPRequest(method, path string) (http.Request, error) {
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+func (request AppendLookupDataRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	if err == nil && binaryRequestBody.Seekable() {
+		common.UpdateRequestBinaryBody(&httpRequest, binaryRequestBody)
+	}
+	return httpRequest, err
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request AppendLookupDataRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+	rsc := common.NewOCIReadSeekCloser(request.AppendLookupFileBody)
+	if rsc.Seekable() {
+		return rsc, true
+	}
+	return nil, true
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

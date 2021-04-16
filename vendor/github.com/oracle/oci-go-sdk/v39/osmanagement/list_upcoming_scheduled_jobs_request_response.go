@@ -64,8 +64,16 @@ func (request ListUpcomingScheduledJobsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListUpcomingScheduledJobsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListUpcomingScheduledJobsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListUpcomingScheduledJobsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

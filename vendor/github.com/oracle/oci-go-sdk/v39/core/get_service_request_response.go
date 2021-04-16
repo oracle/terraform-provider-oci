@@ -33,8 +33,16 @@ func (request GetServiceRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetServiceRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request GetServiceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request GetServiceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

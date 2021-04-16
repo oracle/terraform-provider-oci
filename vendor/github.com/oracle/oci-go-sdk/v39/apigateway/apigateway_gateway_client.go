@@ -121,8 +121,8 @@ func (client GatewayClient) ChangeGatewayCompartment(ctx context.Context, reques
 }
 
 // changeGatewayCompartment implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) changeGatewayCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways/{gatewayId}/actions/changeCompartment")
+func (client GatewayClient) changeGatewayCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways/{gatewayId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +180,8 @@ func (client GatewayClient) CreateGateway(ctx context.Context, request CreateGat
 }
 
 // createGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) createGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways")
+func (client GatewayClient) createGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -234,8 +234,8 @@ func (client GatewayClient) DeleteGateway(ctx context.Context, request DeleteGat
 }
 
 // deleteGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) deleteGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/gateways/{gatewayId}")
+func (client GatewayClient) deleteGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/gateways/{gatewayId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -288,8 +288,8 @@ func (client GatewayClient) GetGateway(ctx context.Context, request GetGatewayRe
 }
 
 // getGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways/{gatewayId}")
+func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways/{gatewayId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -342,8 +342,8 @@ func (client GatewayClient) ListGateways(ctx context.Context, request ListGatewa
 }
 
 // listGateways implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) listGateways(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways")
+func (client GatewayClient) listGateways(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -396,8 +396,8 @@ func (client GatewayClient) UpdateGateway(ctx context.Context, request UpdateGat
 }
 
 // updateGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) updateGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/gateways/{gatewayId}")
+func (client GatewayClient) updateGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/gateways/{gatewayId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

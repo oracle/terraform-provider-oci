@@ -47,8 +47,16 @@ func (request ListRemotePeeringConnectionsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListRemotePeeringConnectionsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListRemotePeeringConnectionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListRemotePeeringConnectionsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

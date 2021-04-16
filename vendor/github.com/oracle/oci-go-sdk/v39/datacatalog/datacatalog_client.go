@@ -119,8 +119,8 @@ func (client DataCatalogClient) AddDataSelectorPatterns(ctx context.Context, req
 }
 
 // addDataSelectorPatterns implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) addDataSelectorPatterns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/addDataSelectorPatterns")
+func (client DataCatalogClient) addDataSelectorPatterns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/addDataSelectorPatterns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (client DataCatalogClient) AssociateCustomProperty(ctx context.Context, req
 }
 
 // associateCustomProperty implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) associateCustomProperty(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/types/{typeKey}/actions/associateCustomProperties")
+func (client DataCatalogClient) associateCustomProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/types/{typeKey}/actions/associateCustomProperties", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +237,8 @@ func (client DataCatalogClient) AttachCatalogPrivateEndpoint(ctx context.Context
 }
 
 // attachCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/attachCatalogPrivateEndpoint")
+func (client DataCatalogClient) attachCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/attachCatalogPrivateEndpoint", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -291,8 +291,8 @@ func (client DataCatalogClient) ChangeCatalogCompartment(ctx context.Context, re
 }
 
 // changeCatalogCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/changeCompartment")
+func (client DataCatalogClient) changeCatalogCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -345,8 +345,8 @@ func (client DataCatalogClient) ChangeCatalogPrivateEndpointCompartment(ctx cont
 }
 
 // changeCatalogPrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}/actions/changeCompartment")
+func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +404,8 @@ func (client DataCatalogClient) CreateAttribute(ctx context.Context, request Cre
 }
 
 // createAttribute implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createAttribute(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes")
+func (client DataCatalogClient) createAttribute(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -463,8 +463,8 @@ func (client DataCatalogClient) CreateAttributeTag(ctx context.Context, request 
 }
 
 // createAttributeTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createAttributeTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags")
+func (client DataCatalogClient) createAttributeTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -523,8 +523,8 @@ func (client DataCatalogClient) CreateCatalog(ctx context.Context, request Creat
 }
 
 // createCatalog implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createCatalog(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs")
+func (client DataCatalogClient) createCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -582,8 +582,8 @@ func (client DataCatalogClient) CreateCatalogPrivateEndpoint(ctx context.Context
 }
 
 // createCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogPrivateEndpoints")
+func (client DataCatalogClient) createCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogPrivateEndpoints", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -641,8 +641,8 @@ func (client DataCatalogClient) CreateConnection(ctx context.Context, request Cr
 }
 
 // createConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections")
+func (client DataCatalogClient) createConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -700,8 +700,8 @@ func (client DataCatalogClient) CreateCustomProperty(ctx context.Context, reques
 }
 
 // createCustomProperty implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createCustomProperty(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties")
+func (client DataCatalogClient) createCustomProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -759,8 +759,8 @@ func (client DataCatalogClient) CreateDataAsset(ctx context.Context, request Cre
 }
 
 // createDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets")
+func (client DataCatalogClient) createDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -818,8 +818,8 @@ func (client DataCatalogClient) CreateDataAssetTag(ctx context.Context, request 
 }
 
 // createDataAssetTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createDataAssetTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags")
+func (client DataCatalogClient) createDataAssetTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -877,8 +877,8 @@ func (client DataCatalogClient) CreateEntity(ctx context.Context, request Create
 }
 
 // createEntity implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities")
+func (client DataCatalogClient) createEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -936,8 +936,8 @@ func (client DataCatalogClient) CreateEntityTag(ctx context.Context, request Cre
 }
 
 // createEntityTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createEntityTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags")
+func (client DataCatalogClient) createEntityTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -995,8 +995,8 @@ func (client DataCatalogClient) CreateFolder(ctx context.Context, request Create
 }
 
 // createFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders")
+func (client DataCatalogClient) createFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1054,8 +1054,8 @@ func (client DataCatalogClient) CreateFolderTag(ctx context.Context, request Cre
 }
 
 // createFolderTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createFolderTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags")
+func (client DataCatalogClient) createFolderTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1113,8 +1113,8 @@ func (client DataCatalogClient) CreateGlossary(ctx context.Context, request Crea
 }
 
 // createGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries")
+func (client DataCatalogClient) createGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1172,8 +1172,8 @@ func (client DataCatalogClient) CreateJob(ctx context.Context, request CreateJob
 }
 
 // createJob implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/jobs")
+func (client DataCatalogClient) createJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/jobs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1231,8 +1231,8 @@ func (client DataCatalogClient) CreateJobDefinition(ctx context.Context, request
 }
 
 // createJobDefinition implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createJobDefinition(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/jobDefinitions")
+func (client DataCatalogClient) createJobDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/jobDefinitions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1290,8 +1290,8 @@ func (client DataCatalogClient) CreateJobExecution(ctx context.Context, request 
 }
 
 // createJobExecution implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createJobExecution(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/jobs/{jobKey}/executions")
+func (client DataCatalogClient) createJobExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/jobs/{jobKey}/executions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1349,8 +1349,8 @@ func (client DataCatalogClient) CreateNamespace(ctx context.Context, request Cre
 }
 
 // createNamespace implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/namespaces")
+func (client DataCatalogClient) createNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/namespaces", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1408,8 +1408,8 @@ func (client DataCatalogClient) CreatePattern(ctx context.Context, request Creat
 }
 
 // createPattern implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createPattern(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/patterns")
+func (client DataCatalogClient) createPattern(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/patterns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1467,8 +1467,8 @@ func (client DataCatalogClient) CreateTerm(ctx context.Context, request CreateTe
 }
 
 // createTerm implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createTerm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms")
+func (client DataCatalogClient) createTerm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1526,8 +1526,8 @@ func (client DataCatalogClient) CreateTermRelationship(ctx context.Context, requ
 }
 
 // createTermRelationship implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) createTermRelationship(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships")
+func (client DataCatalogClient) createTermRelationship(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1580,8 +1580,8 @@ func (client DataCatalogClient) DeleteAttribute(ctx context.Context, request Del
 }
 
 // deleteAttribute implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteAttribute(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}")
+func (client DataCatalogClient) deleteAttribute(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1634,8 +1634,8 @@ func (client DataCatalogClient) DeleteAttributeTag(ctx context.Context, request 
 }
 
 // deleteAttributeTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteAttributeTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags/{tagKey}")
+func (client DataCatalogClient) deleteAttributeTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1688,8 +1688,8 @@ func (client DataCatalogClient) DeleteCatalog(ctx context.Context, request Delet
 }
 
 // deleteCatalog implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteCatalog(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}")
+func (client DataCatalogClient) deleteCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1742,8 +1742,8 @@ func (client DataCatalogClient) DeleteCatalogPrivateEndpoint(ctx context.Context
 }
 
 // deleteCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}")
+func (client DataCatalogClient) deleteCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1796,8 +1796,8 @@ func (client DataCatalogClient) DeleteConnection(ctx context.Context, request De
 }
 
 // deleteConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}")
+func (client DataCatalogClient) deleteConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1850,8 +1850,8 @@ func (client DataCatalogClient) DeleteCustomProperty(ctx context.Context, reques
 }
 
 // deleteCustomProperty implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteCustomProperty(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties/{customPropertyKey}")
+func (client DataCatalogClient) deleteCustomProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties/{customPropertyKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1904,8 +1904,8 @@ func (client DataCatalogClient) DeleteDataAsset(ctx context.Context, request Del
 }
 
 // deleteDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}")
+func (client DataCatalogClient) deleteDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1958,8 +1958,8 @@ func (client DataCatalogClient) DeleteDataAssetTag(ctx context.Context, request 
 }
 
 // deleteDataAssetTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteDataAssetTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags/{tagKey}")
+func (client DataCatalogClient) deleteDataAssetTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2012,8 +2012,8 @@ func (client DataCatalogClient) DeleteEntity(ctx context.Context, request Delete
 }
 
 // deleteEntity implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}")
+func (client DataCatalogClient) deleteEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2066,8 +2066,8 @@ func (client DataCatalogClient) DeleteEntityTag(ctx context.Context, request Del
 }
 
 // deleteEntityTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteEntityTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags/{tagKey}")
+func (client DataCatalogClient) deleteEntityTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2120,8 +2120,8 @@ func (client DataCatalogClient) DeleteFolder(ctx context.Context, request Delete
 }
 
 // deleteFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}")
+func (client DataCatalogClient) deleteFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2174,8 +2174,8 @@ func (client DataCatalogClient) DeleteFolderTag(ctx context.Context, request Del
 }
 
 // deleteFolderTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteFolderTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags/{tagKey}")
+func (client DataCatalogClient) deleteFolderTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2228,8 +2228,8 @@ func (client DataCatalogClient) DeleteGlossary(ctx context.Context, request Dele
 }
 
 // deleteGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/glossaries/{glossaryKey}")
+func (client DataCatalogClient) deleteGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/glossaries/{glossaryKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2282,8 +2282,8 @@ func (client DataCatalogClient) DeleteJob(ctx context.Context, request DeleteJob
 }
 
 // deleteJob implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/jobs/{jobKey}")
+func (client DataCatalogClient) deleteJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/jobs/{jobKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2336,8 +2336,8 @@ func (client DataCatalogClient) DeleteJobDefinition(ctx context.Context, request
 }
 
 // deleteJobDefinition implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/jobDefinitions/{jobDefinitionKey}")
+func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/jobDefinitions/{jobDefinitionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2390,8 +2390,8 @@ func (client DataCatalogClient) DeleteNamespace(ctx context.Context, request Del
 }
 
 // deleteNamespace implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/namespaces/{namespaceId}")
+func (client DataCatalogClient) deleteNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/namespaces/{namespaceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2444,8 +2444,8 @@ func (client DataCatalogClient) DeletePattern(ctx context.Context, request Delet
 }
 
 // deletePattern implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deletePattern(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/patterns/{patternKey}")
+func (client DataCatalogClient) deletePattern(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/patterns/{patternKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2498,8 +2498,8 @@ func (client DataCatalogClient) DeleteTerm(ctx context.Context, request DeleteTe
 }
 
 // deleteTerm implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteTerm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}")
+func (client DataCatalogClient) deleteTerm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2552,8 +2552,8 @@ func (client DataCatalogClient) DeleteTermRelationship(ctx context.Context, requ
 }
 
 // deleteTermRelationship implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships/{termRelationshipKey}")
+func (client DataCatalogClient) deleteTermRelationship(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships/{termRelationshipKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2606,8 +2606,8 @@ func (client DataCatalogClient) DetachCatalogPrivateEndpoint(ctx context.Context
 }
 
 // detachCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/detachCatalogPrivateEndpoint")
+func (client DataCatalogClient) detachCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/detachCatalogPrivateEndpoint", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2665,8 +2665,8 @@ func (client DataCatalogClient) DisassociateCustomProperty(ctx context.Context, 
 }
 
 // disassociateCustomProperty implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) disassociateCustomProperty(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/types/{typeKey}/actions/disassociateCustomProperties")
+func (client DataCatalogClient) disassociateCustomProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/types/{typeKey}/actions/disassociateCustomProperties", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2724,8 +2724,8 @@ func (client DataCatalogClient) ExpandTreeForGlossary(ctx context.Context, reque
 }
 
 // expandTreeForGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) expandTreeForGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/expandTree")
+func (client DataCatalogClient) expandTreeForGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/expandTree", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2783,8 +2783,8 @@ func (client DataCatalogClient) ExportGlossary(ctx context.Context, request Expo
 }
 
 // exportGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) exportGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/export")
+func (client DataCatalogClient) exportGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/export", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2837,8 +2837,8 @@ func (client DataCatalogClient) GetAttribute(ctx context.Context, request GetAtt
 }
 
 // getAttribute implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getAttribute(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}")
+func (client DataCatalogClient) getAttribute(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2891,8 +2891,8 @@ func (client DataCatalogClient) GetAttributeTag(ctx context.Context, request Get
 }
 
 // getAttributeTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getAttributeTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags/{tagKey}")
+func (client DataCatalogClient) getAttributeTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2945,8 +2945,8 @@ func (client DataCatalogClient) GetCatalog(ctx context.Context, request GetCatal
 }
 
 // getCatalog implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getCatalog(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}")
+func (client DataCatalogClient) getCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2999,8 +2999,8 @@ func (client DataCatalogClient) GetCatalogPrivateEndpoint(ctx context.Context, r
 }
 
 // getCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}")
+func (client DataCatalogClient) getCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3053,8 +3053,8 @@ func (client DataCatalogClient) GetConnection(ctx context.Context, request GetCo
 }
 
 // getConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}")
+func (client DataCatalogClient) getConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3107,8 +3107,8 @@ func (client DataCatalogClient) GetCustomProperty(ctx context.Context, request G
 }
 
 // getCustomProperty implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getCustomProperty(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties/{customPropertyKey}")
+func (client DataCatalogClient) getCustomProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties/{customPropertyKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3161,8 +3161,8 @@ func (client DataCatalogClient) GetDataAsset(ctx context.Context, request GetDat
 }
 
 // getDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}")
+func (client DataCatalogClient) getDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3215,8 +3215,8 @@ func (client DataCatalogClient) GetDataAssetTag(ctx context.Context, request Get
 }
 
 // getDataAssetTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getDataAssetTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags/{tagKey}")
+func (client DataCatalogClient) getDataAssetTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3269,8 +3269,8 @@ func (client DataCatalogClient) GetEntity(ctx context.Context, request GetEntity
 }
 
 // getEntity implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}")
+func (client DataCatalogClient) getEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3323,8 +3323,8 @@ func (client DataCatalogClient) GetEntityTag(ctx context.Context, request GetEnt
 }
 
 // getEntityTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getEntityTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags/{tagKey}")
+func (client DataCatalogClient) getEntityTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3377,8 +3377,8 @@ func (client DataCatalogClient) GetFolder(ctx context.Context, request GetFolder
 }
 
 // getFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}")
+func (client DataCatalogClient) getFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3431,8 +3431,8 @@ func (client DataCatalogClient) GetFolderTag(ctx context.Context, request GetFol
 }
 
 // getFolderTag implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getFolderTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags/{tagKey}")
+func (client DataCatalogClient) getFolderTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags/{tagKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3485,8 +3485,8 @@ func (client DataCatalogClient) GetGlossary(ctx context.Context, request GetGlos
 }
 
 // getGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}")
+func (client DataCatalogClient) getGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3539,8 +3539,8 @@ func (client DataCatalogClient) GetJob(ctx context.Context, request GetJobReques
 }
 
 // getJob implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}")
+func (client DataCatalogClient) getJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3593,8 +3593,8 @@ func (client DataCatalogClient) GetJobDefinition(ctx context.Context, request Ge
 }
 
 // getJobDefinition implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getJobDefinition(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobDefinitions/{jobDefinitionKey}")
+func (client DataCatalogClient) getJobDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobDefinitions/{jobDefinitionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3647,8 +3647,8 @@ func (client DataCatalogClient) GetJobExecution(ctx context.Context, request Get
 }
 
 // getJobExecution implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getJobExecution(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}")
+func (client DataCatalogClient) getJobExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3701,8 +3701,8 @@ func (client DataCatalogClient) GetJobLog(ctx context.Context, request GetJobLog
 }
 
 // getJobLog implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getJobLog(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/logs/{jobLogKey}")
+func (client DataCatalogClient) getJobLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/logs/{jobLogKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3755,8 +3755,8 @@ func (client DataCatalogClient) GetJobMetrics(ctx context.Context, request GetJo
 }
 
 // getJobMetrics implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getJobMetrics(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/metrics/{jobMetricsKey}")
+func (client DataCatalogClient) getJobMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/metrics/{jobMetricsKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3809,8 +3809,8 @@ func (client DataCatalogClient) GetNamespace(ctx context.Context, request GetNam
 }
 
 // getNamespace implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces/{namespaceId}")
+func (client DataCatalogClient) getNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces/{namespaceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3863,8 +3863,8 @@ func (client DataCatalogClient) GetPattern(ctx context.Context, request GetPatte
 }
 
 // getPattern implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getPattern(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/patterns/{patternKey}")
+func (client DataCatalogClient) getPattern(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/patterns/{patternKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3917,8 +3917,8 @@ func (client DataCatalogClient) GetTerm(ctx context.Context, request GetTermRequ
 }
 
 // getTerm implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getTerm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}")
+func (client DataCatalogClient) getTerm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3971,8 +3971,8 @@ func (client DataCatalogClient) GetTermRelationship(ctx context.Context, request
 }
 
 // getTermRelationship implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getTermRelationship(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships/{termRelationshipKey}")
+func (client DataCatalogClient) getTermRelationship(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships/{termRelationshipKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4025,8 +4025,8 @@ func (client DataCatalogClient) GetType(ctx context.Context, request GetTypeRequ
 }
 
 // getType implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getType(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/types/{typeKey}")
+func (client DataCatalogClient) getType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/types/{typeKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4079,8 +4079,8 @@ func (client DataCatalogClient) GetWorkRequest(ctx context.Context, request GetW
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client DataCatalogClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4138,8 +4138,8 @@ func (client DataCatalogClient) ImportConnection(ctx context.Context, request Im
 }
 
 // importConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) importConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/importConnection")
+func (client DataCatalogClient) importConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/importConnection", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4197,8 +4197,8 @@ func (client DataCatalogClient) ImportGlossary(ctx context.Context, request Impo
 }
 
 // importGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) importGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/import")
+func (client DataCatalogClient) importGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/import", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4251,8 +4251,8 @@ func (client DataCatalogClient) ListAggregatedPhysicalEntities(ctx context.Conte
 }
 
 // listAggregatedPhysicalEntities implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listAggregatedPhysicalEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/actions/listAggregatedPhysicalEntities")
+func (client DataCatalogClient) listAggregatedPhysicalEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/actions/listAggregatedPhysicalEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4305,8 +4305,8 @@ func (client DataCatalogClient) ListAttributeTags(ctx context.Context, request L
 }
 
 // listAttributeTags implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listAttributeTags(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags")
+func (client DataCatalogClient) listAttributeTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4359,8 +4359,8 @@ func (client DataCatalogClient) ListAttributes(ctx context.Context, request List
 }
 
 // listAttributes implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listAttributes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes")
+func (client DataCatalogClient) listAttributes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4413,8 +4413,8 @@ func (client DataCatalogClient) ListCatalogPrivateEndpoints(ctx context.Context,
 }
 
 // listCatalogPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogPrivateEndpoints")
+func (client DataCatalogClient) listCatalogPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogPrivateEndpoints", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4467,8 +4467,8 @@ func (client DataCatalogClient) ListCatalogs(ctx context.Context, request ListCa
 }
 
 // listCatalogs implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listCatalogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs")
+func (client DataCatalogClient) listCatalogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4521,8 +4521,8 @@ func (client DataCatalogClient) ListConnections(ctx context.Context, request Lis
 }
 
 // listConnections implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listConnections(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections")
+func (client DataCatalogClient) listConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4575,8 +4575,8 @@ func (client DataCatalogClient) ListCustomProperties(ctx context.Context, reques
 }
 
 // listCustomProperties implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listCustomProperties(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties")
+func (client DataCatalogClient) listCustomProperties(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4629,8 +4629,8 @@ func (client DataCatalogClient) ListDataAssetTags(ctx context.Context, request L
 }
 
 // listDataAssetTags implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listDataAssetTags(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags")
+func (client DataCatalogClient) listDataAssetTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4683,8 +4683,8 @@ func (client DataCatalogClient) ListDataAssets(ctx context.Context, request List
 }
 
 // listDataAssets implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listDataAssets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets")
+func (client DataCatalogClient) listDataAssets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4742,8 +4742,8 @@ func (client DataCatalogClient) ListDerivedLogicalEntities(ctx context.Context, 
 }
 
 // listDerivedLogicalEntities implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listDerivedLogicalEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/patterns/{patternKey}/actions/listDerivedLogicalEntities")
+func (client DataCatalogClient) listDerivedLogicalEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/patterns/{patternKey}/actions/listDerivedLogicalEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4796,8 +4796,8 @@ func (client DataCatalogClient) ListEntities(ctx context.Context, request ListEn
 }
 
 // listEntities implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities")
+func (client DataCatalogClient) listEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4850,8 +4850,8 @@ func (client DataCatalogClient) ListEntityTags(ctx context.Context, request List
 }
 
 // listEntityTags implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listEntityTags(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags")
+func (client DataCatalogClient) listEntityTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4904,8 +4904,8 @@ func (client DataCatalogClient) ListFolderTags(ctx context.Context, request List
 }
 
 // listFolderTags implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listFolderTags(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags")
+func (client DataCatalogClient) listFolderTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4958,8 +4958,8 @@ func (client DataCatalogClient) ListFolders(ctx context.Context, request ListFol
 }
 
 // listFolders implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listFolders(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders")
+func (client DataCatalogClient) listFolders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5012,8 +5012,8 @@ func (client DataCatalogClient) ListGlossaries(ctx context.Context, request List
 }
 
 // listGlossaries implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listGlossaries(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries")
+func (client DataCatalogClient) listGlossaries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5066,8 +5066,8 @@ func (client DataCatalogClient) ListJobDefinitions(ctx context.Context, request 
 }
 
 // listJobDefinitions implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listJobDefinitions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobDefinitions")
+func (client DataCatalogClient) listJobDefinitions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobDefinitions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5120,8 +5120,8 @@ func (client DataCatalogClient) ListJobExecutions(ctx context.Context, request L
 }
 
 // listJobExecutions implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listJobExecutions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions")
+func (client DataCatalogClient) listJobExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5174,8 +5174,8 @@ func (client DataCatalogClient) ListJobLogs(ctx context.Context, request ListJob
 }
 
 // listJobLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listJobLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/logs")
+func (client DataCatalogClient) listJobLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5228,8 +5228,8 @@ func (client DataCatalogClient) ListJobMetrics(ctx context.Context, request List
 }
 
 // listJobMetrics implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listJobMetrics(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/metrics")
+func (client DataCatalogClient) listJobMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs/{jobKey}/executions/{jobExecutionKey}/metrics", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5282,8 +5282,8 @@ func (client DataCatalogClient) ListJobs(ctx context.Context, request ListJobsRe
 }
 
 // listJobs implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs")
+func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/jobs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5336,8 +5336,8 @@ func (client DataCatalogClient) ListNamespaces(ctx context.Context, request List
 }
 
 // listNamespaces implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listNamespaces(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces")
+func (client DataCatalogClient) listNamespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/namespaces", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5390,8 +5390,8 @@ func (client DataCatalogClient) ListPatterns(ctx context.Context, request ListPa
 }
 
 // listPatterns implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listPatterns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/patterns")
+func (client DataCatalogClient) listPatterns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/patterns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5444,8 +5444,8 @@ func (client DataCatalogClient) ListRules(ctx context.Context, request ListRules
 }
 
 // listRules implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/rules")
+func (client DataCatalogClient) listRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/rules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5498,8 +5498,8 @@ func (client DataCatalogClient) ListTags(ctx context.Context, request ListTagsRe
 }
 
 // listTags implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listTags(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/tags")
+func (client DataCatalogClient) listTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/tags", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5552,8 +5552,8 @@ func (client DataCatalogClient) ListTermRelationships(ctx context.Context, reque
 }
 
 // listTermRelationships implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listTermRelationships(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships")
+func (client DataCatalogClient) listTermRelationships(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5606,8 +5606,8 @@ func (client DataCatalogClient) ListTerms(ctx context.Context, request ListTerms
 }
 
 // listTerms implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listTerms(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms")
+func (client DataCatalogClient) listTerms(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5660,8 +5660,8 @@ func (client DataCatalogClient) ListTypes(ctx context.Context, request ListTypes
 }
 
 // listTypes implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/types")
+func (client DataCatalogClient) listTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}/types", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5714,8 +5714,8 @@ func (client DataCatalogClient) ListWorkRequestErrors(ctx context.Context, reque
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client DataCatalogClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5768,8 +5768,8 @@ func (client DataCatalogClient) ListWorkRequestLogs(ctx context.Context, request
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client DataCatalogClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5822,8 +5822,8 @@ func (client DataCatalogClient) ListWorkRequests(ctx context.Context, request Li
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client DataCatalogClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5876,8 +5876,8 @@ func (client DataCatalogClient) ObjectStats(ctx context.Context, request ObjectS
 }
 
 // objectStats implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) objectStats(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/objectStats")
+func (client DataCatalogClient) objectStats(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/objectStats", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5935,8 +5935,8 @@ func (client DataCatalogClient) ParseConnection(ctx context.Context, request Par
 }
 
 // parseConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) parseConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/parseConnection")
+func (client DataCatalogClient) parseConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/parseConnection", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5990,8 +5990,8 @@ func (client DataCatalogClient) ProcessRecommendation(ctx context.Context, reque
 }
 
 // processRecommendation implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) processRecommendation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/processRecommendation")
+func (client DataCatalogClient) processRecommendation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/processRecommendation", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6046,8 +6046,8 @@ func (client DataCatalogClient) Recommendations(ctx context.Context, request Rec
 }
 
 // recommendations implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) recommendations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/getRecommendations")
+func (client DataCatalogClient) recommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/getRecommendations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6105,8 +6105,8 @@ func (client DataCatalogClient) RemoveDataSelectorPatterns(ctx context.Context, 
 }
 
 // removeDataSelectorPatterns implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) removeDataSelectorPatterns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/removeDataSelectorPatterns")
+func (client DataCatalogClient) removeDataSelectorPatterns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/removeDataSelectorPatterns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6159,13 +6159,67 @@ func (client DataCatalogClient) SearchCriteria(ctx context.Context, request Sear
 }
 
 // searchCriteria implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) searchCriteria(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/search")
+func (client DataCatalogClient) searchCriteria(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/search", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
 
 	var response SearchCriteriaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SuggestMatches Returns a list of potential string matches for a given input string.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SuggestMatches.go.html to see an example of how to use SuggestMatches API.
+func (client DataCatalogClient) SuggestMatches(ctx context.Context, request SuggestMatchesRequest) (response SuggestMatchesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.suggestMatches, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SuggestMatchesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SuggestMatchesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SuggestMatchesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SuggestMatchesResponse")
+	}
+	return
+}
+
+// suggestMatches implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) suggestMatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/suggest", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SuggestMatchesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -6218,8 +6272,8 @@ func (client DataCatalogClient) TestConnection(ctx context.Context, request Test
 }
 
 // testConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) testConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}/actions/test")
+func (client DataCatalogClient) testConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}/actions/test", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6272,8 +6326,8 @@ func (client DataCatalogClient) UpdateAttribute(ctx context.Context, request Upd
 }
 
 // updateAttribute implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateAttribute(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}")
+func (client DataCatalogClient) updateAttribute(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/attributes/{attributeKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6326,8 +6380,8 @@ func (client DataCatalogClient) UpdateCatalog(ctx context.Context, request Updat
 }
 
 // updateCatalog implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateCatalog(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}")
+func (client DataCatalogClient) updateCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6380,8 +6434,8 @@ func (client DataCatalogClient) UpdateCatalogPrivateEndpoint(ctx context.Context
 }
 
 // updateCatalogPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}")
+func (client DataCatalogClient) updateCatalogPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogPrivateEndpoints/{catalogPrivateEndpointId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6434,8 +6488,8 @@ func (client DataCatalogClient) UpdateConnection(ctx context.Context, request Up
 }
 
 // updateConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}")
+func (client DataCatalogClient) updateConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6488,8 +6542,8 @@ func (client DataCatalogClient) UpdateCustomProperty(ctx context.Context, reques
 }
 
 // updateCustomProperty implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateCustomProperty(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties/{customPropertyKey}")
+func (client DataCatalogClient) updateCustomProperty(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/namespaces/{namespaceId}/customProperties/{customPropertyKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6542,8 +6596,8 @@ func (client DataCatalogClient) UpdateDataAsset(ctx context.Context, request Upd
 }
 
 // updateDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}")
+func (client DataCatalogClient) updateDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6596,8 +6650,8 @@ func (client DataCatalogClient) UpdateEntity(ctx context.Context, request Update
 }
 
 // updateEntity implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}")
+func (client DataCatalogClient) updateEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6650,8 +6704,8 @@ func (client DataCatalogClient) UpdateFolder(ctx context.Context, request Update
 }
 
 // updateFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}")
+func (client DataCatalogClient) updateFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/folders/{folderKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6704,8 +6758,8 @@ func (client DataCatalogClient) UpdateGlossary(ctx context.Context, request Upda
 }
 
 // updateGlossary implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateGlossary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/glossaries/{glossaryKey}")
+func (client DataCatalogClient) updateGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/glossaries/{glossaryKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6758,8 +6812,8 @@ func (client DataCatalogClient) UpdateJob(ctx context.Context, request UpdateJob
 }
 
 // updateJob implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/jobs/{jobKey}")
+func (client DataCatalogClient) updateJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/jobs/{jobKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6812,8 +6866,8 @@ func (client DataCatalogClient) UpdateJobDefinition(ctx context.Context, request
 }
 
 // updateJobDefinition implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/jobDefinitions/{jobDefinitionKey}")
+func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/jobDefinitions/{jobDefinitionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6866,8 +6920,8 @@ func (client DataCatalogClient) UpdateNamespace(ctx context.Context, request Upd
 }
 
 // updateNamespace implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/namespaces/{namespaceId}")
+func (client DataCatalogClient) updateNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/namespaces/{namespaceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6920,8 +6974,8 @@ func (client DataCatalogClient) UpdatePattern(ctx context.Context, request Updat
 }
 
 // updatePattern implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updatePattern(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/patterns/{patternKey}")
+func (client DataCatalogClient) updatePattern(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/patterns/{patternKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6974,8 +7028,8 @@ func (client DataCatalogClient) UpdateTerm(ctx context.Context, request UpdateTe
 }
 
 // updateTerm implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateTerm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}")
+func (client DataCatalogClient) updateTerm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7028,8 +7082,8 @@ func (client DataCatalogClient) UpdateTermRelationship(ctx context.Context, requ
 }
 
 // updateTermRelationship implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) updateTermRelationship(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships/{termRelationshipKey}")
+func (client DataCatalogClient) updateTermRelationship(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}/glossaries/{glossaryKey}/terms/{termKey}/termRelationships/{termRelationshipKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7087,8 +7141,8 @@ func (client DataCatalogClient) UploadCredentials(ctx context.Context, request U
 }
 
 // uploadCredentials implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) uploadCredentials(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}/actions/uploadCredentials")
+func (client DataCatalogClient) uploadCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/connections/{connectionKey}/actions/uploadCredentials", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7141,8 +7195,8 @@ func (client DataCatalogClient) Users(ctx context.Context, request UsersRequest)
 }
 
 // users implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) users(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/users")
+func (client DataCatalogClient) users(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/users", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7200,8 +7254,8 @@ func (client DataCatalogClient) ValidateConnection(ctx context.Context, request 
 }
 
 // validateConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) validateConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/validateConnection")
+func (client DataCatalogClient) validateConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/validateConnection", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7259,8 +7313,8 @@ func (client DataCatalogClient) ValidatePattern(ctx context.Context, request Val
 }
 
 // validatePattern implements the OCIOperation interface (enables retrying operations)
-func (client DataCatalogClient) validatePattern(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/patterns/{patternKey}/actions/validate")
+func (client DataCatalogClient) validatePattern(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/patterns/{patternKey}/actions/validate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

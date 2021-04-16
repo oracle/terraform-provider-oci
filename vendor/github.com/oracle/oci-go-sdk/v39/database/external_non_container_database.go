@@ -70,6 +70,8 @@ type ExternalNonContainerDatabase struct {
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
+
+	OperationsInsightsConfig *OperationsInsightsConfig `mandatory:"false" json:"operationsInsightsConfig"`
 }
 
 func (m ExternalNonContainerDatabase) String() string {

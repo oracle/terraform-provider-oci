@@ -119,8 +119,8 @@ func (client ChannelsClient) CreateChannel(ctx context.Context, request CreateCh
 }
 
 // createChannel implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) createChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels")
+func (client ChannelsClient) createChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +173,8 @@ func (client ChannelsClient) DeleteChannel(ctx context.Context, request DeleteCh
 }
 
 // deleteChannel implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) deleteChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/channels/{channelId}")
+func (client ChannelsClient) deleteChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/channels/{channelId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -229,8 +229,8 @@ func (client ChannelsClient) GetChannel(ctx context.Context, request GetChannelR
 }
 
 // getChannel implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) getChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/channels/{channelId}")
+func (client ChannelsClient) getChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/channels/{channelId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -283,8 +283,8 @@ func (client ChannelsClient) ListChannels(ctx context.Context, request ListChann
 }
 
 // listChannels implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) listChannels(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/channels")
+func (client ChannelsClient) listChannels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/channels", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -343,8 +343,8 @@ func (client ChannelsClient) ResetChannel(ctx context.Context, request ResetChan
 }
 
 // resetChannel implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) resetChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels/{channelId}/actions/reset")
+func (client ChannelsClient) resetChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels/{channelId}/actions/reset", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +404,8 @@ func (client ChannelsClient) ResumeChannel(ctx context.Context, request ResumeCh
 }
 
 // resumeChannel implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) resumeChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels/{channelId}/actions/resume")
+func (client ChannelsClient) resumeChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/channels/{channelId}/actions/resume", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -466,8 +466,8 @@ func (client ChannelsClient) UpdateChannel(ctx context.Context, request UpdateCh
 }
 
 // updateChannel implements the OCIOperation interface (enables retrying operations)
-func (client ChannelsClient) updateChannel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/channels/{channelId}")
+func (client ChannelsClient) updateChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/channels/{channelId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

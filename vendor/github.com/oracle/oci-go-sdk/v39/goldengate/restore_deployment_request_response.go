@@ -41,8 +41,16 @@ func (request RestoreDeploymentRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request RestoreDeploymentRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request RestoreDeploymentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request RestoreDeploymentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

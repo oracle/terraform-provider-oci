@@ -119,8 +119,8 @@ func (client LogAnalyticsClient) AddEntityAssociation(ctx context.Context, reque
 }
 
 // addEntityAssociation implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/addEntityAssociations")
+func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/addEntityAssociations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (client LogAnalyticsClient) AddSourceEventTypes(ctx context.Context, reques
 }
 
 // addSourceEventTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/addEventTypes")
+func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/addEventTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +237,8 @@ func (client LogAnalyticsClient) AppendLookupData(ctx context.Context, request A
 }
 
 // appendLookupData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/lookups/{lookupName}/actions/appendData")
+func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/lookups/{lookupName}/actions/appendData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -291,8 +291,8 @@ func (client LogAnalyticsClient) BatchGetBasicInfo(ctx context.Context, request 
 }
 
 // batchGetBasicInfo implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) batchGetBasicInfo(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/labels/actions/basicInfo")
+func (client LogAnalyticsClient) batchGetBasicInfo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/labels/actions/basicInfo", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -345,8 +345,8 @@ func (client LogAnalyticsClient) CancelQueryWorkRequest(ctx context.Context, req
 }
 
 // cancelQueryWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/queryWorkRequests/{workRequestId}")
+func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/queryWorkRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +404,8 @@ func (client LogAnalyticsClient) ChangeLogAnalyticsEmBridgeCompartment(ctx conte
 }
 
 // changeLogAnalyticsEmBridgeCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}/actions/changeCompartment")
+func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -463,8 +463,8 @@ func (client LogAnalyticsClient) ChangeLogAnalyticsEntityCompartment(ctx context
 }
 
 // changeLogAnalyticsEntityCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/changeCompartment")
+func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -522,8 +522,8 @@ func (client LogAnalyticsClient) ChangeLogAnalyticsLogGroupCompartment(ctx conte
 }
 
 // changeLogAnalyticsLogGroupCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) changeLogAnalyticsLogGroupCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}/actions/changeCompartment")
+func (client LogAnalyticsClient) changeLogAnalyticsLogGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -576,8 +576,8 @@ func (client LogAnalyticsClient) ChangeLogAnalyticsObjectCollectionRuleCompartme
 }
 
 // changeLogAnalyticsObjectCollectionRuleCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) changeLogAnalyticsObjectCollectionRuleCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}/actions/changeCompartment")
+func (client LogAnalyticsClient) changeLogAnalyticsObjectCollectionRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -635,8 +635,8 @@ func (client LogAnalyticsClient) ChangeScheduledTaskCompartment(ctx context.Cont
 }
 
 // changeScheduledTaskCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/changeCompartment")
+func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -695,8 +695,8 @@ func (client LogAnalyticsClient) Clean(ctx context.Context, request CleanRequest
 }
 
 // clean implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/clean")
+func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/clean", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -754,8 +754,8 @@ func (client LogAnalyticsClient) CreateLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // createLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEmBridges")
+func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEmBridges", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -813,8 +813,8 @@ func (client LogAnalyticsClient) CreateLogAnalyticsEntity(ctx context.Context, r
 }
 
 // createLogAnalyticsEntity implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) createLogAnalyticsEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities")
+func (client LogAnalyticsClient) createLogAnalyticsEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -872,8 +872,8 @@ func (client LogAnalyticsClient) CreateLogAnalyticsEntityType(ctx context.Contex
 }
 
 // createLogAnalyticsEntityType implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntityTypes")
+func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntityTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -931,8 +931,8 @@ func (client LogAnalyticsClient) CreateLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // createLogAnalyticsLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) createLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsLogGroups")
+func (client LogAnalyticsClient) createLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsLogGroups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -985,8 +985,8 @@ func (client LogAnalyticsClient) CreateLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // createLogAnalyticsObjectCollectionRule implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) createLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules")
+func (client LogAnalyticsClient) createLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1044,8 +1044,8 @@ func (client LogAnalyticsClient) CreateScheduledTask(ctx context.Context, reques
 }
 
 // createScheduledTask implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks")
+func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1103,8 +1103,8 @@ func (client LogAnalyticsClient) DeleteAssociations(ctx context.Context, request
 }
 
 // deleteAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/associations/actions/delete")
+func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/associations/actions/delete", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1162,8 +1162,8 @@ func (client LogAnalyticsClient) DeleteField(ctx context.Context, request Delete
 }
 
 // deleteField implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteField(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/fields/{fieldName}")
+func (client LogAnalyticsClient) deleteField(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/fields/{fieldName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1221,8 +1221,8 @@ func (client LogAnalyticsClient) DeleteLabel(ctx context.Context, request Delete
 }
 
 // deleteLabel implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLabel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/labels/{labelName}")
+func (client LogAnalyticsClient) deleteLabel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/labels/{labelName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1275,8 +1275,8 @@ func (client LogAnalyticsClient) DeleteLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // deleteLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}")
+func (client LogAnalyticsClient) deleteLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1329,8 +1329,8 @@ func (client LogAnalyticsClient) DeleteLogAnalyticsEntity(ctx context.Context, r
 }
 
 // deleteLogAnalyticsEntity implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLogAnalyticsEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}")
+func (client LogAnalyticsClient) deleteLogAnalyticsEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1383,8 +1383,8 @@ func (client LogAnalyticsClient) DeleteLogAnalyticsEntityType(ctx context.Contex
 }
 
 // deleteLogAnalyticsEntityType implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEntityTypes/{entityTypeName}")
+func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsEntityTypes/{entityTypeName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1437,8 +1437,8 @@ func (client LogAnalyticsClient) DeleteLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // deleteLogAnalyticsLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}")
+func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1492,8 +1492,8 @@ func (client LogAnalyticsClient) DeleteLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // deleteLogAnalyticsObjectCollectionRule implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}")
+func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1551,8 +1551,8 @@ func (client LogAnalyticsClient) DeleteLookup(ctx context.Context, request Delet
 }
 
 // deleteLookup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/lookups/{lookupName}")
+func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/lookups/{lookupName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1610,8 +1610,8 @@ func (client LogAnalyticsClient) DeleteParser(ctx context.Context, request Delet
 }
 
 // deleteParser implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteParser(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/parsers/{parserName}")
+func (client LogAnalyticsClient) deleteParser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/parsers/{parserName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1664,8 +1664,8 @@ func (client LogAnalyticsClient) DeleteScheduledTask(ctx context.Context, reques
 }
 
 // deleteScheduledTask implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}")
+func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1723,8 +1723,8 @@ func (client LogAnalyticsClient) DeleteSource(ctx context.Context, request Delet
 }
 
 // deleteSource implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteSource(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/sources/{sourceName}")
+func (client LogAnalyticsClient) deleteSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/sources/{sourceName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1778,8 +1778,8 @@ func (client LogAnalyticsClient) DeleteUpload(ctx context.Context, request Delet
 }
 
 // deleteUpload implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteUpload(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/uploads/{uploadReference}")
+func (client LogAnalyticsClient) deleteUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/uploads/{uploadReference}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1833,8 +1833,8 @@ func (client LogAnalyticsClient) DeleteUploadFile(ctx context.Context, request D
 }
 
 // deleteUploadFile implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteUploadFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/uploads/{uploadReference}/files/{fileReference}")
+func (client LogAnalyticsClient) deleteUploadFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/uploads/{uploadReference}/files/{fileReference}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1887,8 +1887,8 @@ func (client LogAnalyticsClient) DeleteUploadWarning(ctx context.Context, reques
 }
 
 // deleteUploadWarning implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/uploads/{uploadReference}/warnings/{warningReference}")
+func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/uploads/{uploadReference}/warnings/{warningReference}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1941,8 +1941,8 @@ func (client LogAnalyticsClient) DisableArchiving(ctx context.Context, request D
 }
 
 // disableArchiving implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/disableArchiving")
+func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/disableArchiving", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2002,8 +2002,8 @@ func (client LogAnalyticsClient) DisableAutoAssociation(ctx context.Context, req
 }
 
 // disableAutoAssociation implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/disableAutoAssociation")
+func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/disableAutoAssociation", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2061,8 +2061,8 @@ func (client LogAnalyticsClient) DisableSourceEventTypes(ctx context.Context, re
 }
 
 // disableSourceEventTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/disableEventTypes")
+func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/disableEventTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2115,8 +2115,8 @@ func (client LogAnalyticsClient) EnableArchiving(ctx context.Context, request En
 }
 
 // enableArchiving implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/enableArchiving")
+func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/enableArchiving", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2176,8 +2176,8 @@ func (client LogAnalyticsClient) EnableAutoAssociation(ctx context.Context, requ
 }
 
 // enableAutoAssociation implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/enableAutoAssociation")
+func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/enableAutoAssociation", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2235,8 +2235,8 @@ func (client LogAnalyticsClient) EnableSourceEventTypes(ctx context.Context, req
 }
 
 // enableSourceEventTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/enableEventTypes")
+func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/enableEventTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2294,8 +2294,8 @@ func (client LogAnalyticsClient) EstimatePurgeDataSize(ctx context.Context, requ
 }
 
 // estimatePurgeDataSize implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) estimatePurgeDataSize(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimatePurgeDataSize")
+func (client LogAnalyticsClient) estimatePurgeDataSize(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimatePurgeDataSize", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2348,8 +2348,8 @@ func (client LogAnalyticsClient) EstimateRecallDataSize(ctx context.Context, req
 }
 
 // estimateRecallDataSize implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) estimateRecallDataSize(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimateRecallDataSize")
+func (client LogAnalyticsClient) estimateRecallDataSize(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimateRecallDataSize", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2402,8 +2402,8 @@ func (client LogAnalyticsClient) EstimateReleaseDataSize(ctx context.Context, re
 }
 
 // estimateReleaseDataSize implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimateReleaseDataSize")
+func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimateReleaseDataSize", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2461,8 +2461,8 @@ func (client LogAnalyticsClient) ExportCustomContent(ctx context.Context, reques
 }
 
 // exportCustomContent implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) exportCustomContent(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/contents/actions/exportCustomContent")
+func (client LogAnalyticsClient) exportCustomContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/contents/actions/exportCustomContent", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2514,8 +2514,8 @@ func (client LogAnalyticsClient) ExportQueryResult(ctx context.Context, request 
 }
 
 // exportQueryResult implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/export")
+func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/export", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2572,8 +2572,8 @@ func (client LogAnalyticsClient) ExtractStructuredLogFieldPaths(ctx context.Cont
 }
 
 // extractStructuredLogFieldPaths implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/extractLogFieldPaths")
+func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/extractLogFieldPaths", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2631,8 +2631,8 @@ func (client LogAnalyticsClient) ExtractStructuredLogHeaderPaths(ctx context.Con
 }
 
 // extractStructuredLogHeaderPaths implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/extractLogHeaderPaths")
+func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/extractLogHeaderPaths", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2685,8 +2685,8 @@ func (client LogAnalyticsClient) Filter(ctx context.Context, request FilterReque
 }
 
 // filter implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/filter")
+func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/filter", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2739,8 +2739,8 @@ func (client LogAnalyticsClient) GetAssociationSummary(ctx context.Context, requ
 }
 
 // getAssociationSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/associationSummary")
+func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/associationSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2798,8 +2798,8 @@ func (client LogAnalyticsClient) GetColumnNames(ctx context.Context, request Get
 }
 
 // getColumnNames implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/sqlColumnNames")
+func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/sqlColumnNames", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2852,8 +2852,8 @@ func (client LogAnalyticsClient) GetConfigWorkRequest(ctx context.Context, reque
 }
 
 // getConfigWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/configWorkRequests/{workRequestId}")
+func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/configWorkRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2906,8 +2906,8 @@ func (client LogAnalyticsClient) GetField(ctx context.Context, request GetFieldR
 }
 
 // getField implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getField(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/fields/{fieldName}")
+func (client LogAnalyticsClient) getField(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/fields/{fieldName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2960,8 +2960,8 @@ func (client LogAnalyticsClient) GetFieldsSummary(ctx context.Context, request G
 }
 
 // getFieldsSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/fieldSummary")
+func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/fieldSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3014,8 +3014,8 @@ func (client LogAnalyticsClient) GetLabel(ctx context.Context, request GetLabelR
 }
 
 // getLabel implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labels/{labelName}")
+func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labels/{labelName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3068,8 +3068,8 @@ func (client LogAnalyticsClient) GetLabelSummary(ctx context.Context, request Ge
 }
 
 // getLabelSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLabelSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labelSummary")
+func (client LogAnalyticsClient) getLabelSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labelSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3122,8 +3122,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsEmBridge(ctx context.Context, re
 }
 
 // getLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}")
+func (client LogAnalyticsClient) getLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3176,8 +3176,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsEmBridgeSummary(ctx context.Cont
 }
 
 // getLogAnalyticsEmBridgeSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsEmBridgeSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges/emBridgeSummary")
+func (client LogAnalyticsClient) getLogAnalyticsEmBridgeSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges/emBridgeSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3230,8 +3230,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsEntitiesSummary(ctx context.Cont
 }
 
 // getLogAnalyticsEntitiesSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsEntitiesSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities/entitySummary")
+func (client LogAnalyticsClient) getLogAnalyticsEntitiesSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities/entitySummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3284,8 +3284,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsEntity(ctx context.Context, requ
 }
 
 // getLogAnalyticsEntity implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}")
+func (client LogAnalyticsClient) getLogAnalyticsEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3338,8 +3338,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsEntityType(ctx context.Context, 
 }
 
 // getLogAnalyticsEntityType implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntityTypes/{entityTypeName}")
+func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntityTypes/{entityTypeName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3392,8 +3392,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsLogGroup(ctx context.Context, re
 }
 
 // getLogAnalyticsLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}")
+func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3446,8 +3446,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsLogGroupsSummary(ctx context.Con
 }
 
 // getLogAnalyticsLogGroupsSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsLogGroupsSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsLogGroupsSummary")
+func (client LogAnalyticsClient) getLogAnalyticsLogGroupsSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsLogGroupsSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3500,8 +3500,8 @@ func (client LogAnalyticsClient) GetLogAnalyticsObjectCollectionRule(ctx context
 }
 
 // getLogAnalyticsObjectCollectionRule implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}")
+func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3554,8 +3554,8 @@ func (client LogAnalyticsClient) GetLookup(ctx context.Context, request GetLooku
 }
 
 // getLookup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookups/{lookupName}")
+func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookups/{lookupName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3608,8 +3608,8 @@ func (client LogAnalyticsClient) GetLookupSummary(ctx context.Context, request G
 }
 
 // getLookupSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookupSummary")
+func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookupSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3662,8 +3662,8 @@ func (client LogAnalyticsClient) GetNamespace(ctx context.Context, request GetNa
 }
 
 // getNamespace implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}")
+func (client LogAnalyticsClient) getNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3716,8 +3716,8 @@ func (client LogAnalyticsClient) GetParser(ctx context.Context, request GetParse
 }
 
 // getParser implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getParser(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parsers/{parserName}")
+func (client LogAnalyticsClient) getParser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parsers/{parserName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3770,8 +3770,8 @@ func (client LogAnalyticsClient) GetParserSummary(ctx context.Context, request G
 }
 
 // getParserSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getParserSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parsersSummary")
+func (client LogAnalyticsClient) getParserSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parsersSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3825,8 +3825,8 @@ func (client LogAnalyticsClient) GetQueryResult(ctx context.Context, request Get
 }
 
 // getQueryResult implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getQueryResult(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/search/actions/query")
+func (client LogAnalyticsClient) getQueryResult(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/search/actions/query", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3879,8 +3879,8 @@ func (client LogAnalyticsClient) GetQueryWorkRequest(ctx context.Context, reques
 }
 
 // getQueryWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getQueryWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/queryWorkRequests/{workRequestId}")
+func (client LogAnalyticsClient) getQueryWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/queryWorkRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3933,8 +3933,8 @@ func (client LogAnalyticsClient) GetScheduledTask(ctx context.Context, request G
 }
 
 // getScheduledTask implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}")
+func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3987,8 +3987,8 @@ func (client LogAnalyticsClient) GetSource(ctx context.Context, request GetSourc
 }
 
 // getSource implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getSource(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}")
+func (client LogAnalyticsClient) getSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4041,8 +4041,8 @@ func (client LogAnalyticsClient) GetSourceSummary(ctx context.Context, request G
 }
 
 // getSourceSummary implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceSummary")
+func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceSummary", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4095,8 +4095,8 @@ func (client LogAnalyticsClient) GetStorage(ctx context.Context, request GetStor
 }
 
 // getStorage implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage")
+func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4150,8 +4150,8 @@ func (client LogAnalyticsClient) GetStorageUsage(ctx context.Context, request Ge
 }
 
 // getStorageUsage implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getStorageUsage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/usage")
+func (client LogAnalyticsClient) getStorageUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/usage", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4205,8 +4205,8 @@ func (client LogAnalyticsClient) GetStorageWorkRequest(ctx context.Context, requ
 }
 
 // getStorageWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getStorageWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageWorkRequests/{workRequestId}")
+func (client LogAnalyticsClient) getStorageWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageWorkRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4259,8 +4259,8 @@ func (client LogAnalyticsClient) GetUpload(ctx context.Context, request GetUploa
 }
 
 // getUpload implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getUpload(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads/{uploadReference}")
+func (client LogAnalyticsClient) getUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads/{uploadReference}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4313,8 +4313,8 @@ func (client LogAnalyticsClient) GetWorkRequest(ctx context.Context, request Get
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests/{workRequestId}")
+func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4372,8 +4372,8 @@ func (client LogAnalyticsClient) ImportCustomContent(ctx context.Context, reques
 }
 
 // importCustomContent implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) importCustomContent(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/contents/actions/importCustomContent")
+func (client LogAnalyticsClient) importCustomContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/contents/actions/importCustomContent", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4426,8 +4426,8 @@ func (client LogAnalyticsClient) ListAssociableEntities(ctx context.Context, req
 }
 
 // listAssociableEntities implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/associableEntities")
+func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/associableEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4480,8 +4480,8 @@ func (client LogAnalyticsClient) ListAssociatedEntities(ctx context.Context, req
 }
 
 // listAssociatedEntities implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/associatedEntities")
+func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/associatedEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4534,8 +4534,8 @@ func (client LogAnalyticsClient) ListAutoAssociations(ctx context.Context, reque
 }
 
 // listAutoAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/autoAssociations")
+func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/autoAssociations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4588,8 +4588,8 @@ func (client LogAnalyticsClient) ListConfigWorkRequests(ctx context.Context, req
 }
 
 // listConfigWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listConfigWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/configWorkRequests")
+func (client LogAnalyticsClient) listConfigWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/configWorkRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4642,8 +4642,8 @@ func (client LogAnalyticsClient) ListEntityAssociations(ctx context.Context, req
 }
 
 // listEntityAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/entityAssociations")
+func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/entityAssociations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4696,8 +4696,8 @@ func (client LogAnalyticsClient) ListEntitySourceAssociations(ctx context.Contex
 }
 
 // listEntitySourceAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/entityAssociations")
+func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/entityAssociations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4750,8 +4750,8 @@ func (client LogAnalyticsClient) ListFields(ctx context.Context, request ListFie
 }
 
 // listFields implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listFields(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/fields")
+func (client LogAnalyticsClient) listFields(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/fields", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4804,8 +4804,8 @@ func (client LogAnalyticsClient) ListLabelPriorities(ctx context.Context, reques
 }
 
 // listLabelPriorities implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labelPriorities")
+func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labelPriorities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4858,8 +4858,8 @@ func (client LogAnalyticsClient) ListLabelSourceDetails(ctx context.Context, req
 }
 
 // listLabelSourceDetails implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labelSourceDetails")
+func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labelSourceDetails", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4912,8 +4912,8 @@ func (client LogAnalyticsClient) ListLabels(ctx context.Context, request ListLab
 }
 
 // listLabels implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLabels(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labels")
+func (client LogAnalyticsClient) listLabels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/labels", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4966,8 +4966,8 @@ func (client LogAnalyticsClient) ListLogAnalyticsEmBridges(ctx context.Context, 
 }
 
 // listLogAnalyticsEmBridges implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLogAnalyticsEmBridges(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges")
+func (client LogAnalyticsClient) listLogAnalyticsEmBridges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEmBridges", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5020,8 +5020,8 @@ func (client LogAnalyticsClient) ListLogAnalyticsEntities(ctx context.Context, r
 }
 
 // listLogAnalyticsEntities implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLogAnalyticsEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities")
+func (client LogAnalyticsClient) listLogAnalyticsEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5074,8 +5074,8 @@ func (client LogAnalyticsClient) ListLogAnalyticsEntityTypes(ctx context.Context
 }
 
 // listLogAnalyticsEntityTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntityTypes")
+func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsEntityTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5128,8 +5128,8 @@ func (client LogAnalyticsClient) ListLogAnalyticsLogGroups(ctx context.Context, 
 }
 
 // listLogAnalyticsLogGroups implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLogAnalyticsLogGroups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsLogGroups")
+func (client LogAnalyticsClient) listLogAnalyticsLogGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsLogGroups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5182,8 +5182,8 @@ func (client LogAnalyticsClient) ListLogAnalyticsObjectCollectionRules(ctx conte
 }
 
 // listLogAnalyticsObjectCollectionRules implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules")
+func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5236,8 +5236,8 @@ func (client LogAnalyticsClient) ListLogSets(ctx context.Context, request ListLo
 }
 
 // listLogSets implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/logSets")
+func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/logSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5290,8 +5290,8 @@ func (client LogAnalyticsClient) ListLookups(ctx context.Context, request ListLo
 }
 
 // listLookups implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listLookups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookups")
+func (client LogAnalyticsClient) listLookups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/lookups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5344,8 +5344,8 @@ func (client LogAnalyticsClient) ListMetaSourceTypes(ctx context.Context, reques
 }
 
 // listMetaSourceTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceMetaTypes")
+func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceMetaTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5399,8 +5399,8 @@ func (client LogAnalyticsClient) ListNamespaces(ctx context.Context, request Lis
 }
 
 // listNamespaces implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces")
+func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5453,8 +5453,8 @@ func (client LogAnalyticsClient) ListParserFunctions(ctx context.Context, reques
 }
 
 // listParserFunctions implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parserFunctions")
+func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parserFunctions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5507,8 +5507,8 @@ func (client LogAnalyticsClient) ListParserMetaPlugins(ctx context.Context, requ
 }
 
 // listParserMetaPlugins implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parserMetaPlugins")
+func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parserMetaPlugins", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5561,8 +5561,8 @@ func (client LogAnalyticsClient) ListParsers(ctx context.Context, request ListPa
 }
 
 // listParsers implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listParsers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parsers")
+func (client LogAnalyticsClient) listParsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/parsers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5615,8 +5615,8 @@ func (client LogAnalyticsClient) ListQueryWorkRequests(ctx context.Context, requ
 }
 
 // listQueryWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listQueryWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/queryWorkRequests")
+func (client LogAnalyticsClient) listQueryWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/queryWorkRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5669,8 +5669,8 @@ func (client LogAnalyticsClient) ListRecalledData(ctx context.Context, request L
 }
 
 // listRecalledData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/recalledData")
+func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/recalledData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5723,8 +5723,8 @@ func (client LogAnalyticsClient) ListScheduledTasks(ctx context.Context, request
 }
 
 // listScheduledTasks implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/scheduledTasks")
+func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/scheduledTasks", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5777,8 +5777,8 @@ func (client LogAnalyticsClient) ListSourceAssociations(ctx context.Context, req
 }
 
 // listSourceAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceAssociations")
+func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceAssociations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5831,8 +5831,8 @@ func (client LogAnalyticsClient) ListSourceEventTypes(ctx context.Context, reque
 }
 
 // listSourceEventTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/eventTypes")
+func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/eventTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5885,8 +5885,8 @@ func (client LogAnalyticsClient) ListSourceExtendedFieldDefinitions(ctx context.
 }
 
 // listSourceExtendedFieldDefinitions implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/extendedFieldDefinitions")
+func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/extendedFieldDefinitions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5939,8 +5939,8 @@ func (client LogAnalyticsClient) ListSourceLabelOperators(ctx context.Context, r
 }
 
 // listSourceLabelOperators implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceLabelOperators")
+func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceLabelOperators", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5993,8 +5993,8 @@ func (client LogAnalyticsClient) ListSourceMetaFunctions(ctx context.Context, re
 }
 
 // listSourceMetaFunctions implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceMetaFunctions")
+func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sourceMetaFunctions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6047,8 +6047,8 @@ func (client LogAnalyticsClient) ListSourcePatterns(ctx context.Context, request
 }
 
 // listSourcePatterns implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/patterns")
+func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources/{sourceName}/patterns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6101,8 +6101,8 @@ func (client LogAnalyticsClient) ListSources(ctx context.Context, request ListSo
 }
 
 // listSources implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSources(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources")
+func (client LogAnalyticsClient) listSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/sources", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6155,8 +6155,8 @@ func (client LogAnalyticsClient) ListStorageWorkRequestErrors(ctx context.Contex
 }
 
 // listStorageWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listStorageWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageWorkRequests/{workRequestId}/errors")
+func (client LogAnalyticsClient) listStorageWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageWorkRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6209,8 +6209,8 @@ func (client LogAnalyticsClient) ListStorageWorkRequests(ctx context.Context, re
 }
 
 // listStorageWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listStorageWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageWorkRequests")
+func (client LogAnalyticsClient) listStorageWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageWorkRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6263,8 +6263,8 @@ func (client LogAnalyticsClient) ListSupportedCharEncodings(ctx context.Context,
 }
 
 // listSupportedCharEncodings implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSupportedCharEncodings(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/supportedCharEncodings")
+func (client LogAnalyticsClient) listSupportedCharEncodings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/supportedCharEncodings", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6317,8 +6317,8 @@ func (client LogAnalyticsClient) ListSupportedTimezones(ctx context.Context, req
 }
 
 // listSupportedTimezones implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listSupportedTimezones(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/supportedTimezones")
+func (client LogAnalyticsClient) listSupportedTimezones(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/supportedTimezones", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6371,8 +6371,8 @@ func (client LogAnalyticsClient) ListUploadFiles(ctx context.Context, request Li
 }
 
 // listUploadFiles implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listUploadFiles(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads/{uploadReference}/files")
+func (client LogAnalyticsClient) listUploadFiles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads/{uploadReference}/files", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6425,8 +6425,8 @@ func (client LogAnalyticsClient) ListUploadWarnings(ctx context.Context, request
 }
 
 // listUploadWarnings implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listUploadWarnings(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads/{uploadReference}/warnings")
+func (client LogAnalyticsClient) listUploadWarnings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads/{uploadReference}/warnings", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6480,8 +6480,8 @@ func (client LogAnalyticsClient) ListUploads(ctx context.Context, request ListUp
 }
 
 // listUploads implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listUploads(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads")
+func (client LogAnalyticsClient) listUploads(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/uploads", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6534,8 +6534,8 @@ func (client LogAnalyticsClient) ListWarnings(ctx context.Context, request ListW
 }
 
 // listWarnings implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listWarnings(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/warnings")
+func (client LogAnalyticsClient) listWarnings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/warnings", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6588,8 +6588,8 @@ func (client LogAnalyticsClient) ListWorkRequestErrors(ctx context.Context, requ
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests/{workRequestId}/errors")
+func (client LogAnalyticsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6642,8 +6642,8 @@ func (client LogAnalyticsClient) ListWorkRequestLogs(ctx context.Context, reques
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests/{workRequestId}/logs")
+func (client LogAnalyticsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6696,8 +6696,8 @@ func (client LogAnalyticsClient) ListWorkRequests(ctx context.Context, request L
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests")
+func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6755,8 +6755,8 @@ func (client LogAnalyticsClient) OffboardNamespace(ctx context.Context, request 
 }
 
 // offboardNamespace implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/offboard")
+func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/offboard", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6814,8 +6814,8 @@ func (client LogAnalyticsClient) OnboardNamespace(ctx context.Context, request O
 }
 
 // onboardNamespace implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) onboardNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/onboard")
+func (client LogAnalyticsClient) onboardNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/onboard", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6868,8 +6868,8 @@ func (client LogAnalyticsClient) ParseQuery(ctx context.Context, request ParseQu
 }
 
 // parseQuery implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/parse")
+func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/parse", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6922,8 +6922,8 @@ func (client LogAnalyticsClient) PauseScheduledTask(ctx context.Context, request
 }
 
 // pauseScheduledTask implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/pause")
+func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/pause", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -6982,8 +6982,8 @@ func (client LogAnalyticsClient) PurgeStorageData(ctx context.Context, request P
 }
 
 // purgeStorageData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) purgeStorageData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/purgeData")
+func (client LogAnalyticsClient) purgeStorageData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/purgeData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7036,8 +7036,8 @@ func (client LogAnalyticsClient) PutQueryWorkRequestBackground(ctx context.Conte
 }
 
 // putQueryWorkRequestBackground implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) putQueryWorkRequestBackground(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/queryWorkRequests/{workRequestId}/actions/background")
+func (client LogAnalyticsClient) putQueryWorkRequestBackground(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/queryWorkRequests/{workRequestId}/actions/background", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7090,8 +7090,8 @@ func (client LogAnalyticsClient) Query(ctx context.Context, request QueryRequest
 }
 
 // query implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) query(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/query")
+func (client LogAnalyticsClient) query(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/query", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7149,8 +7149,8 @@ func (client LogAnalyticsClient) RecallArchivedData(ctx context.Context, request
 }
 
 // recallArchivedData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/recallArchivedData")
+func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/recallArchivedData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7208,8 +7208,8 @@ func (client LogAnalyticsClient) RegisterLookup(ctx context.Context, request Reg
 }
 
 // registerLookup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) registerLookup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/lookups/actions/register")
+func (client LogAnalyticsClient) registerLookup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/lookups/actions/register", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7267,8 +7267,8 @@ func (client LogAnalyticsClient) ReleaseRecalledData(ctx context.Context, reques
 }
 
 // releaseRecalledData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) releaseRecalledData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/releaseRecalledData")
+func (client LogAnalyticsClient) releaseRecalledData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/releaseRecalledData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7326,8 +7326,8 @@ func (client LogAnalyticsClient) RemoveEntityAssociations(ctx context.Context, r
 }
 
 // removeEntityAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/removeEntityAssociations")
+func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/removeEntityAssociations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7385,8 +7385,8 @@ func (client LogAnalyticsClient) RemoveSourceEventTypes(ctx context.Context, req
 }
 
 // removeSourceEventTypes implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/removeEventTypes")
+func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/{sourceName}/actions/removeEventTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7439,8 +7439,8 @@ func (client LogAnalyticsClient) ResumeScheduledTask(ctx context.Context, reques
 }
 
 // resumeScheduledTask implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) resumeScheduledTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/resume")
+func (client LogAnalyticsClient) resumeScheduledTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/resume", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7500,8 +7500,8 @@ func (client LogAnalyticsClient) Run(ctx context.Context, request RunRequest) (r
 }
 
 // run implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) run(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/run")
+func (client LogAnalyticsClient) run(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}/actions/run", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7554,8 +7554,8 @@ func (client LogAnalyticsClient) Suggest(ctx context.Context, request SuggestReq
 }
 
 // suggest implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/suggest")
+func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/search/actions/suggest", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7613,8 +7613,8 @@ func (client LogAnalyticsClient) SuppressWarning(ctx context.Context, request Su
 }
 
 // suppressWarning implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/warnings/actions/suppress")
+func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/warnings/actions/suppress", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7672,8 +7672,8 @@ func (client LogAnalyticsClient) TestParser(ctx context.Context, request TestPar
 }
 
 // testParser implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) testParser(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/test")
+func (client LogAnalyticsClient) testParser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/test", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7731,8 +7731,8 @@ func (client LogAnalyticsClient) UnsuppressWarning(ctx context.Context, request 
 }
 
 // unsuppressWarning implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/warnings/actions/unsuppress")
+func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/warnings/actions/unsuppress", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7785,8 +7785,8 @@ func (client LogAnalyticsClient) UpdateLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // updateLogAnalyticsEmBridge implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}")
+func (client LogAnalyticsClient) updateLogAnalyticsEmBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEmBridges/{logAnalyticsEmBridgeId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7839,8 +7839,8 @@ func (client LogAnalyticsClient) UpdateLogAnalyticsEntity(ctx context.Context, r
 }
 
 // updateLogAnalyticsEntity implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLogAnalyticsEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}")
+func (client LogAnalyticsClient) updateLogAnalyticsEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7893,8 +7893,8 @@ func (client LogAnalyticsClient) UpdateLogAnalyticsEntityType(ctx context.Contex
 }
 
 // updateLogAnalyticsEntityType implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEntityTypes/{entityTypeName}")
+func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsEntityTypes/{entityTypeName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -7947,8 +7947,8 @@ func (client LogAnalyticsClient) UpdateLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // updateLogAnalyticsLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}")
+func (client LogAnalyticsClient) updateLogAnalyticsLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsLogGroups/{logAnalyticsLogGroupId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8001,8 +8001,8 @@ func (client LogAnalyticsClient) UpdateLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // updateLogAnalyticsObjectCollectionRule implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}")
+func (client LogAnalyticsClient) updateLogAnalyticsObjectCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/logAnalyticsObjectCollectionRules/{logAnalyticsObjectCollectionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8060,8 +8060,8 @@ func (client LogAnalyticsClient) UpdateLookup(ctx context.Context, request Updat
 }
 
 // updateLookup implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLookup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/lookups/{lookupName}")
+func (client LogAnalyticsClient) updateLookup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/lookups/{lookupName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8119,8 +8119,8 @@ func (client LogAnalyticsClient) UpdateLookupData(ctx context.Context, request U
 }
 
 // updateLookupData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateLookupData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/lookups/{lookupName}/actions/updateData")
+func (client LogAnalyticsClient) updateLookupData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/lookups/{lookupName}/actions/updateData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8173,8 +8173,8 @@ func (client LogAnalyticsClient) UpdateScheduledTask(ctx context.Context, reques
 }
 
 // updateScheduledTask implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}")
+func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/scheduledTasks/{scheduledTaskId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8227,8 +8227,8 @@ func (client LogAnalyticsClient) UpdateStorage(ctx context.Context, request Upda
 }
 
 // updateStorage implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) updateStorage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/storage")
+func (client LogAnalyticsClient) updateStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/storage", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8286,8 +8286,8 @@ func (client LogAnalyticsClient) UploadLogEventsFile(ctx context.Context, reques
 }
 
 // uploadLogEventsFile implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/uploadLogEventsFile")
+func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/uploadLogEventsFile", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8355,8 +8355,8 @@ func (client LogAnalyticsClient) UploadLogFile(ctx context.Context, request Uplo
 }
 
 // uploadLogFile implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/uploadLogFile")
+func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/uploadLogFile", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8424,8 +8424,8 @@ func (client LogAnalyticsClient) UpsertAssociations(ctx context.Context, request
 }
 
 // upsertAssociations implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/associations/actions/upsert")
+func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/associations/actions/upsert", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8483,8 +8483,8 @@ func (client LogAnalyticsClient) UpsertField(ctx context.Context, request Upsert
 }
 
 // upsertField implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) upsertField(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/fields/actions/upsert")
+func (client LogAnalyticsClient) upsertField(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/fields/actions/upsert", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8542,8 +8542,8 @@ func (client LogAnalyticsClient) UpsertLabel(ctx context.Context, request Upsert
 }
 
 // upsertLabel implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/labels/actions/upsert")
+func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/labels/actions/upsert", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8601,8 +8601,8 @@ func (client LogAnalyticsClient) UpsertParser(ctx context.Context, request Upser
 }
 
 // upsertParser implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) upsertParser(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/upsert")
+func (client LogAnalyticsClient) upsertParser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/parsers/actions/upsert", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8660,8 +8660,8 @@ func (client LogAnalyticsClient) UpsertSource(ctx context.Context, request Upser
 }
 
 // upsertSource implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) upsertSource(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/upsert")
+func (client LogAnalyticsClient) upsertSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/upsert", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8719,8 +8719,8 @@ func (client LogAnalyticsClient) ValidateAssociationParameters(ctx context.Conte
 }
 
 // validateAssociationParameters implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/associations/actions/validateParameters")
+func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/associations/actions/validateParameters", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8773,8 +8773,8 @@ func (client LogAnalyticsClient) ValidateFile(ctx context.Context, request Valid
 }
 
 // validateFile implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) validateFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/uploads/actions/validateFile")
+func (client LogAnalyticsClient) validateFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/uploads/actions/validateFile", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8832,8 +8832,8 @@ func (client LogAnalyticsClient) ValidateSource(ctx context.Context, request Val
 }
 
 // validateSource implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) validateSource(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/validate")
+func (client LogAnalyticsClient) validateSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/validate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8891,8 +8891,8 @@ func (client LogAnalyticsClient) ValidateSourceExtendedFieldDetails(ctx context.
 }
 
 // validateSourceExtendedFieldDetails implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) validateSourceExtendedFieldDetails(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/validateExtendedFields")
+func (client LogAnalyticsClient) validateSourceExtendedFieldDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/validateExtendedFields", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -8945,8 +8945,8 @@ func (client LogAnalyticsClient) ValidateSourceMapping(ctx context.Context, requ
 }
 
 // validateSourceMapping implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/uploads/actions/validateSourceMapping")
+func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/uploads/actions/validateSourceMapping", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -61,8 +61,16 @@ func (request ListLogAnalyticsEmBridgesRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListLogAnalyticsEmBridgesRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListLogAnalyticsEmBridgesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListLogAnalyticsEmBridgesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

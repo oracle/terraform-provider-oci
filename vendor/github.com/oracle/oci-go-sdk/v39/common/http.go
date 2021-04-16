@@ -76,7 +76,7 @@ func addBinaryBody(request *http.Request, value reflect.Value, field reflect.Str
 	}
 
 	if isMandatory && !ok {
-		e = fmt.Errorf("body of the request is mandatory and needs  to be an io.ReadCloser interface. Can not marshal body of binary request")
+		e = fmt.Errorf("body of the request is mandatory and needs to be an io.ReadCloser interface. Can not marshal body of binary request")
 		return
 	}
 
@@ -671,6 +671,16 @@ func MakeDefaultHTTPRequest(method, path string) (httpRequest http.Request) {
 func MakeDefaultHTTPRequestWithTaggedStruct(method, path string, requestStruct interface{}) (httpRequest http.Request, err error) {
 	httpRequest = MakeDefaultHTTPRequest(method, path)
 	err = HTTPRequestMarshaller(requestStruct, &httpRequest)
+	return
+}
+
+// UpdateRequestBinaryBody updates the http request's body once it is binary request and the request body is seekable
+// if the content length is zero, no need to update request body(since it's already been set to http.Nody)
+func UpdateRequestBinaryBody(httpRequest *http.Request, rsc *OCIReadSeekCloser) {
+	if parseContentLength(httpRequest.Header.Get(requestHeaderContentLength)) == 0 {
+		return
+	}
+	httpRequest.Body = rsc
 	return
 }
 

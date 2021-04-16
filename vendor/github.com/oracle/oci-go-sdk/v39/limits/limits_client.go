@@ -117,8 +117,8 @@ func (client LimitsClient) GetResourceAvailability(ctx context.Context, request 
 }
 
 // getResourceAvailability implements the OCIOperation interface (enables retrying operations)
-func (client LimitsClient) getResourceAvailability(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/services/{serviceName}/limits/{limitName}/resourceAvailability")
+func (client LimitsClient) getResourceAvailability(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/services/{serviceName}/limits/{limitName}/resourceAvailability", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +173,8 @@ func (client LimitsClient) ListLimitDefinitions(ctx context.Context, request Lis
 }
 
 // listLimitDefinitions implements the OCIOperation interface (enables retrying operations)
-func (client LimitsClient) listLimitDefinitions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/limitDefinitions")
+func (client LimitsClient) listLimitDefinitions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/limitDefinitions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -227,8 +227,8 @@ func (client LimitsClient) ListLimitValues(ctx context.Context, request ListLimi
 }
 
 // listLimitValues implements the OCIOperation interface (enables retrying operations)
-func (client LimitsClient) listLimitValues(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/limitValues")
+func (client LimitsClient) listLimitValues(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/limitValues", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -282,8 +282,8 @@ func (client LimitsClient) ListServices(ctx context.Context, request ListService
 }
 
 // listServices implements the OCIOperation interface (enables retrying operations)
-func (client LimitsClient) listServices(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/services")
+func (client LimitsClient) listServices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20190729/services", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

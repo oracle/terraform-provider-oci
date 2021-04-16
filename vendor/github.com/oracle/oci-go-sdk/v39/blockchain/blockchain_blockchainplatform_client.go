@@ -119,8 +119,8 @@ func (client BlockchainPlatformClient) ChangeBlockchainPlatformCompartment(ctx c
 }
 
 // changeBlockchainPlatformCompartment implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) changeBlockchainPlatformCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/changeCompartment")
+func (client BlockchainPlatformClient) changeBlockchainPlatformCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (client BlockchainPlatformClient) CreateBlockchainPlatform(ctx context.Cont
 }
 
 // createBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) createBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms")
+func (client BlockchainPlatformClient) createBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +237,8 @@ func (client BlockchainPlatformClient) CreateOsn(ctx context.Context, request Cr
 }
 
 // createOsn implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) createOsn(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/osns")
+func (client BlockchainPlatformClient) createOsn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/osns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -296,8 +296,8 @@ func (client BlockchainPlatformClient) CreatePeer(ctx context.Context, request C
 }
 
 // createPeer implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) createPeer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/peers")
+func (client BlockchainPlatformClient) createPeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/peers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -350,8 +350,8 @@ func (client BlockchainPlatformClient) DeleteBlockchainPlatform(ctx context.Cont
 }
 
 // deleteBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) deleteBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/blockchainPlatforms/{blockchainPlatformId}")
+func (client BlockchainPlatformClient) deleteBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/blockchainPlatforms/{blockchainPlatformId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +404,8 @@ func (client BlockchainPlatformClient) DeleteOsn(ctx context.Context, request De
 }
 
 // deleteOsn implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) deleteOsn(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}")
+func (client BlockchainPlatformClient) deleteOsn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -458,8 +458,8 @@ func (client BlockchainPlatformClient) DeletePeer(ctx context.Context, request D
 }
 
 // deletePeer implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) deletePeer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}")
+func (client BlockchainPlatformClient) deletePeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -512,8 +512,8 @@ func (client BlockchainPlatformClient) DeleteWorkRequest(ctx context.Context, re
 }
 
 // deleteWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}")
+func (client BlockchainPlatformClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -566,8 +566,8 @@ func (client BlockchainPlatformClient) GetBlockchainPlatform(ctx context.Context
 }
 
 // getBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) getBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}")
+func (client BlockchainPlatformClient) getBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -620,8 +620,8 @@ func (client BlockchainPlatformClient) GetOsn(ctx context.Context, request GetOs
 }
 
 // getOsn implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) getOsn(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}")
+func (client BlockchainPlatformClient) getOsn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -674,8 +674,8 @@ func (client BlockchainPlatformClient) GetPeer(ctx context.Context, request GetP
 }
 
 // getPeer implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) getPeer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}")
+func (client BlockchainPlatformClient) getPeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -728,8 +728,8 @@ func (client BlockchainPlatformClient) GetWorkRequest(ctx context.Context, reque
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client BlockchainPlatformClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -782,8 +782,8 @@ func (client BlockchainPlatformClient) ListBlockchainPlatforms(ctx context.Conte
 }
 
 // listBlockchainPlatforms implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) listBlockchainPlatforms(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms")
+func (client BlockchainPlatformClient) listBlockchainPlatforms(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -841,8 +841,8 @@ func (client BlockchainPlatformClient) ListOsns(ctx context.Context, request Lis
 }
 
 // listOsns implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) listOsns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/osns")
+func (client BlockchainPlatformClient) listOsns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/osns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -900,8 +900,8 @@ func (client BlockchainPlatformClient) ListPeers(ctx context.Context, request Li
 }
 
 // listPeers implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) listPeers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/peers")
+func (client BlockchainPlatformClient) listPeers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/blockchainPlatforms/{blockchainPlatformId}/peers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -954,8 +954,8 @@ func (client BlockchainPlatformClient) ListWorkRequestErrors(ctx context.Context
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client BlockchainPlatformClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1008,8 +1008,8 @@ func (client BlockchainPlatformClient) ListWorkRequestLogs(ctx context.Context, 
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client BlockchainPlatformClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1062,8 +1062,8 @@ func (client BlockchainPlatformClient) ListWorkRequests(ctx context.Context, req
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client BlockchainPlatformClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1116,8 +1116,8 @@ func (client BlockchainPlatformClient) PreviewScaleBlockchainPlatform(ctx contex
 }
 
 // previewScaleBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) previewScaleBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/scale/preview")
+func (client BlockchainPlatformClient) previewScaleBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/scale/preview", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1175,8 +1175,8 @@ func (client BlockchainPlatformClient) ScaleBlockchainPlatform(ctx context.Conte
 }
 
 // scaleBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) scaleBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/scale")
+func (client BlockchainPlatformClient) scaleBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/scale", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1234,8 +1234,8 @@ func (client BlockchainPlatformClient) StartBlockchainPlatform(ctx context.Conte
 }
 
 // startBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) startBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/start")
+func (client BlockchainPlatformClient) startBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1293,8 +1293,8 @@ func (client BlockchainPlatformClient) StopBlockchainPlatform(ctx context.Contex
 }
 
 // stopBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) stopBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/stop")
+func (client BlockchainPlatformClient) stopBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/blockchainPlatforms/{blockchainPlatformId}/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1352,8 +1352,8 @@ func (client BlockchainPlatformClient) UpdateBlockchainPlatform(ctx context.Cont
 }
 
 // updateBlockchainPlatform implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) updateBlockchainPlatform(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/blockchainPlatforms/{blockchainPlatformId}")
+func (client BlockchainPlatformClient) updateBlockchainPlatform(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/blockchainPlatforms/{blockchainPlatformId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1411,8 +1411,8 @@ func (client BlockchainPlatformClient) UpdateOsn(ctx context.Context, request Up
 }
 
 // updateOsn implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) updateOsn(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}")
+func (client BlockchainPlatformClient) updateOsn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/blockchainPlatforms/{blockchainPlatformId}/osns/{osnId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1470,8 +1470,8 @@ func (client BlockchainPlatformClient) UpdatePeer(ctx context.Context, request U
 }
 
 // updatePeer implements the OCIOperation interface (enables retrying operations)
-func (client BlockchainPlatformClient) updatePeer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}")
+func (client BlockchainPlatformClient) updatePeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/blockchainPlatforms/{blockchainPlatformId}/peers/{peerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

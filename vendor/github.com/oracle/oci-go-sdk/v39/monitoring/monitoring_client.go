@@ -122,8 +122,8 @@ func (client MonitoringClient) ChangeAlarmCompartment(ctx context.Context, reque
 }
 
 // changeAlarmCompartment implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) changeAlarmCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/changeCompartment")
+func (client MonitoringClient) changeAlarmCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -185,8 +185,8 @@ func (client MonitoringClient) CreateAlarm(ctx context.Context, request CreateAl
 }
 
 // createAlarm implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) createAlarm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms")
+func (client MonitoringClient) createAlarm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -243,8 +243,8 @@ func (client MonitoringClient) DeleteAlarm(ctx context.Context, request DeleteAl
 }
 
 // deleteAlarm implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) deleteAlarm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/alarms/{alarmId}")
+func (client MonitoringClient) deleteAlarm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/alarms/{alarmId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -301,8 +301,8 @@ func (client MonitoringClient) GetAlarm(ctx context.Context, request GetAlarmReq
 }
 
 // getAlarm implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) getAlarm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms/{alarmId}")
+func (client MonitoringClient) getAlarm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms/{alarmId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -359,8 +359,8 @@ func (client MonitoringClient) GetAlarmHistory(ctx context.Context, request GetA
 }
 
 // getAlarmHistory implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) getAlarmHistory(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms/{alarmId}/history")
+func (client MonitoringClient) getAlarmHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms/{alarmId}/history", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -417,8 +417,8 @@ func (client MonitoringClient) ListAlarms(ctx context.Context, request ListAlarm
 }
 
 // listAlarms implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) listAlarms(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms")
+func (client MonitoringClient) listAlarms(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -475,8 +475,8 @@ func (client MonitoringClient) ListAlarmsStatus(ctx context.Context, request Lis
 }
 
 // listAlarmsStatus implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) listAlarmsStatus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms/status")
+func (client MonitoringClient) listAlarmsStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alarms/status", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -532,8 +532,8 @@ func (client MonitoringClient) ListMetrics(ctx context.Context, request ListMetr
 }
 
 // listMetrics implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) listMetrics(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metrics/actions/listMetrics")
+func (client MonitoringClient) listMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metrics/actions/listMetrics", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -598,8 +598,8 @@ func (client MonitoringClient) PostMetricData(ctx context.Context, request PostM
 }
 
 // postMetricData implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) postMetricData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metrics")
+func (client MonitoringClient) postMetricData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metrics", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -656,8 +656,8 @@ func (client MonitoringClient) RemoveAlarmSuppression(ctx context.Context, reque
 }
 
 // removeAlarmSuppression implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/removeSuppression")
+func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alarms/{alarmId}/actions/removeSuppression", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -713,8 +713,8 @@ func (client MonitoringClient) SummarizeMetricsData(ctx context.Context, request
 }
 
 // summarizeMetricsData implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) summarizeMetricsData(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metrics/actions/summarizeMetricsData")
+func (client MonitoringClient) summarizeMetricsData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metrics/actions/summarizeMetricsData", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -771,8 +771,8 @@ func (client MonitoringClient) UpdateAlarm(ctx context.Context, request UpdateAl
 }
 
 // updateAlarm implements the OCIOperation interface (enables retrying operations)
-func (client MonitoringClient) updateAlarm(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/alarms/{alarmId}")
+func (client MonitoringClient) updateAlarm(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/alarms/{alarmId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -121,8 +121,8 @@ func (client LoadBalancerClient) ChangeLoadBalancerCompartment(ctx context.Conte
 }
 
 // changeLoadBalancerCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) changeLoadBalancerCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/changeCompartment")
+func (client LoadBalancerClient) changeLoadBalancerCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +180,8 @@ func (client LoadBalancerClient) CreateBackend(ctx context.Context, request Crea
 }
 
 // createBackend implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends")
+func (client LoadBalancerClient) createBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -239,8 +239,8 @@ func (client LoadBalancerClient) CreateBackendSet(ctx context.Context, request C
 }
 
 // createBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets")
+func (client LoadBalancerClient) createBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/backendSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -298,8 +298,8 @@ func (client LoadBalancerClient) CreateCertificate(ctx context.Context, request 
 }
 
 // createCertificate implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/certificates")
+func (client LoadBalancerClient) createCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/certificates", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -358,8 +358,8 @@ func (client LoadBalancerClient) CreateHostname(ctx context.Context, request Cre
 }
 
 // createHostname implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/hostnames")
+func (client LoadBalancerClient) createHostname(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/hostnames", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -417,8 +417,8 @@ func (client LoadBalancerClient) CreateListener(ctx context.Context, request Cre
 }
 
 // createListener implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/listeners")
+func (client LoadBalancerClient) createListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/listeners", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -496,8 +496,8 @@ func (client LoadBalancerClient) CreateLoadBalancer(ctx context.Context, request
 }
 
 // createLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers")
+func (client LoadBalancerClient) createLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -556,8 +556,8 @@ func (client LoadBalancerClient) CreatePathRouteSet(ctx context.Context, request
 }
 
 // createPathRouteSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/pathRouteSets")
+func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/pathRouteSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -616,8 +616,8 @@ func (client LoadBalancerClient) CreateRoutingPolicy(ctx context.Context, reques
 }
 
 // createRoutingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createRoutingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/routingPolicies")
+func (client LoadBalancerClient) createRoutingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/routingPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -671,8 +671,8 @@ func (client LoadBalancerClient) CreateRuleSet(ctx context.Context, request Crea
 }
 
 // createRuleSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/ruleSets")
+func (client LoadBalancerClient) createRuleSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/ruleSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -730,8 +730,8 @@ func (client LoadBalancerClient) CreateSSLCipherSuite(ctx context.Context, reque
 }
 
 // createSSLCipherSuite implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) createSSLCipherSuite(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/sslCipherSuites")
+func (client LoadBalancerClient) createSSLCipherSuite(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/sslCipherSuites", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -784,8 +784,8 @@ func (client LoadBalancerClient) DeleteBackend(ctx context.Context, request Dele
 }
 
 // deleteBackend implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+func (client LoadBalancerClient) deleteBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -839,8 +839,8 @@ func (client LoadBalancerClient) DeleteBackendSet(ctx context.Context, request D
 }
 
 // deleteBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}")
+func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -893,8 +893,8 @@ func (client LoadBalancerClient) DeleteCertificate(ctx context.Context, request 
 }
 
 // deleteCertificate implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/certificates/{certificateName}")
+func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/certificates/{certificateName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -947,8 +947,8 @@ func (client LoadBalancerClient) DeleteHostname(ctx context.Context, request Del
 }
 
 // deleteHostname implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/hostnames/{name}")
+func (client LoadBalancerClient) deleteHostname(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/hostnames/{name}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1001,8 +1001,8 @@ func (client LoadBalancerClient) DeleteListener(ctx context.Context, request Del
 }
 
 // deleteListener implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}")
+func (client LoadBalancerClient) deleteListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1055,8 +1055,8 @@ func (client LoadBalancerClient) DeleteLoadBalancer(ctx context.Context, request
 }
 
 // deleteLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}")
+func (client LoadBalancerClient) deleteLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1111,8 +1111,8 @@ func (client LoadBalancerClient) DeletePathRouteSet(ctx context.Context, request
 }
 
 // deletePathRouteSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}")
+func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1167,8 +1167,8 @@ func (client LoadBalancerClient) DeleteRoutingPolicy(ctx context.Context, reques
 }
 
 // deleteRoutingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteRoutingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/routingPolicies/{routingPolicyName}")
+func (client LoadBalancerClient) deleteRoutingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/routingPolicies/{routingPolicyName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1223,8 +1223,8 @@ func (client LoadBalancerClient) DeleteRuleSet(ctx context.Context, request Dele
 }
 
 // deleteRuleSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}")
+func (client LoadBalancerClient) deleteRuleSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1277,8 +1277,8 @@ func (client LoadBalancerClient) DeleteSSLCipherSuite(ctx context.Context, reque
 }
 
 // deleteSSLCipherSuite implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) deleteSSLCipherSuite(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/sslCipherSuites/{name}")
+func (client LoadBalancerClient) deleteSSLCipherSuite(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/sslCipherSuites/{name}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1331,8 +1331,8 @@ func (client LoadBalancerClient) GetBackend(ctx context.Context, request GetBack
 }
 
 // getBackend implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+func (client LoadBalancerClient) getBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1385,8 +1385,8 @@ func (client LoadBalancerClient) GetBackendHealth(ctx context.Context, request G
 }
 
 // getBackendHealth implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getBackendHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health")
+func (client LoadBalancerClient) getBackendHealth(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1439,8 +1439,8 @@ func (client LoadBalancerClient) GetBackendSet(ctx context.Context, request GetB
 }
 
 // getBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}")
+func (client LoadBalancerClient) getBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1493,8 +1493,8 @@ func (client LoadBalancerClient) GetBackendSetHealth(ctx context.Context, reques
 }
 
 // getBackendSetHealth implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getBackendSetHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/health")
+func (client LoadBalancerClient) getBackendSetHealth(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1547,8 +1547,8 @@ func (client LoadBalancerClient) GetHealthChecker(ctx context.Context, request G
 }
 
 // getHealthChecker implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker")
+func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1601,8 +1601,8 @@ func (client LoadBalancerClient) GetHostname(ctx context.Context, request GetHos
 }
 
 // getHostname implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/hostnames/{name}")
+func (client LoadBalancerClient) getHostname(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/hostnames/{name}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1655,8 +1655,8 @@ func (client LoadBalancerClient) GetLoadBalancer(ctx context.Context, request Ge
 }
 
 // getLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}")
+func (client LoadBalancerClient) getLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1709,8 +1709,8 @@ func (client LoadBalancerClient) GetLoadBalancerHealth(ctx context.Context, requ
 }
 
 // getLoadBalancerHealth implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getLoadBalancerHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/health")
+func (client LoadBalancerClient) getLoadBalancerHealth(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1763,8 +1763,8 @@ func (client LoadBalancerClient) GetPathRouteSet(ctx context.Context, request Ge
 }
 
 // getPathRouteSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}")
+func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1817,8 +1817,8 @@ func (client LoadBalancerClient) GetRoutingPolicy(ctx context.Context, request G
 }
 
 // getRoutingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getRoutingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/routingPolicies/{routingPolicyName}")
+func (client LoadBalancerClient) getRoutingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/routingPolicies/{routingPolicyName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1871,8 +1871,8 @@ func (client LoadBalancerClient) GetRuleSet(ctx context.Context, request GetRule
 }
 
 // getRuleSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}")
+func (client LoadBalancerClient) getRuleSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1925,8 +1925,8 @@ func (client LoadBalancerClient) GetSSLCipherSuite(ctx context.Context, request 
 }
 
 // getSSLCipherSuite implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getSSLCipherSuite(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/sslCipherSuites/{name}")
+func (client LoadBalancerClient) getSSLCipherSuite(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/sslCipherSuites/{name}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1979,8 +1979,8 @@ func (client LoadBalancerClient) GetWorkRequest(ctx context.Context, request Get
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerWorkRequests/{workRequestId}")
+func (client LoadBalancerClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerWorkRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2033,8 +2033,8 @@ func (client LoadBalancerClient) ListBackendSets(ctx context.Context, request Li
 }
 
 // listBackendSets implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listBackendSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets")
+func (client LoadBalancerClient) listBackendSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2087,8 +2087,8 @@ func (client LoadBalancerClient) ListBackends(ctx context.Context, request ListB
 }
 
 // listBackends implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listBackends(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends")
+func (client LoadBalancerClient) listBackends(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2141,8 +2141,8 @@ func (client LoadBalancerClient) ListCertificates(ctx context.Context, request L
 }
 
 // listCertificates implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listCertificates(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/certificates")
+func (client LoadBalancerClient) listCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/certificates", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2195,8 +2195,8 @@ func (client LoadBalancerClient) ListHostnames(ctx context.Context, request List
 }
 
 // listHostnames implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listHostnames(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/hostnames")
+func (client LoadBalancerClient) listHostnames(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/hostnames", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2254,8 +2254,8 @@ func (client LoadBalancerClient) ListListenerRules(ctx context.Context, request 
 }
 
 // listListenerRules implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listListenerRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}/rules")
+func (client LoadBalancerClient) listListenerRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}/rules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2308,8 +2308,8 @@ func (client LoadBalancerClient) ListLoadBalancerHealths(ctx context.Context, re
 }
 
 // listLoadBalancerHealths implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listLoadBalancerHealths(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerHealths")
+func (client LoadBalancerClient) listLoadBalancerHealths(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerHealths", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2362,8 +2362,8 @@ func (client LoadBalancerClient) ListLoadBalancers(ctx context.Context, request 
 }
 
 // listLoadBalancers implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listLoadBalancers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers")
+func (client LoadBalancerClient) listLoadBalancers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2416,8 +2416,8 @@ func (client LoadBalancerClient) ListPathRouteSets(ctx context.Context, request 
 }
 
 // listPathRouteSets implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listPathRouteSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets")
+func (client LoadBalancerClient) listPathRouteSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/pathRouteSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2470,8 +2470,8 @@ func (client LoadBalancerClient) ListPolicies(ctx context.Context, request ListP
 }
 
 // listPolicies implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerPolicies")
+func (client LoadBalancerClient) listPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2524,8 +2524,8 @@ func (client LoadBalancerClient) ListProtocols(ctx context.Context, request List
 }
 
 // listProtocols implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listProtocols(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerProtocols")
+func (client LoadBalancerClient) listProtocols(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerProtocols", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2578,8 +2578,8 @@ func (client LoadBalancerClient) ListRoutingPolicies(ctx context.Context, reques
 }
 
 // listRoutingPolicies implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listRoutingPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/routingPolicies")
+func (client LoadBalancerClient) listRoutingPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/routingPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2632,8 +2632,8 @@ func (client LoadBalancerClient) ListRuleSets(ctx context.Context, request ListR
 }
 
 // listRuleSets implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listRuleSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/ruleSets")
+func (client LoadBalancerClient) listRuleSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/ruleSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2686,8 +2686,8 @@ func (client LoadBalancerClient) ListSSLCipherSuites(ctx context.Context, reques
 }
 
 // listSSLCipherSuites implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listSSLCipherSuites(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/sslCipherSuites")
+func (client LoadBalancerClient) listSSLCipherSuites(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/sslCipherSuites", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2740,8 +2740,8 @@ func (client LoadBalancerClient) ListShapes(ctx context.Context, request ListSha
 }
 
 // listShapes implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerShapes")
+func (client LoadBalancerClient) listShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancerShapes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2794,8 +2794,8 @@ func (client LoadBalancerClient) ListWorkRequests(ctx context.Context, request L
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/workRequests")
+func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2853,8 +2853,8 @@ func (client LoadBalancerClient) UpdateBackend(ctx context.Context, request Upda
 }
 
 // updateBackend implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+func (client LoadBalancerClient) updateBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2912,8 +2912,8 @@ func (client LoadBalancerClient) UpdateBackendSet(ctx context.Context, request U
 }
 
 // updateBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}")
+func (client LoadBalancerClient) updateBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2971,8 +2971,8 @@ func (client LoadBalancerClient) UpdateHealthChecker(ctx context.Context, reques
 }
 
 // updateHealthChecker implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker")
+func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/healthChecker", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3026,8 +3026,8 @@ func (client LoadBalancerClient) UpdateHostname(ctx context.Context, request Upd
 }
 
 // updateHostname implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateHostname(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/hostnames/{name}")
+func (client LoadBalancerClient) updateHostname(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/hostnames/{name}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3085,8 +3085,8 @@ func (client LoadBalancerClient) UpdateListener(ctx context.Context, request Upd
 }
 
 // updateListener implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}")
+func (client LoadBalancerClient) updateListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3144,8 +3144,8 @@ func (client LoadBalancerClient) UpdateLoadBalancer(ctx context.Context, request
 }
 
 // updateLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}")
+func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3208,8 +3208,8 @@ func (client LoadBalancerClient) UpdateLoadBalancerShape(ctx context.Context, re
 }
 
 // updateLoadBalancerShape implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateLoadBalancerShape(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/updateShape")
+func (client LoadBalancerClient) updateLoadBalancerShape(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/updateShape", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3267,8 +3267,8 @@ func (client LoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context
 }
 
 // updateNetworkSecurityGroups implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/networkSecurityGroups")
+func (client LoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/networkSecurityGroups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3330,8 +3330,8 @@ func (client LoadBalancerClient) UpdatePathRouteSet(ctx context.Context, request
 }
 
 // updatePathRouteSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}")
+func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/pathRouteSets/{pathRouteSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3391,8 +3391,8 @@ func (client LoadBalancerClient) UpdateRoutingPolicy(ctx context.Context, reques
 }
 
 // updateRoutingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateRoutingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/routingPolicies/{routingPolicyName}")
+func (client LoadBalancerClient) updateRoutingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/routingPolicies/{routingPolicyName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3447,8 +3447,8 @@ func (client LoadBalancerClient) UpdateRuleSet(ctx context.Context, request Upda
 }
 
 // updateRuleSet implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}")
+func (client LoadBalancerClient) updateRuleSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3506,8 +3506,8 @@ func (client LoadBalancerClient) UpdateSSLCipherSuite(ctx context.Context, reque
 }
 
 // updateSSLCipherSuite implements the OCIOperation interface (enables retrying operations)
-func (client LoadBalancerClient) updateSSLCipherSuite(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/sslCipherSuites/{name}")
+func (client LoadBalancerClient) updateSSLCipherSuite(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/sslCipherSuites/{name}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

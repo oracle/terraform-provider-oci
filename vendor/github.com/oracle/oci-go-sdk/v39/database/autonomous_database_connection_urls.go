@@ -25,6 +25,9 @@ type AutonomousDatabaseConnectionUrls struct {
 
 	// Oracle Machine Learning user management URL.
 	MachineLearningUserManagementUrl *string `mandatory:"false" json:"machineLearningUserManagementUrl"`
+
+	// The URL of the Graph Studio for the Autonomous Database.
+	GraphStudioUrl *string `mandatory:"false" json:"graphStudioUrl"`
 }
 
 func (m AutonomousDatabaseConnectionUrls) String() string {

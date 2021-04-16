@@ -38,8 +38,16 @@ func (request CreateDataSafePrivateEndpointRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDataSafePrivateEndpointRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request CreateDataSafePrivateEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request CreateDataSafePrivateEndpointRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

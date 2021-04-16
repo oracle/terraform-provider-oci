@@ -86,8 +86,22 @@ func (request UploadPartRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request UploadPartRequest) HTTPRequest(method, path string) (http.Request, error) {
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+func (request UploadPartRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	if err == nil && binaryRequestBody.Seekable() {
+		common.UpdateRequestBinaryBody(&httpRequest, binaryRequestBody)
+	}
+	return httpRequest, err
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request UploadPartRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+	rsc := common.NewOCIReadSeekCloser(request.UploadPartBody)
+	if rsc.Seekable() {
+		return rsc, true
+	}
+	return nil, true
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

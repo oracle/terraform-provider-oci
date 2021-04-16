@@ -46,8 +46,16 @@ func (request ChangeLogLogGroupRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangeLogLogGroupRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ChangeLogLogGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ChangeLogLogGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

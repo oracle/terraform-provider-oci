@@ -42,8 +42,16 @@ func (request DetachParentSoftwareSourceFromManagedInstanceRequest) String() str
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DetachParentSoftwareSourceFromManagedInstanceRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request DetachParentSoftwareSourceFromManagedInstanceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request DetachParentSoftwareSourceFromManagedInstanceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

@@ -116,8 +116,8 @@ func (client VaultsClient) CancelSecretDeletion(ctx context.Context, request Can
 }
 
 // cancelSecretDeletion implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/cancelDeletion")
+func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/cancelDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -170,8 +170,8 @@ func (client VaultsClient) CancelSecretVersionDeletion(ctx context.Context, requ
 }
 
 // cancelSecretVersionDeletion implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/version/{secretVersionNumber}/actions/cancelDeletion")
+func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/version/{secretVersionNumber}/actions/cancelDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -231,8 +231,8 @@ func (client VaultsClient) ChangeSecretCompartment(ctx context.Context, request 
 }
 
 // changeSecretCompartment implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) changeSecretCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/changeCompartment")
+func (client VaultsClient) changeSecretCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -291,8 +291,8 @@ func (client VaultsClient) CreateSecret(ctx context.Context, request CreateSecre
 }
 
 // createSecret implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) createSecret(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets")
+func (client VaultsClient) createSecret(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -345,8 +345,8 @@ func (client VaultsClient) GetSecret(ctx context.Context, request GetSecretReque
 }
 
 // getSecret implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets/{secretId}")
+func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets/{secretId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -399,8 +399,8 @@ func (client VaultsClient) GetSecretVersion(ctx context.Context, request GetSecr
 }
 
 // getSecretVersion implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) getSecretVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets/{secretId}/version/{secretVersionNumber}")
+func (client VaultsClient) getSecretVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets/{secretId}/version/{secretVersionNumber}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -453,8 +453,8 @@ func (client VaultsClient) ListSecretVersions(ctx context.Context, request ListS
 }
 
 // listSecretVersions implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) listSecretVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets/{secretId}/versions")
+func (client VaultsClient) listSecretVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets/{secretId}/versions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -507,8 +507,8 @@ func (client VaultsClient) ListSecrets(ctx context.Context, request ListSecretsR
 }
 
 // listSecrets implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets")
+func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/secrets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -562,8 +562,8 @@ func (client VaultsClient) ScheduleSecretDeletion(ctx context.Context, request S
 }
 
 // scheduleSecretDeletion implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/scheduleDeletion")
+func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/scheduleDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -617,8 +617,8 @@ func (client VaultsClient) ScheduleSecretVersionDeletion(ctx context.Context, re
 }
 
 // scheduleSecretVersionDeletion implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/version/{secretVersionNumber}/actions/scheduleDeletion")
+func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/version/{secretVersionNumber}/actions/scheduleDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -675,8 +675,8 @@ func (client VaultsClient) UpdateSecret(ctx context.Context, request UpdateSecre
 }
 
 // updateSecret implements the OCIOperation interface (enables retrying operations)
-func (client VaultsClient) updateSecret(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/secrets/{secretId}")
+func (client VaultsClient) updateSecret(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/secrets/{secretId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

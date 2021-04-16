@@ -48,8 +48,16 @@ func (request ChangeComputeImageCapabilitySchemaCompartmentRequest) String() str
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangeComputeImageCapabilitySchemaCompartmentRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ChangeComputeImageCapabilitySchemaCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ChangeComputeImageCapabilitySchemaCompartmentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

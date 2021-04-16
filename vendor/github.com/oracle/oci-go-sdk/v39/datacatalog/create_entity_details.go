@@ -23,6 +23,9 @@ type CreateEntityDetails struct {
 	// Last modified timestamp of the object in the external system.
 	TimeExternal *common.SDKTime `mandatory:"true" json:"timeExternal"`
 
+	// Optional user friendly business name of the data entity. If set, this supplements the harvested display name of the object.
+	BusinessName *string `mandatory:"false" json:"businessName"`
+
 	// Detailed description of a data entity.
 	Description *string `mandatory:"false" json:"description"`
 

@@ -115,8 +115,8 @@ func (client FunctionsManagementClient) ChangeApplicationCompartment(ctx context
 }
 
 // changeApplicationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) changeApplicationCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications/{applicationId}/actions/changeCompartment")
+func (client FunctionsManagementClient) changeApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications/{applicationId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -169,8 +169,8 @@ func (client FunctionsManagementClient) CreateApplication(ctx context.Context, r
 }
 
 // createApplication implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) createApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications")
+func (client FunctionsManagementClient) createApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -223,8 +223,8 @@ func (client FunctionsManagementClient) CreateFunction(ctx context.Context, requ
 }
 
 // createFunction implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) createFunction(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/functions")
+func (client FunctionsManagementClient) createFunction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/functions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -277,8 +277,8 @@ func (client FunctionsManagementClient) DeleteApplication(ctx context.Context, r
 }
 
 // deleteApplication implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) deleteApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applications/{applicationId}")
+func (client FunctionsManagementClient) deleteApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applications/{applicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -331,8 +331,8 @@ func (client FunctionsManagementClient) DeleteFunction(ctx context.Context, requ
 }
 
 // deleteFunction implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) deleteFunction(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/functions/{functionId}")
+func (client FunctionsManagementClient) deleteFunction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/functions/{functionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -385,8 +385,8 @@ func (client FunctionsManagementClient) GetApplication(ctx context.Context, requ
 }
 
 // getApplication implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) getApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications/{applicationId}")
+func (client FunctionsManagementClient) getApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications/{applicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -439,8 +439,8 @@ func (client FunctionsManagementClient) GetFunction(ctx context.Context, request
 }
 
 // getFunction implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) getFunction(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functions/{functionId}")
+func (client FunctionsManagementClient) getFunction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functions/{functionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -493,8 +493,8 @@ func (client FunctionsManagementClient) ListApplications(ctx context.Context, re
 }
 
 // listApplications implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) listApplications(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications")
+func (client FunctionsManagementClient) listApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -547,8 +547,8 @@ func (client FunctionsManagementClient) ListFunctions(ctx context.Context, reque
 }
 
 // listFunctions implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) listFunctions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functions")
+func (client FunctionsManagementClient) listFunctions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -601,8 +601,8 @@ func (client FunctionsManagementClient) UpdateApplication(ctx context.Context, r
 }
 
 // updateApplication implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) updateApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/applications/{applicationId}")
+func (client FunctionsManagementClient) updateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/applications/{applicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -655,8 +655,8 @@ func (client FunctionsManagementClient) UpdateFunction(ctx context.Context, requ
 }
 
 // updateFunction implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsManagementClient) updateFunction(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/functions/{functionId}")
+func (client FunctionsManagementClient) updateFunction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/functions/{functionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

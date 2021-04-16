@@ -115,8 +115,8 @@ func (client WaasClient) AcceptRecommendations(ctx context.Context, request Acce
 }
 
 // acceptRecommendations implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) acceptRecommendations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/acceptWafConfigRecommendations")
+func (client WaasClient) acceptRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/acceptWafConfigRecommendations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -174,8 +174,8 @@ func (client WaasClient) CancelWorkRequest(ctx context.Context, request CancelWo
 }
 
 // cancelWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}")
+func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -235,8 +235,8 @@ func (client WaasClient) ChangeAddressListCompartment(ctx context.Context, reque
 }
 
 // changeAddressListCompartment implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) changeAddressListCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/addressLists/{addressListId}/actions/changeCompartment")
+func (client WaasClient) changeAddressListCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/addressLists/{addressListId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -295,8 +295,8 @@ func (client WaasClient) ChangeCertificateCompartment(ctx context.Context, reque
 }
 
 // changeCertificateCompartment implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) changeCertificateCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/changeCompartment")
+func (client WaasClient) changeCertificateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -354,8 +354,8 @@ func (client WaasClient) ChangeCustomProtectionRuleCompartment(ctx context.Conte
 }
 
 // changeCustomProtectionRuleCompartment implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) changeCustomProtectionRuleCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/customProtectionRules/{customProtectionRuleId}/actions/changeCompartment")
+func (client WaasClient) changeCustomProtectionRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/customProtectionRules/{customProtectionRuleId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -414,8 +414,8 @@ func (client WaasClient) ChangeWaasPolicyCompartment(ctx context.Context, reques
 }
 
 // changeWaasPolicyCompartment implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/changeCompartment")
+func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -473,8 +473,8 @@ func (client WaasClient) CreateAddressList(ctx context.Context, request CreateAd
 }
 
 // createAddressList implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) createAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/addressLists")
+func (client WaasClient) createAddressList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/addressLists", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -533,8 +533,8 @@ func (client WaasClient) CreateCertificate(ctx context.Context, request CreateCe
 }
 
 // createCertificate implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) createCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates")
+func (client WaasClient) createCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -593,8 +593,8 @@ func (client WaasClient) CreateCustomProtectionRule(ctx context.Context, request
 }
 
 // createCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) createCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/customProtectionRules")
+func (client WaasClient) createCustomProtectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/customProtectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -658,8 +658,8 @@ func (client WaasClient) CreateWaasPolicy(ctx context.Context, request CreateWaa
 }
 
 // createWaasPolicy implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) createWaasPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies")
+func (client WaasClient) createWaasPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -717,8 +717,8 @@ func (client WaasClient) DeleteAddressList(ctx context.Context, request DeleteAd
 }
 
 // deleteAddressList implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) deleteAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/addressLists/{addressListId}")
+func (client WaasClient) deleteAddressList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/addressLists/{addressListId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -776,8 +776,8 @@ func (client WaasClient) DeleteCertificate(ctx context.Context, request DeleteCe
 }
 
 // deleteCertificate implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) deleteCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/certificates/{certificateId}")
+func (client WaasClient) deleteCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/certificates/{certificateId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -835,8 +835,8 @@ func (client WaasClient) DeleteCustomProtectionRule(ctx context.Context, request
 }
 
 // deleteCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) deleteCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/customProtectionRules/{customProtectionRuleId}")
+func (client WaasClient) deleteCustomProtectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/customProtectionRules/{customProtectionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -894,8 +894,8 @@ func (client WaasClient) DeleteWaasPolicy(ctx context.Context, request DeleteWaa
 }
 
 // deleteWaasPolicy implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/waasPolicies/{waasPolicyId}")
+func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/waasPolicies/{waasPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -948,8 +948,8 @@ func (client WaasClient) GetAddressList(ctx context.Context, request GetAddressL
 }
 
 // getAddressList implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addressLists/{addressListId}")
+func (client WaasClient) getAddressList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addressLists/{addressListId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1002,8 +1002,8 @@ func (client WaasClient) GetCertificate(ctx context.Context, request GetCertific
 }
 
 // getCertificate implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates/{certificateId}")
+func (client WaasClient) getCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates/{certificateId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1056,8 +1056,8 @@ func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request Ge
 }
 
 // getCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/customProtectionRules/{customProtectionRuleId}")
+func (client WaasClient) getCustomProtectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/customProtectionRules/{customProtectionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1110,8 +1110,8 @@ func (client WaasClient) GetDeviceFingerprintChallenge(ctx context.Context, requ
 }
 
 // getDeviceFingerprintChallenge implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getDeviceFingerprintChallenge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/deviceFingerprintChallenge")
+func (client WaasClient) getDeviceFingerprintChallenge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/deviceFingerprintChallenge", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1164,8 +1164,8 @@ func (client WaasClient) GetHumanInteractionChallenge(ctx context.Context, reque
 }
 
 // getHumanInteractionChallenge implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getHumanInteractionChallenge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/humanInteractionChallenge")
+func (client WaasClient) getHumanInteractionChallenge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/humanInteractionChallenge", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1218,8 +1218,8 @@ func (client WaasClient) GetJsChallenge(ctx context.Context, request GetJsChalle
 }
 
 // getJsChallenge implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getJsChallenge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/jsChallenge")
+func (client WaasClient) getJsChallenge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/jsChallenge", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1272,8 +1272,8 @@ func (client WaasClient) GetPolicyConfig(ctx context.Context, request GetPolicyC
 }
 
 // getPolicyConfig implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getPolicyConfig(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/policyConfig")
+func (client WaasClient) getPolicyConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/policyConfig", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1326,8 +1326,8 @@ func (client WaasClient) GetProtectionRule(ctx context.Context, request GetProte
 }
 
 // getProtectionRule implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/protectionRules/{protectionRuleKey}")
+func (client WaasClient) getProtectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/protectionRules/{protectionRuleKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1380,8 +1380,8 @@ func (client WaasClient) GetProtectionSettings(ctx context.Context, request GetP
 }
 
 // getProtectionSettings implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getProtectionSettings(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/protectionSettings")
+func (client WaasClient) getProtectionSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/protectionSettings", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1434,8 +1434,8 @@ func (client WaasClient) GetWaasPolicy(ctx context.Context, request GetWaasPolic
 }
 
 // getWaasPolicy implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getWaasPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}")
+func (client WaasClient) getWaasPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1488,8 +1488,8 @@ func (client WaasClient) GetWafAddressRateLimiting(ctx context.Context, request 
 }
 
 // getWafAddressRateLimiting implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getWafAddressRateLimiting(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/addressRateLimiting")
+func (client WaasClient) getWafAddressRateLimiting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/addressRateLimiting", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1542,8 +1542,8 @@ func (client WaasClient) GetWafConfig(ctx context.Context, request GetWafConfigR
 }
 
 // getWafConfig implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getWafConfig(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig")
+func (client WaasClient) getWafConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1596,8 +1596,8 @@ func (client WaasClient) GetWorkRequest(ctx context.Context, request GetWorkRequ
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1651,8 +1651,8 @@ func (client WaasClient) ListAccessRules(ctx context.Context, request ListAccess
 }
 
 // listAccessRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listAccessRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/accessRules")
+func (client WaasClient) listAccessRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/accessRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1705,8 +1705,8 @@ func (client WaasClient) ListAddressLists(ctx context.Context, request ListAddre
 }
 
 // listAddressLists implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listAddressLists(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addressLists")
+func (client WaasClient) listAddressLists(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addressLists", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1760,8 +1760,8 @@ func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachi
 }
 
 // listCachingRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listCachingRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/cachingRules")
+func (client WaasClient) listCachingRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/cachingRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1817,8 +1817,8 @@ func (client WaasClient) ListCaptchas(ctx context.Context, request ListCaptchasR
 }
 
 // listCaptchas implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listCaptchas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/captchas")
+func (client WaasClient) listCaptchas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/captchas", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1871,8 +1871,8 @@ func (client WaasClient) ListCertificates(ctx context.Context, request ListCerti
 }
 
 // listCertificates implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listCertificates(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates")
+func (client WaasClient) listCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1925,8 +1925,8 @@ func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request 
 }
 
 // listCustomProtectionRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listCustomProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/customProtectionRules")
+func (client WaasClient) listCustomProtectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/customProtectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1979,8 +1979,8 @@ func (client WaasClient) ListEdgeSubnets(ctx context.Context, request ListEdgeSu
 }
 
 // listEdgeSubnets implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgeSubnets")
+func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgeSubnets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2034,8 +2034,8 @@ func (client WaasClient) ListGoodBots(ctx context.Context, request ListGoodBotsR
 }
 
 // listGoodBots implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/goodBots")
+func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/goodBots", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2089,8 +2089,8 @@ func (client WaasClient) ListProtectionRules(ctx context.Context, request ListPr
 }
 
 // listProtectionRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/protectionRules")
+func (client WaasClient) listProtectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/protectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2145,8 +2145,8 @@ func (client WaasClient) ListRecommendations(ctx context.Context, request ListRe
 }
 
 // listRecommendations implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listRecommendations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/recommendations")
+func (client WaasClient) listRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/recommendations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2201,8 +2201,8 @@ func (client WaasClient) ListThreatFeeds(ctx context.Context, request ListThreat
 }
 
 // listThreatFeeds implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listThreatFeeds(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/threatFeeds")
+func (client WaasClient) listThreatFeeds(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/threatFeeds", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2255,8 +2255,8 @@ func (client WaasClient) ListWaasPolicies(ctx context.Context, request ListWaasP
 }
 
 // listWaasPolicies implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies")
+func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2309,8 +2309,8 @@ func (client WaasClient) ListWaasPolicyCustomProtectionRules(ctx context.Context
 }
 
 // listWaasPolicyCustomProtectionRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/customProtectionRules")
+func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/customProtectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2363,8 +2363,8 @@ func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request Lis
 }
 
 // listWafBlockedRequests implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWafBlockedRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/reports/waf/blocked")
+func (client WaasClient) listWafBlockedRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/reports/waf/blocked", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2419,8 +2419,8 @@ func (client WaasClient) ListWafLogs(ctx context.Context, request ListWafLogsReq
 }
 
 // listWafLogs implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafLogs")
+func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafLogs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2475,8 +2475,8 @@ func (client WaasClient) ListWafRequests(ctx context.Context, request ListWafReq
 }
 
 // listWafRequests implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWafRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/reports/waf/requests")
+func (client WaasClient) listWafRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/reports/waf/requests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2530,8 +2530,8 @@ func (client WaasClient) ListWafTraffic(ctx context.Context, request ListWafTraf
 }
 
 // listWafTraffic implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWafTraffic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/reports/waf/traffic")
+func (client WaasClient) listWafTraffic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/reports/waf/traffic", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2584,8 +2584,8 @@ func (client WaasClient) ListWhitelists(ctx context.Context, request ListWhiteli
 }
 
 // listWhitelists implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWhitelists(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/whitelists")
+func (client WaasClient) listWhitelists(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/whitelists", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2638,8 +2638,8 @@ func (client WaasClient) ListWorkRequests(ctx context.Context, request ListWorkR
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client WaasClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2693,8 +2693,8 @@ func (client WaasClient) PurgeCache(ctx context.Context, request PurgeCacheReque
 }
 
 // purgeCache implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) purgeCache(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/purgeCache")
+func (client WaasClient) purgeCache(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/purgeCache", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2756,8 +2756,8 @@ func (client WaasClient) UpdateAccessRules(ctx context.Context, request UpdateAc
 }
 
 // updateAccessRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateAccessRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/accessRules")
+func (client WaasClient) updateAccessRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/accessRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2810,8 +2810,8 @@ func (client WaasClient) UpdateAddressList(ctx context.Context, request UpdateAd
 }
 
 // updateAddressList implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/addressLists/{addressListId}")
+func (client WaasClient) updateAddressList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/addressLists/{addressListId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2872,8 +2872,8 @@ func (client WaasClient) UpdateCachingRules(ctx context.Context, request UpdateC
 }
 
 // updateCachingRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateCachingRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/cachingRules")
+func (client WaasClient) updateCachingRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/cachingRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2936,8 +2936,8 @@ func (client WaasClient) UpdateCaptchas(ctx context.Context, request UpdateCaptc
 }
 
 // updateCaptchas implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateCaptchas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/captchas")
+func (client WaasClient) updateCaptchas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/captchas", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2990,8 +2990,8 @@ func (client WaasClient) UpdateCertificate(ctx context.Context, request UpdateCe
 }
 
 // updateCertificate implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateCertificate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/certificates/{certificateId}")
+func (client WaasClient) updateCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/certificates/{certificateId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3049,8 +3049,8 @@ func (client WaasClient) UpdateCustomProtectionRule(ctx context.Context, request
 }
 
 // updateCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/customProtectionRules/{customProtectionRuleId}")
+func (client WaasClient) updateCustomProtectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/customProtectionRules/{customProtectionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3110,8 +3110,8 @@ func (client WaasClient) UpdateDeviceFingerprintChallenge(ctx context.Context, r
 }
 
 // updateDeviceFingerprintChallenge implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateDeviceFingerprintChallenge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/deviceFingerprintChallenge")
+func (client WaasClient) updateDeviceFingerprintChallenge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/deviceFingerprintChallenge", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3170,8 +3170,8 @@ func (client WaasClient) UpdateGoodBots(ctx context.Context, request UpdateGoodB
 }
 
 // updateGoodBots implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateGoodBots(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/goodBots")
+func (client WaasClient) updateGoodBots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/goodBots", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3229,8 +3229,8 @@ func (client WaasClient) UpdateHumanInteractionChallenge(ctx context.Context, re
 }
 
 // updateHumanInteractionChallenge implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateHumanInteractionChallenge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/humanInteractionChallenge")
+func (client WaasClient) updateHumanInteractionChallenge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/humanInteractionChallenge", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3288,8 +3288,8 @@ func (client WaasClient) UpdateJsChallenge(ctx context.Context, request UpdateJs
 }
 
 // updateJsChallenge implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateJsChallenge(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/jsChallenge")
+func (client WaasClient) updateJsChallenge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/jsChallenge", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3347,8 +3347,8 @@ func (client WaasClient) UpdatePolicyConfig(ctx context.Context, request UpdateP
 }
 
 // updatePolicyConfig implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updatePolicyConfig(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/policyConfig")
+func (client WaasClient) updatePolicyConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/policyConfig", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3403,8 +3403,8 @@ func (client WaasClient) UpdateProtectionRules(ctx context.Context, request Upda
 }
 
 // updateProtectionRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/protectionRules")
+func (client WaasClient) updateProtectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/protectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3462,8 +3462,8 @@ func (client WaasClient) UpdateProtectionSettings(ctx context.Context, request U
 }
 
 // updateProtectionSettings implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateProtectionSettings(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/protectionSettings")
+func (client WaasClient) updateProtectionSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/protectionSettings", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3516,8 +3516,8 @@ func (client WaasClient) UpdateThreatFeeds(ctx context.Context, request UpdateTh
 }
 
 // updateThreatFeeds implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateThreatFeeds(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/threatFeeds")
+func (client WaasClient) updateThreatFeeds(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/threatFeeds", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3577,8 +3577,8 @@ func (client WaasClient) UpdateWaasPolicy(ctx context.Context, request UpdateWaa
 }
 
 // updateWaasPolicy implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateWaasPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}")
+func (client WaasClient) updateWaasPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3636,8 +3636,8 @@ func (client WaasClient) UpdateWaasPolicyCustomProtectionRules(ctx context.Conte
 }
 
 // updateWaasPolicyCustomProtectionRules implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateWaasPolicyCustomProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/customProtectionRules")
+func (client WaasClient) updateWaasPolicyCustomProtectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/customProtectionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3695,8 +3695,8 @@ func (client WaasClient) UpdateWafAddressRateLimiting(ctx context.Context, reque
 }
 
 // updateWafAddressRateLimiting implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateWafAddressRateLimiting(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/addressRateLimiting")
+func (client WaasClient) updateWafAddressRateLimiting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/addressRateLimiting", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3759,8 +3759,8 @@ func (client WaasClient) UpdateWafConfig(ctx context.Context, request UpdateWafC
 }
 
 // updateWafConfig implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateWafConfig(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig")
+func (client WaasClient) updateWafConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3822,8 +3822,8 @@ func (client WaasClient) UpdateWhitelists(ctx context.Context, request UpdateWhi
 }
 
 // updateWhitelists implements the OCIOperation interface (enables retrying operations)
-func (client WaasClient) updateWhitelists(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/whitelists")
+func (client WaasClient) updateWhitelists(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/whitelists", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

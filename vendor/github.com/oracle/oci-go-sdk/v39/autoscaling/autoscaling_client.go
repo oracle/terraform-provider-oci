@@ -127,8 +127,8 @@ func (client AutoScalingClient) ChangeAutoScalingConfigurationCompartment(ctx co
 }
 
 // changeAutoScalingConfigurationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) changeAutoScalingConfigurationCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autoScalingConfigurations/{autoScalingConfigurationId}/actions/changeCompartment")
+func (client AutoScalingClient) changeAutoScalingConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autoScalingConfigurations/{autoScalingConfigurationId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -186,8 +186,8 @@ func (client AutoScalingClient) CreateAutoScalingConfiguration(ctx context.Conte
 }
 
 // createAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) createAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autoScalingConfigurations")
+func (client AutoScalingClient) createAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autoScalingConfigurations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -250,8 +250,8 @@ func (client AutoScalingClient) CreateAutoScalingPolicy(ctx context.Context, req
 }
 
 // createAutoScalingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) createAutoScalingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies")
+func (client AutoScalingClient) createAutoScalingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -304,8 +304,8 @@ func (client AutoScalingClient) DeleteAutoScalingConfiguration(ctx context.Conte
 }
 
 // deleteAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) deleteAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autoScalingConfigurations/{autoScalingConfigurationId}")
+func (client AutoScalingClient) deleteAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autoScalingConfigurations/{autoScalingConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -358,8 +358,8 @@ func (client AutoScalingClient) DeleteAutoScalingPolicy(ctx context.Context, req
 }
 
 // deleteAutoScalingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) deleteAutoScalingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies/{autoScalingPolicyId}")
+func (client AutoScalingClient) deleteAutoScalingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies/{autoScalingPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -412,8 +412,8 @@ func (client AutoScalingClient) GetAutoScalingConfiguration(ctx context.Context,
 }
 
 // getAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) getAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations/{autoScalingConfigurationId}")
+func (client AutoScalingClient) getAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations/{autoScalingConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -466,8 +466,8 @@ func (client AutoScalingClient) GetAutoScalingPolicy(ctx context.Context, reques
 }
 
 // getAutoScalingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) getAutoScalingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies/{autoScalingPolicyId}")
+func (client AutoScalingClient) getAutoScalingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies/{autoScalingPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -520,8 +520,8 @@ func (client AutoScalingClient) ListAutoScalingConfigurations(ctx context.Contex
 }
 
 // listAutoScalingConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) listAutoScalingConfigurations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations")
+func (client AutoScalingClient) listAutoScalingConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -574,8 +574,8 @@ func (client AutoScalingClient) ListAutoScalingPolicies(ctx context.Context, req
 }
 
 // listAutoScalingPolicies implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) listAutoScalingPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies")
+func (client AutoScalingClient) listAutoScalingPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -634,8 +634,8 @@ func (client AutoScalingClient) UpdateAutoScalingConfiguration(ctx context.Conte
 }
 
 // updateAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) updateAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autoScalingConfigurations/{autoScalingConfigurationId}")
+func (client AutoScalingClient) updateAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autoScalingConfigurations/{autoScalingConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -693,8 +693,8 @@ func (client AutoScalingClient) UpdateAutoScalingPolicy(ctx context.Context, req
 }
 
 // updateAutoScalingPolicy implements the OCIOperation interface (enables retrying operations)
-func (client AutoScalingClient) updateAutoScalingPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies/{autoScalingPolicyId}")
+func (client AutoScalingClient) updateAutoScalingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autoScalingConfigurations/{autoScalingConfigurationId}/policies/{autoScalingPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

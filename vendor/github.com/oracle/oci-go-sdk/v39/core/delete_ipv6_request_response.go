@@ -38,8 +38,16 @@ func (request DeleteIpv6Request) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DeleteIpv6Request) HTTPRequest(method, path string) (http.Request, error) {
+func (request DeleteIpv6Request) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request DeleteIpv6Request) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

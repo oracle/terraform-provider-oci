@@ -20,20 +20,20 @@ type CreateDatabaseSoftwareImageDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment the database software image  belongs in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The database version with which the database software image is to be built.
-	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
-
 	// The user-friendly name for the database software image. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The PSU or PBP or Release Updates. To get a list of supported versions, use the ListDbVersions operation.
-	PatchSet *string `mandatory:"true" json:"patchSet"`
+	// The database version with which the database software image is to be built.
+	DatabaseVersion *string `mandatory:"false" json:"databaseVersion"`
 
 	// To what shape the image is meant for.
 	ImageShapeFamily CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum `mandatory:"false" json:"imageShapeFamily,omitempty"`
 
 	// The type of software image. Can be grid or database.
 	ImageType CreateDatabaseSoftwareImageDetailsImageTypeEnum `mandatory:"false" json:"imageType,omitempty"`
+
+	// The PSU or PBP or Release Updates. To get a list of supported versions, use the ListDbVersions operation.
+	PatchSet *string `mandatory:"false" json:"patchSet"`
 
 	// List of one-off patches for Database Homes.
 	DatabaseSoftwareImageOneOffPatches []string `mandatory:"false" json:"databaseSoftwareImageOneOffPatches"`

@@ -121,8 +121,8 @@ func (client SddcClient) ChangeSddcCompartment(ctx context.Context, request Chan
 }
 
 // changeSddcCompartment implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) changeSddcCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/changeCompartment")
+func (client SddcClient) changeSddcCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -183,8 +183,8 @@ func (client SddcClient) CreateSddc(ctx context.Context, request CreateSddcReque
 }
 
 // createSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) createSddc(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs")
+func (client SddcClient) createSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -241,8 +241,8 @@ func (client SddcClient) DeleteSddc(ctx context.Context, request DeleteSddcReque
 }
 
 // deleteSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sddcs/{sddcId}")
+func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sddcs/{sddcId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -295,8 +295,8 @@ func (client SddcClient) GetSddc(ctx context.Context, request GetSddcRequest) (r
 }
 
 // getSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs/{sddcId}")
+func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs/{sddcId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -350,8 +350,8 @@ func (client SddcClient) ListSddcs(ctx context.Context, request ListSddcsRequest
 }
 
 // listSddcs implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSddcs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs")
+func (client SddcClient) listSddcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -405,8 +405,8 @@ func (client SddcClient) ListSupportedSkus(ctx context.Context, request ListSupp
 }
 
 // listSupportedSkus implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSupportedSkus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedSkus")
+func (client SddcClient) listSupportedSkus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedSkus", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -460,8 +460,8 @@ func (client SddcClient) ListSupportedVmwareSoftwareVersions(ctx context.Context
 }
 
 // listSupportedVmwareSoftwareVersions implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedVmwareSoftwareVersions")
+func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedVmwareSoftwareVersions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -518,8 +518,8 @@ func (client SddcClient) UpdateSddc(ctx context.Context, request UpdateSddcReque
 }
 
 // updateSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) updateSddc(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sddcs/{sddcId}")
+func (client SddcClient) updateSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sddcs/{sddcId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

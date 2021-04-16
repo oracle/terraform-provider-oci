@@ -119,8 +119,8 @@ func (client MarketplaceClient) ChangePublicationCompartment(ctx context.Context
 }
 
 // changePublicationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) changePublicationCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publications/{publicationId}/actions/changeCompartment")
+func (client MarketplaceClient) changePublicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publications/{publicationId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -179,8 +179,8 @@ func (client MarketplaceClient) CreateAcceptedAgreement(ctx context.Context, req
 }
 
 // createAcceptedAgreement implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/acceptedAgreements")
+func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/acceptedAgreements", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +238,8 @@ func (client MarketplaceClient) CreatePublication(ctx context.Context, request C
 }
 
 // createPublication implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) createPublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publications")
+func (client MarketplaceClient) createPublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -294,8 +294,8 @@ func (client MarketplaceClient) DeleteAcceptedAgreement(ctx context.Context, req
 }
 
 // deleteAcceptedAgreement implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/acceptedAgreements/{acceptedAgreementId}")
+func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/acceptedAgreements/{acceptedAgreementId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -348,8 +348,8 @@ func (client MarketplaceClient) DeletePublication(ctx context.Context, request D
 }
 
 // deletePublication implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) deletePublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/publications/{publicationId}")
+func (client MarketplaceClient) deletePublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/publications/{publicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -402,8 +402,8 @@ func (client MarketplaceClient) GetAcceptedAgreement(ctx context.Context, reques
 }
 
 // getAcceptedAgreement implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) getAcceptedAgreement(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/acceptedAgreements/{acceptedAgreementId}")
+func (client MarketplaceClient) getAcceptedAgreement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/acceptedAgreements/{acceptedAgreementId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -457,8 +457,8 @@ func (client MarketplaceClient) GetAgreement(ctx context.Context, request GetAgr
 }
 
 // getAgreement implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) getAgreement(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages/{packageVersion}/agreements/{agreementId}")
+func (client MarketplaceClient) getAgreement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages/{packageVersion}/agreements/{agreementId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -522,8 +522,8 @@ func (client MarketplaceClient) GetListing(ctx context.Context, request GetListi
 }
 
 // getListing implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) getListing(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}")
+func (client MarketplaceClient) getListing(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -586,8 +586,8 @@ func (client MarketplaceClient) GetPackage(ctx context.Context, request GetPacka
 }
 
 // getPackage implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) getPackage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages/{packageVersion}")
+func (client MarketplaceClient) getPackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages/{packageVersion}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -640,8 +640,8 @@ func (client MarketplaceClient) GetPublication(ctx context.Context, request GetP
 }
 
 // getPublication implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) getPublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications/{publicationId}")
+func (client MarketplaceClient) getPublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications/{publicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -694,8 +694,8 @@ func (client MarketplaceClient) GetPublicationPackage(ctx context.Context, reque
 }
 
 // getPublicationPackage implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) getPublicationPackage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications/{publicationId}/packages/{packageVersion}")
+func (client MarketplaceClient) getPublicationPackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications/{publicationId}/packages/{packageVersion}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -749,8 +749,8 @@ func (client MarketplaceClient) ListAcceptedAgreements(ctx context.Context, requ
 }
 
 // listAcceptedAgreements implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listAcceptedAgreements(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/acceptedAgreements")
+func (client MarketplaceClient) listAcceptedAgreements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/acceptedAgreements", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -803,8 +803,8 @@ func (client MarketplaceClient) ListAgreements(ctx context.Context, request List
 }
 
 // listAgreements implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listAgreements(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages/{packageVersion}/agreements")
+func (client MarketplaceClient) listAgreements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages/{packageVersion}/agreements", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -858,8 +858,8 @@ func (client MarketplaceClient) ListCategories(ctx context.Context, request List
 }
 
 // listCategories implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listCategories(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/categories")
+func (client MarketplaceClient) listCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/categories", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -923,8 +923,8 @@ func (client MarketplaceClient) ListListings(ctx context.Context, request ListLi
 }
 
 // listListings implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listListings(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings")
+func (client MarketplaceClient) listListings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -987,8 +987,8 @@ func (client MarketplaceClient) ListPackages(ctx context.Context, request ListPa
 }
 
 // listPackages implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listPackages(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages")
+func (client MarketplaceClient) listPackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/packages", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1041,8 +1041,8 @@ func (client MarketplaceClient) ListPublicationPackages(ctx context.Context, req
 }
 
 // listPublicationPackages implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listPublicationPackages(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications/{publicationId}/packages")
+func (client MarketplaceClient) listPublicationPackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications/{publicationId}/packages", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1095,8 +1095,8 @@ func (client MarketplaceClient) ListPublications(ctx context.Context, request Li
 }
 
 // listPublications implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listPublications(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications")
+func (client MarketplaceClient) listPublications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1149,8 +1149,8 @@ func (client MarketplaceClient) ListPublishers(ctx context.Context, request List
 }
 
 // listPublishers implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listPublishers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publishers")
+func (client MarketplaceClient) listPublishers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/publishers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1203,8 +1203,8 @@ func (client MarketplaceClient) ListReportTypes(ctx context.Context, request Lis
 }
 
 // listReportTypes implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listReportTypes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/reportTypes")
+func (client MarketplaceClient) listReportTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/reportTypes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1257,8 +1257,8 @@ func (client MarketplaceClient) ListReports(ctx context.Context, request ListRep
 }
 
 // listReports implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listReports(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/reports")
+func (client MarketplaceClient) listReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/reports", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1311,8 +1311,8 @@ func (client MarketplaceClient) ListTaxes(ctx context.Context, request ListTaxes
 }
 
 // listTaxes implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/taxes")
+func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/listings/{listingId}/taxes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1370,8 +1370,8 @@ func (client MarketplaceClient) UpdateAcceptedAgreement(ctx context.Context, req
 }
 
 // updateAcceptedAgreement implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) updateAcceptedAgreement(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/acceptedAgreements/{acceptedAgreementId}")
+func (client MarketplaceClient) updateAcceptedAgreement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/acceptedAgreements/{acceptedAgreementId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1429,8 +1429,8 @@ func (client MarketplaceClient) UpdatePublication(ctx context.Context, request U
 }
 
 // updatePublication implements the OCIOperation interface (enables retrying operations)
-func (client MarketplaceClient) updatePublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/publications/{publicationId}")
+func (client MarketplaceClient) updatePublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/publications/{publicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

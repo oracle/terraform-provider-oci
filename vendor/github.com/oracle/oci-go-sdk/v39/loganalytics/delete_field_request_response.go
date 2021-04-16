@@ -49,8 +49,16 @@ func (request DeleteFieldRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DeleteFieldRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request DeleteFieldRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request DeleteFieldRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

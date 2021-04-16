@@ -121,8 +121,8 @@ func (client ContainerEngineClient) CreateCluster(ctx context.Context, request C
 }
 
 // createCluster implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) createCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters")
+func (client ContainerEngineClient) createCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -175,8 +175,8 @@ func (client ContainerEngineClient) CreateKubeconfig(ctx context.Context, reques
 }
 
 // createKubeconfig implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) createKubeconfig(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/kubeconfig/content")
+func (client ContainerEngineClient) createKubeconfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/kubeconfig/content", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -233,8 +233,8 @@ func (client ContainerEngineClient) CreateNodePool(ctx context.Context, request 
 }
 
 // createNodePool implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) createNodePool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/nodePools")
+func (client ContainerEngineClient) createNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/nodePools", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -287,8 +287,8 @@ func (client ContainerEngineClient) DeleteCluster(ctx context.Context, request D
 }
 
 // deleteCluster implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) deleteCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/clusters/{clusterId}")
+func (client ContainerEngineClient) deleteCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/clusters/{clusterId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -341,8 +341,8 @@ func (client ContainerEngineClient) DeleteNodePool(ctx context.Context, request 
 }
 
 // deleteNodePool implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) deleteNodePool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/nodePools/{nodePoolId}")
+func (client ContainerEngineClient) deleteNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/nodePools/{nodePoolId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -395,8 +395,8 @@ func (client ContainerEngineClient) DeleteWorkRequest(ctx context.Context, reque
 }
 
 // deleteWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}")
+func (client ContainerEngineClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -449,8 +449,8 @@ func (client ContainerEngineClient) GetCluster(ctx context.Context, request GetC
 }
 
 // getCluster implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) getCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters/{clusterId}")
+func (client ContainerEngineClient) getCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters/{clusterId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -503,8 +503,8 @@ func (client ContainerEngineClient) GetClusterOptions(ctx context.Context, reque
 }
 
 // getClusterOptions implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) getClusterOptions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterOptions/{clusterOptionId}")
+func (client ContainerEngineClient) getClusterOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterOptions/{clusterOptionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -557,8 +557,8 @@ func (client ContainerEngineClient) GetNodePool(ctx context.Context, request Get
 }
 
 // getNodePool implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) getNodePool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nodePools/{nodePoolId}")
+func (client ContainerEngineClient) getNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nodePools/{nodePoolId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -611,8 +611,8 @@ func (client ContainerEngineClient) GetNodePoolOptions(ctx context.Context, requ
 }
 
 // getNodePoolOptions implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nodePoolOptions/{nodePoolOptionId}")
+func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nodePoolOptions/{nodePoolOptionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -665,8 +665,8 @@ func (client ContainerEngineClient) GetWorkRequest(ctx context.Context, request 
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -719,8 +719,8 @@ func (client ContainerEngineClient) ListClusters(ctx context.Context, request Li
 }
 
 // listClusters implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) listClusters(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters")
+func (client ContainerEngineClient) listClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -773,8 +773,8 @@ func (client ContainerEngineClient) ListNodePools(ctx context.Context, request L
 }
 
 // listNodePools implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) listNodePools(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nodePools")
+func (client ContainerEngineClient) listNodePools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/nodePools", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -827,8 +827,8 @@ func (client ContainerEngineClient) ListWorkRequestErrors(ctx context.Context, r
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client ContainerEngineClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -881,8 +881,8 @@ func (client ContainerEngineClient) ListWorkRequestLogs(ctx context.Context, req
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client ContainerEngineClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -935,8 +935,8 @@ func (client ContainerEngineClient) ListWorkRequests(ctx context.Context, reques
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client ContainerEngineClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -989,8 +989,8 @@ func (client ContainerEngineClient) UpdateCluster(ctx context.Context, request U
 }
 
 // updateCluster implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) updateCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/clusters/{clusterId}")
+func (client ContainerEngineClient) updateCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/clusters/{clusterId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1043,8 +1043,8 @@ func (client ContainerEngineClient) UpdateClusterEndpointConfig(ctx context.Cont
 }
 
 // updateClusterEndpointConfig implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) updateClusterEndpointConfig(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/updateEndpointConfig")
+func (client ContainerEngineClient) updateClusterEndpointConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/updateEndpointConfig", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1097,8 +1097,8 @@ func (client ContainerEngineClient) UpdateNodePool(ctx context.Context, request 
 }
 
 // updateNodePool implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) updateNodePool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/nodePools/{nodePoolId}")
+func (client ContainerEngineClient) updateNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/nodePools/{nodePoolId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

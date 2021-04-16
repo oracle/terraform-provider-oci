@@ -129,6 +129,9 @@ type CreateAutonomousDatabaseBase interface {
 
 	// A valid Oracle Database version for Autonomous Database.
 	GetDbVersion() *string
+
+	// Customer Contacts.
+	GetCustomerContacts() []CustomerContact
 }
 
 type createautonomousdatabasebase struct {
@@ -157,6 +160,7 @@ type createautonomousdatabasebase struct {
 	FreeformTags                             map[string]string                            `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
 	DbVersion                                *string                                      `mandatory:"false" json:"dbVersion"`
+	CustomerContacts                         []CustomerContact                            `mandatory:"false" json:"customerContacts"`
 	Source                                   string                                       `json:"source"`
 }
 
@@ -195,6 +199,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.DbVersion = s.Model.DbVersion
+	m.CustomerContacts = s.Model.CustomerContacts
 	m.Source = s.Model.Source
 
 	return err
@@ -352,6 +357,11 @@ func (m createautonomousdatabasebase) GetDefinedTags() map[string]map[string]int
 //GetDbVersion returns DbVersion
 func (m createautonomousdatabasebase) GetDbVersion() *string {
 	return m.DbVersion
+}
+
+//GetCustomerContacts returns CustomerContacts
+func (m createautonomousdatabasebase) GetCustomerContacts() []CustomerContact {
+	return m.CustomerContacts
 }
 
 func (m createautonomousdatabasebase) String() string {
