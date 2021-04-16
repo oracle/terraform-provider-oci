@@ -63,7 +63,7 @@ var (
 		"admin_username":  Representation{repType: Required, create: `adminUsername`, update: `adminUsername2`},
 		"deployment_name": Representation{repType: Required, create: `test_deployment_name`},
 		"certificate":     Representation{repType: Optional, create: `-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----`},
-		"key":             Representation{repType: Optional, create: `-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEAo83kaUQXpCcSoEuRVFX3jztWDNKtWpjNG240f0RpERI1NnZt\nHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19geIXR6TeavT+W5iRh4goK+N7gubYk\nSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCtCgd4MDlsvLv/YHCLvJL4JgRxKyev\njlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc+Je9EC3MWWxd5jBwXu3vgIYRuGR4\nDPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJKN0NXp5obaQToYqMsvAZyHoEyfCB\nDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t58QIDAQABAoIBADIyHuOPJTt9abzL\nS26vpVw0D6uAR/UyS/Ay9k1ltliv3rSg19DaHlwLjPwqnvCx7jBgTeVCYZhAkvgx\nkSsGDDcCsw+npXiG6wP9dC1jbHdVPUJLqZTPqB6sZCu8bM9RIE4Z/DcUY+HRN3qh\nmoh5wn0HSvJkNokjhx+TfY687uQfDMu0de4V2UPScZ7mboCu9HqK9qu0/krdTMH1\nrtnnFGEnx/Pe38YJl0fWxo8BHKHprwEvWX0MQzQeklnUtxREMuofSAOBe/I2DJGh\n1I94b6I66ypxuX0qAozT1MPbJGuaR+puyKawLNAQmZa9pgrrFK7e8PQUzrGVpVCp\nFtwx420CgYEA0uX/G0ycia0UTdkxkIsKIiLjs12LC0XmYjiWgkoL0PjiZzcPITn6\nvqqqGSz44HwtbrttZPm3Mo79yJ5xFiHCX0vFJykgy6cfS94imMgm8qIOS0bXjX7w\nxH2BOgp0H32LP/Zt7owcWJLEIQCjj0/4+Nvu0GskGVHlE8EYrXWf1E8CgYEAxtWk\nxBo52uNXL712VGDPNxprVGUpWSbkXpE+7wtRso5LnAnAj6dpmZsGe2zaYjRIt3Ls\nGnno4HUmwpQ5yXlHFpDUJvb2soXq3afnuAh5aVu6aKRQoG/5o3cD4pOupNbjDDNs\nTVLtTLIAIYDbph/j7pV/JnJ2WHcdk6WiVJoW/b8CgYAopLZzNmJ8jeR51D+fEYyU\nY5DqQj7Hn2L0zt8CoO6CCVToe03pI1lVYWKCk44rBQNkca51ZUKO9cum3BIDJ+Jj\npyCJmX1+geigIGEefIQ1AlIq464q0Knp1B4RZ25Vm0Y4v28UJ+BWmYI+sfbTaaAb\npZbyh5NfZc717aKp2x9ANQKBgHQpvOkUqVhIGVe6yLbjGCyJMstLjqyXHDRjhvEB\nG+nFWEcBK47Br+Adwdu57JwTD6ida3LMZlE8IDjtgBVE1VNJqahaACasNlrpDWdn\nDAeRn4Yi+TfCM4Zcsdhdj1qecGdgY5WJLTnxhEIOlkSnvPJWRMKhfKKSdKUdz4i9\nvVDhAoGAEHxfhFLVwdTa0RMUq3KYSXa5WqLANRn2e62Cc3eUWekcUjbIATRF5AIo\nm0WS+rURZWy1Fd6fGg8sRHock0+vxwqeP6OlyW4tJMhL33NrNbgyvkXlMMIX6bC4\nUq8aAew0B3j61UUsTqhHMhYwIS3GOIHx/O10wwINPnUMIVER3Wg=\n-----END RSA PRIVATE KEY-----`},
+		"key":             Representation{repType: Optional, create: `${var.golden_gate_deployment_ogg_key}`},
 	}
 
 	GoldenGateDeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
@@ -88,6 +88,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	goldenGateDeploymentOggKey := getEnvSettingWithBlankDefault("golden_gate_deployment_ogg_key")
+	goldenGateDeploymentOggKeyVariableStr := fmt.Sprintf("variable \"golden_gate_deployment_ogg_key\" { default = \"%s\" }\n", goldenGateDeploymentOggKey)
 
 	resourceName := "oci_golden_gate_deployment.test_deployment"
 	datasourceName := "data.oci_golden_gate_deployments.test_deployments"
@@ -134,7 +137,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + GoldenGateDeploymentResourceDependencies +
+				Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Create, goldenGateDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -170,7 +173,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + GoldenGateDeploymentResourceDependencies +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Create,
 						representationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -207,7 +210,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + GoldenGateDeploymentResourceDependencies +
+				Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Update, goldenGateDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -242,7 +245,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_golden_gate_deployments", "test_deployments", Optional, Update, goldenGateDeploymentDataSourceRepresentation) +
-					compartmentIdVariableStr + GoldenGateDeploymentResourceDependencies +
+					compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Update, goldenGateDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -257,7 +260,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Required, Create, goldenGateDeploymentSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + goldenGateDeploymentResourceConfig,
+					compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + goldenGateDeploymentResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
