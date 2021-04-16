@@ -114,8 +114,8 @@ func (client KmsManagementClient) BackupKey(ctx context.Context, request BackupK
 }
 
 // backupKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) backupKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/backup")
+func (client KmsManagementClient) backupKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/backup", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -179,8 +179,8 @@ func (client KmsManagementClient) CancelKeyDeletion(ctx context.Context, request
 }
 
 // cancelKeyDeletion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/cancelDeletion")
+func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/cancelDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -244,8 +244,8 @@ func (client KmsManagementClient) CancelKeyVersionDeletion(ctx context.Context, 
 }
 
 // cancelKeyVersionDeletion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}/actions/cancelDeletion")
+func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}/actions/cancelDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -309,8 +309,8 @@ func (client KmsManagementClient) ChangeKeyCompartment(ctx context.Context, requ
 }
 
 // changeKeyCompartment implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/changeCompartment")
+func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -372,8 +372,8 @@ func (client KmsManagementClient) CreateKey(ctx context.Context, request CreateK
 }
 
 // createKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) createKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys")
+func (client KmsManagementClient) createKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -436,8 +436,8 @@ func (client KmsManagementClient) CreateKeyVersion(ctx context.Context, request 
 }
 
 // createKeyVersion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) createKeyVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions")
+func (client KmsManagementClient) createKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -500,8 +500,8 @@ func (client KmsManagementClient) DisableKey(ctx context.Context, request Disabl
 }
 
 // disableKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) disableKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/disable")
+func (client KmsManagementClient) disableKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/disable", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -564,8 +564,8 @@ func (client KmsManagementClient) EnableKey(ctx context.Context, request EnableK
 }
 
 // enableKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) enableKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/enable")
+func (client KmsManagementClient) enableKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/enable", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -622,8 +622,8 @@ func (client KmsManagementClient) GetKey(ctx context.Context, request GetKeyRequ
 }
 
 // getKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) getKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}")
+func (client KmsManagementClient) getKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -680,8 +680,8 @@ func (client KmsManagementClient) GetKeyVersion(ctx context.Context, request Get
 }
 
 // getKeyVersion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) getKeyVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}")
+func (client KmsManagementClient) getKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -737,8 +737,8 @@ func (client KmsManagementClient) GetReplicationStatus(ctx context.Context, requ
 }
 
 // getReplicationStatus implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) getReplicationStatus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/replicaOperations/{replicationId}/status")
+func (client KmsManagementClient) getReplicationStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/replicaOperations/{replicationId}/status", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -792,8 +792,8 @@ func (client KmsManagementClient) GetWrappingKey(ctx context.Context, request Ge
 }
 
 // getWrappingKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) getWrappingKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/wrappingKeys")
+func (client KmsManagementClient) getWrappingKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/wrappingKeys", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -853,8 +853,8 @@ func (client KmsManagementClient) ImportKey(ctx context.Context, request ImportK
 }
 
 // importKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) importKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/import")
+func (client KmsManagementClient) importKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/import", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -916,8 +916,8 @@ func (client KmsManagementClient) ImportKeyVersion(ctx context.Context, request 
 }
 
 // importKeyVersion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) importKeyVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions/import")
+func (client KmsManagementClient) importKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions/import", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -975,8 +975,8 @@ func (client KmsManagementClient) ListKeyVersions(ctx context.Context, request L
 }
 
 // listKeyVersions implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) listKeyVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}/keyVersions")
+func (client KmsManagementClient) listKeyVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}/keyVersions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1033,8 +1033,8 @@ func (client KmsManagementClient) ListKeys(ctx context.Context, request ListKeys
 }
 
 // listKeys implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) listKeys(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys")
+func (client KmsManagementClient) listKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1094,8 +1094,8 @@ func (client KmsManagementClient) RestoreKeyFromFile(ctx context.Context, reques
 }
 
 // restoreKeyFromFile implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/actions/restoreFromFile")
+func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/actions/restoreFromFile", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1155,8 +1155,8 @@ func (client KmsManagementClient) RestoreKeyFromObjectStore(ctx context.Context,
 }
 
 // restoreKeyFromObjectStore implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/actions/restoreFromObjectStore")
+func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/actions/restoreFromObjectStore", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1219,8 +1219,8 @@ func (client KmsManagementClient) ScheduleKeyDeletion(ctx context.Context, reque
 }
 
 // scheduleKeyDeletion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) scheduleKeyDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/scheduleDeletion")
+func (client KmsManagementClient) scheduleKeyDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/scheduleDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1283,8 +1283,8 @@ func (client KmsManagementClient) ScheduleKeyVersionDeletion(ctx context.Context
 }
 
 // scheduleKeyVersionDeletion implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}/actions/scheduleDeletion")
+func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}/actions/scheduleDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1343,8 +1343,8 @@ func (client KmsManagementClient) UpdateKey(ctx context.Context, request UpdateK
 }
 
 // updateKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsManagementClient) updateKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/keys/{keyId}")
+func (client KmsManagementClient) updateKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/keys/{keyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

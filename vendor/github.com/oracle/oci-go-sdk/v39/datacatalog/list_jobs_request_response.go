@@ -48,6 +48,9 @@ type ListJobsRequest struct {
 	// Unique job definition key.
 	JobDefinitionKey *string `mandatory:"false" contributesTo:"query" name:"jobDefinitionKey"`
 
+	// Unique data asset key.
+	DataAssetKey *string `mandatory:"false" contributesTo:"query" name:"dataAssetKey"`
+
 	// Schedule specified in the cron expression format that has seven fields for second, minute, hour, day-of-month, month, day-of-week, year.
 	// It can also include special characters like * for all and ? for any. There are also pre-defined schedules that can be specified using
 	// special strings. For example, @hourly will run the job every hour.
@@ -100,8 +103,16 @@ func (request ListJobsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListJobsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListJobsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListJobsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

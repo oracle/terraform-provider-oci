@@ -66,6 +66,9 @@ type Shape struct {
 	// If the shape does not have any local disks, this field is `null`.
 	LocalDiskDescription *string `mandatory:"false" json:"localDiskDescription"`
 
+	// Whether live migration is supported for this shape.
+	IsLiveMigrationSupported *bool `mandatory:"false" json:"isLiveMigrationSupported"`
+
 	OcpuOptions *ShapeOcpuOptions `mandatory:"false" json:"ocpuOptions"`
 
 	MemoryOptions *ShapeMemoryOptions `mandatory:"false" json:"memoryOptions"`

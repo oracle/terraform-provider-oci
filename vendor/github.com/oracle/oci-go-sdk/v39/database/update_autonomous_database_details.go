@@ -131,6 +131,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// **NsgIds restrictions:**
 	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// Customer Contacts. Setting this to an empty list removes all customer contacts of an Oracle Autonomous Database.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {

@@ -121,8 +121,8 @@ func (client BdsClient) AddAutoScalingConfiguration(ctx context.Context, request
 }
 
 // addAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) addAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration")
+func (client BdsClient) addAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +181,8 @@ func (client BdsClient) AddBlockStorage(ctx context.Context, request AddBlockSto
 }
 
 // addBlockStorage implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) addBlockStorage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/addBlockStorage")
+func (client BdsClient) addBlockStorage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/addBlockStorage", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -241,8 +241,8 @@ func (client BdsClient) AddCloudSql(ctx context.Context, request AddCloudSqlRequ
 }
 
 // addCloudSql implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) addCloudSql(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/addCloudSql")
+func (client BdsClient) addCloudSql(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/addCloudSql", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -301,8 +301,8 @@ func (client BdsClient) AddWorkerNodes(ctx context.Context, request AddWorkerNod
 }
 
 // addWorkerNodes implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) addWorkerNodes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/addWorkerNodes")
+func (client BdsClient) addWorkerNodes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/addWorkerNodes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -360,8 +360,8 @@ func (client BdsClient) ChangeBdsInstanceCompartment(ctx context.Context, reques
 }
 
 // changeBdsInstanceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) changeBdsInstanceCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/changeCompartment")
+func (client BdsClient) changeBdsInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -421,8 +421,8 @@ func (client BdsClient) ChangeShape(ctx context.Context, request ChangeShapeRequ
 }
 
 // changeShape implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) changeShape(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/changeShape")
+func (client BdsClient) changeShape(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/changeShape", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -480,8 +480,8 @@ func (client BdsClient) CreateBdsInstance(ctx context.Context, request CreateBds
 }
 
 // createBdsInstance implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) createBdsInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances")
+func (client BdsClient) createBdsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -534,8 +534,8 @@ func (client BdsClient) DeleteBdsInstance(ctx context.Context, request DeleteBds
 }
 
 // deleteBdsInstance implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bdsInstances/{bdsInstanceId}")
+func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bdsInstances/{bdsInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -588,8 +588,8 @@ func (client BdsClient) GetAutoScalingConfiguration(ctx context.Context, request
 }
 
 // getAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) getAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}")
+func (client BdsClient) getAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -642,8 +642,8 @@ func (client BdsClient) GetBdsInstance(ctx context.Context, request GetBdsInstan
 }
 
 // getBdsInstance implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}")
+func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -696,8 +696,8 @@ func (client BdsClient) GetWorkRequest(ctx context.Context, request GetWorkReque
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client BdsClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -750,8 +750,8 @@ func (client BdsClient) ListAutoScalingConfigurations(ctx context.Context, reque
 }
 
 // listAutoScalingConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) listAutoScalingConfigurations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration")
+func (client BdsClient) listAutoScalingConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -804,8 +804,8 @@ func (client BdsClient) ListBdsInstances(ctx context.Context, request ListBdsIns
 }
 
 // listBdsInstances implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances")
+func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -858,8 +858,8 @@ func (client BdsClient) ListWorkRequestErrors(ctx context.Context, request ListW
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client BdsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -912,8 +912,8 @@ func (client BdsClient) ListWorkRequestLogs(ctx context.Context, request ListWor
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client BdsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -966,8 +966,8 @@ func (client BdsClient) ListWorkRequests(ctx context.Context, request ListWorkRe
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1025,8 +1025,8 @@ func (client BdsClient) RemoveAutoScalingConfiguration(ctx context.Context, requ
 }
 
 // removeAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) removeAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}/actions/remove")
+func (client BdsClient) removeAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}/actions/remove", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1084,8 +1084,8 @@ func (client BdsClient) RemoveCloudSql(ctx context.Context, request RemoveCloudS
 }
 
 // removeCloudSql implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) removeCloudSql(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/removeCloudSql")
+func (client BdsClient) removeCloudSql(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/removeCloudSql", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1143,8 +1143,8 @@ func (client BdsClient) RestartNode(ctx context.Context, request RestartNodeRequ
 }
 
 // restartNode implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) restartNode(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/restartNode")
+func (client BdsClient) restartNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/restartNode", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1202,8 +1202,8 @@ func (client BdsClient) UpdateAutoScalingConfiguration(ctx context.Context, requ
 }
 
 // updateAutoScalingConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) updateAutoScalingConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}")
+func (client BdsClient) updateAutoScalingConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/autoScalingConfiguration/{autoScalingConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1256,8 +1256,8 @@ func (client BdsClient) UpdateBdsInstance(ctx context.Context, request UpdateBds
 }
 
 // updateBdsInstance implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) updateBdsInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}")
+func (client BdsClient) updateBdsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

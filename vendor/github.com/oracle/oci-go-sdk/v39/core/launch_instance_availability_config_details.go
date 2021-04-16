@@ -17,8 +17,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v39/common"
 )
 
-// LaunchInstanceAvailabilityConfigDetails Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
+// LaunchInstanceAvailabilityConfigDetails Options for defining the availability of a VM instance after a maintenance event that impacts the underlying
+// hardware, including whether to live migrate supported VM instances when possible.
 type LaunchInstanceAvailabilityConfigDetails struct {
+
+	// Whether to live migrate supported VM instances to a healthy physical VM host without
+	// disrupting running instances during infrastructure maintenance events. If null, Oracle
+	// chooses the best option for migrating the VM during infrastructure maintenance events.
+	IsLiveMigrationPreferred *bool `mandatory:"false" json:"isLiveMigrationPreferred"`
 
 	// The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 	// * `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event.

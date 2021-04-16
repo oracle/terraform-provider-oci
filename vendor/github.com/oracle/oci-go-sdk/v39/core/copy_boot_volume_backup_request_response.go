@@ -43,8 +43,16 @@ func (request CopyBootVolumeBackupRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CopyBootVolumeBackupRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request CopyBootVolumeBackupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request CopyBootVolumeBackupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

@@ -119,8 +119,8 @@ func (client IntegrationInstanceClient) ChangeIntegrationInstanceCompartment(ctx
 }
 
 // changeIntegrationInstanceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/changeCompartment")
+func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -179,8 +179,8 @@ func (client IntegrationInstanceClient) ChangeIntegrationInstanceNetworkEndpoint
 }
 
 // changeIntegrationInstanceNetworkEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/changeNetworkEndpoint")
+func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/changeNetworkEndpoint", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +238,8 @@ func (client IntegrationInstanceClient) CreateIntegrationInstance(ctx context.Co
 }
 
 // createIntegrationInstance implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) createIntegrationInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances")
+func (client IntegrationInstanceClient) createIntegrationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -292,8 +292,8 @@ func (client IntegrationInstanceClient) DeleteIntegrationInstance(ctx context.Co
 }
 
 // deleteIntegrationInstance implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/integrationInstances/{integrationInstanceId}")
+func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/integrationInstances/{integrationInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -346,8 +346,8 @@ func (client IntegrationInstanceClient) GetIntegrationInstance(ctx context.Conte
 }
 
 // getIntegrationInstance implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) getIntegrationInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/integrationInstances/{integrationInstanceId}")
+func (client IntegrationInstanceClient) getIntegrationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/integrationInstances/{integrationInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -400,8 +400,8 @@ func (client IntegrationInstanceClient) GetWorkRequest(ctx context.Context, requ
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client IntegrationInstanceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -454,8 +454,8 @@ func (client IntegrationInstanceClient) ListIntegrationInstances(ctx context.Con
 }
 
 // listIntegrationInstances implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) listIntegrationInstances(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/integrationInstances")
+func (client IntegrationInstanceClient) listIntegrationInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/integrationInstances", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -508,8 +508,8 @@ func (client IntegrationInstanceClient) ListWorkRequestErrors(ctx context.Contex
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client IntegrationInstanceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -562,8 +562,8 @@ func (client IntegrationInstanceClient) ListWorkRequestLogs(ctx context.Context,
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client IntegrationInstanceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -616,8 +616,8 @@ func (client IntegrationInstanceClient) ListWorkRequests(ctx context.Context, re
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -675,8 +675,8 @@ func (client IntegrationInstanceClient) StartIntegrationInstance(ctx context.Con
 }
 
 // startIntegrationInstance implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) startIntegrationInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/start")
+func (client IntegrationInstanceClient) startIntegrationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -734,8 +734,8 @@ func (client IntegrationInstanceClient) StopIntegrationInstance(ctx context.Cont
 }
 
 // stopIntegrationInstance implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) stopIntegrationInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/stop")
+func (client IntegrationInstanceClient) stopIntegrationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -788,8 +788,8 @@ func (client IntegrationInstanceClient) UpdateIntegrationInstance(ctx context.Co
 }
 
 // updateIntegrationInstance implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) updateIntegrationInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/integrationInstances/{integrationInstanceId}")
+func (client IntegrationInstanceClient) updateIntegrationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/integrationInstances/{integrationInstanceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

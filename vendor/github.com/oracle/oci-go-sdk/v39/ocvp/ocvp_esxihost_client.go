@@ -123,8 +123,8 @@ func (client EsxiHostClient) CreateEsxiHost(ctx context.Context, request CreateE
 }
 
 // createEsxiHost implements the OCIOperation interface (enables retrying operations)
-func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/esxiHosts")
+func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/esxiHosts", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -187,8 +187,8 @@ func (client EsxiHostClient) DeleteEsxiHost(ctx context.Context, request DeleteE
 }
 
 // deleteEsxiHost implements the OCIOperation interface (enables retrying operations)
-func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/esxiHosts/{esxiHostId}")
+func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/esxiHosts/{esxiHostId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -241,8 +241,8 @@ func (client EsxiHostClient) GetEsxiHost(ctx context.Context, request GetEsxiHos
 }
 
 // getEsxiHost implements the OCIOperation interface (enables retrying operations)
-func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/esxiHosts/{esxiHostId}")
+func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/esxiHosts/{esxiHostId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -302,8 +302,8 @@ func (client EsxiHostClient) ListEsxiHosts(ctx context.Context, request ListEsxi
 }
 
 // listEsxiHosts implements the OCIOperation interface (enables retrying operations)
-func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/esxiHosts")
+func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/esxiHosts", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -356,8 +356,8 @@ func (client EsxiHostClient) UpdateEsxiHost(ctx context.Context, request UpdateE
 }
 
 // updateEsxiHost implements the OCIOperation interface (enables retrying operations)
-func (client EsxiHostClient) updateEsxiHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/esxiHosts/{esxiHostId}")
+func (client EsxiHostClient) updateEsxiHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/esxiHosts/{esxiHostId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

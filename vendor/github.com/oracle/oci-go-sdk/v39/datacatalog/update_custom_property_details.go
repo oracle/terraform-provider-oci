@@ -38,6 +38,9 @@ type UpdateCustomPropertyDetails struct {
 	// If this field is a editable field
 	IsEditable *bool `mandatory:"false" json:"isEditable"`
 
+	// If this field is displayed in a list view of applicable objects.
+	IsShownInList *bool `mandatory:"false" json:"isShownInList"`
+
 	// If this field is allowed to pop in search results
 	IsHiddenInSearch *bool `mandatory:"false" json:"isHiddenInSearch"`
 

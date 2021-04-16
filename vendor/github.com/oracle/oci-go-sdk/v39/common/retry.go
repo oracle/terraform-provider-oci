@@ -6,6 +6,7 @@ package common
 import (
 	"context"
 	"fmt"
+	"io"
 	"math/rand"
 	"runtime"
 	"time"
@@ -23,6 +24,9 @@ const (
 type OCIRetryableRequest interface {
 	// Any retryable request must implement the OCIRequest interface
 	OCIRequest
+
+	// Each operation should implement this method, if has binary body, return OCIReadSeekCloser and true, otherwise return nil, false
+	BinaryRequestBody() (*OCIReadSeekCloser, bool)
 
 	// Each operation specifies default retry behavior. By passing no arguments to this method, the default retry
 	// behavior, as determined on a per-operation-basis, will be honored. Variadic retry policy option arguments
@@ -124,15 +128,41 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			}
 		}()
 
+		// if request body is binary request body and seekable, save the current position
+		var curPos int64 = 0
+		isSeekable := false
+		rsc, isBinaryRequest := request.BinaryRequestBody()
+		if rsc != nil {
+			defer rsc.rc.Close()
+		}
+		if policy.MaximumNumberAttempts != uint(1) {
+			if rsc.Seekable() {
+				isSeekable = true
+				curPos, _ = rsc.Seek(0, io.SeekCurrent)
+			}
+		}
+
 		// use a one-based counter because it's easier to think about operation retry in terms of attempt numbering
 		for currentOperationAttempt := uint(1); shouldContinueIssuingRequests(currentOperationAttempt, policy.MaximumNumberAttempts); currentOperationAttempt++ {
 			Debugln(fmt.Sprintf("operation attempt #%v", currentOperationAttempt))
-			response, err = operation(ctx, request)
+			// rewind body once needed
+			if isSeekable {
+				rsc = NewOCIReadSeekCloser(rsc.rc)
+				rsc.Seek(curPos, io.SeekStart)
+			}
+			response, err = operation(ctx, request, rsc)
+
 			operationResponse := NewOCIOperationResponse(response, err, currentOperationAttempt)
 
 			if !policy.ShouldRetryOperation(operationResponse) {
 				// we should NOT retry operation based on response and/or error => return
 				retrierChannel <- retrierResult{response, err}
+				return
+			}
+
+			// if the request body type is stream, requested retry but doesn't resettable, throw error and stop retrying
+			if isBinaryRequest && !isSeekable {
+				retrierChannel <- retrierResult{response, NonSeekableRequestRetryFailure{err}}
 				return
 			}
 

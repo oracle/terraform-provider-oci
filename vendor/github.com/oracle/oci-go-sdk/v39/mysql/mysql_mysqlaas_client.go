@@ -119,8 +119,8 @@ func (client MysqlaasClient) CreateConfiguration(ctx context.Context, request Cr
 }
 
 // createConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) createConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configurations")
+func (client MysqlaasClient) createConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configurations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -174,8 +174,8 @@ func (client MysqlaasClient) DeleteConfiguration(ctx context.Context, request De
 }
 
 // deleteConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) deleteConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/configurations/{configurationId}")
+func (client MysqlaasClient) deleteConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/configurations/{configurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -228,8 +228,8 @@ func (client MysqlaasClient) GetConfiguration(ctx context.Context, request GetCo
 }
 
 // getConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) getConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurations/{configurationId}")
+func (client MysqlaasClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurations/{configurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -287,8 +287,8 @@ func (client MysqlaasClient) ListConfigurations(ctx context.Context, request Lis
 }
 
 // listConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) listConfigurations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurations")
+func (client MysqlaasClient) listConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -344,8 +344,8 @@ func (client MysqlaasClient) ListShapes(ctx context.Context, request ListShapesR
 }
 
 // listShapes implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) listShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shapes")
+func (client MysqlaasClient) listShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shapes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -399,8 +399,8 @@ func (client MysqlaasClient) ListVersions(ctx context.Context, request ListVersi
 }
 
 // listVersions implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) listVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/versions")
+func (client MysqlaasClient) listVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/versions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -453,8 +453,8 @@ func (client MysqlaasClient) UpdateConfiguration(ctx context.Context, request Up
 }
 
 // updateConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client MysqlaasClient) updateConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configurations/{configurationId}")
+func (client MysqlaasClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configurations/{configurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

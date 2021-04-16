@@ -37,8 +37,16 @@ func (request GetRoutingPolicyRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetRoutingPolicyRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request GetRoutingPolicyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request GetRoutingPolicyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

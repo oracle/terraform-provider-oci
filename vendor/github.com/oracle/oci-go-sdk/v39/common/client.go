@@ -17,8 +17,10 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"reflect"
 	"runtime"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 )
@@ -126,7 +128,7 @@ func (client *BaseClient) RetryPolicy() *RetryPolicy {
 	return client.Configuration.RetryPolicy
 }
 
-// Endpoint returns the enpoint configured for client
+// Endpoint returns the endpoint configured for client
 func (client *BaseClient) Endpoint() string {
 	host := client.Host
 	if !strings.Contains(host, "http") &&
@@ -399,7 +401,7 @@ func checkBodyLengthExceedLimit(contentLength int64) bool {
 // OCIRequest is any request made to an OCI service.
 type OCIRequest interface {
 	// HTTPRequest assembles an HTTP request.
-	HTTPRequest(method, path string) (http.Request, error)
+	HTTPRequest(method, path string, binaryRequestBody *OCIReadSeekCloser) (http.Request, error)
 }
 
 // RequestMetadata is metadata about an OCIRequest. This structure represents the behavior exhibited by the SDK when
@@ -410,6 +412,76 @@ type RequestMetadata struct {
 	RetryPolicy *RetryPolicy
 }
 
+// OCIReadSeekCloser is a thread-safe io.ReadSeekCloser to prevent racing with retrying binary requests
+type OCIReadSeekCloser struct {
+	rc       io.ReadCloser
+	lock     sync.Mutex
+	isClosed bool
+}
+
+// NewOCIReadSeekCloser constructs OCIReadSeekCloser, the only input is binary request body
+func NewOCIReadSeekCloser(rc io.ReadCloser) *OCIReadSeekCloser {
+	rsc := OCIReadSeekCloser{}
+	rsc.rc = rc
+	return &rsc
+}
+
+// Seek is a thread-safe operation, it implements io.seek() interface, if the original request body implements io.seek()
+// interface, or implements "well-known" data type like os.File, io.SectionReader, or wrapped by ioutil.NopCloser can be supported
+func (rsc *OCIReadSeekCloser) Seek(offset int64, whence int) (int64, error) {
+	rsc.lock.Lock()
+	defer rsc.lock.Unlock()
+
+	if _, ok := rsc.rc.(io.Seeker); ok {
+		return rsc.rc.(io.Seeker).Seek(offset, whence)
+	}
+	// once the binary request body is wrapped with ioutil.NopCloser:
+	if reflect.TypeOf(rsc.rc) == reflect.TypeOf(ioutil.NopCloser(nil)) {
+		unwrappedInterface := reflect.ValueOf(rsc.rc).Field(0).Interface()
+		if _, ok := unwrappedInterface.(io.Seeker); ok {
+			return unwrappedInterface.(io.Seeker).Seek(offset, whence)
+		}
+	}
+	return 0, fmt.Errorf("current binary request body type is not seekable, if want to use retry feature, please make sure the request body implements seek() method")
+}
+
+// Close is a thread-safe operation, it closes the instance of the OCIReadSeekCloser's access to the underlying io.ReadCloser.
+func (rsc *OCIReadSeekCloser) Close() error {
+	rsc.lock.Lock()
+	defer rsc.lock.Unlock()
+	rsc.isClosed = true
+	return nil
+}
+
+// Read is a thread-safe operation, it implements io.Read() interface
+func (rsc *OCIReadSeekCloser) Read(p []byte) (n int, err error) {
+	rsc.lock.Lock()
+	defer rsc.lock.Unlock()
+
+	if rsc.isClosed {
+		return 0, io.EOF
+	}
+
+	return rsc.rc.Read(p)
+}
+
+// Seekable is used for check if the binary request body can be seek or no
+func (rsc *OCIReadSeekCloser) Seekable() bool {
+	if rsc == nil {
+		return false
+	}
+	if _, ok := rsc.rc.(io.Seeker); ok {
+		return true
+	}
+	// once the binary request body is wrapped with ioutil.NopCloser:
+	if reflect.TypeOf(rsc.rc) == reflect.TypeOf(ioutil.NopCloser(nil)) {
+		if _, ok := reflect.ValueOf(rsc.rc).Field(0).Interface().(io.Seeker); ok {
+			return true
+		}
+	}
+	return false
+}
+
 // OCIResponse is the response from issuing a request to an OCI service.
 type OCIResponse interface {
 	// HTTPResponse returns the raw HTTP response.
@@ -417,7 +489,7 @@ type OCIResponse interface {
 }
 
 // OCIOperation is the generalization of a request-response cycle undergone by an OCI service.
-type OCIOperation func(context.Context, OCIRequest) (OCIResponse, error)
+type OCIOperation func(context.Context, OCIRequest, *OCIReadSeekCloser) (OCIResponse, error)
 
 //ClientCallDetails a set of settings used by the a single Call operation of the http Client
 type ClientCallDetails struct {
@@ -429,7 +501,7 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 	return client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
 }
 
-// CallWithDetails executes the http request, the given context using details specified in the paremeters, this function
+// CallWithDetails executes the http request, the given context using details specified in the parameters, this function
 // provides a way to override some settings present in the client
 func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
 	Debugln("Attempting to call downstream service")

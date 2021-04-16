@@ -25,6 +25,9 @@ type Entity struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Optional user friendly business name of the data entity. If set, this supplements the harvested display name of the object.
+	BusinessName *string `mandatory:"false" json:"businessName"`
+
 	// Detailed description of a data entity.
 	Description *string `mandatory:"false" json:"description"`
 

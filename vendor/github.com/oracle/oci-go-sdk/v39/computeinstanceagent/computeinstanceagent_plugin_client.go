@@ -115,8 +115,8 @@ func (client PluginClient) GetInstanceAgentPlugin(ctx context.Context, request G
 }
 
 // getInstanceAgentPlugin implements the OCIOperation interface (enables retrying operations)
-func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceagents/{instanceagentId}/plugins/{pluginName}")
+func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceagents/{instanceagentId}/plugins/{pluginName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -169,8 +169,8 @@ func (client PluginClient) ListInstanceAgentPlugins(ctx context.Context, request
 }
 
 // listInstanceAgentPlugins implements the OCIOperation interface (enables retrying operations)
-func (client PluginClient) listInstanceAgentPlugins(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceagents/{instanceagentId}/plugins")
+func (client PluginClient) listInstanceAgentPlugins(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceagents/{instanceagentId}/plugins", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -121,8 +121,8 @@ func (client EventsClient) ChangeRuleCompartment(ctx context.Context, request Ch
 }
 
 // changeRuleCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) changeRuleCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules/{ruleId}/actions/changeCompartment")
+func (client EventsClient) changeRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules/{ruleId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +180,8 @@ func (client EventsClient) CreateRule(ctx context.Context, request CreateRuleReq
 }
 
 // createRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) createRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules")
+func (client EventsClient) createRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -234,8 +234,8 @@ func (client EventsClient) DeleteRule(ctx context.Context, request DeleteRuleReq
 }
 
 // deleteRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) deleteRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/rules/{ruleId}")
+func (client EventsClient) deleteRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/rules/{ruleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -288,8 +288,8 @@ func (client EventsClient) GetRule(ctx context.Context, request GetRuleRequest) 
 }
 
 // getRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) getRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules/{ruleId}")
+func (client EventsClient) getRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules/{ruleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -342,8 +342,8 @@ func (client EventsClient) ListRules(ctx context.Context, request ListRulesReque
 }
 
 // listRules implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) listRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules")
+func (client EventsClient) listRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -396,8 +396,8 @@ func (client EventsClient) UpdateRule(ctx context.Context, request UpdateRuleReq
 }
 
 // updateRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) updateRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/rules/{ruleId}")
+func (client EventsClient) updateRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/rules/{ruleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

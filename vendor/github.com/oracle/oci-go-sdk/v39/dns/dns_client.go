@@ -121,8 +121,8 @@ func (client DnsClient) ChangeResolverCompartment(ctx context.Context, request C
 }
 
 // changeResolverCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) changeResolverCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/resolvers/{resolverId}/actions/changeCompartment")
+func (client DnsClient) changeResolverCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/resolvers/{resolverId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +180,8 @@ func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, req
 }
 
 // changeSteeringPolicyCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicies/{steeringPolicyId}/actions/changeCompartment")
+func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicies/{steeringPolicyId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -239,8 +239,8 @@ func (client DnsClient) ChangeTsigKeyCompartment(ctx context.Context, request Ch
 }
 
 // changeTsigKeyCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tsigKeys/{tsigKeyId}/actions/changeCompartment")
+func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tsigKeys/{tsigKeyId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -298,8 +298,8 @@ func (client DnsClient) ChangeViewCompartment(ctx context.Context, request Chang
 }
 
 // changeViewCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) changeViewCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/views/{viewId}/actions/changeCompartment")
+func (client DnsClient) changeViewCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/views/{viewId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -358,8 +358,8 @@ func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request Chang
 }
 
 // changeZoneCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) changeZoneCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones/{zoneId}/actions/changeCompartment")
+func (client DnsClient) changeZoneCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones/{zoneId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -417,8 +417,8 @@ func (client DnsClient) CreateResolverEndpoint(ctx context.Context, request Crea
 }
 
 // createResolverEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) createResolverEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/resolvers/{resolverId}/endpoints")
+func (client DnsClient) createResolverEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/resolvers/{resolverId}/endpoints", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -477,8 +477,8 @@ func (client DnsClient) CreateSteeringPolicy(ctx context.Context, request Create
 }
 
 // createSteeringPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) createSteeringPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicies")
+func (client DnsClient) createSteeringPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -540,8 +540,8 @@ func (client DnsClient) CreateSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // createSteeringPolicyAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicyAttachments")
+func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicyAttachments", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -595,8 +595,8 @@ func (client DnsClient) CreateTsigKey(ctx context.Context, request CreateTsigKey
 }
 
 // createTsigKey implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tsigKeys")
+func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tsigKeys", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -654,8 +654,8 @@ func (client DnsClient) CreateView(ctx context.Context, request CreateViewReques
 }
 
 // createView implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) createView(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/views")
+func (client DnsClient) createView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/views", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -710,8 +710,8 @@ func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneReques
 }
 
 // createZone implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) createZone(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones")
+func (client DnsClient) createZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -764,8 +764,8 @@ func (client DnsClient) DeleteDomainRecords(ctx context.Context, request DeleteD
 }
 
 // deleteDomainRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zones/{zoneNameOrId}/records/{domain}")
+func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zones/{zoneNameOrId}/records/{domain}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -818,8 +818,8 @@ func (client DnsClient) DeleteRRSet(ctx context.Context, request DeleteRRSetRequ
 }
 
 // deleteRRSet implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zones/{zoneNameOrId}/records/{domain}/{rtype}")
+func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zones/{zoneNameOrId}/records/{domain}/{rtype}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -874,8 +874,8 @@ func (client DnsClient) DeleteResolverEndpoint(ctx context.Context, request Dele
 }
 
 // deleteResolverEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/resolvers/{resolverId}/endpoints/{resolverEndpointName}")
+func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/resolvers/{resolverId}/endpoints/{resolverEndpointName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -931,8 +931,8 @@ func (client DnsClient) DeleteSteeringPolicy(ctx context.Context, request Delete
 }
 
 // deleteSteeringPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/steeringPolicies/{steeringPolicyId}")
+func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/steeringPolicies/{steeringPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -986,8 +986,8 @@ func (client DnsClient) DeleteSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // deleteSteeringPolicyAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/steeringPolicyAttachments/{steeringPolicyAttachmentId}")
+func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/steeringPolicyAttachments/{steeringPolicyAttachmentId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1040,8 +1040,8 @@ func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKey
 }
 
 // deleteTsigKey implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tsigKeys/{tsigKeyId}")
+func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tsigKeys/{tsigKeyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1098,8 +1098,8 @@ func (client DnsClient) DeleteView(ctx context.Context, request DeleteViewReques
 }
 
 // deleteView implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteView(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/views/{viewId}")
+func (client DnsClient) deleteView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/views/{viewId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1154,8 +1154,8 @@ func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneReques
 }
 
 // deleteZone implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) deleteZone(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zones/{zoneNameOrId}")
+func (client DnsClient) deleteZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zones/{zoneNameOrId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1210,8 +1210,8 @@ func (client DnsClient) GetDomainRecords(ctx context.Context, request GetDomainR
 }
 
 // getDomainRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/records/{domain}")
+func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/records/{domain}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1265,8 +1265,8 @@ func (client DnsClient) GetRRSet(ctx context.Context, request GetRRSetRequest) (
 }
 
 // getRRSet implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/records/{domain}/{rtype}")
+func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/records/{domain}/{rtype}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1321,8 +1321,8 @@ func (client DnsClient) GetResolver(ctx context.Context, request GetResolverRequ
 }
 
 // getResolver implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getResolver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers/{resolverId}")
+func (client DnsClient) getResolver(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers/{resolverId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1376,8 +1376,8 @@ func (client DnsClient) GetResolverEndpoint(ctx context.Context, request GetReso
 }
 
 // getResolverEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers/{resolverId}/endpoints/{resolverEndpointName}")
+func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers/{resolverId}/endpoints/{resolverEndpointName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1430,8 +1430,8 @@ func (client DnsClient) GetSteeringPolicy(ctx context.Context, request GetSteeri
 }
 
 // getSteeringPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicies/{steeringPolicyId}")
+func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicies/{steeringPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1484,8 +1484,8 @@ func (client DnsClient) GetSteeringPolicyAttachment(ctx context.Context, request
 }
 
 // getSteeringPolicyAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicyAttachments/{steeringPolicyAttachmentId}")
+func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicyAttachments/{steeringPolicyAttachmentId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1538,8 +1538,8 @@ func (client DnsClient) GetTsigKey(ctx context.Context, request GetTsigKeyReques
 }
 
 // getTsigKey implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tsigKeys/{tsigKeyId}")
+func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tsigKeys/{tsigKeyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1594,8 +1594,8 @@ func (client DnsClient) GetView(ctx context.Context, request GetViewRequest) (re
 }
 
 // getView implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getView(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/views/{viewId}")
+func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/views/{viewId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1649,8 +1649,8 @@ func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (re
 }
 
 // getZone implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}")
+func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1705,8 +1705,8 @@ func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecor
 }
 
 // getZoneRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) getZoneRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/records")
+func (client DnsClient) getZoneRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/records", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1778,8 +1778,8 @@ func (client DnsClient) ListResolverEndpoints(ctx context.Context, request ListR
 }
 
 // listResolverEndpoints implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listResolverEndpoints(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers/{resolverId}/endpoints")
+func (client DnsClient) listResolverEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers/{resolverId}/endpoints", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1837,8 +1837,8 @@ func (client DnsClient) ListResolvers(ctx context.Context, request ListResolvers
 }
 
 // listResolvers implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listResolvers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers")
+func (client DnsClient) listResolvers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resolvers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1891,8 +1891,8 @@ func (client DnsClient) ListSteeringPolicies(ctx context.Context, request ListSt
 }
 
 // listSteeringPolicies implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listSteeringPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicies")
+func (client DnsClient) listSteeringPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1945,8 +1945,8 @@ func (client DnsClient) ListSteeringPolicyAttachments(ctx context.Context, reque
 }
 
 // listSteeringPolicyAttachments implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicyAttachments")
+func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/steeringPolicyAttachments", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1999,8 +1999,8 @@ func (client DnsClient) ListTsigKeys(ctx context.Context, request ListTsigKeysRe
 }
 
 // listTsigKeys implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tsigKeys")
+func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tsigKeys", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2058,8 +2058,8 @@ func (client DnsClient) ListViews(ctx context.Context, request ListViewsRequest)
 }
 
 // listViews implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/views")
+func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/views", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2113,8 +2113,8 @@ func (client DnsClient) ListZones(ctx context.Context, request ListZonesRequest)
 }
 
 // listZones implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones")
+func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2170,8 +2170,8 @@ func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDom
 }
 
 // patchDomainRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) patchDomainRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/zones/{zoneNameOrId}/records/{domain}")
+func (client DnsClient) patchDomainRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/zones/{zoneNameOrId}/records/{domain}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2224,8 +2224,8 @@ func (client DnsClient) PatchRRSet(ctx context.Context, request PatchRRSetReques
 }
 
 // patchRRSet implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/zones/{zoneNameOrId}/records/{domain}/{rtype}")
+func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/zones/{zoneNameOrId}/records/{domain}/{rtype}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2281,8 +2281,8 @@ func (client DnsClient) PatchZoneRecords(ctx context.Context, request PatchZoneR
 }
 
 // patchZoneRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/zones/{zoneNameOrId}/records")
+func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/zones/{zoneNameOrId}/records", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2340,8 +2340,8 @@ func (client DnsClient) UpdateDomainRecords(ctx context.Context, request UpdateD
 }
 
 // updateDomainRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateDomainRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}/records/{domain}")
+func (client DnsClient) updateDomainRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}/records/{domain}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2394,8 +2394,8 @@ func (client DnsClient) UpdateRRSet(ctx context.Context, request UpdateRRSetRequ
 }
 
 // updateRRSet implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}/records/{domain}/{rtype}")
+func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}/records/{domain}/{rtype}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2448,8 +2448,8 @@ func (client DnsClient) UpdateResolver(ctx context.Context, request UpdateResolv
 }
 
 // updateResolver implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/resolvers/{resolverId}")
+func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/resolvers/{resolverId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2502,8 +2502,8 @@ func (client DnsClient) UpdateResolverEndpoint(ctx context.Context, request Upda
 }
 
 // updateResolverEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateResolverEndpoint(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/resolvers/{resolverId}/endpoints/{resolverEndpointName}")
+func (client DnsClient) updateResolverEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/resolvers/{resolverId}/endpoints/{resolverEndpointName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2556,8 +2556,8 @@ func (client DnsClient) UpdateSteeringPolicy(ctx context.Context, request Update
 }
 
 // updateSteeringPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/steeringPolicies/{steeringPolicyId}")
+func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/steeringPolicies/{steeringPolicyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2610,8 +2610,8 @@ func (client DnsClient) UpdateSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // updateSteeringPolicyAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/steeringPolicyAttachments/{steeringPolicyAttachmentId}")
+func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/steeringPolicyAttachments/{steeringPolicyAttachmentId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2664,8 +2664,8 @@ func (client DnsClient) UpdateTsigKey(ctx context.Context, request UpdateTsigKey
 }
 
 // updateTsigKey implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tsigKeys/{tsigKeyId}")
+func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tsigKeys/{tsigKeyId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2718,8 +2718,8 @@ func (client DnsClient) UpdateView(ctx context.Context, request UpdateViewReques
 }
 
 // updateView implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateView(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/views/{viewId}")
+func (client DnsClient) updateView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/views/{viewId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2774,8 +2774,8 @@ func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneReques
 }
 
 // updateZone implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateZone(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}")
+func (client DnsClient) updateZone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2832,8 +2832,8 @@ func (client DnsClient) UpdateZoneRecords(ctx context.Context, request UpdateZon
 }
 
 // updateZoneRecords implements the OCIOperation interface (enables retrying operations)
-func (client DnsClient) updateZoneRecords(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}/records")
+func (client DnsClient) updateZoneRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zones/{zoneNameOrId}/records", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

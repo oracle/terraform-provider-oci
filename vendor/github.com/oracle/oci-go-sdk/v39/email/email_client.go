@@ -117,8 +117,8 @@ func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request C
 }
 
 // changeSenderCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) changeSenderCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders/{senderId}/actions/changeCompartment")
+func (client EmailClient) changeSenderCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders/{senderId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -171,8 +171,8 @@ func (client EmailClient) CreateSender(ctx context.Context, request CreateSender
 }
 
 // createSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createSender(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders")
+func (client EmailClient) createSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -228,8 +228,8 @@ func (client EmailClient) CreateSuppression(ctx context.Context, request CreateS
 }
 
 // createSuppression implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createSuppression(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/suppressions")
+func (client EmailClient) createSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/suppressions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -283,8 +283,8 @@ func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSender
 }
 
 // deleteSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/senders/{senderId}")
+func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/senders/{senderId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -338,8 +338,8 @@ func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteS
 }
 
 // deleteSuppression implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteSuppression(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/suppressions/{suppressionId}")
+func (client EmailClient) deleteSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/suppressions/{suppressionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -392,8 +392,8 @@ func (client EmailClient) GetSender(ctx context.Context, request GetSenderReques
 }
 
 // getSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getSender(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders/{senderId}")
+func (client EmailClient) getSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders/{senderId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -447,8 +447,8 @@ func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppres
 }
 
 // getSuppression implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getSuppression(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions/{suppressionId}")
+func (client EmailClient) getSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions/{suppressionId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -501,8 +501,8 @@ func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRe
 }
 
 // listSenders implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listSenders(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders")
+func (client EmailClient) listSenders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -557,8 +557,8 @@ func (client EmailClient) ListSuppressions(ctx context.Context, request ListSupp
 }
 
 // listSuppressions implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listSuppressions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions")
+func (client EmailClient) listSuppressions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -614,8 +614,8 @@ func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSender
 }
 
 // updateSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateSender(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/senders/{senderId}")
+func (client EmailClient) updateSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/senders/{senderId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -27,6 +27,9 @@ type FolderSummary struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Optional user friendly business name of the folder. If set, this supplements the harvested display name of the object.
+	BusinessName *string `mandatory:"false" json:"businessName"`
+
 	// Detailed description of a folder.
 	Description *string `mandatory:"false" json:"description"`
 

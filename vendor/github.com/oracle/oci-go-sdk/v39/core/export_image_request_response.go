@@ -48,8 +48,16 @@ func (request ExportImageRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ExportImageRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ExportImageRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ExportImageRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

@@ -226,7 +226,7 @@ type AutonomousDatabaseSummary struct {
 
 	StandbyDb *AutonomousDatabaseStandbySummary `mandatory:"false" json:"standbyDb"`
 
-	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	// The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled.
 	Role AutonomousDatabaseSummaryRoleEnum `mandatory:"false" json:"role,omitempty"`
 
 	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
@@ -237,6 +237,9 @@ type AutonomousDatabaseSummary struct {
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	// Customer Contacts.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {

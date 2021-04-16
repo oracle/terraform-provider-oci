@@ -122,8 +122,8 @@ func (client KmsVaultClient) BackupVault(ctx context.Context, request BackupVaul
 }
 
 // backupVault implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/backup")
+func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/backup", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -188,8 +188,8 @@ func (client KmsVaultClient) CancelVaultDeletion(ctx context.Context, request Ca
 }
 
 // cancelVaultDeletion implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/cancelDeletion")
+func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/cancelDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -253,8 +253,8 @@ func (client KmsVaultClient) ChangeVaultCompartment(ctx context.Context, request
 }
 
 // changeVaultCompartment implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/changeCompartment")
+func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -319,8 +319,8 @@ func (client KmsVaultClient) CreateVault(ctx context.Context, request CreateVaul
 }
 
 // createVault implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) createVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults")
+func (client KmsVaultClient) createVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -385,8 +385,8 @@ func (client KmsVaultClient) CreateVaultReplica(ctx context.Context, request Cre
 }
 
 // createVaultReplica implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) createVaultReplica(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/createReplica")
+func (client KmsVaultClient) createVaultReplica(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/createReplica", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +448,8 @@ func (client KmsVaultClient) DeleteVaultReplica(ctx context.Context, request Del
 }
 
 // deleteVaultReplica implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/deleteReplica")
+func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/deleteReplica", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -506,8 +506,8 @@ func (client KmsVaultClient) GetVault(ctx context.Context, request GetVaultReque
 }
 
 // getVault implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}")
+func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -560,8 +560,8 @@ func (client KmsVaultClient) GetVaultUsage(ctx context.Context, request GetVault
 }
 
 // getVaultUsage implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/usage")
+func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/usage", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -623,8 +623,8 @@ func (client KmsVaultClient) ListVaultReplicas(ctx context.Context, request List
 }
 
 // listVaultReplicas implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/actions/listReplicas")
+func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/actions/listReplicas", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -681,8 +681,8 @@ func (client KmsVaultClient) ListVaults(ctx context.Context, request ListVaultsR
 }
 
 // listVaults implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults")
+func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -742,8 +742,8 @@ func (client KmsVaultClient) RestoreVaultFromFile(ctx context.Context, request R
 }
 
 // restoreVaultFromFile implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/actions/restoreFromFile")
+func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/actions/restoreFromFile", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -803,8 +803,8 @@ func (client KmsVaultClient) RestoreVaultFromObjectStore(ctx context.Context, re
 }
 
 // restoreVaultFromObjectStore implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/actions/restoreFromObjectStore")
+func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/actions/restoreFromObjectStore", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -870,8 +870,8 @@ func (client KmsVaultClient) ScheduleVaultDeletion(ctx context.Context, request 
 }
 
 // scheduleVaultDeletion implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/scheduleDeletion")
+func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/scheduleDeletion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -930,8 +930,8 @@ func (client KmsVaultClient) UpdateVault(ctx context.Context, request UpdateVaul
 }
 
 // updateVault implements the OCIOperation interface (enables retrying operations)
-func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/vaults/{vaultId}")
+func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/vaults/{vaultId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

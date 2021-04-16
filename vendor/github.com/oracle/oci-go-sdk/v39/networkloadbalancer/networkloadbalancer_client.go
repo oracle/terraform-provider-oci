@@ -120,8 +120,8 @@ func (client NetworkLoadBalancerClient) ChangeNetworkLoadBalancerCompartment(ctx
 }
 
 // changeNetworkLoadBalancerCompartment implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) changeNetworkLoadBalancerCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/changeCompartment")
+func (client NetworkLoadBalancerClient) changeNetworkLoadBalancerCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -179,8 +179,8 @@ func (client NetworkLoadBalancerClient) CreateBackend(ctx context.Context, reque
 }
 
 // createBackend implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) createBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends")
+func (client NetworkLoadBalancerClient) createBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +238,8 @@ func (client NetworkLoadBalancerClient) CreateBackendSet(ctx context.Context, re
 }
 
 // createBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) createBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets")
+func (client NetworkLoadBalancerClient) createBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -297,8 +297,8 @@ func (client NetworkLoadBalancerClient) CreateListener(ctx context.Context, requ
 }
 
 // createListener implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) createListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/listeners")
+func (client NetworkLoadBalancerClient) createListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/listeners", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -356,8 +356,8 @@ func (client NetworkLoadBalancerClient) CreateNetworkLoadBalancer(ctx context.Co
 }
 
 // createNetworkLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) createNetworkLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers")
+func (client NetworkLoadBalancerClient) createNetworkLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -410,8 +410,8 @@ func (client NetworkLoadBalancerClient) DeleteBackend(ctx context.Context, reque
 }
 
 // deleteBackend implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) deleteBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+func (client NetworkLoadBalancerClient) deleteBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -465,8 +465,8 @@ func (client NetworkLoadBalancerClient) DeleteBackendSet(ctx context.Context, re
 }
 
 // deleteBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) deleteBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}")
+func (client NetworkLoadBalancerClient) deleteBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -519,8 +519,8 @@ func (client NetworkLoadBalancerClient) DeleteListener(ctx context.Context, requ
 }
 
 // deleteListener implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) deleteListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}")
+func (client NetworkLoadBalancerClient) deleteListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -573,8 +573,8 @@ func (client NetworkLoadBalancerClient) DeleteNetworkLoadBalancer(ctx context.Co
 }
 
 // deleteNetworkLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) deleteNetworkLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}")
+func (client NetworkLoadBalancerClient) deleteNetworkLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkLoadBalancers/{networkLoadBalancerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -627,8 +627,8 @@ func (client NetworkLoadBalancerClient) GetBackend(ctx context.Context, request 
 }
 
 // getBackend implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+func (client NetworkLoadBalancerClient) getBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -681,8 +681,8 @@ func (client NetworkLoadBalancerClient) GetBackendHealth(ctx context.Context, re
 }
 
 // getBackendHealth implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health")
+func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -735,8 +735,8 @@ func (client NetworkLoadBalancerClient) GetBackendSet(ctx context.Context, reque
 }
 
 // getBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}")
+func (client NetworkLoadBalancerClient) getBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -789,8 +789,8 @@ func (client NetworkLoadBalancerClient) GetBackendSetHealth(ctx context.Context,
 }
 
 // getBackendSetHealth implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getBackendSetHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/health")
+func (client NetworkLoadBalancerClient) getBackendSetHealth(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -848,8 +848,8 @@ func (client NetworkLoadBalancerClient) GetHealthChecker(ctx context.Context, re
 }
 
 // getHealthChecker implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getHealthChecker(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/healthChecker")
+func (client NetworkLoadBalancerClient) getHealthChecker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/healthChecker", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -902,8 +902,8 @@ func (client NetworkLoadBalancerClient) GetListener(ctx context.Context, request
 }
 
 // getListener implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}")
+func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -956,8 +956,8 @@ func (client NetworkLoadBalancerClient) GetNetworkLoadBalancer(ctx context.Conte
 }
 
 // getNetworkLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getNetworkLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}")
+func (client NetworkLoadBalancerClient) getNetworkLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1010,8 +1010,8 @@ func (client NetworkLoadBalancerClient) GetNetworkLoadBalancerHealth(ctx context
 }
 
 // getNetworkLoadBalancerHealth implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getNetworkLoadBalancerHealth(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/health")
+func (client NetworkLoadBalancerClient) getNetworkLoadBalancerHealth(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1064,8 +1064,8 @@ func (client NetworkLoadBalancerClient) GetWorkRequest(ctx context.Context, requ
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client NetworkLoadBalancerClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1118,8 +1118,8 @@ func (client NetworkLoadBalancerClient) ListBackendSets(ctx context.Context, req
 }
 
 // listBackendSets implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listBackendSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets")
+func (client NetworkLoadBalancerClient) listBackendSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1172,8 +1172,8 @@ func (client NetworkLoadBalancerClient) ListBackends(ctx context.Context, reques
 }
 
 // listBackends implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listBackends(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends")
+func (client NetworkLoadBalancerClient) listBackends(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1226,8 +1226,8 @@ func (client NetworkLoadBalancerClient) ListListeners(ctx context.Context, reque
 }
 
 // listListeners implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/listeners")
+func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/listeners", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1280,8 +1280,8 @@ func (client NetworkLoadBalancerClient) ListNetworkLoadBalancerHealths(ctx conte
 }
 
 // listNetworkLoadBalancerHealths implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listNetworkLoadBalancerHealths(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/health")
+func (client NetworkLoadBalancerClient) listNetworkLoadBalancerHealths(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/health", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1334,8 +1334,8 @@ func (client NetworkLoadBalancerClient) ListNetworkLoadBalancers(ctx context.Con
 }
 
 // listNetworkLoadBalancers implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listNetworkLoadBalancers(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers")
+func (client NetworkLoadBalancerClient) listNetworkLoadBalancers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1388,8 +1388,8 @@ func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersPolicies(ctx con
 }
 
 // listNetworkLoadBalancersPolicies implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listNetworkLoadBalancersPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancersPolicies")
+func (client NetworkLoadBalancerClient) listNetworkLoadBalancersPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancersPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1442,8 +1442,8 @@ func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersProtocols(ctx co
 }
 
 // listNetworkLoadBalancersProtocols implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listNetworkLoadBalancersProtocols(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancersProtocols")
+func (client NetworkLoadBalancerClient) listNetworkLoadBalancersProtocols(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancersProtocols", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1496,8 +1496,8 @@ func (client NetworkLoadBalancerClient) ListWorkRequestErrors(ctx context.Contex
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client NetworkLoadBalancerClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1550,8 +1550,8 @@ func (client NetworkLoadBalancerClient) ListWorkRequestLogs(ctx context.Context,
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client NetworkLoadBalancerClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1604,8 +1604,8 @@ func (client NetworkLoadBalancerClient) ListWorkRequests(ctx context.Context, re
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1663,8 +1663,8 @@ func (client NetworkLoadBalancerClient) UpdateBackend(ctx context.Context, reque
 }
 
 // updateBackend implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) updateBackend(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}")
+func (client NetworkLoadBalancerClient) updateBackend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1722,8 +1722,8 @@ func (client NetworkLoadBalancerClient) UpdateBackendSet(ctx context.Context, re
 }
 
 // updateBackendSet implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) updateBackendSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}")
+func (client NetworkLoadBalancerClient) updateBackendSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1781,8 +1781,8 @@ func (client NetworkLoadBalancerClient) UpdateHealthChecker(ctx context.Context,
 }
 
 // updateHealthChecker implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) updateHealthChecker(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/healthChecker")
+func (client NetworkLoadBalancerClient) updateHealthChecker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/healthChecker", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1840,8 +1840,8 @@ func (client NetworkLoadBalancerClient) UpdateListener(ctx context.Context, requ
 }
 
 // updateListener implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) updateListener(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}")
+func (client NetworkLoadBalancerClient) updateListener(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/listeners/{listenerName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1894,8 +1894,8 @@ func (client NetworkLoadBalancerClient) UpdateNetworkLoadBalancer(ctx context.Co
 }
 
 // updateNetworkLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) updateNetworkLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}")
+func (client NetworkLoadBalancerClient) updateNetworkLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1953,8 +1953,8 @@ func (client NetworkLoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.
 }
 
 // updateNetworkSecurityGroups implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/networkSecurityGroups")
+func (client NetworkLoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkLoadBalancers/{networkLoadBalancerId}/networkSecurityGroups", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

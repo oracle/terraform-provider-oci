@@ -123,8 +123,8 @@ func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.
 }
 
 // changeTopicCompartment implements the OCIOperation interface (enables retrying operations)
-func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/actions/changeCompartment")
+func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -191,8 +191,8 @@ func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, re
 }
 
 // createTopic implements the OCIOperation interface (enables retrying operations)
-func (client NotificationControlPlaneClient) createTopic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics")
+func (client NotificationControlPlaneClient) createTopic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -246,8 +246,8 @@ func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, re
 }
 
 // deleteTopic implements the OCIOperation interface (enables retrying operations)
-func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/topics/{topicId}")
+func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/topics/{topicId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -300,8 +300,8 @@ func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, reque
 }
 
 // getTopic implements the OCIOperation interface (enables retrying operations)
-func (client NotificationControlPlaneClient) getTopic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/topics/{topicId}")
+func (client NotificationControlPlaneClient) getTopic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/topics/{topicId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -355,8 +355,8 @@ func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, req
 }
 
 // listTopics implements the OCIOperation interface (enables retrying operations)
-func (client NotificationControlPlaneClient) listTopics(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/topics")
+func (client NotificationControlPlaneClient) listTopics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/topics", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -410,8 +410,8 @@ func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, re
 }
 
 // updateTopic implements the OCIOperation interface (enables retrying operations)
-func (client NotificationControlPlaneClient) updateTopic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/topics/{topicId}")
+func (client NotificationControlPlaneClient) updateTopic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/topics/{topicId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -38,8 +38,16 @@ func (request RequestSummarizedRiskScoresRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request RequestSummarizedRiskScoresRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request RequestSummarizedRiskScoresRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request RequestSummarizedRiskScoresRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

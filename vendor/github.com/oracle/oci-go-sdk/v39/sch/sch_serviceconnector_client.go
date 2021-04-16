@@ -126,8 +126,8 @@ func (client ServiceConnectorClient) ActivateServiceConnector(ctx context.Contex
 }
 
 // activateServiceConnector implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) activateServiceConnector(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors/{serviceConnectorId}/actions/activate")
+func (client ServiceConnectorClient) activateServiceConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors/{serviceConnectorId}/actions/activate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -183,8 +183,8 @@ func (client ServiceConnectorClient) ChangeServiceConnectorCompartment(ctx conte
 }
 
 // changeServiceConnectorCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors/{serviceConnectorId}/actions/changeCompartment")
+func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors/{serviceConnectorId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -257,8 +257,8 @@ func (client ServiceConnectorClient) CreateServiceConnector(ctx context.Context,
 }
 
 // createServiceConnector implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) createServiceConnector(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors")
+func (client ServiceConnectorClient) createServiceConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -320,8 +320,8 @@ func (client ServiceConnectorClient) DeactivateServiceConnector(ctx context.Cont
 }
 
 // deactivateServiceConnector implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors/{serviceConnectorId}/actions/deactivate")
+func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceConnectors/{serviceConnectorId}/actions/deactivate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -376,8 +376,8 @@ func (client ServiceConnectorClient) DeleteServiceConnector(ctx context.Context,
 }
 
 // deleteServiceConnector implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceConnectors/{serviceConnectorId}")
+func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceConnectors/{serviceConnectorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -430,8 +430,8 @@ func (client ServiceConnectorClient) GetServiceConnector(ctx context.Context, re
 }
 
 // getServiceConnector implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceConnectors/{serviceConnectorId}")
+func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceConnectors/{serviceConnectorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -484,8 +484,8 @@ func (client ServiceConnectorClient) GetWorkRequest(ctx context.Context, request
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -538,8 +538,8 @@ func (client ServiceConnectorClient) ListServiceConnectors(ctx context.Context, 
 }
 
 // listServiceConnectors implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceConnectors")
+func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceConnectors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -592,8 +592,8 @@ func (client ServiceConnectorClient) ListWorkRequestErrors(ctx context.Context, 
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -646,8 +646,8 @@ func (client ServiceConnectorClient) ListWorkRequestLogs(ctx context.Context, re
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -700,8 +700,8 @@ func (client ServiceConnectorClient) ListWorkRequests(ctx context.Context, reque
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -757,8 +757,8 @@ func (client ServiceConnectorClient) UpdateServiceConnector(ctx context.Context,
 }
 
 // updateServiceConnector implements the OCIOperation interface (enables retrying operations)
-func (client ServiceConnectorClient) updateServiceConnector(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceConnectors/{serviceConnectorId}")
+func (client ServiceConnectorClient) updateServiceConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceConnectors/{serviceConnectorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

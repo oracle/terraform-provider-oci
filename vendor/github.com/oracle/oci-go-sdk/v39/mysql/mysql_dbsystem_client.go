@@ -120,8 +120,8 @@ func (client DbSystemClient) AddAnalyticsCluster(ctx context.Context, request Ad
 }
 
 // addAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) addAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/add")
+func (client DbSystemClient) addAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/add", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -179,8 +179,8 @@ func (client DbSystemClient) AddHeatWaveCluster(ctx context.Context, request Add
 }
 
 // addHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) addHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/add")
+func (client DbSystemClient) addHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/add", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +238,8 @@ func (client DbSystemClient) CreateDbSystem(ctx context.Context, request CreateD
 }
 
 // createDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) createDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems")
+func (client DbSystemClient) createDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -294,8 +294,8 @@ func (client DbSystemClient) DeleteAnalyticsCluster(ctx context.Context, request
 }
 
 // deleteAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) deleteAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}/analyticsCluster")
+func (client DbSystemClient) deleteAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}/analyticsCluster", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -349,8 +349,8 @@ func (client DbSystemClient) DeleteDbSystem(ctx context.Context, request DeleteD
 }
 
 // deleteDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}")
+func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +404,8 @@ func (client DbSystemClient) DeleteHeatWaveCluster(ctx context.Context, request 
 }
 
 // deleteHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}/heatWaveCluster")
+func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}/heatWaveCluster", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -464,8 +464,8 @@ func (client DbSystemClient) GenerateAnalyticsClusterMemoryEstimate(ctx context.
 }
 
 // generateAnalyticsClusterMemoryEstimate implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) generateAnalyticsClusterMemoryEstimate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsClusterMemoryEstimate/actions/generate")
+func (client DbSystemClient) generateAnalyticsClusterMemoryEstimate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsClusterMemoryEstimate/actions/generate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -523,8 +523,8 @@ func (client DbSystemClient) GenerateHeatWaveClusterMemoryEstimate(ctx context.C
 }
 
 // generateHeatWaveClusterMemoryEstimate implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) generateHeatWaveClusterMemoryEstimate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveClusterMemoryEstimate/actions/generate")
+func (client DbSystemClient) generateHeatWaveClusterMemoryEstimate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveClusterMemoryEstimate/actions/generate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -578,8 +578,8 @@ func (client DbSystemClient) GetAnalyticsCluster(ctx context.Context, request Ge
 }
 
 // getAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) getAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/analyticsCluster")
+func (client DbSystemClient) getAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/analyticsCluster", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -634,8 +634,8 @@ func (client DbSystemClient) GetAnalyticsClusterMemoryEstimate(ctx context.Conte
 }
 
 // getAnalyticsClusterMemoryEstimate implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) getAnalyticsClusterMemoryEstimate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/analyticsClusterMemoryEstimate")
+func (client DbSystemClient) getAnalyticsClusterMemoryEstimate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/analyticsClusterMemoryEstimate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -688,8 +688,8 @@ func (client DbSystemClient) GetDbSystem(ctx context.Context, request GetDbSyste
 }
 
 // getDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}")
+func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -742,8 +742,8 @@ func (client DbSystemClient) GetHeatWaveCluster(ctx context.Context, request Get
 }
 
 // getHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) getHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/heatWaveCluster")
+func (client DbSystemClient) getHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/heatWaveCluster", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -797,8 +797,8 @@ func (client DbSystemClient) GetHeatWaveClusterMemoryEstimate(ctx context.Contex
 }
 
 // getHeatWaveClusterMemoryEstimate implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) getHeatWaveClusterMemoryEstimate(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/heatWaveClusterMemoryEstimate")
+func (client DbSystemClient) getHeatWaveClusterMemoryEstimate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/heatWaveClusterMemoryEstimate", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -852,8 +852,8 @@ func (client DbSystemClient) ListDbSystems(ctx context.Context, request ListDbSy
 }
 
 // listDbSystems implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) listDbSystems(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems")
+func (client DbSystemClient) listDbSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -912,8 +912,8 @@ func (client DbSystemClient) RestartAnalyticsCluster(ctx context.Context, reques
 }
 
 // restartAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) restartAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/restart")
+func (client DbSystemClient) restartAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/restart", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -971,8 +971,8 @@ func (client DbSystemClient) RestartDbSystem(ctx context.Context, request Restar
 }
 
 // restartDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) restartDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/restart")
+func (client DbSystemClient) restartDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/restart", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1030,8 +1030,8 @@ func (client DbSystemClient) RestartHeatWaveCluster(ctx context.Context, request
 }
 
 // restartHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) restartHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/restart")
+func (client DbSystemClient) restartHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/restart", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1090,8 +1090,8 @@ func (client DbSystemClient) StartAnalyticsCluster(ctx context.Context, request 
 }
 
 // startAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) startAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/start")
+func (client DbSystemClient) startAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1149,8 +1149,8 @@ func (client DbSystemClient) StartDbSystem(ctx context.Context, request StartDbS
 }
 
 // startDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) startDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/start")
+func (client DbSystemClient) startDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1208,8 +1208,8 @@ func (client DbSystemClient) StartHeatWaveCluster(ctx context.Context, request S
 }
 
 // startHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) startHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/start")
+func (client DbSystemClient) startHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1268,8 +1268,8 @@ func (client DbSystemClient) StopAnalyticsCluster(ctx context.Context, request S
 }
 
 // stopAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) stopAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/stop")
+func (client DbSystemClient) stopAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/analyticsCluster/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1328,8 +1328,8 @@ func (client DbSystemClient) StopDbSystem(ctx context.Context, request StopDbSys
 }
 
 // stopDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/stop")
+func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1387,8 +1387,8 @@ func (client DbSystemClient) StopHeatWaveCluster(ctx context.Context, request St
 }
 
 // stopHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) stopHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/stop")
+func (client DbSystemClient) stopHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/heatWaveCluster/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1442,8 +1442,8 @@ func (client DbSystemClient) UpdateAnalyticsCluster(ctx context.Context, request
 }
 
 // updateAnalyticsCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) updateAnalyticsCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/analyticsCluster")
+func (client DbSystemClient) updateAnalyticsCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/analyticsCluster", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1502,8 +1502,8 @@ func (client DbSystemClient) UpdateDbSystem(ctx context.Context, request UpdateD
 }
 
 // updateDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) updateDbSystem(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}")
+func (client DbSystemClient) updateDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1556,8 +1556,8 @@ func (client DbSystemClient) UpdateHeatWaveCluster(ctx context.Context, request 
 }
 
 // updateHeatWaveCluster implements the OCIOperation interface (enables retrying operations)
-func (client DbSystemClient) updateHeatWaveCluster(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/heatWaveCluster")
+func (client DbSystemClient) updateHeatWaveCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/heatWaveCluster", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -39,8 +39,16 @@ func (request ListDbSystemPatchesRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListDbSystemPatchesRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListDbSystemPatchesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListDbSystemPatchesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

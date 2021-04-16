@@ -115,8 +115,8 @@ func (client ObjectStorageClient) AbortMultipartUpload(ctx context.Context, requ
 }
 
 // abortMultipartUpload implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/u/{objectName}")
+func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/u/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -169,8 +169,8 @@ func (client ObjectStorageClient) CancelWorkRequest(ctx context.Context, request
 }
 
 // cancelWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}")
+func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -223,8 +223,8 @@ func (client ObjectStorageClient) CommitMultipartUpload(ctx context.Context, req
 }
 
 // commitMultipartUpload implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/u/{objectName}")
+func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/u/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -277,8 +277,8 @@ func (client ObjectStorageClient) CopyObject(ctx context.Context, request CopyOb
 }
 
 // copyObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) copyObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/copyObject")
+func (client ObjectStorageClient) copyObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/copyObject", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -332,8 +332,8 @@ func (client ObjectStorageClient) CreateBucket(ctx context.Context, request Crea
 }
 
 // createBucket implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) createBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b")
+func (client ObjectStorageClient) createBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -386,8 +386,8 @@ func (client ObjectStorageClient) CreateMultipartUpload(ctx context.Context, req
 }
 
 // createMultipartUpload implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/u")
+func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/u", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -440,8 +440,8 @@ func (client ObjectStorageClient) CreatePreauthenticatedRequest(ctx context.Cont
 }
 
 // createPreauthenticatedRequest implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/p")
+func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/p", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -494,8 +494,8 @@ func (client ObjectStorageClient) CreateReplicationPolicy(ctx context.Context, r
 }
 
 // createReplicationPolicy implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/replicationPolicies")
+func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/replicationPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -549,8 +549,8 @@ func (client ObjectStorageClient) CreateRetentionRule(ctx context.Context, reque
 }
 
 // createRetentionRule implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) createRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/retentionRules")
+func (client ObjectStorageClient) createRetentionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/retentionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -606,8 +606,8 @@ func (client ObjectStorageClient) DeleteBucket(ctx context.Context, request Dele
 }
 
 // deleteBucket implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) deleteBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}")
+func (client ObjectStorageClient) deleteBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -660,8 +660,8 @@ func (client ObjectStorageClient) DeleteObject(ctx context.Context, request Dele
 }
 
 // deleteObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) deleteObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/o/{objectName}")
+func (client ObjectStorageClient) deleteObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/o/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -714,8 +714,8 @@ func (client ObjectStorageClient) DeleteObjectLifecyclePolicy(ctx context.Contex
 }
 
 // deleteObjectLifecyclePolicy implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/l")
+func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/l", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -768,8 +768,8 @@ func (client ObjectStorageClient) DeletePreauthenticatedRequest(ctx context.Cont
 }
 
 // deletePreauthenticatedRequest implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/p/{parId}")
+func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/p/{parId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -822,8 +822,8 @@ func (client ObjectStorageClient) DeleteReplicationPolicy(ctx context.Context, r
 }
 
 // deleteReplicationPolicy implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/replicationPolicies/{replicationId}")
+func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/replicationPolicies/{replicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -876,8 +876,8 @@ func (client ObjectStorageClient) DeleteRetentionRule(ctx context.Context, reque
 }
 
 // deleteRetentionRule implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}")
+func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -930,8 +930,8 @@ func (client ObjectStorageClient) GetBucket(ctx context.Context, request GetBuck
 }
 
 // getBucket implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}")
+func (client ObjectStorageClient) getBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -984,8 +984,8 @@ func (client ObjectStorageClient) GetNamespace(ctx context.Context, request GetN
 }
 
 // getNamespace implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n")
+func (client ObjectStorageClient) getNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1043,8 +1043,8 @@ func (client ObjectStorageClient) GetNamespaceMetadata(ctx context.Context, requ
 }
 
 // getNamespaceMetadata implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}")
+func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1097,8 +1097,8 @@ func (client ObjectStorageClient) GetObject(ctx context.Context, request GetObje
 }
 
 // getObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/o/{objectName}")
+func (client ObjectStorageClient) getObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/o/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1150,8 +1150,8 @@ func (client ObjectStorageClient) GetObjectLifecyclePolicy(ctx context.Context, 
 }
 
 // getObjectLifecyclePolicy implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/l")
+func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/l", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1204,8 +1204,8 @@ func (client ObjectStorageClient) GetPreauthenticatedRequest(ctx context.Context
 }
 
 // getPreauthenticatedRequest implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/p/{parId}")
+func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/p/{parId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1258,8 +1258,8 @@ func (client ObjectStorageClient) GetReplicationPolicy(ctx context.Context, requ
 }
 
 // getReplicationPolicy implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationPolicies/{replicationId}")
+func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationPolicies/{replicationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1312,8 +1312,8 @@ func (client ObjectStorageClient) GetRetentionRule(ctx context.Context, request 
 }
 
 // getRetentionRule implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}")
+func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1366,8 +1366,8 @@ func (client ObjectStorageClient) GetWorkRequest(ctx context.Context, request Ge
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1420,8 +1420,8 @@ func (client ObjectStorageClient) HeadBucket(ctx context.Context, request HeadBu
 }
 
 // headBucket implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) headBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodHead, "/n/{namespaceName}/b/{bucketName}")
+func (client ObjectStorageClient) headBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/n/{namespaceName}/b/{bucketName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1474,8 +1474,8 @@ func (client ObjectStorageClient) HeadObject(ctx context.Context, request HeadOb
 }
 
 // headObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) headObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodHead, "/n/{namespaceName}/b/{bucketName}/o/{objectName}")
+func (client ObjectStorageClient) headObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/n/{namespaceName}/b/{bucketName}/o/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1534,8 +1534,8 @@ func (client ObjectStorageClient) ListBuckets(ctx context.Context, request ListB
 }
 
 // listBuckets implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listBuckets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b")
+func (client ObjectStorageClient) listBuckets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1588,8 +1588,8 @@ func (client ObjectStorageClient) ListMultipartUploadParts(ctx context.Context, 
 }
 
 // listMultipartUploadParts implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/u/{objectName}")
+func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/u/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1642,8 +1642,8 @@ func (client ObjectStorageClient) ListMultipartUploads(ctx context.Context, requ
 }
 
 // listMultipartUploads implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/u")
+func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/u", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1701,8 +1701,8 @@ func (client ObjectStorageClient) ListObjectVersions(ctx context.Context, reques
 }
 
 // listObjectVersions implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listObjectVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/objectversions")
+func (client ObjectStorageClient) listObjectVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/objectversions", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1762,8 +1762,8 @@ func (client ObjectStorageClient) ListObjects(ctx context.Context, request ListO
 }
 
 // listObjects implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listObjects(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/o")
+func (client ObjectStorageClient) listObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/o", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1816,8 +1816,8 @@ func (client ObjectStorageClient) ListPreauthenticatedRequests(ctx context.Conte
 }
 
 // listPreauthenticatedRequests implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/p")
+func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/p", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1870,8 +1870,8 @@ func (client ObjectStorageClient) ListReplicationPolicies(ctx context.Context, r
 }
 
 // listReplicationPolicies implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationPolicies")
+func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationPolicies", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1924,8 +1924,8 @@ func (client ObjectStorageClient) ListReplicationSources(ctx context.Context, re
 }
 
 // listReplicationSources implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listReplicationSources(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationSources")
+func (client ObjectStorageClient) listReplicationSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationSources", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1979,8 +1979,8 @@ func (client ObjectStorageClient) ListRetentionRules(ctx context.Context, reques
 }
 
 // listRetentionRules implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listRetentionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/retentionRules")
+func (client ObjectStorageClient) listRetentionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/retentionRules", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2033,8 +2033,8 @@ func (client ObjectStorageClient) ListWorkRequestErrors(ctx context.Context, req
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors")
+func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2087,8 +2087,8 @@ func (client ObjectStorageClient) ListWorkRequestLogs(ctx context.Context, reque
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2141,8 +2141,8 @@ func (client ObjectStorageClient) ListWorkRequests(ctx context.Context, request 
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2198,8 +2198,8 @@ func (client ObjectStorageClient) MakeBucketWritable(ctx context.Context, reques
 }
 
 // makeBucketWritable implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/makeBucketWritable")
+func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/makeBucketWritable", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2257,8 +2257,8 @@ func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObje
 }
 
 // putObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) putObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/o/{objectName}")
+func (client ObjectStorageClient) putObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/o/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2321,8 +2321,8 @@ func (client ObjectStorageClient) PutObjectLifecyclePolicy(ctx context.Context, 
 }
 
 // putObjectLifecyclePolicy implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/l")
+func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/l", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2388,8 +2388,8 @@ func (client ObjectStorageClient) ReencryptBucket(ctx context.Context, request R
 }
 
 // reencryptBucket implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/reencrypt")
+func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/reencrypt", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2447,8 +2447,8 @@ func (client ObjectStorageClient) ReencryptObject(ctx context.Context, request R
 }
 
 // reencryptObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) reencryptObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/reencrypt/{objectName}")
+func (client ObjectStorageClient) reencryptObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/reencrypt/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2503,8 +2503,8 @@ func (client ObjectStorageClient) RenameObject(ctx context.Context, request Rena
 }
 
 // renameObject implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) renameObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/renameObject")
+func (client ObjectStorageClient) renameObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/renameObject", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2558,8 +2558,8 @@ func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request Re
 }
 
 // restoreObjects implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) restoreObjects(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/restoreObjects")
+func (client ObjectStorageClient) restoreObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/restoreObjects", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2615,8 +2615,8 @@ func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request Upda
 }
 
 // updateBucket implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) updateBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}")
+func (client ObjectStorageClient) updateBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2674,8 +2674,8 @@ func (client ObjectStorageClient) UpdateNamespaceMetadata(ctx context.Context, r
 }
 
 // updateNamespaceMetadata implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}")
+func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2728,8 +2728,8 @@ func (client ObjectStorageClient) UpdateObjectStorageTier(ctx context.Context, r
 }
 
 // updateObjectStorageTier implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/updateObjectStorageTier")
+func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/updateObjectStorageTier", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2782,8 +2782,8 @@ func (client ObjectStorageClient) UpdateRetentionRule(ctx context.Context, reque
 }
 
 // updateRetentionRule implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}")
+func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2836,8 +2836,8 @@ func (client ObjectStorageClient) UploadPart(ctx context.Context, request Upload
 }
 
 // uploadPart implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) uploadPart(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/u/{objectName}")
+func (client ObjectStorageClient) uploadPart(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/u/{objectName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

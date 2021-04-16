@@ -119,8 +119,8 @@ func (client DataIntegrationClient) ChangeCompartment(ctx context.Context, reque
 }
 
 // changeCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) changeCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/actions/changeCompartment")
+func (client DataIntegrationClient) changeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (client DataIntegrationClient) CreateApplication(ctx context.Context, reque
 }
 
 // createApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications")
+func (client DataIntegrationClient) createApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +237,8 @@ func (client DataIntegrationClient) CreateConnection(ctx context.Context, reques
 }
 
 // createConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/connections")
+func (client DataIntegrationClient) createConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/connections", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -296,8 +296,8 @@ func (client DataIntegrationClient) CreateConnectionValidation(ctx context.Conte
 }
 
 // createConnectionValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createConnectionValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/connectionValidations")
+func (client DataIntegrationClient) createConnectionValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/connectionValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -355,8 +355,8 @@ func (client DataIntegrationClient) CreateDataAsset(ctx context.Context, request
 }
 
 // createDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/dataAssets")
+func (client DataIntegrationClient) createDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/dataAssets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -414,8 +414,8 @@ func (client DataIntegrationClient) CreateDataFlow(ctx context.Context, request 
 }
 
 // createDataFlow implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createDataFlow(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/dataFlows")
+func (client DataIntegrationClient) createDataFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/dataFlows", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -473,8 +473,8 @@ func (client DataIntegrationClient) CreateDataFlowValidation(ctx context.Context
 }
 
 // createDataFlowValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createDataFlowValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/dataFlowValidations")
+func (client DataIntegrationClient) createDataFlowValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/dataFlowValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -532,8 +532,8 @@ func (client DataIntegrationClient) CreateEntityShape(ctx context.Context, reque
 }
 
 // createEntityShape implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createEntityShape(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}/entityShapes")
+func (client DataIntegrationClient) createEntityShape(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}/entityShapes", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -591,8 +591,8 @@ func (client DataIntegrationClient) CreateExternalPublication(ctx context.Contex
 }
 
 // createExternalPublication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createExternalPublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications")
+func (client DataIntegrationClient) createExternalPublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -650,8 +650,8 @@ func (client DataIntegrationClient) CreateExternalPublicationValidation(ctx cont
 }
 
 // createExternalPublicationValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createExternalPublicationValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations")
+func (client DataIntegrationClient) createExternalPublicationValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -710,8 +710,8 @@ func (client DataIntegrationClient) CreateFolder(ctx context.Context, request Cr
 }
 
 // createFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/folders")
+func (client DataIntegrationClient) createFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/folders", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -769,8 +769,8 @@ func (client DataIntegrationClient) CreatePatch(ctx context.Context, request Cre
 }
 
 // createPatch implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createPatch(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications/{applicationKey}/patches")
+func (client DataIntegrationClient) createPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications/{applicationKey}/patches", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -828,8 +828,8 @@ func (client DataIntegrationClient) CreatePipeline(ctx context.Context, request 
 }
 
 // createPipeline implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createPipeline(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/pipelines")
+func (client DataIntegrationClient) createPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/pipelines", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -887,8 +887,8 @@ func (client DataIntegrationClient) CreatePipelineValidation(ctx context.Context
 }
 
 // createPipelineValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createPipelineValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/pipelineValidations")
+func (client DataIntegrationClient) createPipelineValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/pipelineValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -946,8 +946,8 @@ func (client DataIntegrationClient) CreateProject(ctx context.Context, request C
 }
 
 // createProject implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createProject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/projects")
+func (client DataIntegrationClient) createProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/projects", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1005,8 +1005,8 @@ func (client DataIntegrationClient) CreateTask(ctx context.Context, request Crea
 }
 
 // createTask implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/tasks")
+func (client DataIntegrationClient) createTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/tasks", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1064,8 +1064,8 @@ func (client DataIntegrationClient) CreateTaskRun(ctx context.Context, request C
 }
 
 // createTaskRun implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createTaskRun(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns")
+func (client DataIntegrationClient) createTaskRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1123,8 +1123,8 @@ func (client DataIntegrationClient) CreateTaskValidation(ctx context.Context, re
 }
 
 // createTaskValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createTaskValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/taskValidations")
+func (client DataIntegrationClient) createTaskValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/taskValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1182,8 +1182,8 @@ func (client DataIntegrationClient) CreateWorkspace(ctx context.Context, request
 }
 
 // createWorkspace implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) createWorkspace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces")
+func (client DataIntegrationClient) createWorkspace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1236,8 +1236,8 @@ func (client DataIntegrationClient) DeleteApplication(ctx context.Context, reque
 }
 
 // deleteApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}")
+func (client DataIntegrationClient) deleteApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1290,8 +1290,8 @@ func (client DataIntegrationClient) DeleteConnection(ctx context.Context, reques
 }
 
 // deleteConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/connections/{connectionKey}")
+func (client DataIntegrationClient) deleteConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/connections/{connectionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1344,8 +1344,8 @@ func (client DataIntegrationClient) DeleteConnectionValidation(ctx context.Conte
 }
 
 // deleteConnectionValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteConnectionValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/connectionValidations/{connectionValidationKey}")
+func (client DataIntegrationClient) deleteConnectionValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/connectionValidations/{connectionValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1398,8 +1398,8 @@ func (client DataIntegrationClient) DeleteDataAsset(ctx context.Context, request
 }
 
 // deleteDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/dataAssets/{dataAssetKey}")
+func (client DataIntegrationClient) deleteDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/dataAssets/{dataAssetKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1452,8 +1452,8 @@ func (client DataIntegrationClient) DeleteDataFlow(ctx context.Context, request 
 }
 
 // deleteDataFlow implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteDataFlow(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/dataFlows/{dataFlowKey}")
+func (client DataIntegrationClient) deleteDataFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/dataFlows/{dataFlowKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1506,8 +1506,8 @@ func (client DataIntegrationClient) DeleteDataFlowValidation(ctx context.Context
 }
 
 // deleteDataFlowValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteDataFlowValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/dataFlowValidations/{dataFlowValidationKey}")
+func (client DataIntegrationClient) deleteDataFlowValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/dataFlowValidations/{dataFlowValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1560,8 +1560,8 @@ func (client DataIntegrationClient) DeleteExternalPublication(ctx context.Contex
 }
 
 // deleteExternalPublication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteExternalPublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications/{externalPublicationsKey}")
+func (client DataIntegrationClient) deleteExternalPublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications/{externalPublicationsKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1614,8 +1614,8 @@ func (client DataIntegrationClient) DeleteExternalPublicationValidation(ctx cont
 }
 
 // deleteExternalPublicationValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteExternalPublicationValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations/{externalPublicationValidationKey}")
+func (client DataIntegrationClient) deleteExternalPublicationValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations/{externalPublicationValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1668,8 +1668,8 @@ func (client DataIntegrationClient) DeleteFolder(ctx context.Context, request De
 }
 
 // deleteFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/folders/{folderKey}")
+func (client DataIntegrationClient) deleteFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/folders/{folderKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1722,8 +1722,8 @@ func (client DataIntegrationClient) DeletePatch(ctx context.Context, request Del
 }
 
 // deletePatch implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deletePatch(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}/patches/{patchKey}")
+func (client DataIntegrationClient) deletePatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}/patches/{patchKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1776,8 +1776,8 @@ func (client DataIntegrationClient) DeletePipeline(ctx context.Context, request 
 }
 
 // deletePipeline implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deletePipeline(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/pipelines/{pipelineKey}")
+func (client DataIntegrationClient) deletePipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/pipelines/{pipelineKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1830,8 +1830,8 @@ func (client DataIntegrationClient) DeletePipelineValidation(ctx context.Context
 }
 
 // deletePipelineValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deletePipelineValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/pipelineValidations/{pipelineValidationKey}")
+func (client DataIntegrationClient) deletePipelineValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/pipelineValidations/{pipelineValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1884,8 +1884,8 @@ func (client DataIntegrationClient) DeleteProject(ctx context.Context, request D
 }
 
 // deleteProject implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteProject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/projects/{projectKey}")
+func (client DataIntegrationClient) deleteProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/projects/{projectKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1938,8 +1938,8 @@ func (client DataIntegrationClient) DeleteTask(ctx context.Context, request Dele
 }
 
 // deleteTask implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/tasks/{taskKey}")
+func (client DataIntegrationClient) deleteTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/tasks/{taskKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1992,8 +1992,8 @@ func (client DataIntegrationClient) DeleteTaskRun(ctx context.Context, request D
 }
 
 // deleteTaskRun implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteTaskRun(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}")
+func (client DataIntegrationClient) deleteTaskRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2046,8 +2046,8 @@ func (client DataIntegrationClient) DeleteTaskValidation(ctx context.Context, re
 }
 
 // deleteTaskValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteTaskValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/taskValidations/{taskValidationKey}")
+func (client DataIntegrationClient) deleteTaskValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}/taskValidations/{taskValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2100,8 +2100,8 @@ func (client DataIntegrationClient) DeleteWorkspace(ctx context.Context, request
 }
 
 // deleteWorkspace implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) deleteWorkspace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}")
+func (client DataIntegrationClient) deleteWorkspace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workspaces/{workspaceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2154,8 +2154,8 @@ func (client DataIntegrationClient) GetApplication(ctx context.Context, request 
 }
 
 // getApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}")
+func (client DataIntegrationClient) getApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2208,8 +2208,8 @@ func (client DataIntegrationClient) GetConnection(ctx context.Context, request G
 }
 
 // getConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}")
+func (client DataIntegrationClient) getConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2262,8 +2262,8 @@ func (client DataIntegrationClient) GetConnectionValidation(ctx context.Context,
 }
 
 // getConnectionValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getConnectionValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connectionValidations/{connectionValidationKey}")
+func (client DataIntegrationClient) getConnectionValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connectionValidations/{connectionValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2317,8 +2317,8 @@ func (client DataIntegrationClient) GetCountStatistic(ctx context.Context, reque
 }
 
 // getCountStatistic implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getCountStatistic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/countStatistics/{countStatisticKey}")
+func (client DataIntegrationClient) getCountStatistic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/countStatistics/{countStatisticKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2371,8 +2371,8 @@ func (client DataIntegrationClient) GetDataAsset(ctx context.Context, request Ge
 }
 
 // getDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataAssets/{dataAssetKey}")
+func (client DataIntegrationClient) getDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataAssets/{dataAssetKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2425,8 +2425,8 @@ func (client DataIntegrationClient) GetDataEntity(ctx context.Context, request G
 }
 
 // getDataEntity implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getDataEntity(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}/dataEntities/{dataEntityKey}")
+func (client DataIntegrationClient) getDataEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}/dataEntities/{dataEntityKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2479,8 +2479,8 @@ func (client DataIntegrationClient) GetDataFlow(ctx context.Context, request Get
 }
 
 // getDataFlow implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getDataFlow(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlows/{dataFlowKey}")
+func (client DataIntegrationClient) getDataFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlows/{dataFlowKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2533,8 +2533,8 @@ func (client DataIntegrationClient) GetDataFlowValidation(ctx context.Context, r
 }
 
 // getDataFlowValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getDataFlowValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlowValidations/{dataFlowValidationKey}")
+func (client DataIntegrationClient) getDataFlowValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlowValidations/{dataFlowValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2587,8 +2587,8 @@ func (client DataIntegrationClient) GetDependentObject(ctx context.Context, requ
 }
 
 // getDependentObject implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getDependentObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/dependentObjects/{dependentObjectKey}")
+func (client DataIntegrationClient) getDependentObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/dependentObjects/{dependentObjectKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2641,8 +2641,8 @@ func (client DataIntegrationClient) GetExternalPublication(ctx context.Context, 
 }
 
 // getExternalPublication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getExternalPublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications/{externalPublicationsKey}")
+func (client DataIntegrationClient) getExternalPublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications/{externalPublicationsKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2695,8 +2695,8 @@ func (client DataIntegrationClient) GetExternalPublicationValidation(ctx context
 }
 
 // getExternalPublicationValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getExternalPublicationValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations/{externalPublicationValidationKey}")
+func (client DataIntegrationClient) getExternalPublicationValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations/{externalPublicationValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2749,8 +2749,8 @@ func (client DataIntegrationClient) GetFolder(ctx context.Context, request GetFo
 }
 
 // getFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/folders/{folderKey}")
+func (client DataIntegrationClient) getFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/folders/{folderKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2803,8 +2803,8 @@ func (client DataIntegrationClient) GetPatch(ctx context.Context, request GetPat
 }
 
 // getPatch implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getPatch(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/patches/{patchKey}")
+func (client DataIntegrationClient) getPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/patches/{patchKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2857,8 +2857,8 @@ func (client DataIntegrationClient) GetPipeline(ctx context.Context, request Get
 }
 
 // getPipeline implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getPipeline(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelines/{pipelineKey}")
+func (client DataIntegrationClient) getPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelines/{pipelineKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2911,8 +2911,8 @@ func (client DataIntegrationClient) GetPipelineValidation(ctx context.Context, r
 }
 
 // getPipelineValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getPipelineValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelineValidations/{pipelineValidationKey}")
+func (client DataIntegrationClient) getPipelineValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelineValidations/{pipelineValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -2965,8 +2965,8 @@ func (client DataIntegrationClient) GetProject(ctx context.Context, request GetP
 }
 
 // getProject implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getProject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/projects/{projectKey}")
+func (client DataIntegrationClient) getProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/projects/{projectKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3019,8 +3019,8 @@ func (client DataIntegrationClient) GetPublishedObject(ctx context.Context, requ
 }
 
 // getPublishedObject implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getPublishedObject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/publishedObjects/{publishedObjectKey}")
+func (client DataIntegrationClient) getPublishedObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/publishedObjects/{publishedObjectKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3073,8 +3073,8 @@ func (client DataIntegrationClient) GetReference(ctx context.Context, request Ge
 }
 
 // getReference implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getReference(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/references/{referenceKey}")
+func (client DataIntegrationClient) getReference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/references/{referenceKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3127,8 +3127,8 @@ func (client DataIntegrationClient) GetSchema(ctx context.Context, request GetSc
 }
 
 // getSchema implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getSchema(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}")
+func (client DataIntegrationClient) getSchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3181,8 +3181,8 @@ func (client DataIntegrationClient) GetTask(ctx context.Context, request GetTask
 }
 
 // getTask implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}")
+func (client DataIntegrationClient) getTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3235,8 +3235,8 @@ func (client DataIntegrationClient) GetTaskRun(ctx context.Context, request GetT
 }
 
 // getTaskRun implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getTaskRun(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}")
+func (client DataIntegrationClient) getTaskRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3289,8 +3289,8 @@ func (client DataIntegrationClient) GetTaskValidation(ctx context.Context, reque
 }
 
 // getTaskValidation implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getTaskValidation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/taskValidations/{taskValidationKey}")
+func (client DataIntegrationClient) getTaskValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/taskValidations/{taskValidationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3343,8 +3343,8 @@ func (client DataIntegrationClient) GetWorkRequest(ctx context.Context, request 
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+func (client DataIntegrationClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3397,8 +3397,8 @@ func (client DataIntegrationClient) GetWorkspace(ctx context.Context, request Ge
 }
 
 // getWorkspace implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) getWorkspace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}")
+func (client DataIntegrationClient) getWorkspace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3451,8 +3451,8 @@ func (client DataIntegrationClient) ListApplications(ctx context.Context, reques
 }
 
 // listApplications implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listApplications(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications")
+func (client DataIntegrationClient) listApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3505,8 +3505,8 @@ func (client DataIntegrationClient) ListConnectionValidations(ctx context.Contex
 }
 
 // listConnectionValidations implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listConnectionValidations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connectionValidations")
+func (client DataIntegrationClient) listConnectionValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connectionValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3559,8 +3559,8 @@ func (client DataIntegrationClient) ListConnections(ctx context.Context, request
 }
 
 // listConnections implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listConnections(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections")
+func (client DataIntegrationClient) listConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3613,8 +3613,8 @@ func (client DataIntegrationClient) ListDataAssets(ctx context.Context, request 
 }
 
 // listDataAssets implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listDataAssets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataAssets")
+func (client DataIntegrationClient) listDataAssets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataAssets", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3667,8 +3667,8 @@ func (client DataIntegrationClient) ListDataEntities(ctx context.Context, reques
 }
 
 // listDataEntities implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listDataEntities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}/dataEntities")
+func (client DataIntegrationClient) listDataEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas/{schemaResourceName}/dataEntities", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3721,8 +3721,8 @@ func (client DataIntegrationClient) ListDataFlowValidations(ctx context.Context,
 }
 
 // listDataFlowValidations implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listDataFlowValidations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlowValidations")
+func (client DataIntegrationClient) listDataFlowValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlowValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3775,8 +3775,8 @@ func (client DataIntegrationClient) ListDataFlows(ctx context.Context, request L
 }
 
 // listDataFlows implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listDataFlows(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlows")
+func (client DataIntegrationClient) listDataFlows(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/dataFlows", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3829,8 +3829,8 @@ func (client DataIntegrationClient) ListDependentObjects(ctx context.Context, re
 }
 
 // listDependentObjects implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listDependentObjects(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/dependentObjects")
+func (client DataIntegrationClient) listDependentObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/dependentObjects", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3883,8 +3883,8 @@ func (client DataIntegrationClient) ListExternalPublicationValidations(ctx conte
 }
 
 // listExternalPublicationValidations implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listExternalPublicationValidations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations")
+func (client DataIntegrationClient) listExternalPublicationValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublicationValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3937,8 +3937,8 @@ func (client DataIntegrationClient) ListExternalPublications(ctx context.Context
 }
 
 // listExternalPublications implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listExternalPublications(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications")
+func (client DataIntegrationClient) listExternalPublications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -3991,8 +3991,8 @@ func (client DataIntegrationClient) ListFolders(ctx context.Context, request Lis
 }
 
 // listFolders implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listFolders(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/folders")
+func (client DataIntegrationClient) listFolders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/folders", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4045,8 +4045,8 @@ func (client DataIntegrationClient) ListPatchChanges(ctx context.Context, reques
 }
 
 // listPatchChanges implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listPatchChanges(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/patchChanges")
+func (client DataIntegrationClient) listPatchChanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/patchChanges", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4099,8 +4099,8 @@ func (client DataIntegrationClient) ListPatches(ctx context.Context, request Lis
 }
 
 // listPatches implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listPatches(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/patches")
+func (client DataIntegrationClient) listPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/patches", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4153,8 +4153,8 @@ func (client DataIntegrationClient) ListPipelineValidations(ctx context.Context,
 }
 
 // listPipelineValidations implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listPipelineValidations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelineValidations")
+func (client DataIntegrationClient) listPipelineValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelineValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4207,8 +4207,8 @@ func (client DataIntegrationClient) ListPipelines(ctx context.Context, request L
 }
 
 // listPipelines implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listPipelines(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelines")
+func (client DataIntegrationClient) listPipelines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/pipelines", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4261,8 +4261,8 @@ func (client DataIntegrationClient) ListProjects(ctx context.Context, request Li
 }
 
 // listProjects implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listProjects(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/projects")
+func (client DataIntegrationClient) listProjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/projects", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4315,8 +4315,8 @@ func (client DataIntegrationClient) ListPublishedObjects(ctx context.Context, re
 }
 
 // listPublishedObjects implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listPublishedObjects(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/publishedObjects")
+func (client DataIntegrationClient) listPublishedObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/publishedObjects", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4369,8 +4369,8 @@ func (client DataIntegrationClient) ListReferences(ctx context.Context, request 
 }
 
 // listReferences implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listReferences(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/references")
+func (client DataIntegrationClient) listReferences(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/references", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4423,8 +4423,8 @@ func (client DataIntegrationClient) ListSchemas(ctx context.Context, request Lis
 }
 
 // listSchemas implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listSchemas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas")
+func (client DataIntegrationClient) listSchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/connections/{connectionKey}/schemas", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4477,8 +4477,8 @@ func (client DataIntegrationClient) ListTaskRunLogs(ctx context.Context, request
 }
 
 // listTaskRunLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listTaskRunLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}/logs")
+func (client DataIntegrationClient) listTaskRunLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4531,8 +4531,8 @@ func (client DataIntegrationClient) ListTaskRuns(ctx context.Context, request Li
 }
 
 // listTaskRuns implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listTaskRuns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns")
+func (client DataIntegrationClient) listTaskRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4585,8 +4585,8 @@ func (client DataIntegrationClient) ListTaskValidations(ctx context.Context, req
 }
 
 // listTaskValidations implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listTaskValidations(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/taskValidations")
+func (client DataIntegrationClient) listTaskValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/taskValidations", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4639,8 +4639,8 @@ func (client DataIntegrationClient) ListTasks(ctx context.Context, request ListT
 }
 
 // listTasks implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listTasks(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks")
+func (client DataIntegrationClient) listTasks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces/{workspaceId}/tasks", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4693,8 +4693,8 @@ func (client DataIntegrationClient) ListWorkRequestErrors(ctx context.Context, r
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/workRequestErrors")
+func (client DataIntegrationClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/workRequestErrors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4747,8 +4747,8 @@ func (client DataIntegrationClient) ListWorkRequestLogs(ctx context.Context, req
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs")
+func (client DataIntegrationClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4801,8 +4801,8 @@ func (client DataIntegrationClient) ListWorkRequests(ctx context.Context, reques
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests")
+func (client DataIntegrationClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4855,8 +4855,8 @@ func (client DataIntegrationClient) ListWorkspaces(ctx context.Context, request 
 }
 
 // listWorkspaces implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) listWorkspaces(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces")
+func (client DataIntegrationClient) listWorkspaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workspaces", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4914,8 +4914,8 @@ func (client DataIntegrationClient) StartWorkspace(ctx context.Context, request 
 }
 
 // startWorkspace implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) startWorkspace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/actions/start")
+func (client DataIntegrationClient) startWorkspace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/actions/start", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -4973,8 +4973,8 @@ func (client DataIntegrationClient) StopWorkspace(ctx context.Context, request S
 }
 
 // stopWorkspace implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) stopWorkspace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/actions/stop")
+func (client DataIntegrationClient) stopWorkspace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/workspaces/{workspaceId}/actions/stop", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5027,8 +5027,8 @@ func (client DataIntegrationClient) UpdateApplication(ctx context.Context, reque
 }
 
 // updateApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateApplication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}")
+func (client DataIntegrationClient) updateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5081,8 +5081,8 @@ func (client DataIntegrationClient) UpdateConnection(ctx context.Context, reques
 }
 
 // updateConnection implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateConnection(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/connections/{connectionKey}")
+func (client DataIntegrationClient) updateConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/connections/{connectionKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5135,8 +5135,8 @@ func (client DataIntegrationClient) UpdateDataAsset(ctx context.Context, request
 }
 
 // updateDataAsset implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateDataAsset(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/dataAssets/{dataAssetKey}")
+func (client DataIntegrationClient) updateDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/dataAssets/{dataAssetKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5189,8 +5189,8 @@ func (client DataIntegrationClient) UpdateDataFlow(ctx context.Context, request 
 }
 
 // updateDataFlow implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateDataFlow(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/dataFlows/{dataFlowKey}")
+func (client DataIntegrationClient) updateDataFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/dataFlows/{dataFlowKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5243,8 +5243,8 @@ func (client DataIntegrationClient) UpdateExternalPublication(ctx context.Contex
 }
 
 // updateExternalPublication implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateExternalPublication(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications/{externalPublicationsKey}")
+func (client DataIntegrationClient) updateExternalPublication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/tasks/{taskKey}/externalPublications/{externalPublicationsKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5297,8 +5297,8 @@ func (client DataIntegrationClient) UpdateFolder(ctx context.Context, request Up
 }
 
 // updateFolder implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateFolder(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/folders/{folderKey}")
+func (client DataIntegrationClient) updateFolder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/folders/{folderKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5351,8 +5351,8 @@ func (client DataIntegrationClient) UpdatePipeline(ctx context.Context, request 
 }
 
 // updatePipeline implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updatePipeline(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/pipelines/{pipelineKey}")
+func (client DataIntegrationClient) updatePipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/pipelines/{pipelineKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5405,8 +5405,8 @@ func (client DataIntegrationClient) UpdateProject(ctx context.Context, request U
 }
 
 // updateProject implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateProject(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/projects/{projectKey}")
+func (client DataIntegrationClient) updateProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/projects/{projectKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5464,8 +5464,8 @@ func (client DataIntegrationClient) UpdateReference(ctx context.Context, request
 }
 
 // updateReference implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateReference(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}/references/{referenceKey}")
+func (client DataIntegrationClient) updateReference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}/references/{referenceKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5518,8 +5518,8 @@ func (client DataIntegrationClient) UpdateTask(ctx context.Context, request Upda
 }
 
 // updateTask implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateTask(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/tasks/{taskKey}")
+func (client DataIntegrationClient) updateTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/tasks/{taskKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5572,8 +5572,8 @@ func (client DataIntegrationClient) UpdateTaskRun(ctx context.Context, request U
 }
 
 // updateTaskRun implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateTaskRun(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}")
+func (client DataIntegrationClient) updateTaskRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}/applications/{applicationKey}/taskRuns/{taskRunKey}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -5626,8 +5626,8 @@ func (client DataIntegrationClient) UpdateWorkspace(ctx context.Context, request
 }
 
 // updateWorkspace implements the OCIOperation interface (enables retrying operations)
-func (client DataIntegrationClient) updateWorkspace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}")
+func (client DataIntegrationClient) updateWorkspace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/workspaces/{workspaceId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -119,8 +119,8 @@ func (client QuotasClient) CreateQuota(ctx context.Context, request CreateQuotaR
 }
 
 // createQuota implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas")
+func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +173,8 @@ func (client QuotasClient) DeleteQuota(ctx context.Context, request DeleteQuotaR
 }
 
 // deleteQuota implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/20181025/quotas/{quotaId}")
+func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/20181025/quotas/{quotaId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -227,8 +227,8 @@ func (client QuotasClient) GetQuota(ctx context.Context, request GetQuotaRequest
 }
 
 // getQuota implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) getQuota(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20181025/quotas/{quotaId}")
+func (client QuotasClient) getQuota(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20181025/quotas/{quotaId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -281,8 +281,8 @@ func (client QuotasClient) ListQuotas(ctx context.Context, request ListQuotasReq
 }
 
 // listQuotas implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20181025/quotas")
+func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20181025/quotas", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -335,8 +335,8 @@ func (client QuotasClient) UpdateQuota(ctx context.Context, request UpdateQuotaR
 }
 
 // updateQuota implements the OCIOperation interface (enables retrying operations)
-func (client QuotasClient) updateQuota(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20181025/quotas/{quotaId}")
+func (client QuotasClient) updateQuota(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20181025/quotas/{quotaId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

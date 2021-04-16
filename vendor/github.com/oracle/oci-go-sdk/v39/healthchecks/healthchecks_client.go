@@ -122,8 +122,8 @@ func (client HealthChecksClient) ChangeHttpMonitorCompartment(ctx context.Contex
 }
 
 // changeHttpMonitorCompartment implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) changeHttpMonitorCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpMonitors/{monitorId}/actions/changeCompartment")
+func (client HealthChecksClient) changeHttpMonitorCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpMonitors/{monitorId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -182,8 +182,8 @@ func (client HealthChecksClient) ChangePingMonitorCompartment(ctx context.Contex
 }
 
 // changePingMonitorCompartment implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) changePingMonitorCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pingMonitors/{monitorId}/actions/changeCompartment")
+func (client HealthChecksClient) changePingMonitorCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pingMonitors/{monitorId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -243,8 +243,8 @@ func (client HealthChecksClient) CreateHttpMonitor(ctx context.Context, request 
 }
 
 // createHttpMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) createHttpMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpMonitors")
+func (client HealthChecksClient) createHttpMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpMonitors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -299,8 +299,8 @@ func (client HealthChecksClient) CreateOnDemandHttpProbe(ctx context.Context, re
 }
 
 // createOnDemandHttpProbe implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) createOnDemandHttpProbe(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpProbeResults")
+func (client HealthChecksClient) createOnDemandHttpProbe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpProbeResults", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -355,8 +355,8 @@ func (client HealthChecksClient) CreateOnDemandPingProbe(ctx context.Context, re
 }
 
 // createOnDemandPingProbe implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) createOnDemandPingProbe(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pingProbeResults")
+func (client HealthChecksClient) createOnDemandPingProbe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pingProbeResults", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -416,8 +416,8 @@ func (client HealthChecksClient) CreatePingMonitor(ctx context.Context, request 
 }
 
 // createPingMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) createPingMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pingMonitors")
+func (client HealthChecksClient) createPingMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pingMonitors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -471,8 +471,8 @@ func (client HealthChecksClient) DeleteHttpMonitor(ctx context.Context, request 
 }
 
 // deleteHttpMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) deleteHttpMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/httpMonitors/{monitorId}")
+func (client HealthChecksClient) deleteHttpMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/httpMonitors/{monitorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -526,8 +526,8 @@ func (client HealthChecksClient) DeletePingMonitor(ctx context.Context, request 
 }
 
 // deletePingMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) deletePingMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pingMonitors/{monitorId}")
+func (client HealthChecksClient) deletePingMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pingMonitors/{monitorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -580,8 +580,8 @@ func (client HealthChecksClient) GetHttpMonitor(ctx context.Context, request Get
 }
 
 // getHttpMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) getHttpMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpMonitors/{monitorId}")
+func (client HealthChecksClient) getHttpMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpMonitors/{monitorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -634,8 +634,8 @@ func (client HealthChecksClient) GetPingMonitor(ctx context.Context, request Get
 }
 
 // getPingMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) getPingMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pingMonitors/{monitorId}")
+func (client HealthChecksClient) getPingMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pingMonitors/{monitorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -688,8 +688,8 @@ func (client HealthChecksClient) ListHealthChecksVantagePoints(ctx context.Conte
 }
 
 // listHealthChecksVantagePoints implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) listHealthChecksVantagePoints(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vantagePoints")
+func (client HealthChecksClient) listHealthChecksVantagePoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vantagePoints", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -742,8 +742,8 @@ func (client HealthChecksClient) ListHttpMonitors(ctx context.Context, request L
 }
 
 // listHttpMonitors implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) listHttpMonitors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpMonitors")
+func (client HealthChecksClient) listHttpMonitors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpMonitors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -798,8 +798,8 @@ func (client HealthChecksClient) ListHttpProbeResults(ctx context.Context, reque
 }
 
 // listHttpProbeResults implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) listHttpProbeResults(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpProbeResults/{probeConfigurationId}")
+func (client HealthChecksClient) listHttpProbeResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpProbeResults/{probeConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -854,8 +854,8 @@ func (client HealthChecksClient) ListPingMonitors(ctx context.Context, request L
 }
 
 // listPingMonitors implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) listPingMonitors(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pingMonitors")
+func (client HealthChecksClient) listPingMonitors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pingMonitors", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -913,8 +913,8 @@ func (client HealthChecksClient) ListPingProbeResults(ctx context.Context, reque
 }
 
 // listPingProbeResults implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) listPingProbeResults(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pingProbeResults/{probeConfigurationId}")
+func (client HealthChecksClient) listPingProbeResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pingProbeResults/{probeConfigurationId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -969,8 +969,8 @@ func (client HealthChecksClient) UpdateHttpMonitor(ctx context.Context, request 
 }
 
 // updateHttpMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) updateHttpMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/httpMonitors/{monitorId}")
+func (client HealthChecksClient) updateHttpMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/httpMonitors/{monitorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1025,8 +1025,8 @@ func (client HealthChecksClient) UpdatePingMonitor(ctx context.Context, request 
 }
 
 // updatePingMonitor implements the OCIOperation interface (enables retrying operations)
-func (client HealthChecksClient) updatePingMonitor(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pingMonitors/{monitorId}")
+func (client HealthChecksClient) updatePingMonitor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pingMonitors/{monitorId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

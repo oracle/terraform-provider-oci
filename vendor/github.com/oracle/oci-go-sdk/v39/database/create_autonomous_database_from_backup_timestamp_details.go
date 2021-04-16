@@ -122,6 +122,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
+	// Customer Contacts.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -257,6 +260,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDefinedTags() map
 //GetDbVersion returns DbVersion
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbVersion() *string {
 	return m.DbVersion
+}
+
+//GetCustomerContacts returns CustomerContacts
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetCustomerContacts() []CustomerContact {
+	return m.CustomerContacts
 }
 
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {

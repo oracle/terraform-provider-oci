@@ -55,8 +55,16 @@ func (request UploadCredentialsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request UploadCredentialsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request UploadCredentialsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request UploadCredentialsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

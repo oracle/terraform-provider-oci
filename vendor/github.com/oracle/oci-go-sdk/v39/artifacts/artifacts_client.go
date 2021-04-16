@@ -122,8 +122,8 @@ func (client ArtifactsClient) ChangeContainerRepositoryCompartment(ctx context.C
 }
 
 // changeContainerRepositoryCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/repositories/{repositoryId}/actions/changeCompartment")
+func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/repositories/{repositoryId}/actions/changeCompartment", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +181,8 @@ func (client ArtifactsClient) CreateContainerImageSignature(ctx context.Context,
 }
 
 // createContainerImageSignature implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) createContainerImageSignature(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/imageSignatures")
+func (client ArtifactsClient) createContainerImageSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/imageSignatures", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -240,8 +240,8 @@ func (client ArtifactsClient) CreateContainerRepository(ctx context.Context, req
 }
 
 // createContainerRepository implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) createContainerRepository(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/repositories")
+func (client ArtifactsClient) createContainerRepository(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/repositories", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -294,8 +294,8 @@ func (client ArtifactsClient) DeleteContainerImage(ctx context.Context, request 
 }
 
 // deleteContainerImage implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) deleteContainerImage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/container/images/{imageId}")
+func (client ArtifactsClient) deleteContainerImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/container/images/{imageId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -348,8 +348,8 @@ func (client ArtifactsClient) DeleteContainerImageSignature(ctx context.Context,
 }
 
 // deleteContainerImageSignature implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) deleteContainerImageSignature(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/container/imageSignatures/{imageSignatureId}")
+func (client ArtifactsClient) deleteContainerImageSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/container/imageSignatures/{imageSignatureId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -402,8 +402,8 @@ func (client ArtifactsClient) DeleteContainerRepository(ctx context.Context, req
 }
 
 // deleteContainerRepository implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/container/repositories/{repositoryId}")
+func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/container/repositories/{repositoryId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -456,8 +456,8 @@ func (client ArtifactsClient) GetContainerConfiguration(ctx context.Context, req
 }
 
 // getContainerConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) getContainerConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/configuration")
+func (client ArtifactsClient) getContainerConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/configuration", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -510,8 +510,8 @@ func (client ArtifactsClient) GetContainerImage(ctx context.Context, request Get
 }
 
 // getContainerImage implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) getContainerImage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/images/{imageId}")
+func (client ArtifactsClient) getContainerImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/images/{imageId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -564,8 +564,8 @@ func (client ArtifactsClient) GetContainerImageSignature(ctx context.Context, re
 }
 
 // getContainerImageSignature implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) getContainerImageSignature(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/imageSignatures/{imageSignatureId}")
+func (client ArtifactsClient) getContainerImageSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/imageSignatures/{imageSignatureId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -618,8 +618,8 @@ func (client ArtifactsClient) GetContainerRepository(ctx context.Context, reques
 }
 
 // getContainerRepository implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) getContainerRepository(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/repositories/{repositoryId}")
+func (client ArtifactsClient) getContainerRepository(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/repositories/{repositoryId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -672,8 +672,8 @@ func (client ArtifactsClient) ListContainerImageSignatures(ctx context.Context, 
 }
 
 // listContainerImageSignatures implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) listContainerImageSignatures(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/imageSignatures")
+func (client ArtifactsClient) listContainerImageSignatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/imageSignatures", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -726,8 +726,8 @@ func (client ArtifactsClient) ListContainerImages(ctx context.Context, request L
 }
 
 // listContainerImages implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) listContainerImages(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/images")
+func (client ArtifactsClient) listContainerImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/images", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -780,8 +780,8 @@ func (client ArtifactsClient) ListContainerRepositories(ctx context.Context, req
 }
 
 // listContainerRepositories implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) listContainerRepositories(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/repositories")
+func (client ArtifactsClient) listContainerRepositories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/container/repositories", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -839,8 +839,8 @@ func (client ArtifactsClient) RemoveContainerVersion(ctx context.Context, reques
 }
 
 // removeContainerVersion implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) removeContainerVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/images/{imageId}/actions/removeVersion")
+func (client ArtifactsClient) removeContainerVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/images/{imageId}/actions/removeVersion", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -898,8 +898,8 @@ func (client ArtifactsClient) RestoreContainerImage(ctx context.Context, request
 }
 
 // restoreContainerImage implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) restoreContainerImage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/images/{imageId}/actions/restore")
+func (client ArtifactsClient) restoreContainerImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/container/images/{imageId}/actions/restore", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -952,8 +952,8 @@ func (client ArtifactsClient) UpdateContainerConfiguration(ctx context.Context, 
 }
 
 // updateContainerConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) updateContainerConfiguration(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/container/configuration")
+func (client ArtifactsClient) updateContainerConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/container/configuration", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -1006,8 +1006,8 @@ func (client ArtifactsClient) UpdateContainerRepository(ctx context.Context, req
 }
 
 // updateContainerRepository implements the OCIOperation interface (enables retrying operations)
-func (client ArtifactsClient) updateContainerRepository(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/container/repositories/{repositoryId}")
+func (client ArtifactsClient) updateContainerRepository(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/container/repositories/{repositoryId}", binaryReqBody)
 	if err != nil {
 		return nil, err
 	}

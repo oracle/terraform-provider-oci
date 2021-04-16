@@ -20,6 +20,9 @@ type UpdateAttributeDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Optional user friendly business name of the attribute. If set, this supplements the harvested display name of the object.
+	BusinessName *string `mandatory:"false" json:"businessName"`
+
 	// Detailed description of the attribute.
 	Description *string `mandatory:"false" json:"description"`
 

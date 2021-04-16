@@ -22,13 +22,13 @@ type AutonomousContainerDatabaseDataguardAssociation struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Container Database that has a relationship with the peer Autonomous Container Database.
 	AutonomousContainerDatabaseId *string `mandatory:"true" json:"autonomousContainerDatabaseId"`
 
-	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	// The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled.
 	Role AutonomousContainerDatabaseDataguardAssociationRoleEnum `mandatory:"true" json:"role"`
 
 	// The current state of Autonomous Data Guard.
 	LifecycleState AutonomousContainerDatabaseDataguardAssociationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The role of the Autonomous Data Guard-enabled Autonomous Container Database.
+	// The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled.
 	PeerRole AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum `mandatory:"true" json:"peerRole"`
 
 	// Additional information about the current lifecycleState, if available.

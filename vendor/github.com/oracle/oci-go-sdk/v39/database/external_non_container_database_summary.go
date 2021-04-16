@@ -71,6 +71,8 @@ type ExternalNonContainerDatabaseSummary struct {
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
+
+	OperationsInsightsConfig *OperationsInsightsConfig `mandatory:"false" json:"operationsInsightsConfig"`
 }
 
 func (m ExternalNonContainerDatabaseSummary) String() string {

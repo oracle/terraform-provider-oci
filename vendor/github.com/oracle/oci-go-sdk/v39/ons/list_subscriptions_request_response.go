@@ -44,8 +44,16 @@ func (request ListSubscriptionsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListSubscriptionsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListSubscriptionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+}
+
+// BinaryRequestBody implements the OCIRequest interface
+func (request ListSubscriptionsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+
+	return nil, false
+
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
