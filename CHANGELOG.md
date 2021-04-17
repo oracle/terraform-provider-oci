@@ -1,3 +1,8 @@
+## 4.27.0 (Unreleased)
+
+### Added
+- Support for `OPSI` service
+
 ## 4.26.0 (May 12, 2021)
 
 ### Added
