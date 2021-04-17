@@ -262,6 +262,7 @@ github.com/oracle/oci-go-sdk/v40/oce
 github.com/oracle/oci-go-sdk/v40/ocvp
 github.com/oracle/oci-go-sdk/v40/oda
 github.com/oracle/oci-go-sdk/v40/ons
+github.com/oracle/oci-go-sdk/v40/opsi
 github.com/oracle/oci-go-sdk/v40/optimizer
 github.com/oracle/oci-go-sdk/v40/osmanagement
 github.com/oracle/oci-go-sdk/v40/resourcemanager
