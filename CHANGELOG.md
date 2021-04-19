@@ -4,6 +4,7 @@
 - Support for Data Safe target database registration
 - Support for Elastic storage for ExaCC
 - Support for Migrate VCN status added to container engine
+- Support for Spark 3.0 added in data flow
 
 ## 4.30.0 (June 09, 2021)
 

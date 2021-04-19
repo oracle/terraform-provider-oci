@@ -287,6 +287,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.language", "SCALA"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_principal_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_user_name"),
+					resource.TestCheckResourceAttr(datasourceName, "applications.0.spark_version", "2.4.4"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),

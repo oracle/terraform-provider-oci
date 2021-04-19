@@ -35,6 +35,10 @@ func DataflowApplicationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"spark_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"applications": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -83,6 +87,11 @@ func (s *DataflowApplicationsDataSourceCrud) Get() error {
 	if ownerPrincipalId, ok := s.D.GetOkExists("owner_principal_id"); ok {
 		tmp := ownerPrincipalId.(string)
 		request.OwnerPrincipalId = &tmp
+	}
+
+	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
+		tmp := sparkVersion.(string)
+		request.SparkVersion = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
@@ -143,6 +152,10 @@ func (s *DataflowApplicationsDataSourceCrud) SetData() error {
 
 		if r.OwnerUserName != nil {
 			application["owner_user_name"] = *r.OwnerUserName
+		}
+
+		if r.SparkVersion != nil {
+			application["spark_version"] = *r.SparkVersion
 		}
 
 		application["state"] = r.LifecycleState

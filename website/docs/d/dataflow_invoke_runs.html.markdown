@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_dataflow_invoke_runs
 This data source provides the list of Invoke Runs in Oracle Cloud Infrastructure Data Flow service.
 
-Lists all runs of an application in the specified compartment.
+Lists all runs of an application in the specified compartment.  Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
 
 
 ## Example Usage
