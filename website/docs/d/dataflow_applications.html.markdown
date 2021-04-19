@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_dataflow_applications
 This data source provides the list of Applications in Oracle Cloud Infrastructure Data Flow service.
 
-Lists all applications in the specified compartment.
+Lists all applications in the specified compartment. Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
 
 
 ## Example Usage
@@ -24,6 +24,7 @@ data "oci_dataflow_applications" "test_applications" {
 	display_name = var.application_display_name
 	display_name_starts_with = var.application_display_name_starts_with
 	owner_principal_id = oci_dataflow_owner_principal.test_owner_principal.id
+	spark_version = var.application_spark_version
 }
 ```
 
@@ -35,6 +36,7 @@ The following arguments are supported:
 * `display_name` - (Optional) The query parameter for the Spark application name. 
 * `display_name_starts_with` - (Optional) The displayName prefix. 
 * `owner_principal_id` - (Optional) The OCID of the user who created the resource. 
+* `spark_version` - (Optional) The Spark version utilized to run the application. 
 
 
 ## Attributes Reference
