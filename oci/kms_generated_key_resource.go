@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v39/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v40/keymanagement"
 )
 
 func init() {
