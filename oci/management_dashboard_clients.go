@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v39/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v40/managementdashboard"
 
-	oci_common "github.com/oracle/oci-go-sdk/v39/common"
+	oci_common "github.com/oracle/oci-go-sdk/v40/common"
 )
 
 func init() {
