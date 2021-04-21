@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v39/database"
+	oci_database "github.com/oracle/oci-go-sdk/v40/database"
 )
 
 func init() {
@@ -54,6 +54,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			},
 
 			// Optional
+			"create_async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -336,6 +341,17 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) CreatedPending() [
 }
 
 func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) CreatedTarget() []string {
+
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.AutonomousExadataInfrastructureLifecycleStateAvailable),
+				string(oci_database.AutonomousExadataInfrastructureLifecycleStateProvisioning),
+			}
+		}
+	}
+
 	return []string{
 		string(oci_database.AutonomousExadataInfrastructureLifecycleStateAvailable),
 	}

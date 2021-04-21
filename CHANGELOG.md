@@ -1,3 +1,10 @@
+## 4.23.0 (Unreleased)
+
+### Added
+- Support for customer option for live migration added to `core_instance` and `core_shape` resources
+- Support for `customer_contacts` in autonomous database - shared
+- Support for graph_studio_url in `oci_database_autonomous_database`
+
 ## 4.22.0 (April 14, 2021)
 
 ### Added
@@ -15,6 +22,8 @@
 ### Fixed
 - Fixed functions resource to sync `image_digest` with `image` appropriately
 - Removed incorrect document for `oci_data_safe_on_prem_connectors_configuration`. Issue [1344](https://github.com/terraform-providers/terraform-provider-oci/issues/1344)
+- Property `ipv6cidr_block` and `ipv6public_cidr_block` are removed from `oci_core_vcn`
+- Property `ipv6public_cidr_block` is removed from `oci_core_subnet`
 
 ## 4.21.0 (April 07, 2021)
 

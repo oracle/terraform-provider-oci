@@ -75,6 +75,7 @@ The following attributes are exported:
 			To enable the monitoring and management plugins, the `isMonitoringDisabled` and `isManagementDisabled` attributes must also be set to false. 
 		* `name` - The plugin name. To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
 * `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
+	* `is_live_migration_preferred` - Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances. 
 	* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
