@@ -1,4 +1,4 @@
-## 4.23.0 (Unreleased)
+## 4.23.0 (April 21, 2021)
 
 ### Added
 - Support for customer option for live migration added to `core_instance` and `core_shape` resources
