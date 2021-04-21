@@ -18,9 +18,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v39/common"
-	oci_core "github.com/oracle/oci-go-sdk/v39/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v39/workrequests"
+	"github.com/oracle/oci-go-sdk/v40/common"
+	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v40/workrequests"
 )
 
 func init() {
@@ -123,6 +123,11 @@ func CoreInstanceResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"is_live_migration_preferred": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"recovery_action": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1795,6 +1800,11 @@ func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]inte
 func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAvailabilityConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceAvailabilityConfigDetails, error) {
 	result := oci_core.LaunchInstanceAvailabilityConfigDetails{}
 
+	if isLiveMigrationPreferred, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_live_migration_preferred")); ok {
+		tmp := isLiveMigrationPreferred.(bool)
+		result.IsLiveMigrationPreferred = &tmp
+	}
+
 	if recoveryAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_action")); ok {
 		result.RecoveryAction = oci_core.LaunchInstanceAvailabilityConfigDetailsRecoveryActionEnum(recoveryAction.(string))
 	}
@@ -1804,6 +1814,10 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAvailabilityConfigDetails(
 
 func InstanceAvailabilityConfigToMap(obj *oci_core.InstanceAvailabilityConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsLiveMigrationPreferred != nil {
+		result["is_live_migration_preferred"] = bool(*obj.IsLiveMigrationPreferred)
+	}
 
 	result["recovery_action"] = string(obj.RecoveryAction)
 
@@ -2315,6 +2329,11 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 
 func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAvailabilityConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceAvailabilityConfigDetails, error) {
 	result := oci_core.UpdateInstanceAvailabilityConfigDetails{}
+
+	if isLiveMigrationPreferred, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_live_migration_preferred")); ok {
+		tmp := isLiveMigrationPreferred.(bool)
+		result.IsLiveMigrationPreferred = &tmp
+	}
 
 	if recoveryAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_action")); ok {
 		tmp := oci_core.UpdateInstanceAvailabilityConfigDetailsRecoveryActionEnum(recoveryAction.(string))

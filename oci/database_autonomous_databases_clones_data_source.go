@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v39/database"
+	oci_database "github.com/oracle/oci-go-sdk/v40/database"
 )
 
 func init() {
@@ -166,6 +166,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"graph_studio_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"machine_learning_user_management_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -180,6 +184,23 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"cpu_core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
+						},
+						"customer_contacts": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"email": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"data_safe_status": {
 							Type:     schema.TypeString,
@@ -540,6 +561,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.CpuCoreCount != nil {
 			autonomousDatabasesClone["cpu_core_count"] = *r.CpuCoreCount
 		}
+
+		customerContacts := []interface{}{}
+		for _, item := range r.CustomerContacts {
+			customerContacts = append(customerContacts, CustomerContactToMap(item))
+		}
+		autonomousDatabasesClone["customer_contacts"] = customerContacts
 
 		autonomousDatabasesClone["data_safe_status"] = r.DataSafeStatus
 

@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dns "github.com/oracle/oci-go-sdk/v39/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v40/dns"
 )
 
 func init() {

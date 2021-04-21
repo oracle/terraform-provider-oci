@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v39/core"
+	oci_core "github.com/oracle/oci-go-sdk/v40/core"
 )
 
 func init() {
@@ -55,6 +55,10 @@ func CoreShapesDataSource() *schema.Resource {
 						},
 						"gpus": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"is_live_migration_supported": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"local_disk_description": {
@@ -299,6 +303,10 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 
 		if r.Gpus != nil {
 			shape["gpus"] = *r.Gpus
+		}
+
+		if r.IsLiveMigrationSupported != nil {
+			shape["is_live_migration_supported"] = *r.IsLiveMigrationSupported
 		}
 
 		if r.LocalDiskDescription != nil {

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v39/common"
-	oci_database "github.com/oracle/oci-go-sdk/v39/database"
+	"github.com/oracle/oci-go-sdk/v40/common"
+	oci_database "github.com/oracle/oci-go-sdk/v40/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -59,11 +59,15 @@ var (
 		"is_auto_scaling_enabled":  Representation{repType: Optional, create: `false`},
 		"is_dedicated":             Representation{repType: Optional, create: `false`},
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
+		"customer_contacts":          RepresentationGroup{Optional, autonomousDatabaseCustomerContactsRepresentation},
 		"license_model":              Representation{repType: Optional, create: `LICENSE_INCLUDED`},
 		"whitelisted_ips":            Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
 		"operations_insights_status": Representation{repType: Optional, create: `NOT_ENABLED`, update: `ENABLED`},
 		"timeouts":                   RepresentationGroup{Required, autonomousDatabaseTimeoutsRepresentation},
 		"state":                      Representation{repType: Optional, create: `AVAILABLE`},
+	}
+	autonomousDatabaseCustomerContactsRepresentation = map[string]interface{}{
+		"email": Representation{repType: Optional, create: `test@oracle.com`, update: `test2@oracle.com`},
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
@@ -153,6 +157,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
@@ -197,6 +203,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
@@ -233,6 +241,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
@@ -442,6 +452,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_urls.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.customer_contacts.0.email", "test2@oracle.com"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.data_storage_size_in_gb"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
@@ -487,8 +499,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.machine_learning_user_management_url"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.sql_dev_web_url"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.graph_studio_url"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),

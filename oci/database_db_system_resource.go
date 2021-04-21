@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v39/common"
-	oci_database "github.com/oracle/oci-go-sdk/v39/database"
+	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_database "github.com/oracle/oci-go-sdk/v40/database"
 )
 
 func init() {
@@ -267,6 +267,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"create_async": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
 						"database_software_image_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -871,6 +876,15 @@ func (s *DatabaseDbSystemResourceCrud) CreatedPending() []string {
 }
 
 func (s *DatabaseDbSystemResourceCrud) CreatedTarget() []string {
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.DbSystemLifecycleStateAvailable),
+				string(oci_database.DbSystemLifecycleStateProvisioning),
+			}
+		}
+	}
 	return []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
 	}

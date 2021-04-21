@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v39/database"
+	oci_database "github.com/oracle/oci-go-sdk/v40/database"
 )
 
 func init() {
@@ -208,6 +208,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		if r.CpuCoreCount != nil {
 			autonomousDatabase["cpu_core_count"] = *r.CpuCoreCount
 		}
+
+		customerContacts := []interface{}{}
+		for _, item := range r.CustomerContacts {
+			customerContacts = append(customerContacts, CustomerContactToMap(item))
+		}
+		autonomousDatabase["customer_contacts"] = customerContacts
 
 		autonomousDatabase["data_safe_status"] = r.DataSafeStatus
 

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_email "github.com/oracle/oci-go-sdk/v39/email"
+	oci_email "github.com/oracle/oci-go-sdk/v40/email"
 )
 
 func init() {

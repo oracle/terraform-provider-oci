@@ -94,6 +94,8 @@ func TestCoreShapeResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
+					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_live_migration_supported"),
+					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disk_description"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks_total_size_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.max_vnic_attachments"),
