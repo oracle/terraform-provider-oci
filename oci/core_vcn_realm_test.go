@@ -43,7 +43,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+						"is_ipv6enabled": Representation{repType: Optional, create: `false`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -53,8 +53,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {
@@ -68,7 +67,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+						"is_ipv6enabled": Representation{repType: Optional, update: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -97,7 +96,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+						"is_ipv6enabled": Representation{repType: Optional, update: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
