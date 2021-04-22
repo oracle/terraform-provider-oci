@@ -8,6 +8,7 @@
 ### Fixed
 - Fixed update and destroy operations for management resources for external databases
 - Fixed retry behavior for database and db_home resources to honor user timeouts 
+- Added Operations Insights doc update to `autonomous_database` resource
 
 ## 4.24.0 (April 29, 2021)
 
