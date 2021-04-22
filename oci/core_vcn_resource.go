@@ -77,7 +77,6 @@ func CoreVcnResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 
 			// Computed
@@ -275,6 +274,19 @@ func (s *CoreVcnResourceCrud) Update() error {
 			}
 		}
 	}
+
+	if _, ok := s.D.GetOkExists("is_ipv6enabled"); ok && s.D.HasChange("is_ipv6enabled") {
+		enableIPv6Request := oci_core.AddIpv6VcnCidrRequest{}
+		tmp := s.D.Id()
+		enableIPv6Request.VcnId = &tmp
+		enableIPv6Request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+		_, err := s.Client.AddIpv6VcnCidr(context.Background(), enableIPv6Request)
+		if err != nil {
+			return err
+		}
+	}
+
 	request := oci_core.UpdateVcnRequest{}
 
 	if _, ok := s.D.GetOkExists("cidr_blocks"); ok && s.D.HasChange("cidr_blocks") {
@@ -371,6 +383,8 @@ func (s *CoreVcnResourceCrud) SetData() error {
 
 	if s.Res.Ipv6CidrBlocks != nil && len(s.Res.Ipv6CidrBlocks) > 0 {
 		s.D.Set("is_ipv6enabled", true)
+	} else {
+		s.D.Set("is_ipv6enabled", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

@@ -162,7 +162,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+						"is_ipv6enabled": Representation{repType: Optional, update: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -190,7 +190,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+						"is_ipv6enabled": Representation{repType: Optional, update: `true`},
 					})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
