@@ -19,10 +19,10 @@ type RequestSummarizedTrendProblemsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Start time for a filter. If start time is not specified, start time will be set to today's current time - 30 days.
+	// Start time for a filter. If start time is not specified, start time will be set to current time - 30 days.
 	TimeFirstDetectedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeFirstDetectedGreaterThanOrEqualTo"`
 
-	// End time for a filter. If end time is not specified, end time will be set to today's current time.
+	// End time for a filter. If end time is not specified, end time will be set to current time.
 	TimeFirstDetectedLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeFirstDetectedLessThanOrEqualTo"`
 
 	// Default is false.

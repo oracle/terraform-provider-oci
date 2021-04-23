@@ -69,6 +69,9 @@ type ExternalContainerDatabase struct {
 	// The database packs licensed for the external Oracle Database.
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
+	// The Oracle Database configuration
+	DatabaseConfiguration ExternalContainerDatabaseDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
+
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 }
 
@@ -131,6 +134,29 @@ var mappingExternalContainerDatabaseDatabaseEdition = map[string]ExternalContain
 func GetExternalContainerDatabaseDatabaseEditionEnumValues() []ExternalContainerDatabaseDatabaseEditionEnum {
 	values := make([]ExternalContainerDatabaseDatabaseEditionEnum, 0)
 	for _, v := range mappingExternalContainerDatabaseDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExternalContainerDatabaseDatabaseConfigurationEnum Enum with underlying type: string
+type ExternalContainerDatabaseDatabaseConfigurationEnum string
+
+// Set of constants representing the allowable values for ExternalContainerDatabaseDatabaseConfigurationEnum
+const (
+	ExternalContainerDatabaseDatabaseConfigurationRac            ExternalContainerDatabaseDatabaseConfigurationEnum = "RAC"
+	ExternalContainerDatabaseDatabaseConfigurationSingleInstance ExternalContainerDatabaseDatabaseConfigurationEnum = "SINGLE_INSTANCE"
+)
+
+var mappingExternalContainerDatabaseDatabaseConfiguration = map[string]ExternalContainerDatabaseDatabaseConfigurationEnum{
+	"RAC":             ExternalContainerDatabaseDatabaseConfigurationRac,
+	"SINGLE_INSTANCE": ExternalContainerDatabaseDatabaseConfigurationSingleInstance,
+}
+
+// GetExternalContainerDatabaseDatabaseConfigurationEnumValues Enumerates the set of values for ExternalContainerDatabaseDatabaseConfigurationEnum
+func GetExternalContainerDatabaseDatabaseConfigurationEnumValues() []ExternalContainerDatabaseDatabaseConfigurationEnum {
+	values := make([]ExternalContainerDatabaseDatabaseConfigurationEnum, 0)
+	for _, v := range mappingExternalContainerDatabaseDatabaseConfiguration {
 		values = append(values, v)
 	}
 	return values
