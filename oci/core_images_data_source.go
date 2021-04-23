@@ -177,6 +177,10 @@ func (s *CoreImagesDataSourceCrud) SetData() error {
 			image["base_image_id"] = *r.BaseImageId
 		}
 
+		if r.BillableSizeInGBs != nil {
+			image["billable_size_in_gbs"] = strconv.FormatInt(*r.BillableSizeInGBs, 10)
+		}
+
 		if r.CreateImageAllowed != nil {
 			image["create_image_allowed"] = *r.CreateImageAllowed
 		}

@@ -11,6 +11,7 @@
 - Support for E3 Flex Notebooks added to `datascience`
 - Support for Non-Rolling patch mode added to `database_maintenance_run_resource`
 - Support for update compartment for `oci_core_default_security_list`, `oci_core_default_dhcp_options`, `oci_core_default_route_table`
+- Support for Charge for Custom Images in core resource
 
 ## 4.27.0 (May 19, 2021)
 
