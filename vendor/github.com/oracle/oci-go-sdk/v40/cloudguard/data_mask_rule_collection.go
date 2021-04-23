@@ -13,19 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// UpdateBulkProblemStatusDetails List of problem ids to be passed in to update the Problem status.
-type UpdateBulkProblemStatusDetails struct {
+// DataMaskRuleCollection Collection of Data Mask Rule
+type DataMaskRuleCollection struct {
 
-	// Action taken by user
-	Status ProblemLifecycleDetailEnum `mandatory:"true" json:"status"`
-
-	// List of ProblemIds to be passed in to update the Problem status.
-	ProblemIds []string `mandatory:"true" json:"problemIds"`
-
-	// User defined comment to be passed in to update the problem.
-	Comment *string `mandatory:"false" json:"comment"`
+	// List of Data Mask Rule Summary
+	Items []DataMaskRuleSummary `mandatory:"true" json:"items"`
 }
 
-func (m UpdateBulkProblemStatusDetails) String() string {
+func (m DataMaskRuleCollection) String() string {
 	return common.PointerString(m)
 }

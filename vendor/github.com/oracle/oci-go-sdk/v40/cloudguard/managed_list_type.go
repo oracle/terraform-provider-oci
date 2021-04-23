@@ -25,6 +25,7 @@ const (
 	ManagedListTypeState        ManagedListTypeEnum = "STATE"
 	ManagedListTypeCity         ManagedListTypeEnum = "CITY"
 	ManagedListTypeTags         ManagedListTypeEnum = "TAGS"
+	ManagedListTypeGeneric      ManagedListTypeEnum = "GENERIC"
 )
 
 var mappingManagedListType = map[string]ManagedListTypeEnum{
@@ -39,6 +40,7 @@ var mappingManagedListType = map[string]ManagedListTypeEnum{
 	"STATE":         ManagedListTypeState,
 	"CITY":          ManagedListTypeCity,
 	"TAGS":          ManagedListTypeTags,
+	"GENERIC":       ManagedListTypeGeneric,
 }
 
 // GetManagedListTypeEnumValues Enumerates the set of values for ManagedListTypeEnum

@@ -44,6 +44,12 @@ type CreateVnicDetails struct {
 	// Vlan.
 	AssignPublicIp *bool `mandatory:"false" json:"assignPublicIp"`
 
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record
+	// registration for the VNIC. If set to true, the DNS record will be registered. The default
+	// value is true.
+	// If you specify a `hostnameLabel`, then `assignPrivateDnsRecord` must be set to true.
+	AssignPrivateDnsRecord *bool `mandatory:"false" json:"assignPrivateDnsRecord"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

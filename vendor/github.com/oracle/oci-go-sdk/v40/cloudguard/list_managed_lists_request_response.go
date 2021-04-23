@@ -24,7 +24,7 @@ type ListManagedListsRequest struct {
 
 	// Default is false.
 	// When set to true, the list of all Oracle Managed Resources
-	// Metadata supported by Cloud Guard is returned.
+	// Metadata supported by Cloud Guard are returned.
 	ResourceMetadataOnly *bool `mandatory:"false" contributesTo:"query" name:"resourceMetadataOnly"`
 
 	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
@@ -165,6 +165,7 @@ const (
 	ListManagedListsListTypeState        ListManagedListsListTypeEnum = "STATE"
 	ListManagedListsListTypeCity         ListManagedListsListTypeEnum = "CITY"
 	ListManagedListsListTypeTags         ListManagedListsListTypeEnum = "TAGS"
+	ListManagedListsListTypeGeneric      ListManagedListsListTypeEnum = "GENERIC"
 )
 
 var mappingListManagedListsListType = map[string]ListManagedListsListTypeEnum{
@@ -179,6 +180,7 @@ var mappingListManagedListsListType = map[string]ListManagedListsListTypeEnum{
 	"STATE":         ListManagedListsListTypeState,
 	"CITY":          ListManagedListsListTypeCity,
 	"TAGS":          ListManagedListsListTypeTags,
+	"GENERIC":       ListManagedListsListTypeGeneric,
 }
 
 // GetListManagedListsListTypeEnumValues Enumerates the set of values for ListManagedListsListTypeEnum

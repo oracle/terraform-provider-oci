@@ -69,6 +69,9 @@ type ExternalDatabaseBase struct {
 	// The database packs licensed for the external Oracle Database.
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
+	// The Oracle Database configuration
+	DatabaseConfiguration ExternalDatabaseBaseDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
+
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 }
 
@@ -131,6 +134,29 @@ var mappingExternalDatabaseBaseDatabaseEdition = map[string]ExternalDatabaseBase
 func GetExternalDatabaseBaseDatabaseEditionEnumValues() []ExternalDatabaseBaseDatabaseEditionEnum {
 	values := make([]ExternalDatabaseBaseDatabaseEditionEnum, 0)
 	for _, v := range mappingExternalDatabaseBaseDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExternalDatabaseBaseDatabaseConfigurationEnum Enum with underlying type: string
+type ExternalDatabaseBaseDatabaseConfigurationEnum string
+
+// Set of constants representing the allowable values for ExternalDatabaseBaseDatabaseConfigurationEnum
+const (
+	ExternalDatabaseBaseDatabaseConfigurationRac            ExternalDatabaseBaseDatabaseConfigurationEnum = "RAC"
+	ExternalDatabaseBaseDatabaseConfigurationSingleInstance ExternalDatabaseBaseDatabaseConfigurationEnum = "SINGLE_INSTANCE"
+)
+
+var mappingExternalDatabaseBaseDatabaseConfiguration = map[string]ExternalDatabaseBaseDatabaseConfigurationEnum{
+	"RAC":             ExternalDatabaseBaseDatabaseConfigurationRac,
+	"SINGLE_INSTANCE": ExternalDatabaseBaseDatabaseConfigurationSingleInstance,
+}
+
+// GetExternalDatabaseBaseDatabaseConfigurationEnumValues Enumerates the set of values for ExternalDatabaseBaseDatabaseConfigurationEnum
+func GetExternalDatabaseBaseDatabaseConfigurationEnumValues() []ExternalDatabaseBaseDatabaseConfigurationEnum {
+	values := make([]ExternalDatabaseBaseDatabaseConfigurationEnum, 0)
+	for _, v := range mappingExternalDatabaseBaseDatabaseConfiguration {
 		values = append(values, v)
 	}
 	return values

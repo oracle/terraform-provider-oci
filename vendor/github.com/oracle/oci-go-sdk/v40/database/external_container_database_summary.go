@@ -69,6 +69,9 @@ type ExternalContainerDatabaseSummary struct {
 	// The database packs licensed for the external Oracle Database.
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
+	// The Oracle Database configuration
+	DatabaseConfiguration ExternalContainerDatabaseSummaryDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
+
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 }
 
@@ -131,6 +134,29 @@ var mappingExternalContainerDatabaseSummaryDatabaseEdition = map[string]External
 func GetExternalContainerDatabaseSummaryDatabaseEditionEnumValues() []ExternalContainerDatabaseSummaryDatabaseEditionEnum {
 	values := make([]ExternalContainerDatabaseSummaryDatabaseEditionEnum, 0)
 	for _, v := range mappingExternalContainerDatabaseSummaryDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExternalContainerDatabaseSummaryDatabaseConfigurationEnum Enum with underlying type: string
+type ExternalContainerDatabaseSummaryDatabaseConfigurationEnum string
+
+// Set of constants representing the allowable values for ExternalContainerDatabaseSummaryDatabaseConfigurationEnum
+const (
+	ExternalContainerDatabaseSummaryDatabaseConfigurationRac            ExternalContainerDatabaseSummaryDatabaseConfigurationEnum = "RAC"
+	ExternalContainerDatabaseSummaryDatabaseConfigurationSingleInstance ExternalContainerDatabaseSummaryDatabaseConfigurationEnum = "SINGLE_INSTANCE"
+)
+
+var mappingExternalContainerDatabaseSummaryDatabaseConfiguration = map[string]ExternalContainerDatabaseSummaryDatabaseConfigurationEnum{
+	"RAC":             ExternalContainerDatabaseSummaryDatabaseConfigurationRac,
+	"SINGLE_INSTANCE": ExternalContainerDatabaseSummaryDatabaseConfigurationSingleInstance,
+}
+
+// GetExternalContainerDatabaseSummaryDatabaseConfigurationEnumValues Enumerates the set of values for ExternalContainerDatabaseSummaryDatabaseConfigurationEnum
+func GetExternalContainerDatabaseSummaryDatabaseConfigurationEnumValues() []ExternalContainerDatabaseSummaryDatabaseConfigurationEnum {
+	values := make([]ExternalContainerDatabaseSummaryDatabaseConfigurationEnum, 0)
+	for _, v := range mappingExternalContainerDatabaseSummaryDatabaseConfiguration {
 		values = append(values, v)
 	}
 	return values

@@ -74,6 +74,9 @@ type ExternalPluggableDatabaseSummary struct {
 	// The database packs licensed for the external Oracle Database.
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
+	// The Oracle Database configuration
+	DatabaseConfiguration ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
+
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the the non-container database that was converted
@@ -142,6 +145,29 @@ var mappingExternalPluggableDatabaseSummaryDatabaseEdition = map[string]External
 func GetExternalPluggableDatabaseSummaryDatabaseEditionEnumValues() []ExternalPluggableDatabaseSummaryDatabaseEditionEnum {
 	values := make([]ExternalPluggableDatabaseSummaryDatabaseEditionEnum, 0)
 	for _, v := range mappingExternalPluggableDatabaseSummaryDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum Enum with underlying type: string
+type ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum string
+
+// Set of constants representing the allowable values for ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum
+const (
+	ExternalPluggableDatabaseSummaryDatabaseConfigurationRac            ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum = "RAC"
+	ExternalPluggableDatabaseSummaryDatabaseConfigurationSingleInstance ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum = "SINGLE_INSTANCE"
+)
+
+var mappingExternalPluggableDatabaseSummaryDatabaseConfiguration = map[string]ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum{
+	"RAC":             ExternalPluggableDatabaseSummaryDatabaseConfigurationRac,
+	"SINGLE_INSTANCE": ExternalPluggableDatabaseSummaryDatabaseConfigurationSingleInstance,
+}
+
+// GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumValues Enumerates the set of values for ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum
+func GetExternalPluggableDatabaseSummaryDatabaseConfigurationEnumValues() []ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum {
+	values := make([]ExternalPluggableDatabaseSummaryDatabaseConfigurationEnum, 0)
+	for _, v := range mappingExternalPluggableDatabaseSummaryDatabaseConfiguration {
 		values = append(values, v)
 	}
 	return values

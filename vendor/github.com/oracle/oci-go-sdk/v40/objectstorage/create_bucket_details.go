@@ -65,6 +65,12 @@ type CreateBucketDetails struct {
 
 	// Set the versioning status on the bucket. By default, a bucket is created with versioning `Disabled`. Use this option to enable versioning during bucket creation. Objects in a version enabled bucket are protected from overwrites and deletions. Previous versions of the same object will be available in the bucket.
 	Versioning CreateBucketDetailsVersioningEnum `mandatory:"false" json:"versioning,omitempty"`
+
+	// Set the auto tiering status on the bucket. By default, a bucket is created with auto tiering `Disabled`.
+	// Use this option to enable auto tiering during bucket creation. Objects in a bucket with auto tiering set to
+	// `InfrequentAccess` are transitioned automatically between the 'Standard' and 'InfrequentAccess'
+	// tiers based on the access pattern of the objects.
+	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
 }
 
 func (m CreateBucketDetails) String() string {

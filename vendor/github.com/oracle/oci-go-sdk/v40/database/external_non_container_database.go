@@ -69,6 +69,9 @@ type ExternalNonContainerDatabase struct {
 	// The database packs licensed for the external Oracle Database.
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
+	// The Oracle Database configuration
+	DatabaseConfiguration ExternalNonContainerDatabaseDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
+
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 
 	OperationsInsightsConfig *OperationsInsightsConfig `mandatory:"false" json:"operationsInsightsConfig"`
@@ -133,6 +136,29 @@ var mappingExternalNonContainerDatabaseDatabaseEdition = map[string]ExternalNonC
 func GetExternalNonContainerDatabaseDatabaseEditionEnumValues() []ExternalNonContainerDatabaseDatabaseEditionEnum {
 	values := make([]ExternalNonContainerDatabaseDatabaseEditionEnum, 0)
 	for _, v := range mappingExternalNonContainerDatabaseDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExternalNonContainerDatabaseDatabaseConfigurationEnum Enum with underlying type: string
+type ExternalNonContainerDatabaseDatabaseConfigurationEnum string
+
+// Set of constants representing the allowable values for ExternalNonContainerDatabaseDatabaseConfigurationEnum
+const (
+	ExternalNonContainerDatabaseDatabaseConfigurationRac            ExternalNonContainerDatabaseDatabaseConfigurationEnum = "RAC"
+	ExternalNonContainerDatabaseDatabaseConfigurationSingleInstance ExternalNonContainerDatabaseDatabaseConfigurationEnum = "SINGLE_INSTANCE"
+)
+
+var mappingExternalNonContainerDatabaseDatabaseConfiguration = map[string]ExternalNonContainerDatabaseDatabaseConfigurationEnum{
+	"RAC":             ExternalNonContainerDatabaseDatabaseConfigurationRac,
+	"SINGLE_INSTANCE": ExternalNonContainerDatabaseDatabaseConfigurationSingleInstance,
+}
+
+// GetExternalNonContainerDatabaseDatabaseConfigurationEnumValues Enumerates the set of values for ExternalNonContainerDatabaseDatabaseConfigurationEnum
+func GetExternalNonContainerDatabaseDatabaseConfigurationEnumValues() []ExternalNonContainerDatabaseDatabaseConfigurationEnum {
+	values := make([]ExternalNonContainerDatabaseDatabaseConfigurationEnum, 0)
+	for _, v := range mappingExternalNonContainerDatabaseDatabaseConfiguration {
 		values = append(values, v)
 	}
 	return values
