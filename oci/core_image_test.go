@@ -212,6 +212,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "images.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.agent_features.#", "0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.base_image_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "images.0.billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "images.0.create_image_allowed"),
 					resource.TestCheckResourceAttr(datasourceName, "images.0.defined_tags.%", "1"),
@@ -237,6 +238,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_features.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "base_image_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "create_image_allowed"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
