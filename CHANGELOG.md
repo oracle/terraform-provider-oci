@@ -4,6 +4,9 @@
 - Support for Marketplace-Service Catalog
 - Support for Extending DRG with local and cross-tenancy peering added
 
+### Fixed
+- Fixed update and destroy operations for management resources for external databases.
+
 ## 4.24.0 (April 29, 2021)
 
 ### Added
