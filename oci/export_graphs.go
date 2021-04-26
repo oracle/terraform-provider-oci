@@ -53,7 +53,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"osmanagement":           osmanagementResourceGraph,
 	"sch":                    schResourceGraph,
 	"streaming":              streamingResourceGraph,
-	"tagging":             	  taggingResourceGraph,
+	"tagging":                taggingResourceGraph,
 	"vulnerability_scanning": vulnerabilityScanningResourceGraph,
 	"waas":                   waasResourceGraph,
 }
