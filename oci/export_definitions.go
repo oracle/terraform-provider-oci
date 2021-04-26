@@ -1691,6 +1691,7 @@ var exportMarketplacePublicationHints = &TerraformResourceHints{
 var exportMeteringComputationQueryHints = &TerraformResourceHints{
 	resourceClass:          "oci_metering_computation_query",
 	datasourceClass:        "oci_metering_computation_queries",
+	isDatasourceCollection: true,
 	datasourceItemsAttr:    "query_collection",
 	resourceAbbreviation:   "query",
 	requireResourceRefresh: true,
