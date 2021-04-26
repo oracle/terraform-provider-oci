@@ -108,6 +108,10 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
 	}
 
+	if s.Res.Execute != nil {
+		s.D.Set("execute", *s.Res.Execute)
+	}
+
 	if s.Res.ExecutorShape != nil {
 		s.D.Set("executor_shape", *s.Res.ExecutorShape)
 	}

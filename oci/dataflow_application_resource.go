@@ -96,6 +96,11 @@ func DataflowApplicationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"execute": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -287,6 +292,11 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		request.DriverShape = &tmp
 	}
 
+	if execute, ok := s.D.GetOkExists("execute"); ok {
+		tmp := execute.(string)
+		request.Execute = &tmp
+	}
+
 	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
 		tmp := executorShape.(string)
 		request.ExecutorShape = &tmp
@@ -440,6 +450,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		request.DriverShape = &tmp
 	}
 
+	if execute, ok := s.D.GetOkExists("execute"); ok {
+		tmp := execute.(string)
+		request.Execute = &tmp
+	}
+
 	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
 		tmp := executorShape.(string)
 		request.ExecutorShape = &tmp
@@ -554,6 +569,10 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 
 	if s.Res.DriverShape != nil {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
+	}
+
+	if s.Res.Execute != nil {
+		s.D.Set("execute", *s.Res.Execute)
 	}
 
 	if s.Res.ExecutorShape != nil {

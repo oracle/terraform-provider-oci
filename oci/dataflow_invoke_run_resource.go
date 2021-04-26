@@ -29,22 +29,24 @@ func DataflowInvokeRunResource() *schema.Resource {
 		Delete:   deleteDataflowInvokeRun,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"application_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
+			"application_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"archive_uri": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"arguments": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -68,7 +70,19 @@ func DataflowInvokeRunResource() *schema.Resource {
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"driver_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"execute": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -123,6 +137,12 @@ func DataflowInvokeRunResource() *schema.Resource {
 					},
 				},
 			},
+			"spark_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"warehouse_bucket_uri": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -137,10 +157,6 @@ func DataflowInvokeRunResource() *schema.Resource {
 			},
 
 			// Computed
-			"archive_uri": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"class_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -204,10 +220,6 @@ func DataflowInvokeRunResource() *schema.Resource {
 				Computed: true,
 			},
 			"run_duration_in_milliseconds": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"spark_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -332,6 +344,11 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 		request.ApplicationId = &tmp
 	}
 
+	if archiveUri, ok := s.D.GetOkExists("archive_uri"); ok {
+		tmp := archiveUri.(string)
+		request.ArchiveUri = &tmp
+	}
+
 	if arguments, ok := s.D.GetOkExists("arguments"); ok {
 		interfaces := arguments.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -372,6 +389,11 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 		request.DriverShape = &tmp
 	}
 
+	if execute, ok := s.D.GetOkExists("execute"); ok {
+		tmp := execute.(string)
+		request.Execute = &tmp
+	}
+
 	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
 		tmp := executorShape.(string)
 		request.ExecutorShape = &tmp
@@ -406,6 +428,11 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("parameters") {
 			request.Parameters = tmp
 		}
+	}
+
+	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
+		tmp := sparkVersion.(string)
+		request.SparkVersion = &tmp
 	}
 
 	if warehouseBucketUri, ok := s.D.GetOkExists("warehouse_bucket_uri"); ok {
@@ -545,6 +572,10 @@ func (s *DataflowInvokeRunResourceCrud) SetData() error {
 
 	if s.Res.DriverShape != nil {
 		s.D.Set("driver_shape", *s.Res.DriverShape)
+	}
+
+	if s.Res.Execute != nil {
+		s.D.Set("execute", *s.Res.Execute)
 	}
 
 	if s.Res.ExecutorShape != nil {
