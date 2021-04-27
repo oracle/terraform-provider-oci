@@ -31,6 +31,10 @@ func OceOceInstancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"tenancy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"oce_instances": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -73,6 +77,11 @@ func (s *OceOceInstancesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_oce.ListOceInstancesLifecycleStateEnum(state.(string))
+	}
+
+	if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
+		tmp := tenancyId.(string)
+		request.TenancyId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "oce")
@@ -157,6 +166,10 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 
 		if r.StateMessage != nil {
 			oceInstance["state_message"] = *r.StateMessage
+		}
+
+		if r.SystemTags != nil {
+			oceInstance["system_tags"] = systemTagsToMap(r.SystemTags)
 		}
 
 		if r.TenancyId != nil {

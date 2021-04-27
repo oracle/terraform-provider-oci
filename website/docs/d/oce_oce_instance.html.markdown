@@ -48,6 +48,7 @@ The following attributes are exported:
 * `service` - SERVICE data. Example: `{"service": {"IDCS": "value"}}` 
 * `state` - The current state of the file system.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tenancy_id` - Tenancy Identifier
 * `tenancy_name` - Tenancy Name
 * `time_created` - The time the the OceInstance was created. An RFC3339 formatted datetime string

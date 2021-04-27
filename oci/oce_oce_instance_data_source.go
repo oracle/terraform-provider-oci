@@ -115,6 +115,10 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 		s.D.Set("state_message", *s.Res.StateMessage)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TenancyId != nil {
 		s.D.Set("tenancy_id", *s.Res.TenancyId)
 	}
