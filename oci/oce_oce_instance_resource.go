@@ -27,7 +27,7 @@ func OceOceInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("20m"),
+			Create: getTimeoutDuration("30m"),
 			Update: getTimeoutDuration("20m"),
 			Delete: getTimeoutDuration("20m"),
 		},
@@ -141,6 +141,11 @@ func OceOceInstanceResource() *schema.Resource {
 			"state_message": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -569,6 +574,10 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 
 	if s.Res.StateMessage != nil {
 		s.D.Set("state_message", *s.Res.StateMessage)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TenancyId != nil {
