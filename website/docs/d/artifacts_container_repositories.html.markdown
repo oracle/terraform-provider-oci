@@ -50,6 +50,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `billable_size_in_gbs` - Total storage size in GBs that will be charged.
 * `compartment_id` - The OCID of the compartment in which the container repository exists.
 * `created_by` - The id of the user or principal that created the resource.
 * `display_name` - The container repository name.
