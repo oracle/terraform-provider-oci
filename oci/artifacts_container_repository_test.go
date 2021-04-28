@@ -110,6 +110,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -145,6 +146,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -175,6 +177,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -228,6 +231,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),

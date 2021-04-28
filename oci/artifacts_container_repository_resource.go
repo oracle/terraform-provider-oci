@@ -76,6 +76,10 @@ func ArtifactsContainerRepositoryResource() *schema.Resource {
 			},
 
 			// Computed
+			"billable_size_in_gbs": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"created_by": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -297,6 +301,10 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Delete() error {
 
 func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 
+	if s.Res.BillableSizeInGBs != nil {
+		s.D.Set("billable_size_in_gbs", strconv.FormatInt(*s.Res.BillableSizeInGBs, 10))
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -377,6 +385,10 @@ func ContainerRepositoryReadmeToMap(obj *oci_artifacts.ContainerRepositoryReadme
 
 func ContainerRepositorySummaryToMap(obj oci_artifacts.ContainerRepositorySummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.BillableSizeInGBs != nil {
+		result["billable_size_in_gbs"] = strconv.FormatInt(*obj.BillableSizeInGBs, 10)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
