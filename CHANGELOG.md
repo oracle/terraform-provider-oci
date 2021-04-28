@@ -6,7 +6,8 @@
 - Support for Response Caching to API Gateway
 
 ### Fixed
-- Fixed update and destroy operations for management resources for external databases.
+- Fixed update and destroy operations for management resources for external databases
+- Fixed retry behavior for database and db_home resources to honor user timeouts 
 
 ## 4.24.0 (April 29, 2021)
 
