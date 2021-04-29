@@ -16,6 +16,11 @@ data "oci_core_network_security_groups" "test_network_security_groups" {
   vcn_id       = oci_core_vcn.test_vcn.id
 }
 
+data "oci_core_network_security_groups" "test_network_security_groups_vlan" {
+  #Required
+  vlan_id        = oci_core_vlan.test_vlan.id
+}
+
 data "oci_core_network_security_group_security_rules" "test_network_security_group_security_rules" {
   #Required
   network_security_group_id = oci_core_network_security_group.test_network_security_group.id
