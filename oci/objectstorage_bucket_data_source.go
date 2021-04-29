@@ -103,6 +103,8 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 		s.D.Set("approximate_size", strconv.FormatInt(*s.Res.ApproximateSize, 10))
 	}
 
+	s.D.Set("auto_tiering", s.Res.AutoTiering)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

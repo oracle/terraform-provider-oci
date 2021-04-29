@@ -75,6 +75,7 @@ const (
 	TargetDetectorRecipeDetectorRuleManagedListTypesState        TargetDetectorRecipeDetectorRuleManagedListTypesEnum = "STATE"
 	TargetDetectorRecipeDetectorRuleManagedListTypesCity         TargetDetectorRecipeDetectorRuleManagedListTypesEnum = "CITY"
 	TargetDetectorRecipeDetectorRuleManagedListTypesTags         TargetDetectorRecipeDetectorRuleManagedListTypesEnum = "TAGS"
+	TargetDetectorRecipeDetectorRuleManagedListTypesGeneric      TargetDetectorRecipeDetectorRuleManagedListTypesEnum = "GENERIC"
 )
 
 var mappingTargetDetectorRecipeDetectorRuleManagedListTypes = map[string]TargetDetectorRecipeDetectorRuleManagedListTypesEnum{
@@ -89,6 +90,7 @@ var mappingTargetDetectorRecipeDetectorRuleManagedListTypes = map[string]TargetD
 	"STATE":         TargetDetectorRecipeDetectorRuleManagedListTypesState,
 	"CITY":          TargetDetectorRecipeDetectorRuleManagedListTypesCity,
 	"TAGS":          TargetDetectorRecipeDetectorRuleManagedListTypesTags,
+	"GENERIC":       TargetDetectorRecipeDetectorRuleManagedListTypesGeneric,
 }
 
 // GetTargetDetectorRecipeDetectorRuleManagedListTypesEnumValues Enumerates the set of values for TargetDetectorRecipeDetectorRuleManagedListTypesEnum

@@ -1,3 +1,18 @@
+## 4.24.0 (Unreleased)
+
+### Added
+- Support for opting out of DNS when launching `core_instance` 
+- Support for Cluster Network Resize
+- Support for Intelligent Tiering in added to `Object Storage`
+- Support for Relax Parameters for VLAN and make vcnId as optional for LIST VLAN API
+- Support for CloudGuard features release
+- Support for RAC External Database for DB Management
+- Support for Application Performance Monitoring for `functions` 
+- Support for database parameters for external databases
+
+### Notes
+- Due to [Terraform Updates for HCSEC-2021-12](https://discuss.hashicorp.com/t/terraform-updates-for-hcsec-2021-12/23570), some Terraform CLI versions may fail GPG checks with errors as new providers are released.
+
 ## 4.23.0 (April 21, 2021)
 
 ### Added

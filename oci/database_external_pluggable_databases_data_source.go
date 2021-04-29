@@ -124,6 +124,8 @@ func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) SetData() error {
 			externalPluggableDatabase["character_set"] = *r.CharacterSet
 		}
 
+		externalPluggableDatabase["database_configuration"] = r.DatabaseConfiguration
+
 		externalPluggableDatabase["database_edition"] = r.DatabaseEdition
 
 		if r.DatabaseManagementConfig != nil {
@@ -172,6 +174,12 @@ func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) SetData() error {
 
 		if r.NcharacterSet != nil {
 			externalPluggableDatabase["ncharacter_set"] = *r.NcharacterSet
+		}
+
+		if r.OperationsInsightsConfig != nil {
+			externalPluggableDatabase["operations_insights_config"] = []interface{}{OperationsInsightsConfigToMap(r.OperationsInsightsConfig)}
+		} else {
+			externalPluggableDatabase["operations_insights_config"] = nil
 		}
 
 		if r.SourceId != nil {

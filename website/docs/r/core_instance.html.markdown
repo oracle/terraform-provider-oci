@@ -82,6 +82,7 @@ resource "oci_core_instance" "test_instance" {
 	create_vnic_details {
 
 		#Optional
+		assign_private_dns_record = var.instance_create_vnic_details_assign_private_dns_record
 		assign_public_ip = var.instance_create_vnic_details_assign_public_ip
 		defined_tags = {"Operations.CostCenter"= "42"}
 		display_name = var.instance_create_vnic_details_display_name
@@ -194,6 +195,9 @@ The following arguments are supported:
 * `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
 * `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
+	* `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: `true`
+
+		If you specify a `hostnameLabel`, the `assignPrivateDnsRecord` is require to be set to true. 
 	* `assign_public_ip` - (Optional) (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where `prohibitPublicIpOnVnic` = true in the [Subnet](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Subnet/)), then no public IP address is assigned. If not set and the subnet is public (`prohibitPublicIpOnVnic` = false), then a public IP address is assigned. If set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
 
 		**Note:** This public IP address is associated with the primary private IP on the VNIC. For more information, see [IP Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm).

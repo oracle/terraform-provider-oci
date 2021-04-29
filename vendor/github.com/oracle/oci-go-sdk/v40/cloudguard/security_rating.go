@@ -18,6 +18,7 @@ const (
 	SecurityRatingGood      SecurityRatingEnum = "GOOD"
 	SecurityRatingFair      SecurityRatingEnum = "FAIR"
 	SecurityRatingPoor      SecurityRatingEnum = "POOR"
+	SecurityRatingNa        SecurityRatingEnum = "NA"
 )
 
 var mappingSecurityRating = map[string]SecurityRatingEnum{
@@ -25,6 +26,7 @@ var mappingSecurityRating = map[string]SecurityRatingEnum{
 	"GOOD":      SecurityRatingGood,
 	"FAIR":      SecurityRatingFair,
 	"POOR":      SecurityRatingPoor,
+	"NA":        SecurityRatingNa,
 }
 
 // GetSecurityRatingEnumValues Enumerates the set of values for SecurityRatingEnum

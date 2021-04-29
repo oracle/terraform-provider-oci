@@ -21,6 +21,9 @@ type UpdateBulkProblemStatusDetails struct {
 
 	// List of ProblemIds to be passed in to update the Problem status.
 	ProblemIds []string `mandatory:"true" json:"problemIds"`
+
+	// User defined comment to be passed in to update the problem.
+	Comment *string `mandatory:"false" json:"comment"`
 }
 
 func (m UpdateBulkProblemStatusDetails) String() string {

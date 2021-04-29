@@ -65,6 +65,11 @@ type UpdateBucketDetails struct {
 	// When the object is overwritten or deleted, previous versions will still be available. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted.
 	// Versioning cannot be disabled on a bucket once enabled.
 	Versioning UpdateBucketDetailsVersioningEnum `mandatory:"false" json:"versioning,omitempty"`
+
+	// The auto tiering status on the bucket. If in state `InfrequentAccess`, objects are transitioned
+	// automatically between the 'Standard' and 'InfrequentAccess' tiers based on the access pattern of the objects.
+	// When auto tiering is `Disabled`, there will be no automatic transitions between storage tiers.
+	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
 }
 
 func (m UpdateBucketDetails) String() string {

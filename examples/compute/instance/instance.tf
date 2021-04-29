@@ -109,10 +109,11 @@ resource "oci_core_instance" "test_instance" {
   }
 
   create_vnic_details {
-    subnet_id        = oci_core_subnet.test_subnet.id
-    display_name     = "Primaryvnic"
-    assign_public_ip = true
-    hostname_label   = "tfexampleinstance${count.index}"
+    subnet_id                 = oci_core_subnet.test_subnet.id
+    display_name              = "Primaryvnic"
+    assign_public_ip          = true
+    assign_private_dns_record = true
+    hostname_label            = "exampleinstance${count.index}"
   }
 
   source_details {
@@ -228,6 +229,7 @@ resource "null_resource" "remote-exec" {
   }
 }
 
+/*
 # Gets the boot volume attachments for each instance
 data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
   depends_on          = [oci_core_instance.test_instance]
@@ -237,6 +239,7 @@ data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
 
   instance_id = oci_core_instance.test_instance[count.index].id
 }
+*/
 
 data "oci_core_instance_devices" "test_instance_devices" {
   count       = var.num_instances
@@ -287,9 +290,11 @@ output "silver_policy_id" {
   value = data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies[0].id
 }
 
+/*
 output "attachment_instance_id" {
   value = data.oci_core_boot_volume_attachments.test_boot_volume_attachments.*.instance_id
 }
+*/
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.1.0.0/16"

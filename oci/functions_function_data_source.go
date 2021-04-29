@@ -118,5 +118,11 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)
 	}
 
+	if s.Res.TraceConfig != nil {
+		s.D.Set("trace_config", []interface{}{FunctionTraceConfigToMap(s.Res.TraceConfig)})
+	} else {
+		s.D.Set("trace_config", nil)
+	}
+
 	return nil
 }

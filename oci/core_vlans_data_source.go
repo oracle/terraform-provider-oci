@@ -33,7 +33,7 @@ func CoreVlansDataSource() *schema.Resource {
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"vlans": {
 				Type:     schema.TypeList,
@@ -118,7 +118,6 @@ func (s *CoreVlansDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		vlan := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"vcn_id":         *r.VcnId,
 		}
 
 		if r.AvailabilityDomain != nil {
@@ -153,6 +152,10 @@ func (s *CoreVlansDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			vlan["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VcnId != nil {
+			vlan["vcn_id"] = *r.VcnId
 		}
 
 		if r.VlanTag != nil {
