@@ -10,6 +10,9 @@
 - Support for Application Performance Monitoring for `functions` 
 - Support for database parameters for external databases
 
+### Notes
+- Due to [Terraform Updates for HCSEC-2021-12](https://discuss.hashicorp.com/t/terraform-updates-for-hcsec-2021-12/23570), some Terraform CLI versions may fail GPG checks with errors as new providers are released.
+
 ## 4.23.0 (April 21, 2021)
 
 ### Added
