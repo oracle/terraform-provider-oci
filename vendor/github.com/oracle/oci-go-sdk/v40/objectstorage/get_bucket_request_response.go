@@ -36,8 +36,9 @@ type GetBucketRequest struct {
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
 	// Bucket summary includes the 'namespace', 'name', 'compartmentId', 'createdBy', 'timeCreated',
-	// and 'etag' fields. This parameter can also include 'approximateCount' (approximate number of objects) and 'approximateSize'
-	// (total approximate size in bytes of all objects). For example 'approximateCount,approximateSize'.
+	// and 'etag' fields. This parameter can also include 'approximateCount' (approximate number of objects), 'approximateSize'
+	// (total approximate size in bytes of all objects) and 'autoTiering' (state of auto tiering on the bucket).
+	// For example 'approximateCount,approximateSize,autoTiering'.
 	Fields []GetBucketFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -109,11 +110,13 @@ type GetBucketFieldsEnum string
 const (
 	GetBucketFieldsApproximatecount GetBucketFieldsEnum = "approximateCount"
 	GetBucketFieldsApproximatesize  GetBucketFieldsEnum = "approximateSize"
+	GetBucketFieldsAutotiering      GetBucketFieldsEnum = "autoTiering"
 )
 
 var mappingGetBucketFields = map[string]GetBucketFieldsEnum{
 	"approximateCount": GetBucketFieldsApproximatecount,
 	"approximateSize":  GetBucketFieldsApproximatesize,
+	"autoTiering":      GetBucketFieldsAutotiering,
 }
 
 // GetGetBucketFieldsEnumValues Enumerates the set of values for GetBucketFieldsEnum

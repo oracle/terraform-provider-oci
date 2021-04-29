@@ -21,7 +21,7 @@ type ListResponderRecipesRequest struct {
 
 	// Default is false.
 	// When set to true, the list of all Oracle Managed Resources
-	// Metadata supported by Cloud Guard is returned.
+	// Metadata supported by Cloud Guard are returned.
 	ResourceMetadataOnly *bool `mandatory:"false" contributesTo:"query" name:"resourceMetadataOnly"`
 
 	// A filter to return only resources that match the entire display name given.

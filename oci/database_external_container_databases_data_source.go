@@ -115,6 +115,8 @@ func (s *DatabaseExternalContainerDatabasesDataSourceCrud) SetData() error {
 			externalContainerDatabase["character_set"] = *r.CharacterSet
 		}
 
+		externalContainerDatabase["database_configuration"] = r.DatabaseConfiguration
+
 		externalContainerDatabase["database_edition"] = r.DatabaseEdition
 
 		if r.DatabaseManagementConfig != nil {

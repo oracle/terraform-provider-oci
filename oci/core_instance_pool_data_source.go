@@ -87,7 +87,9 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 
 	loadBalancers := []interface{}{}
 	for _, item := range s.Res.LoadBalancers {
-		loadBalancers = append(loadBalancers, InstancePoolLoadBalancerAttachmentToMap(item))
+		if item.LifecycleState != oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached {
+			loadBalancers = append(loadBalancers, InstancePoolLoadBalancerAttachmentToMap(item))
+		}
 	}
 	s.D.Set("load_balancers", loadBalancers)
 

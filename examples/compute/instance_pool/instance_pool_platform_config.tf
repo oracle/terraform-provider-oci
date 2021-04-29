@@ -14,6 +14,7 @@ variable "instance_configuration_platform_config_type" {
 }
 
 resource "oci_core_instance_configuration" "test_instance_configuration_platform_config" {
+  count = length(data.oci_core_images.instance_config_supported_platform_config_shape_images.images) == 0 ? 0 : 1
   compartment_id = var.compartment_ocid
   display_name   = "TestInstanceConfigurationPlatformConfig"
 

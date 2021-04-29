@@ -70,6 +70,9 @@ type ExternalNonContainerDatabaseSummary struct {
 	// The database packs licensed for the external Oracle Database.
 	DbPacks *string `mandatory:"false" json:"dbPacks"`
 
+	// The Oracle Database configuration
+	DatabaseConfiguration ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum `mandatory:"false" json:"databaseConfiguration,omitempty"`
+
 	DatabaseManagementConfig *DatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
 
 	OperationsInsightsConfig *OperationsInsightsConfig `mandatory:"false" json:"operationsInsightsConfig"`
@@ -134,6 +137,29 @@ var mappingExternalNonContainerDatabaseSummaryDatabaseEdition = map[string]Exter
 func GetExternalNonContainerDatabaseSummaryDatabaseEditionEnumValues() []ExternalNonContainerDatabaseSummaryDatabaseEditionEnum {
 	values := make([]ExternalNonContainerDatabaseSummaryDatabaseEditionEnum, 0)
 	for _, v := range mappingExternalNonContainerDatabaseSummaryDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum Enum with underlying type: string
+type ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum string
+
+// Set of constants representing the allowable values for ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum
+const (
+	ExternalNonContainerDatabaseSummaryDatabaseConfigurationRac            ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum = "RAC"
+	ExternalNonContainerDatabaseSummaryDatabaseConfigurationSingleInstance ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum = "SINGLE_INSTANCE"
+)
+
+var mappingExternalNonContainerDatabaseSummaryDatabaseConfiguration = map[string]ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum{
+	"RAC":             ExternalNonContainerDatabaseSummaryDatabaseConfigurationRac,
+	"SINGLE_INSTANCE": ExternalNonContainerDatabaseSummaryDatabaseConfigurationSingleInstance,
+}
+
+// GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumValues Enumerates the set of values for ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum
+func GetExternalNonContainerDatabaseSummaryDatabaseConfigurationEnumValues() []ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum {
+	values := make([]ExternalNonContainerDatabaseSummaryDatabaseConfigurationEnum, 0)
+	for _, v := range mappingExternalNonContainerDatabaseSummaryDatabaseConfiguration {
 		values = append(values, v)
 	}
 	return values

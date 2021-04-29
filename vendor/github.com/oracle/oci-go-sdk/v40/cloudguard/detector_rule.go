@@ -78,6 +78,7 @@ const (
 	DetectorRuleManagedListTypesState        DetectorRuleManagedListTypesEnum = "STATE"
 	DetectorRuleManagedListTypesCity         DetectorRuleManagedListTypesEnum = "CITY"
 	DetectorRuleManagedListTypesTags         DetectorRuleManagedListTypesEnum = "TAGS"
+	DetectorRuleManagedListTypesGeneric      DetectorRuleManagedListTypesEnum = "GENERIC"
 )
 
 var mappingDetectorRuleManagedListTypes = map[string]DetectorRuleManagedListTypesEnum{
@@ -92,6 +93,7 @@ var mappingDetectorRuleManagedListTypes = map[string]DetectorRuleManagedListType
 	"STATE":         DetectorRuleManagedListTypesState,
 	"CITY":          DetectorRuleManagedListTypesCity,
 	"TAGS":          DetectorRuleManagedListTypesTags,
+	"GENERIC":       DetectorRuleManagedListTypesGeneric,
 }
 
 // GetDetectorRuleManagedListTypesEnumValues Enumerates the set of values for DetectorRuleManagedListTypesEnum

@@ -51,6 +51,10 @@ var (
 		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"image_digest":       Representation{repType: Optional, create: `${var.image_digest}`, update: `${var.image_digest_for_update}`},
 		"timeout_in_seconds": Representation{repType: Optional, create: `30`, update: `31`},
+		"trace_config":       RepresentationGroup{Optional, functionTraceConfigRepresentation},
+	}
+	functionTraceConfigRepresentation = map[string]interface{}{
+		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
 	functionApplicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
@@ -136,6 +140,8 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigest),
 					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
 					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -164,6 +170,8 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigestU),
 					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
 					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "31"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -201,6 +209,8 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_updated"),
 					resource.TestCheckResourceAttr(datasourceName, "functions.0.timeout_in_seconds", "31"),
+					resource.TestCheckResourceAttr(datasourceName, "functions.0.trace_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "functions.0.trace_config.0.is_enabled", "true"),
 				),
 			},
 			// verify singular datasource
@@ -225,6 +235,8 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "31"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.0.is_enabled", "true"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

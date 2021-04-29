@@ -202,6 +202,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.operations_insights_config.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.time_created"),
 				),
@@ -220,6 +221,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "myTestExternalPdb"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "operations_insights_config.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

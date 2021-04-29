@@ -53,6 +53,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"osmanagement":           osmanagementResourceGraph,
 	"sch":                    schResourceGraph,
 	"streaming":              streamingResourceGraph,
+	"tagging":                taggingResourceGraph,
 	"vulnerability_scanning": vulnerabilityScanningResourceGraph,
 	"waas":                   waasResourceGraph,
 }
@@ -172,6 +173,7 @@ var cloudGuardResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCloudGuardTargetHints},
 		{TerraformResourceHints: exportCloudGuardManagedListHints},
 		{TerraformResourceHints: exportCloudGuardResponderRecipeHints},
+		{TerraformResourceHints: exportCloudGuardDataMaskRuleHints},
 		{TerraformResourceHints: exportCloudGuardDetectorRecipeHints},
 	},
 }

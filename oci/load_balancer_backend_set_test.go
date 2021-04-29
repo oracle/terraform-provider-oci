@@ -39,6 +39,13 @@ var (
 		"ssl_configuration":                 RepresentationGroup{Optional, backendSetSslConfigurationRepresentation},
 	}
 
+	backendSet2Representation = map[string]interface{}{
+		"health_checker":   RepresentationGroup{Required, backendSetHealthCheckerRepresentation},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
+		"name":             Representation{repType: Required, create: `backendSet2`},
+		"policy":           Representation{repType: Required, create: `LEAST_CONNECTIONS`},
+	}
+
 	backendSetLBRepresentation = representationCopyWithNewProperties(representationCopyWithRemovedProperties(backendSetRepresentation, []string{`session_persistence_configuration`}), map[string]interface{}{
 		"lb_cookie_session_persistence_configuration": RepresentationGroup{Optional, backendSetLbCookieSessionPersistenceConfigurationRepresentation},
 	})

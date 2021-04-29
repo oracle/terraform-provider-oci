@@ -68,6 +68,10 @@ func DatabaseExternalPluggableDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_configuration": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"database_edition": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -122,6 +126,29 @@ func DatabaseExternalPluggableDatabaseResource() *schema.Resource {
 			"ncharacter_set": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"operations_insights_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"operations_insights_connector_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"operations_insights_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -364,10 +391,12 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("database_configuration", s.Res.DatabaseConfiguration)
+
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
 	if s.Res.DatabaseManagementConfig != nil {
-		s.D.Set("database_management_config", []interface{}{DatabaseManagementConfigToMap(s.Res.DatabaseManagementConfig)})
+		s.D.Set("database_management_config", []interface{}{DatabaseManagementConfigurationToMap(s.Res.DatabaseManagementConfig)})
 	} else {
 		s.D.Set("database_management_config", nil)
 	}
@@ -410,6 +439,12 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) SetData() error {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
+	if s.Res.OperationsInsightsConfig != nil {
+		s.D.Set("operations_insights_config", []interface{}{OperationsInsightsConfigurationToMap(s.Res.OperationsInsightsConfig)})
+	} else {
+		s.D.Set("operations_insights_config", nil)
+	}
+
 	if s.Res.SourceId != nil {
 		s.D.Set("source_id", *s.Res.SourceId)
 	}
@@ -425,6 +460,32 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func DatabaseManagementConfigurationToMap(obj *oci_database.DatabaseManagementConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DatabaseManagementConnectionId != nil {
+		result["database_management_connection_id"] = string(*obj.DatabaseManagementConnectionId)
+	}
+
+	result["database_management_status"] = string(obj.DatabaseManagementStatus)
+
+	result["license_model"] = string(obj.LicenseModel)
+
+	return result
+}
+
+func OperationsInsightsConfigurationToMap(obj *oci_database.OperationsInsightsConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.OperationsInsightsConnectorId != nil {
+		result["operations_insights_connector_id"] = string(*obj.OperationsInsightsConnectorId)
+	}
+
+	result["operations_insights_status"] = string(obj.OperationsInsightsStatus)
+
+	return result
 }
 
 func (s *DatabaseExternalPluggableDatabaseResourceCrud) updateCompartment(compartment interface{}) error {

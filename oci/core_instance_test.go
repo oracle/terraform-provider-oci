@@ -85,15 +85,16 @@ var (
 		"recovery_action":             Representation{repType: Optional, create: `RESTORE_INSTANCE`, update: `STOP_INSTANCE`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
-		"assign_public_ip":       Representation{repType: Optional, create: `true`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"hostname_label":         Representation{repType: Optional, create: `hostnamelabel`},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
-		"private_ip":             Representation{repType: Optional, create: `10.0.0.5`},
-		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
-		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_private_dns_record": Representation{repType: Optional, create: `false`},
+		"assign_public_ip":          Representation{repType: Optional, create: `true`},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{repType: Optional, create: `displayName`},
+		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"hostname_label":            Representation{repType: Optional, create: `hostnamelabel`},
+		"nsg_ids":                   Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
+		"private_ip":                Representation{repType: Optional, create: `10.0.0.5`},
+		"skip_source_dest_check":    Representation{repType: Optional, create: `false`},
+		"subnet_id":                 Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	instanceInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": Representation{repType: Optional, create: `false`, update: `true`},
@@ -783,6 +784,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					"extended_metadata",
 					"hostname_label",
 					"is_pv_encryption_in_transit_enabled",
+					"create_vnic_details.0.assign_private_dns_record",
 					"subnet_id",
 					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
 				},

@@ -146,6 +146,12 @@ func (s *FunctionsApplicationsDataSourceCrud) SetData() error {
 			application["time_updated"] = r.TimeUpdated.String()
 		}
 
+		if r.TraceConfig != nil {
+			application["trace_config"] = []interface{}{ApplicationTraceConfigToMap(r.TraceConfig)}
+		} else {
+			application["trace_config"] = nil
+		}
+
 		resources = append(resources, application)
 	}
 

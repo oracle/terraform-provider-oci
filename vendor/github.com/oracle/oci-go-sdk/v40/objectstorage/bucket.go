@@ -102,6 +102,11 @@ type Bucket struct {
 	// The versioning status on the bucket. A bucket is created with versioning `Disabled` by default.
 	// For versioning `Enabled`, objects are protected from overwrites and deletes, by maintaining their version history. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted.
 	Versioning BucketVersioningEnum `mandatory:"false" json:"versioning,omitempty"`
+
+	// The auto tiering status on the bucket. A bucket is created with auto tiering `Disabled` by default.
+	// For auto tiering `InfrequentAccess`, objects are transitioned automatically between the 'Standard'
+	// and 'InfrequentAccess' tiers based on the access pattern of the objects.
+	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
 }
 
 func (m Bucket) String() string {
@@ -176,6 +181,29 @@ var mappingBucketVersioning = map[string]BucketVersioningEnum{
 func GetBucketVersioningEnumValues() []BucketVersioningEnum {
 	values := make([]BucketVersioningEnum, 0)
 	for _, v := range mappingBucketVersioning {
+		values = append(values, v)
+	}
+	return values
+}
+
+// BucketAutoTieringEnum Enum with underlying type: string
+type BucketAutoTieringEnum string
+
+// Set of constants representing the allowable values for BucketAutoTieringEnum
+const (
+	BucketAutoTieringDisabled         BucketAutoTieringEnum = "Disabled"
+	BucketAutoTieringInfrequentaccess BucketAutoTieringEnum = "InfrequentAccess"
+)
+
+var mappingBucketAutoTiering = map[string]BucketAutoTieringEnum{
+	"Disabled":         BucketAutoTieringDisabled,
+	"InfrequentAccess": BucketAutoTieringInfrequentaccess,
+}
+
+// GetBucketAutoTieringEnumValues Enumerates the set of values for BucketAutoTieringEnum
+func GetBucketAutoTieringEnumValues() []BucketAutoTieringEnum {
+	values := make([]BucketAutoTieringEnum, 0)
+	for _, v := range mappingBucketAutoTiering {
 		values = append(values, v)
 	}
 	return values

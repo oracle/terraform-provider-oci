@@ -51,6 +51,12 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"syslog_url":     Representation{repType: Optional, create: `tcp://syslog.test:80`, update: `tcp://syslog2.test:80`},
+		"trace_config":   RepresentationGroup{Optional, applicationTraceConfigRepresentation},
+	}
+	applicationTraceConfigRepresentation = map[string]interface{}{
+		// "domain_id":  Representation{repType: Optional, create: `${oci_functions_domain.test_domain.id}`}, APM TF coming soon.
+		"domain_id":  Representation{repType: Optional, create: getEnvSettingWithBlankDefault("domain_id")},
+		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
 	ApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
@@ -120,6 +126,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -149,6 +158,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -173,6 +185,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog2.test:80"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
+					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -205,6 +220,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.subnet_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),
+					resource.TestCheckResourceAttr(datasourceName, "applications.0.trace_config.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.trace_config.0.domain_id"),
+					resource.TestCheckResourceAttr(datasourceName, "applications.0.trace_config.0.is_enabled", "true"),
 				),
 			},
 			// verify singular datasource
@@ -226,6 +244,8 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.0.is_enabled", "true"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

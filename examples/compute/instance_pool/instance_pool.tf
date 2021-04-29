@@ -239,6 +239,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
       }
 
       create_vnic_details {
+        assign_private_dns_record = false
         assign_public_ip       = true
         display_name           = "TestInstanceConfigurationVNIC"
         skip_source_dest_check = false

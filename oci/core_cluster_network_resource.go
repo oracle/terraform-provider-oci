@@ -37,7 +37,6 @@ func CoreClusterNetworkResource() *schema.Resource {
 			"instance_pools": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -49,7 +48,6 @@ func CoreClusterNetworkResource() *schema.Resource {
 						"size": {
 							Type:     schema.TypeInt,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -57,7 +55,6 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Type:             schema.TypeMap,
 							Optional:         true,
 							Computed:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: definedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
 						},
@@ -65,13 +62,11 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem:     schema.TypeString,
 						},
 
@@ -460,6 +455,23 @@ func (s *CoreClusterNetworkResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if instancePools, ok := s.D.GetOkExists("instance_pools"); ok {
+		interfaces := instancePools.([]interface{})
+		tmp := make([]oci_core.UpdateClusterNetworkInstancePoolDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_pools", stateDataIndex)
+			converted, err := s.mapToUpdateClusterNetworkInstancePoolDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("instance_pools") {
+			request.InstancePools = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateClusterNetwork(context.Background(), request)
@@ -604,6 +616,40 @@ func (s *CoreClusterNetworkResourceCrud) mapToCreateClusterNetworkInstancePoolDe
 	if instanceConfigurationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration_id")); ok {
 		tmp := instanceConfigurationId.(string)
 		result.InstanceConfigurationId = &tmp
+	}
+
+	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
+		tmp := size.(int)
+		result.Size = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *CoreClusterNetworkResourceCrud) mapToUpdateClusterNetworkInstancePoolDetails(fieldKeyFormat string) (
+	oci_core.UpdateClusterNetworkInstancePoolDetails, error) {
+	result := oci_core.UpdateClusterNetworkInstancePoolDetails{}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
 	}
 
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {

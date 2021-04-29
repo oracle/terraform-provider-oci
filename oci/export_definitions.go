@@ -245,6 +245,18 @@ var exportCloudGuardResponderRecipeHints = &TerraformResourceHints{
 	},
 }
 
+var exportCloudGuardDataMaskRuleHints = &TerraformResourceHints{
+	resourceClass:          "oci_cloud_guard_data_mask_rule",
+	datasourceClass:        "oci_cloud_guard_data_mask_rules",
+	datasourceItemsAttr:    "data_mask_rule_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "data_mask_rule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
 var exportCloudGuardDetectorRecipeHints = &TerraformResourceHints{
 	resourceClass:          "oci_cloud_guard_detector_recipe",
 	datasourceClass:        "oci_cloud_guard_detector_recipes",
@@ -931,6 +943,50 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatacatalogCatalogHints = &TerraformResourceHints{
+	resourceClass:        "oci_datacatalog_catalog",
+	datasourceClass:      "oci_datacatalog_catalogs",
+	datasourceItemsAttr:  "catalogs",
+	resourceAbbreviation: "catalog",
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogDataAssetHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_data_asset",
+	datasourceClass:        "oci_datacatalog_data_assets",
+	datasourceItemsAttr:    "data_asset_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "data_asset",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_connection",
+	datasourceClass:        "oci_datacatalog_connections",
+	datasourceItemsAttr:    "connection_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
+var exportDatacatalogCatalogPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:        "oci_datacatalog_catalog_private_endpoint",
+	datasourceClass:      "oci_datacatalog_catalog_private_endpoints",
+	datasourceItemsAttr:  "catalog_private_endpoints",
+	resourceAbbreviation: "catalog_private_endpoint",
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",
@@ -1061,50 +1117,6 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	resourceClass:        "oci_dns_rrset",
 	datasourceClass:      "oci_dns_rrset",
 	resourceAbbreviation: "rrset",
-}
-
-var exportDatacatalogCatalogHints = &TerraformResourceHints{
-	resourceClass:        "oci_datacatalog_catalog",
-	datasourceClass:      "oci_datacatalog_catalogs",
-	datasourceItemsAttr:  "catalogs",
-	resourceAbbreviation: "catalog",
-	discoverableLifecycleStates: []string{
-		string(oci_datacatalog.LifecycleStateActive),
-	},
-}
-
-var exportDatacatalogDataAssetHints = &TerraformResourceHints{
-	resourceClass:          "oci_datacatalog_data_asset",
-	datasourceClass:        "oci_datacatalog_data_assets",
-	datasourceItemsAttr:    "data_asset_collection",
-	isDatasourceCollection: true,
-	resourceAbbreviation:   "data_asset",
-	requireResourceRefresh: true,
-	discoverableLifecycleStates: []string{
-		string(oci_datacatalog.LifecycleStateActive),
-	},
-}
-
-var exportDatacatalogConnectionHints = &TerraformResourceHints{
-	resourceClass:          "oci_datacatalog_connection",
-	datasourceClass:        "oci_datacatalog_connections",
-	datasourceItemsAttr:    "connection_collection",
-	isDatasourceCollection: true,
-	resourceAbbreviation:   "connection",
-	requireResourceRefresh: true,
-	discoverableLifecycleStates: []string{
-		string(oci_datacatalog.LifecycleStateActive),
-	},
-}
-
-var exportDatacatalogCatalogPrivateEndpointHints = &TerraformResourceHints{
-	resourceClass:        "oci_datacatalog_catalog_private_endpoint",
-	datasourceClass:      "oci_datacatalog_catalog_private_endpoints",
-	datasourceItemsAttr:  "catalog_private_endpoints",
-	resourceAbbreviation: "catalog_private_endpoint",
-	discoverableLifecycleStates: []string{
-		string(oci_datacatalog.LifecycleStateActive),
-	},
 }
 
 var exportEmailSuppressionHints = &TerraformResourceHints{
@@ -1581,6 +1593,23 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+var exportLoggingLogGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_logging_log_group",
+	datasourceClass:      "oci_logging_log_groups",
+	datasourceItemsAttr:  "log_groups",
+	resourceAbbreviation: "log_group",
+}
+
+var exportLoggingLogHints = &TerraformResourceHints{
+	resourceClass:        "oci_logging_log",
+	datasourceClass:      "oci_logging_logs",
+	datasourceItemsAttr:  "logs",
+	resourceAbbreviation: "log",
+	discoverableLifecycleStates: []string{
+		string(oci_logging.LogLifecycleStateActive),
+	},
+}
+
 var exportLoggingUnifiedAgentConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_logging_unified_agent_configuration",
 	datasourceClass:        "oci_logging_unified_agent_configurations",
@@ -1888,23 +1917,6 @@ var exportOsmanagementSoftwareSourceHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_osmanagement.ListSoftwareSourcesLifecycleStateActive),
-	},
-}
-
-var exportLoggingLogGroupHints = &TerraformResourceHints{
-	resourceClass:        "oci_logging_log_group",
-	datasourceClass:      "oci_logging_log_groups",
-	datasourceItemsAttr:  "log_groups",
-	resourceAbbreviation: "log_group",
-}
-
-var exportLoggingLogHints = &TerraformResourceHints{
-	resourceClass:        "oci_logging_log",
-	datasourceClass:      "oci_logging_logs",
-	datasourceItemsAttr:  "logs",
-	resourceAbbreviation: "log",
-	discoverableLifecycleStates: []string{
-		string(oci_logging.LogLifecycleStateActive),
 	},
 }
 

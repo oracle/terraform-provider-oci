@@ -94,6 +94,27 @@ func FunctionsFunctionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"trace_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"compartment_id": {
@@ -241,6 +262,17 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		request.TimeoutInSeconds = &tmp
 	}
 
+	if traceConfig, ok := s.D.GetOkExists("trace_config"); ok {
+		if tmpList := traceConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trace_config", 0)
+			tmp, err := s.mapToFunctionTraceConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TraceConfig = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.CreateFunction(context.Background(), request)
@@ -313,6 +345,17 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 	if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
 		tmp := timeoutInSeconds.(int)
 		request.TimeoutInSeconds = &tmp
+	}
+
+	if traceConfig, ok := s.D.GetOkExists("trace_config"); ok {
+		if tmpList := traceConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trace_config", 0)
+			tmp, err := s.mapToFunctionTraceConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TraceConfig = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
@@ -389,5 +432,32 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)
 	}
 
+	if s.Res.TraceConfig != nil {
+		s.D.Set("trace_config", []interface{}{FunctionTraceConfigToMap(s.Res.TraceConfig)})
+	} else {
+		s.D.Set("trace_config", nil)
+	}
+
 	return nil
+}
+
+func (s *FunctionsFunctionResourceCrud) mapToFunctionTraceConfig(fieldKeyFormat string) (oci_functions.FunctionTraceConfig, error) {
+	result := oci_functions.FunctionTraceConfig{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func FunctionTraceConfigToMap(obj *oci_functions.FunctionTraceConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
 }

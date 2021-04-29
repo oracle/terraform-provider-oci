@@ -57,6 +57,11 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Optional: true,
 				Default:  string(oci_object_storage.CreateBucketDetailsPublicAccessTypeNopublicaccess),
 			},
+			"auto_tiering": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -266,6 +271,10 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 		request.PublicAccessType = oci_object_storage.CreateBucketDetailsPublicAccessTypeEnum(accessType.(string))
 	}
 
+	if autoTiering, ok := s.D.GetOkExists("auto_tiering"); ok {
+		request.AutoTiering = oci_object_storage.BucketAutoTieringEnum(autoTiering.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -405,6 +414,10 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 		request.PublicAccessType = oci_object_storage.UpdateBucketDetailsPublicAccessTypeEnum(accessType.(string))
 	}
 
+	if autoTiering, ok := s.D.GetOkExists("auto_tiering"); ok {
+		request.AutoTiering = oci_object_storage.BucketAutoTieringEnum(autoTiering.(string))
+	}
+
 	if bucket, ok := s.D.GetOkExists("name"); ok {
 		tmp := bucket.(string)
 		request.BucketName = &tmp
@@ -515,6 +528,8 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 	if s.Res.ApproximateSize != nil {
 		s.D.Set("approximate_size", strconv.FormatInt(*s.Res.ApproximateSize, 10))
 	}
+
+	s.D.Set("auto_tiering", s.Res.AutoTiering)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

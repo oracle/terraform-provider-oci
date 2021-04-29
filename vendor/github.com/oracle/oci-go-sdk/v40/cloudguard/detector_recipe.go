@@ -37,10 +37,10 @@ type DetectorRecipe struct {
 	// Detector recipe description
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of detetor rules for the detector type for recipe
+	// List of detector rules for the detector type for recipe - user input
 	DetectorRules []DetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
-	// List of detetor rules for the detector type for recipe
+	// List of effective detector rules for the detector type for recipe after applying defaults
 	EffectiveDetectorRules []DetectorRecipeDetectorRule `mandatory:"false" json:"effectiveDetectorRules"`
 
 	// The date and time the detector recipe was created. Format defined by RFC3339.

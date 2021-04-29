@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -73,6 +74,32 @@ func FunctionsApplicationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"trace_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"domain_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -207,6 +234,17 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		request.SyslogUrl = &tmp
 	}
 
+	if traceConfig, ok := s.D.GetOkExists("trace_config"); ok {
+		if tmpList := traceConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trace_config", 0)
+			tmp, err := s.mapToApplicationTraceConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TraceConfig = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.CreateApplication(context.Background(), request)
@@ -271,6 +309,17 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		request.SyslogUrl = &tmp
 	}
 
+	if traceConfig, ok := s.D.GetOkExists("trace_config"); ok {
+		if tmpList := traceConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trace_config", 0)
+			tmp, err := s.mapToApplicationTraceConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TraceConfig = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.UpdateApplication(context.Background(), request)
@@ -327,7 +376,43 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.TraceConfig != nil {
+		s.D.Set("trace_config", []interface{}{ApplicationTraceConfigToMap(s.Res.TraceConfig)})
+	} else {
+		s.D.Set("trace_config", nil)
+	}
+
 	return nil
+}
+
+func (s *FunctionsApplicationResourceCrud) mapToApplicationTraceConfig(fieldKeyFormat string) (oci_functions.ApplicationTraceConfig, error) {
+	result := oci_functions.ApplicationTraceConfig{}
+
+	if domainId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain_id")); ok {
+		tmp := domainId.(string)
+		result.DomainId = &tmp
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func ApplicationTraceConfigToMap(obj *oci_functions.ApplicationTraceConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DomainId != nil {
+		result["domain_id"] = string(*obj.DomainId)
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
 }
 
 func (s *FunctionsApplicationResourceCrud) updateCompartment(compartment interface{}) error {

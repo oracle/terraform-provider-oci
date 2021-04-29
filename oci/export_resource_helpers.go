@@ -331,7 +331,8 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 			return err
 		}
 	} else {
-		return fmt.Errorf("[ERROR] temporary state file %s not found for %s: %s", stateOutputFile, r.name, err.Error())
+		Logf("[WARN] temporary state file %s not found for %s: %s", stateOutputFile, r.name, err.Error())
+		return nil
 	}
 
 	if jsonState, err := ioutil.ReadFile(stateOutputFile); err != nil {

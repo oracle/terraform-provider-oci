@@ -64,6 +64,15 @@ type Problem struct {
 	// targetId of the problem
 	TargetId *string `mandatory:"false" json:"targetId"`
 
+	// The additional details of the Problem
+	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
+
+	// Description of the problem
+	Description *string `mandatory:"false" json:"description"`
+
+	// Recommendation for the problem
+	Recommendation *string `mandatory:"false" json:"recommendation"`
+
 	// User Comments
 	Comment *string `mandatory:"false" json:"comment"`
 }

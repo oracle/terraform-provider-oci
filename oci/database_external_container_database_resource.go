@@ -57,6 +57,10 @@ func DatabaseExternalContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_configuration": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"database_edition": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -345,6 +349,8 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("database_configuration", s.Res.DatabaseConfiguration)
 
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 

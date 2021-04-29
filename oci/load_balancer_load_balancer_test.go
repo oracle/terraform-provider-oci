@@ -50,6 +50,14 @@ var (
 		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
+	loadBalancer2Representation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Required, create: `example_load_balancer2`, update: `displayName3`},
+		"shape":          Representation{repType: Required, create: `100Mbps`, update: `400Mbps`},
+		"subnet_ids":     Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_3.id}`, `${oci_core_subnet.lb_test_subnet_4.id}`}},
+		"lifecycle":      RepresentationGroup{Required, ignoreChangesLBRepresentation},
+	}
+
 	ignoreChangesLBRepresentation = map[string]interface{}{
 		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
 	}
@@ -87,6 +95,25 @@ var (
 		compartment_id = "${var.compartment_id}"
 		vcn_id = "${oci_core_vcn.test_lb_vcn.id}"
 		display_name        = "lbTestSubnet2"
+		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
+	}
+	resource "oci_core_subnet" "lb_test_subnet_3" {
+		#Required
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		cidr_block = "10.0.2.0/24"
+		compartment_id = "${var.compartment_id}"
+		vcn_id = "${oci_core_vcn.test_lb_vcn.id}"
+		display_name        = "lbTestSubnet3"
+		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
+	}
+	
+	resource "oci_core_subnet" "lb_test_subnet_4" {
+		#Required
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
+		cidr_block = "10.0.3.0/24"
+		compartment_id = "${var.compartment_id}"
+		vcn_id = "${oci_core_vcn.test_lb_vcn.id}"
+		display_name        = "lbTestSubnet4"
 		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
 `

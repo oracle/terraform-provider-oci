@@ -33,6 +33,9 @@ type UpdateClusterNetworkDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The instance pools in the cluster network to update.
+	InstancePools []UpdateClusterNetworkInstancePoolDetails `mandatory:"false" json:"instancePools"`
 }
 
 func (m UpdateClusterNetworkDetails) String() string {
