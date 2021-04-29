@@ -52,6 +52,11 @@ var (
 		"nsg_ids":             Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
 		"route_table_id":      Representation{repType: Optional, create: `${oci_core_route_table.test_route_table.id}`},
 		"vlan_tag":            Representation{repType: Optional, create: `10`},
+		"lifecycle":           RepresentationGroup{Required, ignoreChangesNsgRepresentation},
+	}
+
+	ignoreChangesVlanRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
 	}
 
 	VlanResourceDependencies = generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +

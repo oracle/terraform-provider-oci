@@ -1,3 +1,8 @@
+## 4.29.0 (Unreleased)
+
+### Added
+- Support create an endpoint for listing fully hydrated NSGs attached to a given VLAN
+
 ## 4.28.0 (May 26, 2021)
 
 ### Added
