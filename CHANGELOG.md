@@ -2,6 +2,7 @@
 
 ### Added
 - Support API Gateway Request Validation policies
+- Support HCX Enterprise Add-on for `OCVP` service
 
 ## 4.27.0 (May 19, 2021)
 

@@ -44,8 +44,8 @@ func OcvpEsxiHostResource() *schema.Resource {
 			"current_sku": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
-				Default:  "MONTH",
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
