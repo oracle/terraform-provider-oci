@@ -371,6 +371,9 @@ resource "oci_ocvp_sddc" "test_sddc" {
   provisioning_vlan_id = oci_core_vlan.test_provisioning_vlan.id
   replication_vlan_id  = oci_core_vlan.test_replication_vlan.id
   initial_sku          = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
+  hcx_action = "upgrade"
+  refresh_hcx_license_status = true
+  #reserving_hcx_on_premise_license_keys = var.reserving_hcx_on_premise_license_keys
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.sddc_defined_tags_value}"}
   #display_name  = var.sddc_display_name
   #freeform_tags = var.sddc_freeform_tags

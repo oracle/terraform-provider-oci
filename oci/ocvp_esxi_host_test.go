@@ -42,8 +42,8 @@ var (
 	}
 
 	esxiHostRepresentation = map[string]interface{}{
-		"current_sku":   Representation{repType: Optional, create: `HOUR`},
 		"sddc_id":       Representation{repType: Required, create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"current_sku":   Representation{repType: Optional, create: `HOUR`},
 		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},

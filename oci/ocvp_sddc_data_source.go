@@ -102,6 +102,12 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
 	}
 
+	hcxOnPremLicenses := []interface{}{}
+	for _, item := range s.Res.HcxOnPremLicenses {
+		hcxOnPremLicenses = append(hcxOnPremLicenses, HcxLicenseSummaryToMap(item))
+	}
+	s.D.Set("hcx_on_prem_licenses", hcxOnPremLicenses)
+
 	if s.Res.HcxPrivateIpId != nil {
 		s.D.Set("hcx_private_ip_id", *s.Res.HcxPrivateIpId)
 	}
@@ -118,6 +124,14 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	if s.Res.IsHcxEnabled != nil {
 		s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
+	}
+
+	if s.Res.IsHcxEnterpriseEnabled != nil {
+		s.D.Set("is_hcx_enterprise_enabled", *s.Res.IsHcxEnterpriseEnabled)
+	}
+
+	if s.Res.IsHcxPendingDowngrade != nil {
+		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
 	}
 
 	if s.Res.NsxEdgeUplink1VlanId != nil {
@@ -180,6 +194,14 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeHcxBillingCycleEnd != nil {
+		s.D.Set("time_hcx_billing_cycle_end", s.Res.TimeHcxBillingCycleEnd.String())
+	}
+
+	if s.Res.TimeHcxLicenseStatusUpdated != nil {
+		s.D.Set("time_hcx_license_status_updated", s.Res.TimeHcxLicenseStatusUpdated.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
