@@ -70,10 +70,8 @@ var (
 	GatewayResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		apiCertificateVariableStr + apiPrivateKeyVariableStr +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Required, Create, secretDataSourceRepresentation)
+		apiCertificateVariableStr + apiPrivateKeyVariableStr
 )
 
 func TestApigatewayGatewayResource_basic(t *testing.T) {
