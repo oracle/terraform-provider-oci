@@ -374,7 +374,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.display_name", "backend-servers"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.extended_metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.fault_domain", "FAULT-DOMAIN-2"),
+					//resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.fault_domain"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.metadata.%", "1"),
