@@ -98,7 +98,7 @@ func (s *ApigatewayDeploymentDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.Specification != nil {
-		s.D.Set("specification", []interface{}{ApiSpecificationToMap(s.Res.Specification)})
+		s.D.Set("specification", []interface{}{ApiSpecificationToMap(s.Res.Specification, true)})
 	} else {
 		s.D.Set("specification", nil)
 	}
