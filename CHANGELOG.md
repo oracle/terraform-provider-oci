@@ -1,3 +1,8 @@
+## 4.28.0 (Unreleased)
+
+### Added
+- Support API Gateway Request Validation policies
+
 ## 4.27.0 (May 19, 2021)
 
 ### Added
