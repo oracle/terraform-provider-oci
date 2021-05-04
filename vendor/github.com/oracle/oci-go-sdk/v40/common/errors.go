@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 )
 
@@ -109,4 +110,12 @@ func (ne NonSeekableRequestRetryFailure) Error() string {
 		return fmt.Sprintf("Unable to perform Retry on this request body type, which did not implement seek() interface")
 	}
 	return fmt.Sprintf("%s. Unable to perform Retry on this request body type, which did not implement seek() interface", ne.err.Error())
+}
+
+// IsNetworkError validatas if an error is a net.Error and check if it's temporary or timeout
+func IsNetworkError(err error) bool {
+	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) {
+		return true
+	}
+	return false
 }
