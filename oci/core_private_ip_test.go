@@ -172,7 +172,8 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_reserved"),
+					//commenting until service issue resolved
+					//resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_reserved"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
@@ -194,7 +195,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reserved"),
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reserved"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
