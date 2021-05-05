@@ -28,7 +28,7 @@ data "oci_core_fast_connect_provider_service_key" "test_fast_connect_provider_se
 
 The following arguments are supported:
 
-* `provider_service_id` - (Required) The OCID of the provider service.
+* `provider_service_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the provider service.
 * `provider_service_key_name` - (Required) The provider service key that the provider gives you when you set up a virtual circuit connection from the provider to Oracle Cloud Infrastructure. You can set up that connection and get your provider service key at the provider's website or portal. For the portal location, see the `description` attribute of the [FastConnectProviderService](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/). 
 
 

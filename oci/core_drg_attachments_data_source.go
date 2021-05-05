@@ -19,11 +19,31 @@ func CoreDrgAttachmentsDataSource() *schema.Resource {
 		Read: readCoreDrgAttachments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"attachment_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"drg_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"drg_route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"network_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -61,14 +81,37 @@ func (s *CoreDrgAttachmentsDataSourceCrud) VoidState() {
 func (s *CoreDrgAttachmentsDataSourceCrud) Get() error {
 	request := oci_core.ListDrgAttachmentsRequest{}
 
+	if attachmentType, ok := s.D.GetOkExists("attachment_type"); ok {
+		request.AttachmentType = oci_core.ListDrgAttachmentsAttachmentTypeEnum(attachmentType.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
 	}
 
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
 	if drgId, ok := s.D.GetOkExists("drg_id"); ok {
 		tmp := drgId.(string)
 		request.DrgId = &tmp
+	}
+
+	if drgRouteTableId, ok := s.D.GetOkExists("drg_route_table_id"); ok {
+		tmp := drgRouteTableId.(string)
+		request.DrgRouteTableId = &tmp
+	}
+
+	if networkId, ok := s.D.GetOkExists("network_id"); ok {
+		tmp := networkId.(string)
+		request.NetworkId = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_core.DrgAttachmentLifecycleStateEnum(state.(string))
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -112,6 +155,10 @@ func (s *CoreDrgAttachmentsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			drgAttachment["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			drgAttachment["display_name"] = *r.DisplayName
 		}
@@ -120,8 +167,32 @@ func (s *CoreDrgAttachmentsDataSourceCrud) SetData() error {
 			drgAttachment["drg_id"] = *r.DrgId
 		}
 
+		if r.DrgRouteTableId != nil {
+			drgAttachment["drg_route_table_id"] = *r.DrgRouteTableId
+		}
+
+		if r.ExportDrgRouteDistributionId != nil {
+			drgAttachment["export_drg_route_distribution_id"] = *r.ExportDrgRouteDistributionId
+		}
+
+		drgAttachment["freeform_tags"] = r.FreeformTags
+
 		if r.Id != nil {
 			drgAttachment["id"] = *r.Id
+		}
+
+		if r.IsCrossTenancy != nil {
+			drgAttachment["is_cross_tenancy"] = *r.IsCrossTenancy
+		}
+
+		if r.NetworkDetails != nil {
+			networkDetailsArray := []interface{}{}
+			if networkDetailsMap := DrgAttachmentNetworkDetailsToMap(&r.NetworkDetails); networkDetailsMap != nil {
+				networkDetailsArray = append(networkDetailsArray, networkDetailsMap)
+			}
+			drgAttachment["network_details"] = networkDetailsArray
+		} else {
+			drgAttachment["network_details"] = nil
 		}
 
 		if r.RouteTableId != nil {

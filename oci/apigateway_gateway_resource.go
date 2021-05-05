@@ -7,11 +7,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_apigateway "github.com/oracle/oci-go-sdk/v40/apigateway"
 	oci_common "github.com/oracle/oci-go-sdk/v40/common"
@@ -71,6 +73,92 @@ func ApigatewayGatewayResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"response_cache_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"EXTERNAL_RESP_CACHE",
+								"NONE",
+							}, true),
+						},
+
+						// Optional
+						"authentication_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"authentication_secret_version_number": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ValidateFunc:     validateInt64TypeString,
+							DiffSuppressFunc: int64StringDiffSuppressFunction,
+						},
+						"connect_timeout_in_ms": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"is_ssl_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_ssl_verify_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"read_timeout_in_ms": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"send_timeout_in_ms": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"servers": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"host": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -220,6 +308,17 @@ func (s *ApigatewayGatewayResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if responseCacheDetails, ok := s.D.GetOkExists("response_cache_details"); ok {
+		if tmpList := responseCacheDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "response_cache_details", 0)
+			tmp, err := s.mapToResponseCacheDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ResponseCacheDetails = tmp
+		}
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -419,6 +518,17 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.GatewayId = &tmp
 
+	if responseCacheDetails, ok := s.D.GetOkExists("response_cache_details"); ok {
+		if tmpList := responseCacheDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "response_cache_details", 0)
+			tmp, err := s.mapToResponseCacheDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ResponseCacheDetails = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.UpdateGateway(context.Background(), request)
@@ -483,6 +593,16 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ResponseCacheDetails != nil {
+		responseCacheDetailsArray := []interface{}{}
+		if responseCacheDetailsMap := ResponseCacheDetailsToMap(&s.Res.ResponseCacheDetails); responseCacheDetailsMap != nil {
+			responseCacheDetailsArray = append(responseCacheDetailsArray, responseCacheDetailsMap)
+		}
+		s.D.Set("response_cache_details", responseCacheDetailsArray)
+	} else {
+		s.D.Set("response_cache_details", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -561,6 +681,156 @@ func GatewayIpAddressToMap(obj oci_apigateway.IpAddress) map[string]interface{} 
 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	return result
+}
+
+func (s *ApigatewayGatewayResourceCrud) mapToResponseCacheDetails(fieldKeyFormat string) (oci_apigateway.ResponseCacheDetails, error) {
+	var baseObject oci_apigateway.ResponseCacheDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("EXTERNAL_RESP_CACHE"):
+		details := oci_apigateway.ExternalRespCache{}
+		if authenticationSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_secret_id")); ok {
+			tmp := authenticationSecretId.(string)
+			details.AuthenticationSecretId = &tmp
+		}
+		if authenticationSecretVersionNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_secret_version_number")); ok {
+			tmp := authenticationSecretVersionNumber.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert authenticationSecretVersionNumber string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.AuthenticationSecretVersionNumber = &tmpInt64
+		}
+		if connectTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connect_timeout_in_ms")); ok {
+			tmp := connectTimeoutInMs.(int)
+			details.ConnectTimeoutInMs = &tmp
+		}
+		if isSslEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_enabled")); ok {
+			tmp := isSslEnabled.(bool)
+			details.IsSslEnabled = &tmp
+		}
+		if isSslVerifyDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ssl_verify_disabled")); ok {
+			tmp := isSslVerifyDisabled.(bool)
+			details.IsSslVerifyDisabled = &tmp
+		}
+		if readTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_timeout_in_ms")); ok {
+			tmp := readTimeoutInMs.(int)
+			details.ReadTimeoutInMs = &tmp
+		}
+		if sendTimeoutInMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "send_timeout_in_ms")); ok {
+			tmp := sendTimeoutInMs.(int)
+			details.SendTimeoutInMs = &tmp
+		}
+		if servers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "servers")); ok {
+			interfaces := servers.([]interface{})
+			tmp := make([]oci_apigateway.ResponseCacheRespServer, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "servers"), stateDataIndex)
+				converted, err := s.mapToResponseCacheRespServer(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "servers")) {
+				details.Servers = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_apigateway.NoCache{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ResponseCacheDetailsToMap(obj *oci_apigateway.ResponseCacheDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apigateway.ExternalRespCache:
+		result["type"] = "EXTERNAL_RESP_CACHE"
+
+		if v.AuthenticationSecretId != nil {
+			result["authentication_secret_id"] = string(*v.AuthenticationSecretId)
+		}
+
+		if v.AuthenticationSecretVersionNumber != nil {
+			result["authentication_secret_version_number"] = strconv.FormatInt(*v.AuthenticationSecretVersionNumber, 10)
+		}
+
+		if v.ConnectTimeoutInMs != nil {
+			result["connect_timeout_in_ms"] = int(*v.ConnectTimeoutInMs)
+		}
+
+		if v.IsSslEnabled != nil {
+			result["is_ssl_enabled"] = bool(*v.IsSslEnabled)
+		}
+
+		if v.IsSslVerifyDisabled != nil {
+			result["is_ssl_verify_disabled"] = bool(*v.IsSslVerifyDisabled)
+		}
+
+		if v.ReadTimeoutInMs != nil {
+			result["read_timeout_in_ms"] = int(*v.ReadTimeoutInMs)
+		}
+
+		if v.SendTimeoutInMs != nil {
+			result["send_timeout_in_ms"] = int(*v.SendTimeoutInMs)
+		}
+
+		servers := []interface{}{}
+		for _, item := range v.Servers {
+			servers = append(servers, ResponseCacheRespServerToMap(item))
+		}
+		result["servers"] = servers
+	case oci_apigateway.NoCache:
+		result["type"] = "NONE"
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ApigatewayGatewayResourceCrud) mapToResponseCacheRespServer(fieldKeyFormat string) (oci_apigateway.ResponseCacheRespServer, error) {
+	result := oci_apigateway.ResponseCacheRespServer{}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func ResponseCacheRespServerToMap(obj oci_apigateway.ResponseCacheRespServer) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Host != nil {
+		result["host"] = string(*obj.Host)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
 	}
 
 	return result

@@ -29,7 +29,7 @@ data "oci_core_virtual_circuit_bandwidth_shapes" "test_virtual_circuit_bandwidth
 
 The following arguments are supported:
 
-* `provider_service_id` - (Required) The OCID of the provider service.
+* `provider_service_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the provider service.
 
 
 ## Attributes Reference

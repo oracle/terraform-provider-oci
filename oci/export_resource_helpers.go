@@ -747,6 +747,14 @@ func init() {
 	exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
 	exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
 	exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
+
+	exportCoreDrgRouteDistributionStatementHints.datasourceClass = "oci_core_drg_route_distribution_statements"
+	exportCoreDrgRouteDistributionStatementHints.datasourceItemsAttr = "drg_route_distribution_statements"
+	exportCoreDrgRouteDistributionStatementHints.processDiscoveredResourcesFn = processDrgRouteDistributionStatements
+
+	exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
+	exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
+	exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
 }
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
@@ -1552,6 +1560,26 @@ func processNetworkSecurityGroupRules(ctx *resourceDiscoveryContext, resources [
 		}
 
 		resource.sourceAttributes["network_security_group_id"] = resource.parent.id
+	}
+	return resources, nil
+}
+
+func processDrgRouteDistributionStatements(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
+		resource.sourceAttributes["drg_route_distribution_id"] = resource.parent.id
+	}
+	return resources, nil
+}
+
+func processDrgRouteTableRouteRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
+		resource.sourceAttributes["drg_route_table_id"] = resource.parent.id
 	}
 	return resources, nil
 }

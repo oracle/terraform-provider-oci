@@ -13,7 +13,7 @@ This resource provides the Dhcp Options resource in Oracle Cloud Infrastructure 
 Creates a new set of DHCP options for the specified VCN. For more information, see
 [DhcpOptions](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DhcpOptions/).
 
-For the purposes of access control, you must provide the OCID of the compartment where you want the set of
+For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the set of
 DHCP options to reside. Notice that the set of options doesn't have to be in the same compartment as the VCN,
 subnets, or other Networking Service components. If you're not sure which compartment to use, put the set
 of DHCP options in the same compartment as the VCN. For more information about compartments and access control, see

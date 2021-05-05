@@ -1,3 +1,16 @@
+## 4.25.0 (Unreleased)
+
+### Added
+- Support for Marketplace-Service Catalog
+- Support for Extending DRG with local and cross-tenancy peering added
+- Support for Response Caching to API Gateway
+
+### Fixed
+- Fixed update and destroy operations for management resources for external databases
+- Fixed retry behavior for database and db_home resources to honor user timeouts 
+- Added Operations Insights doc update to `autonomous_database` resource
+- Fixed backward incompatibility of vcn resource caused due to `is_ipv6enabled` field
+
 ## 4.24.0 (April 29, 2021)
 
 ### Added

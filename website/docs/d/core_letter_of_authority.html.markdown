@@ -25,7 +25,7 @@ data "oci_core_letter_of_authority" "test_letter_of_authority" {
 
 The following arguments are supported:
 
-* `cross_connect_id` - (Required) The OCID of the cross-connect.
+* `cross_connect_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect.
 
 
 ## Attributes Reference

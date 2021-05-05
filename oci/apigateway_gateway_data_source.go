@@ -101,6 +101,16 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.ResponseCacheDetails != nil {
+		responseCacheDetailsArray := []interface{}{}
+		if responseCacheDetailsMap := ResponseCacheDetailsToMap(&s.Res.ResponseCacheDetails); responseCacheDetailsMap != nil {
+			responseCacheDetailsArray = append(responseCacheDetailsArray, responseCacheDetailsMap)
+		}
+		s.D.Set("response_cache_details", responseCacheDetailsArray)
+	} else {
+		s.D.Set("response_cache_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {

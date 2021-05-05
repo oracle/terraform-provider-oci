@@ -113,7 +113,7 @@ The following attributes are exported:
 
 	For more information about iPXE, see http://ipxe.org. 
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
-	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
+	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
@@ -122,11 +122,11 @@ The following attributes are exported:
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
-		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
+		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 	* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
 		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
-		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for Oracle-provided images. 
+		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for platform images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
 	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/LaunchInstanceDetails). 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
@@ -137,8 +137,8 @@ The following attributes are exported:
 		* `ISCSI` - ISCSI attached block storage device.
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
-		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on Oracle-provided images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on Oracle-provided images. 
+		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
 * `platform_config` - The platform configuration for the instance. 
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 

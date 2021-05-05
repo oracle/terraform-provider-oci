@@ -14,7 +14,7 @@ Lists the service offerings from supported providers. You need this
 information so you can specify your desired provider and service
 offering when you create a virtual circuit.
 
-For the compartment ID, provide the OCID of your tenancy (the root compartment).
+For the compartment ID, provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 
 For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 

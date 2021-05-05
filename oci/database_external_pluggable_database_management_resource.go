@@ -68,7 +68,14 @@ func readDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m i
 }
 
 func deleteDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &DatabaseExternalPluggableDatabaseManagementResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.Res = &DatabaseExternalPluggableDatabaseManagementResponse{}
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
 }
 
 type DatabaseExternalPluggableDatabaseManagementResponse struct {
@@ -157,7 +164,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
 	}
-	operation = false
+
 	if operation {
 		// Enable Database Management
 		request := oci_database.EnableExternalPluggableDatabaseDatabaseManagementRequest{}
@@ -187,6 +194,41 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 			}
 		}
 		s.Res.enableResponse = &response
+		return nil
+	}
+	// Disable Database Management
+	request := oci_database.DisableExternalPluggableDatabaseDatabaseManagementRequest{}
+
+	if externalPluggableDatabaseId, ok := s.D.GetOkExists("external_pluggable_database_id"); ok {
+		tmp := externalPluggableDatabaseId.(string)
+		request.ExternalPluggableDatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	s.Res.disableResponse = &response
+	return nil
+}
+
+func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Delete() error {
+	var operation bool
+	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
+		operation = enableManagement.(bool)
+	}
+
+	if !operation {
 		return nil
 	}
 	// Disable Database Management

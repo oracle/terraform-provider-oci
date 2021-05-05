@@ -25,7 +25,7 @@ data "oci_core_virtual_circuit" "test_virtual_circuit" {
 
 The following arguments are supported:
 
-* `virtual_circuit_id` - (Required) The OCID of the virtual circuit.
+* `virtual_circuit_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.
 
 
 ## Attributes Reference
