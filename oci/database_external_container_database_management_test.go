@@ -78,6 +78,15 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies,
 			},
+			// verify update (Enable Database Management)
+			{
+				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+				),
+			},
 			// verify update (Disable Database Management)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +

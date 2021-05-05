@@ -27,7 +27,7 @@ data "oci_core_fast_connect_provider_service" "test_fast_connect_provider_servic
 
 The following arguments are supported:
 
-* `provider_service_id` - (Required) The OCID of the provider service.
+* `provider_service_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the provider service.
 
 
 ## Attributes Reference

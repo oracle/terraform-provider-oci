@@ -25,7 +25,7 @@ data "oci_core_cross_connect_group" "test_cross_connect_group" {
 
 The following arguments are supported:
 
-* `cross_connect_group_id` - (Required) The OCID of the cross-connect group.
+* `cross_connect_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect group.
 
 
 ## Attributes Reference

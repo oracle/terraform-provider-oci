@@ -8,6 +8,9 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
+
+	oci_common "github.com/oracle/oci-go-sdk/v40/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -24,11 +27,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createDatabaseDatabase,
-		Read:     readDatabaseDatabase,
-		Update:   updateDatabaseDatabase,
-		Delete:   deleteDatabaseDatabase,
+		Timeouts: &schema.ResourceTimeout{
+			Create: getTimeoutDuration("12h"),
+			Update: getTimeoutDuration("2h"),
+			Delete: getTimeoutDuration("2h"),
+		},
+		Create: createDatabaseDatabase,
+		Read:   readDatabaseDatabase,
+		Update: updateDatabaseDatabase,
+		Delete: deleteDatabaseDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database": {
@@ -454,7 +461,8 @@ func (s *DatabaseDatabaseResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	createDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutCreate))
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", createDatabaseRetryDurationFn)
 
 	response, err := s.Client.CreateDatabase(context.Background(), request)
 	if err != nil {
@@ -493,7 +501,8 @@ func (s *DatabaseDatabaseResourceCrud) Delete() error {
 		request.PerformFinalBackup = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	deleteDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
 
 	_, err := s.Client.DeleteDatabase(context.Background(), request)
 	return err
@@ -901,7 +910,8 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	updateDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutUpdate))
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", updateDatabaseRetryDurationFn)
 
 	response, err := s.Client.UpdateDatabase(context.Background(), request)
 	if err != nil {
@@ -1077,4 +1087,26 @@ func (s *DatabaseDatabaseResourceCrud) kmsMigration(databaseId string) error {
 		return errors.New("kms_key_version_id can not be updated, please use migration or rotation")
 	}
 	return nil
+}
+
+func getdatabaseRetryDurationFunction(retryTimeout time.Duration) expectedRetryDurationFn {
+	return func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
+		defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+		if response.Response == nil || response.Response.HTTPResponse() == nil {
+			return defaultRetryTime
+		}
+		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+		case 409:
+			if e := response.Error; e != nil {
+				if strings.Contains(e.Error(), "IncorrectState") {
+					defaultRetryTime = retryTimeout
+				} else if strings.Contains(e.Error(), "InvalidatedRetryToken") {
+					defaultRetryTime = 0
+				} else {
+					defaultRetryTime = longRetryTime
+				}
+			}
+		}
+		return defaultRetryTime
+	}
 }

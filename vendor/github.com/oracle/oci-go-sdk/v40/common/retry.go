@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"math"
 	"math/rand"
 	"runtime"
 	"time"
@@ -77,6 +78,42 @@ func NoRetryPolicy() RetryPolicy {
 	dontRetryOperation := func(OCIOperationResponse) bool { return false }
 	zeroNextDuration := func(OCIOperationResponse) time.Duration { return 0 * time.Second }
 	return NewRetryPolicy(uint(1), dontRetryOperation, zeroNextDuration)
+}
+
+// DefaultRetryPolicy is a helper method that assembles and returns a return policy that is defined to be a default one
+// The default retry policy will retry on (409, IncorrectState), (429, TooManyRequests) and any 5XX errors except (501, MethodNotImplemented)
+// The default retry behavior is using exponential backoff
+func DefaultRetryPolicy() RetryPolicy {
+	defaultRetryPolicy := func(r OCIOperationResponse) bool {
+		type HTTPStatus struct {
+			code    int
+			message string
+		}
+		defaultRetryStatusCodeMap := map[HTTPStatus]bool{
+			{409, "IncorrectState"}:  true,
+			{429, "TooManyRequests"}: true,
+
+			{501, "MethodNotImplemented"}: false,
+		}
+
+		if r.Error == nil && 199 < r.Response.HTTPResponse().StatusCode && r.Response.HTTPResponse().StatusCode < 300 {
+			return false
+		}
+		if IsNetworkError(r.Error) {
+			return true
+		}
+		if err, ok := IsServiceError(r.Error); ok {
+			if shouldRetry, ok := defaultRetryStatusCodeMap[HTTPStatus{err.GetHTTPStatusCode(), err.GetCode()}]; ok {
+				return shouldRetry
+			}
+			return 500 <= r.Response.HTTPResponse().StatusCode && r.Response.HTTPResponse().StatusCode < 600
+		}
+		return false
+	}
+	exponentialBackoff := func(r OCIOperationResponse) time.Duration {
+		return time.Duration(math.Pow(float64(2), float64(r.AttemptNumber-1))) * time.Second
+	}
+	return NewRetryPolicy(uint(3), defaultRetryPolicy, exponentialBackoff)
 }
 
 // NewRetryPolicy is a helper method for assembling a Retry Policy object.

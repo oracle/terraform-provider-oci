@@ -13,7 +13,7 @@ This resource provides the Cpe resource in Oracle Cloud Infrastructure Core serv
 Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
 more information, see [IPSec VPNs](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
 
-For the purposes of access control, you must provide the OCID of the compartment where you want
+For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 the CPE to reside. Notice that the CPE doesn't have to be in the same compartment as the IPSec
 connection or other Networking Service components. If you're not sure which compartment to
 use, put the CPE in the same compartment as the DRG. For more information about

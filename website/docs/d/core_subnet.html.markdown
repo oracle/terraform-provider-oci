@@ -25,7 +25,7 @@ data "oci_core_subnet" "test_subnet" {
 
 The following arguments are supported:
 
-* `subnet_id` - (Required) The OCID of the subnet.
+* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 
 
 ## Attributes Reference

@@ -75,7 +75,14 @@ func readDatabaseExternalNonContainerDatabaseManagement(d *schema.ResourceData, 
 }
 
 func deleteDatabaseExternalNonContainerDatabaseManagement(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &DatabaseExternalNonContainerDatabaseManagementResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.Res = &DatabaseExternalNonContainerDatabaseManagementResponse{}
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
 }
 
 type DatabaseExternalNonContainerDatabaseManagementResponse struct {
@@ -167,7 +174,7 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Update() er
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
 	}
-	operation = false
+
 	if operation {
 		// enable database management
 		request := oci_database.EnableExternalNonContainerDatabaseDatabaseManagementRequest{}
@@ -201,6 +208,41 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Update() er
 			}
 		}
 		s.Res.enableResponse = &response
+		return nil
+	}
+	// disable database management
+	request := oci_database.DisableExternalNonContainerDatabaseDatabaseManagementRequest{}
+
+	if externalNonContainerDatabaseId, ok := s.D.GetOkExists("external_non_container_database_id"); ok {
+		tmp := externalNonContainerDatabaseId.(string)
+		request.ExternalNonContainerDatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.DisableExternalNonContainerDatabaseDatabaseManagement(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	s.Res.disableResponse = &response
+	return nil
+}
+
+func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Delete() error {
+	var operation bool
+	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
+		operation = enableManagement.(bool)
+	}
+
+	if !operation {
 		return nil
 	}
 	// disable database management

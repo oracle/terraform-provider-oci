@@ -835,6 +835,40 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 											},
 										},
 									},
+									"response_cache_lookup": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"cache_key_additions": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"is_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_private_caching_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 								},
 							},
 						},
@@ -976,6 +1010,29 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 															},
 														},
 													},
+												},
+											},
+										},
+									},
+									"response_cache_store": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"time_to_live_in_seconds": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
 												},
 											},
 										},
