@@ -59,6 +59,9 @@ The following attributes are exported:
 * `lifecycle_details` - Details about the state of the notebook session.
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
+	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
+		* `memory_in_gbs` - A notebook session instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_url` - The URL to interact with the notebook session.

@@ -53,6 +53,7 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.core_count"),
 					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.memory_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.shape_series"),
 				),
 			},
 		},

@@ -57,6 +57,32 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"notebook_session_shape_config_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"memory_in_gbs": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+									"ocpus": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -427,6 +453,17 @@ func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionConfigurati
 		result.BlockStorageSizeInGBs = &tmp
 	}
 
+	if notebookSessionShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notebook_session_shape_config_details")); ok {
+		if tmpList := notebookSessionShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "notebook_session_shape_config_details"), 0)
+			tmp, err := s.mapToNotebookSessionShapeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert notebook_session_shape_config_details, encountered error: %v", err)
+			}
+			result.NotebookSessionShapeConfigDetails = &tmp
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 		tmp := shape.(string)
 		result.Shape = &tmp
@@ -447,12 +484,46 @@ func NotebookSessionConfigurationDetailsToMap(obj *oci_datascience.NotebookSessi
 		result["block_storage_size_in_gbs"] = int(*obj.BlockStorageSizeInGBs)
 	}
 
+	if obj.NotebookSessionShapeConfigDetails != nil {
+		result["notebook_session_shape_config_details"] = []interface{}{NotebookSessionShapeConfigDetailsToMap(obj.NotebookSessionShapeConfigDetails)}
+	}
+
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
 	}
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionShapeConfigDetails(fieldKeyFormat string) (oci_datascience.NotebookSessionShapeConfigDetails, error) {
+	result := oci_datascience.NotebookSessionShapeConfigDetails{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func NotebookSessionShapeConfigDetailsToMap(obj *oci_datascience.NotebookSessionShapeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
 	}
 
 	return result
