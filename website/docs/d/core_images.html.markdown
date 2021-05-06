@@ -46,7 +46,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `operating_system` - (Optional) The image's operating system.  Example: `Oracle Linux` 
 * `operating_system_version` - (Optional) The image's operating system version.  Example: `7.2` 
-* `shape` - (Optional) Shape name.
+* `shape` - (Optional) Shape name. A filter to only return resources that are compatible with the given shape.
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 * `sort_by` - (Optional) Sort the resources returned, by creation time or display name. Example `TIMECREATED` or `DISPLAYNAME`.
 * `sort_order` - (Optional) The sort order to use, either ascending (`ASC`) or descending (`DESC`).
