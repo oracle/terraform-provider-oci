@@ -45,6 +45,10 @@ func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"shape_series": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -123,6 +127,8 @@ func (s *DatascienceNotebookSessionShapesDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			notebookSessionShape["name"] = *r.Name
 		}
+
+		notebookSessionShape["shape_series"] = r.ShapeSeries
 
 		resources = append(resources, notebookSessionShape)
 	}

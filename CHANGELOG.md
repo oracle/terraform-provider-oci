@@ -8,6 +8,7 @@
 - Support charge for Container Images and Generic Artifacts 
 - Support for Generic Artifacts Service
 - Support Update `DrgAttachment` of types `Virtual_Circuit`, `RPC` and `IPSec`
+- Support for E3 Flex Notebooks added to `datascience`
 
 ## 4.27.0 (May 19, 2021)
 

@@ -41,4 +41,5 @@ The following attributes are exported:
 * `core_count` - The number of cores associated with this notebook session shape. 
 * `memory_in_gbs` - The amount of memory in GBs associated with this notebook session shape. 
 * `name` - The name of the notebook session shape. 
+* `shape_series` - The family that the compute shape belongs to. 
 
