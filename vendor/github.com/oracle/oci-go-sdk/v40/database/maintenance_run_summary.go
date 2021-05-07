@@ -60,6 +60,12 @@ type MaintenanceRunSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 	PeerMaintenanceRunId *string `mandatory:"false" json:"peerMaintenanceRunId"`
+
+	// Maintenance method, it will be either "ROLLING" or "NONROLLING". Default value is ROLLING.
+	PatchingMode MaintenanceRunSummaryPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
+
+	// Contain the patch failure count.
+	PatchFailureCount *int `mandatory:"false" json:"patchFailureCount"`
 }
 
 func (m MaintenanceRunSummary) String() string {
@@ -183,6 +189,29 @@ var mappingMaintenanceRunSummaryMaintenanceSubtype = map[string]MaintenanceRunSu
 func GetMaintenanceRunSummaryMaintenanceSubtypeEnumValues() []MaintenanceRunSummaryMaintenanceSubtypeEnum {
 	values := make([]MaintenanceRunSummaryMaintenanceSubtypeEnum, 0)
 	for _, v := range mappingMaintenanceRunSummaryMaintenanceSubtype {
+		values = append(values, v)
+	}
+	return values
+}
+
+// MaintenanceRunSummaryPatchingModeEnum Enum with underlying type: string
+type MaintenanceRunSummaryPatchingModeEnum string
+
+// Set of constants representing the allowable values for MaintenanceRunSummaryPatchingModeEnum
+const (
+	MaintenanceRunSummaryPatchingModeRolling    MaintenanceRunSummaryPatchingModeEnum = "ROLLING"
+	MaintenanceRunSummaryPatchingModeNonrolling MaintenanceRunSummaryPatchingModeEnum = "NONROLLING"
+)
+
+var mappingMaintenanceRunSummaryPatchingMode = map[string]MaintenanceRunSummaryPatchingModeEnum{
+	"ROLLING":    MaintenanceRunSummaryPatchingModeRolling,
+	"NONROLLING": MaintenanceRunSummaryPatchingModeNonrolling,
+}
+
+// GetMaintenanceRunSummaryPatchingModeEnumValues Enumerates the set of values for MaintenanceRunSummaryPatchingModeEnum
+func GetMaintenanceRunSummaryPatchingModeEnumValues() []MaintenanceRunSummaryPatchingModeEnum {
+	values := make([]MaintenanceRunSummaryPatchingModeEnum, 0)
+	for _, v := range mappingMaintenanceRunSummaryPatchingMode {
 		values = append(values, v)
 	}
 	return values
