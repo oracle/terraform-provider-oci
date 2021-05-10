@@ -352,7 +352,6 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.infini_band_network_cidr", "10.31.8.0/22"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.last_maintenance_run_id"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.maintenance_slo_status"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.days_of_week.#", "1"),
@@ -371,7 +370,6 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.memory_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.netmask", "255.255.254.0"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.next_maintenance_run_id"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.state"),
@@ -414,8 +412,6 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "gateway", "10.32.88.6"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "infini_band_network_cidr", "10.31.8.0/22"),
-					//last_maintenance_run_id can be null if there was no Maintenance run previoulsy
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_maintenance_run_id"),
 					// maintenance_slo_status is not avaliable immediately in the response
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_slo_status"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
@@ -429,8 +425,6 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_size_in_gbs"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "netmask", "255.255.254.0"),
-					//next_maintenance_run_id can be null if there was no Maintenance run scheduled
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "next_maintenance_run_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

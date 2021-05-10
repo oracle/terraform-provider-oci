@@ -2,6 +2,7 @@
 
 ### Added
 - Support for OKE Network Security Group (NSG)
+- Support for Data Catalog 2.0 Release
 
 ## 4.32.0 (June 23, 2021)
 
