@@ -91,7 +91,6 @@ data "oci_datacatalog_catalog_types" "test_catalog_types_dataAsset" {
 data "oci_datacatalog_catalog_types" "test_catalog_types_connection" {
   catalog_id    = oci_datacatalog_catalog.test_oci_datacatalog_catalog.id
   type_category = "connection"
-  name          = "Jdbc"
+  name          = "JDBC"
   state         = "ACTIVE"
 }
-

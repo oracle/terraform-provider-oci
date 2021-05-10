@@ -1112,6 +1112,17 @@ var exportDatacatalogCatalogPrivateEndpointHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatacatalogMetastoreHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_metastore",
+	datasourceClass:        "oci_datacatalog_metastores",
+	datasourceItemsAttr:    "metastores",
+	resourceAbbreviation:   "metastore",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",

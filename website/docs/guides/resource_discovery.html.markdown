@@ -415,6 +415,7 @@ datacatalog
 * oci\_datacatalog\_data\_asset
 * oci\_datacatalog\_connection
 * oci\_datacatalog\_catalog\_private\_endpoint
+* oci\_datacatalog\_metastore
 
 dataflow
     
