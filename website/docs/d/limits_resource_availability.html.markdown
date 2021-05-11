@@ -11,9 +11,9 @@ description: |-
 This data source provides details about a specific Resource Availability resource in Oracle Cloud Infrastructure Limits service.
 
 For a given compartmentId, resource limit name, and scope, returns the following:
-  - the number of available resources associated with the given limit
-  - the usage in the selected compartment for the given limit
-  Note: not all resource limits support this API. If the value is not available, the API will return 404.
+  * The number of available resources associated with the given limit.
+  * The usage in the selected compartment for the given limit.
+  Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
 
 
 ## Example Usage
@@ -34,7 +34,7 @@ data "oci_limits_resource_availability" "test_resource_availability" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) This field is mandatory if the scopeType of the target resource limit is AD. Otherwise, this field should be omitted. If the above requirements are not met, the API will return a 400 - InvalidParameter response. 
+* `availability_domain` - (Optional) This field is mandatory if the scopeType of the target resource limit is AD. Otherwise, this field should be omitted. If the above requirements are not met, the API returns a 400 - InvalidParameter response. 
 * `compartment_id` - (Required) The OCID of the compartment for which data is being fetched.
 * `limit_name` - (Required) The limit name for which to fetch the data.
 * `service_name` - (Required) The service name of the target quota.
@@ -44,9 +44,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `available` - The count of available resources. Because we have introduced resources with fractional counts, the field will round down to the nearest integer. 
-* `effective_quota_value` - The effective quota value for given compartment. This field is only present if there is a current quota policy affecting the current resource in the target region or availability domain. 
+* `available` - The count of available resources. To support resources with fractional counts, the field rounds down to the nearest integer. 
+* `effective_quota_value` - The effective quota value for the given compartment. This field is only present if there is a current quota policy affecting the current resource in the target region or availability domain. 
 * `fractional_availability` - The most accurate count of available resources. 
 * `fractional_usage` - The current most accurate usage in the given compartment. 
-* `used` - The current usage in the given compartment. Because we have introduced resources with fractional counts, the field will round up to the nearest integer. 
+* `used` - The current usage in the given compartment. To support resources with fractional counts, the field rounds up to the nearest integer. 
 

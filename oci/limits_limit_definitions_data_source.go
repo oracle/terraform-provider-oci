@@ -53,6 +53,10 @@ func LimitsLimitDefinitionsDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_dynamic": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_eligible_for_limit_increase": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -160,6 +164,10 @@ func (s *LimitsLimitDefinitionsDataSourceCrud) SetData() error {
 
 		if r.IsDeprecated != nil {
 			limitDefinition["is_deprecated"] = *r.IsDeprecated
+		}
+
+		if r.IsDynamic != nil {
+			limitDefinition["is_dynamic"] = *r.IsDynamic
 		}
 
 		if r.IsEligibleForLimitIncrease != nil {

@@ -32,11 +32,11 @@ data "oci_limits_limit_values" "test_limit_values" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) Filter entries by availability domain. This implies that only AD-specific values will be returned. 
+* `availability_domain` - (Optional) Filter entries by availability domain. This implies that only AD-specific values are returned. 
 * `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 * `name` - (Optional) Optional field, can be used to see a specific resource limit value.
 * `scope_type` - (Optional) Filter entries by scope type.
-* `service_name` - (Required) The target service name
+* `service_name` - (Required) The target service name.
 
 
 ## Attributes Reference
