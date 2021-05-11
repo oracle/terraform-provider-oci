@@ -7,6 +7,7 @@ import (
 	oci_analytics "github.com/oracle/oci-go-sdk/v40/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v40/apigateway"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v40/artifacts"
+	oci_bastion "github.com/oracle/oci-go-sdk/v40/bastion"
 	oci_bds "github.com/oracle/oci-go-sdk/v40/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v40/blockchain"
 	oci_budget "github.com/oracle/oci-go-sdk/v40/budget"
@@ -141,6 +142,28 @@ var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	datasourceItemsAttr:    "auto_scaling_configurations",
 	resourceAbbreviation:   "auto_scaling_configuration",
 	requireResourceRefresh: true,
+}
+
+var exportBastionBastionHints = &TerraformResourceHints{
+	resourceClass:          "oci_bastion_bastion",
+	datasourceClass:        "oci_bastion_bastions",
+	datasourceItemsAttr:    "bastions",
+	resourceAbbreviation:   "bastion",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_bastion.BastionLifecycleStateActive),
+	},
+}
+
+var exportBastionSessionHints = &TerraformResourceHints{
+	resourceClass:          "oci_bastion_session",
+	datasourceClass:        "oci_bastion_sessions",
+	datasourceItemsAttr:    "sessions",
+	resourceAbbreviation:   "session",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_bastion.SessionLifecycleStateActive),
+	},
 }
 
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
