@@ -4,6 +4,7 @@
 - Support API Gateway Request Validation policies
 - Support HCX Enterprise Add-on for `OCVP` service
 - Support for Dynamic Limits
+- Support for Bastion Service
 
 ## 4.27.0 (May 19, 2021)
 

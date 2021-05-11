@@ -220,6 +220,7 @@ github.com/oracle/oci-go-sdk/v40/apigateway
 github.com/oracle/oci-go-sdk/v40/artifacts
 github.com/oracle/oci-go-sdk/v40/audit
 github.com/oracle/oci-go-sdk/v40/autoscaling
+github.com/oracle/oci-go-sdk/v40/bastion
 github.com/oracle/oci-go-sdk/v40/bds
 github.com/oracle/oci-go-sdk/v40/blockchain
 github.com/oracle/oci-go-sdk/v40/budget
