@@ -14,6 +14,14 @@ import (
 )
 
 var (
+	dbVersionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
+		"db_system_id":                         Representation{repType: Optional, create: `${oci_database_db_system.test_db_system.id}`},
+		"db_system_shape":                      Representation{repType: Optional, create: `BM.DenseIO2.52`},
+		"is_database_software_image_supported": Representation{repType: Optional, create: `false`},
+		"is_upgrade_supported":                 Representation{repType: Optional, create: `false`},
+		"storage_management":                   Representation{repType: Optional, create: `ASM`},
+	}
 	dbVersionDataSourceRepresentationRequiredOnly = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 	}
@@ -30,7 +38,6 @@ var (
 	dbVersionDataSourceRepresentationWithStorageManagementOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"storage_management": Representation{repType: Optional, create: `ASM`},
 	})
-
 	DbVersionResourceConfig = DbSystemResourceConfig
 )
 
@@ -65,6 +72,12 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 					compartmentIdVariableStr + DbVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+					resource.TestCheckResourceAttr(datasourceName, "db_system_shape", "BM.DenseIO2.52"),
+					resource.TestCheckResourceAttr(datasourceName, "is_database_software_image_supported", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "is_upgrade_supported", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "storage_management", "ASM"),
+
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.0.is_latest_for_major_version"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.0.is_preview_db_version"),

@@ -99,7 +99,6 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
-					resource.TestCheckResourceAttr(resourceName, "patch_set", "19.6.0.0.0"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -202,6 +201,8 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			},
 			// verify datasource
 			{
+				PreConfig: waitTillCondition(testAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
+					databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +

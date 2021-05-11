@@ -44,7 +44,22 @@ var (
 	}
 
 	dbHomeRepresentation = map[string]interface{}{
-		"kms_key_id": Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"database":                   RepresentationGroup{Required, dbHomeDatabaseRepresentation},
+		"database_software_image_id": Representation{repType: Optional, create: `${oci_database_database_software_image.test_database_software_image.id}`},
+		"db_system_id":               Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
+		"db_version":                 Representation{repType: Required, create: `12.1.0.2`},
+		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               Representation{repType: Optional, create: `createdDbHome`},
+		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"is_desupported_version":     Representation{repType: Optional, create: `false`},
+		"kms_key_id":                 Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_version_id":         Representation{repType: Optional, create: `${oci_kms_key_version.test_key_version.id}`},
+		"source":                     Representation{repType: Optional, create: `DB_BACKUP`},
+		"vm_cluster_id":              Representation{repType: Optional, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+	}
+	dbHomeDatabaseRepresentation = map[string]interface{}{
+		"admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"db_name":        Representation{repType: Required, create: `tfDbNam`},
 	}
 	dbHomeRepresentationBase = map[string]interface{}{
 		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
@@ -158,6 +173,7 @@ var (
 
 	DbHomeResourceDependencies = BackupResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation) +
@@ -277,7 +293,6 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_db_home.test_db_home"
 
 	var resId string
-
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+DbHomeResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Create, dbHomeRepresentation), "database", "dbHome", t)
@@ -341,6 +356,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
 
 				Check: resource.ComposeAggregateTestCheckFunc(
+
+					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
@@ -414,6 +431,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
+					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -434,6 +452,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
@@ -506,6 +525,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
+					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "true"),
 				),
 			},
 
@@ -568,6 +588,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
+					"database",
+					"is_desupported_version",
 					"database.0.admin_password",
 					"kms_key_version_id",
 				},

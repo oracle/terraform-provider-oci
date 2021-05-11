@@ -31,6 +31,10 @@ func DatabaseDbVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_database_software_image_supported": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"is_upgrade_supported": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -110,6 +114,11 @@ func (s *DatabaseDbVersionsDataSourceCrud) Get() error {
 	if dbSystemShape, ok := s.D.GetOkExists("db_system_shape"); ok {
 		tmp := dbSystemShape.(string)
 		request.DbSystemShape = &tmp
+	}
+
+	if isDatabaseSoftwareImageSupported, ok := s.D.GetOkExists("is_database_software_image_supported"); ok {
+		tmp := isDatabaseSoftwareImageSupported.(bool)
+		request.IsDatabaseSoftwareImageSupported = &tmp
 	}
 
 	if isUpgradeSupported, ok := s.D.GetOkExists("is_upgrade_supported"); ok {
