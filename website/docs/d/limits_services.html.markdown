@@ -11,7 +11,7 @@ description: |-
 This data source provides the list of Services in Oracle Cloud Infrastructure Limits service.
 
 Returns the list of supported services.
-This will include the programmatic service name, along with the friendly service name.
+This includes the programmatic service name, along with the friendly service name.
 
 
 ## Example Usage
@@ -41,5 +41,5 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `description` - The friendly service name.
-* `name` - The service name. Use this when calling the other APIs.
+* `name` - The service name. Use this when calling other APIs.
 
