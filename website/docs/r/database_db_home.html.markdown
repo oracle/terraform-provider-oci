@@ -59,6 +59,7 @@ resource "oci_database_db_home" "test_db_home" {
 	defined_tags = var.db_home_defined_tags
 	display_name = var.db_home_display_name
 	freeform_tags = {"Department"= "Finance"}
+	is_desupported_version = var.db_home_is_desupported_version
 	kms_key_id = oci_kms_key.test_key.id
 	kms_key_version_id = oci_kms_key_version.test_key_version.id
 	source = var.db_home_source
@@ -101,6 +102,7 @@ The following arguments are supported:
 * `db_version` - (Applicable when source=NONE | VM_CLUSTER_NEW) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 * `defined_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Optional) The user-provided name of the Database Home.
+* `is_desupported_version` - (Optional) If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `freeform_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

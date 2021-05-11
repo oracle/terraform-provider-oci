@@ -290,6 +290,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_desupported_version": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -494,6 +500,15 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	}
 	updateDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
+	if oneOffPatches, ok := s.D.GetOkExists("one_off_patches"); ok {
+		interfaces := oneOffPatches.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+	}
 	response, err := s.Client.UpdateDbHome(context.Background(), updateDbHomeRequest)
 	if err != nil {
 		return err
@@ -871,6 +886,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
 		}
+		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
+			tmp := isDesupportedVersion.(bool)
+			details.IsDesupportedVersion = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -903,6 +922,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
+		}
+		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
+			tmp := isDesupportedVersion.(bool)
+			details.IsDesupportedVersion = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
@@ -959,6 +982,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
+			tmp := isDesupportedVersion.(bool)
+			details.IsDesupportedVersion = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -991,6 +1018,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
+		}
+		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
+			tmp := isDesupportedVersion.(bool)
+			details.IsDesupportedVersion = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
@@ -1034,6 +1065,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
+			tmp := isDesupportedVersion.(bool)
+			details.IsDesupportedVersion = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)

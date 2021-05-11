@@ -35,19 +35,9 @@ func DatabaseDatabaseSoftwareImageResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"database_version": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"patch_set": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -59,6 +49,12 @@ func DatabaseDatabaseSoftwareImageResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"database_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -86,6 +82,18 @@ func DatabaseDatabaseSoftwareImageResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"ls_inventory": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"patch_set": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"source_db_home_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -253,6 +261,11 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) Create() error {
 	if patchSet, ok := s.D.GetOkExists("patch_set"); ok {
 		tmp := patchSet.(string)
 		request.PatchSet = &tmp
+	}
+
+	if sourceDbHomeId, ok := s.D.GetOkExists("source_db_home_id"); ok {
+		tmp := sourceDbHomeId.(string)
+		request.SourceDbHomeId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")

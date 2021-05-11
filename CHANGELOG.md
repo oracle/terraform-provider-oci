@@ -4,6 +4,7 @@
 - Support create an endpoint for listing fully hydrated NSGs attached to a given VLAN
 - Support ADBS: Customer Managed Keys (Integration Key Management System)
 - Support for OPSI External Databases added
+- Support for Custom Images in Databases resource
 
 ## 4.28.0 (May 26, 2021)
 
