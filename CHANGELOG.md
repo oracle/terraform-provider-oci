@@ -3,6 +3,7 @@
 ### Added
 - Support for Data Safe target database registration
 - Support for Elastic storage for ExaCC
+- Support for Migrate VCN status added to container engine
 
 ## 4.30.0 (June 09, 2021)
 

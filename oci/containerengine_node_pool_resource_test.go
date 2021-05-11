@@ -26,7 +26,7 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
-		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.4`},
+		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.6`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
 		"node_config_details": RepresentationGroup{Optional, nodePoolNodeConfigDetailsRepresentation},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
@@ -104,13 +104,14 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
-		"node_image_id":       Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}`},
+		"node_image_id":       Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
 		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
 		"quantity_per_subnet": Representation{repType: Optional, create: `1`, update: `2`},
 		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 	}
+	nodePoolResourceConfigForVMStandard = OciImageIdsVariable
 
 	nodePoolRepresentationForNodeSourceDetails = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
@@ -124,22 +125,25 @@ var (
 		"quantity_per_subnet": Representation{repType: Optional, create: `1`, update: `2`},
 		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 	}
-
+	nodePoolResourceConfigForFlexShapes = FlexVmImageIdsVariable
 	nodePoolRepresentationForFlexShapes = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `flexNodePool`, update: `flexNodePool2`},
-		"node_source_details": RepresentationGroup{Required, nodePoolNodeSourceDetailsRepresentation},
+		"node_source_details": RepresentationGroup{Required, nodePoolNodeSourceDetailsRepresentationForFlexShapes},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard.E3.Flex`},
 		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"node_shape_config":   RepresentationGroup{Required, nodePoolNodeShapeConfigRepresentation},
 		"quantity_per_subnet": Representation{repType: Required, create: `1`},
 	}
-
+	nodePoolNodeSourceDetailsRepresentationForFlexShapes = map[string]interface{}{
+		"image_id":    Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"source_type": Representation{repType: Required, create: `image`},
+	}
 	nodePoolNodeSourceDetailsRepresentation = map[string]interface{}{
-		"image_id":    Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}`},
-		"source_type": Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.source_type}`},
+		"image_id":    Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"source_type": Representation{repType: Required, create: `image`},
 	}
 
 	nodePoolNodeShapeConfigRepresentation = map[string]interface{}{
@@ -202,7 +206,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"availability_domain"}),
 					CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"subnet_id"}),
 					resource.TestCheckResourceAttr(resourceName, "node_config_details.0.size", "2"),
-					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
+					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.6"),
 					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 					//resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
@@ -238,7 +242,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "node_config_details.0.placement_configs.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "node_config_details.0.placement_configs", nil, []string{"subnet_id"}),
 					resource.TestCheckResourceAttr(resourceName, "node_config_details.0.size", "4"),
-					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
+					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.6"),
 					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
@@ -280,7 +284,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_config_details.0.placement_configs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_config_details.0.size", "4"),
 					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_name", "Oracle-Linux-7.4"),
+					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_name", "Oracle-Linux-7.6"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.subnet_ids.#", "1"),
@@ -308,7 +312,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_config_details.0.placement_configs.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_config_details.0.size", "4"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "node_image_name", "Oracle-Linux-7.4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "node_image_name", "Oracle-Linux-7.6"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
@@ -348,7 +352,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Required, Create, nodePoolRepresentationForImageId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Resource created with Image Id
@@ -356,7 +360,6 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameForImageId, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceNameForImageId, "node_image_name"),
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "node_image_id"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "subnet_ids.#", "2"),
@@ -375,7 +378,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Create, nodePoolRepresentationForImageId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Resource created with Image Id
@@ -386,7 +389,6 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameForImageId, "initial_node_labels.0.value", "value"),
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceNameForImageId, "node_image_name"),
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "node_image_id"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "quantity_per_subnet", "1"),
@@ -402,7 +404,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Update, nodePoolRepresentationForImageId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Resource created with Image Id
@@ -413,7 +415,6 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameForImageId, "initial_node_labels.0.value", "value2"),
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "name", "name2"),
-					resource.TestCheckResourceAttrSet(resourceNameForImageId, "node_image_name"),
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "node_image_id"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "quantity_per_subnet", "2"),
@@ -432,9 +433,8 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_imageId", Optional, Update, nodePoolDataSourceRepresentationForImageId) +
-					compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_imageId", Optional, Update, nodePoolDataSourceRepresentationForImageId) +
+					compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Update, nodePoolRepresentationForImageId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Datasource for NodePool created with Image Id
@@ -462,7 +462,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Required, Create, nodePoolSingularDataSourceRepresentationForImageId) +
-					compartmentIdVariableStr + NodePoolResourceConfig +
+					compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Update, nodePoolRepresentationForImageId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Singular Datasource for NodePool created with Image Id
@@ -514,7 +514,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Required, Create, nodePoolRepresentationForNodeSourceDetails),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Resource created with Node Source Details
@@ -543,7 +543,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Create, nodePoolRepresentationForNodeSourceDetails),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Resource created with Node Source Details
@@ -573,7 +573,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Update, nodePoolRepresentationForNodeSourceDetails),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Resource created with Node Source Details
@@ -605,7 +605,8 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_node_source_details", Optional, Update, nodePoolDataSourceRepresentationForNodeSourceDetails) +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools",
+						"test_node_pools_node_source_details", Optional, Update, nodePoolDataSourceRepresentationForNodeSourceDetails) + nodePoolResourceConfigForVMStandard +
 					compartmentIdVariableStr + NodePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Update, nodePoolRepresentationForNodeSourceDetails),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -636,7 +637,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Required, Create, nodePoolSingularDataSourceRepresentationForNodeSourceDetails) +
-					compartmentIdVariableStr + NodePoolResourceConfig +
+					compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Update, nodePoolRepresentationForNodeSourceDetails),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Singular Datasource for NodePool created with Image Name
@@ -690,8 +691,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify creation of flex node pool
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolRepresentationForFlexShapes),
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolRepresentationForFlexShapes),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "compartment_id", compartmentId),
@@ -711,7 +711,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 
 			// verify flex update
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
@@ -737,7 +737,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_flexible_shapes", Optional, Update, nodePoolDataSourceRepresentationForFlexShapes) +
-					compartmentIdVariableStr + NodePoolResourceDependencies +
+					compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Datasource for NodePool created with Flexible Shape
@@ -762,7 +762,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolSingularDataSourceRepresentationForFlexShapes) +
-					compartmentIdVariableStr + NodePoolResourceConfig +
+					compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForFlexShapes +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//Asserting Singular Datasource for NodePool created with Flex Shape

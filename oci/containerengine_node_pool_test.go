@@ -44,7 +44,7 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
-		"node_image_name":     Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.images.0}`},
+		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.6`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
 		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
@@ -85,7 +85,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NodePoolResourceDependencies+
+	saveConfigContent(config+compartmentIdVariableStr+NodePoolResourceDependencies+nodePoolResourceConfigForVMStandard+
 		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation), "containerengine", "nodePool", t)
 
 	resource.Test(t, resource.TestCase{
@@ -97,8 +97,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -120,7 +119,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
@@ -131,7 +130,6 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
@@ -152,8 +150,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
+				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -183,7 +180,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
-					compartmentIdVariableStr + NodePoolResourceDependencies +
+					compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
@@ -210,8 +207,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + NodePoolResourceConfig,
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool",
+						Required, Create,
+						nodePoolSingularDataSourceRepresentation) + nodePoolResourceConfigForVMStandard + compartmentIdVariableStr + NodePoolResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),

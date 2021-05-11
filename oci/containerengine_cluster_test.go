@@ -60,7 +60,7 @@ var (
 		"service_lb_subnet_ids":        Representation{repType: Optional, create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
 	clusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
-		"kms_key_id": Representation{repType: Optional, update: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"kms_key_id": Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
 	}
 	clusterOptionsAddOnsRepresentation = map[string]interface{}{
 		"is_kubernetes_dashboard_enabled": Representation{repType: Optional, create: `true`},

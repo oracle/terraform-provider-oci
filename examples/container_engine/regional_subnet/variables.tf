@@ -38,7 +38,7 @@ variable "node_pool_name" {
 }
 
 variable "node_pool_node_image_name" {
-  default = "Oracle-Linux-7.4"
+  default = "Oracle-Linux-7.6"
 }
 
 variable "node_pool_node_shape" {

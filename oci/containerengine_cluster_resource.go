@@ -70,7 +70,6 @@ func ContainerengineClusterResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -656,9 +655,19 @@ func (s *ContainerengineClusterResourceCrud) Get() error {
 func (s *ContainerengineClusterResourceCrud) Update() error {
 	clusterID := s.D.Id()
 	if endpointConfig, ok := s.D.GetOkExists("endpoint_config"); ok && s.D.HasChange("endpoint_config") {
-		err := s.updateClusterEndpointConfig(clusterID, endpointConfig)
-		if err != nil {
-			return err
+		oldConfig, _ := s.D.GetChange("endpoint_config")
+		oldConfigList := oldConfig.([]interface{})
+		if len(oldConfigList) > 0 {
+			//If an endpoint config is already set on the cluster, perform and UpdateClusterEndpointConfig operation, otherwise perform a MigrateClusterToNativeVCN operation
+			err := s.updateClusterEndpointConfig(clusterID, endpointConfig)
+			if err != nil {
+				return err
+			}
+		} else {
+			err := s.migrateClusterToNativeVCN(clusterID, endpointConfig)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -720,6 +729,28 @@ func (s *ContainerengineClusterResourceCrud) updateClusterEndpointConfig(cluster
 	}
 
 	response, err := s.Client.UpdateClusterEndpointConfig(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workID := response.OpcWorkRequestId
+	return s.getClusterFromWorkRequest(workID, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *ContainerengineClusterResourceCrud) migrateClusterToNativeVCN(clusterID string, endpointConfig interface{}) error {
+	request := oci_containerengine.ClusterMigrateToNativeVcnRequest{}
+	request.ClusterId = &clusterID
+
+	if tmpList := endpointConfig.([]interface{}); len(tmpList) > 0 {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "endpoint_config", 0)
+		tmp, err := s.mapToMigrateClusterToNativeVCNDetails(fieldKeyFormat)
+		if err != nil {
+			return err
+		}
+		request.ClusterMigrateToNativeVcnDetails = tmp
+	}
+
+	response, err := s.Client.ClusterMigrateToNativeVcn(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -1012,6 +1043,42 @@ func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterEndpointConfigDet
 			result.NsgIds = tmp
 		}
 	}
+	return result, nil
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToMigrateClusterToNativeVCNDetails(fieldKeyFormat string) (oci_containerengine.ClusterMigrateToNativeVcnDetails, error) {
+	result := oci_containerengine.ClusterMigrateToNativeVcnDetails{}
+	endpointConfigDetails := oci_containerengine.ClusterEndpointConfig{}
+
+	if isPublicIpEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_public_ip_enabled")); ok {
+		tmp := isPublicIpEnabled.(bool)
+		endpointConfigDetails.IsPublicIpEnabled = &tmp
+	}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			endpointConfigDetails.NsgIds = tmp
+		}
+	}
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		endpointConfigDetails.SubnetId = &tmp
+	}
+
+	result.EndpointConfig = &endpointConfigDetails
+
+	if DecommissionDelayDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "decommission_delay_duration")); ok {
+		tmp := DecommissionDelayDuration.(string)
+		result.DecommissionDelayDuration = &tmp
+	}
+
 	return result, nil
 }
 
