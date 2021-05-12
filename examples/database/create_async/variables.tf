@@ -19,6 +19,10 @@ variable "region" {
 variable "compartment_ocid" {
 }
 
+variable "ssh_public_key" {
+}
+
+
 variable "autonomous_database_defined_tags_value" {
   default = "value"
 }

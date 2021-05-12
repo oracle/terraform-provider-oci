@@ -21,7 +21,8 @@ var (
 	}
 
 	DedicatedVmHostsInstanceResourceConfig = InstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentation)
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, getUpdatedRepresentationCopy("dedicated_vm_host_id",
+			Representation{repType: Required, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}, instanceRepresentation))
 )
 
 func TestCoreDedicatedVmHostsInstanceResource_basic(t *testing.T) {

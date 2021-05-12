@@ -14,7 +14,7 @@ Creates a new compartment in the specified compartment.
 
 **Important:** Unless `enable_delete` is explicitly set to true:
 * Terraform will not delete compartments on destroy, and
-* For backwards compatibility, an existing compartment with the same name will be automatically imported into the state. Properties of the existing compartment will be updated to what is defined in the new configuration. This can cause a problem if multiple Terraform configurations are using the same compartment, but, for example, specify a different compartment description.
+* For backwards compatibility, an existing compartment (not including root compartment) with the same name will be automatically imported into the state. Properties of the existing compartment will be updated to what is defined in the new configuration. This can cause a problem if multiple Terraform configurations are using the same compartment, but, for example, specify a different compartment description.
 
 Specify the parent compartment's OCID as the compartment ID in the request object. Remember that the tenancy
 is simply the root compartment. For information about OCIDs, see

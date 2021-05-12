@@ -173,6 +173,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["infini_band_network_cidr"] = *r.InfiniBandNetworkCIDR
 		}
 
+		if r.LastMaintenanceRunId != nil {
+			exadataInfrastructure["last_maintenance_run_id"] = *r.LastMaintenanceRunId
+		}
+
 		if r.LifecycleDetails != nil {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
@@ -207,6 +211,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.Netmask != nil {
 			exadataInfrastructure["netmask"] = *r.Netmask
+		}
+
+		if r.NextMaintenanceRunId != nil {
+			exadataInfrastructure["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
 
 		exadataInfrastructure["ntp_server"] = r.NtpServer
