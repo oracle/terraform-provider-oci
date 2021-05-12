@@ -74,7 +74,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_byoip_range"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_BYOIP_range_do_not_delete"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

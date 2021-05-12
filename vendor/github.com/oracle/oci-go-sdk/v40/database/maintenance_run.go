@@ -60,6 +60,12 @@ type MaintenanceRun struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 	PeerMaintenanceRunId *string `mandatory:"false" json:"peerMaintenanceRunId"`
+
+	// Maintenance method, it will be either "ROLLING" or "NONROLLING". Default value is ROLLING.
+	PatchingMode MaintenanceRunPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
+
+	// Contain the patch failure count.
+	PatchFailureCount *int `mandatory:"false" json:"patchFailureCount"`
 }
 
 func (m MaintenanceRun) String() string {
@@ -183,6 +189,29 @@ var mappingMaintenanceRunMaintenanceSubtype = map[string]MaintenanceRunMaintenan
 func GetMaintenanceRunMaintenanceSubtypeEnumValues() []MaintenanceRunMaintenanceSubtypeEnum {
 	values := make([]MaintenanceRunMaintenanceSubtypeEnum, 0)
 	for _, v := range mappingMaintenanceRunMaintenanceSubtype {
+		values = append(values, v)
+	}
+	return values
+}
+
+// MaintenanceRunPatchingModeEnum Enum with underlying type: string
+type MaintenanceRunPatchingModeEnum string
+
+// Set of constants representing the allowable values for MaintenanceRunPatchingModeEnum
+const (
+	MaintenanceRunPatchingModeRolling    MaintenanceRunPatchingModeEnum = "ROLLING"
+	MaintenanceRunPatchingModeNonrolling MaintenanceRunPatchingModeEnum = "NONROLLING"
+)
+
+var mappingMaintenanceRunPatchingMode = map[string]MaintenanceRunPatchingModeEnum{
+	"ROLLING":    MaintenanceRunPatchingModeRolling,
+	"NONROLLING": MaintenanceRunPatchingModeNonrolling,
+}
+
+// GetMaintenanceRunPatchingModeEnumValues Enumerates the set of values for MaintenanceRunPatchingModeEnum
+func GetMaintenanceRunPatchingModeEnumValues() []MaintenanceRunPatchingModeEnum {
+	values := make([]MaintenanceRunPatchingModeEnum, 0)
+	for _, v := range mappingMaintenanceRunPatchingMode {
 		values = append(values, v)
 	}
 	return values

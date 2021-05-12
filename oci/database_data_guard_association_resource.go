@@ -73,6 +73,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 			},
 
 			// Optional
+			"create_async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"availability_domain": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -229,6 +234,15 @@ func (s *DatabaseDataGuardAssociationResourceCrud) CreatedPending() []string {
 }
 
 func (s *DatabaseDataGuardAssociationResourceCrud) CreatedTarget() []string {
+	if createAsyn, ok := s.D.GetOk("create_async"); ok {
+		tmp := createAsyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_database.DataGuardAssociationLifecycleStateAvailable),
+				string(oci_database.DataGuardAssociationLifecycleStateProvisioning),
+			}
+		}
+	}
 	return []string{
 		string(oci_database.DataGuardAssociationLifecycleStateAvailable),
 	}

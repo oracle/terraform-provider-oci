@@ -27,8 +27,34 @@ type UpdateMaintenanceRunDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
 	PatchId *string `mandatory:"false" json:"patchId"`
+
+	// Maintenance method, it will be either "ROLLING" or "NONROLLING". Default value is ROLLING.
+	PatchingMode UpdateMaintenanceRunDetailsPatchingModeEnum `mandatory:"false" json:"patchingMode,omitempty"`
 }
 
 func (m UpdateMaintenanceRunDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateMaintenanceRunDetailsPatchingModeEnum Enum with underlying type: string
+type UpdateMaintenanceRunDetailsPatchingModeEnum string
+
+// Set of constants representing the allowable values for UpdateMaintenanceRunDetailsPatchingModeEnum
+const (
+	UpdateMaintenanceRunDetailsPatchingModeRolling    UpdateMaintenanceRunDetailsPatchingModeEnum = "ROLLING"
+	UpdateMaintenanceRunDetailsPatchingModeNonrolling UpdateMaintenanceRunDetailsPatchingModeEnum = "NONROLLING"
+)
+
+var mappingUpdateMaintenanceRunDetailsPatchingMode = map[string]UpdateMaintenanceRunDetailsPatchingModeEnum{
+	"ROLLING":    UpdateMaintenanceRunDetailsPatchingModeRolling,
+	"NONROLLING": UpdateMaintenanceRunDetailsPatchingModeNonrolling,
+}
+
+// GetUpdateMaintenanceRunDetailsPatchingModeEnumValues Enumerates the set of values for UpdateMaintenanceRunDetailsPatchingModeEnum
+func GetUpdateMaintenanceRunDetailsPatchingModeEnumValues() []UpdateMaintenanceRunDetailsPatchingModeEnum {
+	values := make([]UpdateMaintenanceRunDetailsPatchingModeEnum, 0)
+	for _, v := range mappingUpdateMaintenanceRunDetailsPatchingMode {
+		values = append(values, v)
+	}
+	return values
 }
