@@ -11,6 +11,7 @@ import (
 
 func init() {
 	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
+	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
@@ -59,6 +60,14 @@ func getArtifactsContainerImageSignatureId(resource *OCIResource) (string, error
 		return "", fmt.Errorf("[ERROR] unable to find imageSignatureId for Artifacts ContainerImageSignature")
 	}
 	return imageSignatureId, nil
+}
+
+func getArtifactsRepositoryId(resource *OCIResource) (string, error) {
+	repositoryId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find repositoryId for Artifacts Respository")
+	}
+	return repositoryId, nil
 }
 
 func getBlockchainPeerId(resource *OCIResource) (string, error) {

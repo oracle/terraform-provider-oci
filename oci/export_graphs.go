@@ -117,6 +117,7 @@ var artifactsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportArtifactsContainerConfigurationHints},
 		{TerraformResourceHints: exportArtifactsContainerRepositoryHints},
 		{TerraformResourceHints: exportArtifactsContainerImageSignatureHints},
+		{TerraformResourceHints: exportArtifactsRepositoryHints},
 	},
 }
 
