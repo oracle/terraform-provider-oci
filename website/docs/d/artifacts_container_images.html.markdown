@@ -25,7 +25,7 @@ data "oci_artifacts_container_images" "test_container_images" {
 	image_id = oci_core_image.test_image.id
 	is_versioned = var.container_image_is_versioned
 	repository_id = oci_artifacts_repository.test_repository.id
-	repository_name = var.container_image_repository_name
+	repository_name = oci_artifacts_repository.test_repository.name
 	state = var.container_image_state
 	version = var.container_image_version
 }

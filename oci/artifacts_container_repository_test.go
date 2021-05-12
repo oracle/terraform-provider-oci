@@ -54,7 +54,7 @@ var (
 		"format":  Representation{repType: Required, create: `TEXT_MARKDOWN`, update: `TEXT_PLAIN`},
 	}
 
-	ContainerRepositoryResourceDependencies = ""
+	ContainerRepositoryResourceDependencies = generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
 )
 
 func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {

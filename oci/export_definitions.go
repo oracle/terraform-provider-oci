@@ -136,6 +136,18 @@ var exportArtifactsContainerImageSignatureHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportArtifactsRepositoryHints = &TerraformResourceHints{
+	resourceClass:          "oci_artifacts_repository",
+	datasourceClass:        "oci_artifacts_repositories",
+	datasourceItemsAttr:    "repository_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "repository",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_artifacts.RepositoryLifecycleStateAvailable),
+	},
+}
+
 var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
 	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",

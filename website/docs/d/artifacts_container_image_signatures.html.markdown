@@ -27,7 +27,7 @@ data "oci_artifacts_container_image_signatures" "test_container_image_signatures
 	kms_key_id = oci_kms_key.test_key.id
 	kms_key_version_id = oci_kms_key_version.test_key_version.id
 	repository_id = oci_artifacts_repository.test_repository.id
-	repository_name = var.container_image_signature_repository_name
+	repository_name = oci_artifacts_repository.test_repository.name
 	signing_algorithm = var.container_image_signature_signing_algorithm
 }
 ```

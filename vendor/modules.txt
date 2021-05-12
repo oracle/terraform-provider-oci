@@ -242,6 +242,7 @@ github.com/oracle/oci-go-sdk/v40/email
 github.com/oracle/oci-go-sdk/v40/events
 github.com/oracle/oci-go-sdk/v40/filestorage
 github.com/oracle/oci-go-sdk/v40/functions
+github.com/oracle/oci-go-sdk/v40/genericartifactscontent
 github.com/oracle/oci-go-sdk/v40/goldengate
 github.com/oracle/oci-go-sdk/v40/healthchecks
 github.com/oracle/oci-go-sdk/v40/identity
