@@ -6,7 +6,6 @@ package oci
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -16,28 +15,45 @@ import (
 )
 
 func init() {
-	RegisterResource("oci_core_drg_attachment", CoreDrgAttachmentResource())
+	RegisterResource("oci_core_drg_attachment_management", CoreDrgAttachmentManagementResource())
 }
 
-func CoreDrgAttachmentResource() *schema.Resource {
+func CoreDrgAttachmentManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createCoreDrgAttachment,
-		Read:     readCoreDrgAttachment,
-		Update:   updateCoreDrgAttachment,
-		Delete:   deleteCoreDrgAttachment,
+		Create:   createCoreDrgAttachmentManagement,
+		Read:     readCoreDrgAttachmentManagement,
+		Update:   updateCoreDrgAttachmentManagement,
+		Delete:   deleteCoreDrgAttachmentManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"attachment_type": {
+				Type:             schema.TypeString,
+				Required:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"IPSEC_TUNNEL",
+					"REMOTE_PEERING_CONNECTION",
+					"VIRTUAL_CIRCUIT",
+				}, true),
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"drg_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
+			"network_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -79,7 +95,9 @@ func CoreDrgAttachmentResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
-								"VCN",
+								"IPSEC_TUNNEL",
+								"REMOTE_PEERING_CONNECTION",
+								"VIRTUAL_CIRCUIT",
 							}, true),
 						},
 
@@ -119,10 +137,6 @@ func CoreDrgAttachmentResource() *schema.Resource {
 				Optional: true,
 			},
 			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"is_cross_tenancy": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -139,39 +153,29 @@ func CoreDrgAttachmentResource() *schema.Resource {
 	}
 }
 
-func createCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreDrgAttachmentResourceCrud{}
+func createCoreDrgAttachmentManagement(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
-	if e := CreateResource(d, sync); e != nil {
-		return e
+	err := sync.Get()
+	if err != nil {
+		return err
 	}
 
-	if _, ok := sync.D.GetOkExists("remove_export_drg_route_distribution_trigger"); ok {
-		err := sync.removeExportDrgRouteDistribution()
-		if err != nil {
-			return err
-		}
-	}
-
-	if _, ok := sync.D.GetOkExists("export_drg_route_distribution_id"); ok && sync.D.HasChange("export_drg_route_distribution_id") {
-		return sync.Update()
-	}
-
-	return nil
+	return updateCoreDrgAttachmentManagement(d, m)
 }
 
-func readCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreDrgAttachmentResourceCrud{}
+func readCoreDrgAttachmentManagement(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
 
-func updateCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreDrgAttachmentResourceCrud{}
+func updateCoreDrgAttachmentManagement(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
@@ -186,8 +190,8 @@ func updateCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	return UpdateResource(d, sync)
 }
 
-func deleteCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &CoreDrgAttachmentResourceCrud{}
+func deleteCoreDrgAttachmentManagement(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
@@ -195,122 +199,66 @@ func deleteCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CoreDrgAttachmentResourceCrud struct {
+type CoreDrgAttachmentManagementResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.DrgAttachment
 	DisableNotFoundRetries bool
 }
 
-func (s *CoreDrgAttachmentResourceCrud) ID() string {
+func (s *CoreDrgAttachmentManagementResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CoreDrgAttachmentResourceCrud) CreatedPending() []string {
+func (s *CoreDrgAttachmentManagementResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.DrgAttachmentLifecycleStateAttaching),
 	}
 }
 
-func (s *CoreDrgAttachmentResourceCrud) CreatedTarget() []string {
+func (s *CoreDrgAttachmentManagementResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.DrgAttachmentLifecycleStateAttached),
 	}
 }
 
-func (s *CoreDrgAttachmentResourceCrud) DeletedPending() []string {
-	return []string{
-		string(oci_core.DrgAttachmentLifecycleStateDetaching),
-	}
-}
+func (s *CoreDrgAttachmentManagementResourceCrud) Get() error {
+	request := oci_core.ListDrgAttachmentsRequest{}
 
-func (s *CoreDrgAttachmentResourceCrud) DeletedTarget() []string {
-	return []string{
-		string(oci_core.DrgAttachmentLifecycleStateDetached),
-	}
-}
-
-func (s *CoreDrgAttachmentResourceCrud) Create() error {
-	request := oci_core.CreateDrgAttachmentRequest{}
-
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.DefinedTags = convertedDefinedTags
+	if attachmentType, ok := s.D.GetOkExists("attachment_type"); ok {
+		request.AttachmentType = oci_core.ListDrgAttachmentsAttachmentTypeEnum(attachmentType.(string))
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.DisplayName = &tmp
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	if drgId, ok := s.D.GetOkExists("drg_id"); ok {
-		tmp := drgId.(string)
-		request.DrgId = &tmp
+	if networkId, ok := s.D.GetOkExists("network_id"); ok {
+		tmp := networkId.(string)
+		request.NetworkId = &tmp
 	}
 
-	if drgRouteTableId, ok := s.D.GetOkExists("drg_route_table_id"); ok {
-		tmp := drgRouteTableId.(string)
-		request.DrgRouteTableId = &tmp
-	}
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if networkDetails, ok := s.D.GetOkExists("network_details"); ok {
-		if tmpList := networkDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_details", 0)
-			tmp, err := s.mapToDrgAttachmentNetworkCreateDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.NetworkDetails = tmp
-		}
-	}
-
-	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
-		tmp := routeTableId.(string)
-		request.RouteTableId = &tmp
-	}
-
-	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
-		tmp := vcnId.(string)
-		request.VcnId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
-
-	response, err := s.Client.CreateDrgAttachment(context.Background(), request)
+	response, err := s.Client.ListDrgAttachments(context.Background(), request)
 	if err != nil {
 		return err
 	}
+	s.Res = &response.Items[0]
+	if len(response.Items) > 0 {
+		s.Res = &response.Items[0]
 
-	s.Res = &response.DrgAttachment
-
-	return nil
-}
-
-func (s *CoreDrgAttachmentResourceCrud) Get() error {
-	request := oci_core.GetDrgAttachmentRequest{}
-
-	tmp := s.D.Id()
-	request.DrgAttachmentId = &tmp
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
-
-	response, err := s.Client.GetDrgAttachment(context.Background(), request)
-	if err != nil {
-		return err
+	}
+	if s.Res == nil {
+		return nil
 	}
 
-	s.Res = &response.DrgAttachment
+	s.D.SetId(*s.Res.Id)
 	return nil
 }
 
-func (s *CoreDrgAttachmentResourceCrud) Update() error {
+func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 	request := oci_core.UpdateDrgAttachmentRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -372,19 +320,12 @@ func (s *CoreDrgAttachmentResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreDrgAttachmentResourceCrud) Delete() error {
-	request := oci_core.DeleteDrgAttachmentRequest{}
-
-	tmp := s.D.Id()
-	request.DrgAttachmentId = &tmp
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
-
-	_, err := s.Client.DeleteDrgAttachment(context.Background(), request)
-	return err
+func (s *CoreDrgAttachmentManagementResourceCrud) Delete() error {
+	return nil
 }
 
-func (s *CoreDrgAttachmentResourceCrud) SetData() error {
+func (s *CoreDrgAttachmentManagementResourceCrud) SetData() error {
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -409,7 +350,9 @@ func (s *CoreDrgAttachmentResourceCrud) SetData() error {
 		s.D.Set("export_drg_route_distribution_id", *s.Res.ExportDrgRouteDistributionId)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	if s.Res.FreeformTags != nil {
+		s.D.Set("freeform_tags", s.Res.FreeformTags)
+	}
 
 	if s.Res.IsCrossTenancy != nil {
 		s.D.Set("is_cross_tenancy", *s.Res.IsCrossTenancy)
@@ -442,7 +385,7 @@ func (s *CoreDrgAttachmentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkCreateDetails(fieldKeyFormat string) (oci_core.DrgAttachmentNetworkCreateDetails, error) {
+func (s *CoreDrgAttachmentManagementResourceCrud) mapToDrgAttachmentNetworkCreateDetails(fieldKeyFormat string) (oci_core.DrgAttachmentNetworkCreateDetails, error) {
 	var baseObject oci_core.DrgAttachmentNetworkCreateDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
@@ -472,7 +415,7 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkCreateDetails(f
 	return baseObject, nil
 }
 
-func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(fieldKeyFormat string) (oci_core.DrgAttachmentNetworkUpdateDetails, error) {
+func (s *CoreDrgAttachmentManagementResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(fieldKeyFormat string) (oci_core.DrgAttachmentNetworkUpdateDetails, error) {
 	var baseObject oci_core.DrgAttachmentNetworkUpdateDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
@@ -498,27 +441,7 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(f
 	return baseObject, nil
 }
 
-func DrgAttachmentNetworkDetailsToMap(obj *oci_core.DrgAttachmentNetworkDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_core.VcnDrgAttachmentNetworkDetails:
-		result["type"] = "VCN"
-
-		if v.RouteTableId != nil {
-			result["route_table_id"] = string(*v.RouteTableId)
-		}
-
-		if v.Id != nil {
-			result["id"] = string(*v.Id)
-		}
-	default:
-		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
-		return nil
-	}
-	return result
-}
-
-func (s *CoreDrgAttachmentResourceCrud) removeExportDrgRouteDistribution() error {
+func (s *CoreDrgAttachmentManagementResourceCrud) removeExportDrgRouteDistribution() error {
 	request := oci_core.RemoveExportDrgRouteDistributionRequest{}
 
 	tmp := s.D.Id()

@@ -310,7 +310,14 @@ func (s *CoreDrgRouteTableResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
+	response, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
+	if response.HTTPResponse().StatusCode == 400 {
+		retryDeleteFunc := func() bool {
+			response, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
+			return err == nil && response.HTTPResponse().StatusCode == 200
+		}
+		return WaitForResourceCondition(s, retryDeleteFunc, s.D.Timeout(schema.TimeoutDelete))
+	}
 	return err
 }
 

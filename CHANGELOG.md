@@ -7,6 +7,7 @@
 - Support for Bastion Service
 - Support charge for Container Images and Generic Artifacts 
 - Support for Generic Artifacts Service
+- Support Update `DrgAttachment` of types `Virtual_Circuit`, `RPC` and `IPSec`
 
 ## 4.27.0 (May 19, 2021)
 

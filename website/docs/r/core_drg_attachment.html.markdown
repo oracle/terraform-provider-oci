@@ -103,7 +103,7 @@ The following attributes are exported:
 		For information about why you would associate a route table with a DRG attachment, see:
 		* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 		* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) 
-	* `type` - The type can be one of these values: `IPSEC_TUNNEL`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
+	* `type` - The type can be : `VCN`
 * `route_table_id` - The OCID of the route table the DRG attachment is using.
 
 	For information about why you would associate a route table with a DRG attachment, see:
