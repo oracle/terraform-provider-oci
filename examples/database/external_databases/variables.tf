@@ -73,7 +73,7 @@ variable "service" {
 }
 
 variable "connector_agent_id" {
-    default = "testConnectorId"
+    default = "ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yundummydummydummy"
 }
 
 variable "external_database_connector_display_name" {
