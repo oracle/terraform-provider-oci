@@ -314,7 +314,7 @@ func (client DataFlowClient) createApplication(ctx context.Context, request comm
 	return response, err
 }
 
-// CreatePrivateEndpoint Creates a private endpoint to be used by an application.
+// CreatePrivateEndpoint Creates a private endpoint to be used by applications.
 //
 // See also
 //
@@ -864,7 +864,7 @@ func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.
 	return response, err
 }
 
-// ListApplications Lists all applications in the specified compartment.
+// ListApplications Lists all applications in the specified compartment. Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
 //
 // See also
 //
@@ -1026,7 +1026,7 @@ func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListRuns Lists all runs of an application in the specified compartment.
+// ListRuns Lists all runs of an application in the specified compartment.  Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
 //
 // See also
 //

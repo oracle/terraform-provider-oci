@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpointRequest.
 type CreatePrivateEndpointRequest struct {
 
-	// Details to create a private endpoint.
+	// The parameters required to create a private endpoint.
 	CreatePrivateEndpointDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error
