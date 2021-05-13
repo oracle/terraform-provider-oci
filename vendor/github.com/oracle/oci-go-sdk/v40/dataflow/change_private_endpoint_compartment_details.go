@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// ChangePrivateEndpointCompartmentDetails The change private endpoint compartment details.
+// ChangePrivateEndpointCompartmentDetails The details required to change a private endpoint compartment.
 type ChangePrivateEndpointCompartmentDetails struct {
 
 	// The OCID of a compartment.
