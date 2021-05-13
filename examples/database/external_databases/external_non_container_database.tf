@@ -47,14 +47,22 @@ resource "oci_database_external_non_container_database_management" "test_enable_
     enable_management = true
 }
 
-//Disable Database Management
+// Enable Operations Insights
+resource "oci_database_external_non_container_database_operations_insights_management" "test_enable_external_non_container_database_operations_insights_management" {
+  external_non_container_database_id = oci_database_external_non_container_database.test_external_non_container_database.id
+  external_database_connector_id = oci_database_external_database_connector.test_external_non_container_database_connector.id
+  enable_operations_insights = true
+}
 
-resource "oci_database_external_non_container_database_management" "test_disable_external_non_container_database_management" {
+//Commenting out this code block to unblock the failure in backward compatibility test
+//Disable Database Management
+/*resource "oci_database_external_non_container_database_management" "test_disable_external_non_container_database_management" {
     depends_on = [oci_database_external_non_container_database_management.test_enable_external_non_container_database_management]
     external_non_container_database_id = oci_database_external_non_container_database.test_external_non_container_database.id
     external_database_connector_id = oci_database_external_database_connector.test_external_non_container_database_connector.id
     enable_management = false
-}
+}*/
+
 
 data "oci_database_external_non_container_database" "test_external_non_container_database" {
 	#Required

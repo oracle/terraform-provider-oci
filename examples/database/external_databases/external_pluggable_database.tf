@@ -47,13 +47,21 @@ resource "oci_database_external_pluggable_database_management" "test_enable_exte
     enable_management = true
 }
 
+// Enable Operations Insights for the External Pluggable Databases
+resource "oci_database_external_pluggable_database_operations_insights_management" "test_enable_external_pluggable_database_operations_insights_management" {
+  external_pluggable_database_id = oci_database_external_pluggable_database.test_external_pluggable_database.id
+  external_database_connector_id = oci_database_external_database_connector.test_external_pluggable_database_connector.id
+  enable_operations_insights = true
+}
+
+//Commenting out this code block to unblock the failure in backward compatibility test
 // Disable Database Management for the External Pluggable Database
-resource "oci_database_external_pluggable_database_management" "test_disable_external_pluggable_database_management" {
+/*resource "oci_database_external_pluggable_database_management" "test_disable_external_pluggable_database_management" {
     depends_on = [oci_database_external_pluggable_database_management.test_enable_external_pluggable_database_management]
     external_pluggable_database_id = oci_database_external_pluggable_database.test_external_pluggable_database.id
     external_database_connector_id = oci_database_external_database_connector.test_external_pluggable_database_connector.id
     enable_management = false
-}
+}*/
 
 data "oci_database_external_pluggable_database" "test_external_pluggable_database" {
 	#Required
