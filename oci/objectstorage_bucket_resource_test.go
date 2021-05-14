@@ -92,7 +92,7 @@ var (
 	}
 )
 
-func TestObjectStorageBucketResource_retentionRules(t *testing.T) {
+func TestResourceBucket_retentionRules(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageBucketResource_retentionRules")
 	defer httpreplay.SaveScenario()
 
