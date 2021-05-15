@@ -1,25 +1,56 @@
 package tfexec
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
 	"sync"
 
 	"github.com/hashicorp/go-version"
 )
 
+type printfer interface {
+	Printf(format string, v ...interface{})
+}
+
+// Terraform represents the Terraform CLI executable and working directory.
+//
+// Typically this is constructed against the root module of a Terraform configuration
+// but you can override paths used in some commands depending on the available
+// options.
+//
+// All functions that execute CLI commands take a context.Context. It should be noted that
+// exec.Cmd.Run will not return context.DeadlineExceeded or context.Canceled by default, we
+// have augmented our wrapped errors to respond true to errors.Is for context.DeadlineExceeded
+// and context.Canceled if those are present on the context when the error is parsed. See
+// https://github.com/golang/go/issues/21880 for more about the Go limitations.
+//
+// By default, the instance inherits the environment from the calling code (using os.Environ)
+// but it ignores certain environment variables that are managed within the code and prohibits
+// setting them through SetEnv:
+//
+//  - TF_APPEND_USER_AGENT
+//  - TF_IN_AUTOMATION
+//  - TF_INPUT
+//  - TF_LOG
+//  - TF_LOG_PATH
+//  - TF_REATTACH_PROVIDERS
+//  - TF_DISABLE_PLUGIN_TLS
+//  - TF_SKIP_PROVIDER_VERIFY
 type Terraform struct {
-	execPath   string
-	workingDir string
-	env        map[string]string
+	execPath           string
+	workingDir         string
+	appendUserAgent    string
+	disablePluginTLS   bool
+	skipProviderVerify bool
+	env                map[string]string
 
 	stdout  io.Writer
 	stderr  io.Writer
-	logger  *log.Logger
+	logger  printfer
 	logPath string
 
 	versionLock  sync.Mutex
@@ -41,16 +72,15 @@ func NewTerraform(workingDir string, execPath string) (*Terraform, error) {
 
 	if execPath == "" {
 		err := fmt.Errorf("NewTerraform: please supply the path to a Terraform executable using execPath, e.g. using the tfinstall package.")
-		return nil, &ErrNoSuitableBinary{err: err}
-
+		return nil, &ErrNoSuitableBinary{
+			err: err,
+		}
 	}
 	tf := Terraform{
 		execPath:   execPath,
 		workingDir: workingDir,
 		env:        nil, // explicit nil means copy os.Environ
 		logger:     log.New(ioutil.Discard, "", 0),
-		stdout:     ioutil.Discard,
-		stderr:     ioutil.Discard,
 	}
 
 	return &tf, nil
@@ -61,15 +91,10 @@ func NewTerraform(workingDir string, execPath string) (*Terraform, error) {
 // from os.Environ. Attempting to set environment variables that should be managed manually will
 // result in ErrManualEnvVar being returned.
 func (tf *Terraform) SetEnv(env map[string]string) error {
-	for k := range env {
-		if strings.HasPrefix(k, varEnvVarPrefix) {
-			return fmt.Errorf("variables should be passed using the Var option: %w", &ErrManualEnvVar{k})
-		}
-		for _, p := range prohibitedEnvVars {
-			if p == k {
-				return &ErrManualEnvVar{k}
-			}
-		}
+	prohibited := ProhibitedEnv(env)
+	if len(prohibited) > 0 {
+		// just error on the first instance
+		return &ErrManualEnvVar{prohibited[0]}
 	}
 
 	tf.env = env
@@ -77,7 +102,7 @@ func (tf *Terraform) SetEnv(env map[string]string) error {
 }
 
 // SetLogger specifies a logger for tfexec to use.
-func (tf *Terraform) SetLogger(logger *log.Logger) {
+func (tf *Terraform) SetLogger(logger printfer) {
 	tf.logger = logger
 }
 
@@ -101,6 +126,31 @@ func (tf *Terraform) SetStderr(w io.Writer) {
 // execution.
 func (tf *Terraform) SetLogPath(path string) error {
 	tf.logPath = path
+	return nil
+}
+
+// SetAppendUserAgent sets the TF_APPEND_USER_AGENT environment variable for
+// Terraform CLI execution.
+func (tf *Terraform) SetAppendUserAgent(ua string) error {
+	tf.appendUserAgent = ua
+	return nil
+}
+
+// SetDisablePluginTLS sets the TF_DISABLE_PLUGIN_TLS environment variable for
+// Terraform CLI execution.
+func (tf *Terraform) SetDisablePluginTLS(disabled bool) error {
+	tf.disablePluginTLS = disabled
+	return nil
+}
+
+// SetSkipProviderVerify sets the TF_SKIP_PROVIDER_VERIFY environment variable
+// for Terraform CLI execution. This is no longer used in 0.13.0 and greater.
+func (tf *Terraform) SetSkipProviderVerify(skip bool) error {
+	err := tf.compatible(context.Background(), nil, tf0_13_0)
+	if err != nil {
+		return err
+	}
+	tf.skipProviderVerify = skip
 	return nil
 }
 

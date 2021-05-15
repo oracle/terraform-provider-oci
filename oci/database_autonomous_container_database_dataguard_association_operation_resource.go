@@ -2,6 +2,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
@@ -50,7 +51,7 @@ type DatabaseAutonomousContainerDatabaseDataguardAssociationOperation struct {
 }
 
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) ID() string {
-	return string(hashcode.String(s.D.Get("autonomous_container_database_id").(string)))
+	return fmt.Sprint(hashcode.String(s.D.Get("autonomous_container_database_id").(string)))
 }
 
 func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {

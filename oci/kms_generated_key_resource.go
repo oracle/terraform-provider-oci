@@ -136,7 +136,7 @@ type KmsGeneratedKeyResourceCrud struct {
 }
 
 func (s *KmsGeneratedKeyResourceCrud) ID() string {
-	return string(hashcode.String(*s.Res.Ciphertext))
+	return fmt.Sprint(hashcode.String(*s.Res.Ciphertext))
 }
 
 func (s *KmsGeneratedKeyResourceCrud) Create() error {
