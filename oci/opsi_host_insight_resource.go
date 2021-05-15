@@ -623,7 +623,7 @@ func HostInsightSummaryToMap(obj oci_opsi.HostInsightSummary) map[string]interfa
 		}
 
 		if v.ProcessorCount != nil {
-			result["processor_count"] = string(*v.ProcessorCount)
+			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
 		}
 
 		result["freeform_tags"] = v.FreeformTags

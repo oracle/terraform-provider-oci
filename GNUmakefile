@@ -34,6 +34,11 @@ sweep: fmtcheck gomodenv
 testacc: build
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) $(test_tags) -timeout $(timeout)
 
+localinstall:
+	mkdir -p $(GOPATH)/bin/registry.terraform.io/hashicorp/oci/1.0.0/darwin_amd64
+	cp $(GOPATH)/bin/terraform-provider-oci $(HOME)/.terraform.d/plugins/registry.terraform.io/hashicorp/oci/1.0.0/darwin_amd64
+	cp $(GOPATH)/bin/terraform-provider-oci $(GOPATH)/bin/registry.terraform.io/hashicorp/oci/1.0.0/darwin_amd64
+
 vet:
 	@echo "go vet ."
 	@go vet $$(go list ./... | grep -v vendor/) ; if [ $$? -ne 0 ]; then \

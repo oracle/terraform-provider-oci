@@ -9,6 +9,7 @@ import (
 type initConfig struct {
 	backend       bool
 	backendConfig []string
+	dir           string
 	forceCopy     bool
 	fromModule    string
 	get           bool
@@ -16,6 +17,7 @@ type initConfig struct {
 	lock          bool
 	lockTimeout   string
 	pluginDir     []string
+	reattachInfo  ReattachInfo
 	reconfigure   bool
 	upgrade       bool
 	verifyPlugins bool
@@ -33,6 +35,7 @@ var defaultInitOptions = initConfig{
 	verifyPlugins: true,
 }
 
+// InitOption represents options used in the Init method.
 type InitOption interface {
 	configureInit(*initConfig)
 }
@@ -43,6 +46,10 @@ func (opt *BackendOption) configureInit(conf *initConfig) {
 
 func (opt *BackendConfigOption) configureInit(conf *initConfig) {
 	conf.backendConfig = append(conf.backendConfig, opt.path)
+}
+
+func (opt *DirOption) configureInit(conf *initConfig) {
+	conf.dir = opt.path
 }
 
 func (opt *FromModuleOption) configureInit(conf *initConfig) {
@@ -69,6 +76,10 @@ func (opt *PluginDirOption) configureInit(conf *initConfig) {
 	conf.pluginDir = append(conf.pluginDir, opt.pluginDir)
 }
 
+func (opt *ReattachOption) configureInit(conf *initConfig) {
+	conf.reattachInfo = opt.info
+}
+
 func (opt *ReconfigureOption) configureInit(conf *initConfig) {
 	conf.reconfigure = opt.reconfigure
 }
@@ -81,14 +92,27 @@ func (opt *VerifyPluginsOption) configureInit(conf *initConfig) {
 	conf.verifyPlugins = opt.verifyPlugins
 }
 
+// Init represents the terraform init subcommand.
 func (tf *Terraform) Init(ctx context.Context, opts ...InitOption) error {
-	return tf.runTerraformCmd(tf.initCmd(ctx, opts...))
+	cmd, err := tf.initCmd(ctx, opts...)
+	if err != nil {
+		return err
+	}
+	return tf.runTerraformCmd(ctx, cmd)
 }
 
-func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) *exec.Cmd {
+func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) (*exec.Cmd, error) {
 	c := defaultInitOptions
 
 	for _, o := range opts {
+		switch o.(type) {
+		case *LockOption, *LockTimeoutOption, *VerifyPluginsOption, *GetPluginsOption:
+			err := tf.compatible(ctx, nil, tf0_15_0)
+			if err != nil {
+				return nil, fmt.Errorf("-lock, -lock-timeout, -verify-plugins, and -get-plugins options are no longer available as of Terraform 0.15: %w", err)
+			}
+		}
+
 		o.configureInit(&c)
 	}
 
@@ -98,17 +122,27 @@ func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) *exec.Cmd 
 	if c.fromModule != "" {
 		args = append(args, "-from-module="+c.fromModule)
 	}
-	if c.lockTimeout != "" {
-		args = append(args, "-lock-timeout="+c.lockTimeout)
+
+	// string opts removed in 0.15: pass if set and <0.15
+	err := tf.compatible(ctx, nil, tf0_15_0)
+	if err == nil {
+		if c.lockTimeout != "" {
+			args = append(args, "-lock-timeout="+c.lockTimeout)
+		}
 	}
 
 	// boolean opts: always pass
 	args = append(args, "-backend="+fmt.Sprint(c.backend))
 	args = append(args, "-get="+fmt.Sprint(c.get))
-	args = append(args, "-get-plugins="+fmt.Sprint(c.getPlugins))
-	args = append(args, "-lock="+fmt.Sprint(c.lock))
 	args = append(args, "-upgrade="+fmt.Sprint(c.upgrade))
-	args = append(args, "-verify-plugins="+fmt.Sprint(c.verifyPlugins))
+
+	// boolean opts removed in 0.15: pass if <0.15
+	err = tf.compatible(ctx, nil, tf0_15_0)
+	if err == nil {
+		args = append(args, "-lock="+fmt.Sprint(c.lock))
+		args = append(args, "-get-plugins="+fmt.Sprint(c.getPlugins))
+		args = append(args, "-verify-plugins="+fmt.Sprint(c.verifyPlugins))
+	}
 
 	// unary flags: pass if true
 	if c.reconfigure {
@@ -127,5 +161,19 @@ func (tf *Terraform) initCmd(ctx context.Context, opts ...InitOption) *exec.Cmd 
 		}
 	}
 
-	return tf.buildTerraformCmd(ctx, args...)
+	// optional positional argument
+	if c.dir != "" {
+		args = append(args, c.dir)
+	}
+
+	mergeEnv := map[string]string{}
+	if c.reattachInfo != nil {
+		reattachStr, err := c.reattachInfo.marshalString()
+		if err != nil {
+			return nil, err
+		}
+		mergeEnv[reattachEnvVar] = reattachStr
+	}
+
+	return tf.buildTerraformCmd(ctx, mergeEnv, args...), nil
 }
