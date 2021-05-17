@@ -94,12 +94,10 @@ func TestDnsResolverResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_resolver.test_resolver"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+ResolverResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Create,
-			representationCopyWithNewProperties(resolverRepresentation, map[string]interface{}{
-				"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-			})), "dns", "resolver", t)
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create" step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ResolverResourceDependencies+
+		generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation)+
+		generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation), "dns", "resolver", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

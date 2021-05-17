@@ -45,7 +45,7 @@ var (
 	}
 )
 
-func TestCoreInstancePreemptibleInstanceConfigResource_basic(t *testing.T) {
+func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePreemptibleInstanceConfigResource_basic")
 	defer httpreplay.SaveScenario()
 

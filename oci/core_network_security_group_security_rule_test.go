@@ -99,7 +99,8 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 	var resId, resId2, compositeId string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+NetworkSecurityGroupSecurityRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupSecurityRuleRepresentation), "core", "networkSecurityGroupSecurityRule", t)
+		generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+			representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)), "core", "networkSecurityGroupSecurityRule", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

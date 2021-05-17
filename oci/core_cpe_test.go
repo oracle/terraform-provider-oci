@@ -61,6 +61,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+CpeResourceDependencies+
+		generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation)+
 		generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Create, cpeRepresentation), "core", "cpe", t)
 
 	resource.Test(t, resource.TestCase{
