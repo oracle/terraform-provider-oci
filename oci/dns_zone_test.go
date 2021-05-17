@@ -99,8 +99,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("dns_zone")
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ZoneResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create, zoneRepresentation), "dns", "zone", t)
+	saveConfigContent(tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
+			representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil), "dns", "zone", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

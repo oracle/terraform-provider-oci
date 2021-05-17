@@ -23,7 +23,7 @@ import (
 
 var (
 	recordDataSourceRepresentation = map[string]interface{}{
-		"zone_name_or_id":   Representation{repType: Required, create: `${oci_dns_zone.test_zone.name}`},
+		"zone_name_or_id":   Representation{repType: Required, create: `${oci_dns_zone.test_global_zone.name}`},
 		"if_modified_since": Representation{repType: Optional, create: `ifModifiedSince`},
 		"if_none_match":     Representation{repType: Optional, create: `ifNoneMatch`},
 		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
@@ -42,7 +42,7 @@ var (
 		"rdata":           Representation{repType: Required, create: `192.168.0.1`, update: `77.77.77.77`},
 		"rtype":           Representation{repType: Required, create: `A`},
 		"ttl":             Representation{repType: Required, create: `3600`, update: `1000`},
-		"zone_name_or_id": Representation{repType: Required, create: `${oci_dns_zone.test_zone.name}`},
+		"zone_name_or_id": Representation{repType: Required, create: `${oci_dns_zone.test_global_zone.name}`},
 		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
 	}
 
@@ -51,7 +51,7 @@ data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
 }
 
-resource "oci_dns_zone" "test_zone" {
+resource "oci_dns_zone" "test_global_zone" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	name = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
@@ -74,8 +74,8 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("dns_resource")
 	var resId, resId2 string
 	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+RecordResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), "dns", "record", t)
+	saveConfigContent(tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil), "dns", "record", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -120,7 +120,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
 					resource.TestCheckResourceAttr(resourceName, "ttl", "3600"),
-					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_zone", "name"),
+					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -146,7 +146,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
 					resource.TestCheckResourceAttr(resourceName, "ttl", "1000"),
-					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_zone", "name"),
+					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -186,10 +186,10 @@ func TestDnsRecordsResource_datasources(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
-  zone_name_or_id = "${oci_dns_zone.test_zone.name}"
+  zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 
   # optional
-  domain = "${oci_dns_zone.test_zone.name}"
+  domain = "${oci_dns_zone.test_global_zone.name}"
   rtype = "NS"
   sort_by = "ttl"
   sort_order = "DESC"
@@ -202,8 +202,8 @@ data "oci_dns_records" "test_records" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
-  zone_name_or_id = "${oci_dns_zone.test_zone.name}"
-  domain = "${oci_dns_zone.test_zone.name}"
+  zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+  domain = "${oci_dns_zone.test_global_zone.name}"
 	filter {
 	  name = "rtype"
 	  values = ["SOA"]
