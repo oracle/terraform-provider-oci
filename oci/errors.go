@@ -173,9 +173,9 @@ func getVersionAndDateError() string {
 	releaseDate, _ := time.Parse("2006-01-02", ReleaseDate)
 	days := today.Sub(releaseDate).Hours() / 24
 
-	if days > 7 {
+	if days > 8 {
 		versionOld := int(days / 7)
-		result += fmt.Sprintf("This provider is %v updates behind to current.", versionOld)
+		result += fmt.Sprintf("This provider is %v update(s) behind to current.", versionOld)
 	}
 	return result
 }
