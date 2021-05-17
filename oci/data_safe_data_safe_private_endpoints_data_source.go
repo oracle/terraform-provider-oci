@@ -19,9 +19,17 @@ func DataSafeDataSafePrivateEndpointsDataSource() *schema.Resource {
 		Read: readDataSafeDataSafePrivateEndpoints,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"access_level": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -65,9 +73,18 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) VoidState() {
 func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) Get() error {
 	request := oci_data_safe.ListDataSafePrivateEndpointsRequest{}
 
+	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
+		request.AccessLevel = oci_data_safe.ListDataSafePrivateEndpointsAccessLevelEnum(accessLevel.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -120,6 +137,10 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			dataSafePrivateEndpoint["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			dataSafePrivateEndpoint["description"] = *r.Description
 		}
@@ -127,6 +148,8 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) SetData() error {
 		if r.DisplayName != nil {
 			dataSafePrivateEndpoint["display_name"] = *r.DisplayName
 		}
+
+		dataSafePrivateEndpoint["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			dataSafePrivateEndpoint["id"] = *r.Id
@@ -140,6 +163,10 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) SetData() error {
 
 		if r.SubnetId != nil {
 			dataSafePrivateEndpoint["subnet_id"] = *r.SubnetId
+		}
+
+		if r.SystemTags != nil {
+			dataSafePrivateEndpoint["system_tags"] = systemTagsToMap(r.SystemTags)
 		}
 
 		if r.TimeCreated != nil {

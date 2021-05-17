@@ -371,6 +371,11 @@ core
 data_safe
     
 * oci\_data\_safe\_data\_safe\_private\_endpoint
+<<<<<<< ours
+* oci\_data\_safe\_on\_prem\_connector
+* oci\_data\_safe\_target\_database
+=======
+>>>>>>> theirs
 
 database
     

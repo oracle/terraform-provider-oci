@@ -1,6 +1,11 @@
 ## 4.30.0 (June 09, 2021)
 
 ### Added
+- Support for Data Safe target database registration
+
+## 4.30.0 (June 09, 2021)
+
+### Added
 - Support for Higher performance volumes added to `core`
 - Support for End-to-end encryption for Bare Metal hosts to `core`
 - Support for Java Management Service
