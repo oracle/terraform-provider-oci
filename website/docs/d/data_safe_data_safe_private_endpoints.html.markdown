@@ -21,6 +21,8 @@ data "oci_data_safe_data_safe_private_endpoints" "test_data_safe_private_endpoin
 	compartment_id = var.compartment_id
 
 	#Optional
+	access_level = var.data_safe_private_endpoint_access_level
+	compartment_id_in_subtree = var.data_safe_private_endpoint_compartment_id_in_subtree
 	display_name = var.data_safe_private_endpoint_display_name
 	state = var.data_safe_private_endpoint_state
 	vcn_id = oci_core_vcn.test_vcn.id
@@ -31,7 +33,9 @@ data "oci_data_safe_data_safe_private_endpoints" "test_data_safe_private_endpoin
 
 The following arguments are supported:
 
+* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
+* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state.
 * `vcn_id` - (Optional) A filter to return only resources that match the specified VCN OCID.
@@ -59,6 +63,7 @@ The following attributes are exported:
 * `private_endpoint_ip` - The private IP address of the private endpoint. 
 * `state` - The current state of the private endpoint.
 * `subnet_id` - The OCID of the subnet.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the private endpoint was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `vcn_id` - The OCID of the VCN.
 

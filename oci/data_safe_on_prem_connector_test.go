@@ -32,6 +32,8 @@ var (
 
 	onPremConnectorDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                    Representation{repType: Required, create: `${var.compartment_id}`},
+		"access_level":                      Representation{repType: Optional, create: `RESTRICTED`},
+		"compartment_id_in_subtree":         Representation{repType: Optional, create: `true`},
 		"display_name":                      Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"on_prem_connector_id":              Representation{repType: Optional, create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
 		"on_prem_connector_lifecycle_state": Representation{repType: Optional, create: `INACTIVE`},
@@ -184,7 +186,9 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 					compartmentIdVariableStr + OnPremConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connector_id"),
 					resource.TestCheckResourceAttr(datasourceName, "on_prem_connector_lifecycle_state", "INACTIVE"),

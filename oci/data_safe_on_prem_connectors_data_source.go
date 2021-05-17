@@ -19,9 +19,17 @@ func DataSafeOnPremConnectorsDataSource() *schema.Resource {
 		Read: readDataSafeOnPremConnectors,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"access_level": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -65,9 +73,18 @@ func (s *DataSafeOnPremConnectorsDataSourceCrud) VoidState() {
 func (s *DataSafeOnPremConnectorsDataSourceCrud) Get() error {
 	request := oci_data_safe.ListOnPremConnectorsRequest{}
 
+	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
+		request.AccessLevel = oci_data_safe.ListOnPremConnectorsAccessLevelEnum(accessLevel.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -147,6 +164,10 @@ func (s *DataSafeOnPremConnectorsDataSourceCrud) SetData() error {
 		}
 
 		onPremConnector["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			onPremConnector["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			onPremConnector["time_created"] = r.TimeCreated.String()

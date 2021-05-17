@@ -794,7 +794,19 @@ var exportDataSafeOnPremConnectorHints = &TerraformResourceHints{
 	datasourceItemsAttr:  "on_prem_connectors",
 	resourceAbbreviation: "on_prem_connector",
 	discoverableLifecycleStates: []string{
+		string(oci_data_safe.OnPremConnectorLifecycleStateInactive),
 		string(oci_data_safe.OnPremConnectorLifecycleStateActive),
+	},
+}
+
+var exportDataSafeTargetDatabaseHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_target_database",
+	datasourceClass:        "oci_data_safe_target_databases",
+	datasourceItemsAttr:    "target_databases",
+	resourceAbbreviation:   "target_database",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
 	},
 }
 
