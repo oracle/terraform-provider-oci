@@ -65,6 +65,12 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"encryption_in_transit_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_pv_encryption_in_transit_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -342,6 +348,8 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("chap_username", *v.ChapUsername)
 		}
 
+		s.D.Set("encryption_in_transit_type", v.EncryptionInTransitType)
+
 		if v.Ipv4 != nil {
 			s.D.Set("ipv4", *v.Ipv4)
 		}
@@ -553,6 +561,9 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 		request.AttachVolumeDetails = details
 	case strings.ToLower("iscsi"):
 		details := oci_core.AttachIScsiVolumeDetails{}
+		if encryptionInTransitType, ok := s.D.GetOkExists("encryption_in_transit_type"); ok {
+			details.EncryptionInTransitType = oci_core.EncryptionInTransitTypeEnum(encryptionInTransitType.(string))
+		}
 		if useChap, ok := s.D.GetOkExists("use_chap"); ok {
 			tmp := useChap.(bool)
 			details.UseChap = &tmp

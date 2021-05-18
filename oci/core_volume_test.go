@@ -370,9 +370,9 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
-	display_name = "${var.volume_display_name}"
-	freeform_tags = "${var.volume_freeform_tags}"
+    defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+    display_name = "${var.volume_display_name}"
+    freeform_tags = "${var.volume_freeform_tags}"
 	size_in_gbs = "${var.volume_size_in_gbs}"
 	size_in_mbs = "${var.volume_size_in_mbs}"
 	source_details {
@@ -531,9 +531,9 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+ 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
 	display_name = "${var.volume_display_name}"
-	freeform_tags = "${var.volume_freeform_tags}"
+ 	freeform_tags = "${var.volume_freeform_tags}"
 	size_in_mbs = "${var.volume_size_in_mbs}"
 	source_details {
 		#Required
@@ -559,7 +559,7 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+ 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
 	display_name = "${var.volume_display_name}"
 	freeform_tags = "${var.volume_freeform_tags}"
 	size_in_gbs = "${var.volume_size_in_gbs}"
@@ -587,7 +587,7 @@ resource "oci_core_volume" "test_volume" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
+ 	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
 	display_name = "${var.volume_display_name}"
 	freeform_tags = "${var.volume_freeform_tags}"
 	size_in_gbs = "${var.volume_size_in_gbs}"

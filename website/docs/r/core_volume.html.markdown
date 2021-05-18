@@ -31,10 +31,10 @@ description. It does not have to be unique, and you can change it. Avoid enterin
 ```hcl
 resource "oci_core_volume" "test_volume" {
 	#Required
-	availability_domain = var.volume_availability_domain
 	compartment_id = var.compartment_id
 
 	#Optional
+	availability_domain = var.volume_availability_domain
 	backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
 	block_volume_replicas {
 		#Required
@@ -64,7 +64,7 @@ resource "oci_core_volume" "test_volume" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.  Example: `Uocm:PHX-AD-1` 
 * `backup_policy_id` - (Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
 * `block_volume_replicas` - (Optional) (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 

@@ -21,7 +21,6 @@ description. It does not have to be unique, and you can change it. Avoid enterin
 ```hcl
 resource "oci_core_boot_volume" "test_boot_volume" {
 	#Required
-	availability_domain = var.boot_volume_availability_domain
 	compartment_id = var.compartment_id
 	source_details {
 		#Required
@@ -30,6 +29,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	}
 
 	#Optional
+	availability_domain = var.boot_volume_availability_domain
 	backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
 	boot_volume_replicas {
 		#Required
@@ -53,7 +53,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain of the boot volume.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.  Example: `Uocm:PHX-AD-1` 
 * `backup_policy_id` - (Optional) If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned. 
 * `boot_volume_replicas` - (Optional) (Updatable) The list of boot volume replicas to be enabled for this boot volume in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
