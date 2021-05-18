@@ -137,8 +137,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `agent_features` - Oracle Cloud Agent features supported on the image.
-	* `is_management_supported` - Whether Oracle Cloud Agent can run all the available management plugins. 
-	* `is_monitoring_supported` - Whether Oracle Cloud Agent can gather performance metrics and monitor the instance. 
+	* `is_management_supported` - This attribute is not used. 
+	* `is_monitoring_supported` - This attribute is not used. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `billable_size_in_gbs` - The size of the internal storage for this image that is subject to billing (1 GB = 1,073,741,824 bytes).  Example: `100` 
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 

@@ -181,6 +181,8 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["chap_username"] = string(*v.ChapUsername)
 			}
 
+			result["encryption_in_transit_type"] = string(v.EncryptionInTransitType)
+
 			if v.Ipv4 != nil {
 				result["ipv4"] = string(*v.Ipv4)
 			}

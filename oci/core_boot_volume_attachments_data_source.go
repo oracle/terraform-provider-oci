@@ -56,6 +56,11 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"encryption_in_transit_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"availability_domain": {
@@ -174,6 +179,8 @@ func (s *CoreBootVolumeAttachmentsDataSourceCrud) SetData() error {
 		if r.DisplayName != nil {
 			bootVolumeAttachment["display_name"] = *r.DisplayName
 		}
+
+		bootVolumeAttachment["encryption_in_transit_type"] = r.EncryptionInTransitType
 
 		if r.Id != nil {
 			bootVolumeAttachment["id"] = *r.Id

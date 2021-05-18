@@ -1,7 +1,8 @@
-## 4.29.0 (Unreleased)
+## 4.30 (Unreleased)
 
 ### Added
 - Support for Higher performance volumes added to `core`
+- Support for End-to-end encryption for Bare Metal hosts to `core`
 
 ## 4.29.0 (June 02, 2021)
 

@@ -65,6 +65,7 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 					TestCheckResourceAttributesEqual(datasourceName, "boot_volume_attachments.0.boot_volume_id", "oci_core_instance.test_instance", "boot_volume_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.display_name"),
+					resource.TestCheckResourceAttr(datasourceName, "boot_volume_attachments.0.encryption_in_transit_type", "NONE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.id"),
 					TestCheckResourceAttributesEqual(datasourceName, "boot_volume_attachments.0.instance_id", "oci_core_instance.test_instance", "id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.state"),
