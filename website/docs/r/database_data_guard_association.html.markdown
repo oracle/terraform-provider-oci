@@ -54,7 +54,7 @@ The following arguments are supported:
 * `availability_domain` - (Applicable when creation_type=NewDbSystem) The name of the availability domain that the standby database DB system will be located in. For example- "Uocm:PHX-AD-1".
 * `backup_network_nsg_ids` - (Applicable when creation_type=NewDbSystem) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
 * `creation_type` - (Required) Specifies whether to create the peer database in an existing DB system or in a new DB system. 
-* `database_admin_password` - (Required) A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.
+* `database_admin_password` - (Required) (Updatable) A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.
 
 	The password must contain no fewer than nine characters and include:
 	* At least two uppercase characters.
@@ -73,7 +73,7 @@ The following arguments are supported:
 * `peer_db_home_id` - (Applicable when creation_type=ExistingDbSystem | ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database. You must supply this value to create standby database with an existing DB home 
 * `peer_db_system_id` - (Applicable when creation_type=ExistingDbSystem) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database. You must supply this value if creationType is `ExistingDbSystem`. 
 * `peer_vm_cluster_id` - (Applicable when creation_type=ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster in which to create the standby database. You must supply this value if creationType is `ExistingVmCluster`. 
-* `protection_mode` - (Required) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.
+* `protection_mode` - (Required) (Updatable) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.
 
 	**IMPORTANT** - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE. 
 * `shape` - (Applicable when creation_type=NewDbSystem) The virtual machine DB system shape to launch for the standby database in the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system. Only virtual machine shapes are valid options. If you do not supply this parameter, the default shape is the shape of the primary DB system.
@@ -83,7 +83,7 @@ The following arguments are supported:
 	* For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
-* `transport_type` - (Required) The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
+* `transport_type` - (Required) (Updatable) The redo transport type to use for this Data Guard association.  Valid values depend on the specified `protectionMode`:
 	* MAXIMUM_AVAILABILITY - SYNC or FASTSYNC
 	* MAXIMUM_PERFORMANCE - ASYNC
 	* MAXIMUM_PROTECTION - SYNC
