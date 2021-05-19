@@ -247,6 +247,7 @@ github.com/oracle/oci-go-sdk/v41/goldengate
 github.com/oracle/oci-go-sdk/v41/healthchecks
 github.com/oracle/oci-go-sdk/v41/identity
 github.com/oracle/oci-go-sdk/v41/integration
+github.com/oracle/oci-go-sdk/v41/jms
 github.com/oracle/oci-go-sdk/v41/keymanagement
 github.com/oracle/oci-go-sdk/v41/limits
 github.com/oracle/oci-go-sdk/v41/loadbalancer
