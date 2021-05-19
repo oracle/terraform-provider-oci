@@ -25,8 +25,8 @@ var (
 		"filter":                    RepresentationGroup{Required, recommendationDataSourceFilterForResourceAction}}
 
 	recommendationDataSourceFilterForResourceAction = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `importance`},
-		"values": Representation{repType: Required, create: []string{`MODERATE`}},
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`cost-management-object-storage-enable-olm-name`}},
 	}
 
 	ResourceActionRequiredOnlyResource = ResourceActionResourceDependencies +
