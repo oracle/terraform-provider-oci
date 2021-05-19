@@ -15,30 +15,45 @@ import (
 
 // CreateRunDetails The create run details. The following properties are optional and override the default values
 // set in the associated application:
+//   - applicationId
+//   - archiveUri
 //   - arguments
 //   - configuration
 //   - definedTags
+//   - displayName
 //   - driverShape
+//   - execute
 //   - executorShape
 //   - freeformTags
 //   - logsBucketUri
 //   - numExecutors
 //   - parameters
+//   - sparkVersion
 //   - warehouseBucketUri
-// If the optional properties are not specified, they are copied over from the parent application.
+// It is expected that either the applicationId or the execute parameter is specified; but not both.
+// If both or none are set, a Bad Request (HTTP 400) status will be sent as the response.
+// If an appicationId is not specified, then a value for the execute parameter is expected.
+// Using data parsed from the value, a new application will be created and assicated with the new run.
+// See information on the execute parameter for details on the format of this parameter.
+// The optional parameter spark version can only be specified when using the execute parameter.  If it
+// is not specified when using the execute parameter, the latest version will be used as default.
+// If the execute parameter is not used, the spark version will be taken from the associated application.
+// If displayName is not specified, it will be derived from the displayName of associated application or
+// set by API using fileUri's application file name.
 // Once a run is created, its properties (except for definedTags and freeformTags) cannot be changed.
 // If the parent application's properties (including definedTags and freeformTags) are updated,
 // the corresponding properties of the run will not update.
 type CreateRunDetails struct {
 
-	// The application ID.
-	ApplicationId *string `mandatory:"true" json:"applicationId"`
-
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name. It does not have to be unique. Avoid entering confidential information.
-	DisplayName *string `mandatory:"true" json:"displayName"`
+	// The OCID of the associated application. If this value is set, then no value for the execute parameter is required. If this value is not set, then a value for the execute parameter is required, and a new application is created and associated with the new run.
+	ApplicationId *string `mandatory:"false" json:"applicationId"`
+
+	// An Oracle Cloud Infrastructure URI of an archive.zip file containing custom dependencies that may be used to support the execution a Python, Java, or Scala application.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
+	ArchiveUri *string `mandatory:"false" json:"archiveUri"`
 
 	// The arguments passed to the running application as command line arguments.  An argument is
 	// either a plain text or a placeholder. Placeholders are replaced using values from the parameters
@@ -61,8 +76,18 @@ type CreateRunDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// A user-friendly name that does not have to be unique. Avoid entering confidential information. If this value is not specified, it will be derived from the associated application's displayName or set by API using fileUri's application file name.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
 	// The VM shape for the driver. Sets the driver cores and memory.
 	DriverShape *string `mandatory:"false" json:"driverShape"`
+
+	// The input used for spark-submit command. For more details see https://spark.apache.org/docs/latest/submitting-applications.html#launching-applications-with-spark-submit.
+	// Supported options include ``--class``, ``--file``, ``--jars``, ``--conf``, ``--py-files``, and main application file with arguments.
+	// Example: ``--jars oci://path/to/a.jar,oci://path/to/b.jar --files oci://path/to/a.json,oci://path/to/b.csv --py-files oci://path/to/a.py,oci://path/to/b.py --conf spark.sql.crossJoin.enabled=true --class org.apache.spark.examples.SparkPi oci://path/to/main.jar 10``
+	// Note: If execute is specified together with applicationId, className, configuration, fileUri, language, arguments, parameters during application create/update, or run create/submit,
+	// Data Flow service will use derived information from execute input only.
+	Execute *string `mandatory:"false" json:"execute"`
 
 	// The VM shape for the executors. Sets the executor cores and memory.
 	ExecutorShape *string `mandatory:"false" json:"executorShape"`
@@ -84,6 +109,9 @@ type CreateRunDetails struct {
 	// (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind.
 	// Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ]
 	Parameters []ApplicationParameter `mandatory:"false" json:"parameters"`
+
+	// The Spark version utilized to run the application. This value may be set if applicationId is not since the Spark version will be taken from the associated application.
+	SparkVersion *string `mandatory:"false" json:"sparkVersion"`
 
 	// An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory
 	// for BATCH SQL runs.

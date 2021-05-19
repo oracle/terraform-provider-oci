@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// UpdatePrivateEndpointDetails The update private endpoint details.
+// UpdatePrivateEndpointDetails The details required to update a private endpoint.
 type UpdatePrivateEndpointDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

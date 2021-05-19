@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-func TestObjectStorageNamespaceMetadataResource_basic(t *testing.T) {
+func TestResourceNamespaceMetadata_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageNamespaceMetadataResource_basic")
 	defer httpreplay.SaveScenario()
 

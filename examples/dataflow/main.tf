@@ -200,6 +200,34 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
   display_name   = "test_run_name"
 }
 
+resource "oci_dataflow_application" "test_application_submit" {
+  #Required
+  compartment_id = var.compartment_id
+  execute        = "--conf spark.shuffle.io.maxRetries=10 ${var.application_file_uri} arguments"
+  display_name   = "test_wordcount_app_submit"
+  driver_shape   = "VM.Standard2.1"
+  executor_shape = "VM.Standard2.1"
+  file_uri       = var.application_file_uri
+  language       = "PYTHON"
+  num_executors  = "1"
+  spark_version  = "2.4"
+  #Optional
+  archive_uri    = var.application_archive_uri
+  private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+
+}
+
+resource "oci_dataflow_invoke_run" "test_invokey_run_submit" {
+  #Required
+  compartment_id = var.compartment_id
+  execute        = "--conf spark.shuffle.io.maxRetries=10 ${var.application_file_uri} arguments"
+  #Optional
+  application_id = oci_dataflow_application.test_application_submit.id
+  archive_uri    = var.application_archive_uri
+  display_name   = "test_wordcount_run_submit"
+  spark_version  = "2.4"
+}
+
 data "oci_dataflow_private_endpoints" "test_private_endpoints" {
   compartment_id = var.compartment_id
 
