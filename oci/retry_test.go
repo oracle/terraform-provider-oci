@@ -130,7 +130,7 @@ func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 		httpResponseStatusCode:   500,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("Out of host capacity. "),
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
