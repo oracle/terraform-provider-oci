@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// CreatePrivateEndpointDetails The create private endpoint details.
+// CreatePrivateEndpointDetails The details required to create a private endpoint.
 type CreatePrivateEndpointDetails struct {
 
 	// The OCID of a compartment.

@@ -51,7 +51,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
 	s.ResourceName = "data.oci_objectstorage_object_head.t"
 }
 
-func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageObjectHead_basic() {
+func (s *DatasourceObjectstorageObjectHeadTestSuite) TestDatasourceObjectHead_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{

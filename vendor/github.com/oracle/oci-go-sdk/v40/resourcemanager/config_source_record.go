@@ -59,6 +59,10 @@ func (m *configsourcerecord) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := ZipUploadConfigSourceRecord{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OBJECT_STORAGE_CONFIG_SOURCE":
+		mm := ObjectStorageConfigSourceRecord{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -73,13 +77,15 @@ type ConfigSourceRecordConfigSourceRecordTypeEnum string
 
 // Set of constants representing the allowable values for ConfigSourceRecordConfigSourceRecordTypeEnum
 const (
-	ConfigSourceRecordConfigSourceRecordTypeZipUpload       ConfigSourceRecordConfigSourceRecordTypeEnum = "ZIP_UPLOAD"
-	ConfigSourceRecordConfigSourceRecordTypeGitConfigSource ConfigSourceRecordConfigSourceRecordTypeEnum = "GIT_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeZipUpload                 ConfigSourceRecordConfigSourceRecordTypeEnum = "ZIP_UPLOAD"
+	ConfigSourceRecordConfigSourceRecordTypeGitConfigSource           ConfigSourceRecordConfigSourceRecordTypeEnum = "GIT_CONFIG_SOURCE"
+	ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource ConfigSourceRecordConfigSourceRecordTypeEnum = "OBJECT_STORAGE_CONFIG_SOURCE"
 )
 
 var mappingConfigSourceRecordConfigSourceRecordType = map[string]ConfigSourceRecordConfigSourceRecordTypeEnum{
-	"ZIP_UPLOAD":        ConfigSourceRecordConfigSourceRecordTypeZipUpload,
-	"GIT_CONFIG_SOURCE": ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
+	"ZIP_UPLOAD":                   ConfigSourceRecordConfigSourceRecordTypeZipUpload,
+	"GIT_CONFIG_SOURCE":            ConfigSourceRecordConfigSourceRecordTypeGitConfigSource,
+	"OBJECT_STORAGE_CONFIG_SOURCE": ConfigSourceRecordConfigSourceRecordTypeObjectStorageConfigSource,
 }
 
 // GetConfigSourceRecordConfigSourceRecordTypeEnumValues Enumerates the set of values for ConfigSourceRecordConfigSourceRecordTypeEnum

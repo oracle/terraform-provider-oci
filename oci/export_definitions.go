@@ -41,6 +41,7 @@ import (
 	oci_ocvp "github.com/oracle/oci-go-sdk/v40/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v40/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/v40/ons"
+	oci_opsi "github.com/oracle/oci-go-sdk/v40/opsi"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v40/optimizer"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v40/osmanagement"
 	oci_sch "github.com/oracle/oci-go-sdk/v40/sch"
@@ -1915,6 +1916,42 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_ons.SubscriptionLifecycleStatePending),
 		string(oci_ons.SubscriptionLifecycleStateActive),
+	},
+}
+
+var exportOpsiEnterpriseManagerBridgeHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_enterprise_manager_bridge",
+	datasourceClass:        "oci_opsi_enterprise_manager_bridges",
+	datasourceItemsAttr:    "enterprise_manager_bridge_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "enterprise_manager_bridge",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.LifecycleStateActive),
+	},
+}
+
+var exportOpsiDatabaseInsightHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_database_insight",
+	datasourceClass:        "oci_opsi_database_insights",
+	datasourceItemsAttr:    "database_insights_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "database_insight",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.LifecycleStateActive),
+	},
+}
+
+var exportOpsiHostInsightHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_host_insight",
+	datasourceClass:        "oci_opsi_host_insights",
+	datasourceItemsAttr:    "host_insight_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "host_insight",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.LifecycleStateActive),
 	},
 }
 

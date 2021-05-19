@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// WorkRequestSummary A Data Flow work request object.
+// WorkRequestSummary A Data Flow work request summary object.
 type WorkRequestSummary struct {
 
 	// The OCID of a compartment.

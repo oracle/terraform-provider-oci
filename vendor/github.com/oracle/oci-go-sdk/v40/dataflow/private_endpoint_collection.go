@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// PrivateEndpointCollection Results of a query for a list of private endpoints. Contains PrivateEndpointSummary items.
+// PrivateEndpointCollection The results of a query for a list of private endpoints. It contains PrivateEndpointSummary items.
 type PrivateEndpointCollection struct {
 
-	// A list of private endpoints
+	// A list of private endpoints.
 	Items []PrivateEndpointSummary `mandatory:"true" json:"items"`
 }
 

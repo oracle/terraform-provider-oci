@@ -1,3 +1,9 @@
+## 4.27.0 (Unreleased)
+
+### Added
+- Support for `OPSI` service
+- Support for Spark Submit added in Data Flow
+
 ## 4.26.0 (May 12, 2021)
 
 ### Added

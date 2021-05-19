@@ -22,7 +22,7 @@ var (
 	}
 )
 
-func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
+func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_validations")
 	defer httpreplay.SaveScenario()
 	provider := testAccProvider
@@ -162,7 +162,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
 	})
 }
 
-func TestObjectStorageObjectLifecyclePolicyResource_MultiPartUploadsRule(t *testing.T) {
+func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_MultiPartUploadsRule")
 	defer httpreplay.SaveScenario()
 
