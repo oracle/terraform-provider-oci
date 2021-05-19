@@ -28,6 +28,7 @@ import (
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v41/goldengate"
 	oci_identity "github.com/oracle/oci-go-sdk/v41/identity"
 	oci_integration "github.com/oracle/oci-go-sdk/v41/integration"
+	oci_jms "github.com/oracle/oci-go-sdk/v41/jms"
 	oci_kms "github.com/oracle/oci-go-sdk/v41/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/v41/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v41/loadbalancer"
@@ -1519,6 +1520,18 @@ var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_integration.IntegrationInstanceLifecycleStateActive),
+	},
+}
+
+var exportJmsFleetHints = &TerraformResourceHints{
+	resourceClass:          "oci_jms_fleet",
+	datasourceClass:        "oci_jms_fleets",
+	datasourceItemsAttr:    "fleet_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "fleet",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_jms.LifecycleStateActive),
 	},
 }
 
