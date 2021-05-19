@@ -49,7 +49,6 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 			"database_admin_password": {
 				Type:      schema.TypeString,
 				Required:  true,
-				ForceNew:  true,
 				Sensitive: true,
 			},
 			"database_id": {
@@ -64,12 +63,10 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 			"protection_mode": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"transport_type": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -208,6 +205,14 @@ func readDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) err
 	return ReadResource(sync)
 }
 
+func updateDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDataGuardAssociationResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient()
+
+	return UpdateResource(d, sync)
+}
+
 func deleteDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationResourceCrud{}
 	sync.D = d
@@ -293,6 +298,41 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Get() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDataGuardAssociation(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.DataGuardAssociation
+	return nil
+}
+
+func (s *DatabaseDataGuardAssociationResourceCrud) Update() error {
+	request := oci_database.UpdateDataGuardAssociationRequest{}
+
+	tmp := s.D.Id()
+	request.DataGuardAssociationId = &tmp
+
+	if databaseAdminPassword, ok := s.D.GetOkExists("database_admin_password"); ok {
+		tmp := databaseAdminPassword.(string)
+		request.DatabaseAdminPassword = &tmp
+	}
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+		request.ProtectionMode = oci_database.UpdateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
+	}
+
+	if transportType, ok := s.D.GetOkExists("transport_type"); ok {
+		request.TransportType = oci_database.UpdateDataGuardAssociationDetailsTransportTypeEnum(transportType.(string))
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateDataGuardAssociation(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -505,10 +545,6 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 	return nil
 }
 
-func (s *DatabaseDataGuardAssociationResourceCrud) Update() error {
-	return s.Get()
-}
-
 func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 	if deleteStandbyDbHomeOnDelete, ok := s.D.GetOkExists("delete_standby_db_home_on_delete"); ok {
 		tmp := deleteStandbyDbHomeOnDelete.(string)
@@ -629,14 +665,6 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 		return err
 	}
 	return fmt.Errorf("unrecognized creation_type during delete")
-}
-
-func updateDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseDataGuardAssociationResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient()
-
-	return UpdateResource(d, sync)
 }
 
 func (s *DatabaseDataGuardAssociationResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
