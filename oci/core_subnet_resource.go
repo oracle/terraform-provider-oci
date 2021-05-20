@@ -85,13 +85,13 @@ func CoreSubnetResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
 			},
-			"prohibit_public_ip_on_vnic": {
+			"prohibit_internet_ingress": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
 			},
-			"prohibit_internet_ingress": {
+			"prohibit_public_ip_on_vnic": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -259,6 +259,11 @@ func (s *CoreSubnetResourceCrud) Create() error {
 	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok {
 		tmp := ipv6CidrBlock.(string)
 		request.Ipv6CidrBlock = &tmp
+	}
+
+	if prohibitInternetIngress, ok := s.D.GetOkExists("prohibit_internet_ingress"); ok {
+		tmp := prohibitInternetIngress.(bool)
+		request.ProhibitInternetIngress = &tmp
 	}
 
 	if prohibitPublicIpOnVnic, ok := s.D.GetOkExists("prohibit_public_ip_on_vnic"); ok {
