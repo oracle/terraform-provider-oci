@@ -4,6 +4,7 @@
 package oci
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -134,6 +135,7 @@ var fullConfig = `
 func (s *ResourceCoreSecurityListTestSuite) BuildTestsForFullConfig(resourceName, prefix string) []resource.TestCheckFunc {
 	return []resource.TestCheckFunc{
 		resource.TestCheckResourceAttr(resourceName, prefix+"display_name", "-tf-security_list"),
+		//resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 		resource.TestCheckResourceAttr(resourceName, prefix+"egress_security_rules.#", "4"),
 		CheckResourceSetContainsElementWithProperties(resourceName, prefix+"egress_security_rules", map[string]string{
 			"destination":    "0.0.0.0/1",
@@ -566,6 +568,9 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 				}
 			}
 		}`
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -595,10 +600,11 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 			},
 			// Update
 			{
-				Config: s.Config + `
+				Config: compartmentIdUVariableStr + s.Config + `
 					resource "oci_core_default_security_list" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_security_list_id}"
 						display_name = "default-tf-security_list-updated"
+						compartment_id = "${var.compartment_id_for_update}"
 						egress_security_rules {
 							destination = "0.0.0.0/0"
 							protocol = "17"
@@ -654,6 +660,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 					},
 						nil),
 					resource.TestCheckNoResourceAttr(s.DefaultResourceName, "ingress_security_rules.2.udp_options"),
+					resource.TestCheckResourceAttr(s.DefaultResourceName, "compartment_id", compartmentIdU),
 				),
 			},
 			// Verify removing the default resource
