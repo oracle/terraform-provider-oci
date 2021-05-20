@@ -41,7 +41,12 @@ func ConvertToDefaultVcnResourceSchema(resourceSchema *schema.Resource) *schema.
 		ForceNew: true,
 	}
 
-	delete(resourceSchema.Schema, "compartment_id")
+	resourceSchema.Schema["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+		Computed: true,
+	}
+
 	delete(resourceSchema.Schema, "vcn_id")
 
 	return resourceSchema
