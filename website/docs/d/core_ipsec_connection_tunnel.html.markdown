@@ -19,7 +19,7 @@ Gets the specified IPSec connection's specified tunnel basic information.
 data "oci_core_ipsec_connection_tunnel" "test_ip_sec_connection_tunnel" {
 	#Required
 	ipsec_id = oci_core_ipsec.test_ipsec.id
-	tunnel_id = oci_core_tunnel.test_tunnel.id
+	tunnel_id = data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels[0].id
 }
 ```
 
