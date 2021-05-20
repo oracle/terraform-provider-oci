@@ -128,6 +128,8 @@ func (s *CoreDhcpOptionsDataSourceCrud) SetData() error {
 			dhcpOptions["display_name"] = *r.DisplayName
 		}
 
+		dhcpOptions["domain_name_type"] = r.DomainNameType
+
 		dhcpOptions["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

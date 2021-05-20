@@ -72,6 +72,7 @@ resource "oci_core_dhcp_options" "test_dhcp_options" {
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.dhcp_options_display_name
+	domain_name_type = var.dhcp_options_domain_name_type
 	freeform_tags = {"Department"= "Finance"}
 }
 ```
@@ -83,6 +84,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the set of DHCP options.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `domain_name_type` - (Optional) (Updatable) The search domain name type of DHCP options
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `options` - (Required) (Updatable) A set of DHCP options.
 	* `custom_dns_servers` - (Applicable when type=DomainNameServer) (Updatable) If you set `serverType` to `CustomDnsServer`, specify the IP address of at least one DNS server of your choice (three maximum). 
@@ -109,6 +111,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment containing the set of DHCP options.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `domain_name_type` - The search domain name type of DHCP options
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - Oracle ID (OCID) for the set of DHCP options.
 * `options` - The collection of individual DHCP options.
