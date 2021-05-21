@@ -56,10 +56,6 @@ type Sddc struct {
 	// The number of ESXi hosts in the SDDC.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
 
-	// Billing option selected during SDDC creation
-	// ListSupportedSkus.
-	InitialSku SkuEnum `mandatory:"true" json:"initialSku"`
-
 	// The FQDN for vCenter.
 	// Example: `vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
 	VcenterFqdn *string `mandatory:"true" json:"vcenterFqdn"`
@@ -207,6 +203,12 @@ type Sddc struct {
 	// `MySDDC-2`, and so on.
 	InstanceDisplayNamePrefix *string `mandatory:"false" json:"instanceDisplayNamePrefix"`
 
+	// Billing option selected during SDDC creation.
+	// Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
+	// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+	// ListSupportedSkus.
+	InitialSku SkuEnum `mandatory:"false" json:"initialSku,omitempty"`
+
 	// The SDDC includes an administrator username and initial password for vCenter. Make sure
 	// to change this initial vCenter password to a different value.
 	VcenterInitialPassword *string `mandatory:"false" json:"vcenterInitialPassword"`
@@ -277,6 +279,24 @@ type Sddc struct {
 	// The activation key to use on the on-premises HCX Enterprise appliance you site pair with HCX Manager in your VMware Solution.
 	// Your implementation might need more than one activation key. To obtain additional keys, contact Oracle Support.
 	HcxOnPremKey *string `mandatory:"false" json:"hcxOnPremKey"`
+
+	// Indicates whether HCX Enterprise is enabled for this SDDC.
+	IsHcxEnterpriseEnabled *bool `mandatory:"false" json:"isHcxEnterpriseEnabled"`
+
+	// Indicates whether SDDC is pending downgrade from HCX Enterprise to HCX Advanced.
+	IsHcxPendingDowngrade *bool `mandatory:"false" json:"isHcxPendingDowngrade"`
+
+	// The activation licenses to use on the on-premises HCX Enterprise appliance you site pair with HCX Manager in your VMware Solution.
+	HcxOnPremLicenses []HcxLicenseSummary `mandatory:"false" json:"hcxOnPremLicenses"`
+
+	// The date and time current HCX Enterprise billing cycle ends, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeHcxBillingCycleEnd *common.SDKTime `mandatory:"false" json:"timeHcxBillingCycleEnd"`
+
+	// The date and time the SDDC's HCX on-premise license status was updated, in the format defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeHcxLicenseStatusUpdated *common.SDKTime `mandatory:"false" json:"timeHcxLicenseStatusUpdated"`
 
 	// The date and time the SDDC was updated, in the format defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339).

@@ -13,40 +13,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// SupportedSkuSummary A specific SKU. HOUR, MONTH, ONE_YEAR and THREE_YEARS supported by the Oracle Cloud VMware Solution.
+// SupportedSkuSummary A specific SKU. Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
+// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
 type SupportedSkuSummary struct {
 
 	// name of SKU
-	Name SupportedSkuSummaryNameEnum `mandatory:"true" json:"name"`
+	Name SkuEnum `mandatory:"true" json:"name"`
 }
 
 func (m SupportedSkuSummary) String() string {
 	return common.PointerString(m)
-}
-
-// SupportedSkuSummaryNameEnum Enum with underlying type: string
-type SupportedSkuSummaryNameEnum string
-
-// Set of constants representing the allowable values for SupportedSkuSummaryNameEnum
-const (
-	SupportedSkuSummaryNameHour       SupportedSkuSummaryNameEnum = "HOUR"
-	SupportedSkuSummaryNameMonth      SupportedSkuSummaryNameEnum = "MONTH"
-	SupportedSkuSummaryNameOneYear    SupportedSkuSummaryNameEnum = "ONE_YEAR"
-	SupportedSkuSummaryNameThreeYears SupportedSkuSummaryNameEnum = "THREE_YEARS"
-)
-
-var mappingSupportedSkuSummaryName = map[string]SupportedSkuSummaryNameEnum{
-	"HOUR":        SupportedSkuSummaryNameHour,
-	"MONTH":       SupportedSkuSummaryNameMonth,
-	"ONE_YEAR":    SupportedSkuSummaryNameOneYear,
-	"THREE_YEARS": SupportedSkuSummaryNameThreeYears,
-}
-
-// GetSupportedSkuSummaryNameEnumValues Enumerates the set of values for SupportedSkuSummaryNameEnum
-func GetSupportedSkuSummaryNameEnumValues() []SupportedSkuSummaryNameEnum {
-	values := make([]SupportedSkuSummaryNameEnum, 0)
-	for _, v := range mappingSupportedSkuSummaryName {
-		values = append(values, v)
-	}
-	return values
 }

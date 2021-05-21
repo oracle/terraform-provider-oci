@@ -4,7 +4,7 @@
 
 // Service Limits APIs
 //
-// APIs that interact with the resource limits of a specific resource type
+// APIs that interact with the resource limits of a specific resource type.
 //
 
 package limits
@@ -16,7 +16,7 @@ import (
 // ServiceSummary A specific OCI service supported by resource limits.
 type ServiceSummary struct {
 
-	// The service name. Use this when calling the other APIs.
+	// The service name. Use this when calling other APIs.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The friendly service name.

@@ -35,10 +35,6 @@ type CreateSddcDetails struct {
 	// 3 ESXi hosts.
 	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
 
-	// Billing option selected during SDDC creation
-	// ListSupportedSkus.
-	InitialSku SkuEnum `mandatory:"true" json:"initialSku"`
-
 	// One or more public SSH keys to be included in the `~/.ssh/authorized_keys` file for
 	// the default user on each ESXi host. Use a newline character to separate multiple keys.
 	// The SSH keys must be in the format required for the `authorized_keys` file
@@ -88,12 +84,21 @@ type CreateSddcDetails struct {
 	// `mySDDC-2`, and so on.
 	InstanceDisplayNamePrefix *string `mandatory:"false" json:"instanceDisplayNamePrefix"`
 
+	// Billing option selected during SDDC creation.
+	// Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
+	// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+	// ListSupportedSkus.
+	InitialSku SkuEnum `mandatory:"false" json:"initialSku,omitempty"`
+
 	// Indicates whether to enable HCX for this SDDC.
 	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX
 	// component of the VMware environment. This value is required only when `isHcxEnabled` is true.
 	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
+
+	// Indicates whether to enable HCX Enterprise for this SDDC.
+	IsHcxEnterpriseEnabled *bool `mandatory:"false" json:"isHcxEnterpriseEnabled"`
 
 	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
 	// workloads.

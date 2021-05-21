@@ -24,6 +24,8 @@ type NotebookSessionConfigurationDetails struct {
 
 	// A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs.
 	BlockStorageSizeInGBs *int `mandatory:"false" json:"blockStorageSizeInGBs"`
+
+	NotebookSessionShapeConfigDetails *NotebookSessionShapeConfigDetails `mandatory:"false" json:"notebookSessionShapeConfigDetails"`
 }
 
 func (m NotebookSessionConfigurationDetails) String() string {

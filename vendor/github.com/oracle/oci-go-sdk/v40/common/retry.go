@@ -82,7 +82,7 @@ func NoRetryPolicy() RetryPolicy {
 
 // DefaultRetryPolicy is a helper method that assembles and returns a return policy that is defined to be a default one
 // The default retry policy will retry on (409, IncorrectState), (429, TooManyRequests) and any 5XX errors except (501, MethodNotImplemented)
-// The default retry behavior is using exponential backoff
+// The default retry behavior is using exponential backoff with jitter, the maximum wait time is 30s
 func DefaultRetryPolicy() RetryPolicy {
 	defaultRetryPolicy := func(r OCIOperationResponse) bool {
 		type HTTPStatus struct {
@@ -110,10 +110,15 @@ func DefaultRetryPolicy() RetryPolicy {
 		}
 		return false
 	}
-	exponentialBackoff := func(r OCIOperationResponse) time.Duration {
-		return time.Duration(math.Pow(float64(2), float64(r.AttemptNumber-1))) * time.Second
+	maxSleepBetween := 30.0
+	exponentialBackoffWithJitter := func(r OCIOperationResponse) time.Duration {
+		sleepTime := math.Pow(float64(2), float64(r.AttemptNumber-1))
+		if sleepTime < maxSleepBetween {
+			return time.Duration(sleepTime+rand.Float64()) * time.Second
+		}
+		return time.Duration(maxSleepBetween+rand.Float64()) * time.Second
 	}
-	return NewRetryPolicy(uint(3), defaultRetryPolicy, exponentialBackoff)
+	return NewRetryPolicy(uint(8), defaultRetryPolicy, exponentialBackoffWithJitter)
 }
 
 // NewRetryPolicy is a helper method for assembling a Retry Policy object.

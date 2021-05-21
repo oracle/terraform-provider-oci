@@ -21,7 +21,9 @@ type UpdateEsxiHostDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Billing option to switch to once existing billing cycle ends.
+	// Billing option to switch to after the existing billing cycle ends.
+	// Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
+	// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
 	// ListSupportedSkus.
 	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
 

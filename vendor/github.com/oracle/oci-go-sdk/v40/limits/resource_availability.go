@@ -4,7 +4,7 @@
 
 // Service Limits APIs
 //
-// APIs that interact with the resource limits of a specific resource type
+// APIs that interact with the resource limits of a specific resource type.
 //
 
 package limits
@@ -13,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// ResourceAvailability The availability of a given resource limit, based on the usage, tenant service limits and quotas set for the tenancy.
-// Note: We cannot guarantee this data for all the limits. In those cases, these fields will be empty.
+// ResourceAvailability The availability of a given resource limit, based on the usage, tenant service limits, and quotas set for the tenancy.
+// Note: We cannot guarantee this data for all the limits. In such cases, these fields will be empty.
 type ResourceAvailability struct {
 
-	// The current usage in the given compartment. Because we have introduced resources with fractional counts,
-	// the field will round up to the nearest integer.
+	// The current usage in the given compartment. To support resources with fractional counts,
+	// the field rounds up to the nearest integer.
 	Used *int64 `mandatory:"false" json:"used"`
 
-	// The count of available resources. Because we have introduced resources with fractional counts,
-	// the field will round down to the nearest integer.
+	// The count of available resources. To support resources with fractional counts,
+	// the field rounds down to the nearest integer.
 	Available *int64 `mandatory:"false" json:"available"`
 
 	// The current most accurate usage in the given compartment.
@@ -31,7 +31,7 @@ type ResourceAvailability struct {
 	// The most accurate count of available resources.
 	FractionalAvailability *float32 `mandatory:"false" json:"fractionalAvailability"`
 
-	// The effective quota value for given compartment. This field is only present if there is a
+	// The effective quota value for the given compartment. This field is only present if there is a
 	// current quota policy affecting the current resource in the target region or availability domain.
 	EffectiveQuotaValue *float32 `mandatory:"false" json:"effectiveQuotaValue"`
 }

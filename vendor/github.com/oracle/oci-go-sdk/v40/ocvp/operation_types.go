@@ -14,17 +14,25 @@ type OperationTypesEnum string
 
 // Set of constants representing the allowable values for OperationTypesEnum
 const (
-	OperationTypesCreateSddc     OperationTypesEnum = "CREATE_SDDC"
-	OperationTypesDeleteSddc     OperationTypesEnum = "DELETE_SDDC"
-	OperationTypesCreateEsxiHost OperationTypesEnum = "CREATE_ESXI_HOST"
-	OperationTypesDeleteEsxiHost OperationTypesEnum = "DELETE_ESXI_HOST"
+	OperationTypesCreateSddc              OperationTypesEnum = "CREATE_SDDC"
+	OperationTypesDeleteSddc              OperationTypesEnum = "DELETE_SDDC"
+	OperationTypesCreateEsxiHost          OperationTypesEnum = "CREATE_ESXI_HOST"
+	OperationTypesDeleteEsxiHost          OperationTypesEnum = "DELETE_ESXI_HOST"
+	OperationTypesUpgradeHcx              OperationTypesEnum = "UPGRADE_HCX"
+	OperationTypesDowngradeHcx            OperationTypesEnum = "DOWNGRADE_HCX"
+	OperationTypesCancelDowngradeHcx      OperationTypesEnum = "CANCEL_DOWNGRADE_HCX"
+	OperationTypesRefreshHcxLicenseStatus OperationTypesEnum = "REFRESH_HCX_LICENSE_STATUS"
 )
 
 var mappingOperationTypes = map[string]OperationTypesEnum{
-	"CREATE_SDDC":      OperationTypesCreateSddc,
-	"DELETE_SDDC":      OperationTypesDeleteSddc,
-	"CREATE_ESXI_HOST": OperationTypesCreateEsxiHost,
-	"DELETE_ESXI_HOST": OperationTypesDeleteEsxiHost,
+	"CREATE_SDDC":                OperationTypesCreateSddc,
+	"DELETE_SDDC":                OperationTypesDeleteSddc,
+	"CREATE_ESXI_HOST":           OperationTypesCreateEsxiHost,
+	"DELETE_ESXI_HOST":           OperationTypesDeleteEsxiHost,
+	"UPGRADE_HCX":                OperationTypesUpgradeHcx,
+	"DOWNGRADE_HCX":              OperationTypesDowngradeHcx,
+	"CANCEL_DOWNGRADE_HCX":       OperationTypesCancelDowngradeHcx,
+	"REFRESH_HCX_LICENSE_STATUS": OperationTypesRefreshHcxLicenseStatus,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum

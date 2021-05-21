@@ -4,7 +4,7 @@
 
 // Service Limits APIs
 //
-// APIs that interact with the resource limits of a specific resource type
+// APIs that interact with the resource limits of a specific resource type.
 //
 
 package limits
@@ -80,9 +80,9 @@ func (client *LimitsClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // GetResourceAvailability For a given compartmentId, resource limit name, and scope, returns the following:
-//   - the number of available resources associated with the given limit
-//   - the usage in the selected compartment for the given limit
-//   Note: not all resource limits support this API. If the value is not available, the API will return 404.
+//   * The number of available resources associated with the given limit.
+//   * The usage in the selected compartment for the given limit.
+//   Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
 //
 // See also
 //
@@ -247,7 +247,7 @@ func (client LimitsClient) listLimitValues(ctx context.Context, request common.O
 }
 
 // ListServices Returns the list of supported services.
-// This will include the programmatic service name, along with the friendly service name.
+// This includes the programmatic service name, along with the friendly service name.
 //
 // See also
 //

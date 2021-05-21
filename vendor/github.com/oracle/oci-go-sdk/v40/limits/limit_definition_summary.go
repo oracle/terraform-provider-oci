@@ -4,7 +4,7 @@
 
 // Service Limits APIs
 //
-// APIs that interact with the resource limits of a specific resource type
+// APIs that interact with the resource limits of a specific resource type.
 //
 
 package limits
@@ -25,14 +25,14 @@ type LimitDefinitionSummary struct {
 	// The limit description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Reflects the scope of the resource limit: which can be Global (across all regions), regional or ad specific.
+	// Reflects the scope of the resource limit, whether Global (across all regions), regional, or availability domain-specific.
 	ScopeType LimitDefinitionSummaryScopeTypeEnum `mandatory:"false" json:"scopeType,omitempty"`
 
 	// If true, quota policies can be created on top of this resource limit.
 	AreQuotasSupported *bool `mandatory:"false" json:"areQuotasSupported"`
 
-	// Reflects if the GetResourceAvailability API is supported for this limit or not.
-	// If not, the API will return an empty JSON response.
+	// Reflects whether or not the GetResourceAvailability API is supported for this limit.
+	// If not, the API returns an empty JSON response.
 	IsResourceAvailabilitySupported *bool `mandatory:"false" json:"isResourceAvailabilitySupported"`
 
 	// Indicates if the limit has been deprecated.
@@ -40,6 +40,9 @@ type LimitDefinitionSummary struct {
 
 	// Indicates if the customer can request a limit increase for this resource.
 	IsEligibleForLimitIncrease *bool `mandatory:"false" json:"isEligibleForLimitIncrease"`
+
+	// The limit for this resource has a dynamic value that is based on consumption across all OCI services.
+	IsDynamic *bool `mandatory:"false" json:"isDynamic"`
 }
 
 func (m LimitDefinitionSummary) String() string {
