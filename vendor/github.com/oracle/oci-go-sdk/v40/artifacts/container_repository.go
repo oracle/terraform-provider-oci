@@ -51,6 +51,9 @@ type ContainerRepository struct {
 	// An RFC 3339 timestamp indicating when the repository was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Total storage size in GBs that will be charged.
+	BillableSizeInGBs *int64 `mandatory:"true" json:"billableSizeInGBs"`
+
 	Readme *ContainerRepositoryReadme `mandatory:"false" json:"readme"`
 
 	// An RFC 3339 timestamp indicating when an image was last pushed to the repository.

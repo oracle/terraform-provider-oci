@@ -28,13 +28,13 @@ type ListQuotasRequest struct {
 	// name
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// Filters returned quotas based on whether the given state.
+	// Filters returned quotas based on the given state.
 	LifecycleState ListQuotasLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'. By default it will be ascending.
+	// The sort order to use, either 'asc' or 'desc'. By default, it is ascending.
 	SortOrder ListQuotasSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Time created is default ordered as descending. Display name is default ordered as ascending.
+	// The field to sort by. Only one sort order can be provided. Time created is default ordered as descending. Display name is default ordered as ascending.
 	SortBy ListQuotasSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -24,6 +24,9 @@ type NotebookSessionShapeSummary struct {
 
 	// The amount of memory in GBs associated with this notebook session shape.
 	MemoryInGBs *int `mandatory:"true" json:"memoryInGBs"`
+
+	// The family that the compute shape belongs to.
+	ShapeSeries NotebookSessionShapeSeriesEnum `mandatory:"true" json:"shapeSeries"`
 }
 
 func (m NotebookSessionShapeSummary) String() string {

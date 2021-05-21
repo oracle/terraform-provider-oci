@@ -33,6 +33,8 @@ type EsxiHost struct {
 	SddcId *string `mandatory:"true" json:"sddcId"`
 
 	// Billing option selected during SDDC creation.
+	// Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
+	// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
 	// ListSupportedSkus.
 	CurrentSku SkuEnum `mandatory:"true" json:"currentSku"`
 

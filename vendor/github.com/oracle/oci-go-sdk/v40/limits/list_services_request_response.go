@@ -22,7 +22,7 @@ type ListServicesRequest struct {
 	// The field to sort by.
 	SortBy ListServicesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'. By default it will be ascending.
+	// The sort order to use, either 'asc' or 'desc'. By default, it is ascending.
 	SortOrder ListServicesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The maximum number of items to return in a paginated "List" call.

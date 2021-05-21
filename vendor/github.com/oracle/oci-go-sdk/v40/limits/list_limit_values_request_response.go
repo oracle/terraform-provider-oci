@@ -19,22 +19,22 @@ type ListLimitValuesRequest struct {
 	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The target service name
+	// The target service name.
 	ServiceName *string `mandatory:"true" contributesTo:"query" name:"serviceName"`
 
 	// Filter entries by scope type.
 	ScopeType ListLimitValuesScopeTypeEnum `mandatory:"false" contributesTo:"query" name:"scopeType" omitEmpty:"true"`
 
-	// Filter entries by availability domain. This implies that only AD-specific values will be returned.
+	// Filter entries by availability domain. This implies that only AD-specific values are returned.
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
 	// Optional field, can be used to see a specific resource limit value.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// The field to sort by. We will be implicitly sorting by availabilityDomain, as a second level field, if available.
+	// The field to sort by. The sorting is by availabilityDomain, as a second level field, if available.
 	SortBy ListLimitValuesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'. By default it will be ascending.
+	// The sort order to use, either 'asc' or 'desc'. By default, it is ascending.
 	SortOrder ListLimitValuesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The maximum number of items to return in a paginated "List" call.

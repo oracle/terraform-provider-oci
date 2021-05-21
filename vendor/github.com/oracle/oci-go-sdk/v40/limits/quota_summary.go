@@ -4,7 +4,7 @@
 
 // Service Limits APIs
 //
-// APIs that interact with the resource limits of a specific resource type
+// APIs that interact with the resource limits of a specific resource type.
 //
 
 package limits
@@ -13,8 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v40/common"
 )
 
-// QuotaSummary Entails a subset of all the properties of the corresponding Quota and is recommended to be used in cases requiring
-// security of quota details and slightly better API performance.
+// QuotaSummary Consists of a subset of all the properties of the corresponding quota, and is recommended to be used in cases requiring
+// security of quota details, and for slightly better API performance.
 type QuotaSummary struct {
 
 	// The OCID of the quota.
@@ -30,7 +30,7 @@ type QuotaSummary struct {
 	// The description you assign to the quota.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Date and time the quota was created, in the format defined by RFC3339.
+	// Date and time the quota was created, in the format defined by RFC 3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 

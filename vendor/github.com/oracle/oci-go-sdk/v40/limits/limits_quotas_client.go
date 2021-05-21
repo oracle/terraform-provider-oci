@@ -4,7 +4,7 @@
 
 // Service Limits APIs
 //
-// APIs that interact with the resource limits of a specific resource type
+// APIs that interact with the resource limits of a specific resource type.
 //
 
 package limits
@@ -246,7 +246,7 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// ListQuotas Lists all quotas on resources from the given compartment
+// ListQuotas Lists all quotas on resources from the given compartment.
 //
 // See also
 //
