@@ -29,13 +29,40 @@ var (
 		"priority":                  Representation{repType: Required, create: `10`, update: `15`},
 	}
 
+	drgRouteDistributionStatementRepresentation2 = map[string]interface{}{
+		"drg_route_distribution_id": Representation{repType: Required, create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"action":                    Representation{repType: Required, create: `ACCEPT`},
+		"match_criteria":            RepresentationGroup{Required, drgRouteDistributionStatementStatementsMatchCriteriaRepresentation2},
+		"priority":                  Representation{repType: Required, create: `20`, update: `25`},
+	}
+
+	drgRouteDistributionStatementRepresentation3 = map[string]interface{}{
+		"drg_route_distribution_id": Representation{repType: Required, create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"action":                    Representation{repType: Required, create: `ACCEPT`},
+		"match_criteria":            RepresentationGroup{Required, drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3},
+		"priority":                  Representation{repType: Required, create: `30`, update: `35`},
+	}
+
 	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation = map[string]interface{}{
 		"match_type":      Representation{repType: Required, create: `DRG_ATTACHMENT_TYPE`},
 		"attachment_type": Representation{repType: Required, create: `VCN`, update: `VIRTUAL_CIRCUIT`},
 	}
 
+	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation2 = map[string]interface{}{
+		"match_type":      Representation{repType: Required, create: `DRG_ATTACHMENT_TYPE`},
+		"attachment_type": Representation{repType: Required, create: `REMOTE_PEERING_CONNECTION`},
+	}
+
+	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3 = map[string]interface{}{
+		"match_type":        Representation{repType: Required, create: `DRG_ATTACHMENT_ID`},
+		"drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment2.id}`},
+	}
+
 	DrgRouteDistributionStatementResourceDependencies = DefinedTagsDependencies +
+		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment2", Required, Create, drgAttachmentRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Required, Create, drgRouteDistributionRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
 )
 
@@ -51,6 +78,9 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement"
 	datasourceName := "data.oci_core_drg_route_distribution_statements.test_drg_route_distribution_statements"
+	resourceName1 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement2"
+	resourceName2 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement3"
+	resourceName3 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement4"
 
 	var resId, resId2 string
 	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
@@ -134,6 +164,47 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
+			},
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
+			},
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", Optional, Create, drgRouteDistributionStatementRepresentation) +
+					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", Required, Create, drgRouteDistributionStatementRepresentation2) +
+					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", Required, Create, drgRouteDistributionStatementRepresentation3),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					//check first resource
+					resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),
+					resource.TestCheckResourceAttr(resourceName1, "action", "ACCEPT"),
+					resource.TestCheckResourceAttr(resourceName1, "match_criteria.#", "1"),
+					resource.TestCheckResourceAttr(resourceName1, "match_criteria.0.attachment_type", "VCN"),
+					resource.TestCheckResourceAttr(resourceName1, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+					resource.TestCheckResourceAttr(resourceName1, "priority", "10"),
+					resource.TestCheckResourceAttrSet(resourceName1, "id"),
+					//check second resource
+					resource.TestCheckResourceAttrSet(resourceName2, "drg_route_distribution_id"),
+					resource.TestCheckResourceAttr(resourceName2, "action", "ACCEPT"),
+					resource.TestCheckResourceAttr(resourceName2, "match_criteria.#", "1"),
+					resource.TestCheckResourceAttr(resourceName2, "match_criteria.0.attachment_type", "REMOTE_PEERING_CONNECTION"),
+					resource.TestCheckResourceAttr(resourceName2, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+					resource.TestCheckResourceAttr(resourceName2, "priority", "20"),
+					resource.TestCheckResourceAttrSet(resourceName2, "id"),
+					// check third resource
+					resource.TestCheckResourceAttrSet(resourceName3, "drg_route_distribution_id"),
+					resource.TestCheckResourceAttr(resourceName3, "action", "ACCEPT"),
+					resource.TestCheckResourceAttr(resourceName3, "match_criteria.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName3, "match_criteria.0.drg_attachment_id"),
+					resource.TestCheckResourceAttr(resourceName3, "match_criteria.0.match_type", "DRG_ATTACHMENT_ID"),
+					resource.TestCheckResourceAttr(resourceName3, "priority", "30"),
+					resource.TestCheckResourceAttrSet(resourceName3, "id"),
+				),
+			},
+			// delete
+			{
+				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
 			},
 		},
 	})
