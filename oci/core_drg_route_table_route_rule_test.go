@@ -29,7 +29,22 @@ var (
 		"next_hop_drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
+	drgRouteTableRouteRuleRepresentation2 = map[string]interface{}{
+		"drg_route_table_id":         Representation{repType: Required, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"destination_type":           Representation{repType: Required, create: `CIDR_BLOCK`},
+		"destination":                Representation{repType: Required, create: `1.1.1.0/24`, update: `1.1.11.0/24`},
+		"next_hop_drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
+	}
+
+	drgRouteTableRouteRuleRepresentation3 = map[string]interface{}{
+		"drg_route_table_id":         Representation{repType: Required, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"destination_type":           Representation{repType: Required, create: `CIDR_BLOCK`},
+		"destination":                Representation{repType: Required, create: `1.1.2.0/24`, update: `1.1.12.0/24`},
+		"next_hop_drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
+	}
+
 	DrgRouteTableRouteRuleResourceDependencies = generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
@@ -48,6 +63,9 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_drg_route_table_route_rule.test_drg_route_table_route_rule"
 	datasourceName := "data.oci_core_drg_route_table_route_rules.test_drg_route_table_route_rules"
+
+	resourceName2 := "oci_core_drg_route_table_route_rule.test_drg_route_table_route_rule2"
+	resourceName3 := "oci_core_drg_route_table_route_rule.test_drg_route_table_route_rule3"
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
@@ -135,6 +153,30 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
 				ResourceName:            resourceName,
+			},
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies,
+			},
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule2", Optional, Create, drgRouteTableRouteRuleRepresentation2) +
+					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule3", Required, Create, drgRouteTableRouteRuleRepresentation3),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					//check first resource
+					resource.TestCheckResourceAttrSet(resourceName2, "destination"),
+					resource.TestCheckResourceAttrSet(resourceName2, "destination_type"),
+					resource.TestCheckResourceAttrSet(resourceName2, "drg_route_table_id"),
+					resource.TestCheckResourceAttrSet(resourceName2, "id"),
+					resource.TestCheckResourceAttrSet(resourceName2, "next_hop_drg_attachment_id"),
+					//check second resource
+					resource.TestCheckResourceAttrSet(resourceName3, "destination"),
+					resource.TestCheckResourceAttrSet(resourceName3, "destination_type"),
+					resource.TestCheckResourceAttrSet(resourceName3, "drg_route_table_id"),
+					resource.TestCheckResourceAttrSet(resourceName3, "id"),
+					resource.TestCheckResourceAttrSet(resourceName3, "next_hop_drg_attachment_id"),
+				),
 			},
 		},
 	})
