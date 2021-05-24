@@ -209,6 +209,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
+	if s.Res.OcpuCount != nil {
+		s.D.Set("ocpu_count", *s.Res.OcpuCount)
+	}
+
 	s.D.Set("open_mode", s.Res.OpenMode)
 
 	s.D.Set("operations_insights_status", s.Res.OperationsInsightsStatus)

@@ -336,6 +336,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"ocpu_count": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"open_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -702,6 +706,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds
+
+		if r.OcpuCount != nil {
+			autonomousDatabasesClone["ocpu_count"] = *r.OcpuCount
+		}
 
 		autonomousDatabasesClone["open_mode"] = r.OpenMode
 

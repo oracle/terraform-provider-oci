@@ -53,6 +53,7 @@ var (
 		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"image_shape_family": Representation{repType: Optional, create: `VM_BM_SHAPE`},
 		"image_type":         Representation{repType: Optional, create: `DATABASE_IMAGE`},
+		"ls_inventory":       Representation{repType: Optional, create: `lsInventory`},
 	}
 
 	DatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies
