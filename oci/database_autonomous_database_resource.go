@@ -41,10 +41,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Required: true,
-			},
 			"db_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -87,6 +83,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"customer_contacts": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -115,6 +116,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.AutonomousDatabaseDataSafeStatusRegistered),
 					string(oci_database.AutonomousDatabaseSummaryDataSafeStatusNotRegistered),
 				}, true),
+			},
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeInt,
@@ -205,6 +211,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"ocpu_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
 			},
 			"private_endpoint_label": {
 				Type:     schema.TypeString,
@@ -409,10 +420,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"data_storage_size_in_gb": {
-				Type:     schema.TypeInt,
-				Computed: true,
 			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
@@ -939,6 +946,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(int)
+		request.DataStorageSizeInGBs = &tmp
+	}
+
 	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok && s.D.HasChange("data_storage_size_in_tbs") {
 		tmp := dataStorageSizeInTBs.(int)
 		request.DataStorageSizeInTBs = &tmp
@@ -1024,6 +1036,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 				return err
 			}
 		}
+	}
+
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := ocpuCount.(float64)
+		request.OcpuCount = &tmp
+	}
+
+	if openMode, ok := s.D.GetOkExists("open_mode"); ok {
+		request.OpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+	}
+
+	if permissionLevel, ok := s.D.GetOkExists("permission_level"); ok {
+		request.PermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
+	}
+
+	if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+		tmp := privateEndpointLabel.(string)
+		request.PrivateEndpointLabel = &tmp
 	}
 
 	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
@@ -1236,6 +1266,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		nsgIds = append(nsgIds, item)
 	}
 	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+
+	if s.Res.OcpuCount != nil {
+		s.D.Set("ocpu_count", *s.Res.OcpuCount)
+	}
 
 	s.D.Set("open_mode", s.Res.OpenMode)
 
@@ -1527,6 +1561,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -1595,6 +1633,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float64)
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -1688,6 +1730,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -1756,6 +1802,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float64)
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -1842,6 +1892,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -1910,6 +1964,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float64)
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -1998,6 +2056,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -2070,6 +2132,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float64)
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -2147,6 +2213,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -2219,6 +2289,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float64)
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)

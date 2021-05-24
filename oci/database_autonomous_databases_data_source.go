@@ -313,6 +313,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["nsg_ids"] = r.NsgIds
 
+		if r.OcpuCount != nil {
+			autonomousDatabase["ocpu_count"] = *r.OcpuCount
+		}
+
 		autonomousDatabase["open_mode"] = r.OpenMode
 
 		autonomousDatabase["operations_insights_status"] = r.OperationsInsightsStatus
