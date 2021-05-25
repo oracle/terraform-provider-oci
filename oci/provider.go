@@ -29,8 +29,8 @@ import (
 	"net/http"
 	"runtime"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/v40/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v41/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
