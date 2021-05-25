@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_log_analytics_log_analytics_log_groups
 This data source provides the list of Log Analytics Log Groups in Oracle Cloud Infrastructure Log Analytics service.
 
-Returns a list of Log-Analytics groups.
+Returns a list of log groups in a compartment. You may limit the number of log groups, provide sorting options, and filter the results by specifying a display name.
+
 
 ## Example Usage
 

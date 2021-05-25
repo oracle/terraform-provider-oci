@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_log_analytics_log_analytics_log_group
 This data source provides details about a specific Log Analytics Log Group resource in Oracle Cloud Infrastructure Log Analytics service.
 
-Retrieves the Log-Analytics group with the given id.
+Gets detailed information about the specified log group such as display name, description, defined tags, and free-form tags.
+
 
 ## Example Usage
 

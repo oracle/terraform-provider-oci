@@ -10,7 +10,7 @@ description: |-
 # oci_database_management_managed_databases_change_database_parameter
 This resource provides the Managed Databases Change Database Parameter resource in Oracle Cloud Infrastructure Database Management service.
 
-Changes database parameters' values. There are two kinds of database
+Changes database parameter values. There are two kinds of database
 parameters:
 
 - Dynamic parameters: They can be changed for the current Oracle

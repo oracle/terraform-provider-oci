@@ -10,7 +10,7 @@ description: |-
 # oci_database_management_managed_databases_reset_database_parameter
 This resource provides the Managed Databases Reset Database Parameter resource in Oracle Cloud Infrastructure Database Management service.
 
-Resets database parameters' values to their default or startup values.
+Resets database parameter values to their default or startup values.
 
 
 ## Example Usage
@@ -43,7 +43,7 @@ The following arguments are supported:
 * `parameters` - (Required) A list of database parameter names.
 * `scope` - (Required) The clause used to specify when the parameter change takes effect.
 
-	Use `MEMORY` to make the change in memory and affect it immediately. Use `SPFILE` to make the change in the server parameter file. The change takes effect when the database is next shut down and started up again. Use `BOTH` to make the change in memory and in the server parameter file. The change takes effect immediately and persists after the database is shut down and started up again. 
+	Use `MEMORY` to make the change in memory and ensure that it takes effect immediately. Use `SPFILE` to make the change in the server parameter file. The change takes effect when the database is next shut down and started up again. Use `BOTH` to make the change in memory and in the server parameter file. The change takes effect immediately and persists after the database is shut down and started up again. 
 
 
 ** IMPORTANT **

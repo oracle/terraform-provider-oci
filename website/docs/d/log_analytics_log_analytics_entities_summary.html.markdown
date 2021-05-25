@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_log_analytics_log_analytics_entities_summary
 This data source provides details about a specific Log Analytics Entities Summary resource in Oracle Cloud Infrastructure Log Analytics service.
 
-Returns log analytics entities count summary.
+Returns log analytics entities count summary report.
 
 ## Example Usage
 
