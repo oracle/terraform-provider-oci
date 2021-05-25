@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v40/osmanagement"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v41/osmanagement"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
 )
 
 func init() {

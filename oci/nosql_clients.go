@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_nosql "github.com/oracle/oci-go-sdk/v40/nosql"
+	oci_nosql "github.com/oracle/oci-go-sdk/v41/nosql"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
 )
 
 func init() {

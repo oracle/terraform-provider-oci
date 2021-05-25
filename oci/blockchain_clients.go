@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_blockchain "github.com/oracle/oci-go-sdk/v40/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v41/blockchain"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
 )
 
 func init() {

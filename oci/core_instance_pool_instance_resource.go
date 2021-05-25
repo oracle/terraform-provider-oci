@@ -11,11 +11,11 @@ import (
 	"regexp"
 	"strings"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v40/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v41/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
