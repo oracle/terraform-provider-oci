@@ -60,6 +60,7 @@ resource "oci_core_subnet" "test_subnet" {
 	dns_label = var.subnet_dns_label
 	freeform_tags = {"Department"= "Finance"}
 	ipv6cidr_block = var.subnet_ipv6cidr_block
+	prohibit_internet_ingress = var.subnet_prohibit_internet_ingress
 	prohibit_public_ip_on_vnic = var.subnet_prohibit_public_ip_on_vnic
 	route_table_id = oci_core_route_table.test_route_table.id
 	security_list_ids = var.subnet_security_list_ids
@@ -99,9 +100,16 @@ The following arguments are supported:
 	For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 
 	Example: `2001:0db8:0123:1111::/64` 
+* `prohibit_internet_ingress` - (Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
+
+	For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
+
+	`prohibitPublicIpOnVnic` will be set to the value of `prohibitInternetIngress` to dictate IPv4 behavior in this subnet. Only one or the other flag should be specified.
+
+	Example: `true` 
 * `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp` flag in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/)). If `prohibitPublicIpOnVnic` is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet).
 
-	If you intend to use a an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to specify ingress internet traffic behavior of the subnet.
+	If you intend to use an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to specify ingress internet traffic behavior of the subnet.
 
 	Example: `true` 
 * `route_table_id` - (Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table. 

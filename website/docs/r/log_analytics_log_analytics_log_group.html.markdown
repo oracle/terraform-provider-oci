@@ -10,7 +10,8 @@ description: |-
 # oci_log_analytics_log_analytics_log_group
 This resource provides the Log Analytics Log Group resource in Oracle Cloud Infrastructure Log Analytics service.
 
-Creates a new Log-Analytics group.
+Creates a new log group in the specified compartment with the input display name. You may also specify optional information such as description, defined tags, and free-form tags.
+
 
 ## Example Usage
 
