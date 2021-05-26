@@ -31,7 +31,7 @@ var (
 	}
 
 	dataMaskRuleDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"access_level":          Representation{repType: Optional, create: `ACCESSIBLE`},
 		"data_mask_rule_status": Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
 		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -46,7 +46,7 @@ var (
 	}
 
 	dataMaskRuleRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"data_mask_categories":  Representation{repType: Required, create: []string{`PII`}, update: []string{`PHI`}},
 		"display_name":          Representation{repType: Required, create: `displayName`, update: `displayName2`},
 		"iam_group_id":          Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
@@ -76,6 +76,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_cloud_guard_data_mask_rule.test_data_mask_rule"
 	datasourceName := "data.oci_cloud_guard_data_mask_rules.test_data_mask_rules"
@@ -98,7 +99,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "iam_group_id"),
@@ -121,7 +122,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Create, dataMaskRuleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_rule_status", "ENABLED"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -138,7 +139,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -152,7 +153,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_rule_status", "DISABLED"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -183,7 +184,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "data_mask_rule_status", "DISABLED"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "iam_group_id"),
@@ -201,7 +202,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 					compartmentIdVariableStr + DataMaskRuleResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_mask_rule_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_mask_rule_status", "DISABLED"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
