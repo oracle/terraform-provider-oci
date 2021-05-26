@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v40/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v41/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -26,7 +26,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -695,6 +695,12 @@ func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
 		defer os.Unsetenv(domainNameOverrideEnv)
 	}
 
+	if hadPreviousEnvVar {
+		defer os.Setenv(hasCorrectDomainNameEnv, prevEnvVar)
+	} else {
+		defer os.Unsetenv(hasCorrectDomainNameEnv)
+	}
+
 	os.Setenv(domainNameOverrideEnv, "0r4-c10ud.com")
 	assert.Equal(t, "0r4-c10ud.com", getEnvSettingWithBlankDefault(domainNameOverrideEnv))
 	configProvider := oci_common.DefaultConfigProvider()
@@ -723,6 +729,61 @@ func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
 	err = configureClientFn(baseClient)
 	assert.NoError(t, err)
 	assert.Equal(t, `avnzdivwaadfa-management.kms.us-phoenix-1.0r4-c10ud.com`, baseClient.Host)
+
+	// verify non-match preserves original url
+	baseClient = &oci_common.BaseClient{}
+	baseClient.Host = "DUMMY_ENDPOINT"
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+	assert.Equal(t, `DUMMY_ENDPOINT`, baseClient.Host)
+}
+
+// ensure a custom domain that has already override with more than 2 dots can be targeted and expected http client settings are preserved
+func TestUnitBuildClientConfigureFn_withDomainNameOverrideAndCorrectDomainName(t *testing.T) {
+
+	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(domainNameOverrideEnv)
+	if hadPreviousEnvVar {
+		defer os.Setenv(domainNameOverrideEnv, prevEnvVar)
+	} else {
+		defer os.Unsetenv(domainNameOverrideEnv)
+	}
+
+	if hadPreviousEnvVar {
+		defer os.Setenv(hasCorrectDomainNameEnv, prevEnvVar)
+	} else {
+		defer os.Unsetenv(hasCorrectDomainNameEnv)
+	}
+
+	os.Setenv(domainNameOverrideEnv, "oc.0r4-c10ud.com")
+	os.Setenv(hasCorrectDomainNameEnv, "oc.0r4-c10ud.com")
+	assert.Equal(t, "oc.0r4-c10ud.com", getEnvSettingWithBlankDefault(domainNameOverrideEnv))
+	assert.Equal(t, "oc.0r4-c10ud.com", getEnvSettingWithBlankDefault(hasCorrectDomainNameEnv))
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := buildHttpClient()
+	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	assert.NoError(t, err)
+
+	baseClient := &oci_common.BaseClient{}
+	baseClient.Host = "https://svc.region.oc.0r4-c10ud.com"
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+
+	// verify transport settings are unchanged
+	tr := httpClient.Transport.(*http.Transport)
+	assert.NotNil(t, tr.TLSClientConfig)
+	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+	assert.Nil(t, tr.TLSClientConfig.RootCAs)
+
+	// verify url has expected domain
+	assert.Equal(t, `https://svc.region.oc.0r4-c10ud.com`, baseClient.Host)
+
+	// verify subdomains are preserved
+	baseClient = &oci_common.BaseClient{}
+	baseClient.Host = "avnzdivwaadfa-management.kms.us-phoenix-1.oraclecloud.com"
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+	assert.Equal(t, `avnzdivwaadfa-management.kms.us-phoenix-1.oc.0r4-c10ud.com`, baseClient.Host)
 
 	// verify non-match preserves original url
 	baseClient = &oci_common.BaseClient{}

@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
@@ -167,11 +167,24 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Create() error {
 	}
 
 	if len(response.Items) > 0 {
-		s.Res = &response.Items[0]
+		for _, responseStatement := range response.Items {
+			if responseStatement.Action != oci_core.DrgRouteDistributionStatementActionEnum(statement.Action) {
+				continue
+			}
+			if len(responseStatement.MatchCriteria) == len(statement.MatchCriteria) {
+				if !isDrgRouteDistributionMatchCriteriaEqual(responseStatement.MatchCriteria, statement.MatchCriteria) {
+					continue
+				}
+			}
+			if *responseStatement.Priority != *statement.Priority {
+				continue
+			}
+			s.Res = &responseStatement
+			break
+		}
 	} else {
 		return fmt.Errorf("distribution statement missing in response")
 	}
-
 	return nil
 }
 
@@ -261,7 +274,15 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Update() error {
 		return fmt.Errorf("failed to update distribution statements, error: %v", err)
 	}
 	if response.Items != nil && len(response.Items) > 0 {
-		s.Res = &response.Items[0]
+		_, statementId, err := parseDrgRouteDistributionStatementCompositeId(s.D.Id())
+		for _, distributionStatement := range response.Items {
+			if *distributionStatement.Id == statementId {
+				s.Res = &distributionStatement
+			}
+		}
+		if err != nil {
+			return fmt.Errorf("failed to update distribution statements, error: %v", err)
+		}
 	}
 
 	return nil
@@ -386,4 +407,21 @@ func DrgRouteDistributionMatchCriteriaToMap(obj oci_core.DrgRouteDistributionMat
 		return nil
 	}
 	return result
+}
+
+func isDrgRouteDistributionMatchCriteriaEqual(criteria1, criteria2 oci_core.DrgRouteDistributionMatchCriteria) bool {
+	mapCriteria1 := DrgRouteDistributionMatchCriteriaToMap(criteria1)
+	mapCriteria2 := DrgRouteDistributionMatchCriteriaToMap(criteria2)
+
+	for key, value := range mapCriteria1 {
+		if val2, ok := mapCriteria2[key]; ok {
+			if val2 != value {
+				return false
+			}
+		} else {
+			return false
+		}
+	}
+
+	return true
 }

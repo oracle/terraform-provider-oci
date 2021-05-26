@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
@@ -310,7 +310,14 @@ func (s *CoreDrgRouteTableResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
+	response, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
+	if response.HTTPResponse().StatusCode == 400 {
+		retryDeleteFunc := func() bool {
+			response, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
+			return err == nil && response.HTTPResponse().StatusCode == 200
+		}
+		return WaitForResourceCondition(s, retryDeleteFunc, s.D.Timeout(schema.TimeoutDelete))
+	}
 	return err
 }
 

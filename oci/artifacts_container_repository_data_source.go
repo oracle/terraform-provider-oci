@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v40/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v41/artifacts"
 )
 
 func init() {
@@ -67,6 +67,10 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.BillableSizeInGBs != nil {
+		s.D.Set("billable_size_in_gbs", strconv.FormatInt(*s.Res.BillableSizeInGBs, 10))
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

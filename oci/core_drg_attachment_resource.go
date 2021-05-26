@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
@@ -79,10 +79,7 @@ func CoreDrgAttachmentResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
-								"IPSEC_TUNNEL",
-								"REMOTE_PEERING_CONNECTION",
 								"VCN",
-								"VIRTUAL_CIRCUIT",
 							}, true),
 						},
 

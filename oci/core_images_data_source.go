@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
@@ -175,6 +175,10 @@ func (s *CoreImagesDataSourceCrud) SetData() error {
 
 		if r.BaseImageId != nil {
 			image["base_image_id"] = *r.BaseImageId
+		}
+
+		if r.BillableSizeInGBs != nil {
+			image["billable_size_in_gbs"] = strconv.FormatInt(*r.BillableSizeInGBs, 10)
 		}
 
 		if r.CreateImageAllowed != nil {

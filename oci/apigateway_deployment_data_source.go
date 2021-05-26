@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v40/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v41/apigateway"
 )
 
 func init() {
@@ -98,7 +98,7 @@ func (s *ApigatewayDeploymentDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.Specification != nil {
-		s.D.Set("specification", []interface{}{ApiSpecificationToMap(s.Res.Specification)})
+		s.D.Set("specification", []interface{}{ApiSpecificationToMap(s.Res.Specification, true)})
 	} else {
 		s.D.Set("specification", nil)
 	}

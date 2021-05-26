@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v40/common"
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	"github.com/oracle/oci-go-sdk/v41/common"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -58,9 +58,7 @@ var (
 		"network_details": RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentation},
 		"lifecycle":       RepresentationGroup{Required, ignoreChangesLBRepresentation},
 		"display_name":    Representation{repType: Optional, create: `displayName3`, update: `displayName4`},
-		//"export_drg_route_distribution_id":    Representation{repType: Optional, create: nil, update: nil},
 		"remove_export_drg_route_distribution_trigger": Representation{repType: Optional, create: `false`, update: `true`},
-		//"export_drg_route_distribution_id":             Representation{repType: Optional, update:  `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`},
 	}
 
 	drgAttachmentExportDistributionUpdateRepresentation = map[string]interface{}{

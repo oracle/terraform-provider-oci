@@ -29,8 +29,8 @@ import (
 	"net/http"
 	"runtime"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/v40/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v41/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -65,6 +65,7 @@ const (
 	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
+	hasCorrectDomainNameEnv               = "has_correct_domain_name"
 	clientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
 	customCertLocationEnv                 = "custom_cert_location"
 	acceptLocalCerts                      = "accept_local_certs"
@@ -610,8 +611,11 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 		domainNameOverride := getEnvSettingWithBlankDefault(domainNameOverrideEnv)
 
 		if domainNameOverride != "" {
-			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`)                             // (capture: preamble) match: d0main-name . tld end-of-string
-			client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
+			hasCorrectDomainName := getEnvSettingWithBlankDefault(hasCorrectDomainNameEnv)
+			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`) // (capture: preamble) match: d0main-name . tld end-of-string
+			if hasCorrectDomainName == "" || !strings.HasSuffix(client.Host, hasCorrectDomainName) {
+				client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
+			}
 		}
 
 		customCertLoc := getEnvSettingWithBlankDefault(customCertLocationEnv)

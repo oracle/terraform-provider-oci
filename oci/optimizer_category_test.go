@@ -23,6 +23,11 @@ var (
 		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
 		"name":                      Representation{repType: Optional, create: `name`},
 		"state":                     Representation{repType: Optional, create: `CREATED`},
+		"filter":                    RepresentationGroup{Required, categoryDataSourceFilterRepresentation},
+	}
+	categoryDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`cost-management-name`}},
 	}
 
 	OptimizerCategoryResourceConfig = ""

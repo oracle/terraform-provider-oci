@@ -50,9 +50,10 @@ The following attributes are exported:
 * `are_quotas_supported` - If true, quota policies can be created on top of this resource limit. 
 * `description` - The limit description.
 * `is_deprecated` - Indicates if the limit has been deprecated. 
+* `is_dynamic` - The limit for this resource has a dynamic value that is based on consumption across all Oracle Cloud Infrastructure services. 
 * `is_eligible_for_limit_increase` - Indicates if the customer can request a limit increase for this resource. 
-* `is_resource_availability_supported` - Reflects if the GetResourceAvailability API is supported for this limit or not. If not, the API will return an empty JSON response. 
+* `is_resource_availability_supported` - Reflects whether or not the GetResourceAvailability API is supported for this limit. If not, the API returns an empty JSON response. 
 * `name` - The resource limit name. To be used for writing policies (in case of quotas) or other programmatic calls. 
-* `scope_type` - Reflects the scope of the resource limit: which can be Global (across all regions), regional or ad specific. 
+* `scope_type` - Reflects the scope of the resource limit, whether Global (across all regions), regional, or availability domain-specific. 
 * `service_name` - The service name of the limit.
 

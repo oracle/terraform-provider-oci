@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v40/artifacts"
-	"github.com/oracle/oci-go-sdk/v40/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v41/artifacts"
+	"github.com/oracle/oci-go-sdk/v41/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -96,7 +96,6 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "layers_size_in_bytes"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "manifest_size_in_bytes"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "pull_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),

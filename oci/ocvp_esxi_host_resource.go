@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v40/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v41/ocvp"
 )
 
 func init() {
@@ -44,8 +44,8 @@ func OcvpEsxiHostResource() *schema.Resource {
 			"current_sku": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
-				Default:  "MONTH",
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,

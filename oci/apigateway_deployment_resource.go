@@ -4,18 +4,20 @@
 package oci
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v40/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v41/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
 )
 
 func init() {
@@ -666,6 +668,49 @@ func ApigatewayDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"body_validation": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+
+															// Optional
+															"content": {
+																Type:     schema.TypeSet,
+																Optional: true,
+																Computed: true,
+																Set:      mediaTypeHashCodeForBodyValidationContentSets,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		"media_type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+																		"validation_type": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+																	},
+																},
+															},
+															"required": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+															"validation_mode": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"cors": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -858,6 +903,50 @@ func ApigatewayDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"header_validations": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"headers": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"name": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+																		"required": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"validation_mode": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"query_parameter_transformations": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -987,6 +1076,50 @@ func ApigatewayDeploymentResource() *schema.Resource {
 																		// Computed
 																	},
 																},
+															},
+
+															// Computed
+														},
+													},
+												},
+												"query_parameter_validations": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"parameters": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"name": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+																		"required": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"validation_mode": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
 															},
 
 															// Computed
@@ -1647,7 +1780,7 @@ func (s *ApigatewayDeploymentResourceCrud) SetData() error {
 	}
 
 	if s.Res.Specification != nil {
-		s.D.Set("specification", []interface{}{ApiSpecificationToMap(s.Res.Specification)})
+		s.D.Set("specification", []interface{}{ApiSpecificationToMap(s.Res.Specification, false)})
 	} else {
 		s.D.Set("specification", nil)
 	}
@@ -1731,7 +1864,7 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecification(fieldKeyFormat 
 	return result, nil
 }
 
-func ApiSpecificationToMap(obj *oci_apigateway.ApiSpecification) map[string]interface{} {
+func ApiSpecificationToMap(obj *oci_apigateway.ApiSpecification, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.LoggingPolicies != nil {
@@ -1744,7 +1877,7 @@ func ApiSpecificationToMap(obj *oci_apigateway.ApiSpecification) map[string]inte
 
 	routes := []interface{}{}
 	for _, item := range obj.Routes {
-		routes = append(routes, ApiSpecificationRouteToMap(item))
+		routes = append(routes, ApiSpecificationRouteToMap(item, datasource))
 	}
 	result["routes"] = routes
 
@@ -1922,7 +2055,7 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRoute(fieldKeyFo
 	return result, nil
 }
 
-func ApiSpecificationRouteToMap(obj oci_apigateway.ApiSpecificationRoute) map[string]interface{} {
+func ApiSpecificationRouteToMap(obj oci_apigateway.ApiSpecificationRoute, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Backend != nil {
@@ -1944,7 +2077,7 @@ func ApiSpecificationRouteToMap(obj oci_apigateway.ApiSpecificationRoute) map[st
 	}
 
 	if obj.RequestPolicies != nil {
-		result["request_policies"] = []interface{}{ApiSpecificationRouteRequestPoliciesToMap(obj.RequestPolicies)}
+		result["request_policies"] = []interface{}{ApiSpecificationRouteRequestPoliciesToMap(obj.RequestPolicies, datasource)}
 	}
 
 	if obj.ResponsePolicies != nil {
@@ -2097,6 +2230,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteRequestPoli
 		}
 	}
 
+	if bodyValidation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "body_validation")); ok {
+		if tmpList := bodyValidation.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "body_validation"), 0)
+			tmp, err := s.mapToBodyValidationRequestPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert body_validation, encountered error: %v", err)
+			}
+			result.BodyValidation = &tmp
+		}
+	}
+
 	if cors, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cors")); ok {
 		if tmpList := cors.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "cors"), 0)
@@ -2119,6 +2263,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteRequestPoli
 		}
 	}
 
+	if headerValidations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header_validations")); ok {
+		if tmpList := headerValidations.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "header_validations"), 0)
+			tmp, err := s.mapToHeaderValidationRequestPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert header_validations, encountered error: %v", err)
+			}
+			result.HeaderValidations = &tmp
+		}
+	}
+
 	if queryParameterTransformations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_parameter_transformations")); ok {
 		if tmpList := queryParameterTransformations.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "query_parameter_transformations"), 0)
@@ -2127,6 +2282,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteRequestPoli
 				return result, fmt.Errorf("unable to convert query_parameter_transformations, encountered error: %v", err)
 			}
 			result.QueryParameterTransformations = &tmp
+		}
+	}
+
+	if queryParameterValidations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_parameter_validations")); ok {
+		if tmpList := queryParameterValidations.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "query_parameter_validations"), 0)
+			tmp, err := s.mapToQueryParameterValidationRequestPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert query_parameter_validations, encountered error: %v", err)
+			}
+			result.QueryParameterValidations = &tmp
 		}
 	}
 
@@ -2144,7 +2310,7 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRouteRequestPoli
 	return result, nil
 }
 
-func ApiSpecificationRouteRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificationRouteRequestPolicies) map[string]interface{} {
+func ApiSpecificationRouteRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificationRouteRequestPolicies, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Authorization != nil {
@@ -2155,6 +2321,10 @@ func ApiSpecificationRouteRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificat
 		result["authorization"] = authorizationArray
 	}
 
+	if obj.BodyValidation != nil {
+		result["body_validation"] = []interface{}{BodyValidationRequestPolicyToMap(obj.BodyValidation, datasource)}
+	}
+
 	if obj.Cors != nil {
 		result["cors"] = []interface{}{CorsPolicyToMap(obj.Cors)}
 	}
@@ -2163,8 +2333,16 @@ func ApiSpecificationRouteRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificat
 		result["header_transformations"] = []interface{}{HeaderTransformationPolicyToMap(obj.HeaderTransformations)}
 	}
 
+	if obj.HeaderValidations != nil {
+		result["header_validations"] = []interface{}{HeaderValidationRequestPolicyToMap(obj.HeaderValidations)}
+	}
+
 	if obj.QueryParameterTransformations != nil {
 		result["query_parameter_transformations"] = []interface{}{QueryParameterTransformationPolicyToMap(obj.QueryParameterTransformations)}
+	}
+
+	if obj.QueryParameterValidations != nil {
+		result["query_parameter_validations"] = []interface{}{QueryParameterValidationRequestPolicyToMap(obj.QueryParameterValidations)}
 	}
 
 	if obj.ResponseCacheLookup != nil {
@@ -2404,6 +2582,117 @@ func AuthenticationPolicyToMap(obj *oci_apigateway.AuthenticationPolicy) map[str
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
 	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToContentValidation(fieldKeyFormat string) (oci_apigateway.ContentValidation, error) {
+	var baseObject oci_apigateway.ContentValidation
+
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+
+	switch strings.ToLower(type_) {
+	case strings.ToLower("NONE"):
+		validation := oci_apigateway.NoContentValidation{}
+		baseObject = validation
+	default:
+		return nil, fmt.Errorf("unknown validation type '%v' was specified", type_)
+	}
+
+	return baseObject, nil
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToBodyValidationRequestPolicy(fieldKeyFormat string) (oci_apigateway.BodyValidationRequestPolicy, error) {
+	result := oci_apigateway.BodyValidationRequestPolicy{}
+
+	if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+		set := content.(*schema.Set)
+		interfaces := set.List()
+
+		content := map[string]oci_apigateway.ContentValidation{}
+		for _, mediaTypeObject := range interfaces {
+			hash := mediaTypeHashCodeForBodyValidationContentSets(mediaTypeObject)
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "content"), hash)
+
+			mediaTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormatNextLevel, "media_type"))
+			var mediaType string
+			if ok {
+				mediaType = mediaTypeRaw.(string)
+			} else {
+				return result, fmt.Errorf("unable to convert media_type")
+			}
+
+			converted, err := s.mapToContentValidation(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+
+			if _, ok = content[mediaType]; ok {
+				return result, fmt.Errorf("media_type shadows a previous content media_type declaration. A request body validation policy may only contain unique media_types")
+			}
+
+			content[mediaType] = converted
+		}
+
+		result.Content = content
+	} else {
+		content := map[string]oci_apigateway.ContentValidation{}
+		result.Content = content
+	}
+
+	if required, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "required")); ok {
+		tmp := required.(bool)
+		result.Required = &tmp
+	}
+
+	if validationMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_mode")); ok {
+		result.ValidationMode = oci_apigateway.BodyValidationRequestPolicyValidationModeEnum(validationMode.(string))
+	}
+
+	return result, nil
+}
+
+func ContentValidationToMap(obj *oci_apigateway.ContentValidation) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	switch (*obj).(type) {
+	case oci_apigateway.NoContentValidation:
+		result["validation_type"] = "NONE"
+	default:
+		log.Printf("[WARN] Received 'validation_type' of unknown type %v", *obj)
+	}
+
+	return result
+}
+
+func BodyValidationRequestPolicyToMap(obj *oci_apigateway.BodyValidationRequestPolicy, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	contentArray := []interface{}{}
+	for mediaType, mediaTypeObject := range obj.Content {
+		contentMap := ContentValidationToMap(&mediaTypeObject)
+		contentMap["media_type"] = mediaType
+		contentArray = append(contentArray, contentMap)
+	}
+
+	if datasource {
+		result["content"] = contentArray
+	} else {
+		result["content"] = schema.NewSet(mediaTypeHashCodeForBodyValidationContentSets, contentArray)
+	}
+
+	if obj.Required != nil {
+		result["required"] = bool(*obj.Required)
+	}
+
+	result["validation_mode"] = string(obj.ValidationMode)
 
 	return result
 }
@@ -2786,6 +3075,77 @@ func HeaderTransformationPolicyToMap(obj *oci_apigateway.HeaderTransformationPol
 	return result
 }
 
+func (s *ApigatewayDeploymentResourceCrud) mapToHeaderValidationItem(fieldKeyFormat string) (oci_apigateway.HeaderValidationItem, error) {
+	result := oci_apigateway.HeaderValidationItem{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if required, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "required")); ok {
+		tmp := required.(bool)
+		result.Required = &tmp
+	}
+
+	return result, nil
+}
+
+func HeaderValidationItemToMap(obj oci_apigateway.HeaderValidationItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Required != nil {
+		result["required"] = bool(*obj.Required)
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToHeaderValidationRequestPolicy(fieldKeyFormat string) (oci_apigateway.HeaderValidationRequestPolicy, error) {
+	result := oci_apigateway.HeaderValidationRequestPolicy{}
+
+	if headers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "headers")); ok {
+		interfaces := headers.([]interface{})
+		tmp := make([]oci_apigateway.HeaderValidationItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "headers"), stateDataIndex)
+			converted, err := s.mapToHeaderValidationItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "headers")) {
+			result.Headers = tmp
+		}
+	}
+
+	if validationMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_mode")); ok {
+		result.ValidationMode = oci_apigateway.HeaderValidationRequestPolicyValidationModeEnum(validationMode.(string))
+	}
+
+	return result, nil
+}
+
+func HeaderValidationRequestPolicyToMap(obj *oci_apigateway.HeaderValidationRequestPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	headers := []interface{}{}
+	for _, item := range obj.Headers {
+		headers = append(headers, HeaderValidationItemToMap(item))
+	}
+	result["headers"] = headers
+
+	result["validation_mode"] = string(obj.ValidationMode)
+
+	return result
+}
+
 func (s *ApigatewayDeploymentResourceCrud) mapToJsonWebTokenClaim(fieldKeyFormat string) (oci_apigateway.JsonWebTokenClaim, error) {
 	result := oci_apigateway.JsonWebTokenClaim{}
 
@@ -2968,6 +3328,77 @@ func QueryParameterTransformationPolicyToMap(obj *oci_apigateway.QueryParameterT
 	if obj.SetQueryParameters != nil {
 		result["set_query_parameters"] = []interface{}{SetQueryParameterPolicyToMap(obj.SetQueryParameters)}
 	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToQueryParameterValidationItem(fieldKeyFormat string) (oci_apigateway.QueryParameterValidationItem, error) {
+	result := oci_apigateway.QueryParameterValidationItem{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if required, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "required")); ok {
+		tmp := required.(bool)
+		result.Required = &tmp
+	}
+
+	return result, nil
+}
+
+func QueryParameterValidationItemToMap(obj oci_apigateway.QueryParameterValidationItem) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Required != nil {
+		result["required"] = bool(*obj.Required)
+	}
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToQueryParameterValidationRequestPolicy(fieldKeyFormat string) (oci_apigateway.QueryParameterValidationRequestPolicy, error) {
+	result := oci_apigateway.QueryParameterValidationRequestPolicy{}
+
+	if parameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameters")); ok {
+		interfaces := parameters.([]interface{})
+		tmp := make([]oci_apigateway.QueryParameterValidationItem, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "parameters"), stateDataIndex)
+			converted, err := s.mapToQueryParameterValidationItem(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "parameters")) {
+			result.Parameters = tmp
+		}
+	}
+
+	if validationMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validation_mode")); ok {
+		result.ValidationMode = oci_apigateway.QueryParameterValidationRequestPolicyValidationModeEnum(validationMode.(string))
+	}
+
+	return result, nil
+}
+
+func QueryParameterValidationRequestPolicyToMap(obj *oci_apigateway.QueryParameterValidationRequestPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	parameters := []interface{}{}
+	for _, item := range obj.Parameters {
+		parameters = append(parameters, QueryParameterValidationItemToMap(item))
+	}
+	result["parameters"] = parameters
+
+	result["validation_mode"] = string(obj.ValidationMode)
 
 	return result
 }
@@ -3570,4 +4001,16 @@ func (s *ApigatewayDeploymentResourceCrud) updateCompartment(compartment interfa
 
 	workId := response.OpcWorkRequestId
 	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func mediaTypeHashCodeForBodyValidationContentSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if media_type, ok := m["media_type"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", media_type))
+	}
+	if validation_type, ok := m["validation_type"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", validation_type))
+	}
+	return hashcode.String(buf.String())
 }

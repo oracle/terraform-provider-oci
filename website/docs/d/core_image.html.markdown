@@ -36,6 +36,7 @@ The following attributes are exported:
 	* `is_management_supported` - Whether Oracle Cloud Agent can run all the available management plugins. 
 	* `is_monitoring_supported` - Whether Oracle Cloud Agent can gather performance metrics and monitor the instance. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
+* `billable_size_in_gbs` - The size of the internal storage for this image that is subject to billing (1 GB = 1,073,741,824 bytes).  Example: `100` 
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance.  Example: `true` 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
