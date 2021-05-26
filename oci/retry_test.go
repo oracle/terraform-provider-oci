@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v40/common"
+	"github.com/oracle/oci-go-sdk/v41/common"
 )
 
 type TestOCIResponse struct {
@@ -130,7 +130,7 @@ func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 		httpResponseStatusCode:   500,
 		header:                   map[string][]string{},
 		responseError:            fmt.Errorf("Out of host capacity. "),
-		expectedRetryTimeSeconds: 15,
+		expectedRetryTimeSeconds: 0,
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)

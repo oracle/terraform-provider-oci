@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_datascience "github.com/oracle/oci-go-sdk/v40/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v41/datascience"
 )
 
 func init() {
@@ -42,6 +42,10 @@ func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"shape_series": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -123,6 +127,8 @@ func (s *DatascienceNotebookSessionShapesDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			notebookSessionShape["name"] = *r.Name
 		}
+
+		notebookSessionShape["shape_series"] = r.ShapeSeries
 
 		resources = append(resources, notebookSessionShape)
 	}

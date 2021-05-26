@@ -158,6 +158,18 @@ resource "oci_apigateway_deployment" "test_deployment" {
 					allowed_scope = var.deployment_specification_routes_request_policies_authorization_allowed_scope
 					type = var.deployment_specification_routes_request_policies_authorization_type
 				}
+				body_validation {
+
+					#Optional
+					content {
+						#Required
+						media_type = var.deployment_specification_routes_request_policies_body_validation_content_media_type
+						validation_type = var.deployment_specification_routes_request_policies_body_validation_content_validation_type
+					}
+
+					required = var.deployment_specification_routes_request_policies_body_validation_required
+					validation_mode = var.deployment_specification_routes_request_policies_body_validation_validation_mode
+				}
 				cors {
 					#Required
 					allowed_origins = var.deployment_specification_routes_request_policies_cors_allowed_origins
@@ -200,6 +212,18 @@ resource "oci_apigateway_deployment" "test_deployment" {
 						}
 					}
 				}
+				header_validations {
+
+					#Optional
+					headers {
+						#Required
+						name = var.deployment_specification_routes_request_policies_header_validations_headers_name
+
+						#Optional
+						required = var.deployment_specification_routes_request_policies_header_validations_headers_required
+					}
+					validation_mode = var.deployment_specification_routes_request_policies_header_validations_validation_mode
+				}
 				query_parameter_transformations {
 
 					#Optional
@@ -230,6 +254,18 @@ resource "oci_apigateway_deployment" "test_deployment" {
 							if_exists = var.deployment_specification_routes_request_policies_query_parameter_transformations_set_query_parameters_items_if_exists
 						}
 					}
+				}
+				query_parameter_validations {
+
+					#Optional
+					parameters {
+						#Required
+						name = var.deployment_specification_routes_request_policies_query_parameter_validations_parameters_name
+
+						#Optional
+						required = var.deployment_specification_routes_request_policies_query_parameter_validations_parameters_required
+					}
+					validation_mode = var.deployment_specification_routes_request_policies_query_parameter_validations_validation_mode
 				}
 				response_cache_lookup {
 					#Required
@@ -385,6 +421,24 @@ The following arguments are supported:
 			* `authorization` - (Optional) (Updatable) If authentication has been performed, validate whether the request scope (if any) applies to this route. If no RouteAuthorizationPolicy is defined for a route, a policy with a type of AUTHENTICATION_ONLY is applied. 
 				* `allowed_scope` - (Required when type=ANY_OF) (Updatable) A user whose scope includes any of these access ranges is allowed on this route. Access ranges are case-sensitive. 
 				* `type` - (Optional) (Updatable) Indicates how authorization should be applied. For a type of ANY_OF, an "allowedScope" property must also be specified. Otherwise, only a type is required. For a type of ANONYMOUS, an authenticated API must have the "isAnonymousAccessAllowed" property set to "true" in the authentication policy. 
+			* `body_validation` - (Optional) (Updatable) Validate the payload body of the incoming API requests on a specific route.
+				* `content` - (Optional) (Updatable) The content of the request body.
+					* `media_type` - (Required) (Updatable) The media_type is a [media type range](https://tools.ietf.org/html/rfc7231#appendix-D) subset restricted to the following schema
+
+						media_type ::= ( / (  "*" "/" "*" ) / ( type "/" "*" ) / ( type "/" subtype ) )
+
+						For requests that match multiple media types, only the most specific media type is applicable. e.g. `text/plain` overrides `text/*` 
+					* `validation_type` - (Required) (Updatable) Validation type defines the content validation method.
+
+						Make the validation to first parse the body as the respective format. 
+				* `required` - (Optional) (Updatable) Determines if the request body is required in the request.
+				* `validation_mode` - (Optional) (Updatable) Validation behavior mode.
+
+					In `ENFORCING` mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.
+
+					In `PERMISSIVE` mode, the result of the validation will be exposed as metrics while the request will follow the normal path.
+
+					`DISABLED` type turns the validation off. 
 			* `cors` - (Optional) (Updatable) Enable CORS (Cross-Origin-Resource-Sharing) request handling. 
 				* `allowed_headers` - (Optional) (Updatable) The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 				* `allowed_methods` - (Optional) (Updatable) The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 
@@ -406,6 +460,17 @@ The following arguments are supported:
 						* `if_exists` - (Optional) (Updatable) If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - (Required) (Updatable) The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `header_validations` - (Optional) (Updatable) Validate the HTTP headers on the incoming API requests on a specific route.
+				* `headers` - (Optional) (Updatable) 
+					* `name` - (Required) (Updatable) Parameter name.
+					* `required` - (Optional) (Updatable) Determines if the header is required in the request.
+				* `validation_mode` - (Optional) (Updatable) Validation behavior mode.
+
+					In `ENFORCING` mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.
+
+					In `PERMISSIVE` mode, the result of the validation will be exposed as metrics while the request will follow the normal path.
+
+					`DISABLED` type turns the validation off. 
 			* `query_parameter_transformations` - (Optional) (Updatable) A set of transformations to apply to query parameters that pass through the gateway. 
 				* `filter_query_parameters` - (Optional) (Updatable) Filter parameters from the query string as they pass through the gateway.  The gateway applies filters after other transformations, so any parameters set or renamed must also be listed here when using an ALLOW type policy. 
 					* `items` - (Required) (Updatable) The list of query parameters. 
@@ -420,6 +485,17 @@ The following arguments are supported:
 						* `if_exists` - (Optional) (Updatable) If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - (Required) (Updatable) The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - (Required) (Updatable) A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `query_parameter_validations` - (Optional) (Updatable) Validate the URL query parameters on the incoming API requests on a specific route.
+				* `parameters` - (Optional) (Updatable) 
+					* `name` - (Required) (Updatable) Parameter name.
+					* `required` - (Optional) (Updatable) Determines if the parameter is required in the request.
+				* `validation_mode` - (Optional) (Updatable) Validation behavior mode.
+
+					In `ENFORCING` mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.
+
+					In `PERMISSIVE` mode, the result of the validation will be exposed as metrics while the request will follow the normal path.
+
+					`DISABLED` type turns the validation off. 
 			* `response_cache_lookup` - (Optional) (Updatable) Base policy for Response Cache lookup. 
 				* `cache_key_additions` - (Optional) (Updatable) A list of context expressions whose values will be added to the base cache key. Values should contain an expression enclosed within ${} delimiters. Only the request context is available. 
 				* `is_enabled` - (Optional) (Updatable) Whether this policy is currently enabled. 
@@ -554,6 +630,24 @@ The following attributes are exported:
 			* `authorization` - If authentication has been performed, validate whether the request scope (if any) applies to this route. If no RouteAuthorizationPolicy is defined for a route, a policy with a type of AUTHENTICATION_ONLY is applied. 
 				* `allowed_scope` - A user whose scope includes any of these access ranges is allowed on this route. Access ranges are case-sensitive. 
 				* `type` - Indicates how authorization should be applied. For a type of ANY_OF, an "allowedScope" property must also be specified. Otherwise, only a type is required. For a type of ANONYMOUS, an authenticated API must have the "isAnonymousAccessAllowed" property set to "true" in the authentication policy. 
+			* `body_validation` - Validate the payload body of the incoming API requests on a specific route.
+				* `content` - The content of the request body.
+					* `media_type` - (Required) (Updatable) The media_type is a [media type range](https://tools.ietf.org/html/rfc7231#appendix-D) subset restricted to the following schema
+
+						media_type ::= ( / (  "*" "/" "*" ) / ( type "/" "*" ) / ( type "/" subtype ) )
+
+						For requests that match multiple media types, only the most specific media type is applicable. e.g. `text/plain` overrides `text/*` 
+					* `validation_type` - Validation type defines the content validation method.
+
+						Make the validation to first parse the body as the respective format. 
+				* `required` - Determines if the request body is required in the request.
+				* `validation_mode` - Validation behavior mode.
+
+					In `ENFORCING` mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.
+
+					In `PERMISSIVE` mode, the result of the validation will be exposed as metrics while the request will follow the normal path.
+
+					`DISABLED` type turns the validation off. 
 			* `cors` - Enable CORS (Cross-Origin-Resource-Sharing) request handling. 
 				* `allowed_headers` - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 				* `allowed_methods` - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 
@@ -575,6 +669,17 @@ The following attributes are exported:
 						* `if_exists` - If a header with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-insensitive name of the header.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `header_validations` - Validate the HTTP headers on the incoming API requests on a specific route.
+				* `headers` - 
+					* `name` - Parameter name.
+					* `required` - Determines if the header is required in the request.
+				* `validation_mode` - Validation behavior mode.
+
+					In `ENFORCING` mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.
+
+					In `PERMISSIVE` mode, the result of the validation will be exposed as metrics while the request will follow the normal path.
+
+					`DISABLED` type turns the validation off. 
 			* `query_parameter_transformations` - A set of transformations to apply to query parameters that pass through the gateway. 
 				* `filter_query_parameters` - Filter parameters from the query string as they pass through the gateway.  The gateway applies filters after other transformations, so any parameters set or renamed must also be listed here when using an ALLOW type policy. 
 					* `items` - The list of query parameters. 
@@ -589,6 +694,17 @@ The following attributes are exported:
 						* `if_exists` - If a query parameter with the same name already exists in the request, OVERWRITE will overwrite the value, APPEND will append to the existing value, or SKIP will keep the existing value. 
 						* `name` - The case-sensitive name of the query parameter.  This name must be unique across transformation policies. 
 						* `values` - A list of new values.  Each value can be a constant or may include one or more expressions enclosed within ${} delimiters. 
+			* `query_parameter_validations` - Validate the URL query parameters on the incoming API requests on a specific route.
+				* `parameters` - 
+					* `name` - Parameter name.
+					* `required` - Determines if the parameter is required in the request.
+				* `validation_mode` - Validation behavior mode.
+
+					In `ENFORCING` mode, upon a validation failure, the request will be rejected with a 4xx response and not sent to the backend.
+
+					In `PERMISSIVE` mode, the result of the validation will be exposed as metrics while the request will follow the normal path.
+
+					`DISABLED` type turns the validation off. 
 			* `response_cache_lookup` - Base policy for Response Cache lookup. 
 				* `cache_key_additions` - A list of context expressions whose values will be added to the base cache key. Values should contain an expression enclosed within ${} delimiters. Only the request context is available. 
 				* `is_enabled` - Whether this policy is currently enabled. 

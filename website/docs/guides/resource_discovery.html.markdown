@@ -119,6 +119,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
+    * `bastion` - Discovers bastion resources within the specified compartment
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
@@ -276,10 +277,16 @@ artifacts
 * oci\_artifacts\_container\_configuration
 * oci\_artifacts\_container\_repository
 * oci\_artifacts\_container\_image\_signature
+* oci\_artifacts\_repository
 
 auto_scaling
     
 * oci\_autoscaling\_auto\_scaling\_configuration
+
+bastion
+    
+* oci\_bastion\_bastion
+* oci\_bastion\_session
 
 bds
     

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -139,7 +139,7 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 		defaultRetryTime = longRetryTime
 	case 500:
 		if e != nil && (strings.Contains(e.Error(), "Out of host capacity")) {
-			return defaultRetryTime
+			return 0
 		}
 		if configuredRetryDuration != nil {
 			return *configuredRetryDuration

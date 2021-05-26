@@ -72,6 +72,11 @@ resource "oci_datascience_notebook_session" "tf_notebook_session" {
     subnet_id = oci_core_subnet.tf_subnet.id
     #Optional
     #block_storage_size_in_gbs = var.notebook_session_notebook_session_configuration_details_block_storage_size_in_gbs
+    #notebook_session_shape_config_details {
+    #  #Required
+    #  ocpus = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_opcus
+    #  memory_in_gbs = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_memory_in_gbs
+    #}
   }
 
   project_id = oci_datascience_project.tf_project.id

@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
@@ -76,6 +76,10 @@ func (s *CoreImageDataSourceCrud) SetData() error {
 
 	if s.Res.BaseImageId != nil {
 		s.D.Set("base_image_id", *s.Res.BaseImageId)
+	}
+
+	if s.Res.BillableSizeInGBs != nil {
+		s.D.Set("billable_size_in_gbs", strconv.FormatInt(*s.Res.BillableSizeInGBs, 10))
 	}
 
 	if s.Res.CompartmentId != nil {

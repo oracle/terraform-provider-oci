@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v40/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v41/workrequests"
 )
 
 func init() {
@@ -158,6 +158,10 @@ func CoreImageResource() *schema.Resource {
 				},
 			},
 			"base_image_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"billable_size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -451,6 +455,10 @@ func (s *CoreImageResourceCrud) SetData() error {
 
 	if s.Res.BaseImageId != nil {
 		s.D.Set("base_image_id", *s.Res.BaseImageId)
+	}
+
+	if s.Res.BillableSizeInGBs != nil {
+		s.D.Set("billable_size_in_gbs", strconv.FormatInt(*s.Res.BillableSizeInGBs, 10))
 	}
 
 	if s.Res.CompartmentId != nil {

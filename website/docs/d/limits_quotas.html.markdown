@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_limits_quotas
 This data source provides the list of Quotas in Oracle Cloud Infrastructure Limits service.
 
-Lists all quotas on resources from the given compartment
+Lists all quotas on resources from the given compartment.
 
 ## Example Usage
 
@@ -31,7 +31,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 * `name` - (Optional) name
-* `state` - (Optional) Filters returned quotas based on whether the given state.
+* `state` - (Optional) Filters returned quotas based on the given state.
 
 
 ## Attributes Reference
@@ -52,5 +52,5 @@ The following attributes are exported:
 * `name` - The name you assign to the quota during creation. The name must be unique across all quotas in the tenancy and cannot be changed. 
 * `state` - The quota's current state.
 * `statements` - An array of one or more quota statements written in the declarative quota statement language.
-* `time_created` - Date and time the quota was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - Date and time the quota was created, in the format defined by RFC 3339. Example: `2016-08-25T21:10:29.600Z` 
 

@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/oracle/oci-go-sdk/v40/apigateway"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v40/apigateway"
+	"github.com/oracle/oci-go-sdk/v41/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v41/apigateway"
 )
 
 func init() {
@@ -524,6 +524,45 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 											},
 										},
 									},
+									"body_validation": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"content": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"media_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"validation_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"required": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"validation_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"cors": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -705,6 +744,46 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 											},
 										},
 									},
+									"header_validations": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"headers": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"name": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"required": {
+																Type:     schema.TypeBool,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"validation_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"query_parameter_transformations": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -831,6 +910,46 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 															},
 														},
 													},
+												},
+											},
+										},
+									},
+									"query_parameter_validations": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"parameters": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"name": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"required": {
+																Type:     schema.TypeBool,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"validation_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
 												},
 											},
 										},
@@ -1105,7 +1224,7 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) SetData() error {
 
 	routes := []interface{}{}
 	for _, item := range s.Res.Routes {
-		routes = append(routes, ApiSpecificationRouteToMap(item))
+		routes = append(routes, ApiSpecificationRouteToMap(item, true))
 	}
 	s.D.Set("routes", routes)
 

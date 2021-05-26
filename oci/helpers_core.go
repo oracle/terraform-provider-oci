@@ -12,8 +12,8 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 const (
@@ -41,7 +41,12 @@ func ConvertToDefaultVcnResourceSchema(resourceSchema *schema.Resource) *schema.
 		ForceNew: true,
 	}
 
-	delete(resourceSchema.Schema, "compartment_id")
+	resourceSchema.Schema["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+		Computed: true,
+	}
+
 	delete(resourceSchema.Schema, "vcn_id")
 
 	return resourceSchema

@@ -25,6 +25,12 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 
 		#Optional
 		block_storage_size_in_gbs = var.notebook_session_notebook_session_configuration_details_block_storage_size_in_gbs
+		notebook_session_shape_config_details {
+
+			#Optional
+			memory_in_gbs = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_memory_in_gbs
+			ocpus = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_ocpus
+		}
 	}
 	project_id = oci_datascience_project.test_project.id
 
@@ -45,6 +51,9 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `notebook_session_configuration_details` - (Required) (Updatable) Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - (Optional) (Updatable) A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
+	* `notebook_session_shape_config_details` - (Optional) (Updatable) Details for the notebook session shape configuration.
+		* `memory_in_gbs` - (Optional) (Updatable) A notebook session instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - (Optional) (Updatable) A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape` - (Required) (Updatable) The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - (Required) (Updatable) A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the notebook session.
@@ -66,6 +75,9 @@ The following attributes are exported:
 * `lifecycle_details` - Details about the state of the notebook session.
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
+	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
+		* `memory_in_gbs` - A notebook session instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_url` - The URL to interact with the notebook session.

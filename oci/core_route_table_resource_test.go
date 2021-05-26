@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v40/core"
+	"github.com/oracle/oci-go-sdk/v41/core"
 )
 
 var (
@@ -299,6 +299,8 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 			display_name = "-tf-internet-gateway"
 		}`
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 	resourceName := "oci_core_route_table.t"
 	defaultResourceName := "oci_core_default_route_table.default"
 
@@ -356,6 +358,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 							"network_entity_id",
 						}),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "manage_default_resource_id"),
+					resource.TestCheckResourceAttrSet(defaultResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(defaultResourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "display_name"),
 					resource.TestCheckResourceAttr(defaultResourceName, "route_rules.#", "1"),
@@ -369,7 +372,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 			},
 			// verify update
 			{
-				Config: config + `
+				Config: compartmentIdUVariableStr + config + `
 					resource "oci_core_route_table" "t" {
 						compartment_id = "${var.compartment_id}"
 						vcn_id = "${oci_core_virtual_network.t.id}"
@@ -386,6 +389,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 					resource "oci_core_default_route_table" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
 						display_name = "default-tf-route-table"
+						compartment_id = "${var.compartment_id_for_update}"
 						route_rules {
 							cidr_block = "0.0.0.0/0"
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
@@ -415,6 +419,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 						}),
 					resource.TestCheckResourceAttr(resourceName, "state", string(core.RouteTableLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "manage_default_resource_id"),
+					resource.TestCheckResourceAttr(defaultResourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(defaultResourceName, "display_name", "default-tf-route-table"),
 					resource.TestCheckResourceAttr(defaultResourceName, "route_rules.#", "2"),
 					CheckResourceSetContainsElementWithProperties(defaultResourceName, "route_rules", map[string]string{
@@ -443,6 +448,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(defaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(defaultResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(defaultResourceName, "route_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(defaultResourceName, "route_rules", map[string]string{
 						"cidr_block": "0.0.0.0/0",

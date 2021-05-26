@@ -10,11 +10,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v40/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v40/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v41/ocvp"
 )
 
 func init() {
@@ -115,11 +117,21 @@ func OcvpSddcResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"hcx_action": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					UpgradeHcxAction,
+					DowngradeHcxAction,
+					CancelDowngradeHcxAction,
+				}, true),
+			},
 			"initial_sku": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
-				Default:  "MONTH",
 			},
 			"instance_display_name_prefix": {
 				Type:     schema.TypeString,
@@ -138,10 +150,21 @@ func OcvpSddcResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"refresh_hcx_license_status": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"replication_vlan_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"reserving_hcx_on_premise_license_keys": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"workload_network_cidr": {
 				Type:     schema.TypeString,
@@ -163,8 +186,41 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"hcx_on_prem_licenses": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"activation_key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"system_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"hcx_private_ip_id": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_hcx_enterprise_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_hcx_pending_downgrade": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"nsx_edge_uplink_ip_id": {
@@ -199,6 +255,14 @@ func OcvpSddcResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_hcx_billing_cycle_end": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_hcx_license_status_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -226,6 +290,12 @@ func OcvpSddcResource() *schema.Resource {
 		},
 	}
 }
+
+const (
+	UpgradeHcxAction         string = "UPGRADE"
+	DowngradeHcxAction       string = "DOWNGRADE"
+	CancelDowngradeHcxAction string = "CANCEL_DOWNGRADE"
+)
 
 func createOcvpSddc(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcResourceCrud{}
@@ -419,6 +489,20 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		request.WorkloadNetworkCidr = &tmp
 	}
 
+	if _, ok := s.D.GetOk("reserving_hcx_on_premise_license_keys"); ok {
+		return fmt.Errorf("reserving_hcx_on_premise_license_keys should not be provided during SDDC creation.")
+	}
+
+	if hcxAction, ok := s.D.GetOk("hcx_action"); ok {
+		hcxAction = strings.ToUpper(hcxAction.(string))
+		if hcxAction == UpgradeHcxAction {
+			_tmp := true
+			request.IsHcxEnterpriseEnabled = &_tmp
+		} else {
+			return fmt.Errorf("hcx_action '%s' is not supported during SDDC creation. ", hcxAction)
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.CreateSddc(context.Background(), request)
@@ -427,7 +511,20 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	creationError := s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+
+	if creationError != nil {
+		return creationError
+	} else if hcxAction, ok := s.D.GetOk("hcx_action"); ok {
+		s.D.Set("hcx_action", hcxAction)
+	}
+
+	if refresh, ok := s.D.GetOk("refresh_hcx_license_status"); ok {
+		tmp := s.D.Id()
+		return s.refreshHcxLicenseStatus(&tmp, refresh)
+	}
+
+	return nil
 }
 
 func (s *OcvpSddcResourceCrud) getSddcFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -660,9 +757,101 @@ func (s *OcvpSddcResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
-
 	s.Res = &response.Sddc
+
+	if _, exists := s.D.GetOk("reserving_hcx_on_premise_license_keys"); exists {
+		if hcxAction, ok := s.D.GetOk("hcx_action"); !ok || strings.ToUpper(hcxAction.(string)) != DowngradeHcxAction {
+			return fmt.Errorf("reserving_hcx_on_premise_license_keys can only be set when hcx_action is DOWNGRADE")
+		}
+	}
+
+	if action, exists := s.D.GetOk("hcx_action"); exists && strings.ToUpper(action.(string)) == DowngradeHcxAction {
+		if _, ok := s.D.GetOk("reserving_hcx_on_premise_license_keys"); !ok {
+			return fmt.Errorf("reserving_hcx_on_premise_license_keys must exist when hcx_action is DOWNGRADE")
+		} else if s.D.HasChange("reserving_hcx_on_premise_license_keys") && !s.D.HasChange("hcx_action") {
+			return fmt.Errorf("reserving_hcx_on_premise_license_keys cannot be changed when hcx_action is already DOWNGRADE")
+		}
+	}
+
+	var updateHcxError error
+
+	if hcxAction, ok := s.D.GetOk("hcx_action"); ok && s.D.HasChange("hcx_action") {
+		action := strings.ToUpper(hcxAction.(string))
+		sddcId := s.D.Id()
+
+		if action == UpgradeHcxAction {
+			hcxRequest := oci_ocvp.UpgradeHcxRequest{}
+			hcxRequest.SddcId = &sddcId
+			hcxRes, hcxErr := s.Client.UpgradeHcx(context.Background(), hcxRequest)
+			if hcxErr != nil {
+				return hcxErr
+			}
+			workId := hcxRes.OpcWorkRequestId
+			updateHcxError = s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			if updateHcxError == nil {
+				s.D.Set("hcx_action", hcxAction)
+			}
+		} else if action == DowngradeHcxAction {
+			hcxRequest := oci_ocvp.DowngradeHcxRequest{}
+			hcxRequest.SddcId = &sddcId
+			if reservingKeys, ok := s.D.GetOk("reserving_hcx_on_premise_license_keys"); ok {
+				var keys []string
+				for _, key := range reservingKeys.([]interface{}) {
+					keys = append(keys, key.(string))
+				}
+				hcxRequest.ReservingHcxOnPremiseLicenseKeys = keys
+			}
+			hcxRes, hcxErr := s.Client.DowngradeHcx(context.Background(), hcxRequest)
+			if hcxErr != nil {
+				return hcxErr
+			}
+			workId := hcxRes.OpcWorkRequestId
+			updateHcxError = s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			if updateHcxError == nil {
+				s.D.Set("hcx_action", hcxAction)
+			}
+		} else if action == CancelDowngradeHcxAction {
+			hcxRequest := oci_ocvp.CancelDowngradeHcxRequest{}
+			hcxRequest.SddcId = &sddcId
+			hcxRes, hcxErr := s.Client.CancelDowngradeHcx(context.Background(), hcxRequest)
+			if hcxErr != nil {
+				return hcxErr
+			}
+			workId := hcxRes.OpcWorkRequestId
+			updateHcxError = s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			if updateHcxError == nil {
+				s.D.Set("hcx_action", hcxAction)
+			}
+		} else {
+			return fmt.Errorf("hcx_action '%s' is not supported. ", hcxAction)
+		}
+	}
+
+	if updateHcxError != nil {
+		return updateHcxError
+	}
+
+	if refresh, ok := s.D.GetOk("refresh_hcx_license_status"); ok && s.D.HasChange("refresh_hcx_license_status") {
+		tmp := s.D.Id()
+		return s.refreshHcxLicenseStatus(&tmp, refresh)
+	}
+
 	return nil
+}
+
+func (s *OcvpSddcResourceCrud) refreshHcxLicenseStatus(sddcId *string, refresh interface{}) error {
+	hcxRequest := oci_ocvp.RefreshHcxLicenseStatusRequest{}
+	hcxRequest.SddcId = sddcId
+	hcxRes, hcxErr := s.Client.RefreshHcxLicenseStatus(context.Background(), hcxRequest)
+	if hcxErr != nil {
+		return hcxErr
+	}
+	workId := hcxRes.OpcWorkRequestId
+	err := s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	if err == nil {
+		s.D.Set("refresh_hcx_license_status", refresh)
+	}
+	return err
 }
 
 func (s *OcvpSddcResourceCrud) Delete() error {
@@ -733,6 +922,12 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
 	}
 
+	hcxOnPremLicenses := []interface{}{}
+	for _, item := range s.Res.HcxOnPremLicenses {
+		hcxOnPremLicenses = append(hcxOnPremLicenses, HcxLicenseSummaryToMap(item))
+	}
+	s.D.Set("hcx_on_prem_licenses", hcxOnPremLicenses)
+
 	if s.Res.HcxPrivateIpId != nil {
 		s.D.Set("hcx_private_ip_id", *s.Res.HcxPrivateIpId)
 	}
@@ -749,6 +944,14 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 
 	if s.Res.IsHcxEnabled != nil {
 		s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
+	}
+
+	if s.Res.IsHcxEnterpriseEnabled != nil {
+		s.D.Set("is_hcx_enterprise_enabled", *s.Res.IsHcxEnterpriseEnabled)
+	}
+
+	if s.Res.IsHcxPendingDowngrade != nil {
+		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
 	}
 
 	if s.Res.NsxEdgeUplink1VlanId != nil {
@@ -813,6 +1016,14 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeHcxBillingCycleEnd != nil {
+		s.D.Set("time_hcx_billing_cycle_end", s.Res.TimeHcxBillingCycleEnd.String())
+	}
+
+	if s.Res.TimeHcxLicenseStatusUpdated != nil {
+		s.D.Set("time_hcx_license_status_updated", s.Res.TimeHcxLicenseStatusUpdated.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
@@ -854,6 +1065,22 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func HcxLicenseSummaryToMap(obj oci_ocvp.HcxLicenseSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ActivationKey != nil {
+		result["activation_key"] = string(*obj.ActivationKey)
+	}
+
+	result["status"] = string(obj.Status)
+
+	if obj.SystemName != nil {
+		result["system_name"] = string(*obj.SystemName)
+	}
+
+	return result
 }
 
 func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {

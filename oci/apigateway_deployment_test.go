@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v40/apigateway"
-	"github.com/oracle/oci-go-sdk/v40/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v41/apigateway"
+	"github.com/oracle/oci-go-sdk/v41/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -116,9 +116,12 @@ var (
 	}
 	deploymentSpecificationRoutesRequestPoliciesRepresentation = map[string]interface{}{
 		"authorization":                   RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation},
+		"body_validation":                 RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation},
 		"cors":                            RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesCorsRepresentation},
 		"header_transformations":          RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsRepresentation},
+		"header_validations":              RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation},
 		"query_parameter_transformations": RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation},
+		"query_parameter_validations":     RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation},
 		"response_cache_lookup":           RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation},
 	}
 	deploymentSpecificationRoutesResponsePoliciesRepresentation = map[string]interface{}{
@@ -148,6 +151,11 @@ var (
 	deploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation = map[string]interface{}{
 		"type": Representation{repType: Optional, create: `AUTHENTICATION_ONLY`, update: `ANONYMOUS`},
 	}
+	deploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation = map[string]interface{}{
+		"content":         RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation},
+		"required":        Representation{repType: Optional, create: `false`, update: `true`},
+		"validation_mode": Representation{repType: Optional, create: `ENFORCING`, update: `PERMISSIVE`},
+	}
 	deploymentSpecificationRoutesRequestPoliciesCorsRepresentation = map[string]interface{}{
 		"allowed_origins":              Representation{repType: Required, create: []string{`*`}, update: []string{`*`}},
 		"allowed_headers":              Representation{repType: Optional, create: []string{`*`}, update: []string{`*`, `Content-Type`}},
@@ -160,9 +168,17 @@ var (
 		"filter_headers": RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation},
 		"set_headers":    RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation},
 	}
+	deploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation = map[string]interface{}{
+		"headers":         RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation},
+		"validation_mode": Representation{repType: Optional, create: `ENFORCING`, update: `PERMISSIVE`},
+	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation = map[string]interface{}{
 		"filter_query_parameters": RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation},
 		"set_query_parameters":    RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation},
+	}
+	deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation = map[string]interface{}{
+		"parameters":      RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation},
+		"validation_mode": Representation{repType: Optional, create: `ENFORCING`, update: `PERMISSIVE`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation = map[string]interface{}{
 		"type":                       Representation{repType: Required, create: `SIMPLE_LOOKUP_POLICY`},
@@ -178,6 +194,10 @@ var (
 		"time_to_live_in_seconds": Representation{repType: Required, create: `10`, update: `11`},
 		"type":                    Representation{repType: Required, create: `FIXED_TTL_STORE_POLICY`},
 	}
+	deploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation = map[string]interface{}{
+		"media_type":      Representation{repType: Required, create: `*/*`, update: `application/json`},
+		"validation_type": Representation{repType: Required, create: `NONE`},
+	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
 		"type":  Representation{repType: Required, create: `BLOCK`},
@@ -185,12 +205,20 @@ var (
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation},
 	}
+	deploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation = map[string]interface{}{
+		"name":     Representation{repType: Required, create: `name`, update: `name2`},
+		"required": Representation{repType: Optional, create: `false`, update: `true`},
+	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation},
 		"type":  Representation{repType: Required, create: `BLOCK`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation},
+	}
+	deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation = map[string]interface{}{
+		"name":     Representation{repType: Required, create: `name`, update: `name2`},
+		"required": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
@@ -358,6 +386,14 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.authorization.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.authorization.0.type", "AUTHENTICATION_ONLY"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content", map[string]string{
+						"media_type":      "*/*",
+						"validation_type": "NONE",
+					}, []string{}),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.required", "false"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.validation_mode", "ENFORCING"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_headers.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_methods.#", "1"),
@@ -375,6 +411,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.if_exists", "OVERWRITE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.name", "nameA"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.required", "false"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.validation_mode", "ENFORCING"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.0.items.#", "1"),
@@ -385,6 +426,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.if_exists", "OVERWRITE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.name", "nameC"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.required", "false"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.validation_mode", "ENFORCING"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.cache_key_additions.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.is_enabled", "false"),
@@ -476,6 +522,14 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.authorization.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.authorization.0.type", "AUTHENTICATION_ONLY"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content", map[string]string{
+						"media_type":      "*/*",
+						"validation_type": "NONE",
+					}, []string{}),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.required", "false"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.validation_mode", "ENFORCING"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_headers.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_methods.#", "1"),
@@ -493,6 +547,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.if_exists", "OVERWRITE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.name", "nameA"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.required", "false"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.validation_mode", "ENFORCING"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.0.items.#", "1"),
@@ -503,6 +562,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.if_exists", "OVERWRITE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.name", "nameC"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.required", "false"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.validation_mode", "ENFORCING"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.cache_key_additions.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.is_enabled", "false"),
@@ -589,6 +653,14 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.authorization.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.authorization.0.type", "ANONYMOUS"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content", map[string]string{
+						"media_type":      "application/json",
+						"validation_type": "NONE",
+					}, []string{}),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.required", "true"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.validation_mode", "PERMISSIVE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_headers.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_methods.#", "2"),
@@ -605,6 +677,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.if_exists", "SKIP"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.name", "nameA2"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.name", "name2"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.required", "true"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.header_validations.0.validation_mode", "PERMISSIVE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.0.items.#", "1"),
@@ -614,6 +691,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.if_exists", "SKIP"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.name", "nameC2"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.name", "name2"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.required", "true"),
+					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.validation_mode", "PERMISSIVE"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.cache_key_additions.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.is_enabled", "true"),
@@ -718,6 +800,14 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.methods.#", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.path", "/world"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.body_validation.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "specification.0.routes.0.request_policies.0.body_validation.0.content", map[string]string{
+						"media_type":      "application/json",
+						"validation_type": "NONE",
+					}, []string{}),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.body_validation.0.required", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.body_validation.0.validation_mode", "PERMISSIVE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.cors.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_headers.#", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.cors.0.allowed_methods.#", "2"),
@@ -734,6 +824,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.if_exists", "SKIP"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.name", "nameA2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_transformations.0.set_headers.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_validations.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.name", "name2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_validations.0.headers.0.required", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.header_validations.0.validation_mode", "PERMISSIVE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.filter_query_parameters.0.items.#", "1"),
@@ -743,6 +838,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.if_exists", "SKIP"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.name", "nameC2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_transformations.0.set_query_parameters.0.items.0.values.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.name", "name2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.parameters.0.required", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.query_parameter_validations.0.validation_mode", "PERMISSIVE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.cache_key_additions.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.routes.0.request_policies.0.response_cache_lookup.0.is_enabled", "true"),

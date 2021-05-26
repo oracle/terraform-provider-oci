@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v40/core"
+	oci_core "github.com/oracle/oci-go-sdk/v41/core"
 )
 
 func init() {
@@ -145,7 +145,19 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Create() error {
 	}
 
 	if len(response.Items) > 0 {
-		s.Res = &response.Items[0]
+		for _, responseRouteRule := range response.Items {
+			if responseRouteRule.DestinationType != oci_core.DrgRouteRuleDestinationTypeEnum(addDrgRouteRuleDetails.DestinationType) {
+				continue
+			}
+			if *addDrgRouteRuleDetails.Destination != *responseRouteRule.Destination {
+				continue
+			}
+			if *addDrgRouteRuleDetails.NextHopDrgAttachmentId != *responseRouteRule.NextHopDrgAttachmentId {
+				continue
+			}
+			s.Res = &responseRouteRule
+			break
+		}
 	} else {
 		return fmt.Errorf("route rule missing in response")
 	}
@@ -289,7 +301,15 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Update() error {
 		return fmt.Errorf("failed to update route rules, error: %v", err)
 	}
 	if response.Items != nil && len(response.Items) > 0 {
-		s.Res = &response.Items[0]
+		_, drgRouteRuleId, err := parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
+		for _, routeRule := range response.Items {
+			if *routeRule.Id == drgRouteRuleId {
+				s.Res = &routeRule
+			}
+		}
+		if err != nil {
+			return fmt.Errorf("failed to update route rules, error: %v", err)
+		}
 	}
 
 	return nil

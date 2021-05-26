@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_limits "github.com/oracle/oci-go-sdk/v40/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v41/limits"
 )
 
 func init() {
@@ -50,6 +50,10 @@ func LimitsLimitDefinitionsDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"is_deprecated": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_dynamic": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -160,6 +164,10 @@ func (s *LimitsLimitDefinitionsDataSourceCrud) SetData() error {
 
 		if r.IsDeprecated != nil {
 			limitDefinition["is_deprecated"] = *r.IsDeprecated
+		}
+
+		if r.IsDynamic != nil {
+			limitDefinition["is_dynamic"] = *r.IsDynamic
 		}
 
 		if r.IsEligibleForLimitIncrease != nil {
