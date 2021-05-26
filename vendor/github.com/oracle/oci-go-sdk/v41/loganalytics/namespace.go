@@ -27,6 +27,9 @@ type Namespace struct {
 
 	// This indicates if the log set feature is enabled for the tenancy
 	IsLogSetEnabled *bool `mandatory:"false" json:"isLogSetEnabled"`
+
+	// This indicates if data has ever been ingested for the tenancy in Logging Analytics
+	IsDataEverIngested *bool `mandatory:"false" json:"isDataEverIngested"`
 }
 
 func (m Namespace) String() string {

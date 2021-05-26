@@ -46,6 +46,10 @@ type StandardTask struct {
 	// Number of execution occurrences.
 	NumOccurrences *int64 `mandatory:"false" json:"numOccurrences"`
 
+	// The date and time the scheduled task will execute next,
+	// in the format defined by RFC3339.
+	TimeOfNextExecution *common.SDKTime `mandatory:"false" json:"timeOfNextExecution"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -65,6 +69,9 @@ type StandardTask struct {
 
 	// Status of the scheduled task.
 	TaskStatus ScheduledTaskTaskStatusEnum `mandatory:"false" json:"taskStatus,omitempty"`
+
+	// reason for taskStatus PAUSED.
+	PauseReason ScheduledTaskPauseReasonEnum `mandatory:"false" json:"pauseReason,omitempty"`
 
 	// The current state of the scheduled task.
 	LifecycleState ScheduledTaskLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -100,6 +107,11 @@ func (m StandardTask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
 	return m.TaskStatus
 }
 
+//GetPauseReason returns PauseReason
+func (m StandardTask) GetPauseReason() ScheduledTaskPauseReasonEnum {
+	return m.PauseReason
+}
+
 //GetWorkRequestId returns WorkRequestId
 func (m StandardTask) GetWorkRequestId() *string {
 	return m.WorkRequestId
@@ -123,6 +135,11 @@ func (m StandardTask) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m StandardTask) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetTimeOfNextExecution returns TimeOfNextExecution
+func (m StandardTask) GetTimeOfNextExecution() *common.SDKTime {
+	return m.TimeOfNextExecution
 }
 
 //GetLifecycleState returns LifecycleState
@@ -162,8 +179,10 @@ func (m StandardTask) MarshalJSON() (buff []byte, e error) {
 func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		TaskStatus          ScheduledTaskTaskStatusEnum         `json:"taskStatus"`
+		PauseReason         ScheduledTaskPauseReasonEnum        `json:"pauseReason"`
 		WorkRequestId       *string                             `json:"workRequestId"`
 		NumOccurrences      *int64                              `json:"numOccurrences"`
+		TimeOfNextExecution *common.SDKTime                     `json:"timeOfNextExecution"`
 		FreeformTags        map[string]string                   `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{}   `json:"definedTags"`
 		LastExecutionStatus StandardTaskLastExecutionStatusEnum `json:"lastExecutionStatus"`
@@ -186,9 +205,13 @@ func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.TaskStatus = model.TaskStatus
 
+	m.PauseReason = model.PauseReason
+
 	m.WorkRequestId = model.WorkRequestId
 
 	m.NumOccurrences = model.NumOccurrences
+
+	m.TimeOfNextExecution = model.TimeOfNextExecution
 
 	m.FreeformTags = model.FreeformTags
 

@@ -41,6 +41,9 @@ type CreateDbHomeWithDbSystemIdDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
+	IsDesupportedVersion *bool `mandatory:"false" json:"isDesupportedVersion"`
+
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
@@ -75,6 +78,11 @@ func (m CreateDbHomeWithDbSystemIdDetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m CreateDbHomeWithDbSystemIdDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetIsDesupportedVersion returns IsDesupportedVersion
+func (m CreateDbHomeWithDbSystemIdDetails) GetIsDesupportedVersion() *bool {
+	return m.IsDesupportedVersion
 }
 
 func (m CreateDbHomeWithDbSystemIdDetails) String() string {

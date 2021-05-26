@@ -49,11 +49,18 @@ type ScheduledTask interface {
 	// Status of the scheduled task.
 	GetTaskStatus() ScheduledTaskTaskStatusEnum
 
+	// reason for taskStatus PAUSED.
+	GetPauseReason() ScheduledTaskPauseReasonEnum
+
 	// most recent Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	GetWorkRequestId() *string
 
 	// Number of execution occurrences.
 	GetNumOccurrences() *int64
+
+	// The date and time the scheduled task will execute next,
+	// in the format defined by RFC3339.
+	GetTimeOfNextExecution() *common.SDKTime
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -65,22 +72,24 @@ type ScheduledTask interface {
 }
 
 type scheduledtask struct {
-	JsonData       []byte
-	Id             *string                           `mandatory:"true" json:"id"`
-	DisplayName    *string                           `mandatory:"true" json:"displayName"`
-	TaskType       TaskTypeEnum                      `mandatory:"true" json:"taskType"`
-	Schedules      []Schedule                        `mandatory:"true" json:"schedules"`
-	Action         Action                            `mandatory:"true" json:"action"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	TimeCreated    *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	TimeUpdated    *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	LifecycleState ScheduledTaskLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
-	TaskStatus     ScheduledTaskTaskStatusEnum       `mandatory:"false" json:"taskStatus,omitempty"`
-	WorkRequestId  *string                           `mandatory:"false" json:"workRequestId"`
-	NumOccurrences *int64                            `mandatory:"false" json:"numOccurrences"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Kind           string                            `json:"kind"`
+	JsonData            []byte
+	Id                  *string                           `mandatory:"true" json:"id"`
+	DisplayName         *string                           `mandatory:"true" json:"displayName"`
+	TaskType            TaskTypeEnum                      `mandatory:"true" json:"taskType"`
+	Schedules           []Schedule                        `mandatory:"true" json:"schedules"`
+	Action              Action                            `mandatory:"true" json:"action"`
+	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
+	TimeCreated         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	TimeUpdated         *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
+	LifecycleState      ScheduledTaskLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
+	TaskStatus          ScheduledTaskTaskStatusEnum       `mandatory:"false" json:"taskStatus,omitempty"`
+	PauseReason         ScheduledTaskPauseReasonEnum      `mandatory:"false" json:"pauseReason,omitempty"`
+	WorkRequestId       *string                           `mandatory:"false" json:"workRequestId"`
+	NumOccurrences      *int64                            `mandatory:"false" json:"numOccurrences"`
+	TimeOfNextExecution *common.SDKTime                   `mandatory:"false" json:"timeOfNextExecution"`
+	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Kind                string                            `json:"kind"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -104,8 +113,10 @@ func (m *scheduledtask) UnmarshalJSON(data []byte) error {
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleState = s.Model.LifecycleState
 	m.TaskStatus = s.Model.TaskStatus
+	m.PauseReason = s.Model.PauseReason
 	m.WorkRequestId = s.Model.WorkRequestId
 	m.NumOccurrences = s.Model.NumOccurrences
+	m.TimeOfNextExecution = s.Model.TimeOfNextExecution
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.Kind = s.Model.Kind
@@ -181,6 +192,11 @@ func (m scheduledtask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
 	return m.TaskStatus
 }
 
+//GetPauseReason returns PauseReason
+func (m scheduledtask) GetPauseReason() ScheduledTaskPauseReasonEnum {
+	return m.PauseReason
+}
+
 //GetWorkRequestId returns WorkRequestId
 func (m scheduledtask) GetWorkRequestId() *string {
 	return m.WorkRequestId
@@ -189,6 +205,11 @@ func (m scheduledtask) GetWorkRequestId() *string {
 //GetNumOccurrences returns NumOccurrences
 func (m scheduledtask) GetNumOccurrences() *int64 {
 	return m.NumOccurrences
+}
+
+//GetTimeOfNextExecution returns TimeOfNextExecution
+func (m scheduledtask) GetTimeOfNextExecution() *common.SDKTime {
+	return m.TimeOfNextExecution
 }
 
 //GetFreeformTags returns FreeformTags
@@ -227,6 +248,37 @@ var mappingScheduledTaskTaskStatus = map[string]ScheduledTaskTaskStatusEnum{
 func GetScheduledTaskTaskStatusEnumValues() []ScheduledTaskTaskStatusEnum {
 	values := make([]ScheduledTaskTaskStatusEnum, 0)
 	for _, v := range mappingScheduledTaskTaskStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ScheduledTaskPauseReasonEnum Enum with underlying type: string
+type ScheduledTaskPauseReasonEnum string
+
+// Set of constants representing the allowable values for ScheduledTaskPauseReasonEnum
+const (
+	ScheduledTaskPauseReasonMetricExtractionNotValid ScheduledTaskPauseReasonEnum = "METRIC_EXTRACTION_NOT_VALID"
+	ScheduledTaskPauseReasonSavedSearchNotValid      ScheduledTaskPauseReasonEnum = "SAVED_SEARCH_NOT_VALID"
+	ScheduledTaskPauseReasonSavedSearchNotFound      ScheduledTaskPauseReasonEnum = "SAVED_SEARCH_NOT_FOUND"
+	ScheduledTaskPauseReasonQueryStringNotValid      ScheduledTaskPauseReasonEnum = "QUERY_STRING_NOT_VALID"
+	ScheduledTaskPauseReasonUserAction               ScheduledTaskPauseReasonEnum = "USER_ACTION"
+	ScheduledTaskPauseReasonTenancyLifecycle         ScheduledTaskPauseReasonEnum = "TENANCY_LIFECYCLE"
+)
+
+var mappingScheduledTaskPauseReason = map[string]ScheduledTaskPauseReasonEnum{
+	"METRIC_EXTRACTION_NOT_VALID": ScheduledTaskPauseReasonMetricExtractionNotValid,
+	"SAVED_SEARCH_NOT_VALID":      ScheduledTaskPauseReasonSavedSearchNotValid,
+	"SAVED_SEARCH_NOT_FOUND":      ScheduledTaskPauseReasonSavedSearchNotFound,
+	"QUERY_STRING_NOT_VALID":      ScheduledTaskPauseReasonQueryStringNotValid,
+	"USER_ACTION":                 ScheduledTaskPauseReasonUserAction,
+	"TENANCY_LIFECYCLE":           ScheduledTaskPauseReasonTenancyLifecycle,
+}
+
+// GetScheduledTaskPauseReasonEnumValues Enumerates the set of values for ScheduledTaskPauseReasonEnum
+func GetScheduledTaskPauseReasonEnumValues() []ScheduledTaskPauseReasonEnum {
+	values := make([]ScheduledTaskPauseReasonEnum, 0)
+	for _, v := range mappingScheduledTaskPauseReason {
 		values = append(values, v)
 	}
 	return values

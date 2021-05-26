@@ -17,7 +17,10 @@ import (
 type ListNetworkSecurityGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
+	VlanId *string `mandatory:"false" contributesTo:"query" name:"vlanId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"false" contributesTo:"query" name:"vcnId"`

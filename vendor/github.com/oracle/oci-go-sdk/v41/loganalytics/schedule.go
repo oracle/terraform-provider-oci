@@ -19,12 +19,17 @@ type Schedule interface {
 
 	// Schedule misfire retry policy.
 	GetMisfirePolicy() ScheduleMisfirePolicyEnum
+
+	// The date and time the scheduled task should execute first time after create or update;
+	// thereafter the task will execute as specified in the schedule.
+	GetTimeOfFirstExecution() *common.SDKTime
 }
 
 type schedule struct {
-	JsonData      []byte
-	MisfirePolicy ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`
-	Type          string                    `json:"type"`
+	JsonData             []byte
+	MisfirePolicy        ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`
+	TimeOfFirstExecution *common.SDKTime           `mandatory:"false" json:"timeOfFirstExecution"`
+	Type                 string                    `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -39,6 +44,7 @@ func (m *schedule) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.MisfirePolicy = s.Model.MisfirePolicy
+	m.TimeOfFirstExecution = s.Model.TimeOfFirstExecution
 	m.Type = s.Model.Type
 
 	return err
@@ -69,6 +75,11 @@ func (m *schedule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 //GetMisfirePolicy returns MisfirePolicy
 func (m schedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 	return m.MisfirePolicy
+}
+
+//GetTimeOfFirstExecution returns TimeOfFirstExecution
+func (m schedule) GetTimeOfFirstExecution() *common.SDKTime {
+	return m.TimeOfFirstExecution
 }
 
 func (m schedule) String() string {
