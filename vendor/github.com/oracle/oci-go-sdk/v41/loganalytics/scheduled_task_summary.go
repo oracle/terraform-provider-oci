@@ -43,6 +43,9 @@ type ScheduledTaskSummary struct {
 	// Status of the scheduled task.
 	TaskStatus ScheduledTaskSummaryTaskStatusEnum `mandatory:"false" json:"taskStatus,omitempty"`
 
+	// reason for taskStatus PAUSED.
+	PauseReason ScheduledTaskPauseReasonEnum `mandatory:"false" json:"pauseReason,omitempty"`
+
 	// most recent Work Request Identifier OCID  (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 

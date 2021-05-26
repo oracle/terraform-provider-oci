@@ -39,6 +39,9 @@ type ListDbVersionsRequest struct {
 	// If provided, filters the results to the set of database versions which are supported for Upgrade.
 	IsUpgradeSupported *bool `mandatory:"false" contributesTo:"query" name:"isUpgradeSupported"`
 
+	// If true, filters the results to the set of Oracle Database versions that are supported for OCI database software images.
+	IsDatabaseSoftwareImageSupported *bool `mandatory:"false" contributesTo:"query" name:"isDatabaseSoftwareImageSupported"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

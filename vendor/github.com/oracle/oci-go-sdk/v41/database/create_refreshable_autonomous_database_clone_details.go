@@ -35,6 +35,12 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	VaultId *string `mandatory:"false" json:"vaultId"`
+
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
@@ -167,6 +173,16 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDataStorageSizeInTBs
 //GetIsFreeTier returns IsFreeTier
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
+}
+
+//GetKmsKeyId returns KmsKeyId
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetVaultId returns VaultId
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetVaultId() *string {
+	return m.VaultId
 }
 
 //GetAdminPassword returns AdminPassword
