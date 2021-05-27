@@ -6,6 +6,9 @@
 - Support for Operations Insights External Databases added
 - Support for Custom Images in Databases resource
 
+### Fixed
+- Doc update for `export_set` resource in `file_storage`
+
 ## 4.28.0 (May 26, 2021)
 
 ### Added

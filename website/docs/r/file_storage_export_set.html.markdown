@@ -10,14 +10,18 @@ description: |-
 # oci_file_storage_export_set
 This resource provides the Export Set resource in Oracle Cloud Infrastructure File Storage service.
 
-The export set resource can neither be directly created, nor destroyed.
-
-An export set is created by the service automatically when a mount target is created.
+The export_set resource cannot be directly created or destroyed. An export set is created by the service automatically when a mount target is created. 
 When a mount target is deleted, the export set associated with it is also deleted automatically.
 
-However, export sets expose a few attributes that can be updated.
+You can use this resource for managing existing export sets from within Terraform. The resource exposes the following updatable attributes:
 
-Hence we provide this resource for managing the already created export set from within Terraform.
+    display_name
+    max_fs_stat_bytes
+    max_fs_stat_files
+
+Any other updates to the behavior of export_set require updating the parent mount target. If you intend to manage export_set with Terraform, you should import the mount_target resource as well. 
+The mount_target resource includes the mount_target_id attribute, which is required for updates to export_set.
+
 Only one export set resource should be created per mount target.
 
 ## Example Usage
