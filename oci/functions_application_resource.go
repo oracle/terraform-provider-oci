@@ -309,7 +309,7 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		request.SyslogUrl = &tmp
 	}
 
-	if traceConfig, ok := s.D.GetOkExists("trace_config"); ok {
+	if traceConfig, ok := s.D.GetOkExists("trace_config"); ok && s.D.HasChange("trace_config") {
 		if tmpList := traceConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "trace_config", 0)
 			tmp, err := s.mapToApplicationTraceConfig(fieldKeyFormat)

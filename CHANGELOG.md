@@ -9,6 +9,7 @@
 ### Fixed
 - Doc update for `export_set` resource in `file_storage`
 - Fixed skewed doc rendering for `analytics` resources
+- Fixed functions to send `traceConfig` only when updated in update request
 
 ## 4.28.0 (May 26, 2021)
 
