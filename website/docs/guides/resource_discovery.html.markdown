@@ -399,6 +399,7 @@ database
 * oci\_database\_external\_pluggable\_database
 * oci\_database\_external\_non\_container\_database
 * oci\_database\_external\_database\_connector
+* oci\_database\_pluggable\_database
 
 datacatalog
     
