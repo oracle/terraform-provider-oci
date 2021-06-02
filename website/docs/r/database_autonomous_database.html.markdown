@@ -79,7 +79,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 * `cpu_core_count` - (Optional) (Updatable) The number of OCPU cores to be made available to the database. This input is ignored for Always Free resources.
 * `customer_contacts` - (Optional) (Updatable) Customer Contacts.
-	* `email` - (Optional) (Updatable) The email address of an Oracle Autonomous Database contact.
+	* `email` - (Optional) (Updatable) The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_safe_status` - (Optional) (Updatable) Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
 * `data_storage_size_in_gb` - (Optional) (Updatable) The size, in gigabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. 
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. This input is ignored for Always Free resources.
@@ -169,7 +169,7 @@ The following attributes are exported:
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database.
 * `customer_contacts` - Customer Contacts.
-	* `email` - The email address of an Oracle Autonomous Database contact.
+	* `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
 * `data_storage_size_in_gb` - The quantity of data in the database, in gigabytes.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
