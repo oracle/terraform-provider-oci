@@ -58,6 +58,25 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"customer_contacts": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"email": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -290,6 +309,23 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 		request.ComputeCount = &tmp
 	}
 
+	if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+		interfaces := customerContacts.([]interface{})
+		tmp := make([]oci_database.CustomerContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+			converted, err := s.mapToCustomerContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+			request.CustomerContacts = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -376,6 +412,23 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 		request.ComputeCount = &tmp
 	}
 
+	if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+		interfaces := customerContacts.([]interface{})
+		tmp := make([]oci_database.CustomerContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+			converted, err := s.mapToCustomerContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+			request.CustomerContacts = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -454,6 +507,12 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, CustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -501,6 +560,17 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToCustomerContact(fieldKeyFormat string) (oci_database.CustomerContact, error) {
+	result := oci_database.CustomerContact{}
+
+	if email, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "email")); ok {
+		tmp := email.(string)
+		result.Email = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
