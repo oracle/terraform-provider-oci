@@ -62,7 +62,7 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 resource "oci_core_network_security_group_security_rule" "test_network_security_group_security_rule_1" {
   network_security_group_id = oci_core_network_security_group.test_network_security_group.id
   direction                 = "EGRESS"
-  destination               = "0.0.0.0/16"
+  destination               = "10.0.0.0/16"
   protocol                  = "7"
   count                     = 5
 }
@@ -99,7 +99,7 @@ resource "oci_core_network_security_group_security_rule" "test_network_security_
   network_security_group_id = oci_core_network_security_group.test_network_security_group.id
   protocol                  = 1
   direction                 = "INGRESS"
-  source                    = "0.0.0.0/16"
+  source                    = "10.0.0.0/16"
   stateless                 = true
 
   icmp_options {
@@ -156,5 +156,17 @@ resource "oci_core_subnet" "subnet1" {
   provisioner "local-exec" {
     command = "sleep 5"
   }
+}
+
+resource "oci_core_vlan" "test_vlan" {
+  #Required
+  cidr_block     = "10.0.2.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id = oci_core_vcn.test_vcn.id
+
+  #Optional
+  display_name = "testVlan"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  nsg_ids = [oci_core_network_security_group.test_network_security_group.id]
 }
 

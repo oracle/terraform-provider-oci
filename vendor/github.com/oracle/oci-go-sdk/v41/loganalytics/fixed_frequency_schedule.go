@@ -23,6 +23,10 @@ type FixedFrequencySchedule struct {
 	// The value must be at least 5 minutes (PT5M) and at most 3 weeks (P21D or PT30240M).
 	RecurringInterval *string `mandatory:"true" json:"recurringInterval"`
 
+	// The date and time the scheduled task should execute first time after create or update;
+	// thereafter the task will execute as specified in the schedule.
+	TimeOfFirstExecution *common.SDKTime `mandatory:"false" json:"timeOfFirstExecution"`
+
 	// Number of times (0-based) to execute until auto-stop.
 	// Default value -1 will execute indefinitely.
 	// Value 0 will execute once.
@@ -35,6 +39,11 @@ type FixedFrequencySchedule struct {
 //GetMisfirePolicy returns MisfirePolicy
 func (m FixedFrequencySchedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 	return m.MisfirePolicy
+}
+
+//GetTimeOfFirstExecution returns TimeOfFirstExecution
+func (m FixedFrequencySchedule) GetTimeOfFirstExecution() *common.SDKTime {
+	return m.TimeOfFirstExecution
 }
 
 func (m FixedFrequencySchedule) String() string {

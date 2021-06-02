@@ -53,6 +53,19 @@ var (
 		"route_table_id": Representation{repType: Required, create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
+	drgAttachmentRepresentationNoRouteTable = map[string]interface{}{
+		"drg_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"display_name":       Representation{repType: Optional, create: `NameNoTable`},
+		"drg_route_table_id": Representation{repType: Optional, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"network_details":    RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentationNoRouteTable},
+		"lifecycle":          RepresentationGroup{Required, ignoreChangesLBRepresentation},
+	}
+
+	drgAttachmentNetworkDetailsRepresentationNoRouteTable = map[string]interface{}{
+		"id":   Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"type": Representation{repType: Required, create: `VCN`},
+	}
+
 	drgAttachmentTriggerRepresentation = map[string]interface{}{
 		"drg_id":          Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
 		"network_details": RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentation},
@@ -220,6 +233,32 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				),
 			},
 			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies,
+			},
+			//verify create for network details with no route table
+			{
+				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentationNoRouteTable),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "NameNoTable"),
+					resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "network_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "network_details.0.type", "VCN"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			//delete, before next create
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies,
 			},

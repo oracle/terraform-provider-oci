@@ -176,7 +176,7 @@ The following arguments are supported:
 	* `source` - (Required) (Updatable) Conceptually, this is the range of IP addresses that a packet coming into the instance can come from.
 
 		Allowed values:
-		* IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. Note that IPv6 addressing is currently supported only in certain regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+		* IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/), if you're setting up a security list rule for traffic coming from a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `source_type` - (Optional) (Updatable) Type of source for the rule. The default is `CIDR_BLOCK`.
 		* `CIDR_BLOCK`: If the rule's `source` is an IP address range in CIDR notation.
@@ -259,7 +259,7 @@ The following attributes are exported:
 	* `source` - Conceptually, this is the range of IP addresses that a packet coming into the instance can come from.
 
 		Allowed values:
-		* IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. Note that IPv6 addressing is currently supported only in certain regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+		* IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/), if you're setting up a security list rule for traffic coming from a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `source_type` - Type of source for the rule. The default is `CIDR_BLOCK`.
 		* `CIDR_BLOCK`: If the rule's `source` is an IP address range in CIDR notation.

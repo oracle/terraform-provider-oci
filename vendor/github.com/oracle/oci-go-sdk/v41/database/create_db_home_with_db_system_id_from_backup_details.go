@@ -42,6 +42,9 @@ type CreateDbHomeWithDbSystemIdFromBackupDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
+	IsDesupportedVersion *bool `mandatory:"false" json:"isDesupportedVersion"`
 }
 
 //GetDisplayName returns DisplayName
@@ -72,6 +75,11 @@ func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetFreeformTags() map[strin
 //GetDefinedTags returns DefinedTags
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetIsDesupportedVersion returns IsDesupportedVersion
+func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetIsDesupportedVersion() *bool {
+	return m.IsDesupportedVersion
 }
 
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) String() string {

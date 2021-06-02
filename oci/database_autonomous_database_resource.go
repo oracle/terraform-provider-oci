@@ -182,6 +182,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"is_refreshable_clone": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -256,6 +261,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: timeDiffSuppressFunction,
+			},
+			"vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"whitelisted_ips": {
 				Type:     schema.TypeSet,
@@ -416,11 +426,40 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"key_history_entry": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_activated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vault_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"key_store_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"key_store_wallet_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"kms_key_lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -850,6 +889,19 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			}
 		}
 	}
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok && s.D.HasChange("kms_key_id") {
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok && s.D.HasChange("vault_id") {
+			oldRaw1, newRaw1 := s.D.GetChange("kms_key_id")
+			oldRaw2, newRaw2 := s.D.GetChange("vault_id")
+			if newRaw1 != "" && oldRaw1 != "" && newRaw2 != "" && oldRaw2 != "" {
+				err := s.ConfigureAutonomousDatabaseVaultKey(s.D.Id(), kmsKeyId.(string), vaultId.(string))
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok && s.D.HasChange("admin_password") {
@@ -1151,12 +1203,26 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
 	}
 
+	keyHistoryEntry := []interface{}{}
+	for _, item := range s.Res.KeyHistoryEntry {
+		keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+	}
+	s.D.Set("key_history_entry", keyHistoryEntry)
+
 	if s.Res.KeyStoreId != nil {
 		s.D.Set("key_store_id", *s.Res.KeyStoreId)
 	}
 
 	if s.Res.KeyStoreWalletName != nil {
 		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.KmsKeyLifecycleDetails != nil {
+		s.D.Set("kms_key_lifecycle_details", *s.Res.KmsKeyLifecycleDetails)
 	}
 
 	s.D.Set("license_model", s.Res.LicenseModel)
@@ -1267,6 +1333,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
 	}
 
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
+	}
+
 	whitelistedIps := []interface{}{}
 	for _, item := range s.Res.WhitelistedIps {
 		whitelistedIps = append(whitelistedIps, item)
@@ -1348,6 +1418,23 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 	return result
 }
 
+func AutonomousDatabaseKeyHistoryEntryToMap(obj oci_database.AutonomousDatabaseKeyHistoryEntry) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.TimeActivated != nil {
+		result["time_activated"] = obj.TimeActivated.String()
+	}
+
+	if obj.VaultId != nil {
+		result["vault_id"] = string(*obj.VaultId)
+	}
+
+	return result
+}
 func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseStandbySummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1489,6 +1576,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
@@ -1526,6 +1617,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			set := whitelistedIps.(*schema.Set)
@@ -1642,6 +1737,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
@@ -1679,6 +1778,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			set := whitelistedIps.(*schema.Set)
@@ -1788,6 +1891,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
@@ -1827,6 +1934,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			set := whitelistedIps.(*schema.Set)
@@ -1940,6 +2051,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
@@ -1977,6 +2092,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			set := whitelistedIps.(*schema.Set)
@@ -2081,6 +2200,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
@@ -2117,6 +2240,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			set := whitelistedIps.(*schema.Set)
@@ -2501,5 +2628,32 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 	s.D.Set("rotate_key_trigger", val)
 
 	s.Res = &response.AutonomousDatabase
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaultKey(autonomousDatabaseId string, kmsKeyId string, vautlId string) error {
+	request := oci_database.ConfigureAutonomousDatabaseVaultKeyRequest{}
+
+	request.AutonomousDatabaseId = &autonomousDatabaseId
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	request.KmsKeyId = &kmsKeyId
+
+	request.VaultId = &vautlId
+
+	response, err := s.Client.ConfigureAutonomousDatabaseVaultKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

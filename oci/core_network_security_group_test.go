@@ -31,11 +31,17 @@ var (
 	}
 
 	networkSecurityGroupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         RepresentationGroup{Required, networkSecurityGroupDataSourceFilterRepresentation}}
+		"filter":         RepresentationGroup{Required, networkSecurityGroupDataSourceFilterRepresentation},
+	}
+
+	networkSecurityGroupVlanDataSourceRepresentation = map[string]interface{}{
+		"vlan_id": Representation{repType: Required, create: `${oci_core_vlan.test_vlan.id}`},
+	}
+
 	networkSecurityGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
@@ -47,9 +53,18 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      RepresentationGroup{Required, ignoreChangesNsgRepresentation},
 	}
 
+	ignoreChangesNsgRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+	}
+
+	vlanNsgRepresentation = representationCopyWithRemovedProperties(vlanRepresentation, []string{"route_table_id"})
+
 	NetworkSecurityGroupResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanNsgRepresentation) +
+		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
 
@@ -99,7 +114,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies,
+				Config: config + compartmentIdVariableStr,
 			},
 			// verify create with optionals
 			{
@@ -188,6 +203,27 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+
+					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "network_security_groups.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "network_security_groups.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "network_security_groups.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "network_security_groups.0.vcn_id"),
+				),
+			},
+
+			// verify with vlan query parameter only
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", Optional, Update, networkSecurityGroupVlanDataSourceRepresentation) +
+					generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation) +
+					compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(datasourceName, "vlan_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.compartment_id", compartmentId),

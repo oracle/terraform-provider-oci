@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_log_analytics_log_analytics_log_groups_summary
 This data source provides details about a specific Log Analytics Log Groups Summary resource in Oracle Cloud Infrastructure Log Analytics service.
 
-Returns a count of Log-Analytics groups.
+Returns the count of log groups in a compartment.
+
 
 ## Example Usage
 
@@ -34,5 +35,5 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `count` - log group count
+* `count` - The log group count.
 

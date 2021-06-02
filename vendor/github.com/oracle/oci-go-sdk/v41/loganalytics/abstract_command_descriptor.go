@@ -85,6 +85,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := MultiSearchCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPARE":
+		mm := CompareCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STATS":
 		mm := StatsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
@@ -317,6 +321,7 @@ const (
 	AbstractCommandDescriptorNameCreateView      AbstractCommandDescriptorNameEnum = "CREATE_VIEW"
 	AbstractCommandDescriptorNameMap             AbstractCommandDescriptorNameEnum = "MAP"
 	AbstractCommandDescriptorNameNlp             AbstractCommandDescriptorNameEnum = "NLP"
+	AbstractCommandDescriptorNameCompare         AbstractCommandDescriptorNameEnum = "COMPARE"
 )
 
 var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorNameEnum{
@@ -361,6 +366,7 @@ var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorN
 	"CREATE_VIEW":      AbstractCommandDescriptorNameCreateView,
 	"MAP":              AbstractCommandDescriptorNameMap,
 	"NLP":              AbstractCommandDescriptorNameNlp,
+	"COMPARE":          AbstractCommandDescriptorNameCompare,
 }
 
 // GetAbstractCommandDescriptorNameEnumValues Enumerates the set of values for AbstractCommandDescriptorNameEnum

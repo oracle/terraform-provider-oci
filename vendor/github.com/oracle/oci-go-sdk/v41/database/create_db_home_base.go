@@ -38,6 +38,9 @@ type CreateDbHomeBase interface {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
+	GetIsDesupportedVersion() *bool
 }
 
 type createdbhomebase struct {
@@ -48,6 +51,7 @@ type createdbhomebase struct {
 	DatabaseSoftwareImageId *string                           `mandatory:"false" json:"databaseSoftwareImageId"`
 	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	IsDesupportedVersion    *bool                             `mandatory:"false" json:"isDesupportedVersion"`
 	Source                  string                            `json:"source"`
 }
 
@@ -68,6 +72,7 @@ func (m *createdbhomebase) UnmarshalJSON(data []byte) error {
 	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.IsDesupportedVersion = s.Model.IsDesupportedVersion
 	m.Source = s.Model.Source
 
 	return err
@@ -135,6 +140,11 @@ func (m createdbhomebase) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createdbhomebase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetIsDesupportedVersion returns IsDesupportedVersion
+func (m createdbhomebase) GetIsDesupportedVersion() *bool {
+	return m.IsDesupportedVersion
 }
 
 func (m createdbhomebase) String() string {

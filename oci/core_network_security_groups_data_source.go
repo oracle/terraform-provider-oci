@@ -21,7 +21,7 @@ func CoreNetworkSecurityGroupsDataSource() *schema.Resource {
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -32,6 +32,10 @@ func CoreNetworkSecurityGroupsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"vcn_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"vlan_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -84,6 +88,11 @@ func (s *CoreNetworkSecurityGroupsDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
+	if vlanId, ok := s.D.GetOkExists("vlan_id"); ok {
+		tmp := vlanId.(string)
+		request.VlanId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
 	response, err := s.Client.ListNetworkSecurityGroups(context.Background(), request)
@@ -116,8 +125,10 @@ func (s *CoreNetworkSecurityGroupsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		networkSecurityGroup := map[string]interface{}{
-			"compartment_id": *r.CompartmentId,
+		networkSecurityGroup := map[string]interface{}{}
+
+		if r.CompartmentId != nil {
+			networkSecurityGroup["compartment_id"] = *r.CompartmentId
 		}
 
 		if r.DefinedTags != nil {

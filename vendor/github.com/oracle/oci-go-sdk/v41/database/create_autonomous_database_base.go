@@ -40,6 +40,12 @@ type CreateAutonomousDatabaseBase interface {
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	GetIsFreeTier() *bool
 
+	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	GetKmsKeyId() *string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	GetVaultId() *string
+
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	GetAdminPassword() *string
 
@@ -142,6 +148,8 @@ type createautonomousdatabasebase struct {
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
 	DataStorageSizeInTBs                     *int                                         `mandatory:"false" json:"dataStorageSizeInTBs"`
 	IsFreeTier                               *bool                                        `mandatory:"false" json:"isFreeTier"`
+	KmsKeyId                                 *string                                      `mandatory:"false" json:"kmsKeyId"`
+	VaultId                                  *string                                      `mandatory:"false" json:"vaultId"`
 	AdminPassword                            *string                                      `mandatory:"false" json:"adminPassword"`
 	DisplayName                              *string                                      `mandatory:"false" json:"displayName"`
 	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
@@ -181,6 +189,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DbWorkload = s.Model.DbWorkload
 	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
 	m.IsFreeTier = s.Model.IsFreeTier
+	m.KmsKeyId = s.Model.KmsKeyId
+	m.VaultId = s.Model.VaultId
 	m.AdminPassword = s.Model.AdminPassword
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
@@ -267,6 +277,16 @@ func (m createautonomousdatabasebase) GetDataStorageSizeInTBs() *int {
 //GetIsFreeTier returns IsFreeTier
 func (m createautonomousdatabasebase) GetIsFreeTier() *bool {
 	return m.IsFreeTier
+}
+
+//GetKmsKeyId returns KmsKeyId
+func (m createautonomousdatabasebase) GetKmsKeyId() *string {
+	return m.KmsKeyId
+}
+
+//GetVaultId returns VaultId
+func (m createautonomousdatabasebase) GetVaultId() *string {
+	return m.VaultId
 }
 
 //GetAdminPassword returns AdminPassword

@@ -283,12 +283,26 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_refreshable_clone"] = *r.IsRefreshableClone
 		}
 
+		keyHistoryEntry := []interface{}{}
+		for _, item := range r.KeyHistoryEntry {
+			keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+		}
+		autonomousDatabase["key_history_entry"] = keyHistoryEntry
+
 		if r.KeyStoreId != nil {
 			autonomousDatabase["key_store_id"] = *r.KeyStoreId
 		}
 
 		if r.KeyStoreWalletName != nil {
 			autonomousDatabase["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
+		if r.KmsKeyId != nil {
+			autonomousDatabase["kms_key_id"] = *r.KmsKeyId
+		}
+
+		if r.KmsKeyLifecycleDetails != nil {
+			autonomousDatabase["kms_key_lifecycle_details"] = *r.KmsKeyLifecycleDetails
 		}
 
 		autonomousDatabase["license_model"] = r.LicenseModel
@@ -391,6 +405,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.UsedDataStorageSizeInTBs != nil {
 			autonomousDatabase["used_data_storage_size_in_tbs"] = *r.UsedDataStorageSizeInTBs
+		}
+
+		if r.VaultId != nil {
+			autonomousDatabase["vault_id"] = *r.VaultId
 		}
 
 		autonomousDatabase["whitelisted_ips"] = r.WhitelistedIps

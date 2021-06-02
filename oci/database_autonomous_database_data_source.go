@@ -179,12 +179,26 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_refreshable_clone", *s.Res.IsRefreshableClone)
 	}
 
+	keyHistoryEntry := []interface{}{}
+	for _, item := range s.Res.KeyHistoryEntry {
+		keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+	}
+	s.D.Set("key_history_entry", keyHistoryEntry)
+
 	if s.Res.KeyStoreId != nil {
 		s.D.Set("key_store_id", *s.Res.KeyStoreId)
 	}
 
 	if s.Res.KeyStoreWalletName != nil {
 		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.KmsKeyLifecycleDetails != nil {
+		s.D.Set("kms_key_lifecycle_details", *s.Res.KmsKeyLifecycleDetails)
 	}
 
 	s.D.Set("license_model", s.Res.LicenseModel)
@@ -287,6 +301,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
+	}
+
+	if s.Res.VaultId != nil {
+		s.D.Set("vault_id", *s.Res.VaultId)
 	}
 
 	s.D.Set("whitelisted_ips", s.Res.WhitelistedIps)
