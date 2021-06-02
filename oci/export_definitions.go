@@ -1016,6 +1016,16 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabasePluggableDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_pluggable_database",
+	datasourceClass:      "oci_database_pluggable_databases",
+	datasourceItemsAttr:  "pluggable_databases",
+	resourceAbbreviation: "pluggable_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.PluggableDatabaseLifecycleStateAvailable),
+	},
+}
+
 var exportDatacatalogCatalogHints = &TerraformResourceHints{
 	resourceClass:        "oci_datacatalog_catalog",
 	datasourceClass:      "oci_datacatalog_catalogs",
