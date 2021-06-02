@@ -1,3 +1,17 @@
+## 4.29.0 (Unreleased)
+
+### Added
+- Support create an endpoint for listing fully hydrated NSGs attached to a given VLAN
+- Support ADBS: Customer Managed Keys (Integration Key Management System)
+- Support for Operations Insights External Databases added
+- Support for Custom Images in Databases resource
+
+### Fixed
+- Doc update for `export_set` resource in `file_storage`
+- Fixed skewed doc rendering for `analytics` resources
+- Fixed functions to send `traceConfig` only when updated in update request
+- Doc update for `oci_core_ipsec_connection_tunnel_management` examples
+
 ## 4.28.0 (May 26, 2021)
 
 ### Added

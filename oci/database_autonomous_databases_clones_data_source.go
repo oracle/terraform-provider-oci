@@ -280,11 +280,44 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"key_history_entry": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_activated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vault_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"key_store_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"key_store_wallet_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kms_key_lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -428,6 +461,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						},
 						"used_data_storage_size_in_tbs": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"vault_id": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"whitelisted_ips": {
@@ -636,12 +673,26 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["is_refreshable_clone"] = *r.IsRefreshableClone
 		}
 
+		keyHistoryEntry := []interface{}{}
+		for _, item := range r.KeyHistoryEntry {
+			keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+		}
+		autonomousDatabasesClone["key_history_entry"] = keyHistoryEntry
+
 		if r.KeyStoreId != nil {
 			autonomousDatabasesClone["key_store_id"] = *r.KeyStoreId
 		}
 
 		if r.KeyStoreWalletName != nil {
 			autonomousDatabasesClone["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
+		if r.KmsKeyId != nil {
+			autonomousDatabasesClone["kms_key_id"] = *r.KmsKeyId
+		}
+
+		if r.KmsKeyLifecycleDetails != nil {
+			autonomousDatabasesClone["kms_key_lifecycle_details"] = *r.KmsKeyLifecycleDetails
 		}
 
 		autonomousDatabasesClone["license_model"] = r.LicenseModel
@@ -740,6 +791,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.UsedDataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["used_data_storage_size_in_tbs"] = *r.UsedDataStorageSizeInTBs
+		}
+
+		if r.VaultId != nil {
+			autonomousDatabasesClone["vault_id"] = *r.VaultId
 		}
 
 		autonomousDatabasesClone["whitelisted_ips"] = r.WhitelistedIps

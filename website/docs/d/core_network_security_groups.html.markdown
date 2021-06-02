@@ -10,20 +10,21 @@ description: |-
 # Data Source: oci_core_network_security_groups
 This data source provides the list of Network Security Groups in Oracle Cloud Infrastructure Core service.
 
-Lists the network security groups in the specified compartment.
+Lists either the network security groups in the specified compartment, or those associated with the specified VLAN.
+You must specify either a `vlanId` or a `compartmentId`, but not both. If you specify a `vlanId`, all other parameters are ignored.
 
 
 ## Example Usage
 
 ```hcl
 data "oci_core_network_security_groups" "test_network_security_groups" {
-	#Required
-	compartment_id = var.compartment_id
 
 	#Optional
+	compartment_id = var.compartment_id
 	display_name = var.network_security_group_display_name
 	state = var.network_security_group_state
 	vcn_id = oci_core_vcn.test_vcn.id
+	vlan_id = oci_core_vlan.test_vlan.id
 }
 ```
 
@@ -31,10 +32,11 @@ data "oci_core_network_security_groups" "test_network_security_groups" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state. The value is case insensitive. 
 * `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+* `vlan_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
 
 
 ## Attributes Reference

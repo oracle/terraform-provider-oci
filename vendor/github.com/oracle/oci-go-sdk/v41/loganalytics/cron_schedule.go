@@ -23,6 +23,10 @@ type CronSchedule struct {
 	// Time zone, by default UTC.
 	TimeZone *string `mandatory:"true" json:"timeZone"`
 
+	// The date and time the scheduled task should execute first time after create or update;
+	// thereafter the task will execute as specified in the schedule.
+	TimeOfFirstExecution *common.SDKTime `mandatory:"false" json:"timeOfFirstExecution"`
+
 	// Schedule misfire retry policy.
 	MisfirePolicy ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`
 }
@@ -30,6 +34,11 @@ type CronSchedule struct {
 //GetMisfirePolicy returns MisfirePolicy
 func (m CronSchedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 	return m.MisfirePolicy
+}
+
+//GetTimeOfFirstExecution returns TimeOfFirstExecution
+func (m CronSchedule) GetTimeOfFirstExecution() *common.SDKTime {
+	return m.TimeOfFirstExecution
 }
 
 func (m CronSchedule) String() string {

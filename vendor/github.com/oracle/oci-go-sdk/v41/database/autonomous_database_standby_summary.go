@@ -54,6 +54,7 @@ const (
 	AutonomousDatabaseStandbySummaryLifecycleStateRecreating              AutonomousDatabaseStandbySummaryLifecycleStateEnum = "RECREATING"
 	AutonomousDatabaseStandbySummaryLifecycleStateRoleChangeInProgress    AutonomousDatabaseStandbySummaryLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
 	AutonomousDatabaseStandbySummaryLifecycleStateUpgrading               AutonomousDatabaseStandbySummaryLifecycleStateEnum = "UPGRADING"
+	AutonomousDatabaseStandbySummaryLifecycleStateInaccessible            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "INACCESSIBLE"
 )
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleState = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -76,6 +77,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleState = map[string]Autonomou
 	"RECREATING":                AutonomousDatabaseStandbySummaryLifecycleStateRecreating,
 	"ROLE_CHANGE_IN_PROGRESS":   AutonomousDatabaseStandbySummaryLifecycleStateRoleChangeInProgress,
 	"UPGRADING":                 AutonomousDatabaseStandbySummaryLifecycleStateUpgrading,
+	"INACCESSIBLE":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
 }
 
 // GetAutonomousDatabaseStandbySummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseStandbySummaryLifecycleStateEnum

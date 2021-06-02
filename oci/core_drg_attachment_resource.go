@@ -463,9 +463,9 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkCreateDetails(f
 			tmp := network_detail_id.(string)
 			details.Id = &tmp
 		}
-		if details.RouteTableId != nil && *details.RouteTableId != "" {
-			baseObject = details
-		}
+
+		baseObject = details
+
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -489,9 +489,7 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(f
 			tmp := routeTableId.(string)
 			details.RouteTableId = &tmp
 		}
-		if details.RouteTableId != nil && *details.RouteTableId != "" {
-			baseObject = details
-		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}

@@ -19,17 +19,18 @@ create database software image in the specified compartment.
 resource "oci_database_database_software_image" "test_database_software_image" {
 	#Required
 	compartment_id = var.compartment_id
-	database_version = var.database_software_image_database_version
 	display_name = var.database_software_image_display_name
-	patch_set = var.database_software_image_patch_set
 
 	#Optional
 	database_software_image_one_off_patches = var.database_software_image_database_software_image_one_off_patches
+	database_version = var.database_software_image_database_version
 	defined_tags = var.database_software_image_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	image_shape_family = var.database_software_image_image_shape_family
 	image_type = var.database_software_image_image_type
 	ls_inventory = var.database_software_image_ls_inventory
+	patch_set = var.database_software_image_patch_set
+	source_db_home_id = oci_database_db_home.test_db_home.id
 }
 ```
 
@@ -39,14 +40,15 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the database software image  belongs in.
 * `database_software_image_one_off_patches` - (Optional) List of one-off patches for Database Homes.
-* `database_version` - (Required) The database version with which the database software image is to be built.
+* `database_version` - (Optional) The database version with which the database software image is to be built.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The user-friendly name for the database software image. The name does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_shape_family` - (Optional) To what shape the image is meant for.
 * `image_type` - (Optional) The type of software image. Can be grid or database.
 * `ls_inventory` - (Optional) output from lsinventory which will get passed as a string
-* `patch_set` - (Required) The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
+* `patch_set` - (Optional) The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
+* `source_db_home_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 
 
 ** IMPORTANT **

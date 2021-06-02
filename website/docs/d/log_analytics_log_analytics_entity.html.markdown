@@ -47,7 +47,7 @@ The following attributes are exported:
 * `management_agent_compartment_id` - Management agent (management-agents resource kind) compartment OCID 
 * `management_agent_display_name` - Management agent (management-agents resource kind) display name 
 * `management_agent_id` - The OCID of the Management Agent. 
-* `name` - Log analytics entity name. The name must be unique, within the tenancy, and cannot be changed. 
+* `name` - Log analytics entity name. 
 * `properties` - The name/value pairs for parameter values to be used in file patterns specified in log sources. 
 * `source_id` - This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
 * `state` - The current state of the log analytics entity. 

@@ -6,6 +6,7 @@ package oci
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"budget":               budgetResourceGraph,
 	"email_tenancy":        emailTenancyResourceGraph,
+	"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
 	"identity":             identityResourceGraph,
 	"limits":               limitsResourceGraph,
 	"metering_computation": meteringComputationResourceGraph,
@@ -191,8 +192,13 @@ var cloudGuardResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCloudGuardTargetHints},
 		{TerraformResourceHints: exportCloudGuardManagedListHints},
 		{TerraformResourceHints: exportCloudGuardResponderRecipeHints},
-		{TerraformResourceHints: exportCloudGuardDataMaskRuleHints},
 		{TerraformResourceHints: exportCloudGuardDetectorRecipeHints},
+	},
+}
+
+var cloudGuardTenancyResourceGraph = TerraformResourceGraph{
+	"oci_identity_tenancy": {
+		{TerraformResourceHints: exportCloudGuardDataMaskRuleHints},
 	},
 }
 

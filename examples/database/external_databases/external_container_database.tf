@@ -49,13 +49,13 @@ resource "oci_database_external_container_database_management" "test_enable_exte
 
 // Disable Database Management
 
-resource "oci_database_external_container_database_management" "test_disable_external_container_database_management" {
+/*resource "oci_database_external_container_database_management" "test_disable_external_container_database_management" {
     depends_on = [oci_database_external_container_database_management.test_enable_external_container_database_management,
     oci_database_external_pluggable_database_management.test_disable_external_pluggable_database_management]
     external_container_database_id = oci_database_external_container_database.test_external_container_database.id
     external_database_connector_id = oci_database_external_database_connector.test_external_container_database_connector.id
     enable_management = false
-}
+}*/
 
 data "oci_database_external_container_database" "test_external_container_database" {
 	#Required
