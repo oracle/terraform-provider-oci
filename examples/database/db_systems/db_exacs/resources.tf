@@ -31,26 +31,27 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
 
   database {
     admin_password      = "BEstrO0ng_#11"
-    backup_id           = oci_database_backup.test_backup.id
-    backup_tde_password = "BEstrO0ng_#11"
     db_name             = "dbVMClus"
     character_set       = "AL32UTF8"
     ncharacter_set      = "AL16UTF16"
     db_workload         = "OLTP"
     pdb_name            = "pdbName"
-
+    db_backup_config {
+      auto_backup_enabled = false
+    }
     freeform_tags = {
       "Department" = "Finance"
     }
   }
 
-  # VM_CLUSTER_NONE can also be specified as a source for cloud VM clusters.
-  source       = "VM_CLUSTER_BACKUP"
+  # VM_CLUSTER_BACKUP can also be specified as a source for cloud VM clusters.
+  source       = "VM_CLUSTER_NEW"
+  db_version   = "19.0.0.0"
   display_name = "createdDbHome"
 }
 
 resource "oci_database_backup" "test_backup" {
   depends_on   = ["oci_database_db_home.test_db_home_vm_cluster"]
-  database_id  = oci_database_db_home.test_db_home_vm_cluster.database.id
+  database_id  = oci_database_db_home.test_db_home_vm_cluster.database.0.id
   display_name = "FirstBackup"
 }
