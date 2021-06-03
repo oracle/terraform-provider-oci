@@ -441,7 +441,11 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
 		if _, ok := e.(*resource.UnexpectedStateError); ok {
-			e = fmt.Errorf("During %s, Terraform expected the resource to reach state: %s, but the service reported unexpected state: %s.", operationName, target[0], sync.State())
+			if len(target) > 0 {
+				e = fmt.Errorf("During %s, Terraform expected the resource to reach state(s): %s, but the service reported unexpected state: %s.", operationName, strings.Join(target, ","), sync.State())
+			} else {
+				e = fmt.Errorf("During %s, Terraform expected the resource to get deleted, but the service reported unexpected state: %s.", operationName, sync.State())
+			}
 			return handleError(sync, e)
 		}
 
