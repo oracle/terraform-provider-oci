@@ -1,4 +1,4 @@
-## 4.30 (Unreleased)
+## 4.30.0 (Unreleased)
 
 ### Added
 - Support for Higher performance volumes added to `core`
