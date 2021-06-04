@@ -5,6 +5,9 @@
 - Support for End-to-end encryption for Bare Metal hosts to `core`
 - Support for Java Management Service
 
+### Fixed
+- Removed `oci_artifacts_container_configuration` from resource discovery due to its non-applicability.
+
 ## 4.29.0 (June 02, 2021)
 
 ### Added
