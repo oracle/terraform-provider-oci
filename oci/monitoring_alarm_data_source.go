@@ -91,6 +91,8 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
+	s.D.Set("message_format", s.Res.MessageFormat)
+
 	if s.Res.MetricCompartmentId != nil {
 		s.D.Set("metric_compartment_id", *s.Res.MetricCompartmentId)
 	}

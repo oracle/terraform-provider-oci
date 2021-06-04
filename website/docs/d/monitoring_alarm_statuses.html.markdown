@@ -13,8 +13,8 @@ This data source provides the list of Alarm Statuses in Oracle Cloud Infrastruct
 List the status of each alarm in the specified compartment.
 For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 
-This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations. 
-Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests, 
+This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 or transactions, per second (TPS) for a given tenancy.
 
 
@@ -62,5 +62,5 @@ The following attributes are exported:
 		Example: `Planned outage due to change IT-1234.` 
 	* `time_suppress_from` - The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
 	* `time_suppress_until` - The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2019-02-01T02:02:29.600Z` 
-* `timestamp_triggered` - Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing.  Example: `2019-02-01T01:02:29.600Z` 
+* `timestamp_triggered` - Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing. Note: A three-minute lag for this value accounts for any late-arriving metrics.  Example: `2019-02-01T01:02:29.600Z` 
 
