@@ -1929,6 +1929,15 @@ var exportMeteringComputationQueryHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+var exportMeteringComputationCustomTableHints = &TerraformResourceHints{
+	resourceClass:          "oci_metering_computation_custom_table",
+	datasourceClass:        "oci_metering_computation_custom_tables",
+	datasourceItemsAttr:    "custom_table_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "custom_table",
+	requireResourceRefresh: true,
+}
+
 var exportMonitoringAlarmHints = &TerraformResourceHints{
 	resourceClass:          "oci_monitoring_alarm",
 	datasourceClass:        "oci_monitoring_alarms",
