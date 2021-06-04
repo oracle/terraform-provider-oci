@@ -52,6 +52,14 @@ type SummarizeDatabaseInsightResourceUsageRequest struct {
 	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
+	// Filter by one or more hostname.
+	HostName []string `contributesTo:"query" name:"hostName" collectionFormat:"multi"`
+
+	// Flag to indicate if database instance level metrics should be returned. The flag is ignored when a host name filter is not applied.
+	// When a hostname filter is applied this flag will determine whether to return metrics for the instances located on the specified host or for the
+	// whole database which contains an instance on this host.
+	IsDatabaseInstanceLevelMetrics *bool `mandatory:"false" contributesTo:"query" name:"isDatabaseInstanceLevelMetrics"`
+
 	// For list pagination. The value of the `opc-next-page` response header from
 	// the previous "List" call. For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).

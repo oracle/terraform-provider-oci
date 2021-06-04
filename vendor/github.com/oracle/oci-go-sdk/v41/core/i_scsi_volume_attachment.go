@@ -74,6 +74,9 @@ type IScsiVolumeAttachment struct {
 	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
+	// Whether the attachment is multipath or not.
+	IsMultipath *bool `mandatory:"false" json:"isMultipath"`
+
 	// The Challenge-Handshake-Authentication-Protocol (CHAP) secret
 	// valid for the associated CHAP user name.
 	// (Also called the "CHAP password".)
@@ -84,8 +87,19 @@ type IScsiVolumeAttachment struct {
 	// Example: `ocid1.volume.oc1.phx.<unique_ID>`
 	ChapUsername *string `mandatory:"false" json:"chapUsername"`
 
+	// A list of secondary multipath devices
+	MultipathDevices []MultipathDevice `mandatory:"false" json:"multipathDevices"`
+
 	// The current state of the volume attachment.
 	LifecycleState VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The iscsi login state of the volume attachment. For a multipath volume attachment,
+	// all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state.
+	IscsiLoginState VolumeAttachmentIscsiLoginStateEnum `mandatory:"false" json:"iscsiLoginState,omitempty"`
+
+	// Refer the top-level definition of encryptionInTransitType.
+	// The default value is NONE.
+	EncryptionInTransitType EncryptionInTransitTypeEnum `mandatory:"false" json:"encryptionInTransitType,omitempty"`
 }
 
 //GetAvailabilityDomain returns AvailabilityDomain
@@ -146,6 +160,16 @@ func (m IScsiVolumeAttachment) GetVolumeId() *string {
 //GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
 func (m IScsiVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
 	return m.IsPvEncryptionInTransitEnabled
+}
+
+//GetIsMultipath returns IsMultipath
+func (m IScsiVolumeAttachment) GetIsMultipath() *bool {
+	return m.IsMultipath
+}
+
+//GetIscsiLoginState returns IscsiLoginState
+func (m IScsiVolumeAttachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum {
+	return m.IscsiLoginState
 }
 
 func (m IScsiVolumeAttachment) String() string {
