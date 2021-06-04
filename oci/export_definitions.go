@@ -110,12 +110,6 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	},
 }
 
-var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
-	resourceClass:        "oci_artifacts_container_configuration",
-	datasourceClass:      "oci_artifacts_container_configuration",
-	resourceAbbreviation: "container_configuration",
-}
-
 var exportArtifactsContainerRepositoryHints = &TerraformResourceHints{
 	resourceClass:          "oci_artifacts_container_repository",
 	datasourceClass:        "oci_artifacts_container_repositories",
