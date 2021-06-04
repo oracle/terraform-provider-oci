@@ -17,16 +17,23 @@ import (
 	"github.com/oracle/oci-go-sdk/v41/common"
 )
 
-// InstanceAgentFeatures Oracle Cloud Agent features supported on the image.
-type InstanceAgentFeatures struct {
+// MultipathDevice Secondary multipath device, it uses the charUsername and chapSecret from primary volume attachment
+type MultipathDevice struct {
 
-	// This attribute is not used.
-	IsMonitoringSupported *bool `mandatory:"false" json:"isMonitoringSupported"`
+	// The volume's iSCSI IP address.
+	// Example: `169.254.2.2`
+	Ipv4 *string `mandatory:"true" json:"ipv4"`
 
-	// This attribute is not used.
-	IsManagementSupported *bool `mandatory:"false" json:"isManagementSupported"`
+	// The target volume's iSCSI Qualified Name in the format defined
+	// by RFC 3720 (https://tools.ietf.org/html/rfc3720#page-32).
+	// Example: `iqn.2015-12.com.oracleiaas:40b7ee03-883f-46c6-a951-63d2841d2195`
+	Iqn *string `mandatory:"true" json:"iqn"`
+
+	// The volume's iSCSI port, usually port 860 or 3260.
+	// Example: `3260`
+	Port *int `mandatory:"false" json:"port"`
 }
 
-func (m InstanceAgentFeatures) String() string {
+func (m MultipathDevice) String() string {
 	return common.PointerString(m)
 }

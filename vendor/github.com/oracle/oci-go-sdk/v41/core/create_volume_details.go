@@ -21,12 +21,12 @@ import (
 // CreateVolumeDetails The representation of CreateVolumeDetails
 type CreateVolumeDetails struct {
 
-	// The availability domain of the volume.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
 	// The OCID of the compartment that contains the volume.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// If provided, specifies the ID of the volume backup policy to assign to the newly
 	// created volume. If omitted, no policy will be assigned.
@@ -88,6 +88,7 @@ func (m CreateVolumeDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
 		BackupPolicyId      *string                           `json:"backupPolicyId"`
 		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName         *string                           `json:"displayName"`
@@ -100,7 +101,6 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		VolumeBackupId      *string                           `json:"volumeBackupId"`
 		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
 		BlockVolumeReplicas []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
-		AvailabilityDomain  *string                           `json:"availabilityDomain"`
 		CompartmentId       *string                           `json:"compartmentId"`
 	}{}
 
@@ -109,6 +109,8 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.BackupPolicyId = model.BackupPolicyId
 
 	m.DefinedTags = model.DefinedTags
@@ -143,8 +145,6 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.BlockVolumeReplicas {
 		m.BlockVolumeReplicas[i] = n
 	}
-
-	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
 
