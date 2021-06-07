@@ -7,6 +7,7 @@
 
 ### Fixed
 - Removed `oci_artifacts_container_configuration` from resource discovery due to its non-applicability.
+- Fix documentation for `oci_mysql_heat_wave_cluster` and `oci_core_drg_attachment`
 
 ## 4.29.0 (June 02, 2021)
 

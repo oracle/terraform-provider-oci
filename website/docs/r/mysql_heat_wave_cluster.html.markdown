@@ -10,12 +10,19 @@ description: |-
 # oci_mysql_heat_wave_cluster
 This resource provides the Heat Wave Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
 
+Updates the HeatWave cluster.
 
 
 ## Example Usage
 
 ```hcl
 resource "oci_mysql_heat_wave_cluster" "test_heat_wave_cluster" {
+	#Required
+	db_system_id = oci_database_db_system.test_db_system.id
+
+	#Optional
+	cluster_size = var.heat_wave_cluster_cluster_size
+	shape_name = oci_mysql_shape.test_shape.name
 }
 ```
 
@@ -23,6 +30,9 @@ resource "oci_mysql_heat_wave_cluster" "test_heat_wave_cluster" {
 
 The following arguments are supported:
 
+* `cluster_size` - (Optional) (Updatable) A change to the number of nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with the new cluster of nodes. This may result in a significant downtime for the analytics capability while the HeatWave cluster is re-provisioned. 
+* `db_system_id` - (Required) The DB System [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `shape_name` - (Optional) (Updatable) A change to the shape of the nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with Compute instances of the new Shape. This may result in significant downtime for the analytics capability while the HeatWave cluster is re-provisioned. 
 
 
 ** IMPORTANT **
@@ -50,6 +60,6 @@ The following attributes are exported:
 HeatWaveCluster can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_mysql_heat_wave_cluster.test_heat_wave_cluster "dbSystems/{dbSystemId}/heatWaveCluster" 
+$ terraform import oci_mysql_heat_wave_cluster.test_heat_wave_cluster "dbSystem/{dbSystemId}/heatWaveCluster" 
 ```
 
