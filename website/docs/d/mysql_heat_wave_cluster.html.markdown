@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_heat_wave_cluster"
 sidebar_current: "docs-oci-datasource-mysql-heat_wave_cluster"
 description: |-
-  Provides details about a specific Heat Wave Cluster in Oracle Cloud Infrastructure MySQL Database service
+  Provides details about a specific HeatWave cluster in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # Data Source: oci_mysql_heat_wave_cluster
-This data source provides details about a specific Heat Wave Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
+This data source provides details about a specific HeatWave cluster resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Gets information about the HeatWave cluster.
 
