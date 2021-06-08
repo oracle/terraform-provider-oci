@@ -21,6 +21,8 @@ branches:
   only:
   - master
   - release_gh
+  - test_gh
+  - test_merge
 matrix:
   fast_finish: true
   allow_failures:
