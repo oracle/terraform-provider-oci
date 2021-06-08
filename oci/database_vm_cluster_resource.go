@@ -47,9 +47,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"gi_version": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: giVersionDiffSuppress,
 			},
 			"ssh_public_keys": {
 				Type:     schema.TypeSet,
