@@ -119,6 +119,10 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
 	}
 
+	if s.Res.MetastoreId != nil {
+		s.D.Set("metastore_id", *s.Res.MetastoreId)
+	}
+
 	if s.Res.NumExecutors != nil {
 		s.D.Set("num_executors", *s.Res.NumExecutors)
 	}

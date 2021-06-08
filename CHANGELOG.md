@@ -2,6 +2,7 @@
 
 ### Added
 - Support for access to patches for dev/test instances in AutonomousDatabase
+- Support for metastore integration added to `dataflow`
 
 ## 4.37.0 (July 28, 2021)
 

@@ -47,6 +47,9 @@ variable "application_file_uri" {
 variable "application_archive_uri" {
 }
 
+variable "metastore_id" {
+}
+
 variable "dataflow_logs_bucket_uri" {
 }
 
@@ -96,6 +99,7 @@ resource "oci_dataflow_application" "tf_application" {
   #}
 
   #warehouse_bucket_uri = var.application_warehouse_bucket_uri}"
+  metastore_id = var.metastore_id
 }
 
 data "oci_dataflow_applications" "tf_applications" {
@@ -192,6 +196,7 @@ resource "oci_dataflow_application" "test_application" {
   private_endpoint_id  = oci_dataflow_private_endpoint.test_private_endpoint.id
   spark_version        = "2.4"
   warehouse_bucket_uri = var.dataflow_warehouse_bucket_uri
+  metastore_id = var.metastore_id
 }
 
 resource "oci_dataflow_invoke_run" "test_invoke_run" {
@@ -214,7 +219,7 @@ resource "oci_dataflow_application" "test_application_submit" {
   #Optional
   archive_uri    = var.application_archive_uri
   private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
-
+  metastore_id = var.metastore_id
 }
 
 resource "oci_dataflow_invoke_run" "test_invokey_run_submit" {
@@ -226,6 +231,7 @@ resource "oci_dataflow_invoke_run" "test_invokey_run_submit" {
   archive_uri    = var.application_archive_uri
   display_name   = "test_wordcount_run_submit"
   spark_version  = "2.4"
+  metastore_id = var.metastore_id
 }
 
 data "oci_dataflow_private_endpoints" "test_private_endpoints" {

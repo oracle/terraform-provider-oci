@@ -50,6 +50,7 @@ var (
 		"executor_shape":       Representation{repType: Optional, create: `VM.Standard2.1`},
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":         Representation{repType: Optional, create: `${var.metastore_id}`},
 		"num_executors":        Representation{repType: Optional, create: `1`},
 		"parameters":           RepresentationGroup{Optional, invokeRunParametersRepresentation},
 		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
@@ -87,6 +88,8 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
 	warehouseBucketUri := getEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
 	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
+	metastoreId := getEnvSettingWithBlankDefault("metastore_id")
+	metastoreIdVariableStr := fmt.Sprintf("variable \"metastore_id\" { default = \"%s\" }\n", metastoreId)
 
 	resourceName := "oci_dataflow_invoke_run.test_invoke_run"
 	datasourceName := "data.oci_dataflow_invoke_runs.test_invoke_runs"
@@ -105,7 +108,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, invokeRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -121,11 +124,11 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create, invokeRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -140,7 +143,8 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "language"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
+					resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
+					resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
@@ -150,6 +154,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
+					resource.TestCheckResourceAttr(resourceName, "metastore_id", metastoreId),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -167,7 +172,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
 					dataFlowInvokeRunFetchOperation, "dataflow", false),
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create,
 						representationCopyWithNewProperties(invokeRunRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -186,6 +191,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "language"),
 					resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
+					resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
@@ -208,7 +214,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Update, invokeRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -223,7 +229,8 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "language"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
+					resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
+					resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
@@ -247,7 +254,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_runs", Optional, Update, invokeRunDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Update, invokeRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
@@ -277,7 +284,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, invokeRunSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceConfig,
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
 
@@ -314,6 +321,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpu"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metastore_id", metastoreId),
 				),
 			},
 		},
