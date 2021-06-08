@@ -19,6 +19,10 @@ import (
 	"time"
 )
 
+const (
+	usingExpectHeaderEnvVar = "OCI_GOSDK_USING_EXPECT_HEADER"
+)
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Request Marshaling
@@ -671,6 +675,15 @@ func MakeDefaultHTTPRequest(method, path string) (httpRequest http.Request) {
 func MakeDefaultHTTPRequestWithTaggedStruct(method, path string, requestStruct interface{}) (httpRequest http.Request, err error) {
 	httpRequest = MakeDefaultHTTPRequest(method, path)
 	err = HTTPRequestMarshaller(requestStruct, &httpRequest)
+	if err != nil {
+		return
+	}
+
+	if isExpectHeaderEnabled := getExpectHeaderConfig(); isExpectHeaderEnabled && (method == http.MethodPut || method == http.MethodPost) {
+		if httpRequest.Header.Get(requestHeaderExpect) == "" {
+			httpRequest.Header.Set(requestHeaderExpect, "100-continue")
+		}
+	}
 	return
 }
 

@@ -10,6 +10,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"net/textproto"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
@@ -281,4 +282,13 @@ func makeACopy(original []string) []string {
 	tmp := make([]string, len(original))
 	copy(tmp, original)
 	return tmp
+}
+
+// getExpectHeaderConfig is used for checking if Expect header Env var is explicitly set to false, otherwise would add
+// the header by default
+func getExpectHeaderConfig() bool {
+	if val, existed := os.LookupEnv(usingExpectHeaderEnvVar); existed && val == "FALSE" {
+		return false
+	}
+	return true
 }
