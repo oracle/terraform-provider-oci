@@ -305,7 +305,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "16"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
