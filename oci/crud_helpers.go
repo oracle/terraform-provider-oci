@@ -444,7 +444,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 			if len(target) > 0 {
 				e = fmt.Errorf("During %s, Terraform expected the resource to reach state(s): %s, but the service reported unexpected state: %s.", operationName, strings.Join(target, ","), sync.State())
 			} else {
-				e = fmt.Errorf("During %s, Terraform expected the resource to get deleted, but the service reported unexpected state: %s.", operationName, sync.State())
+				e = fmt.Errorf("During %s, service reported unexpected state: %s.", operationName, sync.State())
 			}
 			return handleError(sync, e)
 		}
