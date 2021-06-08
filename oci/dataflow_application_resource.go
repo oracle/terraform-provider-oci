@@ -112,6 +112,11 @@ func DataflowApplicationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"metastore_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"parameters": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -320,6 +325,11 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		request.LogsBucketUri = &tmp
 	}
 
+	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
+		tmp := metastoreId.(string)
+		request.MetastoreId = &tmp
+	}
+
 	if numExecutors, ok := s.D.GetOkExists("num_executors"); ok {
 		tmp := numExecutors.(int)
 		request.NumExecutors = &tmp
@@ -478,6 +488,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		request.LogsBucketUri = &tmp
 	}
 
+	if metastoreId, ok := s.D.GetOkExists("metastore_id"); ok {
+		tmp := metastoreId.(string)
+		request.MetastoreId = &tmp
+	}
+
 	if numExecutors, ok := s.D.GetOkExists("num_executors"); ok {
 		tmp := numExecutors.(int)
 		request.NumExecutors = &tmp
@@ -589,6 +604,10 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 
 	if s.Res.LogsBucketUri != nil {
 		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.MetastoreId != nil {
+		s.D.Set("metastore_id", *s.Res.MetastoreId)
 	}
 
 	if s.Res.NumExecutors != nil {

@@ -32,6 +32,7 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
 	executor_shape = var.invoke_run_executor_shape
 	freeform_tags = {"Department"= "Finance"}
 	logs_bucket_uri = var.invoke_run_logs_bucket_uri
+	metastore_id = var.metastore_id
 	num_executors = var.invoke_run_num_executors
 	parameters {
 		#Required
@@ -60,6 +61,7 @@ The following arguments are supported:
 * `executor_shape` - (Optional) The VM shape for the executors. Sets the executor cores and memory. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `logs_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
+* `metastore_id` - (Optional) The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `num_executors` - (Optional) The number of executor VMs requested. 
 * `parameters` - (Optional) An array of name/value pairs used to fill placeholders found in properties like `Application.arguments`.  The name must be a string of one or more word characters (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind. Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ] 
 	* `name` - (Required) The name of the parameter.  It must be a string of one or more word characters (a-z, A-Z, 0-9, _). Examples: "iterations", "input_file" 
@@ -94,6 +96,7 @@ The following attributes are exported:
 * `language` - The Spark language. 
 * `lifecycle_details` - The detailed messages about the lifecycle state. 
 * `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
+* `metastore_id` - The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `num_executors` - The number of executor VMs requested. 
 * `opc_request_id` - Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID. 
 * `owner_principal_id` - The OCID of the user who created the resource. 

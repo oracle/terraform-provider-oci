@@ -50,6 +50,7 @@ var (
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
 		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
+		"metastore_id":         Representation{repType: Optional, create: `${var.metastore_id}`},
 	}
 
 	dataFlowApplicationSubmitResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
@@ -86,6 +87,9 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 	datasourceName := "data.oci_dataflow_applications.test_applications_submit"
 	singularDatasourceName := "data.oci_dataflow_application.test_application_submit"
 
+	metastoreId := getEnvSettingWithBlankDefault("metastore_id")
+	metastoreIdVariableStr := fmt.Sprintf("variable \"metastore_id\" { default = \"%s\" }\n", metastoreId)
+
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -97,7 +101,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create with execute only
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -119,11 +123,11 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies,
 			},
 			// verify create with execute, and other optionals
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"execute": Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"}})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -149,6 +153,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
+					resource.TestCheckResourceAttr(resourceName, "metastore_id", metastoreId),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -164,7 +169,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create,
 						representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -206,7 +211,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update,
 						dataFlowApplicationSubmitRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -246,7 +251,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications_submit", Optional, Update, dataFlowApplicationSubmitDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
@@ -271,7 +276,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
@@ -304,7 +309,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
