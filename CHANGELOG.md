@@ -1,4 +1,4 @@
-## 4.30.0 (Unreleased)
+## 4.30.0 (June 09, 2021)
 
 ### Added
 - Support for Higher performance volumes added to `core`
