@@ -53,6 +53,8 @@ func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_volume.test_volume"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

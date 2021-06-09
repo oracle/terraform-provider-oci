@@ -52,6 +52,10 @@ type BootVolumeAttachment struct {
 
 	// Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	// Refer the top-level definition of encryptionInTransitType.
+	// The default value is NONE.
+	EncryptionInTransitType EncryptionInTransitTypeEnum `mandatory:"false" json:"encryptionInTransitType,omitempty"`
 }
 
 func (m BootVolumeAttachment) String() string {

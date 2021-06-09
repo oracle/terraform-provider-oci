@@ -490,7 +490,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
 	if terraformBinPath == "" {
 		var err error
-		terraformBinPath, err = tfinstall.Find(tfinstall.LookPath())
+		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
 		if err != nil {
 			return err
 		}
@@ -533,7 +533,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 		planArgs = append(planArgs, tfexec.State(statefile))
 	}
 
-	if err := tf.Plan(backgroundCtx, planArgs...); err != nil {
+	if _, err := tf.Plan(backgroundCtx, planArgs...); err != nil {
 		return fmt.Errorf("[ERROR] terraform plan command failed %s", err.Error())
 	}
 	return nil

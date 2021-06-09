@@ -48,6 +48,10 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 
 	var routeTableIdFromRT string
 
+	// This is manually written test for manually written resource. The resource name is not in codegen's resources.yaml file.
+	// We are unable to process the resource name. Thus not saving config for this test.
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

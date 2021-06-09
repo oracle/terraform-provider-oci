@@ -25,6 +25,7 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 	#Optional
 	device = var.volume_attachment_device
 	display_name = var.volume_attachment_display_name
+	encryption_in_transit_type = var.volume_attachment_encryption_in_transit_type
 	is_pv_encryption_in_transit_enabled = var.volume_attachment_is_pv_encryption_in_transit_enabled
 	is_read_only = var.volume_attachment_is_read_only
 	is_shareable = var.volume_attachment_is_shareable
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `attachment_type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized". 
 * `device` - (Optional) The device name.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
+* `encryption_in_transit_type` - (Applicable when attachment_type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `instance_id` - (Required) The OCID of the instance.
 * `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 * `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
@@ -61,12 +63,19 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment.
 * `device` - The device name.
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My volume attachment` 
+* `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
 * `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
 * `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>` 
+* `is_multipath` - Whether the attachment is multipath or not.
 * `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 * `is_read_only` - Whether the attachment was created in read-only mode.
+* `iscsi_login_state` - The iscsi login state of the volume attachment. For a multipath volume attachment, all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state. 
+* `multipath_devices` - A list of secondary multipath devices
+	* `ipv4` - The volume's iSCSI IP address.  Example: `169.254.2.2` 
+	* `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.com.oracleiaas:40b7ee03-883f-46c6-a951-63d2841d2195` 
+	* `port` - The volume's iSCSI port, usually port 860 or 3260.  Example: `3260` 
 * `port` - The volume's iSCSI port, usually port 860 or 3260.  Example: `3260` 
 * `state` - The current state of the volume attachment.
 * `time_created` - The date and time the volume was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

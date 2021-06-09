@@ -17,8 +17,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v41/common"
 )
 
-// LaunchInstanceAvailabilityConfigDetails Options for defining the availability of a VM instance after a maintenance event that impacts the underlying
-// hardware, including whether to live migrate supported VM instances when possible.
+// LaunchInstanceAvailabilityConfigDetails Options for VM migration during infrastructure maintenance events and for defining
+// the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 type LaunchInstanceAvailabilityConfigDetails struct {
 
 	// Whether to live migrate supported VM instances to a healthy physical VM host without

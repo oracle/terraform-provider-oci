@@ -79,16 +79,16 @@ func newTFProviderLogger() (defaultTFProviderLogger, error) {
 	logger.infoLogger = log.New(logOutput, "INFO ", log.Ldate|log.Lmicroseconds)
 	logger.nullLogger = log.New(ioutil.Discard, "", log.Ldate|log.Lmicroseconds)
 
-	logLevel := getEnvSettingWithDefault("OCI_TF_LOG", "i")
+	logLevel := getEnvSettingWithDefault("TF_LOG", "i")
 
 	switch strings.ToLower(logLevel) {
 	case "null":
 		logger.currentLoggingLevel = NONE
 		break
-	case "i", "info":
+	case "i", "info", "INFO":
 		logger.currentLoggingLevel = INFO
 		break
-	case "d", "debug":
+	case "d", "debug", "DEBUG":
 		logger.currentLoggingLevel = DEBUG
 		break
 	default:

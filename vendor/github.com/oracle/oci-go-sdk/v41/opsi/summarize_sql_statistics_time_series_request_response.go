@@ -29,6 +29,9 @@ type SummarizeSqlStatisticsTimeSeriesRequest struct {
 	// Optional list of database OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
+	// Filter by one or more hostname.
+	HostName []string `contributesTo:"query" name:"hostName" collectionFormat:"multi"`
+
 	// Specify time period in ISO 8601 format with respect to current time.
 	// Default is last 30 days represented by P30D.
 	// If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.

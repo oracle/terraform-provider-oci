@@ -18,7 +18,7 @@ import (
 // TablespaceUsageTrendAggregation Usage data per tablespace for a Pluggable database
 type TablespaceUsageTrendAggregation struct {
 
-	// Name of tablespace
+	// The name of tablespace.
 	TablespaceName *string `mandatory:"true" json:"tablespaceName"`
 
 	// Type of tablespace

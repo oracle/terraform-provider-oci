@@ -11,6 +11,7 @@ import (
 	"io"
 	"io/ioutil"
 	"math/rand"
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -40,6 +41,9 @@ const (
 
 	// requestHeaderContentType The key for passing a header to indicate Content Type
 	requestHeaderContentType = "Content-Type"
+
+	// requestHeaderExpect The key for passing a header to indicate Expect/100-Continue
+	requestHeaderExpect = "Expect"
 
 	// requestHeaderDate The key for passing a header to indicate Date
 	requestHeaderDate = "Date"
@@ -72,6 +76,7 @@ const (
 	defaultScheme            = "https"
 	defaultSDKMarker         = "Oracle-GoSDK"
 	defaultUserAgentTemplate = "%s/%s (%s/%s; go/%s)" //SDK/SDKVersion (OS/OSVersion; Lang/LangVersion)
+	// http.Client.Timeout includes Dial, TLSHandshake, Request, Response header and body
 	defaultTimeout           = 60 * time.Second
 	defaultConfigFileName    = "config"
 	defaultConfigDirName     = ".oci"
@@ -165,8 +170,30 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 }
 
 func defaultHTTPDispatcher() http.Client {
-	httpClient := http.Client{
-		Timeout: defaultTimeout,
+	var httpClient http.Client
+
+	if isExpectHeaderEnabled := getExpectHeaderConfig(); isExpectHeaderEnabled {
+		var tp http.RoundTripper = &http.Transport{
+			Proxy: http.ProxyFromEnvironment,
+			DialContext: (&net.Dialer{
+				Timeout:   30 * time.Second,
+				KeepAlive: 30 * time.Second,
+				DualStack: true,
+			}).DialContext,
+			ForceAttemptHTTP2:     true,
+			MaxIdleConns:          100,
+			IdleConnTimeout:       90 * time.Second,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ExpectContinueTimeout: 3 * time.Second,
+		}
+		httpClient = http.Client{
+			Transport: tp,
+			Timeout:   defaultTimeout,
+		}
+	} else {
+		httpClient = http.Client{
+			Timeout: defaultTimeout,
+		}
 	}
 	return httpClient
 }

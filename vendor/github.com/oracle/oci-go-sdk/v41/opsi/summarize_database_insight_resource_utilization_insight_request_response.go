@@ -55,6 +55,14 @@ type SummarizeDatabaseInsightResourceUtilizationInsightRequest struct {
 	// Number of days used for utilization forecast analysis.
 	ForecastDays *int `mandatory:"false" contributesTo:"query" name:"forecastDays"`
 
+	// Filter by one or more hostname.
+	HostName []string `contributesTo:"query" name:"hostName" collectionFormat:"multi"`
+
+	// Flag to indicate if database instance level metrics should be returned. The flag is ignored when a host name filter is not applied.
+	// When a hostname filter is applied this flag will determine whether to return metrics for the instances located on the specified host or for the
+	// whole database which contains an instance on this host.
+	IsDatabaseInstanceLevelMetrics *bool `mandatory:"false" contributesTo:"query" name:"isDatabaseInstanceLevelMetrics"`
+
 	// For list pagination. The value of the `opc-next-page` response header from
 	// the previous "List" call. For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).

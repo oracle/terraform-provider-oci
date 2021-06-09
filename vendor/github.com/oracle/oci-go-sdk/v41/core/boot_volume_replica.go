@@ -19,7 +19,7 @@ import (
 
 // BootVolumeReplica An asynchronous replica of a boot volume that can then be used to create
 // a new boot volume or recover a boot volume. For more information, see Overview
-// of Block Volume Replicas (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/bootvolumereplicas.htm)
+// of Cross-Region Volume Replication (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumereplication.htm)
 // To use any of the API operations, you must be authorized in an IAM policy.
 // If you're not authorized, talk to an administrator. If you're an administrator
 // who needs to write policies to give users access, see Getting Started with
