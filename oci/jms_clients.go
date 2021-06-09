@@ -1,0 +1,34 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package oci
+
+import (
+	oci_jms "github.com/oracle/oci-go-sdk/v41/jms"
+
+	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+)
+
+func init() {
+	RegisterOracleClient("oci_jms.JavaManagementServiceClient", &OracleClient{initClientFn: initJmsJavaManagementServiceClient})
+}
+
+func initJmsJavaManagementServiceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_jms.NewJavaManagementServiceClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) javaManagementServiceClient() *oci_jms.JavaManagementServiceClient {
+	return m.GetClient("oci_jms.JavaManagementServiceClient").(*oci_jms.JavaManagementServiceClient)
+}

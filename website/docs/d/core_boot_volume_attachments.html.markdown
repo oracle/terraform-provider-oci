@@ -53,6 +53,7 @@ The following attributes are exported:
 * `boot_volume_id` - The OCID of the boot volume.
 * `compartment_id` - The OCID of the compartment.
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My boot volume` 
+* `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `id` - The OCID of the boot volume attachment.
 * `instance_id` - The OCID of the instance the boot volume is attached to.
 * `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not.

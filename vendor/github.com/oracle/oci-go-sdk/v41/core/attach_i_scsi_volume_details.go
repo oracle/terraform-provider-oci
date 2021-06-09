@@ -44,6 +44,10 @@ type AttachIScsiVolumeDetails struct {
 
 	// Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	UseChap *bool `mandatory:"false" json:"useChap"`
+
+	// Refer the top-level definition of encryptionInTransitType.
+	// The default value is NONE.
+	EncryptionInTransitType EncryptionInTransitTypeEnum `mandatory:"false" json:"encryptionInTransitType,omitempty"`
 }
 
 //GetDevice returns Device

@@ -733,7 +733,7 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 		}
 
 		if v.ProcessorCount != nil {
-			result["processor_count"] = string(*v.ProcessorCount)
+			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
 		}
 
 		if v.DatabaseHostNames != nil {

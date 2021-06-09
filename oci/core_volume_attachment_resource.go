@@ -65,6 +65,12 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"encryption_in_transit_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_pv_encryption_in_transit_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -117,6 +123,39 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 			"iqn": { // iSCSI Qualified Name per RFC 3720
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"is_multipath": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"iscsi_login_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"multipath_devices": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ipv4": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"iqn": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"port": {
 				Type:     schema.TypeInt,
@@ -271,6 +310,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
 
+		if v.IsMultipath != nil {
+			s.D.Set("is_multipath", *v.IsMultipath)
+		}
+
 		if v.IsPvEncryptionInTransitEnabled != nil {
 			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
 		}
@@ -278,6 +321,8 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 		if v.IsReadOnly != nil {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
+
+		s.D.Set("iscsi_login_state", v.IscsiLoginState)
 
 		if v.IsShareable != nil {
 			s.D.Set("is_shareable", *v.IsShareable)
@@ -303,6 +348,8 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("chap_username", *v.ChapUsername)
 		}
 
+		s.D.Set("encryption_in_transit_type", v.EncryptionInTransitType)
+
 		if v.Ipv4 != nil {
 			s.D.Set("ipv4", *v.Ipv4)
 		}
@@ -310,6 +357,12 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 		if v.Iqn != nil {
 			s.D.Set("iqn", *v.Iqn)
 		}
+
+		multipathDevices := []interface{}{}
+		for _, item := range v.MultipathDevices {
+			multipathDevices = append(multipathDevices, MultipathDeviceToMap(item))
+		}
+		s.D.Set("multipath_devices", multipathDevices)
 
 		if v.Port != nil {
 			s.D.Set("port", *v.Port)
@@ -339,6 +392,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
 
+		if v.IsMultipath != nil {
+			s.D.Set("is_multipath", *v.IsMultipath)
+		}
+
 		if v.IsPvEncryptionInTransitEnabled != nil {
 			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
 		}
@@ -346,6 +403,8 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 		if v.IsReadOnly != nil {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
+
+		s.D.Set("iscsi_login_state", v.IscsiLoginState)
 
 		if v.IsShareable != nil {
 			s.D.Set("is_shareable", *v.IsShareable)
@@ -387,6 +446,13 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
 
+		if v.IsMultipath != nil {
+			s.D.Set("is_multipath", *v.IsMultipath)
+		}
+
+		multipathDevices := []interface{}{}
+		s.D.Set("multipath_devices", multipathDevices)
+
 		if v.IsPvEncryptionInTransitEnabled != nil {
 			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
 		}
@@ -394,6 +460,8 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 		if v.IsReadOnly != nil {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
+
+		s.D.Set("iscsi_login_state", v.IscsiLoginState)
 
 		if v.IsShareable != nil {
 			s.D.Set("is_shareable", *v.IsShareable)
@@ -413,6 +481,45 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 		return nil
 	}
 	return nil
+}
+
+func (s *CoreVolumeAttachmentResourceCrud) mapToMultipathDevice(fieldKeyFormat string) (oci_core.MultipathDevice, error) {
+	result := oci_core.MultipathDevice{}
+
+	if ipv4, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv4")); ok {
+		tmp := ipv4.(string)
+		result.Ipv4 = &tmp
+	}
+
+	if iqn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "iqn")); ok {
+		tmp := iqn.(string)
+		result.Iqn = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func MultipathDeviceToMap(obj oci_core.MultipathDevice) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv4 != nil {
+		result["ipv4"] = string(*obj.Ipv4)
+	}
+
+	if obj.Iqn != nil {
+		result["iqn"] = string(*obj.Iqn)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	return result
 }
 
 func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRequest(request *oci_core.AttachVolumeRequest) error {
@@ -454,6 +561,9 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 		request.AttachVolumeDetails = details
 	case strings.ToLower("iscsi"):
 		details := oci_core.AttachIScsiVolumeDetails{}
+		if encryptionInTransitType, ok := s.D.GetOkExists("encryption_in_transit_type"); ok {
+			details.EncryptionInTransitType = oci_core.EncryptionInTransitTypeEnum(encryptionInTransitType.(string))
+		}
 		if useChap, ok := s.D.GetOkExists("use_chap"); ok {
 			tmp := useChap.(bool)
 			details.UseChap = &tmp

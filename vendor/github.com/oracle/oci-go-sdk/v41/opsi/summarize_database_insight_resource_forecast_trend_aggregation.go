@@ -33,6 +33,9 @@ type SummarizeDatabaseInsightResourceForecastTrendAggregation struct {
 	// Time series patterns used in the forecasting.
 	Pattern SummarizeDatabaseInsightResourceForecastTrendAggregationPatternEnum `mandatory:"true" json:"pattern"`
 
+	// The name of tablespace.
+	TablespaceName *string `mandatory:"true" json:"tablespaceName"`
+
 	// Time series data used for the forecast analysis.
 	HistoricalData []HistoricalDataItem `mandatory:"true" json:"historicalData"`
 

@@ -121,7 +121,7 @@ type KmsEncryptedDataResourceCrud struct {
 }
 
 func (s *KmsEncryptedDataResourceCrud) ID() string {
-	return string(hashcode.String(*s.Res.Ciphertext))
+	return fmt.Sprint(hashcode.String(*s.Res.Ciphertext))
 }
 
 func (s *KmsEncryptedDataResourceCrud) Create() error {

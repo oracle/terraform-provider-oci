@@ -69,23 +69,32 @@ type VolumeAttachment interface {
 
 	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	GetIsPvEncryptionInTransitEnabled() *bool
+
+	// Whether the attachment is multipath or not.
+	GetIsMultipath() *bool
+
+	// The iscsi login state of the volume attachment. For a multipath volume attachment,
+	// all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state.
+	GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum
 }
 
 type volumeattachment struct {
 	JsonData                       []byte
-	AvailabilityDomain             *string                            `mandatory:"true" json:"availabilityDomain"`
-	CompartmentId                  *string                            `mandatory:"true" json:"compartmentId"`
-	Id                             *string                            `mandatory:"true" json:"id"`
-	InstanceId                     *string                            `mandatory:"true" json:"instanceId"`
-	LifecycleState                 VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-	TimeCreated                    *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
-	VolumeId                       *string                            `mandatory:"true" json:"volumeId"`
-	Device                         *string                            `mandatory:"false" json:"device"`
-	DisplayName                    *string                            `mandatory:"false" json:"displayName"`
-	IsReadOnly                     *bool                              `mandatory:"false" json:"isReadOnly"`
-	IsShareable                    *bool                              `mandatory:"false" json:"isShareable"`
-	IsPvEncryptionInTransitEnabled *bool                              `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
-	AttachmentType                 string                             `json:"attachmentType"`
+	AvailabilityDomain             *string                             `mandatory:"true" json:"availabilityDomain"`
+	CompartmentId                  *string                             `mandatory:"true" json:"compartmentId"`
+	Id                             *string                             `mandatory:"true" json:"id"`
+	InstanceId                     *string                             `mandatory:"true" json:"instanceId"`
+	LifecycleState                 VolumeAttachmentLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
+	TimeCreated                    *common.SDKTime                     `mandatory:"true" json:"timeCreated"`
+	VolumeId                       *string                             `mandatory:"true" json:"volumeId"`
+	Device                         *string                             `mandatory:"false" json:"device"`
+	DisplayName                    *string                             `mandatory:"false" json:"displayName"`
+	IsReadOnly                     *bool                               `mandatory:"false" json:"isReadOnly"`
+	IsShareable                    *bool                               `mandatory:"false" json:"isShareable"`
+	IsPvEncryptionInTransitEnabled *bool                               `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+	IsMultipath                    *bool                               `mandatory:"false" json:"isMultipath"`
+	IscsiLoginState                VolumeAttachmentIscsiLoginStateEnum `mandatory:"false" json:"iscsiLoginState,omitempty"`
+	AttachmentType                 string                              `json:"attachmentType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -111,6 +120,8 @@ func (m *volumeattachment) UnmarshalJSON(data []byte) error {
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.IsShareable = s.Model.IsShareable
 	m.IsPvEncryptionInTransitEnabled = s.Model.IsPvEncryptionInTransitEnabled
+	m.IsMultipath = s.Model.IsMultipath
+	m.IscsiLoginState = s.Model.IscsiLoginState
 	m.AttachmentType = s.Model.AttachmentType
 
 	return err
@@ -202,6 +213,16 @@ func (m volumeattachment) GetIsPvEncryptionInTransitEnabled() *bool {
 	return m.IsPvEncryptionInTransitEnabled
 }
 
+//GetIsMultipath returns IsMultipath
+func (m volumeattachment) GetIsMultipath() *bool {
+	return m.IsMultipath
+}
+
+//GetIscsiLoginState returns IscsiLoginState
+func (m volumeattachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum {
+	return m.IscsiLoginState
+}
+
 func (m volumeattachment) String() string {
 	return common.PointerString(m)
 }
@@ -228,6 +249,39 @@ var mappingVolumeAttachmentLifecycleState = map[string]VolumeAttachmentLifecycle
 func GetVolumeAttachmentLifecycleStateEnumValues() []VolumeAttachmentLifecycleStateEnum {
 	values := make([]VolumeAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingVolumeAttachmentLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VolumeAttachmentIscsiLoginStateEnum Enum with underlying type: string
+type VolumeAttachmentIscsiLoginStateEnum string
+
+// Set of constants representing the allowable values for VolumeAttachmentIscsiLoginStateEnum
+const (
+	VolumeAttachmentIscsiLoginStateUnknown         VolumeAttachmentIscsiLoginStateEnum = "UNKNOWN"
+	VolumeAttachmentIscsiLoginStateLoggingIn       VolumeAttachmentIscsiLoginStateEnum = "LOGGING_IN"
+	VolumeAttachmentIscsiLoginStateLoginSucceeded  VolumeAttachmentIscsiLoginStateEnum = "LOGIN_SUCCEEDED"
+	VolumeAttachmentIscsiLoginStateLoginFailed     VolumeAttachmentIscsiLoginStateEnum = "LOGIN_FAILED"
+	VolumeAttachmentIscsiLoginStateLoggingOut      VolumeAttachmentIscsiLoginStateEnum = "LOGGING_OUT"
+	VolumeAttachmentIscsiLoginStateLogoutSucceeded VolumeAttachmentIscsiLoginStateEnum = "LOGOUT_SUCCEEDED"
+	VolumeAttachmentIscsiLoginStateLogoutFailed    VolumeAttachmentIscsiLoginStateEnum = "LOGOUT_FAILED"
+)
+
+var mappingVolumeAttachmentIscsiLoginState = map[string]VolumeAttachmentIscsiLoginStateEnum{
+	"UNKNOWN":          VolumeAttachmentIscsiLoginStateUnknown,
+	"LOGGING_IN":       VolumeAttachmentIscsiLoginStateLoggingIn,
+	"LOGIN_SUCCEEDED":  VolumeAttachmentIscsiLoginStateLoginSucceeded,
+	"LOGIN_FAILED":     VolumeAttachmentIscsiLoginStateLoginFailed,
+	"LOGGING_OUT":      VolumeAttachmentIscsiLoginStateLoggingOut,
+	"LOGOUT_SUCCEEDED": VolumeAttachmentIscsiLoginStateLogoutSucceeded,
+	"LOGOUT_FAILED":    VolumeAttachmentIscsiLoginStateLogoutFailed,
+}
+
+// GetVolumeAttachmentIscsiLoginStateEnumValues Enumerates the set of values for VolumeAttachmentIscsiLoginStateEnum
+func GetVolumeAttachmentIscsiLoginStateEnumValues() []VolumeAttachmentIscsiLoginStateEnum {
+	values := make([]VolumeAttachmentIscsiLoginStateEnum, 0)
+	for _, v := range mappingVolumeAttachmentIscsiLoginState {
 		values = append(values, v)
 	}
 	return values

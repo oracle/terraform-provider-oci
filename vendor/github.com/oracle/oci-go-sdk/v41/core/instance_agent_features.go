@@ -20,10 +20,10 @@ import (
 // InstanceAgentFeatures Oracle Cloud Agent features supported on the image.
 type InstanceAgentFeatures struct {
 
-	// Whether Oracle Cloud Agent can gather performance metrics and monitor the instance.
+	// This attribute is not used.
 	IsMonitoringSupported *bool `mandatory:"false" json:"isMonitoringSupported"`
 
-	// Whether Oracle Cloud Agent can run all the available management plugins.
+	// This attribute is not used.
 	IsManagementSupported *bool `mandatory:"false" json:"isManagementSupported"`
 }
 

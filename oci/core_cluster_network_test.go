@@ -125,9 +125,9 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_cluster_network.test_cluster_network"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+ClusterNetworkResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create" step in the test.
+	saveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
+		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

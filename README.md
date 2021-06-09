@@ -20,9 +20,9 @@ Requirements
 ------------
 
 - [Terraform](https://www.terraform.io/downloads.html) v0.10.1 or greater
-- [Go](https://golang.org/doc/install) 1.12.3 (recommended)
+- [Go](https://golang.org/doc/install) 1.15.5 (recommended)
 
-Note: You may use any version 1.8 or above to build the provider. However, the `goimports`, `go vet`, and `gofmt` code checks will only pass when using version 1.12.
+Note: You may use any version 1.8 or above to build the provider. However, the `goimports`, `go vet`, and `gofmt` code checks will only pass when using version 1.15.
 
 
 Building the Provider

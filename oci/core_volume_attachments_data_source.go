@@ -147,6 +147,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsMultipath != nil {
+				result["is_multipath"] = bool(*v.IsMultipath)
+			}
+
 			if v.IsPvEncryptionInTransitEnabled != nil {
 				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 			}
@@ -154,6 +158,8 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
+
+			result["iscsi_login_state"] = string(v.IscsiLoginState)
 
 			result["state"] = string(v.LifecycleState)
 
@@ -175,6 +181,8 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["chap_username"] = string(*v.ChapUsername)
 			}
 
+			result["encryption_in_transit_type"] = string(v.EncryptionInTransitType)
+
 			if v.Ipv4 != nil {
 				result["ipv4"] = string(*v.Ipv4)
 			}
@@ -182,6 +190,12 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 			if v.Iqn != nil {
 				result["iqn"] = string(*v.Iqn)
 			}
+
+			multipathDevices := []interface{}{}
+			for _, item := range v.MultipathDevices {
+				multipathDevices = append(multipathDevices, MultipathDeviceToMap(item))
+			}
+			result["multipath_devices"] = multipathDevices
 
 			if v.Port != nil {
 				result["port"] = int(*v.Port)
@@ -211,6 +225,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsMultipath != nil {
+				result["is_multipath"] = bool(*v.IsMultipath)
+			}
+
 			if v.IsPvEncryptionInTransitEnabled != nil {
 				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 			}
@@ -218,6 +236,8 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
+
+			result["iscsi_login_state"] = string(v.IscsiLoginState)
 
 			result["state"] = string(v.LifecycleState)
 
@@ -255,6 +275,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsMultipath != nil {
+				result["is_multipath"] = bool(*v.IsMultipath)
+			}
+
 			if v.IsPvEncryptionInTransitEnabled != nil {
 				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 			}
@@ -262,6 +286,8 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
+
+			result["iscsi_login_state"] = string(v.IscsiLoginState)
 
 			result["state"] = string(v.LifecycleState)
 

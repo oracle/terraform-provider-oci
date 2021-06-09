@@ -29,6 +29,9 @@ type SummarizeSqlStatisticsRequest struct {
 	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
+	// Filter by one or more hostname.
+	HostName []string `contributesTo:"query" name:"hostName" collectionFormat:"multi"`
+
 	// Filter sqls by percentage of db time.
 	DatabaseTimePctGreaterThan *float64 `mandatory:"false" contributesTo:"query" name:"databaseTimePctGreaterThan"`
 

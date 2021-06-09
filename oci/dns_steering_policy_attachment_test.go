@@ -39,7 +39,7 @@ var (
 		"steering_policy_id":                    Representation{repType: Optional, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
 		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
-		"zone_id":                               Representation{repType: Optional, create: `${oci_dns_zone.test_zone.id}`},
+		"zone_id":                               Representation{repType: Optional, create: `${oci_dns_zone.test_global_zone.id}`},
 		"filter":                                RepresentationGroup{Required, steeringPolicyAttachmentDataSourceFilterRepresentation}}
 
 	// Used to test `domain_contains` query parameter; which cannot be simulataneously used with `domain` query param
@@ -52,7 +52,7 @@ var (
 		"steering_policy_id":                    Representation{repType: Optional, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
 		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
-		"zone_id":                               Representation{repType: Optional, create: `${oci_dns_zone.test_zone.id}`},
+		"zone_id":                               Representation{repType: Optional, create: `${oci_dns_zone.test_global_zone.id}`},
 		"filter":                                RepresentationGroup{Required, steeringPolicyAttachmentDataSourceFilterRepresentation}}
 
 	steeringPolicyAttachmentDataSourceFilterRepresentation = map[string]interface{}{
@@ -63,7 +63,7 @@ var (
 	steeringPolicyAttachmentRepresentation = map[string]interface{}{
 		"domain_name":        Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
 		"steering_policy_id": Representation{repType: Required, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
-		"zone_id":            Representation{repType: Required, create: `${oci_dns_zone.test_zone.id}`},
+		"zone_id":            Representation{repType: Required, create: `${oci_dns_zone.test_global_zone.id}`},
 		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 	}
 
@@ -88,8 +88,8 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("dns_steering")
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), "dns", "steeringPolicyAttachment", t)
+	saveConfigContent(tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil), "dns", "steeringPolicyAttachment", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

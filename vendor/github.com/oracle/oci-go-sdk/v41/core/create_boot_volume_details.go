@@ -21,14 +21,14 @@ import (
 // CreateBootVolumeDetails The representation of CreateBootVolumeDetails
 type CreateBootVolumeDetails struct {
 
-	// The availability domain of the boot volume.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
 	// The OCID of the compartment that contains the boot volume.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	SourceDetails BootVolumeSourceDetails `mandatory:"true" json:"sourceDetails"`
+
+	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// If provided, specifies the ID of the boot volume backup policy to assign to the newly
 	// created boot volume. If omitted, no policy will be assigned.
@@ -78,6 +78,7 @@ func (m CreateBootVolumeDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		BackupPolicyId     *string                           `json:"backupPolicyId"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName        *string                           `json:"displayName"`
@@ -87,7 +88,6 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		VpusPerGB          *int64                            `json:"vpusPerGB"`
 		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
 		BootVolumeReplicas []BootVolumeReplicaDetails        `json:"bootVolumeReplicas"`
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
 	}{}
@@ -97,6 +97,8 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.BackupPolicyId = model.BackupPolicyId
 
 	m.DefinedTags = model.DefinedTags
@@ -117,8 +119,6 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.BootVolumeReplicas {
 		m.BootVolumeReplicas[i] = n
 	}
-
-	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
 

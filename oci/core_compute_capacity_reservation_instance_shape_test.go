@@ -35,6 +35,8 @@ func TestCoreComputeCapacityReservationInstanceShapeResource_basic(t *testing.T)
 
 	datasourceName := "data.oci_core_compute_capacity_reservation_instance_shapes.test_compute_capacity_reservation_instance_shapes"
 
+	saveConfigContent("", "", "", t)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
