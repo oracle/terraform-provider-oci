@@ -185,6 +185,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		vmCluster["state"] = r.LifecycleState
 
+		if r.SystemVersion != nil {
+			vmCluster["system_version"] = *r.SystemVersion
+		}
+
 		if r.TimeCreated != nil {
 			vmCluster["time_created"] = r.TimeCreated.String()
 		}

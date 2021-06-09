@@ -113,7 +113,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies,
+				Config: config + compartmentIdVariableStr,
 			},
 			//verify create with optionals
 			{
