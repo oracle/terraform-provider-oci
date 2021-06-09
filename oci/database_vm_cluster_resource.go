@@ -139,6 +139,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -510,6 +514,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", schema.NewSet(literalTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemVersion != nil {
+		s.D.Set("system_version", *s.Res.SystemVersion)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

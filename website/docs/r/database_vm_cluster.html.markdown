@@ -87,6 +87,7 @@ The following attributes are exported:
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the VM cluster.
 * `state` - The current state of the VM cluster.
+* `system_version` - Operating system version of the image.
 * `time_created` - The date and time that the VM cluster was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
