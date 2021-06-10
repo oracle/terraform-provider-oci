@@ -37,11 +37,23 @@ type ListOnPremConnectorsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListOnPremConnectorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can specify only one sort order (sortOrder). The default order for TIMECREATED is descending. The default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
+	// The default order for TIMECREATED is descending. The default order for DISPLAYNAME is ascending.
+	// The DISPLAYNAME sort order is case sensitive.
 	SortBy ListOnPremConnectorsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Default is false.
+	// When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED.
+	// Setting this to ACCESSIBLE returns only those compartments for which the
+	// user has INSPECT permissions directly or indirectly (permissions can be on a
+	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
+	AccessLevel ListOnPremConnectorsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -169,6 +181,29 @@ var mappingListOnPremConnectorsSortBy = map[string]ListOnPremConnectorsSortByEnu
 func GetListOnPremConnectorsSortByEnumValues() []ListOnPremConnectorsSortByEnum {
 	values := make([]ListOnPremConnectorsSortByEnum, 0)
 	for _, v := range mappingListOnPremConnectorsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListOnPremConnectorsAccessLevelEnum Enum with underlying type: string
+type ListOnPremConnectorsAccessLevelEnum string
+
+// Set of constants representing the allowable values for ListOnPremConnectorsAccessLevelEnum
+const (
+	ListOnPremConnectorsAccessLevelRestricted ListOnPremConnectorsAccessLevelEnum = "RESTRICTED"
+	ListOnPremConnectorsAccessLevelAccessible ListOnPremConnectorsAccessLevelEnum = "ACCESSIBLE"
+)
+
+var mappingListOnPremConnectorsAccessLevel = map[string]ListOnPremConnectorsAccessLevelEnum{
+	"RESTRICTED": ListOnPremConnectorsAccessLevelRestricted,
+	"ACCESSIBLE": ListOnPremConnectorsAccessLevelAccessible,
+}
+
+// GetListOnPremConnectorsAccessLevelEnumValues Enumerates the set of values for ListOnPremConnectorsAccessLevelEnum
+func GetListOnPremConnectorsAccessLevelEnumValues() []ListOnPremConnectorsAccessLevelEnum {
+	values := make([]ListOnPremConnectorsAccessLevelEnum, 0)
+	for _, v := range mappingListOnPremConnectorsAccessLevel {
 		values = append(values, v)
 	}
 	return values

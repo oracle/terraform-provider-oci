@@ -63,6 +63,12 @@ const (
 	WorkRequestOperationTypeDeleteOnpremConnector            WorkRequestOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
 	WorkRequestOperationTypeUpdateOnpremConnectorWallet      WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
 	WorkRequestOperationTypeChangeOnpremConnectorCompartment WorkRequestOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
+	WorkRequestOperationTypeCreateTargetDatabase             WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE"
+	WorkRequestOperationTypeUpdateTargetDatabase             WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE"
+	WorkRequestOperationTypeActivateTargetDatabase           WorkRequestOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
+	WorkRequestOperationTypeDeactivateTargetDatabase         WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
+	WorkRequestOperationTypeDeleteTargetDatabase             WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
+	WorkRequestOperationTypeChangeTargetDatabaseCompartment  WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -76,6 +82,12 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"DELETE_ONPREM_CONNECTOR":             WorkRequestOperationTypeDeleteOnpremConnector,
 	"UPDATE_ONPREM_CONNECTOR_WALLET":      WorkRequestOperationTypeUpdateOnpremConnectorWallet,
 	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT": WorkRequestOperationTypeChangeOnpremConnectorCompartment,
+	"CREATE_TARGET_DATABASE":              WorkRequestOperationTypeCreateTargetDatabase,
+	"UPDATE_TARGET_DATABASE":              WorkRequestOperationTypeUpdateTargetDatabase,
+	"ACTIVATE_TARGET_DATABASE":            WorkRequestOperationTypeActivateTargetDatabase,
+	"DEACTIVATE_TARGET_DATABASE":          WorkRequestOperationTypeDeactivateTargetDatabase,
+	"DELETE_TARGET_DATABASE":              WorkRequestOperationTypeDeleteTargetDatabase,
+	"CHANGE_TARGET_DATABASE_COMPARTMENT":  WorkRequestOperationTypeChangeTargetDatabaseCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

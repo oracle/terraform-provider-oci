@@ -50,6 +50,9 @@ type ManagementDashboardTileDetails struct {
 
 	// Drill-down configuration to define the destination of a drill-down action.
 	DrilldownConfig *interface{} `mandatory:"true" json:"drilldownConfig"`
+
+	// Specifies the saved search parameters values
+	ParametersMap *interface{} `mandatory:"false" json:"parametersMap"`
 }
 
 func (m ManagementDashboardTileDetails) String() string {

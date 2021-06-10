@@ -59,6 +59,18 @@ type ExadataInfrastructureSummary struct {
 	// The total available DATA disk group size.
 	MaxDataStorageInTBs *float64 `mandatory:"false" json:"maxDataStorageInTBs"`
 
+	// The number of Exadata storage servers for the Exadata infrastructure.
+	StorageCount *int `mandatory:"false" json:"storageCount"`
+
+	// The requested number of additional storage servers for the Exadata infrastructure.
+	AdditionalStorageCount *int `mandatory:"false" json:"additionalStorageCount"`
+
+	// The requested number of additional storage servers activated for the Exadata infrastructure.
+	ActivatedStorageCount *int `mandatory:"false" json:"activatedStorageCount"`
+
+	// The number of compute servers for the Exadata infrastructure.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
 	// The IP address for the first control plane server.
 	CloudControlPlaneServer1 *string `mandatory:"false" json:"cloudControlPlaneServer1"`
 

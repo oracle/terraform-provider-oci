@@ -62,6 +62,12 @@ type CreateExadataInfrastructureDetails struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
+	// The number of storage servers for the Exadata infrastructure.
+	StorageCount *int `mandatory:"false" json:"storageCount"`
+
+	// The number of compute servers for the Exadata infrastructure.
+	ComputeCount *int `mandatory:"false" json:"computeCount"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

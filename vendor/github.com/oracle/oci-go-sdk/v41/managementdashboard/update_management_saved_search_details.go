@@ -62,6 +62,9 @@ type UpdateManagementSavedSearchDetails struct {
 	// Reference to the view model of the widget.
 	WidgetVM *string `mandatory:"false" json:"widgetVM"`
 
+	// Defines parameters for the saved search.
+	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
