@@ -198,7 +198,10 @@ func (client DashxApisClient) changeManagementSavedSearchesCompartment(ctx conte
 	return response, err
 }
 
-// CreateManagementDashboard Creates a new dashboard.  Limit for number of saved searches in a dashboard is 20.
+// CreateManagementDashboard Creates a new dashboard.  Limit for number of saved searches in a dashboard is 20. To get an example of what needs to be passed to CREATE, one can use GET API.
+// oci management-dashboard dashboard get --management-dashboard-id  "ocid1.managementdashboard.oc1..dashboardId1" --query data > Create.json
+// Modify the Create.json by removing "id" attribute and other desired changes, then do
+// oci management-dashboard dashboard create  --from-json file://Create.json
 //
 // See also
 //
@@ -257,7 +260,10 @@ func (client DashxApisClient) createManagementDashboard(ctx context.Context, req
 	return response, err
 }
 
-// CreateManagementSavedSearch Creates a new saved search.
+// CreateManagementSavedSearch Creates a new saved search. To get an example of what needs to be passed to CREATE, one can use GET API.
+// oci management-dashboard saved-search get --management-saved-search-id ocid1.managementsavedsearch.oc1..savedsearchId1 --query data > Create.json
+// Modify the Create.json by removing "id" attribute and other desired changes, then do
+// oci management-dashboard saved-search create  --from-json file://Create.json
 //
 // See also
 //
@@ -424,7 +430,7 @@ func (client DashxApisClient) deleteManagementSavedSearch(ctx context.Context, r
 	return response, err
 }
 
-// ExportDashboard Exports an array of dashboards and their saved searches.
+// ExportDashboard Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard. An example using OCI CLI is $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json $oci management-dashboard dashboard import --from-json file://dashboards.json
 //
 // See also
 //
@@ -601,7 +607,9 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	return response, err
 }
 
-// ImportDashboard Imports an array of dashboards and their saved searches.
+// ImportDashboard Imports an array of dashboards and their saved searches. Import is designed to work with exportDashboard. An example using OCI CLI is
+//     $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json
+//     $oci management-dashboard dashboard import --from-json file://dashboards.json
 //
 // See also
 //
@@ -660,7 +668,7 @@ func (client DashxApisClient) importDashboard(ctx context.Context, request commo
 	return response, err
 }
 
-// ListManagementDashboards Gets the list of dashboards and their saved searches in a compartment with pagination.  Returned properties are the summary.
+// ListManagementDashboards Gets the list of dashboards in a compartment with pagination.  Returned properties are the summary.
 //
 // See also
 //

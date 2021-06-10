@@ -17,8 +17,11 @@ import (
 // ManagementDashboardSummary Summary of the properties of a dashboard.
 type ManagementDashboardSummary struct {
 
-	// ID of the dashboard.
+	// ID of the dashboard.  Same as id.
 	DashboardId *string `mandatory:"true" json:"dashboardId"`
+
+	// ID of the dashboard.  Same as dashboardId.
+	Id *string `mandatory:"true" json:"id"`
 
 	// Display name of the dashboard.
 	DisplayName *string `mandatory:"true" json:"displayName"`

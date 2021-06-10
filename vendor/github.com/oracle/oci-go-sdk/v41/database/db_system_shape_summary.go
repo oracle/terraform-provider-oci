@@ -37,6 +37,21 @@ type DbSystemShapeSummary struct {
 	// The discrete number by which the CPU core count for this shape can be increased or decreased.
 	CoreCountIncrement *int `mandatory:"false" json:"coreCountIncrement"`
 
+	// The minimum number of Exadata storage servers available for the Exadata infrastructure.
+	MinStorageCount *int `mandatory:"false" json:"minStorageCount"`
+
+	// The maximum number of Exadata storage servers available for the Exadata infrastructure.
+	MaxStorageCount *int `mandatory:"false" json:"maxStorageCount"`
+
+	// The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.
+	AvailableDataStoragePerServerInTBs *float64 `mandatory:"false" json:"availableDataStoragePerServerInTBs"`
+
+	// The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.
+	AvailableMemoryPerNodeInGBs *int `mandatory:"false" json:"availableMemoryPerNodeInGBs"`
+
+	// The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.
+	AvailableDbNodePerNodeInGBs *int `mandatory:"false" json:"availableDbNodePerNodeInGBs"`
+
 	// The minimum number of CPU cores that can be enabled per node for this shape.
 	MinCoreCountPerNode *int `mandatory:"false" json:"minCoreCountPerNode"`
 
@@ -64,7 +79,7 @@ type DbSystemShapeSummary struct {
 	// The maximum number of database nodes available for this shape.
 	MaximumNodeCount *int `mandatory:"false" json:"maximumNodeCount"`
 
-	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape. Does not apply to X6, X7, and X8 fixed-shape systems.
+	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.
 	AvailableCoreCountPerNode *int `mandatory:"false" json:"availableCoreCountPerNode"`
 }
 

@@ -37,11 +37,23 @@ type ListDataSafePrivateEndpointsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListDataSafePrivateEndpointsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can specify only one sort order (sortOrder). The default order for TIMECREATED is descending. The default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
+	// The default order for TIMECREATED is descending. The default order for DISPLAYNAME is ascending.
+	// The DISPLAYNAME sort order is case sensitive.
 	SortBy ListDataSafePrivateEndpointsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Default is false.
+	// When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED.
+	// Setting this to ACCESSIBLE returns only those compartments for which the
+	// user has INSPECT permissions directly or indirectly (permissions can be on a
+	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
+	AccessLevel ListDataSafePrivateEndpointsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -169,6 +181,29 @@ var mappingListDataSafePrivateEndpointsSortBy = map[string]ListDataSafePrivateEn
 func GetListDataSafePrivateEndpointsSortByEnumValues() []ListDataSafePrivateEndpointsSortByEnum {
 	values := make([]ListDataSafePrivateEndpointsSortByEnum, 0)
 	for _, v := range mappingListDataSafePrivateEndpointsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListDataSafePrivateEndpointsAccessLevelEnum Enum with underlying type: string
+type ListDataSafePrivateEndpointsAccessLevelEnum string
+
+// Set of constants representing the allowable values for ListDataSafePrivateEndpointsAccessLevelEnum
+const (
+	ListDataSafePrivateEndpointsAccessLevelRestricted ListDataSafePrivateEndpointsAccessLevelEnum = "RESTRICTED"
+	ListDataSafePrivateEndpointsAccessLevelAccessible ListDataSafePrivateEndpointsAccessLevelEnum = "ACCESSIBLE"
+)
+
+var mappingListDataSafePrivateEndpointsAccessLevel = map[string]ListDataSafePrivateEndpointsAccessLevelEnum{
+	"RESTRICTED": ListDataSafePrivateEndpointsAccessLevelRestricted,
+	"ACCESSIBLE": ListDataSafePrivateEndpointsAccessLevelAccessible,
+}
+
+// GetListDataSafePrivateEndpointsAccessLevelEnumValues Enumerates the set of values for ListDataSafePrivateEndpointsAccessLevelEnum
+func GetListDataSafePrivateEndpointsAccessLevelEnumValues() []ListDataSafePrivateEndpointsAccessLevelEnum {
+	values := make([]ListDataSafePrivateEndpointsAccessLevelEnum, 0)
+	for _, v := range mappingListDataSafePrivateEndpointsAccessLevel {
 		values = append(values, v)
 	}
 	return values

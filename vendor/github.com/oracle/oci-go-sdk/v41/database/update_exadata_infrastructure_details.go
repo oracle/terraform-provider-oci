@@ -43,6 +43,9 @@ type UpdateExadataInfrastructureDetails struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
+	// The requested number of additional storage servers for the Exadata infrastructure.
+	AdditionalStorageCount *int `mandatory:"false" json:"additionalStorageCount"`
+
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"false" json:"dnsServer"`
 

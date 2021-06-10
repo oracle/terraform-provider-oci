@@ -43,6 +43,9 @@ type ApplicationSummary struct {
 	// The OCID of the user who created the resource.
 	OwnerPrincipalId *string `mandatory:"true" json:"ownerPrincipalId"`
 
+	// The Spark version utilized to run the application.
+	SparkVersion *string `mandatory:"true" json:"sparkVersion"`
+
 	// The date and time a application was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`

@@ -45,6 +45,9 @@ type ListApplicationsRequest struct {
 	// The displayName prefix.
 	DisplayNameStartsWith *string `mandatory:"false" contributesTo:"query" name:"displayNameStartsWith"`
 
+	// The Spark version utilized to run the application.
+	SparkVersion *string `mandatory:"false" contributesTo:"query" name:"sparkVersion"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

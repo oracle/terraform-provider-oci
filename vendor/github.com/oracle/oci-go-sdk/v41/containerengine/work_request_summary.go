@@ -61,6 +61,7 @@ const (
 	WorkRequestSummaryOperationTypeNodepoolCreate    WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
 	WorkRequestSummaryOperationTypeNodepoolUpdate    WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
 	WorkRequestSummaryOperationTypeNodepoolDelete    WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
+	WorkRequestSummaryOperationTypeNodepoolReconcile WorkRequestOperationTypeEnum = "NODEPOOL_RECONCILE"
 	WorkRequestSummaryOperationTypeWorkrequestCancel WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 )
 

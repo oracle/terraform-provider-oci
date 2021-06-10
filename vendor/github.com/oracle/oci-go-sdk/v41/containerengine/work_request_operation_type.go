@@ -22,6 +22,7 @@ const (
 	WorkRequestOperationTypeNodepoolCreate    WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
 	WorkRequestOperationTypeNodepoolUpdate    WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
 	WorkRequestOperationTypeNodepoolDelete    WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
+	WorkRequestOperationTypeNodepoolReconcile WorkRequestOperationTypeEnum = "NODEPOOL_RECONCILE"
 	WorkRequestOperationTypeWorkrequestCancel WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 )
 
@@ -32,6 +33,7 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"NODEPOOL_CREATE":    WorkRequestOperationTypeNodepoolCreate,
 	"NODEPOOL_UPDATE":    WorkRequestOperationTypeNodepoolUpdate,
 	"NODEPOOL_DELETE":    WorkRequestOperationTypeNodepoolDelete,
+	"NODEPOOL_RECONCILE": WorkRequestOperationTypeNodepoolReconcile,
 	"WORKREQUEST_CANCEL": WorkRequestOperationTypeWorkrequestCancel,
 }
 

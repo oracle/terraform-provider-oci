@@ -17,8 +17,11 @@ import (
 // ManagementDashboard Properties of a dashboard, including dashboard ID.
 type ManagementDashboard struct {
 
-	// ID of the dashboard.
+	// ID of the dashboard.  Same as id.
 	DashboardId *string `mandatory:"true" json:"dashboardId"`
+
+	// ID of the dashboard.  Same as dashboardId.
+	Id *string `mandatory:"true" json:"id"`
 
 	// ID of the service (for example, log-analytics) that owns the dashboard. Each service has a unique ID.
 	ProviderId *string `mandatory:"true" json:"providerId"`
@@ -85,6 +88,12 @@ type ManagementDashboard struct {
 
 	// Array of saved searches in the dashboard.
 	SavedSearches []ManagementSavedSearch `mandatory:"true" json:"savedSearches"`
+
+	// State of dashboard.
+	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Defines parameters for the dashboard.
+	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

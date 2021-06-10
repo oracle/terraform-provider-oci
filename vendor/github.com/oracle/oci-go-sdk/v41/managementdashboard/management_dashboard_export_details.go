@@ -19,14 +19,6 @@ type ManagementDashboardExportDetails struct {
 
 	// Array of dashboards.
 	Dashboards []ManagementDashboardForImportExportDetails `mandatory:"true" json:"dashboards"`
-
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m ManagementDashboardExportDetails) String() string {
