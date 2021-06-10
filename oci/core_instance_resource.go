@@ -652,7 +652,7 @@ func createCoreInstance(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	if e := CreateResource(d, sync); e != nil {
+	if e := CreateResourceUsingHybridPolling(sync); e != nil {
 		return e
 	}
 
@@ -964,18 +964,15 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "instance", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
-		if err != nil {
-			return err
-		}
-	}
+	workRequestId := response.OpcWorkRequestId
 
 	s.Res = &response.Instance
+
+	workRequestErr := ResourceRefreshForHybridPolling(s.workRequestClient, workRequestId, "instance", oci_work_requests.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.D, s)
+	if workRequestErr != nil {
+		return workRequestErr
+	}
+
 	return nil
 }
 
