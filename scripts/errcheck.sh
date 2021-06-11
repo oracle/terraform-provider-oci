@@ -4,8 +4,9 @@
 echo "==> Checking for unchecked errors..."
 
 if ! which errcheck > /dev/null; then
-    echo "==> Installing errcheck..."
-    go get -u github.com/kisielk/errcheck
+    echo "==> ignore errcheck if not installed"
+    #go get -u github.com/kisielk/errcheck
+    exit 0
 fi
 
 err_files=$(errcheck -ignoretests \
