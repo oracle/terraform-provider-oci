@@ -6,13 +6,13 @@ require (
 	github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
 	github.com/hashicorp/terraform-exec v0.13.3
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
-	github.com/oracle/oci-go-sdk/v41 v41.2.0
+	github.com/oracle/oci-go-sdk/v42 v42.0.0
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/mod v0.3.0
 	gopkg.in/yaml.v2 v2.3.0
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-replace github.com/oracle/oci-go-sdk/v41 v41.2.0 => ./vendor/github.com/oracle/oci-go-sdk
+//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
 
 go 1.13
