@@ -129,7 +129,7 @@ output "autonomous_database_admin_password" {
 
 output "autonomous_database_high_connection_string" {
   value = lookup(
-    oci_database_autonomous_database.autonomous_database.connection_strings[0].all_connection_strings,
+    oci_database_autonomous_database.autonomous_database.connection_strings[0],
     "high",
     "unavailable",
   )
