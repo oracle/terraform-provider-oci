@@ -1039,7 +1039,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-		tmp := ocpuCount.(float64)
+		tmp := ocpuCount.(float32)
 		request.OcpuCount = &tmp
 	}
 
@@ -1635,7 +1635,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float64)
+			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -1804,7 +1804,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float64)
+			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -1966,7 +1966,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float64)
+			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -2134,7 +2134,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float64)
+			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -2291,7 +2291,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float64)
+			tmp := ocpuCount.(float32)
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
