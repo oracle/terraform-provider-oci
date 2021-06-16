@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
-	oci_database "github.com/oracle/oci-go-sdk/v41/database"
+	"github.com/oracle/oci-go-sdk/v42/common"
+	oci_database "github.com/oracle/oci-go-sdk/v42/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,6 +53,8 @@ var (
 		"ntp_server":                  Representation{repType: Required, create: []string{`10.231.225.76`}, update: []string{`10.246.6.36`, `10.31.138.20`}},
 		"shape":                       Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
 		"time_zone":                   Representation{repType: Required, create: `US/Pacific`, update: `UTC`},
+		"storage_count":               Representation{repType: Optional, create: `3`},
+		"compute_count":               Representation{repType: Optional, create: `2`},
 		"contacts":                    RepresentationGroup{Optional, exadataInfrastructureContactsRepresentation},
 		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -192,6 +194,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 					func(s *terraform.State) (err error) {
@@ -243,6 +247,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 					func(s *terraform.State) (err error) {
@@ -294,6 +300,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 
 					func(s *terraform.State) (err error) {
@@ -320,6 +328,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_ACTIVATION"),
 
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.activated_storage_count"),
+					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_storage_count"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.cloud_control_plane_server2", "10.32.88.4"),
@@ -365,6 +375,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.state"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.storage_count", "3"),
+					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.compute_count", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.time_created"),
 					resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.time_zone", "UTC"),
 				),
@@ -377,6 +389,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "activated_storage_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "additional_storage_count"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cloud_control_plane_server2", "10.32.88.4"),
@@ -420,6 +434,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "storage_count", "3"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compute_count", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "UTC"),
 				),

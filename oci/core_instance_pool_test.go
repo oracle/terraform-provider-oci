@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
-	oci_core "github.com/oracle/oci-go-sdk/v41/core"
+	"github.com/oracle/oci-go-sdk/v42/common"
+	oci_core "github.com/oracle/oci-go-sdk/v42/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -370,8 +370,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),

@@ -45,6 +45,8 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   shape                       = "ExadataCC.Quarter3.100"
   time_zone                   = "US/Pacific"
   activation_file             = "activation.zip"
+  storage_count               = 3
+  compute_count               = 2
 
   #Optional
   contacts {

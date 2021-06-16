@@ -10,7 +10,7 @@ description: |-
 # oci_dataflow_private_endpoint
 This resource provides the Private Endpoint resource in Oracle Cloud Infrastructure Data Flow service.
 
-Creates a private endpoint to be used by an application.
+Creates a private endpoint to be used by applications.
 
 
 ## Example Usage

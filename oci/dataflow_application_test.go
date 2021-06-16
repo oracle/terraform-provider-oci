@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v41/dataflow"
+	"github.com/oracle/oci-go-sdk/v42/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v42/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -287,6 +287,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "applications.0.language", "SCALA"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_principal_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_user_name"),
+					resource.TestCheckResourceAttr(datasourceName, "applications.0.spark_version", "2.4.4"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),

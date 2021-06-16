@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v41/database"
+	oci_database "github.com/oracle/oci-go-sdk/v42/database"
 )
 
 func init() {
@@ -67,6 +67,14 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.ActivatedStorageCount != nil {
+		s.D.Set("activated_storage_count", *s.Res.ActivatedStorageCount)
+	}
+
+	if s.Res.AdditionalStorageCount != nil {
+		s.D.Set("additional_storage_count", *s.Res.AdditionalStorageCount)
+	}
+
 	if s.Res.AdminNetworkCIDR != nil {
 		s.D.Set("admin_network_cidr", *s.Res.AdminNetworkCIDR)
 	}
@@ -81,6 +89,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ComputeCount != nil {
+		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
 	contacts := []interface{}{}
@@ -180,6 +192,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.StorageCount != nil {
+		s.D.Set("storage_count", *s.Res.StorageCount)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

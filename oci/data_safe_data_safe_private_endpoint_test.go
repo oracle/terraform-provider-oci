@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v41/datasafe"
+	"github.com/oracle/oci-go-sdk/v42/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,11 +31,13 @@ var (
 	}
 
 	dataSafePrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         RepresentationGroup{Required, dataSafePrivateEndpointDataSourceFilterRepresentation}}
+		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
+		"access_level":              Representation{repType: Optional, create: `RESTRICTED`},
+		"compartment_id_in_subtree": Representation{repType: Optional, create: `true`},
+		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":                     Representation{repType: Optional, create: `ACTIVE`},
+		"vcn_id":                    Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"filter":                    RepresentationGroup{Required, dataSafePrivateEndpointDataSourceFilterRepresentation}}
 	dataSafePrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`}},
@@ -199,15 +201,19 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 					compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.defined_tags.%", "0"),
 					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.freeform_tags.%", "0"),
 					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.private_endpoint_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.state"),

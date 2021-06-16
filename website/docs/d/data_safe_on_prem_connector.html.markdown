@@ -42,5 +42,6 @@ The following attributes are exported:
 * `id` - The OCID of the on-premises connector.
 * `lifecycle_details` - Details about the current state of the on-premises connector.
 * `state` - The current state of the on-premises connector.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the on-premises connector was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 

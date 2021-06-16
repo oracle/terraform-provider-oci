@@ -82,7 +82,7 @@ The following arguments are supported:
 		* `display_name` - (Optional) (Updatable) The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
 		* `subnet_id` - (Required) (Updatable) The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 * `size` - (Required) (Updatable) The number of instances that should be in the instance pool. Modifying this value will override the size of the instance pool. If the instance pool is linked with autoscaling configuration, autoscaling configuration could resize the instance pool at a later point. The instance pool's actual size may differ from the configured size if it is associated with an autoscaling configuration. For the actual size of the instance pool, refer to the `actual_size` attribute.
-* `state` - (Optional) (Updatable) The target state for the instance pool. Could be set to RUNNING or STOPPED.
+* `state` - (Optional) (Updatable) The target state for the instance pool update operation (ignored at create time and should not be set). Could be set to RUNNING or STOPPED.
 
 
 ** IMPORTANT **

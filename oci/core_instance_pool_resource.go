@@ -9,10 +9,12 @@ import (
 	"log"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v41/core"
+	oci_core "github.com/oracle/oci-go-sdk/v42/core"
 )
 
 const (
@@ -357,17 +359,7 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		return err
 	}
 
-	desiredStateStr := instancePoolRunningState
-	if desiredState, ok := s.D.GetOkExists("state"); ok {
-		desiredStateStr = desiredState.(string)
-	}
-
-	instancePool, err := s.setInstancePoolDesiredState(response.InstancePool.Id, desiredStateStr)
-	if err != nil {
-		return err
-	}
-
-	s.Res = instancePool
+	s.Res = &response.InstancePool
 
 	return nil
 }
@@ -487,17 +479,23 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		return err
 	}
 
-	desiredStateStr := instancePoolRunningState
-	if desiredState, ok := s.D.GetOkExists("state"); ok {
-		desiredStateStr = desiredState.(string)
-	}
+	s.Res = &response.InstancePool
 
-	instancePool, err := s.setInstancePoolDesiredState(response.InstancePool.Id, desiredStateStr)
-	if err != nil {
-		return err
-	}
+	if _, ok := s.D.GetOkExists("state"); ok && s.D.HasChange("state") {
+		oldRaw, newRaw := s.D.GetChange("state")
+		oldState := strings.ToLower(oldRaw.(string))
+		newState := strings.ToLower(newRaw.(string))
 
-	s.Res = instancePool
+		if oldState == instancePoolRunningState && newState == instancePoolStoppedState ||
+			oldState == instancePoolStoppedState && newState == instancePoolRunningState {
+			instancePool, err := s.setInstancePoolDesiredState(response.InstancePool.Id, newState)
+			if err != nil {
+				return err
+			}
+
+			s.Res = instancePool
+		}
+	}
 
 	return nil
 }
@@ -843,6 +841,13 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 		attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
 		_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
+
+		if err != nil {
+			return err
+		}
+
+		_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
+
 		if err != nil {
 			return err
 		}
@@ -855,6 +860,13 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 		detachLoadBalancerRequest.InstancePoolId = &id
 		detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
 		_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)
+
+		if err != nil {
+			return err
+		}
+
+		_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer)
+
 		if err != nil {
 			return err
 		}
@@ -875,4 +887,46 @@ func mapToAttachLoadBalancerDetails(item map[string]interface{}) oci_core.Attach
 	result.VnicSelection = &vnicSelection
 
 	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) pollForLbOperationCompletion(poolId *string, lbToTrack *oci_core.AttachLoadBalancerDetails) (*oci_core.InstancePool, error) {
+	response := oci_core.GetInstancePoolResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttaching),
+			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetaching),
+		},
+		Target: []string{
+			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttached),
+			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+
+			response, err = s.Client.GetInstancePool(context.Background(),
+				oci_core.GetInstancePoolRequest{
+					InstancePoolId: poolId,
+				})
+
+			ip := response.InstancePool
+			loadBalancers := ip.LoadBalancers
+
+			for i := 0; i < len(loadBalancers); i++ {
+				if *loadBalancers[i].LoadBalancerId == *lbToTrack.LoadBalancerId &&
+					*loadBalancers[i].BackendSetName == *lbToTrack.BackendSetName {
+					return ip, string(loadBalancers[i].LifecycleState), err
+				}
+			}
+
+			// if there is no match than fail
+			return ip, "Not found", fmt.Errorf("load balancer attachment not found")
+		},
+		Timeout: s.D.Timeout(schema.TimeoutUpdate),
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		return &response.InstancePool, e
+	}
+
+	return &response.InstancePool, nil
 }

@@ -13,9 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
-	"github.com/oracle/oci-go-sdk/v41/containerengine"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v41/containerengine"
+	"github.com/oracle/oci-go-sdk/v42/common"
+	"github.com/oracle/oci-go-sdk/v42/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -60,7 +60,7 @@ var (
 		"service_lb_subnet_ids":        Representation{repType: Optional, create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
 	clusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
-		"kms_key_id": Representation{repType: Optional, update: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"kms_key_id": Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
 	}
 	clusterOptionsAddOnsRepresentation = map[string]interface{}{
 		"is_kubernetes_dashboard_enabled": Representation{repType: Optional, create: `true`},
