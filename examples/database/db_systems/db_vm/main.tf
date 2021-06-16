@@ -85,6 +85,10 @@ variable "node_count" {
   default = "1"
 }
 
+variable "test_database_software_image_ocid" {
+
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -127,6 +131,11 @@ data "oci_database_databases" "databases" {
 data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
   compartment_id = var.compartment_ocid
   db_system_id   = oci_database_db_system.test_db_system.id
+}
+
+resource "oci_database_backup" "test_backup" {
+  database_id = "${data.oci_database_databases.databases.databases.0.id}"
+  display_name = "Monthly Backup"
 }
 
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
@@ -306,3 +315,29 @@ resource "oci_database_db_system" "test_db_system" {
   }
 }
 
+resource "oci_database_db_system" "db_system_bkup" {
+  source = "DB_BACKUP"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id = var.compartment_ocid
+  subnet_id = oci_core_subnet.subnet.id
+  database_edition = var.db_edition
+  disk_redundancy = var.db_disk_redundancy
+  shape = var.db_system_shape
+  ssh_public_keys         = [var.ssh_public_key]
+  hostname = var.hostname
+  data_storage_size_in_gb = var.data_storage_size_in_gb
+  license_model = var.license_model
+  node_count = data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0]["minimum_node_count"]
+  display_name = "tfDbSystemFromBackupWithCustImg"
+
+  db_home {
+    db_version = "12.1.0.2"
+    database_software_image_id = var.test_database_software_image_ocid
+    database {
+      admin_password = "BEstrO0ng_#11"
+      backup_tde_password = "BEstrO0ng_#11"
+      backup_id = "${oci_database_backup.test_backup.id}"
+      db_name = "dbback"
+    }
+  }
+}

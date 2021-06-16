@@ -47,6 +47,15 @@ var (
 		Representation{RepType: Required, Create: `EXADATA_SHAPE`},
 		databaseSoftwareImageDataSourceRepresentationForExaccShape)
 
+	databaseSoftwareImageDataSourceRepresentationForVmBmShape = map[string]interface{}{
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":       Representation{RepType: Required, Create: `VMBM_DB_Image_V19`},
+		"database_version":   Representation{RepType: Required, Create: `19.0.0.0`},
+		"patch_set":          Representation{RepType: Required, Create: `19.7.0.0`},
+		"image_shape_family": Representation{RepType: Optional, Create: `VMBM_SHAPE`},
+		"image_type":         Representation{RepType: Optional, Create: `DATABASE_IMAGE`},
+	}
+
 	databaseSoftwareImageRepresentationForExaccShape = map[string]interface{}{
 		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"database_version":   Representation{RepType: Required, Create: `19.0.0.0`},
