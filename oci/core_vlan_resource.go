@@ -27,12 +27,6 @@ func CoreVlanResource() *schema.Resource {
 		Delete:   deleteCoreVlan,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"availability_domain": {
-				Type:             schema.TypeString,
-				Required:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-			},
 			"cidr_block": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -48,6 +42,13 @@ func CoreVlanResource() *schema.Resource {
 			},
 
 			// Optional
+			"availability_domain": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,

@@ -18,12 +18,12 @@ Creates a VLAN in the specified VCN and the specified compartment.
 ```hcl
 resource "oci_core_vlan" "test_vlan" {
 	#Required
-	availability_domain = var.vlan_availability_domain
 	cidr_block = var.vlan_cidr_block
 	compartment_id = var.compartment_id
 	vcn_id = oci_core_vcn.test_vcn.id
 
 	#Optional
+	availability_domain = var.vlan_availability_domain
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.vlan_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -37,7 +37,13 @@ resource "oci_core_vlan" "test_vlan" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain of the VLAN.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) Controls whether the VLAN is regional or specific to an availability domain. A regional VLAN has the flexibility to implement failover across availability domains. Previously, all VLANs were AD-specific.
+
+	To create a regional VLAN, omit this attribute. Resources created subsequently in this VLAN (such as a Compute instance) can be created in any availability domain in the region.
+
+	To create an AD-specific VLAN, use this attribute to specify the availability domain. Resources created in this VLAN must be in that availability domain.
+
+	Example: `Uocm:PHX-AD-1` 
 * `cidr_block` - (Required) (Updatable) The range of IPv4 addresses that will be used for layer 3 communication with hosts outside the VLAN. The CIDR must maintain the following rules -
 
   a. The CIDR block is valid and correctly formatted. b. The new range is within one of the parent VCN ranges.
@@ -61,7 +67,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain of the VLAN.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The VLAN's availability domain. This attribute will be null if this is a regional VLAN rather than an AD-specific VLAN.  Example: `Uocm:PHX-AD-1` 
 * `cidr_block` - The range of IPv4 addresses that will be used for layer 3 communication with hosts outside the VLAN.  Example: `192.168.1.0/24` 
 * `compartment_id` - The OCID of the compartment containing the VLAN.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
