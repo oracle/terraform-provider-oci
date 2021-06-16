@@ -44,6 +44,7 @@ The following attributes are exported:
 * `private_endpoint_ip` - The private IP address of the private endpoint. 
 * `state` - The current state of the private endpoint.
 * `subnet_id` - The OCID of the subnet.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the private endpoint was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `vcn_id` - The OCID of the VCN.
 

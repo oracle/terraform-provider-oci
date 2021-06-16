@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -35,9 +34,9 @@ var (
 		"time_zone":                   Representation{repType: Required, create: `US/Pacific`, update: `UTC`},
 		"contacts":                    RepresentationGroup{Optional, exadataInfrastructureContactsRepresentation},
 		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
-		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"maintenance_window":          RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+		//"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 	}
 
 	exadataInfrastructureRepresentationWithContacts = getUpdatedRepresentationCopy("contacts", RepresentationGroup{Required, getUpdatedRepresentationCopy("phone_number", Representation{repType: Required, create: `1234567891`, update: `1234567892`}, exadataInfrastructureContactsRepresentation)}, exadataInfrastructureRepresentation)
@@ -84,7 +83,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -115,7 +114,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -148,7 +147,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -169,13 +168,6 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 						return err
 					},
 				),
-			},
-			// verify update on activated infrastructure
-			{
-				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
-						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})),
-				ExpectError: regexp.MustCompile("update not allowed on activated exadata infrastructure"),
 			},
 		},
 	})

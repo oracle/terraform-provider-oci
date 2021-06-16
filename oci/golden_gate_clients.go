@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v41/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v42/goldengate"
 
-	oci_common "github.com/oracle/oci-go-sdk/v41/common"
+	oci_common "github.com/oracle/oci-go-sdk/v42/common"
 )
 
 func init() {

@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_events "github.com/oracle/oci-go-sdk/v41/events"
+	oci_events "github.com/oracle/oci-go-sdk/v42/events"
 )
 
 func init() {

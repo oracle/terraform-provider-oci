@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v41/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
 )
 
 func init() {
@@ -98,6 +98,10 @@ func (s *DataSafeOnPremConnectorDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

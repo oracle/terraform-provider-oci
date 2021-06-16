@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
+	"github.com/oracle/oci-go-sdk/v42/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v41/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v42/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -305,7 +305,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "16"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),

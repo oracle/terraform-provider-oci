@@ -15,7 +15,7 @@ skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 ## This rule will set GO mod environment variables so that builds/tests are using the vendor folder
 ## May need to remove this in future so that it doesn't interfere with environment settings of .travis.yml file
 gomodenv:
-	export GO111MODULE=on
+	export GO111MODULE=off
 	export GOFLAGS=-mod=vendor
 
 default: build

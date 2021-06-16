@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v41/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
 )
 
 func init() {
@@ -103,6 +103,10 @@ func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

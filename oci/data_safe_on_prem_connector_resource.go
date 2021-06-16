@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v41/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v41/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
 )
 
 func init() {
@@ -79,6 +79,11 @@ func DataSafeOnPremConnectorResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -429,6 +434,8 @@ func (s *DataSafeOnPremConnectorResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

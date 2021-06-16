@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v41/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v42/managementdashboard"
 )
 
 func init() {

@@ -15,8 +15,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v41/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v41/dns"
+	"github.com/oracle/oci-go-sdk/v42/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v42/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -239,8 +239,8 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "AAAA"
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
@@ -258,8 +258,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "AAAA"
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
@@ -280,8 +280,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "AAAA"
 	rdata = "0000:0000:0000:0000:0000:8a2e:0370:0001"
 	ttl = "3600"
@@ -293,8 +293,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "AAAA"
 	rdata = "8a2e:0000:0000:0000:0000:0370:0000:0000"
 	ttl = "3600"
@@ -306,8 +306,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "TXT"
 	rdata = "arbitrary text"
 	ttl = "3600"
@@ -320,8 +320,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "ALIAS"
 	rdata = "other.tf-provider.oci-record-test"
 	ttl = "3600"
@@ -354,8 +354,8 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "A"
 	rdata = "192.168.0.1"
 	ttl = "3600"
@@ -367,8 +367,8 @@ resource "oci_dns_record" "test_record" {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
-	domain = "${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test"
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
 	rtype = "A"
 	rdata = "192.168.0.1"
 	ttl = "-1"

@@ -291,7 +291,7 @@ func getKmsKeyVersionId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find management_endpoint for Kms KeyVersion")
 	}
-	keyId := resource.parent.id
+	keyId := resource.parent.sourceAttributes["id"].(string)
 	keyVersionId, ok := resource.sourceAttributes["key_version_id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find keyVersionId for Kms KeyVersion")

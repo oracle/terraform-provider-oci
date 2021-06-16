@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v41/common"
-	"github.com/oracle/oci-go-sdk/v41/database"
+	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	"github.com/oracle/oci-go-sdk/v42/database"
 )
 
 func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {

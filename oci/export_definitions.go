@@ -4,52 +4,52 @@
 package oci
 
 import (
-	oci_analytics "github.com/oracle/oci-go-sdk/v41/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v41/apigateway"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v41/artifacts"
-	oci_bastion "github.com/oracle/oci-go-sdk/v41/bastion"
-	oci_bds "github.com/oracle/oci-go-sdk/v41/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v41/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v41/budget"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v41/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v41/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v41/core"
-	oci_database "github.com/oracle/oci-go-sdk/v41/database"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v41/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v41/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v41/dataintegration"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v41/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v41/datascience"
-	oci_dns "github.com/oracle/oci-go-sdk/v41/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v41/email"
-	oci_events "github.com/oracle/oci-go-sdk/v41/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v41/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v41/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v41/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v41/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v41/integration"
-	oci_jms "github.com/oracle/oci-go-sdk/v41/jms"
-	oci_kms "github.com/oracle/oci-go-sdk/v41/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v41/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v41/loadbalancer"
-	oci_logging "github.com/oracle/oci-go-sdk/v41/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v41/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v41/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v41/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v41/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v41/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v41/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v41/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v41/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v41/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v41/ons"
-	oci_opsi "github.com/oracle/oci-go-sdk/v41/opsi"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v41/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v41/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v41/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v41/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v41/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v41/waas"
+	oci_analytics "github.com/oracle/oci-go-sdk/v42/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v42/artifacts"
+	oci_bastion "github.com/oracle/oci-go-sdk/v42/bastion"
+	oci_bds "github.com/oracle/oci-go-sdk/v42/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v42/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v42/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v42/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v42/core"
+	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v42/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v42/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v42/dataintegration"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v42/datascience"
+	oci_dns "github.com/oracle/oci-go-sdk/v42/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v42/email"
+	oci_events "github.com/oracle/oci-go-sdk/v42/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v42/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v42/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v42/goldengate"
+	oci_identity "github.com/oracle/oci-go-sdk/v42/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v42/integration"
+	oci_jms "github.com/oracle/oci-go-sdk/v42/jms"
+	oci_kms "github.com/oracle/oci-go-sdk/v42/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v42/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v42/loadbalancer"
+	oci_logging "github.com/oracle/oci-go-sdk/v42/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v42/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v42/marketplace"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v42/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v42/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v42/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v42/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v42/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v42/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v42/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v42/ons"
+	oci_opsi "github.com/oracle/oci-go-sdk/v42/opsi"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v42/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v42/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v42/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v42/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v42/vulnerabilityscanning"
+	oci_waas "github.com/oracle/oci-go-sdk/v42/waas"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -794,7 +794,19 @@ var exportDataSafeOnPremConnectorHints = &TerraformResourceHints{
 	datasourceItemsAttr:  "on_prem_connectors",
 	resourceAbbreviation: "on_prem_connector",
 	discoverableLifecycleStates: []string{
+		string(oci_data_safe.OnPremConnectorLifecycleStateInactive),
 		string(oci_data_safe.OnPremConnectorLifecycleStateActive),
+	},
+}
+
+var exportDataSafeTargetDatabaseHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_safe_target_database",
+	datasourceClass:        "oci_data_safe_target_databases",
+	datasourceItemsAttr:    "target_databases",
+	resourceAbbreviation:   "target_database",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
 	},
 }
 

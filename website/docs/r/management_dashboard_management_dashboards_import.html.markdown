@@ -10,7 +10,9 @@ description: |-
 # oci_management_dashboard_management_dashboards_import
 This resource provides the Management Dashboards Import resource in Oracle Cloud Infrastructure Management Dashboard service.
 
-Imports an array of dashboards and their saved searches.
+Imports an array of dashboards and their saved searches. Import is designed to work with exportDashboard. An example using Oracle Cloud Infrastructure CLI is 
+    $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json
+    $oci management-dashboard dashboard import --from-json file://dashboards.json
 
 
 ## Example Usage
