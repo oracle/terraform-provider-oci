@@ -22,6 +22,7 @@ import (
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v42/dataintegration"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
 	oci_datascience "github.com/oracle/oci-go-sdk/v42/datascience"
+	oci_devops "github.com/oracle/oci-go-sdk/v42/devops"
 	oci_dns "github.com/oracle/oci-go-sdk/v42/dns"
 	oci_email "github.com/oracle/oci-go-sdk/v42/email"
 	oci_events "github.com/oracle/oci-go-sdk/v42/events"
@@ -1203,6 +1204,78 @@ var exportDatascienceModelDeploymentHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_datascience.ModelDeploymentLifecycleStateActive),
 		string(oci_datascience.ModelDeploymentLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDevopsProjectHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_project",
+	datasourceClass:        "oci_devops_projects",
+	datasourceItemsAttr:    "project_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "project",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.ProjectLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployEnvironmentHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_environment",
+	datasourceClass:        "oci_devops_deploy_environments",
+	datasourceItemsAttr:    "deploy_environment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_environment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployEnvironmentLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployArtifactHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_artifact",
+	datasourceClass:        "oci_devops_deploy_artifacts",
+	datasourceItemsAttr:    "deploy_artifact_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_artifact",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployArtifactLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployPipelineHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_pipeline",
+	datasourceClass:        "oci_devops_deploy_pipelines",
+	datasourceItemsAttr:    "deploy_pipeline_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_pipeline",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployPipelineLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployStageHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_stage",
+	datasourceClass:        "oci_devops_deploy_stages",
+	datasourceItemsAttr:    "deploy_stage_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_stage",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployStageLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deployment",
+	datasourceClass:        "oci_devops_deployments",
+	datasourceItemsAttr:    "deployment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeploymentLifecycleStateSucceeded),
 	},
 }
 

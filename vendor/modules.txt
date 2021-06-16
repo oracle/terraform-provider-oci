@@ -281,6 +281,7 @@ github.com/oracle/oci-go-sdk/v42/dataflow
 github.com/oracle/oci-go-sdk/v42/dataintegration
 github.com/oracle/oci-go-sdk/v42/datasafe
 github.com/oracle/oci-go-sdk/v42/datascience
+github.com/oracle/oci-go-sdk/v42/devops
 github.com/oracle/oci-go-sdk/v42/dns
 github.com/oracle/oci-go-sdk/v42/email
 github.com/oracle/oci-go-sdk/v42/events
