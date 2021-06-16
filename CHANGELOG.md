@@ -1,4 +1,4 @@
-## 4.31.0 (Unreleased)
+## 4.31.0 (June 16, 2021)
 
 ### Added
 - Support for Data Safe target database registration
