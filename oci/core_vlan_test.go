@@ -42,10 +42,10 @@ var (
 	}
 
 	vlanRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"cidr_block":          Representation{repType: Required, create: `10.0.0.0/24`, update: "10.0.0.0/16"},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":              Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -101,7 +101,6 @@ func TestCoreVlanResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + VlanResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),

@@ -3,6 +3,7 @@
 ### Added
 - Support for Oracle distribution of Hadoop with Big Data service
 - Support for APM Synthetics service added
+- Support for Regional VLANs added to `core`
 
 ## 4.34.0 (July 07, 2021)
 
