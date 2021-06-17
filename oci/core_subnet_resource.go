@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v42/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -147,6 +148,7 @@ func createCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -163,6 +165,7 @@ func updateCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -172,6 +175,7 @@ func deleteCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -181,6 +185,7 @@ type CoreSubnetResourceCrud struct {
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Subnet
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreSubnetResourceCrud) ID() string {
@@ -508,9 +513,17 @@ func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) erro
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeSubnetCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeSubnetCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "subnet", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

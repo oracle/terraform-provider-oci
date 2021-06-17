@@ -170,7 +170,7 @@ func createDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -179,7 +179,6 @@ func readDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface{}
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -188,7 +187,7 @@ func updateDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -197,8 +196,8 @@ func deleteDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -206,9 +205,9 @@ func deleteDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface
 type DatabaseExternalPluggableDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.ExternalPluggableDatabase
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseExternalPluggableDatabaseResourceCrud) ID() string {
@@ -284,14 +283,16 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
 		if err != nil {
 			return err
 		}
 	}
 
-	s.Res = &response.ExternalPluggableDatabase
-	return nil
+	return s.Get()
 }
 
 func (s *DatabaseExternalPluggableDatabaseResourceCrud) Get() error {
@@ -352,13 +353,12 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	s.Res = &response.ExternalPluggableDatabase
 	return s.Get()
 }
 
@@ -371,15 +371,19 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Delete() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DeleteExternalPluggableDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return nil
+
+	return s.Get()
 }
 
 func (s *DatabaseExternalPluggableDatabaseResourceCrud) SetData() error {
@@ -499,9 +503,17 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) updateCompartment(compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeExternalPluggableDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeExternalPluggableDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

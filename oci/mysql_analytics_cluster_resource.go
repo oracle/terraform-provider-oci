@@ -10,10 +10,13 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/v42/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v42/mysql"
 )
 
@@ -113,6 +116,7 @@ func createMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &MysqlAnalyticsClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dbSystemClient()
+	sync.WorkRequestClient = m.(*OracleClients).mysqlWorkRequestsClient()
 
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
@@ -149,6 +153,7 @@ func updateMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &MysqlAnalyticsClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dbSystemClient()
+	sync.WorkRequestClient = m.(*OracleClients).mysqlWorkRequestsClient()
 
 	powerOn, powerOff := false, false
 
@@ -189,6 +194,7 @@ func deleteMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).dbSystemClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).mysqlWorkRequestsClient()
 
 	return DeleteResource(d, sync)
 }
@@ -198,6 +204,7 @@ type MysqlAnalyticsClusterResourceCrud struct {
 	Client                 *oci_mysql.DbSystemClient
 	Res                    *oci_mysql.AnalyticsCluster
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_mysql.WorkRequestsClient
 }
 
 func (s *MysqlAnalyticsClusterResourceCrud) ID() string {
@@ -265,8 +272,123 @@ func (s *MysqlAnalyticsClusterResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.AnalyticsCluster
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getAnalyticsClusterFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "mysql"), oci_mysql.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *MysqlAnalyticsClusterResourceCrud) getAnalyticsClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_mysql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	analyticsClusterId, err := analyticsClusterWaitForWorkRequest(workId, "mysql",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*analyticsClusterId)
+
+	return s.Get()
+}
+
+func analyticsClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "mysql", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_mysql.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func analyticsClusterWaitForWorkRequest(wId *string, entityType string, action oci_mysql.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_mysql.WorkRequestsClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "mysql")
+	retryPolicy.ShouldRetryOperation = analyticsClusterWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_mysql.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_mysql.WorkRequestOperationStatusInProgress),
+			string(oci_mysql.WorkRequestOperationStatusAccepted),
+			string(oci_mysql.WorkRequestOperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_mysql.WorkRequestOperationStatusSucceeded),
+			string(oci_mysql.WorkRequestOperationStatusFailed),
+			string(oci_mysql.WorkRequestOperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_mysql.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_mysql.WorkRequestOperationStatusFailed || response.Status == oci_mysql.WorkRequestOperationStatusCanceled {
+		return nil, getErrorFromMysqlAnalyticsClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromMysqlAnalyticsClusterWorkRequest(client *oci_mysql.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_mysql.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_mysql.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *MysqlAnalyticsClusterResourceCrud) Get() error {
@@ -315,12 +437,13 @@ func (s *MysqlAnalyticsClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	_, err := s.Client.UpdateAnalyticsCluster(context.Background(), request)
+	response, err := s.Client.UpdateAnalyticsCluster(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	workId := response.OpcWorkRequestId
+	return s.getAnalyticsClusterFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "mysql"), oci_mysql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *MysqlAnalyticsClusterResourceCrud) Delete() error {
@@ -333,8 +456,16 @@ func (s *MysqlAnalyticsClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	_, err := s.Client.DeleteAnalyticsCluster(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteAnalyticsCluster(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := analyticsClusterWaitForWorkRequest(workId, "mysql",
+		oci_mysql.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
+	return delWorkRequestErr
 }
 
 func (s *MysqlAnalyticsClusterResourceCrud) SetData() error {

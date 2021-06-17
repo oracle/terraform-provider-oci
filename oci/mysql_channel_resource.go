@@ -8,10 +8,13 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/v42/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v42/mysql"
 )
 
@@ -208,6 +211,7 @@ func createMysqlChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &MysqlChannelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).channelsClient()
+	sync.WorkRequestClient = m.(*OracleClients).mysqlWorkRequestsClient()
 
 	return CreateResource(d, sync)
 }
@@ -224,6 +228,7 @@ func updateMysqlChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &MysqlChannelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).channelsClient()
+	sync.WorkRequestClient = m.(*OracleClients).mysqlWorkRequestsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -233,6 +238,7 @@ func deleteMysqlChannel(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).channelsClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).mysqlWorkRequestsClient()
 
 	return DeleteResource(d, sync)
 }
@@ -242,6 +248,7 @@ type MysqlChannelResourceCrud struct {
 	Client                 *oci_mysql.ChannelsClient
 	Res                    *oci_mysql.Channel
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_mysql.WorkRequestsClient
 }
 
 func (s *MysqlChannelResourceCrud) ID() string {
@@ -352,8 +359,123 @@ func (s *MysqlChannelResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.Channel
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getChannelFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "mysql"), oci_mysql.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *MysqlChannelResourceCrud) getChannelFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_mysql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	channelId, err := channelWaitForWorkRequest(workId, "mysql",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*channelId)
+
+	return s.Get()
+}
+
+func channelWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "mysql", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_mysql.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func channelWaitForWorkRequest(wId *string, entityType string, action oci_mysql.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_mysql.WorkRequestsClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "mysql")
+	retryPolicy.ShouldRetryOperation = channelWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_mysql.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_mysql.WorkRequestOperationStatusInProgress),
+			string(oci_mysql.WorkRequestOperationStatusAccepted),
+			string(oci_mysql.WorkRequestOperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_mysql.WorkRequestOperationStatusSucceeded),
+			string(oci_mysql.WorkRequestOperationStatusFailed),
+			string(oci_mysql.WorkRequestOperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_mysql.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_mysql.WorkRequestOperationStatusFailed || response.Status == oci_mysql.WorkRequestOperationStatusCanceled {
+		return nil, getErrorFromMysqlChannelWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromMysqlChannelWorkRequest(client *oci_mysql.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_mysql.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_mysql.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *MysqlChannelResourceCrud) Get() error {
@@ -430,12 +552,13 @@ func (s *MysqlChannelResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	_, err := s.Client.UpdateChannel(context.Background(), request)
+	response, err := s.Client.UpdateChannel(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	workId := response.OpcWorkRequestId
+	return s.getChannelFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "mysql"), oci_mysql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *MysqlChannelResourceCrud) Delete() error {
@@ -446,8 +569,16 @@ func (s *MysqlChannelResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	_, err := s.Client.DeleteChannel(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteChannel(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := channelWaitForWorkRequest(workId, "mysql",
+		oci_mysql.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
+	return delWorkRequestErr
 }
 
 func (s *MysqlChannelResourceCrud) SetData() error {

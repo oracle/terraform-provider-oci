@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -185,6 +186,7 @@ func createDatabaseBackupDestination(d *schema.ResourceData, m interface{}) erro
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -201,6 +203,7 @@ func updateDatabaseBackupDestination(d *schema.ResourceData, m interface{}) erro
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -210,6 +213,7 @@ func deleteDatabaseBackupDestination(d *schema.ResourceData, m interface{}) erro
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -219,6 +223,7 @@ type DatabaseBackupDestinationResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.BackupDestination
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseBackupDestinationResourceCrud) ID() string {
@@ -644,9 +649,17 @@ func (s *DatabaseBackupDestinationResourceCrud) updateCompartment(compartment in
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeBackupDestinationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeBackupDestinationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "backupDestination", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

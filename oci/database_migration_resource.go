@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -73,6 +74,7 @@ func createDatabaseMigration(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseMigrationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -90,6 +92,7 @@ type DatabaseMigrationResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.ExadataDbSystemMigration
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseMigrationResourceCrud) ID() string {

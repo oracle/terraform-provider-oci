@@ -12,9 +12,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -259,7 +259,7 @@ func createDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error 
 	sync := &DatabaseDatabaseUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -268,7 +268,6 @@ func readDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -279,11 +278,10 @@ func deleteDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error 
 
 type DatabaseDatabaseUpgradeResourceCrud struct {
 	BaseCrud
-	Client            *oci_database.DatabaseClient
-	Res               *oci_database.Database
-	workRequestClient *oci_work_requests.WorkRequestClient
-
+	Client                 *oci_database.DatabaseClient
+	Res                    *oci_database.Database
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseDatabaseUpgradeResourceCrud) ID() string {
@@ -340,7 +338,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Create() error {
 }
 
 func (s *DatabaseDatabaseUpgradeResourceCrud) getDatabaseUpgradeFromWorkRequest(workId *string, actionTypeEnum oci_work_requests.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
-	databaseUpgradeId, err := WaitForWorkRequest(s.workRequestClient, workId, "database", actionTypeEnum, timeout, s.DisableNotFoundRetries, true)
+	databaseUpgradeId, err := WaitForWorkRequest(s.WorkRequestClient, workId, "database", actionTypeEnum, timeout, s.DisableNotFoundRetries, true)
 	log.Printf("[DEBUG] WaitForWorkRequest finished. databaseUpgradeId: %v err: %v for workId: %v, actionTypeEnum: %v\n", *databaseUpgradeId, err, *workId, actionTypeEnum)
 	if err != nil {
 		log.Printf("[ERROR] Database upgrade operation failed, attempting to cancel the workrequest: %v for identifier: %v\n", *workId, databaseUpgradeId)

@@ -52,8 +52,9 @@ func createDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *s
 	sync := &DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalNonContainerDatabaseOperationsInsightsResponse{}
+
 	return CreateResource(d, sync)
 }
 
@@ -61,7 +62,7 @@ func updateDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *s
 	sync := &DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalNonContainerDatabaseOperationsInsightsResponse{}
 	return UpdateResource(d, sync)
 }
@@ -74,7 +75,7 @@ func deleteDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *s
 	sync := &DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalNonContainerDatabaseOperationsInsightsResponse{}
 	sync.DisableNotFoundRetries = true
 
@@ -89,9 +90,9 @@ type DatabaseExternalNonContainerDatabaseOperationsInsightsResponse struct {
 type DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *DatabaseExternalNonContainerDatabaseOperationsInsightsResponse
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) ID() string {
@@ -127,7 +128,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -153,7 +154,10 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
 		if err != nil {
 			return err
 		}
@@ -192,7 +196,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -218,7 +222,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -253,7 +257,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

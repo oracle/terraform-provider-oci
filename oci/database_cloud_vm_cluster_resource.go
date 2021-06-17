@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -289,6 +290,7 @@ func createDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -305,6 +307,7 @@ func updateDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -314,6 +317,7 @@ func deleteDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -323,6 +327,7 @@ type DatabaseCloudVmClusterResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.CloudVmCluster
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) ID() string {
@@ -512,8 +517,18 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.CloudVmCluster
-	return nil
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) Get() error {
@@ -640,8 +655,15 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		return err
 	}
 
-	s.Res = &response.CloudVmCluster
-	return nil
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) Delete() error {
@@ -652,8 +674,20 @@ func (s *DatabaseCloudVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteCloudVmCluster(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteCloudVmCluster(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
@@ -811,9 +845,17 @@ func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeCloudVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCloudVmClusterCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
