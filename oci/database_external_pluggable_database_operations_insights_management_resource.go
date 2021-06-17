@@ -52,7 +52,7 @@ func createDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *sche
 	sync := &DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseOperationsInsightsResponse{}
 
 	return CreateResource(d, sync)
@@ -62,7 +62,7 @@ func updateDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *sche
 	sync := &DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseOperationsInsightsResponse{}
 	return UpdateResource(d, sync)
 }
@@ -75,7 +75,7 @@ func deleteDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *sche
 	sync := &DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseOperationsInsightsResponse{}
 	sync.DisableNotFoundRetries = true
 
@@ -90,9 +90,9 @@ type DatabaseExternalPluggableDatabaseOperationsInsightsResponse struct {
 type DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *DatabaseExternalPluggableDatabaseOperationsInsightsResponse
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) ID() string {
@@ -128,7 +128,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -154,7 +154,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -192,7 +192,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -218,7 +218,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -253,7 +253,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

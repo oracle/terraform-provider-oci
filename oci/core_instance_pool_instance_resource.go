@@ -11,11 +11,10 @@ import (
 	"regexp"
 	"strings"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v42/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -137,7 +136,7 @@ func createCoreInstancePoolInstance(d *schema.ResourceData, m interface{}) error
 	sync := &CoreInstancePoolInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -154,7 +153,7 @@ func deleteCoreInstancePoolInstance(d *schema.ResourceData, m interface{}) error
 	sync := &CoreInstancePoolInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -163,8 +162,8 @@ type CoreInstancePoolInstanceResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeManagementClient
 	Res                    *oci_core.InstancePoolInstance
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreInstancePoolInstanceResourceCrud) ID() string {
@@ -211,7 +210,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -220,8 +219,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 		}
 	}
 
-	s.Res = &response.InstancePoolInstance
-	return nil
+	return s.Get()
 }
 
 func (s *CoreInstancePoolInstanceResourceCrud) Get() error {
@@ -274,7 +272,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

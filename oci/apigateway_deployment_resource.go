@@ -1392,7 +1392,7 @@ func createApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).deploymentClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return CreateResource(d, sync)
 }
@@ -1401,7 +1401,6 @@ func readApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).deploymentClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return ReadResource(sync)
 }
@@ -1410,7 +1409,7 @@ func updateApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).deploymentClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -1419,8 +1418,8 @@ func deleteApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).deploymentClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return DeleteResource(d, sync)
 }
@@ -1431,6 +1430,7 @@ type ApigatewayDeploymentResourceCrud struct {
 	WorkRequestsClient     *oci_apigateway.WorkRequestsClient
 	Res                    *oci_apigateway.Deployment
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_apigateway.WorkRequestsClient
 }
 
 func (s *ApigatewayDeploymentResourceCrud) ID() string {
@@ -1535,12 +1535,12 @@ func (s *ApigatewayDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *
 
 	// Wait until it finishes
 	deploymentId, err := deploymentWaitForWorkRequest(workId, "deployment",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestsClient)
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, deploymentId)
-		_, cancelErr := s.WorkRequestsClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{

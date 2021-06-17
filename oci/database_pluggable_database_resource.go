@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -126,6 +127,7 @@ func createDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -142,6 +144,7 @@ func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -151,6 +154,7 @@ func deleteDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -160,6 +164,7 @@ type DatabasePluggableDatabaseResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.PluggableDatabase
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabasePluggableDatabaseResourceCrud) ID() string {
@@ -232,8 +237,18 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.PluggableDatabase
-	return nil
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabasePluggableDatabaseResourceCrud) Get() error {
@@ -278,8 +293,15 @@ func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
 		return err
 	}
 
-	s.Res = &response.PluggableDatabase
-	return nil
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabasePluggableDatabaseResourceCrud) Delete() error {
@@ -290,8 +312,20 @@ func (s *DatabasePluggableDatabaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeletePluggableDatabase(context.Background(), request)
-	return err
+	response, err := s.Client.DeletePluggableDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabasePluggableDatabaseResourceCrud) SetData() error {

@@ -240,7 +240,7 @@ func createCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -257,6 +257,7 @@ func updateCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -266,6 +267,7 @@ func deleteCoreImage(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -273,9 +275,9 @@ func deleteCoreImage(d *schema.ResourceData, m interface{}) error {
 type CoreImageResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Image
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreImageResourceCrud) ID() string {
@@ -361,7 +363,7 @@ func (s *CoreImageResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -370,8 +372,7 @@ func (s *CoreImageResourceCrud) Create() error {
 		}
 	}
 
-	s.Res = &response.Image
-	return nil
+	return s.Get()
 }
 
 func (s *CoreImageResourceCrud) Get() error {

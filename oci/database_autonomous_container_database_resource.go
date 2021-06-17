@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -485,6 +486,7 @@ func createDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	if e := CreateResource(d, sync); e != nil {
 		return e
@@ -512,6 +514,7 @@ func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
 		err := sync.RotateContainerDatabaseEncryptionKey()
@@ -528,6 +531,7 @@ func deleteDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -537,6 +541,7 @@ type DatabaseAutonomousContainerDatabaseResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.AutonomousContainerDatabase
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) ID() string {
@@ -1195,9 +1200,17 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) updateCompartment(comp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeAutonomousContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAutonomousContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

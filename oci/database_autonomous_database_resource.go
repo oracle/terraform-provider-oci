@@ -604,7 +604,7 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	configDataSafeStatus := oci_database.AutonomousDatabaseDataSafeStatusNotRegistered
 	if dataSafeStatus, ok := sync.D.GetOkExists("data_safe_status"); ok {
@@ -694,7 +694,7 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	err := sync.validateSwitchoverDatabase()
 	if err != nil {
@@ -751,6 +751,7 @@ func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -758,9 +759,9 @@ func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 type DatabaseAutonomousDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.AutonomousDatabase
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) ID() string {
@@ -1098,7 +1099,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2354,7 +2355,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2379,7 +2380,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2400,7 +2401,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2427,7 +2428,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion strin
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2467,7 +2468,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2547,7 +2548,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2568,7 +2569,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2585,7 +2586,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2668,9 +2669,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(aut
 	}
 
 	workId := updateResponse.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-	if err != nil {
-		return err
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -2693,7 +2696,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2723,7 +2726,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaul
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

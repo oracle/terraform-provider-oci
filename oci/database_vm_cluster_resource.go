@@ -151,6 +151,7 @@ func createDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -167,7 +168,7 @@ func updateDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -177,6 +178,7 @@ func deleteDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -184,9 +186,9 @@ func deleteDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
 type DatabaseVmClusterResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.VmCluster
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseVmClusterResourceCrud) ID() string {
@@ -541,9 +543,11 @@ func (s *DatabaseVmClusterResourceCrud) updateCompartment(compartment interface{
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "vmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-	if err != nil {
-		return err
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "vmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
