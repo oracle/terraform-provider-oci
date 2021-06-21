@@ -142,6 +142,15 @@ func getServiceName(sync interface{}) string {
 		serviceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "ResourceCrud")]
 		return removeDuplicate(serviceName)
 	}
+	if strings.Contains(syncTypeName, "DataSourcesCrud") {
+		serviceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "DataSourcesCrud")]
+		return removeDuplicate(serviceName)
+	}
+	if strings.Contains(syncTypeName, "DataSourceCrud") {
+		serviceName := syncTypeName[strings.Index(syncTypeName, ".")+1 : strings.Index(syncTypeName, "DataSourceCrud")]
+		return removeDuplicate(serviceName)
+	}
+	log.Printf("[DEBUG] Can't get the service name for: %v", syncTypeName)
 	return ""
 }
 
