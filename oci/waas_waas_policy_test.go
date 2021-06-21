@@ -326,6 +326,8 @@ var (
 
 	WaasPolicyResourceDependencies = DefinedTagsDependencies +
 		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation) +
+		caCertificateVariableStr +
+		privateKeyVariableStr +
 		CustomProtectionRuleRequiredResourceWithoutDependencies
 )
 

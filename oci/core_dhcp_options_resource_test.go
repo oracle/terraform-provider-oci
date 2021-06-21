@@ -256,7 +256,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet("oci_core_default_dhcp_options.default", "time_created"),
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "state", string(core.DhcpOptionsLifecycleStateAvailable)),
 					resource.TestCheckNoResourceAttr("oci_core_default_dhcp_options.default", "vcn_id"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet("oci_core_default_dhcp_options.default", "compartment_id"),
 					func(s *terraform.State) (err error) {
 						if resDefaultId, err = fromInstanceState(s, "oci_core_default_dhcp_options.default", "id"); err != nil {
 							return err
