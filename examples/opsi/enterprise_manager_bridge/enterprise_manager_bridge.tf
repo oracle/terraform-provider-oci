@@ -72,10 +72,12 @@ variable "enterprise_manager_bridge_state" {
 resource "oci_opsi_enterprise_manager_bridge" "test_enterprise_manager_bridge" {
   #Required
   compartment_id             = var.compartment_ocid
-  defined_tags               = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.enterprise_manager_bridge_defined_tags_value}")}"
   display_name               = var.enterprise_manager_bridge_display_name
-  freeform_tags              = var.enterprise_manager_bridge_freeform_tags
   object_storage_bucket_name = oci_objectstorage_bucket.test_bucket.name
+
+  #Optional
+  defined_tags               = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.enterprise_manager_bridge_defined_tags_value}")}"
+  freeform_tags              = var.enterprise_manager_bridge_freeform_tags
   description 		     = var.enterprise_manager_bridge_description
 }
 
