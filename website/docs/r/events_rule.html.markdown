@@ -125,6 +125,14 @@ The following attributes are exported:
 * `state` - The current state of the rule. 
 * `time_created` - The time this rule was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Rule
+	* `update` - (Defaults to 20 minutes), when updating the Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Rule
+
+
 ## Import
 
 Rules can be imported using the `id`, e.g.

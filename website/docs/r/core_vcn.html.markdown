@@ -128,6 +128,14 @@ The following attributes are exported:
 
 	Example: `vcn1.oraclevcn.com` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Vcn
+	* `update` - (Defaults to 20 minutes), when updating the Vcn
+	* `delete` - (Defaults to 20 minutes), when destroying the Vcn
+
+
 ## Import
 
 Vcns can be imported using the `id`, e.g.

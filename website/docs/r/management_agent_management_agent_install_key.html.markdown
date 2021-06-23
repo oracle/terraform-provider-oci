@@ -57,6 +57,14 @@ The following attributes are exported:
 * `time_expires` - date after which key would expire after creation
 * `time_updated` - The time when Management Agent install Key was updated. An RFC3339 formatted date time string
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Management Agent Install Key
+	* `update` - (Defaults to 20 minutes), when updating the Management Agent Install Key
+	* `delete` - (Defaults to 20 minutes), when destroying the Management Agent Install Key
+
+
 ## Import
 
 ManagementAgentInstallKeys can be imported using the `id`, e.g.

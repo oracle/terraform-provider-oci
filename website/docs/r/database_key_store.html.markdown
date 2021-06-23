@@ -76,6 +76,14 @@ The following attributes are exported:
 	* `type` - The type of key store.
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Key Store
+	* `update` - (Defaults to 20 minutes), when updating the Key Store
+	* `delete` - (Defaults to 20 minutes), when destroying the Key Store
+
+
 ## Import
 
 KeyStores can be imported using the `id`, e.g.

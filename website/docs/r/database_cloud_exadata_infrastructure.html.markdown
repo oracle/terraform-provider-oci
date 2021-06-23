@@ -106,6 +106,14 @@ The following attributes are exported:
 * `time_created` - The date and time the cloud Exadata infrastructure resource was created.
 * `total_storage_size_in_gbs` - The total storage allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 12 hours), when creating the Cloud Exadata Infrastructure
+	* `update` - (Defaults to 12 hours), when updating the Cloud Exadata Infrastructure
+	* `delete` - (Defaults to 12 hours), when destroying the Cloud Exadata Infrastructure
+
+
 ## Import
 
 CloudExadataInfrastructures can be imported using the `id`, e.g.

@@ -79,6 +79,14 @@ The following attributes are exported:
 	* `query` - The query component of the target URL (e.g., "?redirected" in "https://target.example.com/path/to/resource?redirected"), which can be empty, static, or request-copying. Use of \ is not permitted except to escape a following \, {, or }. An empty value results in a redirection target URL with no query component. A static value must begin with a leading "?", optionally followed by other query characters. A request-copying value must exactly match "{query}", and will be replaced with the query component of the request URL (including a leading "?" if and only if the request URL includes a query component).
 * `time_created` - The date and time the policy was created, expressed in RFC 3339 timestamp format.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Http Redirect
+	* `update` - (Defaults to 20 minutes), when updating the Http Redirect
+	* `delete` - (Defaults to 20 minutes), when destroying the Http Redirect
+
+
 ## Import
 
 HttpRedirects can be imported using the `id`, e.g.

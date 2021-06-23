@@ -130,6 +130,14 @@ The following attributes are exported:
 * `block_volume_replicas_deletion` - The boolean value, if you have replicas and want to disable replicas set this argument to true and remove `block_volume_replicas` in representation at the same time. If you want to enable a new replicas, remove this argument and use `block_volume_replicas` again.
 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Volume
+	* `update` - (Defaults to 20 minutes), when updating the Volume
+	* `delete` - (Defaults to 20 minutes), when destroying the Volume
+
+
 ## Import
 
 Volumes can be imported using the `id`, e.g.

@@ -72,6 +72,14 @@ The following attributes are exported:
 * `type` - The type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or FORECAST (the alert will trigger based on predicted usage). 
 * `version` - Version of the alert rule. Starts from 1 and increments by 1.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Alert Rule
+	* `update` - (Defaults to 20 minutes), when updating the Alert Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Alert Rule
+
+
 ## Import
 
 AlertRules can be imported using the `id`, e.g.

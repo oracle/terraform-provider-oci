@@ -79,6 +79,14 @@ The following attributes are exported:
 	* `domain_id` - The OCID of the collector (e.g. an APM Domain) trace events will be sent to.  
 	* `is_enabled` - Define if tracing is enabled for the resource. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Application
+	* `update` - (Defaults to 20 minutes), when updating the Application
+	* `delete` - (Defaults to 20 minutes), when destroying the Application
+
+
 ## Import
 
 Applications can be imported using the `id`, e.g.

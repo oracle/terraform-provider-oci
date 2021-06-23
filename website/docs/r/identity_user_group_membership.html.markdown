@@ -46,6 +46,14 @@ The following attributes are exported:
 * `time_created` - Date and time the membership was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the User Group Membership
+	* `update` - (Defaults to 20 minutes), when updating the User Group Membership
+	* `delete` - (Defaults to 20 minutes), when destroying the User Group Membership
+
+
 ## Import
 
 UserGroupMemberships can be imported using the `id`, e.g.

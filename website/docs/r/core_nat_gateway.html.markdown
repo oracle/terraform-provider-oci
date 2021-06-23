@@ -63,6 +63,14 @@ The following attributes are exported:
 * `time_created` - The date and time the NAT gateway was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the NAT gateway belongs to. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Nat Gateway
+	* `update` - (Defaults to 20 minutes), when updating the Nat Gateway
+	* `delete` - (Defaults to 20 minutes), when destroying the Nat Gateway
+
+
 ## Import
 
 NatGateways can be imported using the `id`, e.g.

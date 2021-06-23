@@ -360,6 +360,14 @@ The following attributes are exported:
 		Example: `example_value` 
 * `name` - The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_rule_set` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Rule Set
+	* `update` - (Defaults to 20 minutes), when updating the Rule Set
+	* `delete` - (Defaults to 20 minutes), when destroying the Rule Set
+
+
 ## Import
 
 RuleSets can be imported using the `id`, e.g.

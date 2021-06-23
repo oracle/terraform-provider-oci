@@ -77,6 +77,14 @@ The following attributes are exported:
 	* `values` - the list of values for the enum
 * `time_created` - The date and time the compute image capability schema was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Compute Image Capability Schema
+	* `update` - (Defaults to 20 minutes), when updating the Compute Image Capability Schema
+	* `delete` - (Defaults to 20 minutes), when destroying the Compute Image Capability Schema
+
+
 ## Import
 
 ComputeImageCapabilitySchemas can be imported using the `id`, e.g.

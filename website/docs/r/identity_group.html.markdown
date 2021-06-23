@@ -72,6 +72,14 @@ The following attributes are exported:
 * `state` - The group's current state.
 * `time_created` - Date and time the group was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Group
+	* `update` - (Defaults to 20 minutes), when updating the Group
+	* `delete` - (Defaults to 20 minutes), when destroying the Group
+
+
 ## Import
 
 Groups can be imported using the `id`, e.g.

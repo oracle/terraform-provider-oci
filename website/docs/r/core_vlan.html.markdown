@@ -75,6 +75,14 @@ The following attributes are exported:
 * `vcn_id` - The OCID of the VCN the VLAN is in.
 * `vlan_tag` - The IEEE 802.1Q VLAN tag of this VLAN.  Example: `100` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Vlan
+	* `update` - (Defaults to 20 minutes), when updating the Vlan
+	* `delete` - (Defaults to 20 minutes), when destroying the Vlan
+
+
 ## Import
 
 Vlans can be imported using the `id`, e.g.

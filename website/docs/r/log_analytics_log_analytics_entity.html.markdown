@@ -80,6 +80,14 @@ The following attributes are exported:
 * `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 
 * `timezone_region` - The timezone region of the log analytics entity. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Log Analytics Entity
+	* `update` - (Defaults to 20 minutes), when updating the Log Analytics Entity
+	* `delete` - (Defaults to 20 minutes), when destroying the Log Analytics Entity
+
+
 ## Import
 
 LogAnalyticsEntities can be imported using the `id`, e.g.

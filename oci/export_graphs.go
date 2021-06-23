@@ -17,6 +17,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"availability_domain":    availabilityDomainResourceGraph,
 	"analytics":              analyticsResourceGraph,
 	"apigateway":             apigatewayResourceGraph,
+	"apm":                    apmResourceGraph,
 	"artifacts":              artifactsResourceGraph,
 	"auto_scaling":           autoScalingResourceGraph,
 	"bastion":                bastionResourceGraph,
@@ -27,6 +28,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"core":                   coreResourceGraph,
 	"data_safe":              dataSafeResourceGraph,
 	"database":               databaseResourceGraph,
+	"database_migration":     databaseMigrationResourceGraph,
 	"datacatalog":            datacatalogResourceGraph,
 	"dataflow":               dataflowResourceGraph,
 	"dataintegration":        dataintegrationResourceGraph,
@@ -111,6 +113,12 @@ var apigatewayResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportApigatewayGatewayHints},
 		{TerraformResourceHints: exportApigatewayDeploymentHints},
 		{TerraformResourceHints: exportApigatewayCertificateHints},
+	},
+}
+
+var apmResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportApmApmDomainHints},
 	},
 }
 
@@ -393,6 +401,7 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseExternalContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabaseExternalPluggableDatabaseHints},
 		{TerraformResourceHints: exportDatabaseExternalNonContainerDatabaseHints},
+		{TerraformResourceHints: exportDatabasePluggableDatabaseHints},
 	},
 	"oci_database_db_home": {
 		{
@@ -433,6 +442,13 @@ var databaseResourceGraph = TerraformResourceGraph{
 				"vm_cluster_id": "id",
 			},
 		},
+	},
+}
+
+var databaseMigrationResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDatabaseMigrationMigrationHints},
+		{TerraformResourceHints: exportDatabaseMigrationConnectionHints},
 	},
 }
 

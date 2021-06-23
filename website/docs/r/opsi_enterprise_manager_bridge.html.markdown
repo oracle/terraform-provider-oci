@@ -62,6 +62,14 @@ The following attributes are exported:
 * `time_created` - The time the the Enterprise Manager bridge was first created. An RFC3339 formatted datetime string
 * `time_updated` - The time the Enterprise Manager bridge was updated. An RFC3339 formatted datetime string
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Enterprise Manager Bridge
+	* `update` - (Defaults to 20 minutes), when updating the Enterprise Manager Bridge
+	* `delete` - (Defaults to 20 minutes), when destroying the Enterprise Manager Bridge
+
+
 ## Import
 
 EnterpriseManagerBridges can be imported using the `id`, e.g.

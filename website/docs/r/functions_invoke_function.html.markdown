@@ -48,6 +48,14 @@ The following attributes are exported:
 
 * `content` - Content of the response string, if any. If `base64_encode_content` is set to `true`, then this content will be base64 encoded.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Invoke Function
+	* `update` - (Defaults to 20 minutes), when updating the Invoke Function
+	* `delete` - (Defaults to 20 minutes), when destroying the Invoke Function
+
+
 ## Import
 
 Import is not supported for this resource.

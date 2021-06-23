@@ -82,6 +82,14 @@ The following attributes are exported:
 * `time_created` - The date and time the target was created. Format defined by RFC3339.
 * `time_updated` - The date and time the target was updated. Format defined by RFC3339.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Data Mask Rule
+	* `update` - (Defaults to 20 minutes), when updating the Data Mask Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Data Mask Rule
+
+
 ## Import
 
 DataMaskRules can be imported using the `id`, e.g.

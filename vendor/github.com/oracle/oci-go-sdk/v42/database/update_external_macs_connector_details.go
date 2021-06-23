@@ -14,7 +14,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v42/common"
 )
 
-// UpdateExternalMacsConnectorDetails Details for updating an external Management Agent cloud service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html) database connection.
+// UpdateExternalMacsConnectorDetails Details for updating an external Management Agent cloud service (MACS) (https://docs.cloud.oracle.com/iaas/management-agents/index.html)
+// database connection.
 type UpdateExternalMacsConnectorDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

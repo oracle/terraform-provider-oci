@@ -69,6 +69,14 @@ The following attributes are exported:
 	* `name` - Name of the validation.
 	* `result` - Result of the validation.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Api
+	* `update` - (Defaults to 20 minutes), when updating the Api
+	* `delete` - (Defaults to 20 minutes), when destroying the Api
+
+
 ## Import
 
 Apis can be imported using the `id`, e.g.

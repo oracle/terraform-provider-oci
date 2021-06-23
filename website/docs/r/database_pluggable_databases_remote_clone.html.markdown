@@ -1,0 +1,75 @@
+---
+subcategory: "Database"
+layout: "oci"
+page_title: "Oracle Cloud Infrastructure: oci_database_pluggable_databases_remote_clone"
+sidebar_current: "docs-oci-resource-database-pluggable_databases_remote_clone"
+description: |-
+  Provides the Pluggable Databases Remote Clone resource in Oracle Cloud Infrastructure Database service
+---
+
+# oci_database_pluggable_databases_remote_clone
+This resource provides the Pluggable Databases Remote Clone resource in Oracle Cloud Infrastructure Database service.
+
+Clone and start a pluggable database on a different CDB. Hence a new resource is created. Only a started pluggable database can be cloned.
+
+## Example Usage
+
+```hcl
+resource "oci_database_pluggable_databases_remote_clone" "test_pluggable_databases_remote_clone" {
+	#Required
+	cloned_pdb_name = var.pluggable_databases_remote_clone_cloned_pdb_name
+	pdb_admin_password = var.pluggable_databases_remote_clone_pdb_admin_password
+	pluggable_database_id = oci_database_pluggable_database.test_pluggable_database.id
+	source_container_db_admin_password = var.pluggable_databases_remote_clone_source_container_db_admin_password
+	target_container_database_id = oci_database_database.test_database.id
+	target_tde_wallet_password = var.pluggable_databases_remote_clone_target_tde_wallet_password
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `cloned_pdb_name` - (Required) The name for the pluggable database. The name is unique in the context of a [container database](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/Database/). The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
+* `pdb_admin_password` - (Required) A strong password for PDB Admin of the newly cloned PDB. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+* `pluggable_database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `source_container_db_admin_password` - (Required) The DB system administrator password of the source CDB.
+* `target_container_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target CDB
+* `target_tde_wallet_password` - (Required) The existing TDE wallet password of the target CDB.
+
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `connection_strings` - Connection strings to connect to an Oracle Pluggable Database. 
+	* `all_connection_strings` - All connection strings to use to connect to the Pluggable Database.
+	* `pdb_default` - Host name based PDB Connection String.
+	* `pdb_ip_default` - IP based PDB Connection String.
+* `container_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CDB.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pluggable database.
+* `is_restricted` - The restricted mode of pluggableDatabase. If a pluggableDatabase is opened in restricted mode, the user needs both Create a session and restricted session privileges to connect to it. 
+* `lifecycle_details` - Detailed message for the lifecycle state.
+* `open_mode` - The mode that pluggableDatabase is in. Open mode can only be changed to READ_ONLY or MIGRATE directly from the backend.
+* `pdb_name` - The name for the pluggable database. The name is unique in the context of a [container database](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/Database/). The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
+* `state` - The current state of the pluggable database.
+* `time_created` - The date and time the pluggable database was created
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Pluggable Databases Remote Clone
+	* `update` - (Defaults to 20 minutes), when updating the Pluggable Databases Remote Clone
+	* `delete` - (Defaults to 20 minutes), when destroying the Pluggable Databases Remote Clone
+
+
+## Import
+
+Import is not supported for this resource.
+

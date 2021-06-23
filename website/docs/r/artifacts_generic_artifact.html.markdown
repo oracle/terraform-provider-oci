@@ -45,3 +45,14 @@ The following attributes are exported:
 * `time_created` - An RFC 3339 timestamp indicating when the repository was created.
 * `version` - A user-defined string to describe the artifact version.  Example: `1.1.0` or `1.2-beta-2` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Generic Artifact
+	* `update` - (Defaults to 20 minutes), when updating the Generic Artifact
+	* `delete` - (Defaults to 20 minutes), when destroying the Generic Artifact
+
+
+## Import
+
+Import is not supported for this resource.

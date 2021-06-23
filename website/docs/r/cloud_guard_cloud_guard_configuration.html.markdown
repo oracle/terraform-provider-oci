@@ -48,6 +48,14 @@ The following attributes are exported:
 * `self_manage_resources` - Identifies if Oracle managed resources were created by customers 
 * `status` - Status of Cloud Guard Tenant
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Cloud Guard Configuration
+	* `update` - (Defaults to 20 minutes), when updating the Cloud Guard Configuration
+	* `delete` - (Defaults to 20 minutes), when destroying the Cloud Guard Configuration
+
+
 ## Import
 
 Import is not supported for this resource.

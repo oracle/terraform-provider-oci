@@ -70,6 +70,14 @@ The following attributes are exported:
 * `time_of_backup` - The time of the resource backup. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deployment Backup
+	* `update` - (Defaults to 20 minutes), when updating the Deployment Backup
+	* `delete` - (Defaults to 20 minutes), when destroying the Deployment Backup
+
+
 ## Import
 
 DeploymentBackups can be imported using the `id`, e.g.

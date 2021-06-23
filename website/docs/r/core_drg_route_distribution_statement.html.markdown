@@ -62,6 +62,14 @@ The following attributes are exported:
 	* `match_type` - The type of the match criteria for a route distribution statement. 
 * `priority` - This field specifies the priority of each statement in a route distribution. Priorities must be unique within a particular route distribution. The priority will be represented as a number between 0 and 65535 where a lower number indicates a higher priority. When a route is processed, statements are applied in the order defined by their priority. The first matching rule dictates the action that will be taken on the route. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Drg Route Distribution Statement
+	* `update` - (Defaults to 20 minutes), when updating the Drg Route Distribution Statement
+	* `delete` - (Defaults to 20 minutes), when destroying the Drg Route Distribution Statement
+
+
 ## Import
 
 DrgRouteDistributionStatement can be imported using the `id`, e.g.

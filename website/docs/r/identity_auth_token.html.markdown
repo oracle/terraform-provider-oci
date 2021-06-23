@@ -56,6 +56,14 @@ The following attributes are exported:
 * `token` - The auth token. The value is available only in the response for `CreateAuthToken`, and not for `ListAuthTokens` or `UpdateAuthToken`. 
 * `user_id` - The OCID of the user the auth token belongs to.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Auth Token
+	* `update` - (Defaults to 20 minutes), when updating the Auth Token
+	* `delete` - (Defaults to 20 minutes), when destroying the Auth Token
+
+
 ## Import
 
 AuthTokens can be imported using the `id`, e.g.

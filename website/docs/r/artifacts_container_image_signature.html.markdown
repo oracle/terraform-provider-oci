@@ -59,6 +59,14 @@ The following attributes are exported:
 * `signing_algorithm` - The algorithm to be used for signing. These are the only supported signing algorithms for container images.
 * `time_created` - An RFC 3339 timestamp indicating when the image was created.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Container Image Signature
+	* `update` - (Defaults to 20 minutes), when updating the Container Image Signature
+	* `delete` - (Defaults to 20 minutes), when destroying the Container Image Signature
+
+
 ## Import
 
 ContainerImageSignatures can be imported using the `id`, e.g.

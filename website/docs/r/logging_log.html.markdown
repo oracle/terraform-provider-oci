@@ -94,6 +94,14 @@ The following attributes are exported:
 * `time_created` - Time the resource was created.
 * `time_last_modified` - Time the resource was last modified.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Log
+	* `update` - (Defaults to 20 minutes), when updating the Log
+	* `delete` - (Defaults to 20 minutes), when destroying the Log
+
+
 ## Import
 
 Logs can be imported using the `id`, e.g.

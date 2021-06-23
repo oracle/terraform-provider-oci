@@ -99,6 +99,14 @@ The following attributes are exported:
 * `state` - The current state of the stream pool.
 * `time_created` - The date and time the stream pool was created, expressed in in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Stream Pool
+	* `update` - (Defaults to 20 minutes), when updating the Stream Pool
+	* `delete` - (Defaults to 20 minutes), when destroying the Stream Pool
+
+
 ## Import
 
 StreamPools can be imported using the `id`, e.g.

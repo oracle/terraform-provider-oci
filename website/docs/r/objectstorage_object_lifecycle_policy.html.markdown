@@ -104,6 +104,14 @@ The following attributes are exported:
 	* `time_unit` - The unit that should be used to interpret timeAmount.  Days are defined as starting and ending at midnight UTC. Years are defined as 365.2425 days long and likewise round up to the next midnight UTC. 
 * `time_created` - The date and time the object lifecycle policy was created, as described in [RFC 3339](https://tools.ietf.org/html/rfc3339). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Object Lifecycle Policy
+	* `update` - (Defaults to 20 minutes), when updating the Object Lifecycle Policy
+	* `delete` - (Defaults to 20 minutes), when destroying the Object Lifecycle Policy
+
+
 ## Import
 
 ObjectLifecyclePolicies can be imported using the `id`, e.g.

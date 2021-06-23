@@ -117,6 +117,14 @@ The following attributes are exported:
 	* `name` - name of the operating system
 * `time_created` - The date and time this publication was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Publication
+	* `update` - (Defaults to 20 minutes), when updating the Publication
+	* `delete` - (Defaults to 20 minutes), when destroying the Publication
+
+
 ## Import
 
 Publications can be imported using the `id`, e.g.

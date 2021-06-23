@@ -45,6 +45,14 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the Autonomous Database wallet.
 * `time_rotated` - The date and time the wallet was last rotated.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Autonomous Database Instance Wallet Management
+	* `update` - (Defaults to 20 minutes), when updating the Autonomous Database Instance Wallet Management
+	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Database Instance Wallet Management
+
+
 ## Import
 
 Import is not supported for this resource.

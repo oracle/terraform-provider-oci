@@ -180,6 +180,14 @@ The following attributes are exported:
 * `time_created` - The date and time the virtual circuit was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `type` - Whether the virtual circuit supports private or public peering. For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Virtual Circuit
+	* `update` - (Defaults to 20 minutes), when updating the Virtual Circuit
+	* `delete` - (Defaults to 20 minutes), when destroying the Virtual Circuit
+
+
 ## Import
 
 VirtualCircuits can be imported using the `id`, e.g.

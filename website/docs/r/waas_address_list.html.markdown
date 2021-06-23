@@ -55,6 +55,14 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the address list.
 * `time_created` - The date and time the address list was created, expressed in RFC 3339 timestamp format.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Address List
+	* `update` - (Defaults to 20 minutes), when updating the Address List
+	* `delete` - (Defaults to 20 minutes), when destroying the Address List
+
+
 ## Import
 
 AddressLists can be imported using the `id`, e.g.

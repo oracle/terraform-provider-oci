@@ -75,6 +75,14 @@ The following attributes are exported:
 * `time_created` - The time the the database insight was first enabled. An RFC3339 formatted datetime string
 * `time_updated` - The time the database insight was updated. An RFC3339 formatted datetime string
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Database Insight
+	* `update` - (Defaults to 20 minutes), when updating the Database Insight
+	* `delete` - (Defaults to 20 minutes), when destroying the Database Insight
+
+
 ## Import
 
 DatabaseInsights can be imported using the `id`, e.g.
