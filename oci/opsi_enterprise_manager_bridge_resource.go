@@ -36,20 +36,9 @@ func OpsiEnterpriseManagerBridgeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Required:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Required: true,
-				Elem:     schema.TypeString,
 			},
 			"object_storage_bucket_name": {
 				Type:     schema.TypeString,
@@ -58,14 +47,31 @@ func OpsiEnterpriseManagerBridgeResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"object_storage_bucket_status_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -147,6 +153,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) CreatedPending() []string {
 func (s *OpsiEnterpriseManagerBridgeResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_opsi.LifecycleStateActive),
+		string(oci_opsi.LifecycleStateNeedsAttention),
 	}
 }
 
@@ -435,6 +442,10 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) SetData() error {
 		s.D.Set("object_storage_bucket_name", *s.Res.ObjectStorageBucketName)
 	}
 
+	if s.Res.ObjectStorageBucketStatusDetails != nil {
+		s.D.Set("object_storage_bucket_status_details", *s.Res.ObjectStorageBucketStatusDetails)
+	}
+
 	if s.Res.ObjectStorageNamespaceName != nil {
 		s.D.Set("object_storage_namespace_name", *s.Res.ObjectStorageNamespaceName)
 	}
@@ -483,6 +494,10 @@ func EnterpriseManagerBridgeSummaryToMap(obj oci_opsi.EnterpriseManagerBridgeSum
 
 	if obj.ObjectStorageBucketName != nil {
 		result["object_storage_bucket_name"] = string(*obj.ObjectStorageBucketName)
+	}
+
+	if obj.ObjectStorageBucketStatusDetails != nil {
+		result["object_storage_bucket_status_details"] = string(*obj.ObjectStorageBucketStatusDetails)
 	}
 
 	if obj.ObjectStorageNamespaceName != nil {

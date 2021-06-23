@@ -2118,6 +2118,7 @@ var exportOpsiEnterpriseManagerBridgeHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_opsi.LifecycleStateActive),
+		string(oci_opsi.LifecycleStateNeedsAttention),
 	},
 }
 
