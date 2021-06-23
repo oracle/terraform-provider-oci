@@ -195,6 +195,14 @@ The following attributes are exported:
 	Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the vSphere component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the SDDC's `vsphereVlanId` with that new VLAN's OCID. 
 * `workload_network_cidr` - The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application workloads. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 6 hours), when creating the Sddc
+	* `update` - (Defaults to 20 minutes), when updating the Sddc
+	* `delete` - (Defaults to 20 minutes), when destroying the Sddc
+
+
 ## Import
 
 Sddcs can be imported using the `id`, e.g.

@@ -60,6 +60,14 @@ The following attributes are exported:
 * `state` - The lifecycle state of the instance. Refer to `lifecycleState` in the [Instance](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Instance) resource.
 * `time_created` - The date and time the instance pool instance was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Instance Pool Instance
+	* `update` - (Defaults to 20 minutes), when updating the Instance Pool Instance
+	* `delete` - (Defaults to 20 minutes), when destroying the Instance Pool Instance
+
+
 ## Import
 
 InstancePoolInstances can be imported using the `id`, e.g.

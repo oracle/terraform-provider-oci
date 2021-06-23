@@ -53,6 +53,14 @@ The following attributes are exported:
 * `time_created` - The date when the replication policy was created as per [RFC 3339](https://tools.ietf.org/html/rfc3339). 
 * `time_last_sync` - Changes made to the source bucket before this time has been replicated. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Replication Policy
+	* `update` - (Defaults to 20 minutes), when updating the Replication Policy
+	* `delete` - (Defaults to 20 minutes), when destroying the Replication Policy
+
+
 ## Import
 
 ReplicationPolicies can be imported using the `id`, e.g.

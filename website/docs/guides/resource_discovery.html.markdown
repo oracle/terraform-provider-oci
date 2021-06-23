@@ -117,6 +117,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
+    * `apm` - Discovers apm resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `bastion` - Discovers bastion resources within the specified compartment
@@ -128,6 +129,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
     * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
+    * `database_migration` - Discovers database_migration resources within the specified compartment
     * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
@@ -273,6 +275,10 @@ apigateway
 * oci\_apigateway\_deployment
 * oci\_apigateway\_certificate
 
+apm
+    
+* oci\_apm\_apm\_domain
+
 artifacts
     
 * oci\_artifacts\_container\_repository
@@ -371,11 +377,8 @@ core
 data_safe
     
 * oci\_data\_safe\_data\_safe\_private\_endpoint
-<<<<<<< ours
 * oci\_data\_safe\_on\_prem\_connector
 * oci\_data\_safe\_target\_database
-=======
->>>>>>> theirs
 
 database
     
@@ -399,6 +402,12 @@ database
 * oci\_database\_external\_pluggable\_database
 * oci\_database\_external\_non\_container\_database
 * oci\_database\_external\_database\_connector
+* oci\_database\_pluggable\_database
+
+database_migration
+    
+* oci\_database\_migration\_migration
+* oci\_database\_migration\_connection
 
 datacatalog
     

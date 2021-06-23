@@ -63,6 +63,14 @@ The following attributes are exported:
 * `subnet_id` - OCID of the customer subnet connected to private access channel. 
 * `vcn_id` - OCID of the customer VCN peered with private access channel. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Analytics Instance Private Access Channel
+	* `update` - (Defaults to 20 minutes), when updating the Analytics Instance Private Access Channel
+	* `delete` - (Defaults to 20 minutes), when destroying the Analytics Instance Private Access Channel
+
+
 ## Import
 
 AnalyticsInstancePrivateAccessChannels can be imported using the `id`, e.g.

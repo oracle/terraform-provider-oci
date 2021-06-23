@@ -57,6 +57,14 @@ The following attributes are exported:
 * `time_expires` - Date and time when this password will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Customer Secret Key
+	* `update` - (Defaults to 20 minutes), when updating the Customer Secret Key
+	* `delete` - (Defaults to 20 minutes), when destroying the Customer Secret Key
+
+
 ## Import
 
 CustomerSecretKeys can be imported using the `id`, e.g.

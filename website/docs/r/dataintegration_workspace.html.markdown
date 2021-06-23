@@ -72,6 +72,14 @@ The following attributes are exported:
 * `time_updated` - The date and time the workspace was updated, in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `vcn_id` - The OCID of the VCN the subnet is in.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 1 hours), when creating the Workspace
+	* `update` - (Defaults to 1 hours), when updating the Workspace
+	* `delete` - (Defaults to 1 hours), when destroying the Workspace
+
+
 ## Import
 
 Workspaces can be imported using the `id`, e.g.

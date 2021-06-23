@@ -114,6 +114,14 @@ The following attributes are exported:
 * `time_updated` - The date and time the compute capacity reservation was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `used_instance_count` - The total number of instances currently consuming space in this compute capacity reservation. This number is the sum of the values of the `usedCount` fields for all of the instance reservation configurations under this reservation. The purpose of this field is to calculate the percentage usage of the reservation. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Compute Capacity Reservation
+	* `update` - (Defaults to 20 minutes), when updating the Compute Capacity Reservation
+	* `delete` - (Defaults to 20 minutes), when destroying the Compute Capacity Reservation
+
+
 ## Import
 
 ComputeCapacityReservations can be imported using the `id`, e.g.

@@ -71,6 +71,14 @@ The following attributes are exported:
 * `time_created` - The time the topic was created.
 * `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 15 minutes), when creating the Notification Topic
+	* `update` - (Defaults to 15 minutes), when updating the Notification Topic
+	* `delete` - (Defaults to 150 minutes), when destroying the Notification Topic
+
+
 ## Import
 
 NotificationTopics can be imported using the `id`, e.g.

@@ -58,6 +58,14 @@ The following attributes are exported:
 * `state` - The current state of the console connection.
 * `vnc_connection_string` - The SSH connection string for the SSH tunnel used to connect to the console connection over VNC. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Instance Console Connection
+	* `update` - (Defaults to 20 minutes), when updating the Instance Console Connection
+	* `delete` - (Defaults to 20 minutes), when destroying the Instance Console Connection
+
+
 ## Import
 
 InstanceConsoleConnections can be imported using the `id`, e.g.

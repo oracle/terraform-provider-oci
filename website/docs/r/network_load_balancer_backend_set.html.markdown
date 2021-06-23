@@ -100,6 +100,14 @@ The following attributes are exported:
 	Example: `example_backend_set` 
 * `policy` - The network load balancer policy for the backend set.  Example: `FIVE_TUPLE` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Backend Set
+	* `update` - (Defaults to 20 minutes), when updating the Backend Set
+	* `delete` - (Defaults to 20 minutes), when destroying the Backend Set
+
+
 ## Import
 
 BackendSets can be imported using the `id`, e.g.

@@ -47,6 +47,14 @@ The following attributes are exported:
 * `service_catalog_id` - Identifier of the service catalog.
 * `time_created` - Timestamp of when the resource was associated with service catalog.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Service Catalog Association
+	* `update` - (Defaults to 20 minutes), when updating the Service Catalog Association
+	* `delete` - (Defaults to 20 minutes), when destroying the Service Catalog Association
+
+
 ## Import
 
 ServiceCatalogAssociations can be imported using the `id`, e.g.

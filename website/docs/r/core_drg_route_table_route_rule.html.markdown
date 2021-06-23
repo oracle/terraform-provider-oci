@@ -68,6 +68,14 @@ The following attributes are exported:
 	No routes with a provenance `IPSEC_TUNNEL` or `VIRTUAL_CIRCUIT` will be exported to IPsec tunnel or virtual circuit attachments, regardless of the attachment's export distribution. 
 * `route_type` - You can specify static routes for the DRG route table using the API. The DRG learns dynamic routes from the DRG attachments using various routing protocols. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Drg Route Table Route Rule
+	* `update` - (Defaults to 20 minutes), when updating the Drg Route Table Route Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Drg Route Table Route Rule
+
+
 ## Import
 
 DrgRouteTableRouteRule can be imported using the `id`, e.g.

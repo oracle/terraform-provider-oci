@@ -55,6 +55,14 @@ The following attributes are exported:
 * `state` - The state of the project.
 * `time_created` - The date and time the resource was created in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2019-08-25T21:10:29.41Z 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Project
+	* `update` - (Defaults to 20 minutes), when updating the Project
+	* `delete` - (Defaults to 20 minutes), when destroying the Project
+
+
 ## Import
 
 Projects can be imported using the `id`, e.g.

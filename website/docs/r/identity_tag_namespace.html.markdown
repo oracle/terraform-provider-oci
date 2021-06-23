@@ -70,6 +70,14 @@ The following attributes are exported:
 * `state` - The tagnamespace's current state. After creating a tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
 * `time_created` - Date and time the tag namespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Tag Namespace
+	* `update` - (Defaults to 20 minutes), when updating the Tag Namespace
+	* `delete` - (Defaults to 20 minutes), when destroying the Tag Namespace
+
+
 ## Import
 
 TagNamespaces can be imported using the `id`, e.g.

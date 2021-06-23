@@ -45,6 +45,14 @@ The following attributes are exported:
 * `cloud_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud VM cluster.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Migration
+	* `update` - (Defaults to 20 minutes), when updating the Migration
+	* `delete` - (Defaults to 20 minutes), when destroying the Migration
+
+
 ## Import
 
 Import is not supported for this resource.

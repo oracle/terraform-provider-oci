@@ -134,6 +134,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Database Home was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 12 hours), when creating the Db Home
+	* `update` - (Defaults to 2 hours), when updating the Db Home
+	* `delete` - (Defaults to 2 hours), when destroying the Db Home
+
+
 ## Import
 
 DbHomes can be imported using the `id`, e.g.

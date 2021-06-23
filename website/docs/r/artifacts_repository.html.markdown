@@ -60,6 +60,14 @@ The following attributes are exported:
 * `state` - The current state of the repository.
 * `time_created` - An RFC 3339 timestamp indicating when the repository was created.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Repository
+	* `update` - (Defaults to 20 minutes), when updating the Repository
+	* `delete` - (Defaults to 20 minutes), when destroying the Repository
+
+
 ## Import
 
 Repositories can be imported using the `id`, e.g.

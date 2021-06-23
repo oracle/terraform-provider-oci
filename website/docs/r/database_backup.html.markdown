@@ -54,6 +54,14 @@ The following attributes are exported:
 * `type` - The type of backup.
 * `version` - Version of the backup's source database
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 1 hours), when creating the Backup
+	* `update` - (Defaults to 1 hours), when updating the Backup
+	* `delete` - (Defaults to 1 hours), when destroying the Backup
+
+
 ## Import
 
 Backups can be imported using the `id`, e.g.

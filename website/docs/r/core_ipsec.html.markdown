@@ -118,6 +118,14 @@ The following attributes are exported:
 	 Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Ip Sec Connection
+	* `update` - (Defaults to 20 minutes), when updating the Ip Sec Connection
+	* `delete` - (Defaults to 20 minutes), when destroying the Ip Sec Connection
+
+
 ## Import
 
 IpSecConnections can be imported using the `id`, e.g.

@@ -134,6 +134,14 @@ The following attributes are exported:
 * `time_created` - The time the the Integration Instance was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time the IntegrationInstance was updated. An RFC3339 formatted datetime string.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 1 hours), when creating the Integration Instance
+	* `update` - (Defaults to 1 hours), when updating the Integration Instance
+	* `delete` - (Defaults to 1 hours), when destroying the Integration Instance
+
+
 ## Import
 
 IntegrationInstances can be imported using the `id`, e.g.

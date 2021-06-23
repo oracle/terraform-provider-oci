@@ -73,6 +73,14 @@ The following attributes are exported:
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Tsig Key
+	* `update` - (Defaults to 20 minutes), when updating the Tsig Key
+	* `delete` - (Defaults to 20 minutes), when destroying the Tsig Key
+
+
 ## Import
 
 TsigKeys can be imported using the `id`, e.g.

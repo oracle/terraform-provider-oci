@@ -55,6 +55,14 @@ The following attributes are exported:
 * `time_created` - The date and time the HeatWave cluster was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_updated` - The time the HeatWave cluster was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 1 hours), when creating the Heat Wave Cluster
+	* `update` - (Defaults to 1 hours), when updating the Heat Wave Cluster
+	* `delete` - (Defaults to 1 hours), when destroying the Heat Wave Cluster
+
+
 ## Import
 
 HeatWaveCluster can be imported using the `id`, e.g.

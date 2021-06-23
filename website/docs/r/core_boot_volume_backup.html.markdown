@@ -74,6 +74,14 @@ The following attributes are exported:
 * `type` - The type of a volume backup. Supported values are 'FULL' or 'INCREMENTAL'.
 * `unique_size_in_gbs` - The size used by the backup, in GBs. It is typically smaller than sizeInGBs, depending on the space consumed on the boot volume and whether the backup is full or incremental. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Boot Volume Backup
+	* `update` - (Defaults to 20 minutes), when updating the Boot Volume Backup
+	* `delete` - (Defaults to 20 minutes), when destroying the Boot Volume Backup
+
+
 ## Import
 
 BootVolumeBackups can be imported using the `id`, e.g.

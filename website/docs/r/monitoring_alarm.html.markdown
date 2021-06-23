@@ -182,6 +182,14 @@ The following attributes are exported:
 * `time_created` - The date and time the alarm was created. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
 * `time_updated` - The date and time the alarm was last updated. Format defined by RFC3339.  Example: `2019-02-03T01:02:29.600Z` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Alarm
+	* `update` - (Defaults to 20 minutes), when updating the Alarm
+	* `delete` - (Defaults to 20 minutes), when destroying the Alarm
+
+
 ## Import
 
 Alarms can be imported using the `id`, e.g.

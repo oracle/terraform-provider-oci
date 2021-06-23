@@ -94,6 +94,14 @@ The following attributes are exported:
 * `username` - The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must already exist and be available for use by the database.  It must conform to the security requirements implemented by the database including length, case sensitivity, and so on. 
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer vault being referenced. If provided, this will reference a vault which the customer will be required to ensure the policies are established to permit the GoldenGate Service to manage secrets contained within this vault. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Database Registration
+	* `update` - (Defaults to 20 minutes), when updating the Database Registration
+	* `delete` - (Defaults to 20 minutes), when destroying the Database Registration
+
+
 ## Import
 
 DatabaseRegistrations can be imported using the `id`, e.g.

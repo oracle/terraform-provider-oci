@@ -79,6 +79,14 @@ The following attributes are exported:
 * `time_updated` - Time that budget was updated
 * `version` - Version of the budget. Starts from 1 and increments by 1.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Budget
+	* `update` - (Defaults to 20 minutes), when updating the Budget
+	* `delete` - (Defaults to 20 minutes), when destroying the Budget
+
+
 ## Import
 
 Budgets can be imported using the `id`, e.g.

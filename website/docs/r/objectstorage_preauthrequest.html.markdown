@@ -62,6 +62,14 @@ The following attributes are exported:
 * `time_created` - The date when the pre-authenticated request was created as per specification [RFC 3339](https://tools.ietf.org/html/rfc3339). 
 * `time_expires` - The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/html/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Preauthenticated Request
+	* `update` - (Defaults to 20 minutes), when updating the Preauthenticated Request
+	* `delete` - (Defaults to 20 minutes), when destroying the Preauthenticated Request
+
+
 ## Import
 
 PreauthenticatedRequests can be imported using the `id`, e.g.

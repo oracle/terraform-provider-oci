@@ -248,6 +248,86 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	return nil
 }
 
+func waitForStateRefreshForHybridPolling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	disableFoundRetries bool, sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
+	// TODO: try to move this onto sync
+	stateConf := &resource.StateChangeConf{
+		Pending: pending,
+		Target:  target,
+		Refresh: stateRefreshFunc(sync),
+		Timeout: timeout,
+	}
+
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		handleMissingResourceError(sync, &e)
+		if _, ok := e.(*resource.UnexpectedStateError); ok {
+			retryPolicy := getRetryPolicy(disableFoundRetries, "work_request")
+			retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
+			e = getWorkRequestErrors(workRequestClient, workRequestIds, retryPolicy, entityType, action)
+			return handleError(sync, e)
+		}
+
+		if _, ok := e.(*resource.TimeoutError); ok {
+			e = fmt.Errorf("%s, you may need to increase the Terraform Operation timeouts for your resource to continue polling for longer", e)
+		}
+		return e
+	}
+
+	if sync.State() == FAILED {
+		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
+	}
+
+	return nil
+}
+
+func ResourceRefreshForHybridPolling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	disableFoundRetries bool, d *schema.ResourceData, sync ResourceCreator) error {
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	if stateful, ok := sync.(StatefullyCreatedResource); ok {
+		if e := waitForStateRefreshForHybridPolling(workRequestClient, workRequestIds, entityType, action, disableFoundRetries, stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			if stateful.State() == FAILED {
+				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
+				// TODO: automatic retry on WorkRequestFailed
+				sync.VoidState()
+			}
+
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+			}
+
+			return e
+		}
+	}
+
+	d.SetId(sync.ID())
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	return nil
+}
+
+func CreateResourceUsingHybridPolling(sync ResourceCreator) error {
+	if e := sync.Create(); e != nil {
+		return handleError(sync, e)
+	}
+
+	return nil
+}
+
 func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
@@ -968,7 +1048,7 @@ func getTimeoutDuration(timeout string) *time.Duration {
 	timeoutDuration, err := time.ParseDuration(timeout)
 	if err != nil {
 		// Return the OCI Provider's default timeout if there is an error
-		return &FifteenMinutes
+		return &TwentyMinutes
 	}
 	return &timeoutDuration
 }

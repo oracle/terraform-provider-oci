@@ -73,6 +73,14 @@ The following attributes are exported:
 	* `is_username_containment_allowed` - User name is allowed to be part of the password.
 	* `minimum_password_length` - Minimum password length required.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Authentication Policy
+	* `update` - (Defaults to 20 minutes), when updating the Authentication Policy
+	* `delete` - (Defaults to 20 minutes), when destroying the Authentication Policy
+
+
 ## Import
 
 AuthenticationPolicies can be imported using the `id`, e.g.

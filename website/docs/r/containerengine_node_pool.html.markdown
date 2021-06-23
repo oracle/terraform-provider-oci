@@ -143,6 +143,14 @@ The following attributes are exported:
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Node Pool
+	* `update` - (Defaults to 20 minutes), when updating the Node Pool
+	* `delete` - (Defaults to 20 minutes), when destroying the Node Pool
+
+
 ## Import
 
 NodePools can be imported using the `id`, e.g.

@@ -256,9 +256,10 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v42 v42.0.0
+# github.com/oracle/oci-go-sdk/v42 v42.1.0
 github.com/oracle/oci-go-sdk/v42/analytics
 github.com/oracle/oci-go-sdk/v42/apigateway
+github.com/oracle/oci-go-sdk/v42/apmcontrolplane
 github.com/oracle/oci-go-sdk/v42/artifacts
 github.com/oracle/oci-go-sdk/v42/audit
 github.com/oracle/oci-go-sdk/v42/autoscaling
@@ -274,6 +275,7 @@ github.com/oracle/oci-go-sdk/v42/containerengine
 github.com/oracle/oci-go-sdk/v42/core
 github.com/oracle/oci-go-sdk/v42/database
 github.com/oracle/oci-go-sdk/v42/databasemanagement
+github.com/oracle/oci-go-sdk/v42/databasemigration
 github.com/oracle/oci-go-sdk/v42/datacatalog
 github.com/oracle/oci-go-sdk/v42/dataflow
 github.com/oracle/oci-go-sdk/v42/dataintegration

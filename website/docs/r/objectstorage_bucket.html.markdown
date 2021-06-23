@@ -107,6 +107,14 @@ The following attributes are exported:
 * `time_created` - The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/html/rfc2616#section-14.29).
 * `versioning` - The versioning status on the bucket. A bucket is created with versioning `Disabled` by default. For versioning `Enabled`, objects are protected from overwrites and deletes, by maintaining their version history. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Bucket
+	* `update` - (Defaults to 20 minutes), when updating the Bucket
+	* `delete` - (Defaults to 20 minutes), when destroying the Bucket
+
+
 ## Import
 
 Buckets can be imported using the `id`, e.g.

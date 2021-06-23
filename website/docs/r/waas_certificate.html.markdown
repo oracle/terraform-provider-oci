@@ -95,6 +95,14 @@ The following attributes are exported:
 * `time_not_valid_before` - The date and time the certificate will become valid, expressed in RFC 3339 timestamp format.
 * `version` - The version of the encoded certificate.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Certificate
+	* `update` - (Defaults to 20 minutes), when updating the Certificate
+	* `delete` - (Defaults to 20 minutes), when destroying the Certificate
+
+
 ## Import
 
 Import is not supported for this resource.

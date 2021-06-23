@@ -6,6 +6,7 @@ package oci
 import (
 	oci_analytics "github.com/oracle/oci-go-sdk/v42/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v42/apmcontrolplane"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v42/artifacts"
 	oci_bastion "github.com/oracle/oci-go-sdk/v42/bastion"
 	oci_bds "github.com/oracle/oci-go-sdk/v42/bds"
@@ -15,6 +16,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/v42/core"
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v42/databasemigration"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v42/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v42/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v42/dataintegration"
@@ -108,6 +110,22 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_apigateway.CertificateLifecycleStateActive),
 	},
+}
+
+var exportApmApmDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_apm_apm_domain",
+	datasourceClass:      "oci_apm_apm_domains",
+	datasourceItemsAttr:  "apm_domains",
+	resourceAbbreviation: "apm_domain",
+	discoverableLifecycleStates: []string{
+		string(oci_apm.LifecycleStatesActive),
+	},
+}
+
+var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
+	resourceClass:        "oci_artifacts_container_configuration",
+	datasourceClass:      "oci_artifacts_container_configuration",
+	resourceAbbreviation: "container_configuration",
 }
 
 var exportArtifactsContainerRepositoryHints = &TerraformResourceHints{
@@ -1013,6 +1031,40 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	resourceAbbreviation: "external_database_connector",
 	discoverableLifecycleStates: []string{
 		string(oci_database.ExternalDatabaseConnectorLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
+	resourceClass:          "oci_database_migration_migration",
+	datasourceClass:        "oci_database_migration_migrations",
+	datasourceItemsAttr:    "migration_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "migration",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_database_migration.LifecycleStatesActive),
+	},
+}
+
+var exportDatabaseMigrationConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_database_migration_connection",
+	datasourceClass:        "oci_database_migration_connections",
+	datasourceItemsAttr:    "connection_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_database_migration.LifecycleStatesActive),
+	},
+}
+
+var exportDatabasePluggableDatabaseHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_pluggable_database",
+	datasourceClass:      "oci_database_pluggable_databases",
+	datasourceItemsAttr:  "pluggable_databases",
+	resourceAbbreviation: "pluggable_database",
+	discoverableLifecycleStates: []string{
+		string(oci_database.PluggableDatabaseLifecycleStateAvailable),
 	},
 }
 

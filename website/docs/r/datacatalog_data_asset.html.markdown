@@ -59,6 +59,14 @@ The following attributes are exported:
 * `updated_by_id` - OCID of the user who last modified the data asset.
 * `uri` - URI to the data asset instance in the API.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Data Asset
+	* `update` - (Defaults to 20 minutes), when updating the Data Asset
+	* `delete` - (Defaults to 20 minutes), when destroying the Data Asset
+
+
 ## Import
 
 DataAssets can be imported using the `id`, e.g.

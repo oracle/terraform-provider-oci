@@ -40,6 +40,14 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the External Pluggable Database Management
+	* `update` - (Defaults to 20 minutes), when updating the External Pluggable Database Management
+	* `delete` - (Defaults to 20 minutes), when destroying the External Pluggable Database Management
+
+
 ## Import
 
 Import is not supported for this resource.

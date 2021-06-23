@@ -92,6 +92,14 @@ The following attributes are exported:
 	For more information about ModSecurity's open source WAF rules, see [Mod Security's OWASP Core Rule Set documentation](https://www.modsecurity.org/CRS/Documentation/index.html).
 * `time_created` - The date and time the protection rule was created, expressed in RFC 3339 timestamp format.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Custom Protection Rule
+	* `update` - (Defaults to 20 minutes), when updating the Custom Protection Rule
+	* `delete` - (Defaults to 20 minutes), when destroying the Custom Protection Rule
+
+
 ## Import
 
 CustomProtectionRules can be imported using the `id`, e.g.

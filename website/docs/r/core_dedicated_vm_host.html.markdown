@@ -78,6 +78,14 @@ The following attributes are exported:
 * `total_memory_in_gbs` - The current total memory of the dedicated VM host, in GBs. 
 * `total_ocpus` - The current total OCPUs of the dedicated VM host. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Dedicated Vm Host
+	* `update` - (Defaults to 20 minutes), when updating the Dedicated Vm Host
+	* `delete` - (Defaults to 20 minutes), when destroying the Dedicated Vm Host
+
+
 ## Import
 
 DedicatedVmHosts can be imported using the `id`, e.g.

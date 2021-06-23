@@ -48,6 +48,14 @@ The following attributes are exported:
 * `port` - The communication port for the listener.  Example: `80` 
 * `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). To get a list of valid protocols, use the [ListNetworkLoadBalancersProtocols](https://docs.cloud.oracle.com/iaas/api/#/en/NetworkLoadBalancer/20200501/networkLoadBalancerProtocol/ListNetworkLoadBalancersProtocols) operation.  Example: `TCP` 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Listener
+	* `update` - (Defaults to 20 minutes), when updating the Listener
+	* `delete` - (Defaults to 20 minutes), when destroying the Listener
+
+
 ## Import
 
 Listeners can be imported using the `id`, e.g.

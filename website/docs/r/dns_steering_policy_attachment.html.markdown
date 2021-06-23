@@ -62,6 +62,14 @@ The following attributes are exported:
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `zone_id` - The OCID of the attached zone.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Steering Policy Attachment
+	* `update` - (Defaults to 20 minutes), when updating the Steering Policy Attachment
+	* `delete` - (Defaults to 20 minutes), when destroying the Steering Policy Attachment
+
+
 ## Import
 
 SteeringPolicyAttachments can be imported using the `id`, e.g.

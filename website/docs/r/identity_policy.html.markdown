@@ -74,6 +74,14 @@ The following attributes are exported:
 * `time_created` - Date and time the policy was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `version_date` - The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Policy
+	* `update` - (Defaults to 20 minutes), when updating the Policy
+	* `delete` - (Defaults to 20 minutes), when destroying the Policy
+
+
 ## Import
 
 Policies can be imported using the `id`, e.g.

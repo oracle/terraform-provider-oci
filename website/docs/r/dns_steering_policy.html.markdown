@@ -193,6 +193,14 @@ The following attributes are exported:
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `ttl` - The Time To Live (TTL) for responses from the steering policy, in seconds. If not specified during creation, a value of 30 seconds will be used. 
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Steering Policy
+	* `update` - (Defaults to 20 minutes), when updating the Steering Policy
+	* `delete` - (Defaults to 20 minutes), when destroying the Steering Policy
+
+
 ## Import
 
 SteeringPolicies can be imported using the `id`, e.g.
