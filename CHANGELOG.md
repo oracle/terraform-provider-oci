@@ -1,4 +1,4 @@
-## 4.32.0 (Unreleased)
+## 4.32.0 (June 23, 2021)
 
 ### Added
 - Support for Pluggable Database added
