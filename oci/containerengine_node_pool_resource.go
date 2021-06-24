@@ -663,16 +663,17 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
+			CompartmentId: compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
