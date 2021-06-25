@@ -57,6 +57,7 @@ var (
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"idcs_access_token":        Representation{repType: Required, create: `${var.idcs_access_token}`},
 		"network_endpoint_details": RepresentationGroup{Optional, analyticsInstanceNetworkEndpointDetailsRepresentation},
+		"state":                    Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
 	}
 	analyticsInstanceCapacityRepresentation = map[string]interface{}{
 		"capacity_type":  Representation{repType: Required, create: `OLPU_COUNT`},
@@ -159,7 +160,6 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -199,7 +199,6 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -297,7 +296,6 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {

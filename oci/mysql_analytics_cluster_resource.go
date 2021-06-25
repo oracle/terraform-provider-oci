@@ -54,8 +54,8 @@ func MysqlAnalyticsClusterResource() *schema.Resource {
 			// Optional
 			"state": {
 				Type:             schema.TypeString,
-				Computed:         true,
 				Optional:         true,
+				Computed:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_mysql.AnalyticsClusterLifecycleStateInactive),
@@ -113,7 +113,6 @@ func createMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 	sync := &MysqlAnalyticsClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dbSystemClient()
-
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
 		wantedPowerState := oci_mysql.AnalyticsClusterLifecycleStateEnum(strings.ToUpper(powerState.(string)))
@@ -126,15 +125,14 @@ func createMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 		return e
 	}
 
-	// switch to power off
 	if powerOff {
-		if err := sync.Stop(); err != nil {
+		if err := sync.StopAnalyticsCluster(); err != nil {
 			return err
 		}
 		sync.D.Set("state", oci_mysql.AnalyticsClusterLifecycleStateInactive)
 	}
-
 	return nil
+
 }
 
 func readMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
@@ -161,9 +159,8 @@ func updateMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	// switch to power on
 	if powerOn {
-		if err := sync.Start(); err != nil {
+		if err := sync.StartAnalyticsCluster(); err != nil {
 			return err
 		}
 		sync.D.Set("state", oci_mysql.AnalyticsClusterLifecycleStateActive)
@@ -173,9 +170,8 @@ func updateMysqlAnalyticsCluster(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	// switch to power off
 	if powerOff {
-		if err := sync.Stop(); err != nil {
+		if err := sync.StopAnalyticsCluster(); err != nil {
 			return err
 		}
 		sync.D.Set("state", oci_mysql.AnalyticsClusterLifecycleStateInactive)
@@ -399,27 +395,26 @@ func parseAnalyticsClusterCompositeId(compositeId string) (dbSystemId string, er
 	return
 }
 
-func AnalyticsClusterNodeToMap(obj oci_mysql.AnalyticsClusterNode) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *MysqlAnalyticsClusterResourceCrud) StartAnalyticsCluster() error {
+	request := oci_mysql.StartAnalyticsClusterRequest{}
 
-	if obj.NodeId != nil {
-		result["node_id"] = string(*obj.NodeId)
+	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+		tmp := dbSystemId.(string)
+		request.DbSystemId = &tmp
 	}
 
-	result["state"] = string(obj.LifecycleState)
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
+	_, err := s.Client.StartAnalyticsCluster(context.Background(), request)
+	if err != nil {
+		return err
 	}
 
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	return result
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_mysql.AnalyticsClusterLifecycleStateActive }
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *MysqlAnalyticsClusterResourceCrud) Stop() error {
+func (s *MysqlAnalyticsClusterResourceCrud) StopAnalyticsCluster() error {
 	request := oci_mysql.StopAnalyticsClusterRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -438,21 +433,22 @@ func (s *MysqlAnalyticsClusterResourceCrud) Stop() error {
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *MysqlAnalyticsClusterResourceCrud) Start() error {
-	request := oci_mysql.StartAnalyticsClusterRequest{}
+func AnalyticsClusterNodeToMap(obj oci_mysql.AnalyticsClusterNode) map[string]interface{} {
+	result := map[string]interface{}{}
 
-	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
-		tmp := dbSystemId.(string)
-		request.DbSystemId = &tmp
+	if obj.NodeId != nil {
+		result["node_id"] = string(*obj.NodeId)
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	result["state"] = string(obj.LifecycleState)
 
-	_, err := s.Client.StartAnalyticsCluster(context.Background(), request)
-	if err != nil {
-		return err
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
 	}
 
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_mysql.AnalyticsClusterLifecycleStateActive }
-	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
 }
