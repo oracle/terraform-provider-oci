@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	VolumeBackupCopyResourceDependencies = VolumeBackupResourceDependencies + generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation)
+	VolumeBackupCopyResourceDependencies = VolumeBackupResourceDependencies
 )
 
 func TestResourceCoreVolumeBackup_copy(t *testing.T) {
@@ -44,7 +44,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 	volumeBackupSourceDetailsRepresentation = map[string]interface{}{
 		"volume_backup_id": Representation{repType: Required, create: volumeBackupId},
 		"region":           Representation{repType: Required, create: getEnvSettingWithBlankDefault("source_region")},
-		"kms_key_id":       Representation{repType: Required, create: `${oci_kms_key.test_key.id}`},
+		"kms_key_id":       Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 	volumeBackupWithSourceDetailsRepresentation = getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, volumeBackupSourceDetailsRepresentation}, volumeBackupWithSourceDetailsRepresentation)
 
