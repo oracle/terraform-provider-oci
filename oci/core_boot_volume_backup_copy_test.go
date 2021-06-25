@@ -33,7 +33,7 @@ var (
 		"display_name":   Representation{repType: Optional, create: `displayName`},
 	}
 	bootVolumeBackupSourceDetailsRepresentation = map[string]interface{}{}
-	BootVolumeBackupCopyResourceDependencies    = BootVolumeBackupResourceDependencies + generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation)
+	BootVolumeBackupCopyResourceDependencies    = BootVolumeBackupResourceDependencies
 )
 
 func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
@@ -60,7 +60,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 	bootVolumeBackupSourceDetailsRepresentation = map[string]interface{}{
 		"boot_volume_backup_id": Representation{repType: Required, create: bootVolumeBackupId},
 		"region":                Representation{repType: Required, create: getEnvSettingWithBlankDefault("source_region")},
-		"kms_key_id":            Representation{repType: Optional, create: `${oci_kms_key.test_key.id}`},
+		"kms_key_id":            Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
 	bootVolumeBackupWithSourceDetailsRepresentation = getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, bootVolumeBackupSourceDetailsRepresentation}, bootVolumeBackupWithSourceDetailsRepresentation)
