@@ -158,7 +158,6 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
-
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
 	err := CreateResource(d, sync)

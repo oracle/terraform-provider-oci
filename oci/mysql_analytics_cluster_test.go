@@ -34,7 +34,7 @@ var (
 		"db_system_id": Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"cluster_size": Representation{repType: Required, create: `2`, update: `3`},
 		"shape_name":   Representation{repType: Required, create: `VM.Standard.E2.2`, update: `VM.Standard.E2.4`},
-		"state":        Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`}, // testing stop & start actions
+		"state":        Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
 	}
 
 	AnalyticsClusterResourceDependencies = MysqlConfigurationResourceConfig +

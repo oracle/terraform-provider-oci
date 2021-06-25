@@ -233,7 +233,6 @@ func createDnsResolver(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsResolverResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient()
-
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
 	err := CreateResource(d, sync)

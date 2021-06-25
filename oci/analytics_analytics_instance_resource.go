@@ -111,16 +111,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"state": {
-				Type:             schema.TypeString,
-				Computed:         true,
-				Optional:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-				ValidateFunc: validation.StringInSlice([]string{
-					string(oci_analytics.AnalyticsInstanceLifecycleStateInactive),
-					string(oci_analytics.AnalyticsInstanceLifecycleStateActive),
-				}, true),
-			},
 			"network_endpoint_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -199,6 +189,16 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_analytics.AnalyticsInstanceLifecycleStateInactive),
+					string(oci_analytics.AnalyticsInstanceLifecycleStateActive),
+				}, true),
+			},
 
 			// Computed
 			"private_access_channels": {
@@ -231,7 +231,6 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).analyticsClient()
-
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
 		wantedPowerState := oci_analytics.AnalyticsInstanceLifecycleStateEnum(strings.ToUpper(powerState.(string)))
@@ -245,46 +244,13 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 	}
 
 	if powerOff {
-		if err := sync.StopOacInstance(); err != nil {
+		if err := sync.StopAnalyticsInstance(); err != nil {
 			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateInactive)
 	}
 	return nil
-}
 
-func (s *AnalyticsAnalyticsInstanceResourceCrud) StartOacInstance() error {
-	request := oci_analytics.StartAnalyticsInstanceRequest{}
-
-	tmp := s.D.Id()
-	request.AnalyticsInstanceId = &tmp
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
-
-	response, err := s.Client.StartAnalyticsInstance(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultStarted, s.D.Timeout(schema.TimeoutUpdate))
-}
-
-func (s *AnalyticsAnalyticsInstanceResourceCrud) StopOacInstance() error {
-	request := oci_analytics.StopAnalyticsInstanceRequest{}
-
-	tmp := s.D.Id()
-	request.AnalyticsInstanceId = &tmp
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
-
-	response, err := s.Client.StopAnalyticsInstance(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultStopped, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
@@ -300,7 +266,6 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*OracleClients).analyticsClient()
 
-	// switch to power on
 	powerOn, powerOff := false, false
 
 	if sync.D.HasChange("state") {
@@ -313,7 +278,7 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 	}
 
 	if powerOn {
-		if err := sync.StartOacInstance(); err != nil {
+		if err := sync.StartAnalyticsInstance(); err != nil {
 			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateActive)
@@ -323,13 +288,13 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 		return err
 	}
 
-	// switch to power off
 	if powerOff {
-		if err := sync.StopOacInstance(); err != nil {
+		if err := sync.StopAnalyticsInstance(); err != nil {
 			return err
 		}
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateInactive)
 	}
+
 	return nil
 }
 
@@ -769,6 +734,40 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	s.D.Set("vanity_url_details", s.Res.VanityUrlDetails)
 
 	return nil
+}
+
+func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance() error {
+	request := oci_analytics.StartAnalyticsInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.AnalyticsInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+
+	_, err := s.Client.StartAnalyticsInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_analytics.AnalyticsInstanceLifecycleStateActive }
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance() error {
+	request := oci_analytics.StopAnalyticsInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.AnalyticsInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+
+	_, err := s.Client.StopAnalyticsInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_analytics.AnalyticsInstanceLifecycleStateInactive }
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToCapacity(fieldKeyFormat string) (oci_analytics.Capacity, error) {
