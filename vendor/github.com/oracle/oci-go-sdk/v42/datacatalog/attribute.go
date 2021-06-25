@@ -99,6 +99,15 @@ type Attribute struct {
 	// Last modified timestamp of this object in the external system.
 	TimeExternal *common.SDKTime `mandatory:"false" json:"timeExternal"`
 
+	// The date and time the attribute was harvested, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeHarvested *common.SDKTime `mandatory:"false" json:"timeHarvested"`
+
+	// List of objects and their relationships to this attribute.
+	ObjectRelationships []ObjectRelationship `mandatory:"false" json:"objectRelationships"`
+
+	// Whether a column is derived or not.
+	IsDerivedAttribute *bool `mandatory:"false" json:"isDerivedAttribute"`
+
 	// URI to the attribute instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
 

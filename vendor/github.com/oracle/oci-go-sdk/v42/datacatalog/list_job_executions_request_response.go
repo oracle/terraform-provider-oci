@@ -75,7 +75,7 @@ type ListJobExecutionsRequest struct {
 	// Specifies the fields to return in a job execution summary response.
 	Fields []ListJobExecutionsFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. If no value is specified TIMECREATED is default.
+	// The field to sort by. Only one sort order may be provided; the default is descending. Use sortOrder query param to specify order.
 	SortBy ListJobExecutionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
@@ -197,6 +197,7 @@ const (
 	ListJobExecutionsJobTypeScheduledExecution         ListJobExecutionsJobTypeEnum = "SCHEDULED_EXECUTION"
 	ListJobExecutionsJobTypeScheduledExecutionInstance ListJobExecutionsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
 	ListJobExecutionsJobTypeAsyncDelete                ListJobExecutionsJobTypeEnum = "ASYNC_DELETE"
+	ListJobExecutionsJobTypeImportDataAsset            ListJobExecutionsJobTypeEnum = "IMPORT_DATA_ASSET"
 )
 
 var mappingListJobExecutionsJobType = map[string]ListJobExecutionsJobTypeEnum{
@@ -216,6 +217,7 @@ var mappingListJobExecutionsJobType = map[string]ListJobExecutionsJobTypeEnum{
 	"SCHEDULED_EXECUTION":          ListJobExecutionsJobTypeScheduledExecution,
 	"SCHEDULED_EXECUTION_INSTANCE": ListJobExecutionsJobTypeScheduledExecutionInstance,
 	"ASYNC_DELETE":                 ListJobExecutionsJobTypeAsyncDelete,
+	"IMPORT_DATA_ASSET":            ListJobExecutionsJobTypeImportDataAsset,
 }
 
 // GetListJobExecutionsJobTypeEnumValues Enumerates the set of values for ListJobExecutionsJobTypeEnum
@@ -272,12 +274,10 @@ type ListJobExecutionsSortByEnum string
 // Set of constants representing the allowable values for ListJobExecutionsSortByEnum
 const (
 	ListJobExecutionsSortByTimecreated ListJobExecutionsSortByEnum = "TIMECREATED"
-	ListJobExecutionsSortByDisplayname ListJobExecutionsSortByEnum = "DISPLAYNAME"
 )
 
 var mappingListJobExecutionsSortBy = map[string]ListJobExecutionsSortByEnum{
 	"TIMECREATED": ListJobExecutionsSortByTimecreated,
-	"DISPLAYNAME": ListJobExecutionsSortByDisplayname,
 }
 
 // GetListJobExecutionsSortByEnumValues Enumerates the set of values for ListJobExecutionsSortByEnum

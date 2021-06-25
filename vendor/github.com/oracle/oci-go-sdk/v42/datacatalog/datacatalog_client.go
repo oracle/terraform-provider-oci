@@ -364,6 +364,60 @@ func (client DataCatalogClient) changeCatalogPrivateEndpointCompartment(ctx cont
 	return response, err
 }
 
+// ChangeMetastoreCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ChangeMetastoreCompartment.go.html to see an example of how to use ChangeMetastoreCompartment API.
+func (client DataCatalogClient) ChangeMetastoreCompartment(ctx context.Context, request ChangeMetastoreCompartmentRequest) (response ChangeMetastoreCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeMetastoreCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMetastoreCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMetastoreCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMetastoreCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMetastoreCompartmentResponse")
+	}
+	return
+}
+
+// changeMetastoreCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) changeMetastoreCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metastores/{metastoreId}/actions/changeCompartment", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMetastoreCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAttribute Creates a new entity attribute.
 //
 // See also
@@ -1297,6 +1351,65 @@ func (client DataCatalogClient) createJobExecution(ctx context.Context, request 
 	}
 
 	var response CreateJobExecutionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateMetastore Creates a new metastore.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateMetastore.go.html to see an example of how to use CreateMetastore API.
+func (client DataCatalogClient) CreateMetastore(ctx context.Context, request CreateMetastoreRequest) (response CreateMetastoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMetastore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMetastoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMetastoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMetastoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMetastoreResponse")
+	}
+	return
+}
+
+// createMetastore implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) createMetastore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metastores", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMetastoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2343,6 +2456,60 @@ func (client DataCatalogClient) deleteJobDefinition(ctx context.Context, request
 	}
 
 	var response DeleteJobDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteMetastore Deletes a metastore resource by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteMetastore.go.html to see an example of how to use DeleteMetastore API.
+func (client DataCatalogClient) DeleteMetastore(ctx context.Context, request DeleteMetastoreRequest) (response DeleteMetastoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMetastore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMetastoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMetastoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMetastoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMetastoreResponse")
+	}
+	return
+}
+
+// deleteMetastore implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) deleteMetastore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/metastores/{metastoreId}", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMetastoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3774,6 +3941,60 @@ func (client DataCatalogClient) getJobMetrics(ctx context.Context, request commo
 	return response, err
 }
 
+// GetMetastore Gets a metastore by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetMetastore.go.html to see an example of how to use GetMetastore API.
+func (client DataCatalogClient) GetMetastore(ctx context.Context, request GetMetastoreRequest) (response GetMetastoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMetastore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMetastoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMetastoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMetastoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMetastoreResponse")
+	}
+	return
+}
+
+// getMetastore implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) getMetastore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/metastores/{metastoreId}", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMetastoreResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNamespace Gets a specific namespace for the given key within a data catalog.
 //
 // See also
@@ -4145,6 +4366,65 @@ func (client DataCatalogClient) importConnection(ctx context.Context, request co
 	}
 
 	var response ImportConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportDataAsset Import technical objects to a Data Asset
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportDataAsset.go.html to see an example of how to use ImportDataAsset API.
+func (client DataCatalogClient) ImportDataAsset(ctx context.Context, request ImportDataAssetRequest) (response ImportDataAssetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importDataAsset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportDataAssetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportDataAssetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportDataAssetResponse")
+	}
+	return
+}
+
+// importDataAsset implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) importDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/import", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportDataAssetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -5301,6 +5581,60 @@ func (client DataCatalogClient) listJobs(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListMetastores Returns a list of all metastores in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListMetastores.go.html to see an example of how to use ListMetastores API.
+func (client DataCatalogClient) ListMetastores(ctx context.Context, request ListMetastoresRequest) (response ListMetastoresResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMetastores, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMetastoresResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMetastoresResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMetastoresResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMetastoresResponse")
+	}
+	return
+}
+
+// listMetastores implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) listMetastores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/metastores", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMetastoresResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListNamespaces Returns a list of namespaces within a data catalog.
 //
 // See also
@@ -6232,6 +6566,64 @@ func (client DataCatalogClient) suggestMatches(ctx context.Context, request comm
 	return response, err
 }
 
+// SynchronousExportDataAsset Export technical objects from a Data Asset
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SynchronousExportDataAsset.go.html to see an example of how to use SynchronousExportDataAsset API.
+func (client DataCatalogClient) SynchronousExportDataAsset(ctx context.Context, request SynchronousExportDataAssetRequest) (response SynchronousExportDataAssetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.synchronousExportDataAsset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SynchronousExportDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SynchronousExportDataAssetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SynchronousExportDataAssetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SynchronousExportDataAssetResponse")
+	}
+	return
+}
+
+// synchronousExportDataAsset implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) synchronousExportDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/synchronousExport", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SynchronousExportDataAssetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TestConnection Test the connection by connecting to the data asset using credentials in the metadata.
 //
 // See also
@@ -6873,6 +7265,60 @@ func (client DataCatalogClient) updateJobDefinition(ctx context.Context, request
 	}
 
 	var response UpdateJobDefinitionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMetastore Updates a metastore resource by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateMetastore.go.html to see an example of how to use UpdateMetastore API.
+func (client DataCatalogClient) UpdateMetastore(ctx context.Context, request UpdateMetastoreRequest) (response UpdateMetastoreResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMetastore, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMetastoreResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMetastoreResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMetastoreResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMetastoreResponse")
+	}
+	return
+}
+
+// updateMetastore implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) updateMetastore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/metastores/{metastoreId}", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMetastoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

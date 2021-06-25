@@ -27,6 +27,9 @@ type CreateNodePoolNodeConfigDetails struct {
 	// each availability domain, and include the regional subnet in each placement
 	// configuration.
 	PlacementConfigs []NodePoolPlacementConfigDetails `mandatory:"true" json:"placementConfigs"`
+
+	// The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m CreateNodePoolNodeConfigDetails) String() string {

@@ -47,6 +47,9 @@ type CreateCustomPropertyDetails struct {
 	// If this field is allowed to pop in search results
 	IsHiddenInSearch *bool `mandatory:"false" json:"isHiddenInSearch"`
 
+	// If an OCI Event will be emitted when the custom property is modified.
+	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
+
 	// Allowed values for the custom property if any
 	AllowedValues []string `mandatory:"false" json:"allowedValues"`
 

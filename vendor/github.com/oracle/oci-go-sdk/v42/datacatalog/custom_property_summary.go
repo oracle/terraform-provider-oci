@@ -70,6 +70,18 @@ type CustomPropertySummary struct {
 
 	// Allowed values for the custom property if any
 	AllowedValues []string `mandatory:"false" json:"allowedValues"`
+
+	// The last time that any change was made to the custom property. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// OCID of the user who created the custom property.
+	CreatedById *string `mandatory:"false" json:"createdById"`
+
+	// OCID of the user who last modified the custom property.
+	UpdatedById *string `mandatory:"false" json:"updatedById"`
+
+	// If an OCI Event will be emitted when the custom property is modified.
+	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
 }
 
 func (m CustomPropertySummary) String() string {

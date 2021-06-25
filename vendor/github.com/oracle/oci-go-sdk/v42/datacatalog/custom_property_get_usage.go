@@ -49,6 +49,9 @@ type CustomPropertyGetUsage struct {
 	// If this field is displayed in a list view of applicable objects.
 	IsShownInList *bool `mandatory:"false" json:"isShownInList"`
 
+	// If an OCI Event will be emitted when the custom property is modified.
+	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
+
 	// Is this property allowed to have list of values
 	IsListType *bool `mandatory:"false" json:"isListType"`
 

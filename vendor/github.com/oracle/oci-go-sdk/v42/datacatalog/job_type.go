@@ -30,6 +30,7 @@ const (
 	JobTypeScheduledExecution         JobTypeEnum = "SCHEDULED_EXECUTION"
 	JobTypeScheduledExecutionInstance JobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
 	JobTypeAsyncDelete                JobTypeEnum = "ASYNC_DELETE"
+	JobTypeImportDataAsset            JobTypeEnum = "IMPORT_DATA_ASSET"
 )
 
 var mappingJobType = map[string]JobTypeEnum{
@@ -49,6 +50,7 @@ var mappingJobType = map[string]JobTypeEnum{
 	"SCHEDULED_EXECUTION":          JobTypeScheduledExecution,
 	"SCHEDULED_EXECUTION_INSTANCE": JobTypeScheduledExecutionInstance,
 	"ASYNC_DELETE":                 JobTypeAsyncDelete,
+	"IMPORT_DATA_ASSET":            JobTypeImportDataAsset,
 }
 
 // GetJobTypeEnumValues Enumerates the set of values for JobTypeEnum

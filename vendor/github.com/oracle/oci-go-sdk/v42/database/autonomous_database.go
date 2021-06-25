@@ -64,6 +64,9 @@ type AutonomousDatabase struct {
 	// Key History Entry.
 	KeyHistoryEntry []AutonomousDatabaseKeyHistoryEntry `mandatory:"false" json:"keyHistoryEntry"`
 
+	// The number of Fractional OCPU cores to be made available to the database.
+	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
+
 	// The quantity of data in the database, in gigabytes.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 

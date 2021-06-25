@@ -77,6 +77,9 @@ type CustomProperty struct {
 	// Total number of first class objects using this custom property
 	UsageCount *int `mandatory:"false" json:"usageCount"`
 
+	// If an OCI Event will be emitted when the custom property is modified.
+	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
+
 	// Type or scope of the custom property belongs to. This will be an array of type id it will be belongs to
 	Scope []CustomPropertyTypeUsage `mandatory:"false" json:"scope"`
 
