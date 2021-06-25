@@ -18,6 +18,9 @@ type TypeCustomPropertyDetails struct {
 
 	// array of custom property Ids
 	CustomPropertyIds []string `mandatory:"false" json:"customPropertyIds"`
+
+	// If an OCI Event will be emitted when the custom property is modified.
+	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
 }
 
 func (m TypeCustomPropertyDetails) String() string {

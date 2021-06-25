@@ -24,10 +24,16 @@ type CreateAutonomousDatabaseDetails struct {
 	DbName *string `mandatory:"true" json:"dbName"`
 
 	// The number of OCPU cores to be made available to the database.
-	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
+	// The number of Fractional OCPU cores to be made available to the database.
+	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The size, in gigabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
@@ -154,6 +160,11 @@ func (m CreateAutonomousDatabaseDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
+//GetOcpuCount returns OcpuCount
+func (m CreateAutonomousDatabaseDetails) GetOcpuCount() *float32 {
+	return m.OcpuCount
+}
+
 //GetDbWorkload returns DbWorkload
 func (m CreateAutonomousDatabaseDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
@@ -162,6 +173,11 @@ func (m CreateAutonomousDatabaseDetails) GetDbWorkload() CreateAutonomousDatabas
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateAutonomousDatabaseDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
+}
+
+//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+func (m CreateAutonomousDatabaseDetails) GetDataStorageSizeInGBs() *int {
+	return m.DataStorageSizeInGBs
 }
 
 //GetIsFreeTier returns IsFreeTier

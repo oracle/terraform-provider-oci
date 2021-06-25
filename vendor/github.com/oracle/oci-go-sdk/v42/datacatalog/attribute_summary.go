@@ -88,6 +88,12 @@ type AttributeSummary struct {
 
 	// Rule types associated with attribute.
 	AssociatedRuleTypes []RuleTypeEnum `mandatory:"false" json:"associatedRuleTypes,omitempty"`
+
+	// Whether a column is derived or not.
+	IsDerivedAttribute *bool `mandatory:"false" json:"isDerivedAttribute"`
+
+	// The last time that any change was made to the attribute. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m AttributeSummary) String() string {

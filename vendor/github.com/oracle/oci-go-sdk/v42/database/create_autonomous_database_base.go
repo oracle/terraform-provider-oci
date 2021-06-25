@@ -15,6 +15,8 @@ import (
 )
 
 // CreateAutonomousDatabaseBase Details to create an Oracle Autonomous Database.
+// Choose either Fractional ocpuCount or cpuCoreCount.
+// Choose either dataStorageSizeInGBs or dataStorageSizeInTBs
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseBase interface {
 
@@ -27,6 +29,9 @@ type CreateAutonomousDatabaseBase interface {
 	// The number of OCPU cores to be made available to the database.
 	GetCpuCoreCount() *int
 
+	// The number of Fractional OCPU cores to be made available to the database.
+	GetOcpuCount() *float32
+
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
@@ -36,6 +41,9 @@ type CreateAutonomousDatabaseBase interface {
 
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
 	GetDataStorageSizeInTBs() *int
+
+	// The size, in gigabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	GetDataStorageSizeInGBs() *int
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	GetIsFreeTier() *bool
@@ -144,9 +152,11 @@ type createautonomousdatabasebase struct {
 	JsonData                                 []byte
 	CompartmentId                            *string                                      `mandatory:"true" json:"compartmentId"`
 	DbName                                   *string                                      `mandatory:"true" json:"dbName"`
-	CpuCoreCount                             *int                                         `mandatory:"true" json:"cpuCoreCount"`
+	CpuCoreCount                             *int                                         `mandatory:"false" json:"cpuCoreCount"`
+	OcpuCount                                *float32                                     `mandatory:"false" json:"ocpuCount"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
 	DataStorageSizeInTBs                     *int                                         `mandatory:"false" json:"dataStorageSizeInTBs"`
+	DataStorageSizeInGBs                     *int                                         `mandatory:"false" json:"dataStorageSizeInGBs"`
 	IsFreeTier                               *bool                                        `mandatory:"false" json:"isFreeTier"`
 	KmsKeyId                                 *string                                      `mandatory:"false" json:"kmsKeyId"`
 	VaultId                                  *string                                      `mandatory:"false" json:"vaultId"`
@@ -186,8 +196,10 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.CompartmentId = s.Model.CompartmentId
 	m.DbName = s.Model.DbName
 	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.OcpuCount = s.Model.OcpuCount
 	m.DbWorkload = s.Model.DbWorkload
 	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
+	m.DataStorageSizeInGBs = s.Model.DataStorageSizeInGBs
 	m.IsFreeTier = s.Model.IsFreeTier
 	m.KmsKeyId = s.Model.KmsKeyId
 	m.VaultId = s.Model.VaultId
@@ -264,6 +276,11 @@ func (m createautonomousdatabasebase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
+//GetOcpuCount returns OcpuCount
+func (m createautonomousdatabasebase) GetOcpuCount() *float32 {
+	return m.OcpuCount
+}
+
 //GetDbWorkload returns DbWorkload
 func (m createautonomousdatabasebase) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
@@ -272,6 +289,11 @@ func (m createautonomousdatabasebase) GetDbWorkload() CreateAutonomousDatabaseBa
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m createautonomousdatabasebase) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
+}
+
+//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+func (m createautonomousdatabasebase) GetDataStorageSizeInGBs() *int {
+	return m.DataStorageSizeInGBs
 }
 
 //GetIsFreeTier returns IsFreeTier

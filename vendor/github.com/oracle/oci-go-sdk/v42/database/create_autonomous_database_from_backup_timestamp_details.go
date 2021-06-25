@@ -23,17 +23,23 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 	DbName *string `mandatory:"true" json:"dbName"`
 
-	// The number of OCPU cores to be made available to the database.
-	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
 	// The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 
+	// The number of OCPU cores to be made available to the database.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
+	// The number of Fractional OCPU cores to be made available to the database.
+	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
+
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The size, in gigabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
@@ -163,6 +169,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetCpuCoreCount() *i
 	return m.CpuCoreCount
 }
 
+//GetOcpuCount returns OcpuCount
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetOcpuCount() *float32 {
+	return m.OcpuCount
+}
+
 //GetDbWorkload returns DbWorkload
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
@@ -171,6 +182,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDbWorkload() Crea
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
+}
+
+//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetDataStorageSizeInGBs() *int {
+	return m.DataStorageSizeInGBs
 }
 
 //GetIsFreeTier returns IsFreeTier

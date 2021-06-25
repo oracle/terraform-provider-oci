@@ -59,6 +59,12 @@ type Entity struct {
 	// Last modified timestamp of this object in the external system.
 	TimeExternal *common.SDKTime `mandatory:"false" json:"timeExternal"`
 
+	// The date and time the entity was harvested, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeHarvested *common.SDKTime `mandatory:"false" json:"timeHarvested"`
+
+	// List of objects and their relationships to this entity.
+	ObjectRelationships []ObjectRelationship `mandatory:"false" json:"objectRelationships"`
+
 	// Time that the data entities status was last updated. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeStatusUpdated *common.SDKTime `mandatory:"false" json:"timeStatusUpdated"`
 

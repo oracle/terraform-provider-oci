@@ -20,8 +20,14 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The number of CPU cores to be made available to the database.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// The number of Fractional OCPU cores to be made available to the database.
+	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
+
 	// The size, in terabytes, of the data volume that will be attached to the database.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The size, in gigabytes, of the data volume that will be attached to the database.
+	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique. Can only be updated for Autonomous Databases
 	// using dedicated Exadata infrastructure.

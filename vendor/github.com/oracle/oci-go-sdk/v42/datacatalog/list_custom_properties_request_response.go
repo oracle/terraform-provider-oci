@@ -127,61 +127,87 @@ type ListCustomPropertiesTypeNameEnum string
 
 // Set of constants representing the allowable values for ListCustomPropertiesTypeNameEnum
 const (
-	ListCustomPropertiesTypeNameDataAsset                       ListCustomPropertiesTypeNameEnum = "DATA_ASSET"
-	ListCustomPropertiesTypeNameAutonomousDataWarehouse         ListCustomPropertiesTypeNameEnum = "AUTONOMOUS_DATA_WAREHOUSE"
-	ListCustomPropertiesTypeNameHive                            ListCustomPropertiesTypeNameEnum = "HIVE"
-	ListCustomPropertiesTypeNameKafka                           ListCustomPropertiesTypeNameEnum = "KAFKA"
-	ListCustomPropertiesTypeNameMysql                           ListCustomPropertiesTypeNameEnum = "MYSQL"
-	ListCustomPropertiesTypeNameOracleObjectStorage             ListCustomPropertiesTypeNameEnum = "ORACLE_OBJECT_STORAGE"
-	ListCustomPropertiesTypeNameAutonomousTransactionProcessing ListCustomPropertiesTypeNameEnum = "AUTONOMOUS_TRANSACTION_PROCESSING"
-	ListCustomPropertiesTypeNameOracle                          ListCustomPropertiesTypeNameEnum = "ORACLE"
-	ListCustomPropertiesTypeNamePostgresql                      ListCustomPropertiesTypeNameEnum = "POSTGRESQL"
-	ListCustomPropertiesTypeNameMicrosoftAzureSqlDatabase       ListCustomPropertiesTypeNameEnum = "MICROSOFT_AZURE_SQL_DATABASE"
-	ListCustomPropertiesTypeNameMicrosoftSqlServer              ListCustomPropertiesTypeNameEnum = "MICROSOFT_SQL_SERVER"
-	ListCustomPropertiesTypeNameIbmDb2                          ListCustomPropertiesTypeNameEnum = "IBM_DB2"
-	ListCustomPropertiesTypeNameDataEntity                      ListCustomPropertiesTypeNameEnum = "DATA_ENTITY"
-	ListCustomPropertiesTypeNameLogicalEntity                   ListCustomPropertiesTypeNameEnum = "LOGICAL_ENTITY"
-	ListCustomPropertiesTypeNameTable                           ListCustomPropertiesTypeNameEnum = "TABLE"
-	ListCustomPropertiesTypeNameView                            ListCustomPropertiesTypeNameEnum = "VIEW"
-	ListCustomPropertiesTypeNameAttribute                       ListCustomPropertiesTypeNameEnum = "ATTRIBUTE"
-	ListCustomPropertiesTypeNameFolder                          ListCustomPropertiesTypeNameEnum = "FOLDER"
-	ListCustomPropertiesTypeNameConnection                      ListCustomPropertiesTypeNameEnum = "CONNECTION"
-	ListCustomPropertiesTypeNameGlossary                        ListCustomPropertiesTypeNameEnum = "GLOSSARY"
-	ListCustomPropertiesTypeNameTerm                            ListCustomPropertiesTypeNameEnum = "TERM"
-	ListCustomPropertiesTypeNameCategory                        ListCustomPropertiesTypeNameEnum = "CATEGORY"
-	ListCustomPropertiesTypeNameFile                            ListCustomPropertiesTypeNameEnum = "FILE"
-	ListCustomPropertiesTypeNameBucket                          ListCustomPropertiesTypeNameEnum = "BUCKET"
-	ListCustomPropertiesTypeNameMessage                         ListCustomPropertiesTypeNameEnum = "MESSAGE"
-	ListCustomPropertiesTypeNameUnrecognizedFile                ListCustomPropertiesTypeNameEnum = "UNRECOGNIZED_FILE"
+	ListCustomPropertiesTypeNameDataAsset                        ListCustomPropertiesTypeNameEnum = "DATA_ASSET"
+	ListCustomPropertiesTypeNameAutonomousDataWarehouse          ListCustomPropertiesTypeNameEnum = "AUTONOMOUS_DATA_WAREHOUSE"
+	ListCustomPropertiesTypeNameHive                             ListCustomPropertiesTypeNameEnum = "HIVE"
+	ListCustomPropertiesTypeNameKafka                            ListCustomPropertiesTypeNameEnum = "KAFKA"
+	ListCustomPropertiesTypeNameMysql                            ListCustomPropertiesTypeNameEnum = "MYSQL"
+	ListCustomPropertiesTypeNameOracleObjectStorage              ListCustomPropertiesTypeNameEnum = "ORACLE_OBJECT_STORAGE"
+	ListCustomPropertiesTypeNameAutonomousTransactionProcessing  ListCustomPropertiesTypeNameEnum = "AUTONOMOUS_TRANSACTION_PROCESSING"
+	ListCustomPropertiesTypeNameOracle                           ListCustomPropertiesTypeNameEnum = "ORACLE"
+	ListCustomPropertiesTypeNamePostgresql                       ListCustomPropertiesTypeNameEnum = "POSTGRESQL"
+	ListCustomPropertiesTypeNameMicrosoftAzureSqlDatabase        ListCustomPropertiesTypeNameEnum = "MICROSOFT_AZURE_SQL_DATABASE"
+	ListCustomPropertiesTypeNameMicrosoftSqlServer               ListCustomPropertiesTypeNameEnum = "MICROSOFT_SQL_SERVER"
+	ListCustomPropertiesTypeNameIbmDb2                           ListCustomPropertiesTypeNameEnum = "IBM_DB2"
+	ListCustomPropertiesTypeNameDataEntity                       ListCustomPropertiesTypeNameEnum = "DATA_ENTITY"
+	ListCustomPropertiesTypeNameLogicalEntity                    ListCustomPropertiesTypeNameEnum = "LOGICAL_ENTITY"
+	ListCustomPropertiesTypeNameTable                            ListCustomPropertiesTypeNameEnum = "TABLE"
+	ListCustomPropertiesTypeNameView                             ListCustomPropertiesTypeNameEnum = "VIEW"
+	ListCustomPropertiesTypeNameAttribute                        ListCustomPropertiesTypeNameEnum = "ATTRIBUTE"
+	ListCustomPropertiesTypeNameFolder                           ListCustomPropertiesTypeNameEnum = "FOLDER"
+	ListCustomPropertiesTypeNameOracleAnalyticsServer            ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_SERVER"
+	ListCustomPropertiesTypeNameOracleAnalyticsCloud             ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_CLOUD"
+	ListCustomPropertiesTypeNameOracleAnalyticsSubjectArea       ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_SUBJECT_AREA"
+	ListCustomPropertiesTypeNameOracleAnalyticsDashboard         ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_DASHBOARD"
+	ListCustomPropertiesTypeNameOracleAnalyticsBusinessModel     ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_BUSINESS_MODEL"
+	ListCustomPropertiesTypeNameOracleAnalyticsPhysicalDatabase  ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_PHYSICAL_DATABASE"
+	ListCustomPropertiesTypeNameOracleAnalyticsPhysicalSchema    ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_PHYSICAL_SCHEMA"
+	ListCustomPropertiesTypeNameOracleAnalyticsPresentationTable ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_PRESENTATION_TABLE"
+	ListCustomPropertiesTypeNameOracleAnalyticsLogicalTable      ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_LOGICAL_TABLE"
+	ListCustomPropertiesTypeNameOracleAnalyticsPhysicalTable     ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_PHYSICAL_TABLE"
+	ListCustomPropertiesTypeNameOracleAnalyticsAnalysis          ListCustomPropertiesTypeNameEnum = "ORACLE_ANALYTICS_ANALYSIS"
+	ListCustomPropertiesTypeNameDatabaseSchema                   ListCustomPropertiesTypeNameEnum = "DATABASE_SCHEMA"
+	ListCustomPropertiesTypeNameTopic                            ListCustomPropertiesTypeNameEnum = "TOPIC"
+	ListCustomPropertiesTypeNameConnection                       ListCustomPropertiesTypeNameEnum = "CONNECTION"
+	ListCustomPropertiesTypeNameGlossary                         ListCustomPropertiesTypeNameEnum = "GLOSSARY"
+	ListCustomPropertiesTypeNameTerm                             ListCustomPropertiesTypeNameEnum = "TERM"
+	ListCustomPropertiesTypeNameCategory                         ListCustomPropertiesTypeNameEnum = "CATEGORY"
+	ListCustomPropertiesTypeNameFile                             ListCustomPropertiesTypeNameEnum = "FILE"
+	ListCustomPropertiesTypeNameBucket                           ListCustomPropertiesTypeNameEnum = "BUCKET"
+	ListCustomPropertiesTypeNameMessage                          ListCustomPropertiesTypeNameEnum = "MESSAGE"
+	ListCustomPropertiesTypeNameUnrecognizedFile                 ListCustomPropertiesTypeNameEnum = "UNRECOGNIZED_FILE"
 )
 
 var mappingListCustomPropertiesTypeName = map[string]ListCustomPropertiesTypeNameEnum{
-	"DATA_ASSET":                        ListCustomPropertiesTypeNameDataAsset,
-	"AUTONOMOUS_DATA_WAREHOUSE":         ListCustomPropertiesTypeNameAutonomousDataWarehouse,
-	"HIVE":                              ListCustomPropertiesTypeNameHive,
-	"KAFKA":                             ListCustomPropertiesTypeNameKafka,
-	"MYSQL":                             ListCustomPropertiesTypeNameMysql,
-	"ORACLE_OBJECT_STORAGE":             ListCustomPropertiesTypeNameOracleObjectStorage,
-	"AUTONOMOUS_TRANSACTION_PROCESSING": ListCustomPropertiesTypeNameAutonomousTransactionProcessing,
-	"ORACLE":                            ListCustomPropertiesTypeNameOracle,
-	"POSTGRESQL":                        ListCustomPropertiesTypeNamePostgresql,
-	"MICROSOFT_AZURE_SQL_DATABASE":      ListCustomPropertiesTypeNameMicrosoftAzureSqlDatabase,
-	"MICROSOFT_SQL_SERVER":              ListCustomPropertiesTypeNameMicrosoftSqlServer,
-	"IBM_DB2":                           ListCustomPropertiesTypeNameIbmDb2,
-	"DATA_ENTITY":                       ListCustomPropertiesTypeNameDataEntity,
-	"LOGICAL_ENTITY":                    ListCustomPropertiesTypeNameLogicalEntity,
-	"TABLE":                             ListCustomPropertiesTypeNameTable,
-	"VIEW":                              ListCustomPropertiesTypeNameView,
-	"ATTRIBUTE":                         ListCustomPropertiesTypeNameAttribute,
-	"FOLDER":                            ListCustomPropertiesTypeNameFolder,
-	"CONNECTION":                        ListCustomPropertiesTypeNameConnection,
-	"GLOSSARY":                          ListCustomPropertiesTypeNameGlossary,
-	"TERM":                              ListCustomPropertiesTypeNameTerm,
-	"CATEGORY":                          ListCustomPropertiesTypeNameCategory,
-	"FILE":                              ListCustomPropertiesTypeNameFile,
-	"BUCKET":                            ListCustomPropertiesTypeNameBucket,
-	"MESSAGE":                           ListCustomPropertiesTypeNameMessage,
-	"UNRECOGNIZED_FILE":                 ListCustomPropertiesTypeNameUnrecognizedFile,
+	"DATA_ASSET":                          ListCustomPropertiesTypeNameDataAsset,
+	"AUTONOMOUS_DATA_WAREHOUSE":           ListCustomPropertiesTypeNameAutonomousDataWarehouse,
+	"HIVE":                                ListCustomPropertiesTypeNameHive,
+	"KAFKA":                               ListCustomPropertiesTypeNameKafka,
+	"MYSQL":                               ListCustomPropertiesTypeNameMysql,
+	"ORACLE_OBJECT_STORAGE":               ListCustomPropertiesTypeNameOracleObjectStorage,
+	"AUTONOMOUS_TRANSACTION_PROCESSING":   ListCustomPropertiesTypeNameAutonomousTransactionProcessing,
+	"ORACLE":                              ListCustomPropertiesTypeNameOracle,
+	"POSTGRESQL":                          ListCustomPropertiesTypeNamePostgresql,
+	"MICROSOFT_AZURE_SQL_DATABASE":        ListCustomPropertiesTypeNameMicrosoftAzureSqlDatabase,
+	"MICROSOFT_SQL_SERVER":                ListCustomPropertiesTypeNameMicrosoftSqlServer,
+	"IBM_DB2":                             ListCustomPropertiesTypeNameIbmDb2,
+	"DATA_ENTITY":                         ListCustomPropertiesTypeNameDataEntity,
+	"LOGICAL_ENTITY":                      ListCustomPropertiesTypeNameLogicalEntity,
+	"TABLE":                               ListCustomPropertiesTypeNameTable,
+	"VIEW":                                ListCustomPropertiesTypeNameView,
+	"ATTRIBUTE":                           ListCustomPropertiesTypeNameAttribute,
+	"FOLDER":                              ListCustomPropertiesTypeNameFolder,
+	"ORACLE_ANALYTICS_SERVER":             ListCustomPropertiesTypeNameOracleAnalyticsServer,
+	"ORACLE_ANALYTICS_CLOUD":              ListCustomPropertiesTypeNameOracleAnalyticsCloud,
+	"ORACLE_ANALYTICS_SUBJECT_AREA":       ListCustomPropertiesTypeNameOracleAnalyticsSubjectArea,
+	"ORACLE_ANALYTICS_DASHBOARD":          ListCustomPropertiesTypeNameOracleAnalyticsDashboard,
+	"ORACLE_ANALYTICS_BUSINESS_MODEL":     ListCustomPropertiesTypeNameOracleAnalyticsBusinessModel,
+	"ORACLE_ANALYTICS_PHYSICAL_DATABASE":  ListCustomPropertiesTypeNameOracleAnalyticsPhysicalDatabase,
+	"ORACLE_ANALYTICS_PHYSICAL_SCHEMA":    ListCustomPropertiesTypeNameOracleAnalyticsPhysicalSchema,
+	"ORACLE_ANALYTICS_PRESENTATION_TABLE": ListCustomPropertiesTypeNameOracleAnalyticsPresentationTable,
+	"ORACLE_ANALYTICS_LOGICAL_TABLE":      ListCustomPropertiesTypeNameOracleAnalyticsLogicalTable,
+	"ORACLE_ANALYTICS_PHYSICAL_TABLE":     ListCustomPropertiesTypeNameOracleAnalyticsPhysicalTable,
+	"ORACLE_ANALYTICS_ANALYSIS":           ListCustomPropertiesTypeNameOracleAnalyticsAnalysis,
+	"DATABASE_SCHEMA":                     ListCustomPropertiesTypeNameDatabaseSchema,
+	"TOPIC":                               ListCustomPropertiesTypeNameTopic,
+	"CONNECTION":                          ListCustomPropertiesTypeNameConnection,
+	"GLOSSARY":                            ListCustomPropertiesTypeNameGlossary,
+	"TERM":                                ListCustomPropertiesTypeNameTerm,
+	"CATEGORY":                            ListCustomPropertiesTypeNameCategory,
+	"FILE":                                ListCustomPropertiesTypeNameFile,
+	"BUCKET":                              ListCustomPropertiesTypeNameBucket,
+	"MESSAGE":                             ListCustomPropertiesTypeNameMessage,
+	"UNRECOGNIZED_FILE":                   ListCustomPropertiesTypeNameUnrecognizedFile,
 }
 
 // GetListCustomPropertiesTypeNameEnumValues Enumerates the set of values for ListCustomPropertiesTypeNameEnum
