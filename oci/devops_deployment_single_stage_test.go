@@ -102,10 +102,6 @@ var (
 		"lifecycle":          RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 
-	ignoreDefinedTagsDifferencesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
-	}
-
 	DevopsSingleStageDeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_inline_artifact", Required, Create, deployGenericArtifactSingleStageRepresentation) +
 		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_kubernetes_environment", Required, Create, deployOkeEnvironmentRepresentation) +
 		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
