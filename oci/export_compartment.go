@@ -736,10 +736,12 @@ importResource runs terraform import for a given resource using Terraform exec a
 */
 func importResource(ctx *resourceDiscoveryContext, resource *OCIResource, tmpStateOutputFile string) {
 	Logf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
+	Debugf("[DEBUG] ===> Importing resource '%s'", resource.getTerraformReference())
 
 	resourceDefinition, exists := resourcesMap[resource.terraformClass]
 	if !exists {
 		Logf("[INFO] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
+		Debugf("[DEBUG] skip importing '%s' since it is not a Terraform OCI resource", resource.getTerraformReference())
 		return
 	}
 
@@ -874,6 +876,7 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 	}
 
 	Logf("[INFO] resource discovery: visiting %s\n", root.getTerraformReference())
+	Debugf("[DEBUG] resource discovery: visiting %s\n", root.getTerraformReference())
 
 	for _, childType := range childResourceTypes {
 		func() {
@@ -1347,12 +1350,15 @@ func findResourcesGeneric(ctx *resourceDiscoveryContext, tfMeta *TerraformResour
 	clients := ctx.clients
 
 	Logf("[INFO] discovering resources with data source '%s'\n", tfMeta.datasourceClass)
+	Debugf("[DEBUG] discovering resources with data source '%s'\n", tfMeta.datasourceClass)
 	datasource := datasourcesMap[tfMeta.datasourceClass]
 	d := datasource.TestResourceData()
 	d.Set("compartment_id", parent.compartmentId)
 
 	for queryAttributeName, queryValue := range tfMeta.datasourceQueryParams {
 		Logf("[INFO] adding datasource query attribute '%s' from parent attribute '%s'\n", queryAttributeName, queryValue)
+		Debugf("[DEBUG] adding datasource query attribute '%s' from parent attribute '%s'\n", queryAttributeName, queryValue)
+
 		if queryValue == "" || queryValue == "id" {
 			d.Set(queryAttributeName, parent.id)
 		} else if strings.HasPrefix(queryValue, "'") && strings.HasSuffix(queryValue, "'") { // Anything encapsulated in ' ' means to use the literal value
