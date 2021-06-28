@@ -220,6 +220,8 @@ func (s *CoreDedicatedVmHostResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.Res = &response.DedicatedVmHost
+
 	if workId != nil {
 		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {

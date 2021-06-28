@@ -238,17 +238,16 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.Res = &response.ExternalContainerDatabase
+
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *DatabaseExternalContainerDatabaseResourceCrud) Get() error {
@@ -339,7 +338,7 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) Delete() error {
 		}
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *DatabaseExternalContainerDatabaseResourceCrud) SetData() error {
@@ -419,17 +418,10 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) updateCompartment(compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeExternalContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeExternalContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
 	return nil
 }

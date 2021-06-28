@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v42/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -277,7 +276,6 @@ func createCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -294,7 +292,6 @@ func updateCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -304,7 +301,6 @@ func deleteCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient()
 	sync.DisableNotFoundRetries = true
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -314,7 +310,6 @@ type CoreClusterNetworkResourceCrud struct {
 	Client                 *oci_core.ComputeManagementClient
 	Res                    *oci_core.ClusterNetwork
 	DisableNotFoundRetries bool
-	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreClusterNetworkResourceCrud) ID() string {
@@ -407,18 +402,8 @@ func (s *CoreClusterNetworkResourceCrud) Create() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "clusternetwork", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	s.Res = &response.ClusterNetwork
+	return nil
 }
 
 func (s *CoreClusterNetworkResourceCrud) Get() error {
@@ -506,20 +491,8 @@ func (s *CoreClusterNetworkResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.TerminateClusterNetwork(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "clusternetwork", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	_, err := s.Client.TerminateClusterNetwork(context.Background(), request)
+	return err
 }
 
 func (s *CoreClusterNetworkResourceCrud) SetData() error {

@@ -10,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -196,7 +195,6 @@ func createDatabaseCloudExadataInfrastructure(d *schema.ResourceData, m interfac
 	sync := &DatabaseCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -213,7 +211,6 @@ func updateDatabaseCloudExadataInfrastructure(d *schema.ResourceData, m interfac
 	sync := &DatabaseCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -223,7 +220,6 @@ func deleteDatabaseCloudExadataInfrastructure(d *schema.ResourceData, m interfac
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -233,7 +229,6 @@ type DatabaseCloudExadataInfrastructureResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.CloudExadataInfrastructure
 	DisableNotFoundRetries bool
-	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) ID() string {
@@ -340,18 +335,8 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	s.Res = &response.CloudExadataInfrastructure
+	return nil
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) Get() error {
@@ -431,15 +416,8 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	s.Res = &response.CloudExadataInfrastructure
+	return nil
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) Delete() error {
@@ -455,20 +433,8 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteCloudExadataInfrastructure(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	_, err := s.Client.DeleteCloudExadataInfrastructure(context.Background(), request)
+	return err
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
@@ -647,17 +613,9 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) updateCompartment(compa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeCloudExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeCloudExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
 	}
 	return nil
 }

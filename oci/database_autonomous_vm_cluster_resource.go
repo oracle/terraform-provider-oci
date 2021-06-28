@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -125,7 +124,6 @@ func createDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) er
 	sync := &DatabaseAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -142,7 +140,6 @@ func updateDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) er
 	sync := &DatabaseAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -152,7 +149,6 @@ func deleteDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) er
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -162,7 +158,6 @@ type DatabaseAutonomousVmClusterResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.AutonomousVmCluster
 	DisableNotFoundRetries bool
-	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseAutonomousVmClusterResourceCrud) ID() string {
@@ -263,18 +258,8 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	s.Res = &response.AutonomousVmCluster
+	return nil
 }
 
 func (s *DatabaseAutonomousVmClusterResourceCrud) Get() error {
@@ -332,15 +317,8 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	s.Res = &response.AutonomousVmCluster
+	return nil
 }
 
 func (s *DatabaseAutonomousVmClusterResourceCrud) Delete() error {
@@ -351,20 +329,8 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteAutonomousVmCluster(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
-
-	return s.Get()
+	_, err := s.Client.DeleteAutonomousVmCluster(context.Background(), request)
+	return err
 }
 
 func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
@@ -448,17 +414,9 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeAutonomousVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAutonomousVmClusterCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
 	}
 	return nil
 }

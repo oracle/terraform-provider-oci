@@ -362,6 +362,8 @@ func (s *CoreImageResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.Res = &response.Image
+
 	if workId != nil {
 		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {

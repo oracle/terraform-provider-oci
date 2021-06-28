@@ -209,6 +209,8 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.Res = &response.InstancePoolInstance
+
 	if workId != nil {
 		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
@@ -219,7 +221,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *CoreInstancePoolInstanceResourceCrud) Get() error {
