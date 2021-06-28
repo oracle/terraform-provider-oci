@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v42/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
 )
 
 func init() {
@@ -314,7 +313,6 @@ func createDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -331,7 +329,6 @@ func updateDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -341,7 +338,6 @@ func deleteDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
-	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -351,7 +347,6 @@ type DatabaseExadataInfrastructureResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.ExadataInfrastructure
 	DisableNotFoundRetries bool
-	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseExadataInfrastructureResourceCrud) ID() string {
@@ -1111,17 +1106,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) updateCompartment(compartmen
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
 	}
 	return nil
 }

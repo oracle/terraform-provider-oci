@@ -265,10 +265,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Delete() error
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
+		_, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

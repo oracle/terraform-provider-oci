@@ -303,6 +303,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"maintenance_window_details",
+					"create_async",
 				},
 				ResourceName: resourceName,
 			},

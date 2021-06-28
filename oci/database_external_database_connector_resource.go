@@ -265,17 +265,16 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.Res = &response.ExternalDatabaseConnector
+
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *DatabaseExternalDatabaseConnectorResourceCrud) Get() error {
@@ -341,7 +340,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Delete() error {
 		}
 	}
 
-	return s.Get()
+	return nil
 }
 
 func (s *DatabaseExternalDatabaseConnectorResourceCrud) SetData() error {

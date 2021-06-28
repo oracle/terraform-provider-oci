@@ -1427,7 +1427,6 @@ func deleteApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 type ApigatewayDeploymentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_apigateway.DeploymentClient
-	WorkRequestsClient     *oci_apigateway.WorkRequestsClient
 	Res                    *oci_apigateway.Deployment
 	DisableNotFoundRetries bool
 	WorkRequestClient      *oci_apigateway.WorkRequestsClient
@@ -1744,7 +1743,7 @@ func (s *ApigatewayDeploymentResourceCrud) Delete() error {
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 	_, delWorkRequestErr := deploymentWaitForWorkRequest(workId, "deployment",
-		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestsClient)
+		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
 

@@ -5,15 +5,9 @@ package oci
 
 import (
 	"context"
-	"fmt"
-	"log"
-	"strings"
-	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
 	oci_datascience "github.com/oracle/oci-go-sdk/v42/datascience"
 )
 
@@ -187,133 +181,6 @@ func (s *DatascienceProjectResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatascienceProjectResourceCrud) getProjectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
-	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
-
-	// Wait until it finishes
-	projectId, err := datascienceProjectWaitForWorkRequest(workId, "datascience",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
-
-	if err != nil {
-		// Try to cancel the work request
-		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, projectId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
-			oci_datascience.CancelWorkRequestRequest{
-				WorkRequestId: workId,
-				RequestMetadata: oci_common.RequestMetadata{
-					RetryPolicy: retryPolicy,
-				},
-			})
-		if cancelErr != nil {
-			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
-		}
-		return err
-	}
-	s.D.SetId(*projectId)
-
-	return s.Get()
-}
-
-func datascienceProjectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
-	startTime := time.Now()
-	stopTime := startTime.Add(timeout)
-	return func(response oci_common.OCIOperationResponse) bool {
-
-		// Stop after timeout has elapsed
-		if time.Now().After(stopTime) {
-			return false
-		}
-
-		// Make sure we stop on default rules
-		if shouldRetry(response, false, "datascience", startTime) {
-			return true
-		}
-
-		// Only stop if the time Finished is set
-		if workRequestResponse, ok := response.Response.(oci_datascience.GetWorkRequestResponse); ok {
-			return workRequestResponse.TimeFinished == nil
-		}
-		return false
-	}
-}
-
-func datascienceProjectWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
-	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "datascience")
-	retryPolicy.ShouldRetryOperation = datascienceProjectWorkRequestShouldRetryFunc(timeout)
-
-	response := oci_datascience.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
-		Pending: []string{
-			string(oci_datascience.WorkRequestStatusInProgress),
-			string(oci_datascience.WorkRequestStatusAccepted),
-			string(oci_datascience.WorkRequestStatusCanceling),
-		},
-		Target: []string{
-			string(oci_datascience.WorkRequestStatusSucceeded),
-			string(oci_datascience.WorkRequestStatusFailed),
-			string(oci_datascience.WorkRequestStatusCanceled),
-		},
-		Refresh: func() (interface{}, string, error) {
-			var err error
-			response, err = client.GetWorkRequest(context.Background(),
-				oci_datascience.GetWorkRequestRequest{
-					WorkRequestId: wId,
-					RequestMetadata: oci_common.RequestMetadata{
-						RetryPolicy: retryPolicy,
-					},
-				})
-			wr := &response.WorkRequest
-			return wr, string(wr.Status), err
-		},
-		Timeout: timeout,
-	}
-	if _, e := stateConf.WaitForState(); e != nil {
-		return nil, e
-	}
-
-	var identifier *string
-	// The work request response contains an array of objects that finished the operation
-	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
-				identifier = res.Identifier
-				break
-			}
-		}
-	}
-
-	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
-	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatascienceProjectWorkRequest(client, wId, retryPolicy, entityType, action)
-	}
-
-	return identifier, nil
-}
-
-func getErrorFromDatascienceProjectWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
-		oci_datascience.ListWorkRequestErrorsRequest{
-			WorkRequestId: workId,
-			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: retryPolicy,
-			},
-		})
-	if err != nil {
-		return err
-	}
-
-	allErrs := make([]string, 0)
-	for _, wrkErr := range response.Items {
-		allErrs = append(allErrs, *wrkErr.Message)
-	}
-	errorMessage := strings.Join(allErrs, "\n")
-
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
-
-	return workRequestErr
-}
-
 func (s *DatascienceProjectResourceCrud) Get() error {
 	request := oci_datascience.GetProjectRequest{}
 
@@ -387,16 +254,8 @@ func (s *DatascienceProjectResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteProject(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	_, delWorkRequestErr := datascienceProjectWaitForWorkRequest(workId, "datascience",
-		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
-	return delWorkRequestErr
+	_, err := s.Client.DeleteProject(context.Background(), request)
+	return err
 }
 
 func (s *DatascienceProjectResourceCrud) SetData() error {
