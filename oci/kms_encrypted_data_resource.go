@@ -11,7 +11,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_kms "github.com/oracle/oci-go-sdk/v42/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v43/keymanagement"
 )
 
 func init() {

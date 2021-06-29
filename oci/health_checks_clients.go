@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_health_checks "github.com/oracle/oci-go-sdk/v42/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v43/healthchecks"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
 )
 
 func init() {

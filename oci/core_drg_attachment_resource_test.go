@@ -13,7 +13,7 @@ import (
 
 	"fmt"
 
-	"github.com/oracle/oci-go-sdk/v42/core"
+	"github.com/oracle/oci-go-sdk/v43/core"
 	"github.com/stretchr/testify/suite"
 )
 

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v42/servicecatalog"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v43/servicecatalog"
 )
 
 func init() {
