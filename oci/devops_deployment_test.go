@@ -31,7 +31,6 @@ var (
 		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"id":                 Representation{repType: Optional, create: `${oci_devops_deployment.test_deployment.id}`},
 		"project_id":         Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
-		"state":              Representation{repType: Optional, create: `Accepted`},
 		"filter":             RepresentationGroup{Required, devopsDeploymentDataSourceFilterRepresentation}}
 	devopsDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -44,7 +43,8 @@ var (
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"deployment_arguments": RepresentationGroup{Optional, deploymentDeploymentArgumentsRepresentation},
 		"display_name":         Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"bar-key": "value"}},
+		"lifecycle":            RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 	deploymentDeploymentArgumentsRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Optional, deploymentDeploymentArgumentsItemsRepresentation},
@@ -71,12 +71,7 @@ var (
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, getMultipleUpdatedRepresenationCopy(
-			[]string{"configuration", "is_enabled", "retention_duration"}, []interface{}{
-				RepresentationGroup{Required, devopLogConfigurationRepresentation},
-				Representation{repType: Required, create: `true`},
-				Representation{repType: Required, create: `30`}},
-			logRepresentation)) +
+		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
@@ -130,7 +125,6 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
@@ -160,7 +154,6 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
@@ -192,9 +185,9 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "Accepted"),
 
 					resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "0"),
 				),
 			},
 			// verify singular datasource
@@ -206,7 +199,6 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.0.name", "name"),
@@ -216,7 +208,6 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				),
