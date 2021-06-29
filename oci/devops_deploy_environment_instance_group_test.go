@@ -35,7 +35,7 @@ var (
 	}
 	deployComputeInstanceGroupEnvironmentSelectorCollectionItemsRepresentation = map[string]interface{}{
 		"selector_type":        Representation{repType: Required, create: `INSTANCE_IDS`},
-		"compute_instance_ids": Representation{repType: Required, create: []string{`ocid1.instance.oc1.iad.anuwcljtnsx72macffe5fbkzbj4eerle5ot56g2cexj3jvfsr242pye44ghq`}},
+		"compute_instance_ids": Representation{repType: Required, create: []string{`ocid1.instance.oc1.phx.anuwcljtnsx72macffe5fbkzbj4eerle5ot56g2cexj3jvfsr242pye44ghq`}},
 	}
 )
 

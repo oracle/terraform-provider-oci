@@ -164,7 +164,6 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsSingleStageDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
@@ -191,7 +190,6 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
@@ -236,7 +234,6 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),

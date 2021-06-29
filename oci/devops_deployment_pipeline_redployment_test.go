@@ -31,14 +31,16 @@ var (
 		"display_name":       Representation{repType: Optional, create: `displayName`},
 		"id":                 Representation{repType: Optional, create: `${oci_devops_deployment.test_pipeline_redeployment.id}`},
 		"project_id":         Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
-		"state":              Representation{repType: Optional, create: `Accepted`},
 		"filter":             RepresentationGroup{Required, devopsPipelineRedeploymentDataSourceFilterRepresentation}}
 	devopsPipelineRedeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_devops_deployment.test_pipeline_redeployment.id}`}},
 	}
 
-	devopsPipelineRedeploymentRepresentation = getUpdatedRepresentationCopy("deployment_type", Representation{repType: Required, create: `PIPELINE_REDEPLOYMENT`}, devopsDeploymentRepresentation)
+	devopsPipelineRedeploymentRepresentation = getUpdatedRepresentationCopy("deployment_type", Representation{repType: Required, create: `PIPELINE_REDEPLOYMENT`},
+		representationCopyWithNewProperties(representationCopyWithRemovedProperties(devopsDeploymentRepresentation, []string{"deployment_arguments"}), map[string]interface{}{
+			"previous_deployment_id": Representation{repType: Required, create: `${oci_devops_deployment.test_deploy_1.id}`},
+		}))
 
 	DevopsPipelineRedeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation) +
 		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation) +
@@ -48,12 +50,7 @@ var (
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, getMultipleUpdatedRepresenationCopy(
-			[]string{"configuration", "is_enabled", "retention_duration"}, []interface{}{
-				RepresentationGroup{Required, devopLogConfigurationRepresentation},
-				Representation{repType: Required, create: `true`},
-				Representation{repType: Required, create: `30`}},
-			logRepresentation)) +
+		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
@@ -107,7 +104,6 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Create, devopsPipelineRedeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "previous_deployment_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
@@ -134,7 +130,6 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "previous_deployment_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
@@ -164,7 +159,6 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "Accepted"),
 
 					resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "0"),
@@ -179,14 +173,12 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "previous_deployment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_execution_progress.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				),

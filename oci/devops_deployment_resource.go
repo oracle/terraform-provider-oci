@@ -324,7 +324,7 @@ func DevopsDeploymentResource() *schema.Resource {
 			},
 			"deployment_execution_progress": {
 				Type:     schema.TypeList,
-				Optional: true,
+				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
