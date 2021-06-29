@@ -1040,7 +1040,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-		tmp := ocpuCount.(float32)
+		tmp := float32(ocpuCount.(float64))
 		request.OcpuCount = &tmp
 	}
 
@@ -1636,7 +1636,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float32)
+			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -1805,7 +1805,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float32)
+			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -1967,7 +1967,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float32)
+			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -2135,7 +2135,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float32)
+			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
@@ -2292,7 +2292,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-			tmp := ocpuCount.(float32)
+			tmp := float32(ocpuCount.(float64))
 			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
