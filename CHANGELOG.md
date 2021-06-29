@@ -2,7 +2,7 @@
 
 ### Added
 - Support for OKE Network Security Group (NSG)
-- Support for Data Catalog 2.0 Release
+- Support for Metastore in Data Catalog
 - Support for ATP-D: Fractional OCPUs
 - Support for Developer Lifecycle CD Service
 
