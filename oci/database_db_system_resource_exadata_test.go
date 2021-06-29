@@ -234,8 +234,17 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
     					}
     					hours_of_day = ["4"]
 						lead_time_in_weeks = 11
-    					months {
+						months {
+      						name = "FEBRUARY"
+						}
+						months {
       						name = "MAY"
+						}
+						months {
+      						name = "AUGUST"
+						}
+						months {
+      						name = "NOVEMBER"
 						}
     					weeks_of_month = ["2"]
 					}
@@ -284,8 +293,8 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.hours_of_day.#", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				),
