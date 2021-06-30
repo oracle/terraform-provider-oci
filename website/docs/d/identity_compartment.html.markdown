@@ -25,7 +25,7 @@ Service or the [ListVolumes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20
 ```hcl
 data "oci_identity_compartment" "test_compartment" {
 	#Required
-	compartment_id = var.compartment_id
+	id = var.compartment_id
 }
 ```
 
@@ -33,7 +33,7 @@ data "oci_identity_compartment" "test_compartment" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `id` - (Required) The OCID of the compartment.
 
 
 ## Attributes Reference

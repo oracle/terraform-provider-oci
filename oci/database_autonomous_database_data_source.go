@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
 )
 
 func init() {
@@ -208,6 +208,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
+
+	if s.Res.OcpuCount != nil {
+		s.D.Set("ocpu_count", *s.Res.OcpuCount)
+	}
 
 	s.D.Set("open_mode", s.Res.OpenMode)
 

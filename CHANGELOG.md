@@ -1,3 +1,11 @@
+## 4.33.0 (Unreleased)
+
+### Added
+- Support for OKE Network Security Group (NSG)
+- Support for Metastore in Data Catalog
+- Support for ATP-D: Fractional OCPUs
+- Support for Developer Lifecycle CD Service
+
 ## 4.32.0 (June 23, 2021)
 
 ### Added

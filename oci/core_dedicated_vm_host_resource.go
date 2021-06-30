@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v42/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 func init() {
@@ -103,7 +103,7 @@ func createCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -120,7 +120,7 @@ func updateCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -129,8 +129,8 @@ func deleteCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -141,6 +141,7 @@ type CoreDedicatedVmHostResourceCrud struct {
 	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.DedicatedVmHost
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreDedicatedVmHostResourceCrud) ID() string {
@@ -219,8 +220,10 @@ func (s *CoreDedicatedVmHostResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.Res = &response.DedicatedVmHost
+
 	if workId != nil {
-		identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -307,12 +310,13 @@ func (s *CoreDedicatedVmHostResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return nil
+
+	return s.Get()
 }
 
 func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
@@ -382,9 +386,10 @@ func (s *CoreDedicatedVmHostResourceCrud) updateCompartment(compartment interfac
 	if err != nil {
 		return err
 	}
+
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dedicatedvmhost", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

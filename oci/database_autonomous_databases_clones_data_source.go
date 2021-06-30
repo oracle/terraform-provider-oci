@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
 )
 
 func init() {
@@ -335,6 +335,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"ocpu_count": {
+							Type:     schema.TypeFloat,
+							Computed: true,
 						},
 						"open_mode": {
 							Type:     schema.TypeString,
@@ -702,6 +706,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds
+
+		if r.OcpuCount != nil {
+			autonomousDatabasesClone["ocpu_count"] = *r.OcpuCount
+		}
 
 		autonomousDatabasesClone["open_mode"] = r.OpenMode
 

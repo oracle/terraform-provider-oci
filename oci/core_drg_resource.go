@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v42/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 func init() {
@@ -111,6 +111,7 @@ func createCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -127,7 +128,8 @@ func updateCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
+
 	return UpdateResource(d, sync)
 }
 
@@ -136,6 +138,7 @@ func deleteCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -143,10 +146,10 @@ func deleteCoreDrg(d *schema.ResourceData, m interface{}) error {
 type CoreDrgResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Drg
 	RedundancyStatus       *oci_core.DrgRedundancyStatus
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreDrgResourceCrud) ID() string {

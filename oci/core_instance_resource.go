@@ -18,9 +18,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v42/common"
-	oci_core "github.com/oracle/oci-go-sdk/v42/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 func init() {
@@ -640,9 +640,9 @@ func createCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
@@ -684,9 +684,9 @@ func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	// switch to power on
 	powerOn, powerOff := false, false
@@ -726,6 +726,7 @@ func deleteCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -735,9 +736,9 @@ type CoreInstanceResourceCrud struct {
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
 	BlockStorageClient     *oci_core.BlockstorageClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Instance
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreInstanceResourceCrud) ID() string {
@@ -968,7 +969,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 
 	s.Res = &response.Instance
 
-	workRequestErr := ResourceRefreshForHybridPolling(s.workRequestClient, workRequestId, "instance", oci_work_requests.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.D, s)
+	workRequestErr := ResourceRefreshForHybridPolling(s.WorkRequestClient, workRequestId, "instance", oci_work_requests.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.D, s)
 	if workRequestErr != nil {
 		return workRequestErr
 	}
@@ -2333,7 +2334,7 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "instance", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instance", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}

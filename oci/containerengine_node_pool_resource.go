@@ -19,8 +19,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v43/containerengine"
 )
 
 func init() {
@@ -130,6 +130,15 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 
 						// Computed
 					},
@@ -654,16 +663,17 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
+			CompartmentId: compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
@@ -931,6 +941,20 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
 
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
 	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
 		set := placementConfigs.(*schema.Set)
 		interfaces := set.List()
@@ -959,6 +983,16 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 
 func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+	}
 
 	placementConfigs := []interface{}{}
 	for _, item := range obj.PlacementConfigs {

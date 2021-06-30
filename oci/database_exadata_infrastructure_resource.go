@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
 )
 
 func init() {
@@ -269,10 +269,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"last_maintenance_run_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -299,10 +295,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"next_maintenance_run_id": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -845,10 +837,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("infini_band_network_cidr", *s.Res.InfiniBandNetworkCIDR)
 	}
 
-	if s.Res.LastMaintenanceRunId != nil {
-		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
-	}
-
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -883,10 +871,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.Netmask != nil {
 		s.D.Set("netmask", *s.Res.Netmask)
-	}
-
-	if s.Res.NextMaintenanceRunId != nil {
-		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
 	s.D.Set("ntp_server", s.Res.NtpServer)

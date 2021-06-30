@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v43/containerengine"
 )
 
 func init() {
@@ -606,16 +606,17 @@ func clusterWaitForWorkRequest(wId *string, entityType string, action oci_contai
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return nil, getErrorFromContainerengineClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineClusterWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineClusterWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromContainerengineClusterWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
+			CompartmentId: compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},

@@ -7,12 +7,15 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_oda "github.com/oracle/oci-go-sdk/v42/oda"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_oda "github.com/oracle/oci-go-sdk/v43/oda"
 )
 
 func init() {
@@ -287,8 +290,123 @@ func (s *OdaOdaInstanceResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.OdaInstance
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getOdaInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *OdaOdaInstanceResourceCrud) getOdaInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_oda.WorkRequestResourceResourceActionEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	odaInstanceId, err := odaInstanceWaitForWorkRequest(workId, "oda",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*odaInstanceId)
+
+	return s.Get()
+}
+
+func odaInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "oda", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_oda.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func odaInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_oda.OdaClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "oda")
+	retryPolicy.ShouldRetryOperation = odaInstanceWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_oda.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_oda.WorkRequestStatusInProgress),
+			string(oci_oda.WorkRequestStatusAccepted),
+			string(oci_oda.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_oda.WorkRequestStatusSucceeded),
+			string(oci_oda.WorkRequestStatusFailed),
+			string(oci_oda.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_oda.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.ResourceType), entityType) {
+			if res.ResourceAction == action {
+				identifier = res.ResourceId
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_oda.WorkRequestStatusFailed || response.Status == oci_oda.WorkRequestStatusCanceled {
+		return nil, getErrorFromOdaOdaInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromOdaOdaInstanceWorkRequest(client *oci_oda.OdaClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_oda.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *OdaOdaInstanceResourceCrud) Get() error {
@@ -364,8 +482,16 @@ func (s *OdaOdaInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	_, err := s.Client.DeleteOdaInstance(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteOdaInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := odaInstanceWaitForWorkRequest(workId, "oda",
+		oci_oda.WorkRequestResourceResourceActionDelete, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
 }
 
 func (s *OdaOdaInstanceResourceCrud) SetData() error {
@@ -427,11 +553,13 @@ func (s *OdaOdaInstanceResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
 
-	_, err := s.Client.ChangeOdaInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOdaInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	workId := response.OpcWorkRequestId
+	return s.getOdaInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionChangeCompartment, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OdaOdaInstanceResourceCrud) StartOdaInstance() error {

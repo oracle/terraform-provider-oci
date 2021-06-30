@@ -29,8 +29,8 @@ import (
 	"net/http"
 	"runtime"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_common_auth "github.com/oracle/oci-go-sdk/v42/common/auth"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_common_auth "github.com/oracle/oci-go-sdk/v43/common/auth"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -72,6 +72,7 @@ const (
 
 	authAttrName                 = "auth"
 	tenancyOcidAttrName          = "tenancy_ocid"
+	boatTenancyOcidAttrName      = "boat_tenancy_ocid"
 	userOcidAttrName             = "user_ocid"
 	fingerprintAttrName          = "fingerprint"
 	privateKeyAttrName           = "private_key"
@@ -713,6 +714,9 @@ func (p ResourceDataConfigProvider) AuthType() (oci_common.AuthConfig, error) {
 }
 
 func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
+	if boatTenancyOCID := getEnvSettingWithBlankDefault(boatTenancyOcidAttrName); boatTenancyOCID != "" {
+		return boatTenancyOCID, nil
+	}
 	if tenancyOCID, ok := p.D.GetOkExists(tenancyOcidAttrName); ok {
 		return tenancyOCID.(string), nil
 	}

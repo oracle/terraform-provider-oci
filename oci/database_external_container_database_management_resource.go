@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 func init() {
@@ -56,8 +56,9 @@ func createDatabaseExternalContainerDatabaseManagement(d *schema.ResourceData, m
 	sync := &DatabaseExternalContainerDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalContainerDatabaseManagementResponse{}
+
 	return CreateResource(d, sync)
 }
 
@@ -65,8 +66,9 @@ func updateDatabaseExternalContainerDatabaseManagement(d *schema.ResourceData, m
 	sync := &DatabaseExternalContainerDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalContainerDatabaseManagementResponse{}
+
 	return UpdateResource(d, sync)
 }
 
@@ -78,7 +80,7 @@ func deleteDatabaseExternalContainerDatabaseManagement(d *schema.ResourceData, m
 	sync := &DatabaseExternalContainerDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.Res = &DatabaseExternalContainerDatabaseManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
@@ -93,9 +95,9 @@ type DatabaseExternalContainerDatabaseManagementResponse struct {
 type DatabaseExternalContainerDatabaseManagementResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *DatabaseExternalContainerDatabaseManagementResponse
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) ID() string {
@@ -135,7 +137,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Create() error
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -160,7 +162,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Create() error
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -202,7 +204,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Update() error
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -227,7 +229,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Update() error
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -263,11 +265,12 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Delete() error
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
+
 	s.Res.disableResponse = &response
 	return nil
 }

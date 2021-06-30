@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v43/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
 )
 
 func init() {
@@ -207,7 +207,7 @@ func createApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).gatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return CreateResource(d, sync)
 }
@@ -216,7 +216,6 @@ func readApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).gatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return ReadResource(sync)
 }
@@ -225,7 +224,7 @@ func updateApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).gatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -234,8 +233,8 @@ func deleteApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).gatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return DeleteResource(d, sync)
 }
@@ -243,9 +242,9 @@ func deleteApigatewayGateway(d *schema.ResourceData, m interface{}) error {
 type ApigatewayGatewayResourceCrud struct {
 	BaseCrud
 	Client                 *oci_apigateway.GatewayClient
-	WorkRequestsClient     *oci_apigateway.WorkRequestsClient
 	Res                    *oci_apigateway.Gateway
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_apigateway.WorkRequestsClient
 }
 
 func (s *ApigatewayGatewayResourceCrud) ID() string {
@@ -342,12 +341,12 @@ func (s *ApigatewayGatewayResourceCrud) getGatewayFromWorkRequest(workId *string
 
 	// Wait until it finishes
 	gatewayId, err := gatewayWaitForWorkRequest(workId, "gateway",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestsClient)
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, gatewayId)
-		_, cancelErr := s.WorkRequestsClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -556,7 +555,7 @@ func (s *ApigatewayGatewayResourceCrud) Delete() error {
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 	_, delWorkRequestErr := gatewayWaitForWorkRequest(workId, "gateway",
-		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestsClient)
+		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
 
