@@ -1,4 +1,4 @@
-## 4.33.0 (Unreleased)
+## 4.33.0 (June 30, 2021)
 
 ### Added
 - Support for OKE Network Security Group (NSG)
