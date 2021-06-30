@@ -105,7 +105,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
@@ -133,7 +133,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Create, nlbBackendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
@@ -166,7 +166,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
@@ -198,7 +198,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Create, nlbHttpBackendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
@@ -228,7 +228,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
@@ -263,7 +263,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set", "oci_network_load_balancer_backend.test_backend"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
 					// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
 					//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
@@ -312,7 +312,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set", "oci_network_load_balancer_backend.test_backend"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
 					// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
 					//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
@@ -355,7 +355,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends"),
@@ -390,7 +390,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_sets", "test_backend_sets", Optional, Update, nlbBackendSetDataSourceRepresentation) +
 					compartmentIdVariableStr + NlbBackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
@@ -404,7 +404,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 

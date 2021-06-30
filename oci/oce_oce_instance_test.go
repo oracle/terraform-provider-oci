@@ -107,7 +107,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
@@ -131,7 +131,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create, oceInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -169,7 +169,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(oceInstanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -202,7 +202,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -236,7 +236,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_oce_oce_instances", "test_oce_instances", Optional, Update, oceInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
@@ -269,7 +269,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "oce_instance_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "admin_email"),

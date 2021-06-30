@@ -57,7 +57,7 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
 					compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "package_version"),
@@ -73,7 +73,7 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
 					compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "agreements.#"),

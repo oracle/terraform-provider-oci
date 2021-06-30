@@ -71,7 +71,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_bytes"),
@@ -96,7 +96,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "export set display name"),
@@ -121,7 +121,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", Optional, Update, exportSetDataSourceRepresentation) +
 					compartmentIdVariableStr + ExportSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

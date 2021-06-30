@@ -50,7 +50,7 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + compartmentIdVariableStr + PingProbeResultResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						if httpreplay.ShouldRetryImmediately() {
 							time.Sleep(10 * time.Millisecond)
@@ -65,7 +65,7 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_health_checks_ping_probe_results", "test_ping_probe_results", Optional, Create, pingProbeResultDataSourceRepresentation) +
 					compartmentIdVariableStr + PingProbeResultResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "probe_configuration_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "start_time_greater_than_or_equal_to"),
 					resource.TestCheckResourceAttrSet(datasourceName, "start_time_less_than_or_equal_to"),

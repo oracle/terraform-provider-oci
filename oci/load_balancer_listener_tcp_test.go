@@ -54,7 +54,7 @@ func TestLoadBalancerListenerTcpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Optional, Create, listenerTcpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_version", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
@@ -70,7 +70,7 @@ func TestLoadBalancerListenerTcpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Optional, Update, listenerTcpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_version", "2"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),

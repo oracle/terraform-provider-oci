@@ -92,7 +92,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
 					resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
@@ -116,7 +116,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -148,7 +148,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -175,7 +175,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -203,7 +203,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", Optional, Update, keyStoreDataSourceRepresentation) +
 					compartmentIdVariableStr + KeyStoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "key_stores.#", "1"),
@@ -227,7 +227,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + KeyStoreResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_store_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),

@@ -97,7 +97,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 
 					func(s *terraform.State) (err error) {
@@ -115,7 +115,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Create, jobRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
@@ -138,7 +138,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Update, jobRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
@@ -160,7 +160,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_migration_jobs", "test_jobs", Optional, Update, jobDataSourceRepresentation) +
 					compartmentIdVariableStr + //JobResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Update, jobRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "Succeeded"),
 					resource.TestCheckResourceAttr(datasourceName, "job_collection.#", "1"),
@@ -172,7 +172,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + JobResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

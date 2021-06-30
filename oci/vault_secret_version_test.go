@@ -48,7 +48,7 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", Required, Create, secretVersionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SecretVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
 

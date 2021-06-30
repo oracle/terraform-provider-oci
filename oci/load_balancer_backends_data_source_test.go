@@ -87,7 +87,7 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 					load_balancer_id = "${oci_load_balancer.t.id}"
 					backendset_name  = "${oci_load_balancer_backendset.t.name}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					TestCheckResourceAttributesEqual(resourceName, "load_balancer_id", "oci_load_balancer.t", "id"),
 					TestCheckResourceAttributesEqual(resourceName, "backendset_name", "oci_load_balancer_backendset.t", "name"),
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
@@ -123,7 +123,7 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 						values = ["1.2.3.4"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					TestCheckResourceAttributesEqual(resourceName, "load_balancer_id", "oci_load_balancer.t", "id"),
 					TestCheckResourceAttributesEqual(resourceName, "backendset_name", "oci_load_balancer_backendset.t", "name"),
 					resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),

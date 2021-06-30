@@ -102,7 +102,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
@@ -122,7 +122,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
@@ -144,7 +144,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
@@ -165,7 +165,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentation)+
 					compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestMatchResourceAttr(datasourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
@@ -189,7 +189,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentationWithDomainContains)+
 					compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestMatchResourceAttr(datasourceName, "domain_contains", regexp.MustCompile("\\.oci-record-test")),
@@ -217,7 +217,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 				Config: tokenFn(config+
 					generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentSingularDataSourceRepresentation)+
 					compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_attachment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
@@ -236,7 +236,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update,
 						getUpdatedRepresentationCopy("domain_name", Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),

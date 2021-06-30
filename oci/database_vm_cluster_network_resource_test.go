@@ -69,7 +69,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
@@ -107,7 +107,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update,
 						representationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{`validate_vm_cluster_network`})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
@@ -145,7 +145,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),

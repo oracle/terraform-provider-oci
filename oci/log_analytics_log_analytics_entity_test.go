@@ -108,7 +108,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
 					resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
@@ -130,7 +130,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
 					LogAnalyticsEntityResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -168,7 +168,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(logAnalyticsEntityRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -202,7 +202,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
 					LogAnalyticsEntityResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -237,7 +237,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 					compartmentIdVariableStr + managementAgentIdVariableStr +
 					LogAnalyticsEntityResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_resource_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "entity_type_name.#", "1"),
@@ -261,7 +261,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntitySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr +
 					LogAnalyticsEntityResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_entity_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 

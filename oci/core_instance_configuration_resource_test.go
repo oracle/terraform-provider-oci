@@ -67,7 +67,7 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 				Config: config + compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
@@ -84,7 +84,7 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 					compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
@@ -101,7 +101,7 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 					compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),

@@ -70,7 +70,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					time_expires = "` + expirationTimeForPar.Format(time.RFC3339Nano) + `"
 					object = "-tf-object"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-par"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
@@ -95,7 +95,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					time_expires = "` + expirationTimeForPar.Format(time.RFC3339Nano) + `"
 					object = "-tf-object"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(s.ResourceName, "access_uri", regexp.MustCompile("/p/.*/n/.*/b/"+s.Token+"/o/")),
 				),
 			},
@@ -188,7 +188,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, updatedRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
@@ -205,7 +205,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttr(resourceName, "bucket_listing_action", ""),
 					resource.TestCheckResourceAttrSet(resourceName, "access_uri"),
@@ -235,7 +235,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
 					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 					resource.TestCheckResourceAttr(datasourceName, "object_name_prefix", "my-test-object"),
@@ -256,7 +256,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "par_id"),

@@ -116,7 +116,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, getUpdatedRepresentationCopy("name", Representation{repType: Required, create: analyticsinstanceName}, analyticsInstanceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -141,7 +141,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -181,7 +181,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -216,7 +216,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -249,7 +249,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(analyticsInstanceRepresentation, []string{"capacity"}), map[string]interface{}{
 							"capacity": RepresentationGroup{Required, analyticsInstanceCapacityUpdateRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "4"),
@@ -279,7 +279,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -315,7 +315,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 						"state": Representation{repType: Required, create: `INACTIVE`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -347,7 +347,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
 						"state": Representation{repType: Required, create: `ACTIVE`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
@@ -379,7 +379,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", Optional, Update, analyticsInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "capacity_type", "OLPU_COUNT"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
@@ -412,7 +412,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "analytics_instance_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "capacity.#", "1"),

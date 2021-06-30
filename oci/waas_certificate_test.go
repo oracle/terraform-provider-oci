@@ -95,7 +95,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
@@ -115,7 +115,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, waasCertificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -150,7 +150,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(waasCertificateRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -180,7 +180,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -211,7 +211,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", Optional, Update, waasCertificateDataSourceRepresentation) +
 					compartmentIdVariableStr + WaasCertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
@@ -238,7 +238,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + WaasCertificateResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "certificate_data", "-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----"),

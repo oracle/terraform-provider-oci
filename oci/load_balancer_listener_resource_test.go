@@ -94,7 +94,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					port = 8080
 					protocol = "TCP"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener"),
 					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
@@ -117,7 +117,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					port = 80
 					protocol = "HTTP"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener-updated"),
 					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
@@ -150,7 +150,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 						verify_peer_certificate = false
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener-updated"),
 					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
@@ -180,7 +180,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					port = 443
 					protocol = "HTTP"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener-updated"),
 					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),

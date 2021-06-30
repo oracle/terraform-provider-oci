@@ -48,7 +48,7 @@ func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_patches", "test_autonomous_container_patches", Required, Create, autonomousContainerPatchDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerPatchResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

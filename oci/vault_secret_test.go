@@ -54,7 +54,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Optional, Update, secretDataSourceRepresentation) +
 					compartmentIdVariableStr + SecretResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "name"),
 					//resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
@@ -78,7 +78,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", Required, Create, secretSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

@@ -97,7 +97,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -115,7 +115,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -143,7 +143,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -170,7 +170,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", Optional, Update, ipv6DataSourceRepresentation) +
 					compartmentIdVariableStr + Ipv6ResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "ipv6s.#", "1"),
@@ -189,7 +189,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6SingularDataSourceRepresentation) +
 					compartmentIdVariableStr + Ipv6ResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

@@ -76,7 +76,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
 						"ip_mode": Representation{repType: Optional, create: `IPV6`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
@@ -103,7 +103,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
 						"ip_mode": Representation{repType: Optional, create: `IPV6`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -134,7 +134,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
 						"ip_mode": Representation{repType: Optional, create: `IPV6`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

@@ -77,7 +77,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 
 					func(s *terraform.State) (err error) {
@@ -96,7 +96,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -123,7 +123,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -149,7 +149,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

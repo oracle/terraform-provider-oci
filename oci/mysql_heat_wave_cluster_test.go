@@ -94,7 +94,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Required, Create, heatWaveClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
 					func(s *terraform.State) (err error) {
@@ -112,7 +112,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Optional, Create, heatWaveClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
@@ -138,7 +138,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Optional, Update, heatWaveClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
 					resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
@@ -163,7 +163,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Required, Create, heatWaveClusterSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + HeatWaveClusterResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),

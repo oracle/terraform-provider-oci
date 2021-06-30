@@ -46,7 +46,7 @@ func TestOcvpSupportedSkuResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", Required, Create, supportedSkuDataSourceRepresentation) +
 					compartmentIdVariableStr + SupportedSkuResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "items.0.name"),

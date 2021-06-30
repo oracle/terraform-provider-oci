@@ -89,7 +89,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -108,7 +108,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
@@ -145,7 +145,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
@@ -177,7 +177,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update, routeTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -210,7 +210,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_route_tables", "test_route_tables", Optional, Update, routeTableDataSourceRepresentation) +
 					compartmentIdVariableStr + RouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update, routeTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

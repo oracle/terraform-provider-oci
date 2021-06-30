@@ -47,7 +47,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 			// create V1 Cluster
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies + generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, representationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -63,7 +63,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 			// verify V1 Cluster migrates to V2
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies + generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, representationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
@@ -86,7 +86,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies + generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, representationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})) + generateDataSourceFromRepresentationMap(
 					"oci_containerengine_migrate_to_native_vcn_status", "test_migrate_to_native_vcn_status",
 					Optional, Create, migrateToNativeVCNSingularDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_decommission_scheduled"),

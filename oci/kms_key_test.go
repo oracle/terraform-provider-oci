@@ -161,7 +161,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
@@ -183,7 +183,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
@@ -212,7 +212,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
@@ -240,7 +240,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -269,7 +269,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", Optional, Update, keyDataSourceRepresentation) +
 					compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
@@ -292,7 +292,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -318,7 +318,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 					resource.TestCheckResourceAttr(resourceName, "state", "ENABLED"),
 					func(s *terraform.State) (err error) {

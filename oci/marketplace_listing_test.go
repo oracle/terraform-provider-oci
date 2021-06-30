@@ -64,7 +64,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 							"name": Representation{repType: Required, create: []string{`FortiGate Next-Gen Firewall (2 cores)`}},
 						})) +
 					compartmentIdVariableStr + ListingResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "listings.0.categories.#"),
@@ -85,7 +85,7 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ListingResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "categories.#"),

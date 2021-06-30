@@ -47,7 +47,7 @@ func TestApmDataKeyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apm_data_keys", "test_data_keys", Required, Create, dataKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + DataKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_keys.#", "2"),

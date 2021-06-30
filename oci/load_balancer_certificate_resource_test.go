@@ -71,7 +71,7 @@ func (s *ResourceLoadBalancerCertificateTestSuite) TestAccResourceLoadBalancerCe
 					public_certificate = "${var.ca_certificate_value}"
 				}
 ` + caCertificateVariableStr + privateKeyVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestMatchResourceAttr(s.ResourceName, "ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 					resource.TestCheckResourceAttr(s.ResourceName, "certificate_name", "tf_cert_name"),

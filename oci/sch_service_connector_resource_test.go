@@ -102,7 +102,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetStreamingSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
@@ -129,7 +129,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
@@ -160,7 +160,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 							"source": RepresentationGroup{Optional, serviceConnectorStreamingSourceRepresentation},
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -203,7 +203,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 							"tasks":  RepresentationGroup{Optional, updatedServiceConnectorFunctionTasksRepresentation},
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_connector_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

@@ -80,7 +80,7 @@ func TestCoreDrgAttachmentManagementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Optional, Update, drgAttachmentManagementRepresentationRPC),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyTestDrgAttachmentForRpc"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_id"),
@@ -97,7 +97,7 @@ func TestCoreDrgAttachmentManagementResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ipsec_connection_tunnels", Required, Create, ipsecConnectionDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Optional, Update, drgAttachmentManagementRepresentationIpsec),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyTestDrgAttachmentForTunnel1"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_id"),

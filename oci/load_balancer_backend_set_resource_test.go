@@ -91,7 +91,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "ROUND_ROBIN"),
@@ -129,7 +129,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -174,7 +174,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "IP_HASH"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -227,7 +227,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -285,7 +285,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -347,7 +347,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -406,7 +406,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -462,7 +462,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -533,7 +533,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					load_balancer_id = "${oci_load_balancer.t.id}"
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
@@ -604,7 +604,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					load_balancer_id = "${oci_load_balancer.t.id}"
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
@@ -661,7 +661,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-backend-set"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "ROUND_ROBIN"),
@@ -702,7 +702,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "IP_HASH"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -745,7 +745,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -794,7 +794,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "IP_HASH"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -853,7 +853,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -911,7 +911,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -968,7 +968,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -1025,7 +1025,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -1082,7 +1082,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
@@ -1156,7 +1156,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					load_balancer_id = "${oci_load_balancer.t.id}"
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
@@ -1230,7 +1230,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					load_balancer_id = "${oci_load_balancer.t.id}"
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
 					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.

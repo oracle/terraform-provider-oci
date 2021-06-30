@@ -62,7 +62,7 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttr(resourceName, "plaintext", "aGVsbG8sIHdvcmxk"),
@@ -77,7 +77,7 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
@@ -92,7 +92,7 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + EncryptedDataResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "associated_data.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),

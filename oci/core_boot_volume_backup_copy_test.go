@@ -78,7 +78,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 				Config: config +
 					compartmentIdVariableStr + BootVolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup_copy", Required, Create, bootVolumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "boot_volume_id"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "source_boot_volume_backup_id", bootVolumeBackupId),
 
@@ -99,7 +99,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 				Config: config +
 					compartmentIdVariableStr + BootVolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup_copy", Optional, Create, bootVolumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
@@ -120,7 +120,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 				Config: config +
 					compartmentIdVariableStr + BootVolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup_copy", Optional, Update, bootVolumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
@@ -145,7 +145,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", Optional, Update, bootVolumeBackupFromSourceDataSourceRepresentation) +
 					compartmentIdVariableStr + BootVolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup_copy", Optional, Update, bootVolumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

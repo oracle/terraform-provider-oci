@@ -88,7 +88,7 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
 						representationCopyWithNewProperties(keyRestorekeyRepresentation, map[string]interface{}{
 							"restore_from_file": RepresentationGroup{Required, keyRestoreFromFileRepresentation}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				),
 			},
@@ -98,7 +98,7 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
 						representationCopyWithNewProperties(keyRestorekeyRepresentationUpdate2, map[string]interface{}{
 							"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectBackupLocationRepresentation}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				),
 			},
@@ -108,7 +108,7 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
 						representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
 							"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectUriBackupLocationRepresentation}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				),
 			},

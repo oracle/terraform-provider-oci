@@ -74,7 +74,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
 					resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
@@ -95,7 +95,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -123,7 +123,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -150,7 +150,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
 					compartmentIdVariableStr + PolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),

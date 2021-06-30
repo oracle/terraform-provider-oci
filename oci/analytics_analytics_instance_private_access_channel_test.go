@@ -69,7 +69,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel"),
 					resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
@@ -93,7 +93,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_source_ip_addresses.#", "2"),

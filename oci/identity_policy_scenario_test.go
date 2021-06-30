@@ -55,7 +55,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					version_date = "2018-04-17"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in tenancy"]
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -87,7 +87,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 						"Allow group ${oci_identity_group.t.name} to read instances in tenancy"
 					]
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy (updated)"),
 					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-18"),
@@ -121,7 +121,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 						values = ["Allow group ${oci_identity_group.t.name} to inspect instances in tenancy"]
 					}
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.DataSourceName, "policies.#", "1"),
 					resource.TestCheckResourceAttrSet(s.DataSourceName, "policies.0.id"),
 					resource.TestCheckResourceAttr(s.DataSourceName, "policies.0.name", s.Token),
@@ -185,7 +185,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					description = "automated test policy"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> tenancy"]
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// policy statements may or may not have invalid characters stripped (">>" above), accommodate this uncertainty as specifically as possible
 					resource.TestMatchResourceAttr(s.ResourceName, "statements.0",
 						regexp.MustCompile(`Allow group `+s.Token+` to read instances in (>> )?tenancy`)),
@@ -206,7 +206,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					description = "automated test policy"
 					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> tenancy"]
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resource.TestCheckResourceAttr("oci_identity_policy.p", "policyHash", policyHash)
 						resource.TestCheckResourceAttr("oci_identity_policy.p", "lastUpdateETag", lastUpdateETag)

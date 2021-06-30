@@ -52,7 +52,7 @@ func TestCoreInstanceDeviceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instance_devices", "test_instance_devices", Optional, Create, instanceDeviceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceDeviceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 					resource.TestCheckResourceAttr(datasourceName, "is_available", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "/dev/oracleoci/oraclevdb"),

@@ -64,7 +64,7 @@ func TestKmsVerifyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Required, Create, verifyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_version_id"),
@@ -82,7 +82,7 @@ func TestKmsVerifyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Optional, Create, verifyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "is_signature_valid"),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),

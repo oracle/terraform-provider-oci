@@ -185,7 +185,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
@@ -205,7 +205,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
@@ -280,7 +280,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
@@ -350,7 +350,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
@@ -422,7 +422,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies2", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter) +
 					compartmentIdVariableStr + SteeringPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "health_check_monitor_id"),
@@ -468,7 +468,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SteeringPolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
 

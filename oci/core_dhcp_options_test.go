@@ -88,10 +88,10 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					resource.ComposeAggregateTestCheckFunc(
+					ComposeAggregateTestCheckFuncWrapper(
 						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
 							"type":        "DomainNameServer",
 							"server_type": "VcnLocalPlusInternet",
@@ -118,7 +118,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create, dhcpOptionsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
@@ -126,7 +126,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					resource.ComposeAggregateTestCheckFunc(
+					ComposeAggregateTestCheckFuncWrapper(
 						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
 							"type":        "DomainNameServer",
 							"server_type": "VcnLocalPlusInternet",
@@ -159,7 +159,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(dhcpOptionsRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
@@ -194,14 +194,14 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "domain_name_type", "VCN_DOMAIN"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.ComposeAggregateTestCheckFunc(
+					ComposeAggregateTestCheckFuncWrapper(
 						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
 							"type":        "DomainNameServer",
 							"server_type": "VcnLocalPlusInternet",
@@ -230,7 +230,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsDataSourceRepresentation) +
 					compartmentIdVariableStr + DhcpOptionsResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

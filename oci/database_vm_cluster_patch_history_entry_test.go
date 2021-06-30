@@ -57,7 +57,7 @@ func TestDatabaseVmClusterPatchHistoryEntryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entries", "test_vm_cluster_patch_history_entries", Required, Create, vmClusterPatchHistoryEntryDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterPatchHistoryEntryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.#"),
@@ -74,7 +74,7 @@ func TestDatabaseVmClusterPatchHistoryEntryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entry", "test_vm_cluster_patch_history_entry", Required, Create, vmClusterPatchHistoryEntrySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterPatchHistoryEntryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_history_entry_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
 

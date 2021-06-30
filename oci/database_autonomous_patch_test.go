@@ -47,7 +47,7 @@ func TestDatabaseAutonomousPatchResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_patch", "test_autonomous_patch", Required, Create, autonomousPatchSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_patch_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),

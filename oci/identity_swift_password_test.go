@@ -66,7 +66,7 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Required, Create, swiftPasswordRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -89,7 +89,7 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -108,7 +108,7 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_swift_passwords", "test_swift_passwords", Optional, Update, swiftPasswordDataSourceRepresentation) +
 					compartmentIdVariableStr + SwiftPasswordResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "passwords.#", "1"),

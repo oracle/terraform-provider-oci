@@ -81,7 +81,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UserResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
 					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
@@ -101,7 +101,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UserResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
@@ -129,7 +129,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UserResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -156,7 +156,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_users", "test_users", Optional, Update, userDataSourceRepresentation) +
 					compartmentIdVariableStr + UserResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -180,7 +180,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + UserResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

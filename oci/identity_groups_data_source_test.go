@@ -50,7 +50,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 				data "oci_identity_groups" "t" {
 					compartment_id = "${var.tenancy_ocid}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.#"),
 				),
 			},
@@ -68,7 +68,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 						values = ["automated test group"]
 					}
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.compartment_id"),

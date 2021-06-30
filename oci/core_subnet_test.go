@@ -108,7 +108,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -130,7 +130,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
 						"ipv6cidr_block": Representation{repType: Optional, create: subnetCidrBlock},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -167,7 +167,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -202,7 +202,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
 						"ipv6cidr_block": Representation{repType: Optional, update: subnetCidrBlock},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -236,7 +236,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
 					compartmentIdVariableStr + SubnetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -269,7 +269,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SubnetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

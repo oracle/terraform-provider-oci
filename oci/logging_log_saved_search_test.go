@@ -85,7 +85,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "query", "query"),
@@ -105,7 +105,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create, logSavedSearchRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -133,7 +133,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(logSavedSearchRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -156,7 +156,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -180,7 +180,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_logging_log_saved_searches", "test_log_saved_searches", Optional, Update, logSavedSearchDataSourceRepresentation) +
 					compartmentIdVariableStr + LogSavedSearchResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_saved_search_id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -194,7 +194,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + LogSavedSearchResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_saved_search_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

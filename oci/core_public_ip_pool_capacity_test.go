@@ -51,7 +51,7 @@ func TestResourceCorePublicIpPoolCapacity_basic(t *testing.T) {
 			{
 				Config: config + PublicIpPoolAddCapacityResourceDependencies + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", publicIpPoolCidrBlock),
 
 					func(s *terraform.State) (err error) {

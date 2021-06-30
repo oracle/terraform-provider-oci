@@ -158,7 +158,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
@@ -185,7 +185,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorObjectStorageTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
@@ -214,7 +214,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorLogAnTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
@@ -241,7 +241,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorOnsTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
@@ -281,7 +281,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
 					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorFunctionTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
@@ -323,7 +323,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(serviceConnectorFunctionTargetRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
@@ -363,7 +363,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -404,7 +404,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 							"state":  Representation{repType: Optional, create: `INACTIVE`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -445,7 +445,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 							"state":  Representation{repType: Optional, create: `ACTIVE`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -487,7 +487,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -506,7 +506,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
 							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_connector_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

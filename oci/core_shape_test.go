@@ -74,7 +74,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + commonShapeResourceConfig + OciImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
 					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.1"),
 				),
@@ -89,7 +89,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
@@ -118,7 +118,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + commonShapeResourceConfig + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape) +
 					generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentationForFlexShape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
 					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E3.Flex"),
 				),
@@ -134,7 +134,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentationForFlexShape) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "shapes.#", "3"),

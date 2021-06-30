@@ -111,7 +111,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
@@ -167,7 +167,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					is_read_only = true
 					use_chap = true
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
@@ -211,7 +211,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					is_shareable = true
 				}	
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
@@ -269,7 +269,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					is_shareable = true
 				}	
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
@@ -329,7 +329,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					is_shareable = true
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
@@ -395,7 +395,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					is_shareable = true
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),

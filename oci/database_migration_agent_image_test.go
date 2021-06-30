@@ -44,7 +44,7 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", Required, Create, agentImageDataSourceRepresentation) +
 					compartmentIdVariableStr + AgentImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "agent_image_collection.#"),
 					resource.TestCheckResourceAttr(datasourceName, "agent_image_collection.0.items.#", "1"),

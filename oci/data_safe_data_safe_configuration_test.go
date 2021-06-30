@@ -63,7 +63,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Required, Create, dataSafeConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 
 					func(s *terraform.State) (err error) {
@@ -81,7 +81,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 
@@ -101,7 +101,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Update, dataSafeConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 
@@ -119,7 +119,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DataSafeConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),

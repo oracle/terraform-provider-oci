@@ -49,7 +49,7 @@ func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_network_security_group_vnics", "test_network_security_group_vnics", Required, Create, networkSecurityGroupVnicDataSourceRepresentation) +
 					compartmentIdVariableStr + NetworkSecurityGroupVnicResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_vnics.#"),

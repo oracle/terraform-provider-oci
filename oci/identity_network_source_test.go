@@ -90,7 +90,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
 					resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
@@ -110,7 +110,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
@@ -139,7 +139,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -167,7 +167,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", Optional, Update, networkSourceDataSourceRepresentation) +
 					compartmentIdVariableStr + NetworkSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "corpnet"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -190,7 +190,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NetworkSourceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_source_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

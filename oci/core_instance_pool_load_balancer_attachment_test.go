@@ -59,7 +59,7 @@ func TestCoreInstancePoolLoadBalancerAttachmentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instance_pool_load_balancer_attachment", "test_instance_pool_load_balancer_attachment", Required, Create, instancePoolLoadBalancerAttachmentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstancePoolLoadBalancerAttachmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_load_balancer_attachment_id"),
 

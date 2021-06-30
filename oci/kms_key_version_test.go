@@ -75,7 +75,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KeyVersionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
 
@@ -92,7 +92,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", Optional, Update, keyVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + KeyVersionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Optional, Update, keyVersionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
 
@@ -110,7 +110,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + KeyVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),

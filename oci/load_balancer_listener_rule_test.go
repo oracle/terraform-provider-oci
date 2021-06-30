@@ -54,7 +54,7 @@ func TestLoadBalancerListenerRuleResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_listener_rules", "test_listener_rules", Required, Create, listenerRuleDataSourceRepresentation) +
 					compartmentIdVariableStr + ListenerRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "listener_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 

@@ -74,7 +74,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckNoResourceAttr("oci_core_image.i1", "instance_id"),
 					resource.TestCheckNoResourceAttr("oci_core_image.i1", "base_image_id"),
 					resource.TestCheckResourceAttr("oci_core_image.i1", "operating_system", "Oracle Linux"),
@@ -108,7 +108,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
                     sort_by = "TIMECREATED"
                     sort_order = "DESC"
 				}`, s.OperatingSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_core_images.t", "images.0.create_image_allowed", "true"),
 					resource.TestCheckResourceAttr("data.oci_core_images.t", "images.0.state", string(core.ImageLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet("data.oci_core_images.t", "images.0.launch_mode"),

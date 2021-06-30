@@ -100,7 +100,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create, hostInsightRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
@@ -131,7 +131,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
@@ -157,7 +157,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
@@ -185,7 +185,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_opsi_host_insights", "test_host_insights", Optional, Update, hostInsightDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "host_type.#", "1"),
 					//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), //id is not list and it is a string So ignoring this field
@@ -201,7 +201,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_insight_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -235,7 +235,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 							"status": Representation{repType: Required, update: `ENABLED`},
 						})),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")

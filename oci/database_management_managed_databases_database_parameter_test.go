@@ -56,7 +56,7 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", Required, Create, managedDatabasesDatabaseParameterDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_sub_type"),
@@ -70,7 +70,7 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", Required, Create, managedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_sub_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),

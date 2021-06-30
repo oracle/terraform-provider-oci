@@ -53,7 +53,7 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", Required, Create, managedDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.name"),
@@ -66,7 +66,7 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_management_managed_database", "test_managed_database", Required, Create, managedDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

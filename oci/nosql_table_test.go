@@ -94,7 +94,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
@@ -118,7 +118,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -150,7 +150,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(tableRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -177,7 +177,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -205,7 +205,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", Optional, Update, tableDataSourceRepresentation) +
 					compartmentIdVariableStr + TableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "test_table"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -219,7 +219,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + TableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
 

@@ -57,7 +57,7 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_resolver_id"),

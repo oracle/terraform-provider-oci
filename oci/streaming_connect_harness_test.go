@@ -84,7 +84,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "mynewconnectharness"),
 
@@ -103,7 +103,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -131,7 +131,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(connectHarnessRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -154,7 +154,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_streaming_connect_harnesses", "test_connect_harnesses", Optional, Update, connectHarnessDataSourceRepresentation) +
 					compartmentIdVariableStr + ConnectHarnessResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "mynewconnectharness"),
@@ -199,7 +199,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ConnectHarnessResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connect_harness_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

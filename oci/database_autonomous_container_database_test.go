@@ -129,7 +129,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
@@ -150,7 +150,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
 						getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
@@ -201,7 +201,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
@@ -249,7 +249,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
@@ -298,7 +298,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", Optional, Update, autonomousContainerDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -339,7 +339,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
@@ -371,7 +371,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update,
 						getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),

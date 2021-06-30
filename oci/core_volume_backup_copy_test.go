@@ -62,7 +62,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 				Config: config +
 					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Required, Create, volumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
 
 					func(s *terraform.State) (err error) {
@@ -81,7 +81,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 				Config: config +
 					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Create, volumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
@@ -102,7 +102,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 				Config: config +
 					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Update, volumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
@@ -127,7 +127,7 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_volume_backups", "test_volume_backups", Optional, Update, volumeBackupFromSourceDataSourceRepresentation) +
 					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Update, volumeBackupWithSourceDetailsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

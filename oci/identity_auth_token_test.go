@@ -66,7 +66,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -89,7 +89,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -108,7 +108,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", Optional, Update, authTokenDataSourceRepresentation) +
 					compartmentIdVariableStr + AuthTokenResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tokens.#", "1"),

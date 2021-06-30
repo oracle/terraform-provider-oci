@@ -155,7 +155,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -178,7 +178,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
@@ -217,7 +217,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(databaseRegistrationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
@@ -250,7 +250,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName2"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString2"),
@@ -284,7 +284,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_golden_gate_database_registrations", "test_database_registrations", Optional, Update, databaseRegistrationDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -298,7 +298,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_registration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "alias_name", "aliasName2"),

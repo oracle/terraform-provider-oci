@@ -83,7 +83,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
 
@@ -102,7 +102,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create, externalNonContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
@@ -130,7 +130,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(externalNonContainerDatabaseRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
@@ -153,7 +153,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
@@ -177,7 +177,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_external_non_container_databases", "test_external_non_container_databases", Optional, Update, externalNonContainerDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalNonCdb"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "NOT_CONNECTED"),
@@ -199,7 +199,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ExternalNonContainerDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "external_non_container_database_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

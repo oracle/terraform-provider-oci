@@ -66,7 +66,7 @@ EOF
 				  user_id = "{{.user_id}}"
 				  key_value = {{.key_value}}
 				}`, tokenVars),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "fingerprint"),
@@ -82,7 +82,7 @@ EOF
 				  user_id = "{{.user_id}}"
 				  key_value = {{.key_value}}
 				}`, altTokenVars),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "fingerprint"),

@@ -44,7 +44,7 @@ func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_waas_edge_subnets", "test_edge_subnets", Required, Create, edgeSubnetDataSourceRepresentation) +
 					compartmentIdVariableStr + EdgeSubnetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.cidr"),

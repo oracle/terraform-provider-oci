@@ -44,7 +44,7 @@ func TestCoreServiceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "services.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "services.0.cidr_block"),

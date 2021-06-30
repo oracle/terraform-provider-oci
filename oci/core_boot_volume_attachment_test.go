@@ -55,7 +55,7 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Optional, Create, bootVolumeAttachmentDataSourceRepresentation) +
 					compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
@@ -77,7 +77,7 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Required, Update, bootVolumeAttachmentDataSourceRepresentation) +
 					compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(datasourceName, "boot_volume_attachments.#", regexp.MustCompile("[1-9][0-9]*")),
 				),

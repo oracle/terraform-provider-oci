@@ -90,7 +90,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
@@ -110,7 +110,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -143,7 +143,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(bastionRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -171,7 +171,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 					resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -200,7 +200,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Update, bastionDataSourceRepresentation) +
 					compartmentIdVariableStr + BastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 					resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -225,7 +225,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BastionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "bastion_type", "STANDARD"),

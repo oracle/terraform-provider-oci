@@ -83,7 +83,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
 
@@ -102,7 +102,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Create, devopsPipelineRedeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "previous_deployment_id"),
@@ -128,7 +128,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "previous_deployment_id"),
@@ -153,7 +153,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deployments", "test_pipeline_redeployments", Optional, Update, devopsPipelineRedeploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -169,7 +169,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DevopsPipelineRedeploymentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

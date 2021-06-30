@@ -53,7 +53,7 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "resources.#", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
 				),
@@ -67,7 +67,7 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
 
 					func(s *terraform.State) (err error) {

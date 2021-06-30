@@ -125,7 +125,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
@@ -144,7 +144,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			{
 				Config:   config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
 				PlanOnly: true,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet("oci_core_volume.source_volume_list.0", "volume_group_id"),
 				),
 			},
@@ -156,7 +156,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create, volumeGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -189,7 +189,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(volumeGroupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -217,7 +217,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -258,7 +258,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_volume_groups", "test_volume_groups", Optional, Update, volumeGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + VolumeGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

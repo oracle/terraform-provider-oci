@@ -29,7 +29,7 @@ func TestAccDatasourceLoadBalancerPolicies_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "policies.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "policies.0.name"),

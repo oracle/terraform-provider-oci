@@ -87,7 +87,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -107,7 +107,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -133,7 +133,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(addressListRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -154,7 +154,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -176,7 +176,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", Optional, Update, addressListDataSourceRepresentation) +
 					compartmentIdVariableStr + AddressListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "names.#", "1"),
@@ -200,7 +200,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AddressListResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "address_list_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "address_count"),

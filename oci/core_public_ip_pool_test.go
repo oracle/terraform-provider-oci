@@ -84,7 +84,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -103,7 +103,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Optional, Create, publicIpPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -131,7 +131,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(publicIpPoolRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -154,7 +154,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PublicIpPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Optional, Update, publicIpPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -178,7 +178,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
 					compartmentIdVariableStr + PublicIpPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Optional, Update, publicIpPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -193,7 +193,7 @@ func TestCorePublicIpPoolResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
 					compartmentIdVariableStr + PublicIpPoolResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_pool_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_blocks.#", "1"),

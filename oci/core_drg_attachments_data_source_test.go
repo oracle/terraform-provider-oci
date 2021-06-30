@@ -60,7 +60,7 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 						values = ["${oci_core_drg_attachment.t.id}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.display_name", "-tf-drg-attachment"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.id"),

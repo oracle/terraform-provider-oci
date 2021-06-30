@@ -86,7 +86,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Required, Create, logAnalyticsLogGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -106,7 +106,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Optional, Create, logAnalyticsLogGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -133,7 +133,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(logAnalyticsLogGroupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -155,7 +155,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Optional, Update, logAnalyticsLogGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -178,7 +178,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups", "test_log_analytics_log_groups", Optional, Update, logAnalyticsLogGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + LogAnalyticsLogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Optional, Update, logAnalyticsLogGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -192,7 +192,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Required, Create, logAnalyticsLogGroupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + LogAnalyticsLogGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_log_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 

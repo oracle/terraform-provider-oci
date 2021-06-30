@@ -51,7 +51,7 @@ func TestComputeinstanceagentInstanceAgentPluginResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_agent_plugins", "test_instance_agent_plugins", Required, Create, instanceAgentPluginDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceAgentPluginResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "instanceagent_id"),
 				),
 			},

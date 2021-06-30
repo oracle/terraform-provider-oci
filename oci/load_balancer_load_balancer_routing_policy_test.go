@@ -83,7 +83,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
@@ -109,7 +109,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
@@ -135,7 +135,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policies", "test_load_balancer_routing_policies", Optional, Update, loadBalancerRoutingPolicyDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "routing_policies.#", "1"),
@@ -154,7 +154,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "routing_policy_name"),
 

@@ -64,7 +64,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 			// create dependencies
 			{
 				Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -93,7 +93,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 			// verify PRECHECK action on database with source=DB_SOFTWARE_IMAGE
 			{
 				Config: ResourceDatabaseBaseConfig + DatabasePrecheckResourceRep + dbSystemForDbUpgradeRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DBHome
 					resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "db_home_id"),
 					resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "compartment_id"),
@@ -117,7 +117,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 					upgrade_history_entry_id = "${data.oci_database_database_upgrade_history_entries.t.database_upgrade_history_entries.0.id}"
 				}
 				`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DBHome
 					resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "db_home_id"),
 					resource.TestCheckResourceAttrSet("data.oci_database_db_home.t", "compartment_id"),
@@ -144,7 +144,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 			// verify UPGRADE action on database with source=DB_SOFTWARE_IMAGE
 			{
 				Config: ResourceDatabaseBaseConfig + DatabaseUpgradeResourceRep + dbSystemForDbUpgradeRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// Database
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "database_id"),
@@ -167,7 +167,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 					database_id = "${data.oci_database_databases.t.databases.0.id}"
 					upgrade_history_entry_id = "${data.oci_database_database_upgrade_history_entries.t.database_upgrade_history_entries.1.id}"
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// Database
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "database_id"),

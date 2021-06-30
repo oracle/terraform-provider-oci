@@ -123,7 +123,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				data "oci_database_db_node" "t" {
 					db_node_id = "${data.oci_database_db_nodes.t.db_nodes.0.id}"
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -357,7 +357,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					freeform_tags = {"Department" = "Finance"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -416,7 +416,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					freeform_tags = {"Department" = "Finance"}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -514,7 +514,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				data "oci_database_db_node" "t" {
 					db_node_id = "${data.oci_database_db_nodes.t.db_nodes.0.id}"
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),

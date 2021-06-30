@@ -100,7 +100,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Required, Create, resolverEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "is_forwarding", "true"),
 					resource.TestCheckResourceAttr(resourceName, "is_listening", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "endpointName"),
@@ -124,7 +124,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "VNIC"),
 					resource.TestCheckResourceAttr(resourceName, "forwarding_address", "10.0.0.5"),
@@ -156,7 +156,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Update, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Update, resolverEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "VNIC"),
 					resource.TestCheckResourceAttr(resourceName, "forwarding_address", "10.0.0.5"),
@@ -188,7 +188,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_resolver_endpoints", "test_resolver_endpoints", Optional, Update, resolverEndpointDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Update, resolverEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "name", "endpointName"),
 					resource.TestCheckResourceAttrSet(datasourceName, "resolver_id"),
 					resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
@@ -214,7 +214,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Update, resolverEndpointSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Update, resolverEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "resolver_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

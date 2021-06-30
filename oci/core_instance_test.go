@@ -298,7 +298,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
@@ -317,7 +317,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, getUpdatedRepresentationCopy("shape", Representation{repType: Required, create: `VM.Standard2.2`}, instanceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
@@ -342,7 +342,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			// verify create with is_pv_encryption_in_transit_enabled = true
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies + InstanceWithPVEncryptionInTransitEnabled,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -365,7 +365,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -440,7 +440,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -509,7 +509,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -580,7 +580,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -642,7 +642,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 
@@ -705,7 +705,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 						getUpdatedRepresentationCopy("source_details", RepresentationGroup{Optional,
 							representationCopyWithRemovedProperties(instanceSourceDetailsRepresentation, []string{"boot_volume_size_in_gbs"})},
 							instanceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -845,7 +845,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 					compartmentIdVariableStr +
 					instanceWithCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceWithCapacityReservationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -922,7 +922,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 						representationCopyWithNewProperties(instanceWithCapacityReservationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -992,7 +992,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 					compartmentIdVariableStr +
 					instanceWithCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceWithCapacityReservationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -1063,7 +1063,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 					instanceWithCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceWithCapacityReservationRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceWithCapacityReservationDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "capacity_reservation_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -1127,7 +1127,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 					instanceWithCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceWithCapacityReservationRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 
@@ -1215,7 +1215,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
@@ -1242,7 +1242,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 			// step 2 verify create with is_pv_encryption_in_transit_enabled = true
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable + InstanceWithPVEncryptionInTransitEnabledForFlexShape,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -1273,7 +1273,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationForFlexShape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -1348,7 +1348,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 						representationCopyWithNewProperties(instanceRepresentationForFlexShape, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -1417,7 +1417,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -1489,7 +1489,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentationForFlexShape) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -1550,7 +1550,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 				Config: testProviderConfig() + FlexVmImageIdsVariable +
 					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceConfigForFlexShape,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 

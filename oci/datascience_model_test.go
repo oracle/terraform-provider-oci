@@ -91,7 +91,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14633"),
@@ -113,7 +113,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14633"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
@@ -147,7 +147,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(modelRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "14633"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
@@ -176,7 +176,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -203,7 +203,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", Optional, Update, modelDataSourceRepresentation) +
 					compartmentIdVariableStr + ModelResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
@@ -226,7 +226,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ModelResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

@@ -91,7 +91,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 			// Reset the function to A1@a1
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
 				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionBaseRepresentation(imageA1, &imageA1Digest)),
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "UpdatedImageFunction"),
 				resource.TestCheckResourceAttr(resourceName, "image", imageA1),
@@ -120,7 +120,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 			// Update the function with the new image coordinates
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
 				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionBaseRepresentation(tc2.newImage, tc2.newDigest)),
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "UpdatedImageFunction"),
 				resource.TestCheckResourceAttr(resourceName, "image", tc2.expectedImage),
@@ -268,7 +268,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 			// Create a function at A1@a1, through one means or another
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
 				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionBaseRepresentation(imageA1, tc.newDigest)),
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "UpdatedImageFunction"),
 				resource.TestCheckResourceAttr(resourceName, "image", imageA1),

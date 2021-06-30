@@ -119,7 +119,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
@@ -140,7 +140,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
@@ -171,7 +171,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(computeImageCapabilitySchemaRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
@@ -197,7 +197,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
@@ -224,7 +224,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", Optional, Update, computeImageCapabilitySchemaDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
@@ -245,7 +245,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_image_capability_schema_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_merge_enabled", "false"),
 

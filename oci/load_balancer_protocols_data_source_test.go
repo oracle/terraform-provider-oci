@@ -29,7 +29,7 @@ func TestAccDatasourceLoadBalancerProtocols_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "protocols.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "protocols.0.name"),
 				),

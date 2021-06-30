@@ -119,7 +119,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ResolverResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
 
 					func(s *terraform.State) (err error) {
@@ -154,7 +154,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "attached_views.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "attached_views.0.view_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -210,7 +210,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 						})) +
 					generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "attached_views.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "attached_views.0.view_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -260,7 +260,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_resolvers", "test_resolvers", Optional, Update, resolverDataSourceRepresentation) +
 					compartmentIdVariableStr + ResolverResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update, resolverRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
@@ -285,7 +285,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ResolverResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "resolver_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "attached_vcn_id"),

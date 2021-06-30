@@ -59,7 +59,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", Required, Create, byoipRangeDataSourceRepresentation) +
 					compartmentIdVariableStr + ByoipRangeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_collection.#"),
@@ -70,7 +70,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", Required, Create, byoipRangeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ByoipRangeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),

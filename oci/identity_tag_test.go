@@ -111,7 +111,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
@@ -131,7 +131,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -161,7 +161,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -186,7 +186,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
 					compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
@@ -207,7 +207,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
 

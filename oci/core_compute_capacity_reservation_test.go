@@ -98,7 +98,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -117,7 +117,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -155,7 +155,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -188,7 +188,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -222,7 +222,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", Optional, Update, computeCapacityReservationDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayNameDataSourceUpdate"),
@@ -247,8 +247,8 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
-				// Check: resource.ComposeAggregateTestCheckFunc(),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				// Check: ComposeAggregateTestCheckFuncWrapper(),
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "capacity_reservation_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

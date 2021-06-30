@@ -92,7 +92,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
 					func(s *terraform.State) (err error) {
@@ -110,7 +110,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Create, drgRouteTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -138,7 +138,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -163,7 +163,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableTriggerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "import_drg_route_distribution_id"),
 				),
@@ -172,7 +172,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableTriggerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "import_drg_route_distribution_id", ""),
@@ -196,7 +196,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_tables", "test_drg_route_tables", Optional, Update, drgRouteTableDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "import_drg_route_distribution_id"),
@@ -220,7 +220,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_table_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

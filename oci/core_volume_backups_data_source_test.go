@@ -55,7 +55,7 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 						values = ["${oci_core_volume_backup.t.id}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "volume_backups.0.id", "oci_core_volume_backup.t", "id"),
@@ -81,7 +81,7 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 					volume_id = "${oci_core_volume.t.id}"
 					display_name = "${oci_core_volume_backup.t.display_name}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "volume_backups.0.id", "oci_core_volume_backup.t", "id"),
@@ -94,7 +94,7 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 					volume_id = "${oci_core_volume.t.id}"
 					state = "` + string(core.VolumeBackupLifecycleStateAvailable) + `"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "volume_backups.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "volume_backups.0.id", "oci_core_volume_backup.t", "id"),

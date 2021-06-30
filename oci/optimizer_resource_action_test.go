@@ -93,7 +93,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
 					resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
 
@@ -112,7 +112,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "action.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -144,7 +144,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -172,7 +172,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.name"),
@@ -190,7 +190,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				Config: config + ResourceActionResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_action_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "action.#"),

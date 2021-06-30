@@ -245,7 +245,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
@@ -266,7 +266,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationFromInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
@@ -289,7 +289,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -351,7 +351,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -413,7 +413,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, representationCopyWithNewProperties(
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation),
 						map[string]interface{}{"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -458,7 +458,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockRepresentation}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -494,7 +494,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
 							getUpdatedRepresentationCopy("block_volumes", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation}, instanceConfigurationInstanceDetailsBlockRepresentation)}, instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -529,7 +529,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 								instanceConfigurationInstanceDetailsParavirtualizedBlockVolumeAttachRepresentation},
 								instanceConfigurationInstanceDetailsParavirtualizedBlockRepresentation)},
 							instanceConfigurationRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -565,7 +565,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
@@ -599,7 +599,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Update, instanceConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -637,7 +637,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Optional, Update, instanceConfigurationDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Update, instanceConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.#", "1"),
@@ -654,7 +654,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Required, Create, instanceConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

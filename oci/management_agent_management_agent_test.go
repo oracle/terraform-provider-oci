@@ -85,7 +85,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -104,7 +104,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "version"),
@@ -126,7 +126,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "management_agents.#", "1"),
@@ -152,7 +152,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentSingularDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_type", "LINUX"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),

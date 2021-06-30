@@ -50,7 +50,7 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
 					compartmentIdVariableStr + RegionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "regions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "regions.0.key"),

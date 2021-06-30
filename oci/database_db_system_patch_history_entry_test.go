@@ -46,7 +46,7 @@ func TestDatabaseDbSystemPatchHistoryEntryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_db_system_patch_history_entries", "test_db_system_patch_history_entries", Required, Create, dbSystemPatchHistoryEntryDataSourceRepresentation) +
 					compartmentIdVariableStr + DbSystemPatchHistoryEntryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.#"),

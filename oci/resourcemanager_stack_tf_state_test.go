@@ -69,7 +69,7 @@ func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 					` +
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stack_tf_state", "test_stack_tf_state", Required, Create, stackTfStateSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StackTfStateResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stack_id"),
 				),
 			},

@@ -72,7 +72,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 				),
@@ -85,7 +85,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -110,7 +110,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),

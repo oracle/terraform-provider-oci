@@ -82,7 +82,7 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_node_id"),
 					resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 
@@ -104,7 +104,7 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_db_node_console_connections", "test_db_node_console_connections", Optional, Update, dbNodeConsoleConnectionDataSourceRepresentation) +
 					compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_node_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "console_connections.#", "1"),
@@ -121,7 +121,7 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 

@@ -66,7 +66,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace_collection.#"),
@@ -77,7 +77,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				Config: config +
 					generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation) +
 					compartmentIdVariableStr + NameSpaceResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "is_onboarded", "true"),
@@ -88,7 +88,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation2) +
 					compartmentIdVariableStr + NameSpaceSingularDataSourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
@@ -100,7 +100,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				Config: config +
 					generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOffBoardRepresentation) +
 					compartmentIdVariableStr + NameSpaceResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "is_onboarded", "false"),

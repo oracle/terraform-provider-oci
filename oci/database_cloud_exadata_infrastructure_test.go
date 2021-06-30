@@ -112,7 +112,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
@@ -133,7 +133,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Create, cloudExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
@@ -173,7 +173,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(cloudExadataInfrastructureRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
@@ -208,7 +208,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Update, cloudExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
@@ -244,7 +244,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructures", "test_cloud_exadata_infrastructures", Optional, Update, cloudExadataInfrastructureDataSourceRepresentation) +
 					compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Update, cloudExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -281,7 +281,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CloudExadataInfrastructureResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_exadata_infrastructure_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

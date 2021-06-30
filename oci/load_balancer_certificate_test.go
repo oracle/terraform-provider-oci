@@ -79,7 +79,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				),
@@ -93,7 +93,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 					resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -119,7 +119,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_certificates", "test_certificates", Optional, Update, certificateDataSourceRepresentation) +
 					compartmentIdVariableStr + CertificateResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Update, certificateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "certificates.#", "1"),

@@ -104,7 +104,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
 					resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
@@ -126,7 +126,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert2_val),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -151,7 +151,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
 					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Update, analyticsInstanceVanityUrlRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),

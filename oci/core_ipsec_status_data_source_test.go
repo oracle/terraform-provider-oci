@@ -55,7 +55,7 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestAccDatasourceCoreIPSecStatus_ba
 				data "oci_core_ipsec_status" "s" {
 					ipsec_id = "${oci_core_ipsec.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.#"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.ip_address"),

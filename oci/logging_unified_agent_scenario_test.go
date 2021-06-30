@@ -195,7 +195,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create, unifiedAgentConfigurationLogTailRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug is fixed
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -245,7 +245,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(unifiedAgentConfigurationLogTailRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -288,7 +288,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesJSONParserRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -332,7 +332,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			// verify updates to parser type CSV
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesCSVParserRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug fixed
 					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -357,7 +357,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			// verify updates to parser type GROK
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesGROKParserRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -387,7 +387,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			//verify updates to parser type MSGPACK
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMSGPACKParserRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug fixed
 					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -416,7 +416,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			// verify updates to parser type MULTILINE
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEParserRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Uncomment configuration_state once bug fixed
 					//resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -441,7 +441,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			// verify updates to parser type MULTILINEGROK
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies + unifiedAgentConfigurationServiceConfigurationSourcesMULTILINEGROKParserRepresentation,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -475,7 +475,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_logging_unified_agent_configurations", "test_unified_agent_configurations", Optional, Update, unifiedAgentConfigurationLogTailDataSourceRepresentation) +
 					compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationLogTailRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
@@ -491,7 +491,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationLogTailSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + UnifiedAgentConfigurationLogTailResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "unified_agent_configuration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

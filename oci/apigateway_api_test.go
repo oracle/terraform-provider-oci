@@ -86,7 +86,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -104,7 +104,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -130,7 +130,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(apiRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -151,7 +151,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -173,7 +173,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_apigateway_apis", "test_apis", Optional, Update, apiDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -186,7 +186,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

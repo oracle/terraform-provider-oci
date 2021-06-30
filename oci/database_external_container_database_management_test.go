@@ -61,7 +61,7 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 				),
@@ -70,7 +70,7 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceCdb, "database_management_config.0.database_management_status", "ENABLED"),
 				),
 			},
@@ -82,7 +82,7 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 				),
@@ -91,7 +91,7 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 				),
@@ -100,7 +100,7 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceCdb, "database_management_config.0.database_management_status", "NOT_ENABLED"),
 				),
 			},

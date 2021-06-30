@@ -79,7 +79,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -98,7 +98,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
@@ -127,7 +127,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(internetGatewayRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
@@ -151,7 +151,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -176,7 +176,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_internet_gateways", "test_internet_gateways", Optional, Update, internetGatewayDataSourceRepresentation) +
 					compartmentIdVariableStr + InternetGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

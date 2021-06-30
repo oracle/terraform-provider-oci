@@ -51,7 +51,7 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", Required, Create, resourceAvailabilitySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ResourceAvailabilityResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "limit_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_name"),

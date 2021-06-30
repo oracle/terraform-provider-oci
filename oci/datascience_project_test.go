@@ -85,7 +85,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -103,7 +103,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create, projectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -133,7 +133,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(projectRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -158,7 +158,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -184,7 +184,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datascience_projects", "test_projects", Optional, Update, projectDataSourceRepresentation) +
 					compartmentIdVariableStr + ProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -207,7 +207,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ProjectResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

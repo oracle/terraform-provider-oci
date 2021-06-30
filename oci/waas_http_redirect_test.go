@@ -97,7 +97,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
@@ -121,7 +121,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -154,7 +154,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(httpRedirectRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -182,7 +182,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -211,7 +211,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", Optional, Update, httpRedirectDataSourceRepresentation) +
 					compartmentIdVariableStr + HttpRedirectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
@@ -242,7 +242,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + HttpRedirectResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "http_redirect_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

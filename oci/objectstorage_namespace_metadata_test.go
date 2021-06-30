@@ -42,7 +42,7 @@ data "oci_objectstorage_namespace" "t" {
 resource "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 }`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "default_s3compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "default_swift_compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -65,7 +65,7 @@ resource "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
   	default_s3compartment_id = "` + compartmentId + `"
   	default_swift_compartment_id = "` + compartmentId + `"
 }`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "default_s3compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_swift_compartment_id", compartmentId),
 
@@ -94,7 +94,7 @@ data "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
 }
                 `,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "default_s3compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "default_swift_compartment_id"),

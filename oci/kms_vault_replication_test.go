@@ -46,7 +46,7 @@ func TestKmsVaultReplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KmsVaultReplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Create, vaultReplicaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "replica_region", "uk-cardiff-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				),
@@ -56,7 +56,7 @@ func TestKmsVaultReplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + KmsVaultReplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Update, vaultReplicaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "replica_region", "sa-santiago-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				),
