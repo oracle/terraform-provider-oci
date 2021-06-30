@@ -101,7 +101,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IndexResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_index"),
@@ -117,7 +117,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IndexResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexOptionalRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "is_if_not_exists", "false"),
 					resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
@@ -148,7 +148,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", Optional, Update, indexDataSourceRepresentation) +
 					compartmentIdVariableStr + IndexResourceDependencies +
 					generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "test_index"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -163,7 +163,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + IndexResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "index_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),

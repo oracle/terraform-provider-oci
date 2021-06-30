@@ -114,7 +114,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					display_name = "-tf-lb"
 					is_private = true
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
@@ -139,7 +139,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					subnet_ids     = ["${oci_core_subnet.t.id}"]
 					display_name   = "-tf-lb-updated"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
@@ -166,7 +166,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					display_name   = "-tf-lb-updated"
 					network_security_group_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
@@ -193,7 +193,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					subnet_ids     = ["${oci_core_subnet.t.id}"]
 					display_name   = "-tf-lb-updated"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
@@ -222,7 +222,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					is_private 	   = false
 					network_security_group_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "2"),
@@ -258,7 +258,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPub
 					subnet_ids = ["${oci_core_subnet.t.id}", "${oci_core_subnet.t2.id}"]
 					display_name = "-tf-lb"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
@@ -309,7 +309,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "flexible"),
@@ -336,7 +336,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(loadBalancerFlexRepresentation, []string{"shape_details"}), map[string]interface{}{
 							"shape": Representation{repType: Required, create: `100Mbps`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -362,7 +362,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -400,7 +400,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(loadBalancerFlexRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
@@ -432,7 +432,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -466,7 +466,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

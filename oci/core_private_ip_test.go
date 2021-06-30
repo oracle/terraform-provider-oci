@@ -95,7 +95,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -113,7 +113,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -137,7 +137,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -160,7 +160,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", Optional, Update, privateIpDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
@@ -184,7 +184,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateIpResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

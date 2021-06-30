@@ -46,7 +46,7 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", Required, Create, notebookSessionShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + NotebookSessionShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.#"),

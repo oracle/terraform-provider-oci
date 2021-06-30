@@ -81,7 +81,7 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceResourceConfig +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 
 					func(s *terraform.State) (err error) {
@@ -96,7 +96,7 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instances", "test_managed_instances", Required, Create, managedInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedInstanceResourceConfig +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				),
 			},
@@ -106,7 +106,7 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedInstanceResourceConfig +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bug_updates_available"),

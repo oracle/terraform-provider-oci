@@ -314,7 +314,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "path_prefix", "/v1"),
@@ -336,7 +336,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationCustomAuth),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -472,7 +472,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -603,7 +603,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -732,7 +732,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateway_id"),
@@ -751,7 +751,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

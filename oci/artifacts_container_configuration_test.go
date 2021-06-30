@@ -60,7 +60,7 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ContainerConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "is_repository_created_on_first_push", "false"),
 
@@ -80,7 +80,7 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ContainerConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Optional, Update, containerConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "is_repository_created_on_first_push", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -99,7 +99,7 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ContainerConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_repository_created_on_first_push", "true"),

@@ -412,7 +412,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -442,7 +442,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Update, sddcRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -474,7 +474,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcV7Representation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -530,7 +530,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -582,7 +582,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -636,7 +636,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", Optional, Update, sddcDataSourceRepresentation) +
 					compartmentIdVariableStr + SddcV7ResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
@@ -657,7 +657,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SddcV7ResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

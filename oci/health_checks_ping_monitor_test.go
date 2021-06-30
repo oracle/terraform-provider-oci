@@ -89,7 +89,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
@@ -111,7 +111,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -143,7 +143,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(pingMonitorRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -170,7 +170,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -198,7 +198,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_health_checks_ping_monitors", "test_ping_monitors", Optional, Update, pingMonitorDataSourceRepresentation) +
 					compartmentIdVariableStr + PingMonitorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "home_region"),
@@ -222,7 +222,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PingMonitorResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

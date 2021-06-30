@@ -96,7 +96,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
@@ -119,7 +119,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -151,7 +151,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(deploymentBackupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -206,7 +206,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backups", "test_deployment_backups", Optional, Update, deploymentBackupDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "deployment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "demoDeploymentBackup"),
@@ -221,7 +221,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentBackupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_backup_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_type"),

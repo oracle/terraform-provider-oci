@@ -81,7 +81,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InternalBastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bastion_type", "INTERNAL"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
@@ -102,7 +102,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InternalBastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bastion_type", "INTERNAL"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -131,7 +131,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Create, InternalBastionDataSourceRepresentation) +
 					compartmentIdVariableStr + InternalBastionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 					resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -153,7 +153,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InternalBastionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "bastion_type", "INTERNAL"),

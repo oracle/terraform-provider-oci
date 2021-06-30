@@ -91,7 +91,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
 					func(s *terraform.State) (err error) {
@@ -109,7 +109,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "creation_type"),
@@ -140,7 +140,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "creation_type"),
@@ -170,7 +170,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", Optional, Update, mysqlBackupDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "backup_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "creation_type", "MANUAL"),
@@ -201,7 +201,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlBackupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_size_in_gbs"),

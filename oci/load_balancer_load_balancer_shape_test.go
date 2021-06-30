@@ -46,7 +46,7 @@ func TestLoadBalancerLoadBalancerShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_shapes", "test_load_balancer_shapes", Required, Create, loadBalancerShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),

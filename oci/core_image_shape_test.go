@@ -52,7 +52,7 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_image_shapes", "test_image_shapes", Required, Create, imageShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + ImageShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.#"),
@@ -65,7 +65,7 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_image_shape", "test_image_shape", Required, Create, imageShapeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ImageShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
 

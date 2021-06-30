@@ -58,7 +58,7 @@ func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -139,7 +139,7 @@ func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
 						getUpdatedRepresentationCopy("rules.object_name_filter", RepresentationGroup{Optional, objectLifecyclePolicyRulesObjectNameFilterOneValueIncludeRepresentation}, objectLifecyclePolicyRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -189,7 +189,7 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
@@ -226,7 +226,7 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 						representationCopyWithNewProperties(objectLifecyclePolicyRepresentation, map[string]interface{}{
 							"rules": RepresentationGroup{Optional, objectLifecyclePolicyRulesRepresentation_ForMultiPartUploads},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
@@ -254,7 +254,7 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),

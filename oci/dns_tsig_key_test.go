@@ -87,7 +87,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
@@ -108,7 +108,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -135,7 +135,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -157,7 +157,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -180,7 +180,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", Optional, Update, tsigKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", tsigKeyName),
@@ -203,7 +203,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + TsigKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tsig_key_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "algorithm", "hmac-sha1"),

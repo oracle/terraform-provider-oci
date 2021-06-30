@@ -59,7 +59,7 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				),
 			},
@@ -72,7 +72,7 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "VCN"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_all_attachments.0.id"),

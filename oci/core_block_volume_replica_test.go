@@ -67,7 +67,7 @@ func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 				Config: config +
 					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, dependenceVolumeRepresentation) +
 					compartmentIdVariableStr + BlockVolumeReplicaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(2 * time.Minute)
 						return
@@ -79,7 +79,7 @@ func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 				Config: config +
 					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, dependenceVolumeRepresentation) +
 					compartmentIdVariableStr + BlockVolumeReplicaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "block_volume_replicas.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "block_volume_replicas.0.availability_domain"),

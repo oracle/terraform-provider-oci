@@ -50,7 +50,7 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", Optional, Create, alarmHistoryCollectionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AlarmHistoryCollectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "alarm_historytype", "STATE_TRANSITION_HISTORY"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "timestamp_greater_than_or_equal_to", "2018-12-01T01:00:00.001Z"),

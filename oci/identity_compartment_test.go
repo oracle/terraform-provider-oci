@@ -85,7 +85,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
@@ -100,7 +100,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
@@ -129,7 +129,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
@@ -153,7 +153,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -178,7 +178,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_compartments", "test_compartments", Optional, Update, compartmentDataSourceRepresentation) +
 					compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ANY"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -201,7 +201,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CompartmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -232,7 +232,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
 				),
 			},

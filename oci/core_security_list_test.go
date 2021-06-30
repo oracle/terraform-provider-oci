@@ -169,7 +169,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
@@ -200,7 +200,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create, securityListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
@@ -305,7 +305,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
@@ -353,7 +353,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -460,7 +460,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_security_lists", "test_security_lists", Optional, Update, securityListDataSourceRepresentation) +
 					compartmentIdVariableStr + SecurityListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

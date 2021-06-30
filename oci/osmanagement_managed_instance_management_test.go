@@ -130,7 +130,7 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 
 					func(s *terraform.State) (err error) {
@@ -147,7 +147,7 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, ManagedInstanceManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 				),
 			},
@@ -158,7 +158,7 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 						"child_software_sources":  RepresentationGroup{Optional, childSoftwareSourceRepresentation},
 						"managed_instance_groups": RepresentationGroup{Optional, managedInstanceGroupsRepresentation},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 				),
 			},

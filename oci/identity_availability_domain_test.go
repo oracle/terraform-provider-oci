@@ -57,7 +57,7 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation) +
 					compartmentIdVariableStr + AvailabilityDomainResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domains.#"),
@@ -69,7 +69,7 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", Optional, Create, availabilityDomainSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AvailabilityDomainResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ad_number", "2"),

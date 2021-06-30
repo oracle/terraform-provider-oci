@@ -46,7 +46,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 				resource "oci_identity_ui_password" "t" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.UiPasswordLifecycleStateActive)),

@@ -178,7 +178,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
 					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
@@ -198,7 +198,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
 					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
@@ -263,7 +263,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -325,7 +325,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
 					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
@@ -390,7 +390,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", Optional, Update, migrationDataSourceRepresentation) +
 					compartmentIdVariableStr + MigrationResourceDependenciesMig +
 					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -403,7 +403,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + MigrationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

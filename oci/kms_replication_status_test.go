@@ -48,7 +48,7 @@ func TestKmsReplicationStatusResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_replication_status", "test_replication_status", Required, Create, replicationStatusSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ReplicationStatusResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),

@@ -70,7 +70,7 @@ func TestCoreDrgRouteDistributionStatementResource_DrgAttachmentId(t *testing.T)
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDrgAttachmentIdDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Required, Create,
 						drgRouteDistributionStatementDrgAttachmentIdRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
 					resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
@@ -94,7 +94,7 @@ func TestCoreDrgRouteDistributionStatementResource_DrgAttachmentId(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDrgAttachmentIdDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Required, Update, drgRouteDistributionStatementDrgAttachmentIdRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
 					resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
@@ -118,7 +118,7 @@ func TestCoreDrgRouteDistributionStatementResource_DrgAttachmentId(t *testing.T)
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", Optional, Create, drgRouteDistributionStatementDrgAttachmentIdDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteDistributionStatementResourceDrgAttachmentIdDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementDrgAttachmentIdRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.action", "ACCEPT"),
 					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.#", "1"),

@@ -53,7 +53,7 @@ func TestCoreComputeGlobalImageCapabilitySchemasVersionResource_basic(t *testing
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_versions", "test_compute_global_image_capability_schemas_versions", Required, Create, computeGlobalImageCapabilitySchemasVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemasVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "compute_global_image_capability_schema_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "compute_global_image_capability_schema_versions.#"),
@@ -69,7 +69,7 @@ func TestCoreComputeGlobalImageCapabilitySchemasVersionResource_basic(t *testing
 					generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_version", "test_compute_global_image_capability_schemas_version", Required, Create, computeGlobalImageCapabilitySchemasVersionSingularDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas_versions", "test_compute_global_image_capability_schemas_versions", Required, Create, computeGlobalImageCapabilitySchemasVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemasVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_version_name"),
 

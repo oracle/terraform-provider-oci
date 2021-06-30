@@ -74,7 +74,7 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 				Config: config + VmClusterRecommendedNetworkDataSourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", Required, Create, vmClusterRecommendedNetworkSingularDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),

@@ -47,7 +47,7 @@ func TestMarketplacePublisherResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", Required, Create, publisherDataSourceRepresentation) +
 					compartmentIdVariableStr + PublisherResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "publishers.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "publishers.0.description"),

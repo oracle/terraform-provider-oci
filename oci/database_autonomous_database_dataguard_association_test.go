@@ -60,7 +60,7 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDedicatedRepresentationForDataguard) +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_associations", "test_autonomous_database_dataguard_associations", Required, Create, autonomousDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.#"),
@@ -82,7 +82,7 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_associations", "test_autonomous_database_dataguard_associations", Required, Create, autonomousDatabaseDataguardAssociationDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_association", "test_autonomous_database_dataguard_association", Required, Create, autonomousDatabaseDataguardAssociationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_dataguard_association_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 

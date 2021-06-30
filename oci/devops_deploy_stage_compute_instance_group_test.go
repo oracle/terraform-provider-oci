@@ -91,7 +91,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
@@ -119,7 +119,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployComputeInstanceGroupStageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -162,7 +162,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -202,7 +202,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -216,7 +216,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_predecessor_collection.#", "1"),

@@ -47,7 +47,7 @@ func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_letter_of_authority", "test_letter_of_authority", Required, Create, letterOfAuthoritySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + LetterOfAuthorityResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "authorized_entity_name"),

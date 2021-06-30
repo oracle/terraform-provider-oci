@@ -97,7 +97,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
 							"storage_count": 3,
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
@@ -146,7 +146,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 							"activation_file":    Representation{repType: Optional, create: activationFilePath},
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
@@ -184,7 +184,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 							"additional_storage_count": Representation{repType: Optional, update: `3`},
 							"maintenance_window":       RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
@@ -224,7 +224,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 							"activation_file":    Representation{repType: Optional, create: activationFilePath},
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),

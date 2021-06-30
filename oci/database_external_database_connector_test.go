@@ -101,7 +101,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
@@ -130,7 +130,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
@@ -167,7 +167,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
@@ -203,7 +203,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", Optional, Update, externalDatabaseConnectorDataSourceRepresentation) +
 					compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "external_database_id"),
@@ -236,7 +236,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "external_database_connector_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

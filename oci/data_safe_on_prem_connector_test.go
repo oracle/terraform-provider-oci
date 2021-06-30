@@ -89,7 +89,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -107,7 +107,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create, onPremConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -131,7 +131,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(onPremConnectorRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -155,7 +155,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -185,7 +185,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", Optional, Update, onPremConnectorDataSourceRepresentation) +
 					compartmentIdVariableStr + OnPremConnectorResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -210,7 +210,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + OnPremConnectorResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "on_prem_connector_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "available_version"),

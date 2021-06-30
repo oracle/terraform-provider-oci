@@ -85,7 +85,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
 						return err
@@ -132,7 +132,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),

@@ -122,7 +122,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					}
 				}`,
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -262,7 +262,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					}
 				}`,
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -384,7 +384,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					}
 				}`,
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),

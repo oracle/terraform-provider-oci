@@ -104,7 +104,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
 					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
@@ -129,7 +129,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
 					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -174,7 +174,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -214,7 +214,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
 					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "body", "body2"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -255,7 +255,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", Optional, Update, alarmDataSourceRepresentation) +
 					compartmentIdVariableStr + AlarmResourceDependencies +
 					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -285,7 +285,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AlarmResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "metric_compartment_id"),
 

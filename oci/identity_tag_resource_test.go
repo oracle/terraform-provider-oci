@@ -62,7 +62,7 @@ func TestResourceIdentityTagDeletion(t *testing.T) {
   						tag_namespace_id = "${oci_identity_tag_namespace.test-tag-namespace.id}"
 					}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(namespaceResourceName, "name", namespaceResourceValue),
 					resource.TestCheckResourceAttr(tagResourceNames[0], "description", "tf deletion example tag-1"),
 					resource.TestCheckResourceAttr(tagResourceNames[0], "name", tagResourceValues[0]),
@@ -86,7 +86,7 @@ func TestResourceIdentityTagDeletion(t *testing.T) {
 						is_cost_tracking = true 	
 					}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(namespaceResourceName, "name", namespaceResourceValue),
 					resource.TestCheckResourceAttr(costTagResourceNames[0], "description", "tf cost tracking deletion example tag-1"),
 					resource.TestCheckResourceAttr(costTagResourceNames[0], "name", costTagResourceValues[0]),
@@ -150,7 +150,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 						defined_tags   = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${oci_identity_tag_default.test_tag_default.value}")}"
 						is_retired = false
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
 					resource.TestCheckResourceAttr(resourceName, "value", "value1"),
@@ -175,7 +175,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 						is_retired = false
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
 					resource.TestCheckResourceAttr(resourceName, "value", "value1"),

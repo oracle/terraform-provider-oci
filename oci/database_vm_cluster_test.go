@@ -96,7 +96,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
@@ -119,7 +119,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create, vmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
@@ -155,7 +155,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
@@ -186,7 +186,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "85"),
@@ -218,7 +218,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_vm_clusters", "test_vm_clusters", Optional, Update, vmClusterDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
@@ -251,7 +251,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

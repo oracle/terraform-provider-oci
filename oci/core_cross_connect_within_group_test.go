@@ -65,7 +65,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectWithGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
@@ -87,7 +87,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectWithGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
@@ -113,7 +113,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", Optional, Update, crossConnectWithGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectWithGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
@@ -139,7 +139,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectWithGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 

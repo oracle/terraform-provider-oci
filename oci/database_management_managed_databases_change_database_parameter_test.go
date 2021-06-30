@@ -60,7 +60,7 @@ func TestDatabaseManagementManagedDatabasesChangeDatabaseParameterResource_basic
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_management_managed_databases_change_database_parameter", "test_managed_databases_change_database_parameter", Required, Create, managedDatabasesChangeDatabaseParameterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),

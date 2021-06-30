@@ -78,7 +78,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
 					resource.TestCheckResourceAttr(resourceName, "name", "NetworkAdmins"),
@@ -98,7 +98,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
@@ -124,7 +124,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -149,7 +149,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_groups", "test_groups", Optional, Update, groupDataSourceRepresentation) +
 					compartmentIdVariableStr + GroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "NetworkAdmins"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -171,7 +171,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + GroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "group_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

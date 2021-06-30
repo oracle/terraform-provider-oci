@@ -62,7 +62,7 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceAttachmentDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table", "id")
 						if err != nil {
@@ -99,7 +99,7 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(routeTableAttachmentRepresentation, map[string]interface{}{
 							"route_table_id": Representation{repType: Required, create: `${oci_core_route_table.test_route_table_2.id}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table_2", "id")
 						if err != nil {
@@ -118,7 +118,7 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceAttachmentDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table", "id")
 						if err != nil {
@@ -137,7 +137,7 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 			{
 				Config:             config + compartmentIdVariableStr + RouteTableResourceAttachmentDependencies,
 				ExpectNonEmptyPlan: true,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						routeTableIdFromSubnet, err := fromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
 						if routeTableIdFromRT == routeTableIdFromSubnet {

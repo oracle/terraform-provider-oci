@@ -57,7 +57,7 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
 					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
@@ -72,7 +72,7 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "port", "80"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),

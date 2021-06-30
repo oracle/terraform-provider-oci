@@ -47,7 +47,7 @@ func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", Optional, Create, vantagePointDataSourceRepresentation) +
 					compartmentIdVariableStr + VantagePointResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "AWS Asia Pacific South 1"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "aws-bom"),
 

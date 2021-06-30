@@ -90,7 +90,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 
@@ -109,7 +109,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -130,7 +130,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -162,7 +162,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(odaInstanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -186,7 +186,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -216,7 +216,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", Optional, Update, odaInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + OdaInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -239,7 +239,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + OdaInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "oda_instance_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

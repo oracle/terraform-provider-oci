@@ -131,7 +131,7 @@ func TestCoreInstancePoolInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_pool_id"),
 
@@ -148,7 +148,7 @@ func TestCoreInstancePoolInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instance_pool_instances", "test_instance_pool_instances", Required, Create, instancePoolInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstancePoolInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// only verify the number of instance pool instances because after detach, there will be no instance pool instances
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.#"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.#", "0"),

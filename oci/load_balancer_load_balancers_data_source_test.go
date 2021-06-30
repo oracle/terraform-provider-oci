@@ -64,7 +64,7 @@ func TestAccDatasourceLoadBalancerLB_basic(t *testing.T) {
 			},
 			{
 				Config: config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.#"),

@@ -120,7 +120,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
 					func(s *terraform.State) (err error) {
@@ -138,7 +138,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -170,7 +170,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -199,7 +199,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentTriggerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "drg_id")
@@ -211,7 +211,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentTriggerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "drg_id")
@@ -226,7 +226,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentExportDistributionUpdateRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "export_drg_route_distribution_id"),
@@ -240,7 +240,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentationNoRouteTable),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "NameNoTable"),
@@ -268,7 +268,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_drg_attachments", "test_drg_attachments", Optional, Update, drgAttachmentDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "attachment_type", "VCN"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

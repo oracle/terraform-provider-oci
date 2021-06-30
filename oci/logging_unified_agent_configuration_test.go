@@ -125,7 +125,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
@@ -145,7 +145,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create, unifiedAgentConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -185,7 +185,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(unifiedAgentConfigurationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -220,7 +220,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -256,7 +256,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_logging_unified_agent_configurations", "test_unified_agent_configurations", Optional, Update, unifiedAgentConfigurationDataSourceRepresentation) +
 					compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
@@ -273,7 +273,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + UnifiedAgentConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "unified_agent_configuration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

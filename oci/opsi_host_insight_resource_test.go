@@ -63,7 +63,7 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightRequiredRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
 

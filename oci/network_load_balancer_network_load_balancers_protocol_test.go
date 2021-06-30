@@ -38,7 +38,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersProtocolResource_basic(t *testin
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_protocols", "test_network_load_balancers_protocols", Required, Create, networkLoadBalancersProtocolDataSourceRepresentation) +
 					NetworkLoadBalancersProtocolResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancers_protocol_collection.#"),
 					resource.TestCheckResourceAttr(datasourceName, "network_load_balancers_protocol_collection.0.items.#", "3"),
 				),

@@ -48,7 +48,7 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", Required, Create, workRequestErrorDataSourceRepresentation) +
 					compartmentIdVariableStr + WorkRequestErrorResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "work_request_id"),
 

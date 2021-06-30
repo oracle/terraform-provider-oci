@@ -77,7 +77,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 							"activation_file":    Representation{repType: Optional, update: activationFilePath},
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
@@ -108,7 +108,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(exadataInfrastructureActivateRepresentation, []string{`activation_file`}), map[string]interface{}{
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
@@ -141,7 +141,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 							"activation_file":    Representation{repType: Optional, update: activationFilePath},
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),

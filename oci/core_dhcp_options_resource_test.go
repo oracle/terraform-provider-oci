@@ -184,7 +184,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 			},
 			{
 				Config: config + additionalDhcpOption4 + defaultDhcpOpts + compartmentIdUVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "display_name", "display_name1"),
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt1", "options", map[string]string{
@@ -274,7 +274,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 			// Verify adding default DHCP options again
 			{
 				Config: config + additionalDhcpOption4 + defaultDhcpOpts,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties("oci_core_default_dhcp_options.default", "options", map[string]string{
 						"type":                 "DomainNameServer",
 						"server_type":          "CustomDnsServer",
@@ -336,7 +336,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 							search_domain_names = [ "test.com" ]
 						}
 					}` + defaultDhcpOpts,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, "oci_core_dhcp_options.opt4", "id")
 						if resOpt4Id == resId2 {
@@ -385,7 +385,7 @@ func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
 						    server_type = "VcnLocalPlusInternet"
 					    }
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "display_name", "testDhcpOptions"),
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.#", "1"),
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
@@ -431,7 +431,7 @@ func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
     						custom_dns_servers = ["8.8.4.4", "8.8.8.8"]
 					    }
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"server_type":          "CustomDnsServer",
 						"custom_dns_servers.#": "2",
@@ -458,7 +458,7 @@ func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
 						    server_type = "VcnLocalPlusInternet"
 					    }
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"server_type": "VcnLocalPlusInternet",
 					}, []string{}),
@@ -505,7 +505,7 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
     						search_domain_names = ["test.com"]
 						}
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"type":        "DomainNameServer",
 						"server_type": "VcnLocalPlusInternet",
@@ -565,7 +565,7 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
     						custom_dns_servers = ["8.8.4.4", "8.8.8.8"]
 						}
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"type":                 "DomainNameServer",
 						"server_type":          "CustomDnsServer",
@@ -594,7 +594,7 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
     						server_type = "VcnLocalPlusInternet"
   						}
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
 						"type":        "DomainNameServer",
 						"server_type": "VcnLocalPlusInternet",

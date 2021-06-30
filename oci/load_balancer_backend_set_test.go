@@ -114,7 +114,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -137,7 +137,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation) +
 					// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
@@ -170,7 +170,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
 						"backup":     "true",
 						"drain":      "true",
@@ -218,7 +218,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					compartmentIdVariableStr + BackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
@@ -264,7 +264,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
@@ -310,7 +310,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
 					// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
@@ -353,7 +353,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
 						"backup":     "true",
 						"drain":      "true",
@@ -406,7 +406,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					compartmentIdVariableStr + BackendSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),

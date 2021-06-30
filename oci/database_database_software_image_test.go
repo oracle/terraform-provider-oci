@@ -96,7 +96,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
@@ -116,7 +116,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
@@ -149,7 +149,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(databaseSoftwareImageRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
@@ -177,7 +177,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
@@ -208,7 +208,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "VM_BM_SHAPE"),
@@ -237,7 +237,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseSoftwareImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

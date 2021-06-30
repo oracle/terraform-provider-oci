@@ -69,7 +69,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_environment_type", "COMPUTE_INSTANCE_GROUP"),
@@ -90,7 +90,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployInstanceGroupEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -118,7 +118,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -145,7 +145,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", Optional, Update, deployEnvironmentDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -160,7 +160,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployInstanceGroupEnvironmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

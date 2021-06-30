@@ -85,7 +85,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Required, Create, fileSystemRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
@@ -104,7 +104,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create, fileSystemRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -136,7 +136,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -163,7 +163,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -191,7 +191,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
 					compartmentIdVariableStr + FileSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

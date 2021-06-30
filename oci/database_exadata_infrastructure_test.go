@@ -135,7 +135,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create, exadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
@@ -164,7 +164,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create, exadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
@@ -217,7 +217,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
@@ -268,7 +268,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
@@ -322,7 +322,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(exadataInfrastructureRepresentation, map[string]interface{}{
 							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "tstExaInfra"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_ACTIVATION"),
@@ -384,7 +384,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create, exadataInfrastructureSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ExadataInfrastructureResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "activated_storage_count"),

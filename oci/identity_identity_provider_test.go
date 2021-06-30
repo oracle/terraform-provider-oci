@@ -103,7 +103,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
@@ -128,7 +128,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -160,7 +160,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -191,7 +191,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
 					compartmentIdVariableStr + IdentityProviderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),

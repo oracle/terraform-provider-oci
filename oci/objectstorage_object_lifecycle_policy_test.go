@@ -87,7 +87,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "0"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -107,7 +107,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
@@ -141,7 +141,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
@@ -173,7 +173,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", bucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),

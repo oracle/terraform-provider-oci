@@ -58,7 +58,7 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
 					compartmentIdVariableStr + fileUriVariableStr + RunLogResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "run_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "run_logs.0.name"),
@@ -75,7 +75,7 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_dataflow_run_log", "test_run_log", Required, Create, runLogSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + fileUriVariableStr + RunLogResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),

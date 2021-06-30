@@ -116,7 +116,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -141,7 +141,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -193,7 +193,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
@@ -242,7 +242,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
@@ -280,7 +280,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 					compartmentIdVariableStr + MysqlDbSystemResourceConfig +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
 					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "analytics_cluster.#", "1"),

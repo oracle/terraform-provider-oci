@@ -69,7 +69,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
 
@@ -91,7 +91,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", Optional, Update, backupDataSourceRepresentation) +
 					compartmentIdVariableStr + BackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Optional, Update, backupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),

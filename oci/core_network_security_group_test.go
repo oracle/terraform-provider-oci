@@ -101,7 +101,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -120,7 +120,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Create, networkSecurityGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -149,7 +149,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -173,7 +173,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -198,7 +198,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", Optional, Update, networkSecurityGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -222,7 +222,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_network_security_groups", "test_network_security_groups", Optional, Update, networkSecurityGroupVlanDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation) +
 					compartmentIdVariableStr + NetworkSecurityGroupResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "vlan_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "network_security_groups.#", "1"),
@@ -241,7 +241,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NetworkSecurityGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_security_group_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

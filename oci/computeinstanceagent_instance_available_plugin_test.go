@@ -48,7 +48,7 @@ func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T)
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_available_plugins", "test_instance_available_plugins", Required, Create, instanceAvailablePluginDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceAvailablePluginResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "os_name", "Oracle Linux"),
 					resource.TestCheckResourceAttr(datasourceName, "os_version", "7.8"),
 

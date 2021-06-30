@@ -90,7 +90,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_environment_type", "OKE_CLUSTER"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
@@ -110,7 +110,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -137,7 +137,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -163,7 +163,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", Optional, Update, deployEnvironmentDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -178,7 +178,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployEnvironmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

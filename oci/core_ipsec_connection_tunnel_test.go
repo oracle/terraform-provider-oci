@@ -74,7 +74,7 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Required, Create, ipSecConnectionTunnelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "shared_secret"),
@@ -92,7 +92,7 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Optional, Create, ipSecConnectionTunnelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_ip"),
 					resource.TestCheckResourceAttr(resourceName, "ike_version", "V1"),
@@ -110,7 +110,7 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Optional, Update, ipSecConnectionTunnelRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "shared_secret"),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_ip"),
@@ -136,7 +136,7 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelDataSourceRepresentation) +
 					compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "ipsec_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.#"),
@@ -159,7 +159,7 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnel", "test_ip_sec_connection_tunnel", Required, Create, ipSecConnectionTunnelSingularDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelDataSourceRepresentation) +
 					compartmentIdVariableStr + IpSecConnectionTunnelResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tunnel_id"),
 

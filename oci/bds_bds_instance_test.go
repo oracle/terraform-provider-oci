@@ -133,7 +133,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
@@ -160,7 +160,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
@@ -206,7 +206,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
@@ -248,7 +248,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
@@ -294,7 +294,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", Optional, Update, bdsInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + BdsInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -319,7 +319,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BdsInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),

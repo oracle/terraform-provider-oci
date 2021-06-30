@@ -95,7 +95,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
@@ -114,7 +114,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -147,7 +147,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(imageRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -175,7 +175,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -204,7 +204,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_images", "test_images", Optional, Update, imageDataSourceRepresentation) +
 					compartmentIdVariableStr + ImageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -233,7 +233,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_features.#", "0"),

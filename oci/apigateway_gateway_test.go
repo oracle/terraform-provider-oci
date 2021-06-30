@@ -110,7 +110,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -125,7 +125,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + GatewayResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(3 * time.Minute)
 						return err
@@ -136,7 +136,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -177,7 +177,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -213,7 +213,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -250,7 +250,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", Optional, Update, gatewayDataSourceRepresentation) +
 					compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -267,7 +267,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewaySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

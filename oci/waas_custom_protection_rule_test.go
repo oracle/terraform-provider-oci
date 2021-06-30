@@ -94,7 +94,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "template"),
@@ -114,7 +114,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -141,7 +141,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(customProtectionRuleRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -163,7 +163,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -186,7 +186,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_custom_protection_rules", "test_custom_protection_rules", Optional, Update, customProtectionRuleDataSourceRepresentation) +
 					compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_names.#", "2"),
 					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
@@ -210,7 +210,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CustomProtectionRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_protection_rule_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

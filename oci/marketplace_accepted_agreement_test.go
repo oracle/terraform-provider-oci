@@ -89,7 +89,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
@@ -110,7 +110,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -136,7 +136,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -161,7 +161,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", Optional, Update, acceptedAgreementDataSourceRepresentation) +
 					compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreement_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -183,7 +183,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AcceptedAgreementResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "accepted_agreement_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

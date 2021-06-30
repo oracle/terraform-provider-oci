@@ -115,7 +115,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
@@ -136,7 +136,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -173,7 +173,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(autonomousExadataInfrastructureRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -205,7 +205,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -244,7 +244,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructures", "test_autonomous_exadata_infrastructures", Optional, Update, autonomousExadataInfrastructureDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -273,7 +273,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousExadataInfrastructureResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_exadata_infrastructure_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

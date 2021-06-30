@@ -47,7 +47,7 @@ func TestApigatewayApiValidationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_api_validation", "test_api_validation", Required, Create, apiValidationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiValidationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
 
 					// there can be more validations done. Testing 1 which there will be always.

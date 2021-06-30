@@ -143,7 +143,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
 
@@ -162,7 +162,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsSingleStageDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_id"),
@@ -188,7 +188,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_id"),
@@ -213,7 +213,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", Optional, Update, devopsDeploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -230,7 +230,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DevopsSingleStageDeploymentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

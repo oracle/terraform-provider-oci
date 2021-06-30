@@ -186,7 +186,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					data "oci_core_public_ip" "test_oci_core_public_ip_by_ip" {
 						ip_address = "${oci_core_public_ip.test_public_ip.ip_address}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
@@ -235,7 +235,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
@@ -267,7 +267,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
@@ -290,7 +290,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
 						getUpdatedRepresentationCopy("display_name", Representation{repType: Optional, create: displayName2}, publicIpRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", displayName2),
@@ -315,7 +315,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip-updated"),
@@ -341,7 +341,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicUnassignedIpRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", displayName),
@@ -368,7 +368,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip2", Optional, Update, publicIpRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Required, Create, publicIpDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_public_ip", "test_oci_core_public_ip_by_private_ip_id", Optional, Update, publicIpSingularDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeRegion)),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "1"),
@@ -403,7 +403,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Optional, Update,
 						getUpdatedRepresentationCopy("filter", RepresentationGroup{Required, publicIpDataSourceNameFilterRepresentation}, publicIpDataSourceRepresentation)) +
 					compartmentIdVariableStr + PublicIpResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeAvailabilityDomain)),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "0"),

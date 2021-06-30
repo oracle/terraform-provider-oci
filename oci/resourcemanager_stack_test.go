@@ -78,7 +78,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 					` +
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
 					compartmentIdVariableStr + StackResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -102,7 +102,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", Required, Create, stackSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StackResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stack_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

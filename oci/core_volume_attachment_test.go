@@ -83,7 +83,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
@@ -98,7 +98,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -132,7 +132,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", Optional, Update, volumeAttachmentDataSourceRepresentation) +
 					compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Update, volumeAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),

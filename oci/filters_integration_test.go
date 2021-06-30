@@ -197,7 +197,7 @@ data "oci_core_instances" "test_instances_filter_out_with_map" {
     }
 }
                 ` + compartmentIdVariableStr + CoreInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_core_instances.test_instances", "instances.#", "1"),
 					resource.TestCheckResourceAttr("data.oci_core_instances.test_instances_filter_out_with_nested_structure", "instances.#", "0"),
 					resource.TestCheckResourceAttr("data.oci_core_instances.test_instances_filter_out_with_map", "instances.#", "0"),

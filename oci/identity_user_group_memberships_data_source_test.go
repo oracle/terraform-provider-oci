@@ -63,7 +63,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					user_id = "${oci_identity_user.t.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.0.state", string(identity.UserGroupMembershipLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.compartment_id"),
@@ -82,7 +82,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					compartment_id = "${var.tenancy_ocid}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
@@ -94,7 +94,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					compartment_id = "${var.tenancy_ocid}"
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
 			},
@@ -109,7 +109,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 						values = ["${oci_identity_user.t.id}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
 			},

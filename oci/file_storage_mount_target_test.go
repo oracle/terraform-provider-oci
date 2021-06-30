@@ -92,7 +92,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
@@ -113,7 +113,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -149,7 +149,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(mountTargetRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -209,7 +209,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", Optional, Update, mountTargetDataSourceRepresentation) +
 					compartmentIdVariableStr + MountTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.#", "1"),
@@ -261,7 +261,7 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Update, mountTargetRepresentation) +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Update, mountTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 				),
 				ExpectError: regexp.MustCompile("Resource creation failed"),

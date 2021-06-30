@@ -204,7 +204,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
@@ -222,7 +222,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
@@ -250,7 +250,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#12"),
@@ -311,7 +311,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Required, Create, dbHomeRepresentationSourceDatabase),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
@@ -354,7 +354,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
@@ -450,7 +450,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -536,7 +536,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "createdDbHomeNone"),
@@ -562,7 +562,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 

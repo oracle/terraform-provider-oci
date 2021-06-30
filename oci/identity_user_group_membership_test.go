@@ -67,7 +67,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -89,7 +89,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
 					compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),

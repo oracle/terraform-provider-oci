@@ -128,7 +128,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
 					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
@@ -147,7 +147,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create, metastoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
 					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
@@ -175,7 +175,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(metastoreRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
 					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
@@ -198,7 +198,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
 					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
@@ -222,7 +222,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", Optional, Update, metastoreDataSourceRepresentation) +
 					compartmentIdVariableStr + MetastoreResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -243,7 +243,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + MetastoreResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "metastore_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

@@ -57,7 +57,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					description = "tf test group"
 					compartment_id = "${var.tenancy_ocid}"
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "description", "tf test group"),
@@ -69,7 +69,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			// verify create w/o compartment, verify that it defaults to tenancy
 			{
 				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test group"), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group"),
@@ -85,7 +85,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			// verify update
 			{
 				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test group (updated)"), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),

@@ -98,7 +98,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -121,7 +121,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Create, dataMaskRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_rule_status", "ENABLED"),
@@ -152,7 +152,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_mask_rule_status", "DISABLED"),
@@ -182,7 +182,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rules", "test_data_mask_rules", Optional, Update, dataMaskRuleDataSourceRepresentation) +
 					compartmentIdVariableStr + DataMaskRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "data_mask_rule_status", "DISABLED"),
@@ -200,7 +200,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DataMaskRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_mask_rule_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_mask_categories.#", "1"),

@@ -58,7 +58,7 @@ func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_byoip_allocated_ranges", "test_byoip_allocated_ranges", Required, Create, byoipAllocatedRangeDataSourceRepresentation) +
 					compartmentIdVariableStr + ByoipAllocatedRangeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "byoip_allocated_range_collection.#"),

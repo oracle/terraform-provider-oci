@@ -127,7 +127,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -155,7 +155,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 							"permission_level": Representation{repType: Optional, create: `RESTRICTED`, update: `RESTRICTED`},
 						}),
 					),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -203,7 +203,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 							"open_mode":        Representation{repType: Optional, create: `READ_WRITE`, update: `READ_WRITE`},
 							"permission_level": Representation{repType: Optional, create: `UNRESTRICTED`, update: `UNRESTRICTED`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -243,7 +243,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -281,7 +281,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "STOPPED"}, autonomousDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -314,7 +314,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "AVAILABLE"}, autonomousDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -348,7 +348,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}}, autonomousDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -379,7 +379,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -410,7 +410,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -446,7 +446,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -495,7 +495,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
@@ -575,7 +575,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
 							[]interface{}{Representation{repType: Optional, create: "DW"},
 								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -608,7 +608,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
 							[]interface{}{Representation{repType: Optional, create: "DW"},
 								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -642,7 +642,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 							[]interface{}{Representation{repType: Optional, create: "DW"},
 								Representation{repType: Optional, update: `true`},
 								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -678,7 +678,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRepresentation) +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentationForClone),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

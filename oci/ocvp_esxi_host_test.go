@@ -83,7 +83,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 					func(s *terraform.State) (err error) {
@@ -101,7 +101,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 					resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -127,7 +127,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 					resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -152,7 +152,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", Optional, Update, esxiHostDataSourceRepresentation) +
 					compartmentIdVariableStr + EsxiHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "sddc_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "compute_instance_id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -173,7 +173,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + EsxiHostResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "billing_contract_end_date"),

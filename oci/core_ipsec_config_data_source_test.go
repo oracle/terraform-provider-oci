@@ -55,7 +55,7 @@ func (s *DatasourceCoreIPSecConnectionConfigTestSuite) TestAccDatasourceCoreIPSe
 		Steps: []resource.TestStep{
 			{
 				Config: s.Config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.ip_address"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "tunnels.0.shared_secret"),

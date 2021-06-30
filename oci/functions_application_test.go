@@ -97,7 +97,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
@@ -117,7 +117,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -149,7 +149,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(applicationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -176,7 +176,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -204,7 +204,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", Optional, Update, applicationDataSourceRepresentation) +
 					compartmentIdVariableStr + ApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
 					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
@@ -230,7 +230,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ApplicationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

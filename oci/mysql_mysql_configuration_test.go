@@ -62,7 +62,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", Required, Create, mysqlConfigurationDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "configurations.#"),
@@ -78,7 +78,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", Required, Create, mysqlConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + MysqlConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),

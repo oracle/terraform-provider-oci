@@ -126,7 +126,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
@@ -146,7 +146,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create, detectorRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -196,7 +196,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(detectorRecipeRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -240,7 +240,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -285,7 +285,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipes", "test_detector_recipes", Optional, Update, detectorRecipeDataSourceRepresentation) +
 					compartmentIdVariableStr + DetectorRecipeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -302,7 +302,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DetectorRecipeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_recipe_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

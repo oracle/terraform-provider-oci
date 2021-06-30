@@ -121,7 +121,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
@@ -164,7 +164,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(ruleRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
@@ -203,7 +203,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update,
 						getUpdatedRepresentationCopy("actions", RepresentationGroup{Optional, ruleActionsUpdateRepresentation}, ruleRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "3"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
@@ -262,7 +262,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", Optional, Update, ruleDataSourceRepresentation) +
 					compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "INACTIVE"),
@@ -285,7 +285,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "rule_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "actions.#", "1"),

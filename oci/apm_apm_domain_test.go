@@ -89,7 +89,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
@@ -108,7 +108,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create, apmDomainRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // don't validate defined tags since there are some pre-created ones
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -136,7 +136,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(apmDomainRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // don't validate defined tags since there are some pre-created ones
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -159,7 +159,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // don't validate defined tags since there are some pre-created ones
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -183,7 +183,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_apm_apm_domains", "test_apm_domains", Optional, Update, apmDomainDataSourceRepresentation) +
 					compartmentIdVariableStr + ApmDomainResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -206,7 +206,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ApmDomainResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

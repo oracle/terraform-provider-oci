@@ -97,7 +97,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 						values = ["${oci_core_instance.t.id}"]
 					}
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
@@ -153,7 +153,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 						"lifecycleState2": string(core.InstanceLifecycleStateTerminated),
 					},
 				),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
 					resource.TestCheckResourceAttr("data.oci_core_instances.t2", "instances.#", "0"),

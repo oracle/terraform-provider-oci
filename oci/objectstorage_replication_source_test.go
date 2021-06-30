@@ -52,7 +52,7 @@ func TestObjectStorageReplicationSourceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_sources", "test_replication_sources", Required, Create, replicationSourceDataSourceRepresentation) +
 					compartmentIdVariableStr + ReplicationSourceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", replicationBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "replication_sources.#"),

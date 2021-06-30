@@ -74,7 +74,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
 					func(s *terraform.State) (err error) {
@@ -93,7 +93,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.2"),
@@ -119,7 +119,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
 					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.4"),
@@ -144,7 +144,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AnalyticsClusterResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),

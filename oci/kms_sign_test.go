@@ -54,7 +54,7 @@ func TestKmsSignResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SignResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Required, Create, signRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttr(resourceName, "message", "message"),
@@ -70,7 +70,7 @@ func TestKmsSignResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SignResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Optional, Create, signRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_version_id"),

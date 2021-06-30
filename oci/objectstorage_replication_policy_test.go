@@ -81,7 +81,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "destination_bucket_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "destination_region_name"),
@@ -106,7 +106,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
 					compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 
 					resource.TestCheckResourceAttr(datasourceName, "replication_policies.#", "1"),
@@ -126,7 +126,7 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ReplicationPolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_id"),
 

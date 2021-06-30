@@ -85,7 +85,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
@@ -109,7 +109,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -145,7 +145,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -176,7 +176,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -208,7 +208,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_service_gateways", "test_service_gateways", Optional, Update, serviceGatewayDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),

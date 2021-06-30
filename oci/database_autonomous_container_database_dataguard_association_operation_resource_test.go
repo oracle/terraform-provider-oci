@@ -73,7 +73,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.0.autonomous_container_database_id"),
@@ -94,7 +94,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(5 * time.Minute)
 						return nil
@@ -106,7 +106,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
@@ -120,7 +120,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(5 * time.Minute)
 						return nil
@@ -132,7 +132,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
@@ -146,7 +146,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationReinstateResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(5 * time.Minute)
 						return nil
@@ -158,7 +158,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
@@ -193,7 +193,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.0.autonomous_container_database_id"),
@@ -214,7 +214,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					ExaccAutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(10 * time.Minute)
 						return nil
@@ -226,7 +226,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
@@ -240,7 +240,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					ExaccAutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(5 * time.Minute)
 						return nil
@@ -252,7 +252,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),
@@ -266,7 +266,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationReinstateResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(5 * time.Minute)
 						return nil
@@ -278,7 +278,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_dataguard_associations.#"),

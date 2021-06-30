@@ -49,7 +49,7 @@ func TestLogAnalyticsLogAnalyticsEntitiesSummaryResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + LogAnalyticsEntitiesSummaryResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities_summary", "test_log_analytics_entities_summary", Required, Create, logAnalyticsEntitiesSummarySingularDataSourceRepresentation) +
 					LogAnalyticsEntitiesSummaryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 

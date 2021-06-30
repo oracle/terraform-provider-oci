@@ -55,7 +55,7 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create, catalogTypeDataSourceRepresentation) +
 					compartmentIdVariableStr + CatalogTypeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "type_collection.0.items.0.name"),
@@ -72,7 +72,7 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 							"name": Representation{repType: Optional, create: `Oracle Database`}})) +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_type", "test_catalog_type", Optional, Create, catalogTypeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CatalogTypeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "fields.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "type_key"),

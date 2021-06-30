@@ -86,7 +86,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Vault 1"),
 					resource.TestCheckResourceAttr(resourceName, "vault_type", "VIRTUAL_PRIVATE"),
@@ -106,7 +106,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create, vaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -137,7 +137,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(vaultRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -163,7 +163,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, vaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -190,7 +190,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_kms_vaults", "test_vaults", Optional, Update, vaultDataSourceRepresentation) +
 					compartmentIdVariableStr + VaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, vaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "vaults.#", "1"),
@@ -211,7 +211,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VaultResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

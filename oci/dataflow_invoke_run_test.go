@@ -107,7 +107,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, invokeRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_run"),
@@ -127,7 +127,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create, invokeRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -172,7 +172,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(invokeRunRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -210,7 +210,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Update, invokeRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -249,7 +249,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_runs", Optional, Update, invokeRunDataSourceRepresentation) +
 					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Update, invokeRunRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -278,7 +278,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, invokeRunSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),

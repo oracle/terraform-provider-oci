@@ -70,7 +70,7 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_is_upgrade_supported", Optional, Create, dbVersionDataSourceRepresentationWithUpgradeSupportedOptional) +
 					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_storage_management", Optional, Create, dbVersionDataSourceRepresentationWithStorageManagementOptional) +
 					compartmentIdVariableStr + DbVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(datasourceName, "db_system_shape", "BM.DenseIO2.52"),

@@ -104,7 +104,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
@@ -126,7 +126,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -164,7 +164,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(blockchainPlatformRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -194,7 +194,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -228,7 +228,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", Optional, Update, blockchainPlatformDataSourceRepresentation) +
 					compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
 					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", blockchainPlatformDisplayName),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -242,7 +242,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

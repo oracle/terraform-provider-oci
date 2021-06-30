@@ -53,7 +53,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 							can_use_smtp_credentials = false
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "false"),
@@ -81,7 +81,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 							can_use_smtp_credentials = true
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "true"),
@@ -109,7 +109,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 							can_use_smtp_credentials = false
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "false"),

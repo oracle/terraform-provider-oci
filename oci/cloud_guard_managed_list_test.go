@@ -96,7 +96,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
@@ -115,7 +115,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create, managedListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -144,7 +144,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(managedListRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -168,7 +168,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -193,7 +193,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_managed_lists", "test_managed_lists", Optional, Update, managedListDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedListResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -211,7 +211,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedListResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_list_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

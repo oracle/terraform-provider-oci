@@ -100,7 +100,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VlanResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -120,7 +120,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VlanResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -152,7 +152,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(vlanRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -179,7 +179,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VlanResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -207,7 +207,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vlans", "test_vlans", Optional, Update, vlanDataSourceRepresentation) +
 					compartmentIdVariableStr + VlanResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -233,7 +233,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VlanResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vlan_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

@@ -44,7 +44,7 @@ func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_peer_region_for_remote_peerings", "test_peer_region_for_remote_peerings", Required, Create, peerRegionForRemotePeeringDataSourceRepresentation) +
 					compartmentIdVariableStr + PeerRegionForRemotePeeringResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "peer_region_for_remote_peerings.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "peer_region_for_remote_peerings.0.name"),
