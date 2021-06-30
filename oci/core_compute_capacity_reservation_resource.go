@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v42/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 func init() {
@@ -153,7 +153,7 @@ func createCoreComputeCapacityReservation(d *schema.ResourceData, m interface{})
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -170,7 +170,7 @@ func updateCoreComputeCapacityReservation(d *schema.ResourceData, m interface{})
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -179,8 +179,8 @@ func deleteCoreComputeCapacityReservation(d *schema.ResourceData, m interface{})
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -191,6 +191,7 @@ type CoreComputeCapacityReservationResourceCrud struct {
 	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.ComputeCapacityReservation
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreComputeCapacityReservationResourceCrud) ID() string {
@@ -284,7 +285,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 	if workId == nil {
 		return fmt.Errorf("CreateComputeCapacityReservation response.OpcWorkRequestId was nil")
 	}
-	identifier, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+	identifier, err := WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
@@ -375,11 +376,12 @@ func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
+
 	return s.Get()
 }
 
@@ -398,12 +400,13 @@ func (s *CoreComputeCapacityReservationResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return nil
+
+	return s.Get()
 }
 
 func (s *CoreComputeCapacityReservationResourceCrud) SetData() error {
@@ -561,9 +564,17 @@ func (s *CoreComputeCapacityReservationResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeComputeCapacityReservationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeComputeCapacityReservationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

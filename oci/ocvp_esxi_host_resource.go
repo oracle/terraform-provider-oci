@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v42/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v43/ocvp"
 )
 
 func init() {
@@ -104,7 +104,7 @@ func createOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).esxiHostClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient()
 
 	return CreateResource(d, sync)
 }
@@ -113,7 +113,6 @@ func readOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).esxiHostClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
 
 	return ReadResource(sync)
 }
@@ -122,7 +121,7 @@ func updateOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).esxiHostClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient()
 
 	return UpdateResource(d, sync)
 }
@@ -131,8 +130,8 @@ func deleteOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).esxiHostClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient()
 
 	return DeleteResource(d, sync)
 }
@@ -140,9 +139,9 @@ func deleteOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 type OcvpEsxiHostResourceCrud struct {
 	BaseCrud
 	Client                 *oci_ocvp.EsxiHostClient
-	WorkRequestClient      *oci_ocvp.WorkRequestClient
 	Res                    *oci_ocvp.EsxiHost
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_ocvp.WorkRequestClient
 }
 
 func (s *OcvpEsxiHostResourceCrud) ID() string {

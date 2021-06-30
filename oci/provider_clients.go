@@ -7,12 +7,10 @@ import (
 	"fmt"
 	"strings"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v42/functions"
-	oci_kms "github.com/oracle/oci-go-sdk/v42/keymanagement"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v42/ocvp"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v43/functions"
+	oci_kms "github.com/oracle/oci-go-sdk/v43/keymanagement"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
@@ -41,11 +39,9 @@ type OracleClient struct {
 }
 
 type OracleClients struct {
-	configuration             map[string]string
-	sdkClientMap              map[string]interface{}
-	gatewayWorkRequestsClient *oci_apigateway.WorkRequestsClient
-	ocvpWorkRequestClient     *oci_ocvp.WorkRequestClient
-	workRequestClient         *oci_work_requests.WorkRequestClient
+	configuration     map[string]string
+	sdkClientMap      map[string]interface{}
+	workRequestClient *oci_work_requests.WorkRequestClient
 }
 
 func (m *OracleClients) GetClient(name string) interface{} {
@@ -129,26 +125,6 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 			return fmt.Errorf("unable to initialize '%s' client", serviceName)
 		}
 	}
-
-	gatewayWorkRequestsClient, err := oci_apigateway.NewWorkRequestsClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return
-	}
-	err = configureClient(&gatewayWorkRequestsClient.BaseClient)
-	if err != nil {
-		return
-	}
-	clients.gatewayWorkRequestsClient = &gatewayWorkRequestsClient
-
-	ocvpWorkRequestClient, err := oci_ocvp.NewWorkRequestClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return
-	}
-	err = configureClient(&ocvpWorkRequestClient.BaseClient)
-	if err != nil {
-		return
-	}
-	clients.ocvpWorkRequestClient = &ocvpWorkRequestClient
 
 	workRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(configProvider)
 	if err != nil {

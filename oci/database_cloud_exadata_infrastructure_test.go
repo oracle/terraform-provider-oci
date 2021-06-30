@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v42/common"
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -56,14 +56,23 @@ var (
 		"days_of_week":       RepresentationGroup{Optional, cloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation},
 		"hours_of_day":       Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
 		"lead_time_in_weeks": Representation{repType: Optional, create: `10`, update: `11`},
-		"months":             RepresentationGroup{Optional, cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation},
+		"months":             []RepresentationGroup{{Optional, cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation}, {Optional, cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation2}, {Optional, cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation3}, {Optional, cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation4}},
 		"weeks_of_month":     Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
 	}
 	cloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation = map[string]interface{}{
 		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
 	}
 	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
+		"name": Representation{repType: Required, create: `MAY`, update: `JUNE`},
+	}
+	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation2 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `FEBRUARY`, update: `MARCH`},
+	}
+	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation3 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `AUGUST`, update: `SEPTEMBER`},
+	}
+	cloudExadataInfrastructureMaintenanceWindowMonthsRepresentation4 = map[string]interface{}{
+		"name": Representation{repType: Required, create: `NOVEMBER`, update: `DECEMBER`},
 	}
 
 	CloudExadataInfrastructureResourceDependencies = AvailabilityDomainConfig +
@@ -137,8 +146,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "APRIL"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
@@ -177,8 +186,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "APRIL"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
@@ -212,8 +221,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "JUNE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
@@ -255,8 +264,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.hours_of_day.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.0.name", "JUNE"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.weeks_of_month.#", "1"),
 					//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.next_maintenance_run_id"), // null for fake resource
@@ -289,8 +298,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "JUNE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "next_maintenance_run_id"), // null for fake resource

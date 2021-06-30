@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v42/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v43/workrequests"
 )
 
 func init() {
@@ -39,10 +39,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
-			},
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
 				Required: true,
 			},
 			"db_name": {
@@ -87,6 +83,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"customer_contacts": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -115,6 +116,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.AutonomousDatabaseDataSafeStatusRegistered),
 					string(oci_database.AutonomousDatabaseSummaryDataSafeStatusNotRegistered),
 				}, true),
+			},
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeInt,
@@ -205,6 +211,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"ocpu_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
 			},
 			"private_endpoint_label": {
 				Type:     schema.TypeString,
@@ -410,10 +421,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
-			"data_storage_size_in_gb": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -597,7 +604,7 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	configDataSafeStatus := oci_database.AutonomousDatabaseDataSafeStatusNotRegistered
 	if dataSafeStatus, ok := sync.D.GetOkExists("data_safe_status"); ok {
@@ -687,7 +694,7 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
-	sync.workRequestClient = m.(*OracleClients).workRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	err := sync.validateSwitchoverDatabase()
 	if err != nil {
@@ -744,6 +751,7 @@ func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return DeleteResource(d, sync)
 }
@@ -751,9 +759,9 @@ func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 type DatabaseAutonomousDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
-	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.AutonomousDatabase
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) ID() string {
@@ -939,6 +947,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(int)
+		request.DataStorageSizeInGBs = &tmp
+	}
+
 	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok && s.D.HasChange("data_storage_size_in_tbs") {
 		tmp := dataStorageSizeInTBs.(int)
 		request.DataStorageSizeInTBs = &tmp
@@ -1026,6 +1039,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
+	}
+
+	if openMode, ok := s.D.GetOkExists("open_mode"); ok {
+		request.OpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+	}
+
+	if permissionLevel, ok := s.D.GetOkExists("permission_level"); ok {
+		request.PermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
+	}
+
+	if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+		tmp := privateEndpointLabel.(string)
+		request.PrivateEndpointLabel = &tmp
+	}
+
 	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
 		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}
@@ -1068,7 +1099,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1236,6 +1267,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		nsgIds = append(nsgIds, item)
 	}
 	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+
+	if s.Res.OcpuCount != nil {
+		s.D.Set("ocpu_count", *s.Res.OcpuCount)
+	}
 
 	s.D.Set("open_mode", s.Res.OpenMode)
 
@@ -1527,6 +1562,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -1595,6 +1634,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := float32(ocpuCount.(float64))
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -1688,6 +1731,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -1756,6 +1803,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := float32(ocpuCount.(float64))
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -1842,6 +1893,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -1910,6 +1965,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := float32(ocpuCount.(float64))
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -1998,6 +2057,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -2070,6 +2133,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := float32(ocpuCount.(float64))
+			details.OcpuCount = &tmp
 		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
@@ -2147,6 +2214,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
 		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 			tmp := dataStorageSizeInTBs.(int)
 			details.DataStorageSizeInTBs = &tmp
@@ -2220,6 +2291,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.NsgIds = tmp
 			}
 		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := float32(ocpuCount.(float64))
+			details.OcpuCount = &tmp
+		}
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
@@ -2280,7 +2355,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2305,7 +2380,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2326,7 +2401,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2353,7 +2428,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion strin
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2393,7 +2468,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2473,7 +2548,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2494,7 +2569,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2511,7 +2586,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2594,9 +2669,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(aut
 	}
 
 	workId := updateResponse.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-	if err != nil {
-		return err
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -2619,7 +2696,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -2649,7 +2726,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaul
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v43/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
 )
 
 func init() {
@@ -113,7 +113,7 @@ func createApigatewayApi(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayApiResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return CreateResource(d, sync)
 }
@@ -122,7 +122,6 @@ func readApigatewayApi(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayApiResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return ReadResource(sync)
 }
@@ -131,7 +130,7 @@ func updateApigatewayApi(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayApiResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -140,8 +139,8 @@ func deleteApigatewayApi(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayApiResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return DeleteResource(d, sync)
 }
@@ -149,9 +148,9 @@ func deleteApigatewayApi(d *schema.ResourceData, m interface{}) error {
 type ApigatewayApiResourceCrud struct {
 	BaseCrud
 	Client                 *oci_apigateway.ApiGatewayClient
-	WorkRequestsClient     *oci_apigateway.WorkRequestsClient
 	Res                    *oci_apigateway.Api
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_apigateway.WorkRequestsClient
 }
 
 func (s *ApigatewayApiResourceCrud) ID() string {
@@ -232,12 +231,12 @@ func (s *ApigatewayApiResourceCrud) getApiFromWorkRequest(workId *string, retryP
 
 	// Wait until it finishes
 	apiId, err := apiWaitForWorkRequest(workId, "api",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestsClient)
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, apiId)
-		_, cancelErr := s.WorkRequestsClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -437,7 +436,7 @@ func (s *ApigatewayApiResourceCrud) Delete() error {
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 	_, delWorkRequestErr := apiWaitForWorkRequest(workId, "api",
-		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestsClient)
+		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
 

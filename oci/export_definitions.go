@@ -4,54 +4,55 @@
 package oci
 
 import (
-	oci_analytics "github.com/oracle/oci-go-sdk/v42/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
-	oci_apm "github.com/oracle/oci-go-sdk/v42/apmcontrolplane"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v42/artifacts"
-	oci_bastion "github.com/oracle/oci-go-sdk/v42/bastion"
-	oci_bds "github.com/oracle/oci-go-sdk/v42/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v42/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v42/budget"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v42/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v42/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v42/core"
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v42/databasemigration"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v42/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v42/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v42/dataintegration"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v42/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v42/datascience"
-	oci_dns "github.com/oracle/oci-go-sdk/v42/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v42/email"
-	oci_events "github.com/oracle/oci-go-sdk/v42/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v42/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v42/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v42/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v42/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v42/integration"
-	oci_jms "github.com/oracle/oci-go-sdk/v42/jms"
-	oci_kms "github.com/oracle/oci-go-sdk/v42/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v42/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v42/loadbalancer"
-	oci_logging "github.com/oracle/oci-go-sdk/v42/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v42/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v42/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v42/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v42/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v42/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v42/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v42/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v42/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v42/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v42/ons"
-	oci_opsi "github.com/oracle/oci-go-sdk/v42/opsi"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v42/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v42/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v42/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v42/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v42/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v42/waas"
+	oci_analytics "github.com/oracle/oci-go-sdk/v43/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v43/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v43/apmcontrolplane"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v43/artifacts"
+	oci_bastion "github.com/oracle/oci-go-sdk/v43/bastion"
+	oci_bds "github.com/oracle/oci-go-sdk/v43/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v43/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v43/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v43/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v43/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v43/databasemigration"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v43/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v43/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v43/dataintegration"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v43/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v43/datascience"
+	oci_devops "github.com/oracle/oci-go-sdk/v43/devops"
+	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v43/email"
+	oci_events "github.com/oracle/oci-go-sdk/v43/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v43/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v43/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v43/goldengate"
+	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v43/integration"
+	oci_jms "github.com/oracle/oci-go-sdk/v43/jms"
+	oci_kms "github.com/oracle/oci-go-sdk/v43/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v43/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	oci_logging "github.com/oracle/oci-go-sdk/v43/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v43/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v43/marketplace"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v43/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v43/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v43/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v43/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v43/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v43/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v43/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v43/ons"
+	oci_opsi "github.com/oracle/oci-go-sdk/v43/opsi"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v43/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v43/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v43/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v43/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v43/vulnerabilityscanning"
+	oci_waas "github.com/oracle/oci-go-sdk/v43/waas"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -1112,6 +1113,17 @@ var exportDatacatalogCatalogPrivateEndpointHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatacatalogMetastoreHints = &TerraformResourceHints{
+	resourceClass:          "oci_datacatalog_metastore",
+	datasourceClass:        "oci_datacatalog_metastores",
+	datasourceItemsAttr:    "metastores",
+	resourceAbbreviation:   "metastore",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datacatalog.LifecycleStateActive),
+	},
+}
+
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",
@@ -1192,6 +1204,78 @@ var exportDatascienceModelDeploymentHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_datascience.ModelDeploymentLifecycleStateActive),
 		string(oci_datascience.ModelDeploymentLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDevopsProjectHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_project",
+	datasourceClass:        "oci_devops_projects",
+	datasourceItemsAttr:    "project_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "project",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.ProjectLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployEnvironmentHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_environment",
+	datasourceClass:        "oci_devops_deploy_environments",
+	datasourceItemsAttr:    "deploy_environment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_environment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployEnvironmentLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployArtifactHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_artifact",
+	datasourceClass:        "oci_devops_deploy_artifacts",
+	datasourceItemsAttr:    "deploy_artifact_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_artifact",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployArtifactLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployPipelineHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_pipeline",
+	datasourceClass:        "oci_devops_deploy_pipelines",
+	datasourceItemsAttr:    "deploy_pipeline_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_pipeline",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployPipelineLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeployStageHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deploy_stage",
+	datasourceClass:        "oci_devops_deploy_stages",
+	datasourceItemsAttr:    "deploy_stage_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deploy_stage",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeployStageLifecycleStateActive),
+	},
+}
+
+var exportDevopsDeploymentHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_deployment",
+	datasourceClass:        "oci_devops_deployments",
+	datasourceItemsAttr:    "deployment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "deployment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.DeploymentLifecycleStateSucceeded),
 	},
 }
 

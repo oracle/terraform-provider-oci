@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v42/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v43/ocvp"
 )
 
 func init() {
@@ -301,7 +301,7 @@ func createOcvpSddc(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).sddcClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient()
 
 	return CreateResource(d, sync)
 }
@@ -310,7 +310,6 @@ func readOcvpSddc(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).sddcClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
 
 	return ReadResource(sync)
 }
@@ -319,7 +318,7 @@ func updateOcvpSddc(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).sddcClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
+	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient()
 
 	return UpdateResource(d, sync)
 }
@@ -328,8 +327,8 @@ func deleteOcvpSddc(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).sddcClient()
-	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*OracleClients).ocvpWorkRequestClient()
 
 	return DeleteResource(d, sync)
 }
@@ -337,9 +336,9 @@ func deleteOcvpSddc(d *schema.ResourceData, m interface{}) error {
 type OcvpSddcResourceCrud struct {
 	BaseCrud
 	Client                 *oci_ocvp.SddcClient
-	WorkRequestClient      *oci_ocvp.WorkRequestClient
 	Res                    *oci_ocvp.Sddc
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_ocvp.WorkRequestClient
 }
 
 func (s *OcvpSddcResourceCrud) ID() string {

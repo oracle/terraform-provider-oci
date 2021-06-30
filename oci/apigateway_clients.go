@@ -4,13 +4,14 @@
 package oci
 
 import (
-	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v43/apigateway"
 
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
 )
 
 func init() {
 	RegisterOracleClient("oci_apigateway.ApiGatewayClient", &OracleClient{initClientFn: initApigatewayApiGatewayClient})
+	RegisterOracleClient("oci_apigateway.WorkRequestsClient", &OracleClient{initClientFn: initApigatewayWorkRequestsClient})
 	RegisterOracleClient("oci_apigateway.DeploymentClient", &OracleClient{initClientFn: initApigatewayDeploymentClient})
 	RegisterOracleClient("oci_apigateway.GatewayClient", &OracleClient{initClientFn: initApigatewayGatewayClient})
 }
@@ -33,6 +34,26 @@ func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvi
 
 func (m *OracleClients) apiGatewayClient() *oci_apigateway.ApiGatewayClient {
 	return m.GetClient("oci_apigateway.ApiGatewayClient").(*oci_apigateway.ApiGatewayClient)
+}
+
+func initApigatewayWorkRequestsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_apigateway.NewWorkRequestsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) apigatewayWorkRequestsClient() *oci_apigateway.WorkRequestsClient {
+	return m.GetClient("oci_apigateway.WorkRequestsClient").(*oci_apigateway.WorkRequestsClient)
 }
 
 func initApigatewayDeploymentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

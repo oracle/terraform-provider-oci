@@ -134,6 +134,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
+    * `devops` - Discovers devops resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
@@ -415,6 +416,7 @@ datacatalog
 * oci\_datacatalog\_data\_asset
 * oci\_datacatalog\_connection
 * oci\_datacatalog\_catalog\_private\_endpoint
+* oci\_datacatalog\_metastore
 
 dataflow
     
@@ -432,6 +434,15 @@ datascience
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
 * oci\_datascience\_model\_deployment
+
+devops
+    
+* oci\_devops\_project
+* oci\_devops\_deploy\_environment
+* oci\_devops\_deploy\_artifact
+* oci\_devops\_deploy\_pipeline
+* oci\_devops\_deploy\_stage
+* oci\_devops\_deployment
 
 dns
     

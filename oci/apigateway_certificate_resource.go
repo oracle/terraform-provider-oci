@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v42/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v42/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v43/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v43/common"
 )
 
 func init() {
@@ -111,7 +111,7 @@ func createApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return CreateResource(d, sync)
 }
@@ -120,7 +120,6 @@ func readApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
 
 	return ReadResource(sync)
 }
@@ -129,7 +128,7 @@ func updateApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -139,7 +138,7 @@ func deleteApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).apiGatewayClient()
 	sync.DisableNotFoundRetries = true
-	sync.WorkRequestsClient = m.(*OracleClients).gatewayWorkRequestsClient
+	sync.WorkRequestClient = m.(*OracleClients).apigatewayWorkRequestsClient()
 
 	return DeleteResource(d, sync)
 }
@@ -147,9 +146,9 @@ func deleteApigatewayCertificate(d *schema.ResourceData, m interface{}) error {
 type ApigatewayCertificateResourceCrud struct {
 	BaseCrud
 	Client                 *oci_apigateway.ApiGatewayClient
-	WorkRequestsClient     *oci_apigateway.WorkRequestsClient
 	Res                    *oci_apigateway.Certificate
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_apigateway.WorkRequestsClient
 }
 
 func (s *ApigatewayCertificateResourceCrud) ID() string {
@@ -236,12 +235,12 @@ func (s *ApigatewayCertificateResourceCrud) getCertificateFromWorkRequest(workId
 
 	// Wait until it finishes
 	certificateId, err := certificateWaitForWorkRequest(workId, "certificate",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestsClient)
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, certificateId)
-		_, cancelErr := s.WorkRequestsClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -284,7 +283,6 @@ func certificateWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func certificateWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
-
 	retryPolicy := getRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = certificateWorkRequestShouldRetryFunc(timeout)
 

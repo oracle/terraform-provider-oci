@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v42/common"
-	oci_database "github.com/oracle/oci-go-sdk/v42/database"
+	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_database "github.com/oracle/oci-go-sdk/v43/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,6 +53,7 @@ var (
 		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"image_shape_family": Representation{repType: Optional, create: `VM_BM_SHAPE`},
 		"image_type":         Representation{repType: Optional, create: `DATABASE_IMAGE`},
+		"ls_inventory":       Representation{repType: Optional, create: `lsInventory`},
 	}
 
 	DatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies

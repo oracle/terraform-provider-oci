@@ -33,7 +33,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 	}
 	hostname_names = [oci_load_balancer_hostname.test_hostname.name]
 	path_route_set_name = oci_load_balancer_path_route_set.test_path_route_set.name
-	routing_policy_name = oci_routing_policy.test_routing_policy.name
+	routing_policy_name = oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name
 	rule_set_names = [oci_load_balancer_rule_set.test_rule_set.name]
 	ssl_configuration {
         #Required
