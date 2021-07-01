@@ -14,13 +14,17 @@ type LicenseTypeEnum string
 
 // Set of constants representing the allowable values for LicenseTypeEnum
 const (
-	LicenseTypeNew  LicenseTypeEnum = "NEW"
-	LicenseTypeByol LicenseTypeEnum = "BYOL"
+	LicenseTypeNew     LicenseTypeEnum = "NEW"
+	LicenseTypeByol    LicenseTypeEnum = "BYOL"
+	LicenseTypePremium LicenseTypeEnum = "PREMIUM"
+	LicenseTypeStarter LicenseTypeEnum = "STARTER"
 )
 
 var mappingLicenseType = map[string]LicenseTypeEnum{
-	"NEW":  LicenseTypeNew,
-	"BYOL": LicenseTypeByol,
+	"NEW":     LicenseTypeNew,
+	"BYOL":    LicenseTypeByol,
+	"PREMIUM": LicenseTypePremium,
+	"STARTER": LicenseTypeStarter,
 }
 
 // GetLicenseTypeEnumValues Enumerates the set of values for LicenseTypeEnum

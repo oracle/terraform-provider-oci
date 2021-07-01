@@ -27,16 +27,16 @@ type CreateEnterpriseManagerBridgeDetails struct {
 	// Object Storage Bucket Name
 	ObjectStorageBucketName *string `mandatory:"true" json:"objectStorageBucketName"`
 
+	// Description of Enterprise Manager Bridge
+	Description *string `mandatory:"false" json:"description"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-
-	// Description of Enterprise Manager Bridge
-	Description *string `mandatory:"false" json:"description"`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateEnterpriseManagerBridgeDetails) String() string {
