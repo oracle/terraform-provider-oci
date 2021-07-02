@@ -76,10 +76,19 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"object": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"object_name"},
+				Deprecated:    FieldDeprecatedForAnother("object", "object_name"),
+			},
+			"object_name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"object"},
 			},
 
 			// Computed
@@ -176,6 +185,11 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
 	}
 
 	if object, ok := s.D.GetOkExists("object"); ok {
+		tmp := object.(string)
+		request.ObjectName = &tmp
+	}
+
+	if object, ok := s.D.GetOkExists("object_name"); ok {
 		tmp := object.(string)
 		request.ObjectName = &tmp
 	}
@@ -282,6 +296,10 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
 
 	if s.Res.ObjectName != nil {
 		s.D.Set("object", *s.Res.ObjectName)
+	}
+
+	if s.Res.ObjectName != nil {
+		s.D.Set("object_name", *s.Res.ObjectName)
 	}
 
 	if s.Res.TimeCreated != nil {

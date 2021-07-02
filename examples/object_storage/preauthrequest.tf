@@ -16,7 +16,7 @@ resource "oci_objectstorage_preauthrequest" "bucket_par" {
 resource "oci_objectstorage_preauthrequest" "object_par" {
   namespace    = data.oci_objectstorage_namespace.ns.namespace
   bucket       = oci_objectstorage_bucket.bucket1.name
-  object       = oci_objectstorage_object.object1.object
+  object_name  = oci_objectstorage_object.object1.object
   name         = "objectPar"
   access_type  = "ObjectRead"
   time_expires = "2021-12-29T23:00:00Z"
