@@ -1,3 +1,8 @@
+## 4.35.0 (July 14, 2021)
+
+### Added
+- Support for Oracle distribution of Hadoop with Big Data service
+
 ## 4.34.0 (July 07, 2021)
 
 ### Added
