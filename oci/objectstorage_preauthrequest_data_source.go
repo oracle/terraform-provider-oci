@@ -97,6 +97,10 @@ func (s *ObjectStoragePreauthenticatedRequestDataSourceCrud) SetData() error {
 		s.D.Set("object", *s.Res.ObjectName)
 	}
 
+	if s.Res.ObjectName != nil {
+		s.D.Set("object_name", *s.Res.ObjectName)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
