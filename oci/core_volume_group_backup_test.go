@@ -221,6 +221,11 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 func testAccCheckCoreVolumeGroupBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
+
+	if volumeGroupBackupId != "" || volumeGroupId != "" {
+		deleteSourceVolumeGroupBackupToCopy()
+	}
+
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_volume_group_backup" {
 			noResourceFound = false

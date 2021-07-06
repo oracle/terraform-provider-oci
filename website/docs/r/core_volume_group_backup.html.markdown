@@ -43,6 +43,11 @@ The following arguments are supported:
 		* FULL
 		* INCREMENTAL
 * `volume_group_id` - (Required) The OCID of the volume group that needs to be backed up.
+* `source_details` - (Optional) Details of the volume group backup source in the cloud.
+    * `kms_key_id` - (Optional) The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+    * `region` - (Required) The region of the volume backup source.
+    * `volume_group_backup_id` - (Required) The OCID of the source volume group backup.
+
 
 
 ** IMPORTANT **

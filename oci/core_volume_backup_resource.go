@@ -52,16 +52,16 @@ func CoreVolumeBackupResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-						// Optional
-						"kms_key_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
 						// Required
 						"volume_backup_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
+						},
+						// Optional
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
 							ForceNew: true,
 						},
 					},
