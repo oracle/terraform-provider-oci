@@ -1,3 +1,8 @@
+## 4.40.0 (Unreleased)
+
+### Added
+- Support for service AI Anomaly detection added
+
 ## 4.39.0 (August 11, 2021)
 
 ### Added
