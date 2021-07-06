@@ -35,6 +35,7 @@ resource "oci_mysql_mysql_backup" "test_mysql_backup" {
 The following arguments are supported:
 
 * `backup_type` - (Optional) The type of backup.
+* `compartment_id` - (Optional) (Updatable) The OCID of the compartment.
 * `db_system_id` - (Required) The OCID of the DB System the Backup is associated with.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A user-supplied description for the backup.
