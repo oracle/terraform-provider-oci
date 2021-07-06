@@ -4,6 +4,7 @@
 package oci
 
 import (
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v45/aianomalydetection"
 	oci_analytics "github.com/oracle/oci-go-sdk/v45/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v45/apigateway"
 	oci_apm "github.com/oracle/oci-go-sdk/v45/apmcontrolplane"
@@ -57,6 +58,54 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportAiAnomalyDetectionDataAssetHints = &TerraformResourceHints{
+	resourceClass:          "oci_ai_anomaly_detection_data_asset",
+	datasourceClass:        "oci_ai_anomaly_detection_data_assets",
+	datasourceItemsAttr:    "data_asset_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "data_asset",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ai_anomaly_detection.DataAssetLifecycleStateActive),
+	},
+}
+
+var exportAiAnomalyDetectionModelHints = &TerraformResourceHints{
+	resourceClass:          "oci_ai_anomaly_detection_model",
+	datasourceClass:        "oci_ai_anomaly_detection_models",
+	datasourceItemsAttr:    "model_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "model",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ai_anomaly_detection.ModelLifecycleStateActive),
+	},
+}
+
+var exportAiAnomalyDetectionProjectHints = &TerraformResourceHints{
+	resourceClass:          "oci_ai_anomaly_detection_project",
+	datasourceClass:        "oci_ai_anomaly_detection_projects",
+	datasourceItemsAttr:    "project_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "project",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ai_anomaly_detection.ProjectLifecycleStateActive),
+	},
+}
+
+var exportAiAnomalyDetectionAiPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_ai_anomaly_detection_ai_private_endpoint",
+	datasourceClass:        "oci_ai_anomaly_detection_ai_private_endpoints",
+	datasourceItemsAttr:    "ai_private_endpoint_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "ai_private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_ai_anomaly_detection.AiPrivateEndpointLifecycleStateActive),
+	},
+}
+
 var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_analytics_analytics_instance",
 	datasourceClass:        "oci_analytics_analytics_instances",

@@ -46,6 +46,7 @@ var (
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"dns_label":      Representation{repType: Optional, create: `dnslabel`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
 	VcnRequiredOnlyResourceDependencies = ``

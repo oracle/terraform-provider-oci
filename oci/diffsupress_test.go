@@ -26,6 +26,24 @@ func TestDbVersionDiffSuppress(t *testing.T) {
 	}
 }
 
+func TestAdDiffSuppress(t *testing.T) {
+	oldValues := [8]string{"0.009999999776482582", "0.00999909999", "0.009999999776482582", "0.69999909", "0.699999988079071", "0.699999988079071", "0.7", "0.01"}
+	newValues := [8]string{"0.01", "0.01", "0.001", "0.7", "0.0001", "0.8", "0.699999988079071", "0.009999999776482582"}
+	assertResult := [8]bool{false, false, true, false, true, true, false, false}
+	for i := 0; i < 8; i++ {
+		old := oldValues[i]
+		new := newValues[i]
+		fmt.Println(i, " ", adDiffSuppress("", old, new, nil))
+		if adDiffSuppress("", old, new, nil) == assertResult[i] {
+			if assertResult[i] == false {
+				t.Errorf(fmt.Sprintf("Suppress expected, old : %s, new : %s", old, new))
+			} else {
+				t.Errorf(fmt.Sprintf("No Suppress expected, old : %s, new : %s", old, new))
+			}
+		}
+	}
+}
+
 // issue-routing-tag: terraform/default
 func TestGiVersionDiffSuppress(t *testing.T) {
 	oldValues := [7]string{"", "18.0.0.0", "19.0.0.0", "19.0.0.0", "18.0.2.0", "19.0.0.3", "18.0.0.0"}

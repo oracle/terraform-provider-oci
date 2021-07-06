@@ -55,6 +55,7 @@ var (
 		"prohibit_internet_ingress":  Representation{repType: Optional, create: `false`},
 		"route_table_id":             Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
 		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
+		"lifecycle":                  RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
 	SubnetResourceDependencies = generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
