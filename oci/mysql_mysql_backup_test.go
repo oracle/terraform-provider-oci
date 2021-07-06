@@ -44,6 +44,7 @@ var (
 	}
 
 	mysqlBackupRepresentation = map[string]interface{}{
+		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
 		"db_system_id":      Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
 		"backup_type":       Representation{repType: Optional, create: `INCREMENTAL`},
 		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -70,6 +71,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_mysql_mysql_backup.test_mysql_backup"
 	datasourceName := "data.oci_mysql_mysql_backups.test_mysql_backups"
@@ -105,13 +109,14 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies,
 			},
+
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "creation_type"),
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -136,13 +141,45 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MysqlBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create,
+						representationCopyWithNewProperties(mysqlBackupRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(resourceName, "creation_type"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "retention_in_days", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "creation_type"),
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -206,7 +243,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_size_in_gbs"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "creation_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_system_snapshot.#", "1"),

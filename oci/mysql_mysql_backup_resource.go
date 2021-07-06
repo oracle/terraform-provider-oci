@@ -40,6 +40,11 @@ func MysqlMysqlBackupResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -74,10 +79,6 @@ func MysqlMysqlBackupResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"creation_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -96,6 +97,11 @@ func MysqlMysqlBackupResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"admin_username": {
@@ -142,10 +148,6 @@ func MysqlMysqlBackupResource() *schema.Resource {
 									},
 								},
 							},
-						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
 						},
 						"configuration_id": {
 							Type:     schema.TypeString,
@@ -455,6 +457,15 @@ func (s *MysqlMysqlBackupResourceCrud) Get() error {
 }
 
 func (s *MysqlMysqlBackupResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_mysql.UpdateBackupRequest{}
 
 	tmp := s.D.Id()
@@ -735,4 +746,22 @@ func MaintenanceDetailsToMap(obj *oci_mysql.MaintenanceDetails) map[string]inter
 	}
 
 	return result
+}
+
+func (s *MysqlMysqlBackupResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_mysql.ChangeBackupCompartmentRequest{}
+
+	tmp := s.D.Id()
+	changeCompartmentRequest.BackupId = &tmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+
+	_, err := s.Client.ChangeBackupCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
