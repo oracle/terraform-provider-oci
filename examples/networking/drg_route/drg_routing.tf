@@ -78,6 +78,19 @@ resource "oci_core_drg_route_distribution_statement" "test_vcn_drg_route_distrib
 
 }
 
+resource "oci_core_drg_route_distribution_statement" "test_vcn_drg_route_distribution_statements_empty" {
+  // Required
+  drg_route_distribution_id = oci_core_drg_route_distribution.test_vcn_drg_route_distribution.id
+  action = "ACCEPT"
+
+  match_criteria {
+  }
+
+  priority = 50
+
+
+}
+
 data "oci_core_drg_route_distribution" "test_vcn_drg_route_distribution_data" {
   // Required
   drg_route_distribution_id = oci_core_drg_route_distribution.test_vcn_drg_route_distribution.id
