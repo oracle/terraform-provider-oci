@@ -20,7 +20,7 @@ var (
 
 	ListenerRuleResourceConfig = GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, RepresentationCopyWithNewProperties(listenerRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, RepresentationCopyWithNewProperties(listenerRepresentationOciCerts, map[string]interface{}{
 			"rule_set_names": Representation{RepType: Required, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 		})) +
 		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +

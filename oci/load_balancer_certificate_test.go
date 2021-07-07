@@ -34,7 +34,7 @@ var (
 	certificateRepresentation = map[string]interface{}{
 		"certificate_name":   Representation{RepType: Required, Create: `example_certificate_bundle`},
 		"load_balancer_id":   Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"ca_certificate":     Representation{RepType: Optional, Create: `${var.ca_certificate_value}`},
+		"ca_certificate":     Representation{RepType: Optional, Create: caCertificate},
 		"passphrase":         Representation{RepType: Optional, Create: `Mysecretunlockingcode42!1!`},
 		"private_key":        Representation{RepType: Optional, Create: `${var.private_key_value}`},
 		"public_certificate": Representation{RepType: Optional, Create: `${var.ca_certificate_value}`},
