@@ -39,6 +39,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 				Required:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				Deprecated:       "Autonomous Exadata Infrastructure resource is now end-of-life.Please provision cloud autonomous vm cluster instead.",
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,

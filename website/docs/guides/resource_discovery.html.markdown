@@ -443,6 +443,7 @@ database
 * oci\_database\_pluggable\_database
 * oci\_database\_vm\_cluster\_add\_virtual\_machine
 * oci\_database\_vm\_cluster\_remove\_virtual\_machine
+* oci\_database\_cloud\_autonomous\_vm\_cluster
 
 database_migration
     

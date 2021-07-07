@@ -116,6 +116,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"cloud_autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -646,6 +652,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		}
 	}
 
+	if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
+		tmp := cloudAutonomousVmClusterId.(string)
+		request.CloudAutonomousVmClusterId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -898,6 +909,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig, s, false)})
 	} else {
 		s.D.Set("backup_config", nil)
+	}
+
+	if s.Res.CloudAutonomousVmClusterId != nil {
+		s.D.Set("cloud_autonomous_vm_cluster_id", *s.Res.CloudAutonomousVmClusterId)
 	}
 
 	if s.Res.CompartmentId != nil {

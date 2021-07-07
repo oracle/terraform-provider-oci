@@ -26,8 +26,9 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   subnet_id                       = oci_core_subnet.subnet.id
 
   #Optional
-  scan_listener_port_tcp             = var.cloud_vm_cluster_scan_listener_port_tcp
-  scan_listener_port_tcp_ssl          = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+  ocpu_count                      = var.cloud_vm_cluster_ocpu_count
+  scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp
+  scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
 }
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {

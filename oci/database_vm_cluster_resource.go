@@ -67,6 +67,11 @@ func DatabaseVmClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
 			"data_storage_size_in_tbs": {
 				Type:     schema.TypeFloat,
 				Optional: true,
@@ -121,6 +126,11 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ocpu_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
 			"time_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -139,6 +149,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ocpus_enabled": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"shape": {
@@ -259,6 +273,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(float64)
+		request.DataStorageSizeInGBs = &tmp
+	}
+
 	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 		tmp := dataStorageSizeInTBs.(float64)
 		request.DataStorageSizeInTBs = &tmp
@@ -326,6 +345,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
 		tmp := memorySizeInGBs.(int)
 		request.MemorySizeInGBs = &tmp
+	}
+
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
@@ -398,6 +422,11 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		tmp := dataStorageSizeInGB.(float64)
+		request.DataStorageSizeInGBs = &tmp
+	}
+
 	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
 		tmp := dataStorageSizeInTBs.(float64)
 		request.DataStorageSizeInTBs = &tmp
@@ -427,6 +456,11 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
 		tmp := memorySizeInGBs.(int)
 		request.MemorySizeInGBs = &tmp
+	}
+
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok && s.D.HasChange("ssh_public_keys") {
@@ -478,6 +512,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpusEnabled)
 	}
 
+	if s.Res.DataStorageSizeInGBs != nil {
+		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
+	}
+
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
@@ -526,6 +564,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
+
+	if s.Res.OcpusEnabled != nil {
+		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
 	}
 
 	if s.Res.Shape != nil {

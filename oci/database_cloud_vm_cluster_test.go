@@ -83,7 +83,7 @@ var (
 					display_name = "-tf-vcn"
 					dns_label = "tfvcn"
 				}
-			
+
 				resource "oci_core_route_table" "t" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
@@ -97,7 +97,7 @@ var (
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "-tf-internet-gateway"
 				}
-			
+
 				resource "oci_core_subnet" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					cidr_block          = "10.1.20.0/24"
@@ -125,7 +125,7 @@ var (
 					 vcn_id            = "${oci_core_virtual_network.t.id}"
 					 display_name      =  "displayName"
 				}
-			
+
 				resource "oci_core_network_security_group" "test_network_security_group_backup" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id            = "${oci_core_virtual_network.t.id}"

@@ -31,6 +31,10 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"cloud_autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,6 +98,11 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
+	}
+
+	if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
+		tmp := cloudAutonomousVmClusterId.(string)
+		request.CloudAutonomousVmClusterId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -171,6 +180,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig, nil, true)}
 		} else {
 			autonomousContainerDatabase["backup_config"] = nil
+		}
+
+		if r.CloudAutonomousVmClusterId != nil {
+			autonomousContainerDatabase["cloud_autonomous_vm_cluster_id"] = *r.CloudAutonomousVmClusterId
 		}
 
 		if r.DbUniqueName != nil {
