@@ -154,3 +154,29 @@ output "supported_shape_images" {
   value = data.oci_core_images.supported_shape_images.images
 }
 
+resource "oci_core_instance" "test_instance_from_image" {
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "TestInstanceImage"
+  shape               = "VM.Standard2.1"
+
+  create_vnic_details {
+    subnet_id        = oci_core_subnet.test_subnet.id
+    display_name     = "Primaryvnic"
+    assign_public_ip = true
+    hostname_label   = "testimage"
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = oci_core_image.custom_image.id
+  }
+
+  metadata = {
+    ssh_authorized_keys = var.ssh_public_key
+  }
+
+  timeouts {
+    create = "60m"
+  }
+}
