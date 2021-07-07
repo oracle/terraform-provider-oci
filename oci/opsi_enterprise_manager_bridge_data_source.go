@@ -93,6 +93,10 @@ func (s *OpsiEnterpriseManagerBridgeDataSourceCrud) SetData() error {
 		s.D.Set("object_storage_bucket_name", *s.Res.ObjectStorageBucketName)
 	}
 
+	if s.Res.ObjectStorageBucketStatusDetails != nil {
+		s.D.Set("object_storage_bucket_status_details", *s.Res.ObjectStorageBucketStatusDetails)
+	}
+
 	if s.Res.ObjectStorageNamespaceName != nil {
 		s.D.Set("object_storage_namespace_name", *s.Res.ObjectStorageNamespaceName)
 	}

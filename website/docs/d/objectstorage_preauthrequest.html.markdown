@@ -43,7 +43,8 @@ The following attributes are exported:
 * `id` - The unique identifier to use when directly addressing the pre-authenticated request.
 * `name` - The user-provided name of the pre-authenticated request.
 * `namespace` - The Object Storage namespace used for the request.
-* `object` - The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log 
+* `object` - Deprecated. Instead use `object_name`.The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log
+* `object_name` - The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log  
 * `time_created` - The date when the pre-authenticated request was created as per specification [RFC 3339](https://tools.ietf.org/html/rfc3339). 
 * `time_expires` - The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/html/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 

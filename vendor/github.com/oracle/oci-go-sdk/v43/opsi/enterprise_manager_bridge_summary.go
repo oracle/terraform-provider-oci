@@ -47,6 +47,9 @@ type EnterpriseManagerBridgeSummary struct {
 	// The current state of the Enterprise Manager bridge.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// A message describing status of the object storage bucket of this resource. For example, it can be used to provide actionable information about the permission and content validity of the bucket.
+	ObjectStorageBucketStatusDetails *string `mandatory:"false" json:"objectStorageBucketStatusDetails"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

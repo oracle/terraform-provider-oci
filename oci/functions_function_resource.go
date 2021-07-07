@@ -9,7 +9,6 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/customdiff"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_functions "github.com/oracle/oci-go-sdk/v43/functions"
@@ -18,6 +17,25 @@ import (
 func init() {
 	RegisterResource("oci_functions_function", FunctionsFunctionResource())
 }
+
+// The Functions API uses `imageDigest` as an optional I/O parameter. If unspecified, the controlplane
+// will compute the appropriate digest and utilise that. However, if the caller specifies `imageDigest`, that
+// digest value will be preferred.
+// This doesn't play well with Terraform's notion of what constitutes a change: in particular, it may supply
+// the old digest value for an image from its state. This can prevent users from updating their functions
+// to a newer tag (since the old digest may still be available in their image repo).
+// We apply some heuristics here to determine when we should pass through the current image_digest value,
+// or omit it from API calls.
+// Additionally, we explicitly support the behaviour of setting
+//    image_digest = ""
+// in an update to *force* the controlplane-side resolution of the image coordinates.
+
+// In summary:
+// - same image, leaving the digest unspecified -> won't force an update
+// - changing the image, leaving the digest unspecified -> works, updates the digest to correspond to the image
+// - same image, digest explicitly empty -> works, forces the controlplane to supply a new value
+
+const requireRecompute = "require-recompute"
 
 func FunctionsFunctionResource() *schema.Resource {
 	return &schema.Resource{
@@ -34,10 +52,25 @@ func FunctionsFunctionResource() *schema.Resource {
 				func(old, new, meta interface{}) bool {
 					return (old.(string) != new.(string)) && old.(string) != ""
 				},
-				func(d *schema.ResourceDiff, _ interface{}) error {
-					if !d.HasChange("image_digest") {
+				func(d *schema.ResourceDiff, meta interface{}) error {
+					o, n := d.GetChange("image_digest")
+
+					if o == n || n == requireRecompute || n == "" {
+						// The user's changing the image.
+						// Mark image_digest as "known after apply" if there is no corresponding
+						// explicit update to that field - either a supplied value or a demand for
+						// controlplane-side recalculation.
 						d.SetNewComputed("image_digest")
 					}
+					return nil
+				}),
+			customdiff.IfValue("image_digest",
+				func(v, m interface{}) bool {
+					// mark explicit requests for recomputation as "known after apply"
+					return v.(string) == "" || v.(string) == requireRecompute
+				},
+				func(d *schema.ResourceDiff, meta interface{}) error {
+					d.SetNewComputed("image_digest")
 					return nil
 				}),
 		),
@@ -88,6 +121,10 @@ func FunctionsFunctionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+
+				DefaultFunc: func() (interface{}, error) {
+					return requireRecompute, nil
+				},
 			},
 			"timeout_in_seconds": {
 				Type:     schema.TypeInt,
@@ -243,9 +280,13 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		request.Image = &tmp
 	}
 
+	// This is important: we might receive the sentinel value during a create. If we do, do *not* pass that
+	// through to the API.
 	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
 		tmp := imageDigest.(string)
-		request.ImageDigest = &tmp
+		if tmp != "" && tmp != requireRecompute {
+			request.ImageDigest = &tmp
+		}
 	}
 
 	if memoryInMBs, ok := s.D.GetOkExists("memory_in_mbs"); ok {
@@ -328,9 +369,12 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.Image = &tmp
 	}
 
+	// Again, during an update we must detect the special sentinel value and avoid passing it to the API.
 	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
 		tmp := imageDigest.(string)
-		request.ImageDigest = &tmp
+		if tmp != "" && tmp != requireRecompute {
+			request.ImageDigest = &tmp
+		}
 	}
 
 	if memoryInMBs, ok := s.D.GetOkExists("memory_in_mbs"); ok {

@@ -84,6 +84,10 @@ type OceInstance struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// SERVICE data.
 	// Example: `{"service": {"IDCS": "value"}}`
 	Service map[string]interface{} `mandatory:"false" json:"service"`

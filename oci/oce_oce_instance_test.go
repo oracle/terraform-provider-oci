@@ -33,9 +33,9 @@ var (
 
 	oceInstanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		//"display_name":   Representation{repType: Optional, create: `displayName`},
-		"state":  Representation{repType: Optional, create: `Active`},
-		"filter": RepresentationGroup{Required, oceInstanceDataSourceFilterRepresentation}}
+		"state":          Representation{repType: Optional, create: `Active`},
+		"tenancy_id":     Representation{repType: Optional, create: `${data.oci_identity_tenancy.test_tenancy.id}`},
+		"filter":         RepresentationGroup{Required, oceInstanceDataSourceFilterRepresentation}}
 	oceInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_oce_oce_instance.test_oce_instance.id}`}},
@@ -54,10 +54,9 @@ var (
 		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"instance_access_type":     Representation{repType: Optional, create: `PUBLIC`},
-		"instance_license_type":    Representation{repType: Optional, create: `NEW`, update: `BYOL`},
-		"instance_usage_type":      Representation{repType: Optional, create: `NONPRIMARY`, update: `PRIMARY`},
+		"instance_license_type":    Representation{repType: Optional, create: `STARTER`, update: `PREMIUM`},
+		"instance_usage_type":      Representation{repType: Optional, create: `PRIMARY`, update: `NONPRIMARY`},
 		"upgrade_schedule":         Representation{repType: Optional, create: `UPGRADE_IMMEDIATELY`},
-		"waf_primary_domain":       Representation{repType: Optional, create: `oracle.com`, update: `java.com`},
 	}
 
 	OceInstanceResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +
@@ -143,14 +142,13 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
 					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "NEW"),
-					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
+					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "STARTER"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "PRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
 					resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
-					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "oracle.com"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -182,14 +180,13 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
 					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "NEW"),
-					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
+					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "STARTER"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "PRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
 					resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
-					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "oracle.com"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -216,14 +213,13 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
 					resource.TestCheckResourceAttr(resourceName, "instance_access_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "BYOL"),
-					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "PRIMARY"),
+					resource.TestCheckResourceAttr(resourceName, "instance_license_type", "PREMIUM"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
 					resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
-					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "java.com"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -242,8 +238,8 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
+					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.admin_email"),
@@ -255,8 +251,8 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.idcs_tenancy"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_access_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_license_type", "BYOL"),
-					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_usage_type", "PRIMARY"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_license_type", "PREMIUM"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.name", instanceName),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.state"),
@@ -266,7 +262,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.time_updated"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.upgrade_schedule", "UPGRADE_IMMEDIATELY"),
-					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.waf_primary_domain", "java.com"),
 				),
 			},
 			// verify singular datasource
@@ -286,8 +281,8 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "idcs_tenancy"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "instance_access_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_license_type", "BYOL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_usage_type", "PRIMARY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_license_type", "PREMIUM"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -295,7 +290,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "waf_primary_domain", "java.com"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

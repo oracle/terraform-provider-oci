@@ -59,7 +59,7 @@ func newGenericArtifactsContentClientFromBaseClient(baseClient common.BaseClient
 
 // SetRegion overrides the region of this client.
 func (client *GenericArtifactsContentClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("genericartifactscontent", "https://generic.{region}.ocir.io")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("genericartifactscontent", "https://generic.artifacts.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

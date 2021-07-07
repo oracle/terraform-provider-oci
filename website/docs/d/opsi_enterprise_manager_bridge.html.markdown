@@ -40,6 +40,7 @@ The following attributes are exported:
 * `id` - Enterprise Manager bridge identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `object_storage_bucket_name` - Object Storage Bucket Name
+* `object_storage_bucket_status_details` - A message describing status of the object storage bucket of this resource. For example, it can be used to provide actionable information about the permission and content validity of the bucket.
 * `object_storage_namespace_name` - Object Storage Namespace Name
 * `state` - The current state of the Enterprise Manager bridge.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

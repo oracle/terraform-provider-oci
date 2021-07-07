@@ -848,6 +848,7 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 		fieldSchema.ValidateFunc = nil
 		fieldSchema.ConflictsWith = nil
 		fieldSchema.Default = nil
+		fieldSchema.DefaultFunc = nil
 		if fieldSchema.Type == schema.TypeSet {
 			fieldSchema.Type = schema.TypeList
 			fieldSchema.Set = nil

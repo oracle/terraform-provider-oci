@@ -153,25 +153,6 @@ func (s *ArtifactsGenericArtifactResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ArtifactsGenericArtifactResourceCrud) Get() error {
-	request := oci_artifacts.GetGenericArtifactRequest{}
-
-	if artifactId, ok := s.D.GetOkExists("artifact_id"); ok {
-		tmp := artifactId.(string)
-		request.ArtifactId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
-
-	response, err := s.Client.GetGenericArtifact(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.GenericArtifact
-	return nil
-}
-
 func (s *ArtifactsGenericArtifactResourceCrud) Create() error {
 	request := oci_artifacts.UpdateGenericArtifactRequest{}
 
@@ -195,6 +176,25 @@ func (s *ArtifactsGenericArtifactResourceCrud) Create() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateGenericArtifact(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.GenericArtifact
+	return nil
+}
+
+func (s *ArtifactsGenericArtifactResourceCrud) Get() error {
+	request := oci_artifacts.GetGenericArtifactRequest{}
+
+	if artifactId, ok := s.D.GetOkExists("artifact_id"); ok {
+		tmp := artifactId.(string)
+		request.ArtifactId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+
+	response, err := s.Client.GetGenericArtifact(context.Background(), request)
 	if err != nil {
 		return err
 	}
