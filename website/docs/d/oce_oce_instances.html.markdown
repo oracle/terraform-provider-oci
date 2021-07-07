@@ -23,6 +23,7 @@ data "oci_oce_oce_instances" "test_oce_instances" {
 	#Optional
 	display_name = var.oce_instance_display_name
 	state = var.oce_instance_state
+	tenancy_id = oci_identity_tenancy.test_tenancy.id
 }
 ```
 
@@ -33,6 +34,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.  Example: `My new resource` 
 * `state` - (Optional) Filter results on lifecycleState.
+* `tenancy_id` - (Optional) The ID of the tenancy in which to list resources.
 
 
 ## Attributes Reference
@@ -61,6 +63,7 @@ The following attributes are exported:
 * `service` - SERVICE data. Example: `{"service": {"IDCS": "value"}}` 
 * `state` - The current state of the file system.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tenancy_id` - Tenancy Identifier
 * `tenancy_name` - Tenancy Name
 * `time_created` - The time the the OceInstance was created. An RFC3339 formatted datetime string

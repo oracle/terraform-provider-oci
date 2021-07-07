@@ -19,6 +19,9 @@ type ListOceInstancesRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// The ID of the tenancy in which to list resources.
+	TenancyId *string `mandatory:"false" contributesTo:"query" name:"tenancyId"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`

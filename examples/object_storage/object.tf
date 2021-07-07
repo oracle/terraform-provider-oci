@@ -99,7 +99,7 @@ data "oci_objectstorage_objects" "objects1" {
 data "oci_objectstorage_object" "object" {
   namespace = data.oci_objectstorage_namespace.ns.namespace
   bucket    = oci_objectstorage_bucket.bucket1.name
-  object    = "index.html"
+  object    = oci_objectstorage_object.object1.object
 }
 
 output "object_data" {

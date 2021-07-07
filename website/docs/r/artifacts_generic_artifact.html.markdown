@@ -16,6 +16,12 @@ This resource provides the Generic Artifact resource in Oracle Cloud Infrastruct
 
 ```hcl
 resource "oci_artifacts_generic_artifact" "test_generic_artifact" {
+	#Required
+	artifact_id = oci_artifacts_artifact.test_artifact.id
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -23,6 +29,9 @@ resource "oci_artifacts_generic_artifact" "test_generic_artifact" {
 
 The following arguments are supported:
 
+* `artifact_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.  Example: `ocid1.genericartifact.oc1..exampleuniqueID` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **

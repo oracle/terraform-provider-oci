@@ -34,7 +34,7 @@ var (
 		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`},
 		"id":             Representation{repType: Optional, create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
-		"state":          Representation{repType: Optional, create: []string{`Active`}},
+		"state":          Representation{repType: Optional, create: []string{`ACTIVE`}},
 		"filter":         RepresentationGroup{Required, enterpriseManagerBridgeDataSourceFilterRepresentation}}
 	enterpriseManagerBridgeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -43,15 +43,14 @@ var (
 
 	enterpriseManagerBridgeRepresentation = map[string]interface{}{
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":               Representation{repType: Required, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":               Representation{repType: Required, create: `displayName`},
-		"freeform_tags":              Representation{repType: Required, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"display_name":               Representation{repType: Required, create: `displayName`, update: `displayName2`},
 		"object_storage_bucket_name": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"description":                Representation{repType: Required, create: `description`, update: `description2`},
+		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                Representation{repType: Optional, create: `description`, update: `description2`},
+		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                  RepresentationGroup{Required, ignoreChangesEnterpriseManagerBridgeRepresentation},
 	}
 
-	// DBX-5754 - Defined_tags should not be required field.
 	ignoreChangesEnterpriseManagerBridgeRepresentation = map[string]interface{}{
 		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
 	}
@@ -98,7 +97,6 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_bucket_name"),
 
 					func(s *terraform.State) (err error) {
@@ -177,7 +175,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_bucket_name"),
@@ -221,9 +219,10 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_storage_bucket_status_details"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_storage_namespace_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -335,7 +334,7 @@ func getEnterpriseManagerBridgeIds(compartment string) ([]string, error) {
 
 	listEnterpriseManagerBridgesRequest := oci_opsi.ListEnterpriseManagerBridgesRequest{}
 	listEnterpriseManagerBridgesRequest.CompartmentId = &compartmentId
-	listEnterpriseManagerBridgesRequest.LifecycleState = []oci_opsi.LifecycleStateEnum{oci_opsi.LifecycleStateActive}
+	listEnterpriseManagerBridgesRequest.LifecycleState = []oci_opsi.LifecycleStateEnum{oci_opsi.LifecycleStateActive, oci_opsi.LifecycleStateNeedsAttention}
 	listEnterpriseManagerBridgesResponse, err := operationsInsightsClient.ListEnterpriseManagerBridges(context.Background(), listEnterpriseManagerBridgesRequest)
 
 	if err != nil {
