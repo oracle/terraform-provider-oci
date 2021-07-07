@@ -53,6 +53,14 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 			},
 
 			// Optional
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"ocpus_enabled": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 
 			// Computed
 			"compartment_id": {

@@ -12,7 +12,7 @@ This data source provides the list of Autonomous Exadata Infrastructures in Orac
 
 Gets a list of the Autonomous Exadata Infrastructures in the specified compartment.
 
-
+## Note :- Autonomous Exadata Infrastructure is now end-of-life.Please provision cloud autonomous vm cluster instead. 
 ## Example Usage
 
 ```hcl

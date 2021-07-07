@@ -1179,6 +1179,16 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseCloudAutonomousVmClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_cloud_autonomous_vm_cluster",
+	datasourceClass:      "oci_database_cloud_autonomous_vm_clusters",
+	datasourceItemsAttr:  "cloud_autonomous_vm_clusters",
+	resourceAbbreviation: "cloud_autonomous_vm_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_database.CloudAutonomousVmClusterLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_migration_migration",
 	datasourceClass:        "oci_database_migration_migrations",

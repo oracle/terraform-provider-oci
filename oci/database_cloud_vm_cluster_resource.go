@@ -50,6 +50,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
+			"ocpu_count": {
+				Type:     schema.TypeFloat,
+				Required: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -429,6 +433,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
+	}
+
 	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 		tmp := dataStoragePercentage.(int)
 		request.DataStoragePercentage = &tmp
@@ -602,6 +611,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok && s.D.HasChange("ocpu_count") {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -707,6 +721,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
+	}
+
+	if s.Res.OcpuCount != nil {
+		s.D.Set("ocpu_count", *s.Res.OcpuCount)
 	}
 
 	if s.Res.DataStoragePercentage != nil {

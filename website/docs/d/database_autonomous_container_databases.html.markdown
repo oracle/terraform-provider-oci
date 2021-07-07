@@ -24,6 +24,7 @@ data "oci_database_autonomous_container_databases" "test_autonomous_container_da
 	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
 	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	availability_domain = var.autonomous_container_database_availability_domain
+	cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	display_name = var.autonomous_container_database_display_name
 	infrastructure_type = var.autonomous_container_database_infrastructure_type
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `autonomous_exadata_infrastructure_id` - (Optional) The Autonomous Exadata Infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `autonomous_vm_cluster_id` - (Optional) The Autonomous VM Cluster [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `availability_domain` - (Optional) A filter to return only resources that match the given availability domain exactly.
+* `cloud_autonomous_vm_cluster_id` - (Optional) The cloud Autonomous VM Cluster [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
@@ -66,6 +68,7 @@ The following attributes are exported:
 		* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+* `cloud_autonomous_vm_cluster_id` - The OCID of the cloud Autonomous VM Cluster.
 * `compartment_id` - The OCID of the compartment.
 * `db_unique_name` - **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
 * `db_version` - Oracle Database version of the Autonomous Container Database.

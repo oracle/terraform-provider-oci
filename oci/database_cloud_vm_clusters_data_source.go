@@ -203,6 +203,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 
 		cloudVmCluster["nsg_ids"] = r.NsgIds
 
+		if r.OcpuCount != nil {
+			cloudVmCluster["ocpu_count"] = *r.OcpuCount
+		}
+
 		if r.ScanDnsName != nil {
 			cloudVmCluster["scan_dns_name"] = *r.ScanDnsName
 		}
