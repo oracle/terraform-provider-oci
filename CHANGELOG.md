@@ -1,4 +1,4 @@
-## 4.34.0 (Unreleased)
+## 4.34.0 (July 07, 2021)
 
 ### Added
 - Support for Starter license type for OCE
