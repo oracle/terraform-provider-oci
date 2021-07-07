@@ -37,6 +37,12 @@ variable private_key {
 variable public_certificate {
 }
 
+variable certificate_ids {
+}
+
+variable trusted_certificate_authority_ids {
+}
+
 variable "instance_image_ocid" {
   type = map(string)
 
@@ -136,7 +142,7 @@ resource "oci_core_route_table" "routetable1" {
 }
 
 resource "oci_core_public_ip" "test_reserved_ip" {
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = var.compartment_ocid
   lifetime       = "RESERVED"
 
   lifecycle {
@@ -260,7 +266,7 @@ resource "oci_load_balancer" "lb1" {
 
   display_name = "lb1"
   reserved_ips {
-    id = "${oci_core_public_ip.test_reserved_ip.id}"
+    id = oci_core_public_ip.test_reserved_ip.id
   }
 }
 
@@ -274,6 +280,19 @@ resource "oci_load_balancer" "lb2" {
   ]
 
   display_name = "lb2"
+}
+
+// OCI Certificates integration example
+resource "oci_load_balancer" "lb3" {
+  shape          = "100Mbps"
+  compartment_id = var.compartment_ocid
+
+  subnet_ids = [
+    oci_core_subnet.subnet1.id,
+    oci_core_subnet.subnet2.id,
+  ]
+
+  display_name = "lb3"
 }
 
 
@@ -332,6 +351,27 @@ resource "oci_load_balancer_backend_set" "lb-bes2" {
     protocols         = ["TLSv1.1", "TLSv1.2"]
     cipher_suite_name = oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite2.name
     certificate_name  = oci_load_balancer_certificate.lb-cert2.certificate_name
+  }
+}
+
+// OCI Certificates integration example
+resource "oci_load_balancer_backend_set" "lb-bes3" {
+  name             = "lb-bes3"
+  load_balancer_id = oci_load_balancer.lb3.id
+  policy           = "ROUND_ROBIN"
+
+  health_checker {
+    port                = "80"
+    protocol            = "TCP"
+    response_body_regex = ".*"
+    url_path            = "/"
+  }
+
+  ssl_configuration {
+    protocols         = ["TLSv1.1", "TLSv1.2"]
+    cipher_suite_name = oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite3.name
+    trusted_certificate_authority_ids  = var.trusted_certificate_authority_ids
+
   }
 }
 
@@ -430,6 +470,24 @@ resource "oci_load_balancer_listener" "lb-listener3" {
   connection_configuration {
     idle_timeout_in_seconds            = "2"
     backend_tcp_proxy_protocol_version = "1"
+  }
+}
+
+// OCI Certificates integration example
+resource "oci_load_balancer_listener" "lb-listener4" {
+  load_balancer_id         = oci_load_balancer.lb3.id
+  name                     = "https"
+  default_backend_set_name = oci_load_balancer_backend_set.lb-bes3.name
+  port                     = 443
+  protocol                 = "HTTP"
+
+  ssl_configuration {
+    certificate_ids                    = var.certificate_ids
+    trusted_certificate_authority_ids  = var.trusted_certificate_authority_ids
+    verify_peer_certificate            = false
+    protocols                          = ["TLSv1.1", "TLSv1.2"]
+    server_order_preference            = "ENABLED"
+    cipher_suite_name                  = oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite3.name
   }
 }
 
@@ -535,6 +593,16 @@ resource "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite2" {
 
   #Optional
   load_balancer_id = oci_load_balancer.lb2.id
+}
+
+resource "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite3" {
+  #Required
+  name = "test_cipher_name"
+
+  ciphers = ["AES128-SHA", "AES256-SHA"]
+
+  #Optional
+  load_balancer_id = oci_load_balancer.lb3.id
 }
 
 data "oci_load_balancer_ssl_cipher_suites" "test_ssl_cipher_suites" {

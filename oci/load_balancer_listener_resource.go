@@ -116,13 +116,19 @@ func LoadBalancerListenerResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
+						// Optional
+						"certificate_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"certificate_name": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
 						},
-
-						// Optional
 						"cipher_suite_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -140,6 +146,14 @@ func LoadBalancerListenerResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"trusted_certificate_authority_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"verify_depth": {
 							Type:     schema.TypeInt,
@@ -659,9 +673,24 @@ func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration
 func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
 	result := oci_load_balancer.SslConfigurationDetails{}
 
+	if certificateIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_ids")); ok {
+		interfaces := certificateIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "certificate_ids")) {
+			result.CertificateIds = tmp
+		}
+	}
+
 	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {
 		tmp := certificateName.(string)
-		result.CertificateName = &tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "certificate_name")) {
+			result.CertificateName = &tmp
+		}
 	}
 
 	if cipherSuiteName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cipher_suite_name")); ok {
@@ -680,6 +709,19 @@ func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKey
 
 	if serverOrderPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_order_preference")); ok {
 		result.ServerOrderPreference = oci_load_balancer.SslConfigurationDetailsServerOrderPreferenceEnum(serverOrderPreference.(string))
+	}
+
+	if trustedCertificateAuthorityIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trusted_certificate_authority_ids")); ok {
+		interfaces := trustedCertificateAuthorityIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "trusted_certificate_authority_ids")) {
+			result.TrustedCertificateAuthorityIds = tmp
+		}
 	}
 
 	if verifyDepth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_depth")); ok {

@@ -106,7 +106,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "0"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "3000"),
-				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),

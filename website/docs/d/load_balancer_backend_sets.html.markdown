@@ -139,6 +139,7 @@ The following attributes are exported:
 	To use SSL, a listener must be associated with a [certificate bundle](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/Certificate/).
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
+	* `certificate_ids` - Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]` 
 	* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `cipher_suite_name` - The name of the cipher suite to use for HTTPS or SSL connections.
 
@@ -176,6 +177,7 @@ The following attributes are exported:
 	* `server_order_preference` - When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
 
 		**Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the `SSLConfiguration` object is associated with a backend set. 
+	* `trusted_certificate_authority_ids` - Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]` 
 	* `verify_depth` - The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates.  Example: `true` 
 
