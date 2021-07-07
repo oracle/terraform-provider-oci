@@ -444,7 +444,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
 
-	copyTimeout := *DefaultTimeout.Create
+	copyTimeout := s.D.Timeout(schema.TimeoutCreate)
 	err = copyObjectWaitForWorkRequest(&workRequestId, "object", copyTimeout, s.DisableNotFoundRetries, s.SourceRegionClient)
 
 	if err != nil {
@@ -695,8 +695,7 @@ func (s *ObjectStorageObjectResourceCrud) updateState() (bool, error) {
 
 			if wrid, ok := s.D.GetOkExists("work_request_id"); ok {
 				retryPolicy := getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-				copyTimeout := DefaultTimeout.Create
-				retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(*copyTimeout)
+				retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(s.D.Timeout(schema.TimeoutCreate))
 
 				getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
 				wridStr := wrid.(string)
