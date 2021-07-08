@@ -13,6 +13,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v49/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v49/blockchain"
 	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v49/certificatesmanagement"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v49/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/v49/core"
@@ -333,6 +334,42 @@ var exportBudgetAlertRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "alert_rule",
 	discoverableLifecycleStates: []string{
 		string(oci_budget.AlertRuleLifecycleStateActive),
+	},
+}
+
+var exportCertificatesManagementCaBundleHints = &TerraformResourceHints{
+	resourceClass:          "oci_certificates_management_ca_bundle",
+	datasourceClass:        "oci_certificates_management_ca_bundles",
+	datasourceItemsAttr:    "ca_bundle_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "ca_bundle",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_certificates_management.CaBundleLifecycleStateActive),
+	},
+}
+
+var exportCertificatesManagementCertificateAuthorityHints = &TerraformResourceHints{
+	resourceClass:          "oci_certificates_management_certificate_authority",
+	datasourceClass:        "oci_certificates_management_certificate_authorities",
+	datasourceItemsAttr:    "certificate_authority_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "certificate_authority",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_certificates_management.CertificateAuthorityLifecycleStateActive),
+	},
+}
+
+var exportCertificatesManagementCertificateHints = &TerraformResourceHints{
+	resourceClass:          "oci_certificates_management_certificate",
+	datasourceClass:        "oci_certificates_management_certificates",
+	datasourceItemsAttr:    "certificate_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "certificate",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_certificates_management.CertificateLifecycleStateActive),
 	},
 }
 
