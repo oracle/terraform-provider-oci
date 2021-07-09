@@ -10,7 +10,7 @@ description: |-
 # oci_dns_view
 This resource provides the View resource in Oracle Cloud Infrastructure DNS service.
 
-Creates a new view in the specified compartment.
+Creates a new view in the specified compartment. Requires a `PRIVATE` scope query parameter.
 
 
 ## Example Usage

@@ -10,8 +10,9 @@ description: |-
 # Data Source: oci_dns_resolver_endpoint
 This data source provides details about a specific Resolver Endpoint resource in Oracle Cloud Infrastructure DNS service.
 
-Get information about a specific resolver endpoint. Note that attempting to get a resolver endpoint
-in the DELETED lifecycle state will result in a 404 to be consistent with other operations of the API.
+Gets information about a specific resolver endpoint. Note that attempting to get a resolver endpoint
+in the DELETED lifecycle state will result in a `404` response to be consistent with other operations of the
+API. Requires a `PRIVATE` scope query parameter.
 
 
 ## Example Usage
@@ -45,9 +46,9 @@ The following attributes are exported:
 * `forwarding_address` - An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part of the subnet and will be assigned by the system if unspecified when isForwarding is true. 
 * `is_forwarding` - A Boolean flag indicating whether or not the resolver endpoint is for forwarding. 
 * `is_listening` - A Boolean flag indicating whether or not the resolver endpoint is for listening. 
-* `listening_address` - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified. 
-* `name` - The name of the resolver endpoint. Must be unique within the resolver. 
-* `nsg_ids` - An array of NSG OCIDs for the resolver endpoint. 
+* `listening_address` - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified when isListening is true. 
+* `name` - The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver. 
+* `nsg_ids` - An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the resolver endpoint is a part of. 
 * `self` - The canonical absolute URL of the resource.
 * `state` - The current state of the resource.
 * `subnet_id` - The OCID of a subnet. Must be part of the VCN that the resolver is attached to.

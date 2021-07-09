@@ -141,11 +141,15 @@ func (s *DnsTsigKeyResourceCrud) CreatedTarget() []string {
 }
 
 func (s *DnsTsigKeyResourceCrud) DeletedPending() []string {
-	return []string{}
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateDeleting),
+	}
 }
 
 func (s *DnsTsigKeyResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateDeleted),
+	}
 }
 
 func (s *DnsTsigKeyResourceCrud) Create() error {
