@@ -10,9 +10,9 @@ description: |-
 # Data Source: oci_dns_view
 This data source provides details about a specific View resource in Oracle Cloud Infrastructure DNS service.
 
-Get information about a specific view. Note that attempting to get a
-view in the DELETED lifecycleState will result in a 404 to be
-consistent with other operations of the API.
+Gets information about a specific view. Note that attempting to get a
+view in the DELETED lifecycleState will result in a `404` response to be
+consistent with other operations of the API. Requires a `PRIVATE` scope query parameter.
 
 
 ## Example Usage

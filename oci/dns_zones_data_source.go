@@ -57,6 +57,10 @@ func DnsZonesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"tsig_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"view_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -142,6 +146,11 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 			return err
 		}
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if tsigKeyId, ok := s.D.GetOkExists("tsig_key_id"); ok {
+		tmp := tsigKeyId.(string)
+		request.TsigKeyId = &tmp
 	}
 
 	if viewId, ok := s.D.GetOkExists("view_id"); ok {

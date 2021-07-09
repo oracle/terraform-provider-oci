@@ -29,6 +29,7 @@ data "oci_dns_zones" "test_zones" {
 	state = var.zone_state
 	time_created_greater_than_or_equal_to = var.zone_time_created_greater_than_or_equal_to
 	time_created_less_than = var.zone_time_created_less_than
+	tsig_key_id = oci_dns_tsig_key.test_tsig_key.id
 	view_id = oci_dns_view.test_view.id
 	zone_type = var.zone_zone_type
 }
@@ -48,6 +49,7 @@ for zones in the global DNS and `PRIVATE` when listing private zones.
 * `state` - (Optional) The state of a resource.
 * `time_created_greater_than_or_equal_to` - (Optional) An [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) timestamp that states all returned resources were created on or after the indicated time. 
 * `time_created_less_than` - (Optional) An [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) timestamp that states all returned resources were created before the indicated time. 
+* `tsig_key_id` - (Optional) Search for zones that are associated with a TSIG key. 
 * `view_id` - (Optional) The OCID of the view the resource is associated with.
 * `zone_type` - (Optional) Search by zone type, `PRIMARY` or `SECONDARY`. Will match any zone whose type equals the provided value. 
 
@@ -69,10 +71,6 @@ The following attributes are exported:
 * `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - The server's IP address (IPv4 or IPv6).
 	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
-	* `tsig` - A [TSIG](https://tools.ietf.org/html/rfc2845) key.
-		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
-		* `name` - A domain name identifying the key for a given pair of hosts.
-		* `secret` - A base64 string encoding the binary shared secret.
 	* `tsig_key_id` - The OCID of the TSIG key.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 

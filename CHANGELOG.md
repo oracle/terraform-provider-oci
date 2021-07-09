@@ -1,10 +1,13 @@
-## 4.35.0 (July 14, 2021)
+## 4.35.0 (Unreleased)
 
 ### Added
 - Support for Oracle distribution of Hadoop with Big Data service
 - Support for APM Synthetics service added
 - Support for Regional VLANs added to `core`
 - Support added for VCN DNS Namespace Collision Remediation
+
+### Deprecated
+- Field `tsig` has been removed from `oci_dns_zone` resource and will be a breaking change for customers who have it defined in their Terraform configuration file
 
 ## 4.34.0 (July 07, 2021)
 
