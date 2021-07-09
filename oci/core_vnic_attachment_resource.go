@@ -43,7 +43,6 @@ func CoreVnicAttachmentResource() *schema.Resource {
 						"assign_private_dns_record": {
 							Type:     schema.TypeBool,
 							Optional: true,
-							Default:  true,
 							ForceNew: true,
 						},
 						"assign_public_ip": {
