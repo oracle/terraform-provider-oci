@@ -5,12 +5,13 @@ package oci
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net"
 	"net/http"
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -79,9 +80,9 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 	}
 }
 
-func TestNetTimeoutError(t *testing.T)  {
+func TestNetTimeoutError(t *testing.T) {
 	errNet := net.DNSError{
-		Err: "Timeout",
+		Err:       "Timeout",
 		IsTimeout: true,
 	}
 	assert.Equal(t, common.IsNetworkError(&errNet), true)
@@ -103,9 +104,9 @@ func TestNetTimeoutError(t *testing.T)  {
 	retryLoop(t, &r)
 }
 
-func TestNetTemporaryError(t *testing.T)  {
+func TestNetTemporaryError(t *testing.T) {
 	errNet := net.DNSError{
-		Err: "Temporary",
+		Err:         "Temporary",
 		IsTemporary: true,
 	}
 	assert.Equal(t, common.IsNetworkError(&errNet), true)
