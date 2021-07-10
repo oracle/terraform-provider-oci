@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// Eula A base object for all types of End User Licenses
+// Eula A base object for all types of end user license agreements.
 type Eula interface {
 }
 

@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -21,7 +19,7 @@ type WorkRequestLogEntry struct {
 	// Human-readable log message.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the log message was written. An RFC3339 formatted datetime string
+	// The time the log message was written, shown as an RFC 3339 formatted datetime string.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

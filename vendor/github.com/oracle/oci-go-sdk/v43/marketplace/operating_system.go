@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// OperatingSystem OS used by the listing.
+// OperatingSystem The operating system used by the listing.
 type OperatingSystem struct {
 
-	// name of the operating system
+	// The name of the operating system.
 	Name *string `mandatory:"false" json:"name"`
 }
 

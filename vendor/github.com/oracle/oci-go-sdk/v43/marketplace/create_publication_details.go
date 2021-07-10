@@ -14,30 +14,30 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// CreatePublicationDetails Publication Creation Details
+// CreatePublicationDetails The model for the parameters needed to create a publication.
 type CreatePublicationDetails struct {
 
-	// In which catalog the listing should exist.
+	// The publisher category to which the publication belongs. The publisher category informs where the listing appears for use.
 	ListingType ListingTypeEnum `mandatory:"true" json:"listingType"`
 
-	// The name of the listing.
+	// The name of the publication, which is also used in the listing.
 	Name *string `mandatory:"true" json:"name"`
 
-	// short description of the catalog listing
+	// A short description of the publication to use in the listing.
 	ShortDescription *string `mandatory:"true" json:"shortDescription"`
 
-	// Contact information to use to get support from the publisher for the listing.
+	// Contact information for getting support from the publisher for the listing.
 	SupportContacts []SupportContact `mandatory:"true" json:"supportContacts"`
 
-	// The OCID of the compartment to create the resource within.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the publication.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	PackageDetails CreatePublicationPackage `mandatory:"true" json:"packageDetails"`
 
-	// Acknowledgement that invoker has the right and authority to share this Community Image in accordance with their agreement with Oracle applicable to the Services and the related Service Specifications
+	// Whether the publisher acknowledged that they have the right and authority to share the contents of the publication and that they accepted the Oracle terms of use agreements required to create a publication.
 	IsAgreementAcknowledged *bool `mandatory:"true" json:"isAgreementAcknowledged"`
 
-	// short description of the catalog listing
+	// A long description of the publication to use in the listing.
 	LongDescription *string `mandatory:"false" json:"longDescription"`
 
 	// The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces.

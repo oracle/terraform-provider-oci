@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/CreatePublication.go.html to see an example of how to use CreatePublicationRequest.
 type CreatePublicationRequest struct {
 
-	// Details of Publication to be created including optional default package.
+	// The details for creating the publication.
 	CreatePublicationDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without

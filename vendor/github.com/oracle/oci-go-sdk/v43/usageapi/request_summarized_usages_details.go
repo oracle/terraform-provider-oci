@@ -32,14 +32,17 @@ type RequestSummarizedUsagesDetails struct {
 	// TOTAL - Not yet supported.
 	Granularity RequestSummarizedUsagesDetailsGranularityEnum `mandatory:"true" json:"granularity"`
 
-	// is aggregated by time. true isAggregateByTime will add up all usage/cost over query time period
+	// Whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
 	IsAggregateByTime *bool `mandatory:"false" json:"isAggregateByTime"`
 
 	Forecast *Forecast `mandatory:"false" json:"forecast"`
 
-	// The query usage type. COST by default if it is missing
+	// The query usage type. COST by default if it is missing.
 	// Usage - Query the usage data.
 	// Cost - Query the cost/billing data.
+	// Credit - Query the credit adjustments data.
+	// ExpiredCredit - Query the expired credits data.
+	// AllCredit - Query the credit adjustments and expired credit.
 	QueryType RequestSummarizedUsagesDetailsQueryTypeEnum `mandatory:"false" json:"queryType,omitempty"`
 
 	// Aggregate the result by.
@@ -49,8 +52,8 @@ type RequestSummarizedUsagesDetails struct {
 	//     "resourceId", "tenantId", "tenantName"]`
 	GroupBy []string `mandatory:"false" json:"groupBy"`
 
-	// GroupBy a specific tagKey. Provide tagNamespace and tagKey in tag object. Only support one tag in the list
-	// example:
+	// GroupBy a specific tagKey. Provide the tagNamespace and tagKey in the tag object. Only supports one tag in the list.
+	// For example:
 	//   `[{"namespace":"oracle", "key":"createdBy"]`
 	GroupByTag []Tag `mandatory:"false" json:"groupByTag"`
 
@@ -96,13 +99,19 @@ type RequestSummarizedUsagesDetailsQueryTypeEnum string
 
 // Set of constants representing the allowable values for RequestSummarizedUsagesDetailsQueryTypeEnum
 const (
-	RequestSummarizedUsagesDetailsQueryTypeUsage RequestSummarizedUsagesDetailsQueryTypeEnum = "USAGE"
-	RequestSummarizedUsagesDetailsQueryTypeCost  RequestSummarizedUsagesDetailsQueryTypeEnum = "COST"
+	RequestSummarizedUsagesDetailsQueryTypeUsage         RequestSummarizedUsagesDetailsQueryTypeEnum = "USAGE"
+	RequestSummarizedUsagesDetailsQueryTypeCost          RequestSummarizedUsagesDetailsQueryTypeEnum = "COST"
+	RequestSummarizedUsagesDetailsQueryTypeCredit        RequestSummarizedUsagesDetailsQueryTypeEnum = "CREDIT"
+	RequestSummarizedUsagesDetailsQueryTypeExpiredcredit RequestSummarizedUsagesDetailsQueryTypeEnum = "EXPIREDCREDIT"
+	RequestSummarizedUsagesDetailsQueryTypeAllcredit     RequestSummarizedUsagesDetailsQueryTypeEnum = "ALLCREDIT"
 )
 
 var mappingRequestSummarizedUsagesDetailsQueryType = map[string]RequestSummarizedUsagesDetailsQueryTypeEnum{
-	"USAGE": RequestSummarizedUsagesDetailsQueryTypeUsage,
-	"COST":  RequestSummarizedUsagesDetailsQueryTypeCost,
+	"USAGE":         RequestSummarizedUsagesDetailsQueryTypeUsage,
+	"COST":          RequestSummarizedUsagesDetailsQueryTypeCost,
+	"CREDIT":        RequestSummarizedUsagesDetailsQueryTypeCredit,
+	"EXPIREDCREDIT": RequestSummarizedUsagesDetailsQueryTypeExpiredcredit,
+	"ALLCREDIT":     RequestSummarizedUsagesDetailsQueryTypeAllcredit,
 }
 
 // GetRequestSummarizedUsagesDetailsQueryTypeEnumValues Enumerates the set of values for RequestSummarizedUsagesDetailsQueryTypeEnum

@@ -110,6 +110,7 @@ const (
 	ZoneSummaryLifecycleStateDeleted  ZoneSummaryLifecycleStateEnum = "DELETED"
 	ZoneSummaryLifecycleStateDeleting ZoneSummaryLifecycleStateEnum = "DELETING"
 	ZoneSummaryLifecycleStateFailed   ZoneSummaryLifecycleStateEnum = "FAILED"
+	ZoneSummaryLifecycleStateUpdating ZoneSummaryLifecycleStateEnum = "UPDATING"
 )
 
 var mappingZoneSummaryLifecycleState = map[string]ZoneSummaryLifecycleStateEnum{
@@ -118,6 +119,7 @@ var mappingZoneSummaryLifecycleState = map[string]ZoneSummaryLifecycleStateEnum{
 	"DELETED":  ZoneSummaryLifecycleStateDeleted,
 	"DELETING": ZoneSummaryLifecycleStateDeleting,
 	"FAILED":   ZoneSummaryLifecycleStateFailed,
+	"UPDATING": ZoneSummaryLifecycleStateUpdating,
 }
 
 // GetZoneSummaryLifecycleStateEnumValues Enumerates the set of values for ZoneSummaryLifecycleStateEnum

@@ -16,10 +16,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/UpdatePublication.go.html to see an example of how to use UpdatePublicationRequest.
 type UpdatePublicationRequest struct {
 
-	// The unique identifier for the listing.
+	// The unique identifier for the publication.
 	PublicationId *string `mandatory:"true" contributesTo:"path" name:"publicationId"`
 
-	// Details of the Publication which needs to be updated
+	// The details for updating the publication.
 	UpdatePublicationDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,

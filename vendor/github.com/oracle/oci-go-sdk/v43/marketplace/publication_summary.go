@@ -13,25 +13,25 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// PublicationSummary The model for a summary of an Oracle Cloud Infrastructure publication
+// PublicationSummary The model for a summary of an Oracle Cloud Infrastructure publication.
 type PublicationSummary struct {
 
-	// the lifecycleState of the listing
+	// The lifecycle state of the publication.
 	LifecycleState PublicationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The Compartment id where the listings exists
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the publication exists.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The unique identifier for the listing in Marketplace.
+	// The unique identifier for the publication in Marketplace.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the listing.
+	// The name of the publication, which is also used in the listing.
 	Name *string `mandatory:"true" json:"name"`
 
-	// In which catalog the listing should exist.
+	// The publisher category to which the publication belongs. The publisher category informs where the listing appears for use.
 	ListingType ListingTypeEnum `mandatory:"true" json:"listingType"`
 
-	// A short description of the listing.
+	// A short description of the publication to use in the listing.
 	ShortDescription *string `mandatory:"false" json:"shortDescription"`
 
 	Icon *UploadData `mandatory:"false" json:"icon"`
@@ -39,10 +39,10 @@ type PublicationSummary struct {
 	// The listing's package type.
 	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
 
-	// List of operating systems supprted.
+	// The list of operating systems supported by the listing.
 	SupportedOperatingSystems []OperatingSystem `mandatory:"false" json:"supportedOperatingSystems"`
 
-	// The date and time this publication was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// The date and time the publication was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

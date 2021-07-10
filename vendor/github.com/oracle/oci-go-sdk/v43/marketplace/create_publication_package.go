@@ -14,15 +14,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// CreatePublicationPackage A base object for the properties of the package
+// CreatePublicationPackage A base object for creating a publication package.
 type CreatePublicationPackage interface {
 
-	// The version of the package
+	// The package version.
 	GetPackageVersion() *string
 
 	GetOperatingSystem() *OperatingSystem
 
-	// End User License Agreeement that a consumer of this listing has to accept
+	// The end user license agreeement (EULA) that consumers of this listing must accept.
 	GetEula() []Eula
 }
 

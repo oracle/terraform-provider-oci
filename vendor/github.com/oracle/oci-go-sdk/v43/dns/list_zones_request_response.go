@@ -65,6 +65,9 @@ type ListZonesRequest struct {
 	// The OCID of the view the resource is associated with.
 	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
 
+	// Search for zones that are associated with a TSIG key.
+	TsigKeyId *string `mandatory:"false" contributesTo:"query" name:"tsigKeyId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -110,8 +113,7 @@ type ListZonesResponse struct {
 	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to
-	// contact Oracle about a particular request, please provide the request
-	// ID.
+	// contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
@@ -157,6 +159,7 @@ const (
 	ListZonesLifecycleStateDeleted  ListZonesLifecycleStateEnum = "DELETED"
 	ListZonesLifecycleStateDeleting ListZonesLifecycleStateEnum = "DELETING"
 	ListZonesLifecycleStateFailed   ListZonesLifecycleStateEnum = "FAILED"
+	ListZonesLifecycleStateUpdating ListZonesLifecycleStateEnum = "UPDATING"
 )
 
 var mappingListZonesLifecycleState = map[string]ListZonesLifecycleStateEnum{
@@ -165,6 +168,7 @@ var mappingListZonesLifecycleState = map[string]ListZonesLifecycleStateEnum{
 	"DELETED":  ListZonesLifecycleStateDeleted,
 	"DELETING": ListZonesLifecycleStateDeleting,
 	"FAILED":   ListZonesLifecycleStateFailed,
+	"UPDATING": ListZonesLifecycleStateUpdating,
 }
 
 // GetListZonesLifecycleStateEnumValues Enumerates the set of values for ListZonesLifecycleStateEnum

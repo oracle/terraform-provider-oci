@@ -19,7 +19,7 @@ type ListAutoScalingConfigurationsRequest struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the BDS instance
+	// The OCID of the cluster.
 	BdsInstanceId *string `mandatory:"true" contributesTo:"path" name:"bdsInstanceId"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
@@ -37,7 +37,7 @@ type ListAutoScalingConfigurationsRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The state of the autoscaling configuration.
+	// The state of the autoscale configuration.
 	LifecycleState AutoScalingConfigurationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -80,7 +80,7 @@ type ListAutoScalingConfigurationsResponse struct {
 	Items []AutoScalingConfigurationSummary `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,

@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetPublicationPackage.go.html to see an example of how to use GetPublicationPackageRequest.
 type GetPublicationPackageRequest struct {
 
-	// The unique identifier for the listing.
+	// The unique identifier for the publication.
 	PublicationId *string `mandatory:"true" contributesTo:"path" name:"publicationId"`
 
 	// The version of the package. Package versions are unique within a listing.

@@ -19,7 +19,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ResolverVnicEndpointSummary struct {
 
-	// The name of the resolver endpoint. Must be unique within the resolver.
+	// The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver.
 	Name *string `mandatory:"true" json:"name"`
 
 	// A Boolean flag indicating whether or not the resolver endpoint is for forwarding.
@@ -53,7 +53,7 @@ type ResolverVnicEndpointSummary struct {
 	ForwardingAddress *string `mandatory:"false" json:"forwardingAddress"`
 
 	// An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the
-	// subnet and will be assigned by the system if unspecified.
+	// subnet and will be assigned by the system if unspecified when isListening is true.
 	ListeningAddress *string `mandatory:"false" json:"listeningAddress"`
 
 	// The current state of the resource.

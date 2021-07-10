@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,26 +13,25 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// AutoScalingConfigurationSummary The information about auto scale configuration.
+// AutoScalingConfigurationSummary The information about the autoscale configuration.
 type AutoScalingConfigurationSummary struct {
 
-	// The OCID of the autoscaling configuration.
+	// The OCID of the autoscale configuration.
 	Id *string `mandatory:"true" json:"id"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The state of the autoscaling configuration
+	// The state of the autoscale configuration.
 	LifecycleState AutoScalingConfigurationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A node type that is managed by an autoscaling configuration. The only supported type is WORKER.
+	// A node type that is managed by an autoscale configuration. The only supported type is WORKER.
 	NodeType NodeNodeTypeEnum `mandatory:"true" json:"nodeType"`
 
-	// The time the BDS instance was created. An RFC3339 formatted datetime string
+	// The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the autoscale configuration was updated.
-	// An RFC3339 formatted datetime string
+	// The time the autoscale configuration was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	Policy *AutoScalePolicy `mandatory:"true" json:"policy"`

@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// RestartNodeDetails The information about restarted node
+// RestartNodeDetails The information about restarted node.
 type RestartNodeDetails struct {
 
-	// OCID of the BDS node which should be restarted
+	// OCID of the node to be restarted.
 	NodeId *string `mandatory:"true" json:"nodeId"`
 }
 

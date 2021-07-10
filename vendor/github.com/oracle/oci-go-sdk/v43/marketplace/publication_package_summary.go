@@ -28,7 +28,7 @@ type PublicationPackageSummary struct {
 	// The unique identifier for the package resource.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// The date and time this listing package was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// The date and time the publication package was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

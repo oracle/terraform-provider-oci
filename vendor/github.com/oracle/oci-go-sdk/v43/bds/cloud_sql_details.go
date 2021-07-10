@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -21,18 +19,18 @@ type CloudSqlDetails struct {
 	// Shape of the node
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// IP address of the Cloud SQL node
+	// IP address of the Cloud SQL node.
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
 	// The size of block volume in GB that needs to be attached to a given node.
 	// All the necessary details needed for attachment are managed by service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"false" json:"blockVolumeSizeInGBs"`
 
-	// Boolean flag specifying whether or not are Kerberos principals mapped
+	// Boolean flag specifying whether or not Kerberos principals are mapped
 	// to database users.
 	IsKerberosMappedToDatabaseUsers *bool `mandatory:"false" json:"isKerberosMappedToDatabaseUsers"`
 
-	// Details about Kerberos principals
+	// Details about the Kerberos principals.
 	KerberosDetails []KerberosDetails `mandatory:"false" json:"kerberosDetails"`
 }
 

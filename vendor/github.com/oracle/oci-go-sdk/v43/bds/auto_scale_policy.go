@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,13 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// AutoScalePolicy Policy definitions for the autoscaling configuration
+// AutoScalePolicy Policy definitions for the autoscale configuration.
 type AutoScalePolicy struct {
 
-	// Types of autoscaling policies. SCHEDULE-BASED or  THRESHOLD-BASED, current only supported THRESHOLD-BASED.
+	// Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)
 	PolicyType AutoScalePolicyPolicyTypeEnum `mandatory:"true" json:"policyType"`
 
-	// The list of rules for autoscaling. If an action have multiple rules, last rule in the array will be applied.
+	// The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
 	Rules []AutoScalePolicyRule `mandatory:"true" json:"rules"`
 }
 

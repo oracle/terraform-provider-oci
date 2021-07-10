@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,16 +13,16 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// MetricThresholdRule An autoscaling action is triggered when a performance metric meets or exceeds a threshold
+// MetricThresholdRule An autoscale action is triggered when a performance metric meets or exceeds a threshold.
 type MetricThresholdRule struct {
 
-	// This value is the minimum period of time metric value meets or exceeds threshold value before action is trigger. The value is in minutes.
+	// This value is the minimum period of time the metric value meets or exceeds the threshold value before the action is triggered. The value is in minutes.
 	DurationInMinutes *int `mandatory:"true" json:"durationInMinutes"`
 
-	// The comparison operator to use. Options are greater than (GT), less than (LT).
+	// The comparison operator to use. Options are greater than (GT) or less than (LT).
 	Operator MetricThresholdRuleOperatorEnum `mandatory:"true" json:"operator"`
 
-	// integer non negative value. 0 < value < 100
+	// Integer non-negative value. 0 < value < 100
 	Value *int `mandatory:"true" json:"value"`
 }
 

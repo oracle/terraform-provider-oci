@@ -59,7 +59,7 @@ func newDnsClientFromBaseClient(baseClient common.BaseClient, configProvider com
 
 // SetRegion overrides the region of this client.
 func (client *DnsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("dns", "https://dns.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("dns", "https://dns.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -81,7 +81,7 @@ func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 }
 
 // ChangeResolverCompartment Moves a resolver into a different compartment along with its protected default view and any endpoints.
-// Zones in the default view are not moved.
+// Zones in the default view are not moved. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -258,7 +258,8 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 	return response, err
 }
 
-// ChangeViewCompartment Moves a view into a different compartment. Protected views cannot have their compartment changed.
+// ChangeViewCompartment Moves a view into a different compartment. Protected views cannot have their compartment changed. Requires a
+// `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -317,7 +318,9 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 	return response, err
 }
 
-// ChangeZoneCompartment Moves a zone into a different compartment. Protected zones cannot have their compartment changed.
+// ChangeZoneCompartment Moves a zone into a different compartment. Protected zones cannot have their compartment changed. For private
+// zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is provided as a
+// path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is required.
 // **Note:** All SteeringPolicyAttachment objects associated with this zone will also be moved into the provided compartment.
 //
 // See also
@@ -377,7 +380,7 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 	return response, err
 }
 
-// CreateResolverEndpoint Creates a new resolver endpoint.
+// CreateResolverEndpoint Creates a new resolver endpoint. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -614,7 +617,7 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// CreateView Creates a new view in the specified compartment.
+// CreateView Creates a new view in the specified compartment. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -673,9 +676,11 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// CreateZone Creates a new zone in the specified compartment. If the `Content-Type` header for the request is `text/dns`, the
-// `compartmentId` query parameter is required. Additionally, for `text/dns`, the `scope` and `viewId` query
-// parameters are required to create a private zone.
+// CreateZone Creates a new zone in the specified compartment. For global zones, if the `Content-Type` header for the request
+// is `text/dns`, the `compartmentId` query parameter is required. `text/dns` for the `Content-Type` header is
+// not supported for private zones. Query parameter scope with a value of `PRIVATE` is required when creating a
+// private zone. Private zones must have a zone type of `PRIMARY`. Creating a private zone at or under
+// `oraclevcn.com` within the default protected view of a VCN-dedicated resolver is not permitted.
 //
 // See also
 //
@@ -729,7 +734,9 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// DeleteDomainRecords Deletes all records at the specified zone and domain.
+// DeleteDomainRecords Deletes all records at the specified zone and domain. For private zones, the scope query parameter is
+// required with a value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used
+// for the scope query parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -783,7 +790,9 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteRRSet Deletes all records in the specified RRSet.
+// DeleteRRSet Deletes all records in the specified RRSet. For private zones, the scope query parameter is required with a
+// value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
+// query parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -838,8 +847,9 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 }
 
 // DeleteResolverEndpoint Deletes the specified resolver endpoint. Note that attempting to delete a resolver endpoint in the
-// DELETED lifecycle state will result in a 404 to be consistent with other operations of the API.
-// Resolver endpoints may not be deleted if they are referenced by a resolver rule.
+// DELETED lifecycle state will result in a `404` response to be consistent with other operations of the API.
+// Resolver endpoints may not be deleted if they are referenced by a resolver rule. Requires a `PRIVATE` scope
+// query parameter.
 //
 // See also
 //
@@ -1060,10 +1070,10 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 }
 
 // DeleteView Deletes the specified view. Note that attempting to delete a
-// view in the DELETED lifecycleState will result in a 404 to be
-// consistent with other operations of the API. Views can not be
+// view in the DELETED lifecycleState will result in a `404` response to be
+// consistent with other operations of the API. Views cannot be
 // deleted if they are referenced by non-deleted zones or resolvers.
-// Protected views cannot be deleted.
+// Protected views cannot be deleted. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -1117,9 +1127,10 @@ func (client DnsClient) deleteView(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// DeleteZone Deletes the specified zone and all its steering policy attachments.
-// A `204` response indicates that the zone has been successfully deleted.
-// Protected zones cannot be deleted.
+// DeleteZone Deletes the specified zone and all its steering policy attachments. A `204` response indicates that the zone has
+// been successfully deleted. Protected zones cannot be deleted. For private zones, the scope query parameter is
+// required with a value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used
+// for the scope query parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -1173,9 +1184,11 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// GetDomainRecords Gets a list of all records at the specified zone and domain.
-// The results are sorted by `rtype` in alphabetical order by default. You
-// can optionally filter and/or sort the results using the listed parameters.
+// GetDomainRecords Gets a list of all records at the specified zone and domain. The results are sorted by `rtype` in
+// alphabetical order by default. You can optionally filter and/or sort the results using the listed parameters.
+// For private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
+// provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
+// parameter is required.
 //
 // See also
 //
@@ -1229,8 +1242,10 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetRRSet Gets a list of all records in the specified RRSet. The results are
-// sorted by `recordHash` by default.
+// GetRRSet Gets a list of all records in the specified RRSet. The results are sorted by `recordHash` by default. For
+// private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
+// provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
+// parameter is required.
 //
 // See also
 //
@@ -1284,9 +1299,9 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest,
 	return response, err
 }
 
-// GetResolver Get information about a specific resolver. Note that attempting to get a
-// resolver in the DELETED lifecycleState will result in a 404 to be
-// consistent with other operations of the API.
+// GetResolver Gets information about a specific resolver. Note that attempting to get a
+// resolver in the DELETED lifecycleState will result in a `404` response to be
+// consistent with other operations of the API. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -1340,8 +1355,9 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// GetResolverEndpoint Get information about a specific resolver endpoint. Note that attempting to get a resolver endpoint
-// in the DELETED lifecycle state will result in a 404 to be consistent with other operations of the API.
+// GetResolverEndpoint Gets information about a specific resolver endpoint. Note that attempting to get a resolver endpoint
+// in the DELETED lifecycle state will result in a `404` response to be consistent with other operations of the
+// API. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -1557,9 +1573,9 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// GetView Get information about a specific view. Note that attempting to get a
-// view in the DELETED lifecycleState will result in a 404 to be
-// consistent with other operations of the API.
+// GetView Gets information about a specific view. Note that attempting to get a
+// view in the DELETED lifecycleState will result in a `404` response to be
+// consistent with other operations of the API. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -1613,8 +1629,9 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, 
 	return response, err
 }
 
-// GetZone Gets information about the specified zone, including its creation date,
-// zone type, and serial.
+// GetZone Gets information about the specified zone, including its creation date, zone type, and serial. For private
+// zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is provided as a
+// path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -1668,9 +1685,64 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, 
 	return response, err
 }
 
-// GetZoneRecords Gets all records in the specified zone. The results are
-// sorted by `domain` in alphabetical order by default. For more
-// information about records, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+// GetZoneContent Gets the requested zone's zone file.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZoneContent.go.html to see an example of how to use GetZoneContent API.
+func (client DnsClient) GetZoneContent(ctx context.Context, request GetZoneContentRequest) (response GetZoneContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getZoneContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetZoneContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetZoneContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetZoneContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetZoneContentResponse")
+	}
+	return
+}
+
+// getZoneContent implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) getZoneContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zones/{zoneNameOrId}/content", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetZoneContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetZoneRecords Gets all records in the specified zone. The results are sorted by `domain` in alphabetical order by default.
+// For more information about records, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+// For private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
+// provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
+// parameter is required.
 //
 // See also
 //
@@ -1742,8 +1814,8 @@ func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (int
 
 // ListResolverEndpoints Gets a list of all endpoints within a resolver. The collection can be filtered by name or lifecycle state.
 // It can be sorted on creation time or name both in ASC or DESC order. Note that when no lifecycleState
-// query parameter is provided that the collection does not include resolver endpoints in the DELETED
-// lifecycle state to be consistent with other operations of the API.
+// query parameter is provided, the collection does not include resolver endpoints in the DELETED
+// lifecycle state to be consistent with other operations of the API. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -1800,9 +1872,9 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 // ListResolvers Gets a list of all resolvers within a compartment. The collection can
 // be filtered by display name, id, or lifecycle state. It can be sorted
 // on creation time or displayName both in ASC or DESC order. Note that
-// when no lifecycleState query parameter is provided that the collection
+// when no lifecycleState query parameter is provided, the collection
 // does not include resolvers in the DELETED lifecycleState to be consistent
-// with other operations of the API.
+// with other operations of the API. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -2021,9 +2093,9 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 // ListViews Gets a list of all views within a compartment. The collection can
 // be filtered by display name, id, or lifecycle state. It can be sorted
 // on creation time or displayName both in ASC or DESC order. Note that
-// when no lifecycleState query parameter is provided that the collection
+// when no lifecycleState query parameter is provided, the collection
 // does not include views in the DELETED lifecycleState to be consistent
-// with other operations of the API.
+// with other operations of the API. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -2077,8 +2149,64 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 	return response, err
 }
 
-// ListZones Gets a list of all zones in the specified compartment. The collection
-// can be filtered by name, time created, scope, associated view, and zone type.
+// ListZoneTransferServers Gets a list of IP addresses of OCI nameservers for inbound and outbound transfer of zones in the specified
+// compartment (which must be the root compartment of a tenancy) that transfer zone data with external master or
+// downstream nameservers.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZoneTransferServers.go.html to see an example of how to use ListZoneTransferServers API.
+func (client DnsClient) ListZoneTransferServers(ctx context.Context, request ListZoneTransferServersRequest) (response ListZoneTransferServersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listZoneTransferServers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListZoneTransferServersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListZoneTransferServersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListZoneTransferServersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListZoneTransferServersResponse")
+	}
+	return
+}
+
+// listZoneTransferServers implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) listZoneTransferServers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zoneTransferServers", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListZoneTransferServersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListZones Gets a list of all zones in the specified compartment. The collection can be filtered by name, time created,
+// scope, associated view, and zone type. Filtering by view is only supported for private zones.
 //
 // See also
 //
@@ -2132,10 +2260,11 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 	return response, err
 }
 
-// PatchDomainRecords Updates records in the specified zone at a domain. You can update
-// one record or all records for the specified zone depending on the changes
-// provided in the request body. You can also add or remove records using this
-// function.
+// PatchDomainRecords Updates records in the specified zone at a domain. You can update one record or all records for the specified
+// zone depending on the changes provided in the request body. You can also add or remove records using this
+// function. For private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone
+// name is provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId
+// query parameter is required.
 //
 // See also
 //
@@ -2189,7 +2318,9 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 	return response, err
 }
 
-// PatchRRSet Updates records in the specified RRSet.
+// PatchRRSet Updates records in the specified RRSet. For private zones, the scope query parameter is required with a value
+// of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
+// parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -2243,10 +2374,11 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// PatchZoneRecords Updates a collection of records in the specified zone. You can update
-// one record or all records for the specified zone depending on the
-// changes provided in the request body. You can also add or remove records
-// using this function.
+// PatchZoneRecords Updates a collection of records in the specified zone. You can update one record or all records for the
+// specified zone depending on the changes provided in the request body. You can also add or remove records
+// using this function. For private zones, the scope query parameter is required with a value of `PRIVATE`. When
+// the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter then the
+// viewId query parameter is required.
 //
 // See also
 //
@@ -2300,12 +2432,12 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// UpdateDomainRecords Replaces records in the specified zone at a domain with the records
-// specified in the request body. If a specified record does not exist,
-// it will be created. If the record exists, then it will be updated to
-// represent the record in the body of the request. If a record in the zone
-// does not exist in the request body, the record will be removed from the
-// zone.
+// UpdateDomainRecords Replaces records in the specified zone at a domain with the records specified in the request body. If a
+// specified record does not exist, it will be created. If the record exists, then it will be updated to
+// represent the record in the body of the request. If a record in the zone does not exist in the request body,
+// the record will be removed from the zone. For private zones, the scope query parameter is required with a
+// value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
+// query parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -2359,7 +2491,9 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateRRSet Replaces records in the specified RRSet.
+// UpdateRRSet Replaces records in the specified RRSet. For private zones, the scope query parameter is required with a
+// value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
+// query parameter then the viewId query parameter is required.
 //
 // See also
 //
@@ -2413,7 +2547,7 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// UpdateResolver Updates the specified resolver with your new information.
+// UpdateResolver Updates the specified resolver with your new information. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -2467,7 +2601,7 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// UpdateResolverEndpoint Updates the specified resolver endpoint with your new information.
+// UpdateResolverEndpoint Updates the specified resolver endpoint with your new information. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -2683,7 +2817,7 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// UpdateView Updates the specified view with your new information.
+// UpdateView Updates the specified view with your new information. Requires a `PRIVATE` scope query parameter.
 //
 // See also
 //
@@ -2737,9 +2871,11 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// UpdateZone Updates the specified secondary zone with your new external master
-// server information. For more information about secondary zone, see
-// Manage DNS Service Zone (https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/managingdnszones.htm).
+// UpdateZone Updates the zone with the specified information. Global secondary zones may have their external masters updated.
+// For more information about secondary zone, see Manage DNS Service Zone (https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/managingdnszones.htm).
+// For private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
+// provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
+// parameter is required.
 //
 // See also
 //
@@ -2793,11 +2929,12 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// UpdateZoneRecords Replaces records in the specified zone with the records specified in the
-// request body. If a specified record does not exist, it will be created.
-// If the record exists, then it will be updated to represent the record in
-// the body of the request. If a record in the zone does not exist in the
-// request body, the record will be removed from the zone.
+// UpdateZoneRecords Replaces records in the specified zone with the records specified in the request body. If a specified record
+// does not exist, it will be created. If the record exists, then it will be updated to represent the record in
+// the body of the request. If a record in the zone does not exist in the request body, the record will be
+// removed from the zone. For private zones, the scope query parameter is required with a value of `PRIVATE`.
+// When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter then
+// the viewId query parameter is required.
 //
 // See also
 //

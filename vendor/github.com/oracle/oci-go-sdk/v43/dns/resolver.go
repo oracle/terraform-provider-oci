@@ -15,10 +15,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// Resolver An OCI DNS resolver. If the resolver has an attached VCN then the VCN will attempt to answer queries based on the
-// attached views in priority order. If the query does not match any of the attached views then the query will be
-// evaluated against the default view. If the default view does not match then the rules will be evaluated in
-// priority order. If no rules match the query then answers come from Internet DNS. A resolver may have at most 10
+// Resolver An OCI DNS resolver. If the resolver has an attached VCN, the VCN will attempt to answer queries based on the
+// attached views in priority order. If the query does not match any of the attached views, the query will be
+// evaluated against the default view. If the default view does not match, the rules will be evaluated in
+// priority order. If no rules match the query, answers come from Internet DNS. A resolver may have a maximum of 10
 // resolver endpoints.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type Resolver struct {

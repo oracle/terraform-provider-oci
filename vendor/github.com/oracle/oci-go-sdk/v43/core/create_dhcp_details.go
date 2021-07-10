@@ -43,6 +43,9 @@ type CreateDhcpDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The search domain name type of DHCP options
+	DomainNameType CreateDhcpDetailsDomainNameTypeEnum `mandatory:"false" json:"domainNameType,omitempty"`
 }
 
 func (m CreateDhcpDetails) String() string {
@@ -52,12 +55,13 @@ func (m CreateDhcpDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags   map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName   *string                           `json:"displayName"`
-		FreeformTags  map[string]string                 `json:"freeformTags"`
-		CompartmentId *string                           `json:"compartmentId"`
-		Options       []dhcpoption                      `json:"options"`
-		VcnId         *string                           `json:"vcnId"`
+		DefinedTags    map[string]map[string]interface{}   `json:"definedTags"`
+		DisplayName    *string                             `json:"displayName"`
+		FreeformTags   map[string]string                   `json:"freeformTags"`
+		DomainNameType CreateDhcpDetailsDomainNameTypeEnum `json:"domainNameType"`
+		CompartmentId  *string                             `json:"compartmentId"`
+		Options        []dhcpoption                        `json:"options"`
+		VcnId          *string                             `json:"vcnId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -70,6 +74,8 @@ func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.FreeformTags = model.FreeformTags
+
+	m.DomainNameType = model.DomainNameType
 
 	m.CompartmentId = model.CompartmentId
 
@@ -89,4 +95,29 @@ func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	m.VcnId = model.VcnId
 
 	return
+}
+
+// CreateDhcpDetailsDomainNameTypeEnum Enum with underlying type: string
+type CreateDhcpDetailsDomainNameTypeEnum string
+
+// Set of constants representing the allowable values for CreateDhcpDetailsDomainNameTypeEnum
+const (
+	CreateDhcpDetailsDomainNameTypeSubnetDomain CreateDhcpDetailsDomainNameTypeEnum = "SUBNET_DOMAIN"
+	CreateDhcpDetailsDomainNameTypeVcnDomain    CreateDhcpDetailsDomainNameTypeEnum = "VCN_DOMAIN"
+	CreateDhcpDetailsDomainNameTypeCustomDomain CreateDhcpDetailsDomainNameTypeEnum = "CUSTOM_DOMAIN"
+)
+
+var mappingCreateDhcpDetailsDomainNameType = map[string]CreateDhcpDetailsDomainNameTypeEnum{
+	"SUBNET_DOMAIN": CreateDhcpDetailsDomainNameTypeSubnetDomain,
+	"VCN_DOMAIN":    CreateDhcpDetailsDomainNameTypeVcnDomain,
+	"CUSTOM_DOMAIN": CreateDhcpDetailsDomainNameTypeCustomDomain,
+}
+
+// GetCreateDhcpDetailsDomainNameTypeEnumValues Enumerates the set of values for CreateDhcpDetailsDomainNameTypeEnum
+func GetCreateDhcpDetailsDomainNameTypeEnumValues() []CreateDhcpDetailsDomainNameTypeEnum {
+	values := make([]CreateDhcpDetailsDomainNameTypeEnum, 0)
+	for _, v := range mappingCreateDhcpDetailsDomainNameType {
+		values = append(values, v)
+	}
+	return values
 }

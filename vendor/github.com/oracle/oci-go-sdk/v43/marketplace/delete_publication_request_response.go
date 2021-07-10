@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/DeletePublication.go.html to see an example of how to use DeletePublicationRequest.
 type DeletePublicationRequest struct {
 
-	// The unique identifier for the listing.
+	// The unique identifier for the publication.
 	PublicationId *string `mandatory:"true" contributesTo:"path" name:"publicationId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to

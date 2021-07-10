@@ -28,8 +28,8 @@ type ResolverForwardRule struct {
 	// IP addresses to which queries should be forwarded. Currently limited to a single address.
 	DestinationAddresses []string `mandatory:"true" json:"destinationAddresses"`
 
-	// Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The
-	// endpoint must have isForwarding set to true.
+	// Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding
+	// interface. The endpoint must have isForwarding set to true.
 	SourceEndpointName *string `mandatory:"false" json:"sourceEndpointName"`
 }
 

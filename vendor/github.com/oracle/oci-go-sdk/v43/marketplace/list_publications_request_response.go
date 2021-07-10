@@ -19,16 +19,16 @@ type ListPublicationsRequest struct {
 	// The unique identifier for the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The type of the listing
+	// The type of the listing.
 	ListingType ListPublicationsListingTypeEnum `mandatory:"true" contributesTo:"query" name:"listingType" omitEmpty:"true"`
 
-	// The name of the listing.
+	// The name of the publication.
 	Name []string `contributesTo:"query" name:"name" collectionFormat:"multi"`
 
-	// The unique identifier for the listing.
+	// The unique identifier for the publication.
 	PublicationId *string `mandatory:"false" contributesTo:"query" name:"publicationId"`
 
-	// OS of the listing.
+	// The operating system of the listing.
 	OperatingSystems []string `contributesTo:"query" name:"operatingSystems" collectionFormat:"multi"`
 
 	// The field to use to sort listed results. You can only specify one field to sort by.

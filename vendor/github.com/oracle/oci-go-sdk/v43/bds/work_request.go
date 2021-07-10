@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,39 +13,34 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// WorkRequest A description of workrequest status
+// WorkRequest Description of the work request status.
 type WorkRequest struct {
 
-	// The id of the work request.
+	// The ID of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to
-	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
-	// and those resources are not in the same compartment, it is up to the service team to pick the primary
-	// resource whose compartment should be used
+	// The OCID of the compartment that contains the work request. Work requests should be scoped to the same compartment as the resource the work request affects. If the work request affects multiple resources, and those resources are not in the same compartment, it is up to the service team to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of the work request
+	// The type of this work request.
 	OperationType OperationTypesEnum `mandatory:"true" json:"operationType"`
 
-	// Status of current work request.
+	// The status of this work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
 	// The resources affected by this work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// Percentage of the request completed.
+	// Percentage of this work request completed.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// The date and time the request was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the request was created, shown as an RFC 3339 formatted datetime string.
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the request was started, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
-	// section 14.29.
+	// The time the request was started, shown as an RFC 3339 formatted datetime string.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the object was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	// The time the object was finished, shown as an RFC 3339 formatted datetime string.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

@@ -14,22 +14,22 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// Tsig A TSIG (https://tools.ietf.org/html/rfc2845) key.
-type Tsig struct {
+// ZoneTransferServer An OCI nameserver that transfers zone data with external nameservers.
+type ZoneTransferServer struct {
 
-	// A domain name identifying the key for a given pair of hosts.
-	Name *string `mandatory:"true" json:"name"`
+	// The server's IP address (IPv4 or IPv6).
+	Address *string `mandatory:"true" json:"address"`
 
-	// A base64 string encoding the binary shared secret.
-	Secret *string `mandatory:"true" json:"secret"`
+	// The server's port.
+	Port *int `mandatory:"false" json:"port"`
 
-	// TSIG Algorithms are encoded as domain names, but most consist of only one
-	// non-empty label, which is not required to be explicitly absolute.
-	// Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256,
-	// hmac-sha512. For more information on these algorithms, see RFC 4635 (https://tools.ietf.org/html/rfc4635#section-2).
-	Algorithm *string `mandatory:"true" json:"algorithm"`
+	// A Boolean flag indicating whether or not the server is a zone data transfer source.
+	IsTransferSource *bool `mandatory:"false" json:"isTransferSource"`
+
+	// A Boolean flag indicating whether or not the server is a zone data transfer destination.
+	IsTransferDestination *bool `mandatory:"false" json:"isTransferDestination"`
 }
 
-func (m Tsig) String() string {
+func (m ZoneTransferServer) String() string {
 	return common.PointerString(m)
 }
