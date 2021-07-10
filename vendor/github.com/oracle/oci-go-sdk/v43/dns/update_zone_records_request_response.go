@@ -94,12 +94,11 @@ type UpdateZoneRecordsResponse struct {
 	// The total number of items that match the query.
 	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 
-	// Unique Oracle-assigned identifier for the request. If you need
-	// to contact Oracle about a particular request, please provide
-	// the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to
+	// contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The current version of the record collection, ending with a
+	// The current version of the resource, ending with a
 	// representation-specific suffix. This value may be used in If-Match
 	// and If-None-Match headers for later requests of the same resource.
 	ETag *string `presentIn:"header" name:"etag"`

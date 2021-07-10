@@ -16,10 +16,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateBdsInstance.go.html to see an example of how to use UpdateBdsInstanceRequest.
 type UpdateBdsInstanceRequest struct {
 
-	// The OCID of the BDS instance
+	// The OCID of the cluster.
 	BdsInstanceId *string `mandatory:"true" contributesTo:"path" name:"bdsInstanceId"`
 
-	// Details for the to-be-updated BDS instace.
+	// Details for the cluster to be updated.
 	UpdateBdsInstanceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -69,7 +69,7 @@ type UpdateBdsInstanceResponse struct {
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

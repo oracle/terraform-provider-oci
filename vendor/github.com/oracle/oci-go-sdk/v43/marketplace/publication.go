@@ -13,31 +13,31 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// Publication The model for an Oracle Cloud Infrastructure Marketplace Publication
+// Publication The model for an Oracle Cloud Infrastructure Marketplace publication.
 type Publication struct {
 
-	// The Compartment id where the listings exists
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the publication exists.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The unique identifier for the listing in Marketplace.
+	// The unique identifier for the publication in Marketplace.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the listing.
+	// The name of the publication, which is also used in the listing.
 	Name *string `mandatory:"true" json:"name"`
 
-	// In which catalog the listing should exist.
+	// The publisher category to which the publication belongs. The publisher category informs where the listing appears for use.
 	ListingType ListingTypeEnum `mandatory:"true" json:"listingType"`
 
-	// The state of the listing in its lifecycle
+	// The lifecycle state of the publication.
 	LifecycleState PublicationLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A short description of the listing.
+	// A short description of the publication to use in the listing.
 	ShortDescription *string `mandatory:"false" json:"shortDescription"`
 
-	// A long description of the listing.
+	// A long description of the publication to use in the listing.
 	LongDescription *string `mandatory:"false" json:"longDescription"`
 
-	// Contact information to use to get support from the publisher for the listing.
+	// Contact information for getting support from the publisher for the listing.
 	SupportContacts []SupportContact `mandatory:"false" json:"supportContacts"`
 
 	Icon *UploadData `mandatory:"false" json:"icon"`
@@ -45,10 +45,10 @@ type Publication struct {
 	// The listing's package type.
 	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
 
-	// List of operating systems supprted.
+	// The list of operating systems supprted by the listing.
 	SupportedOperatingSystems []OperatingSystem `mandatory:"false" json:"supportedOperatingSystems"`
 
-	// The date and time this publication was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// The date and time the publication was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

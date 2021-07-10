@@ -16,10 +16,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ChangePublicationCompartment.go.html to see an example of how to use ChangePublicationCompartmentRequest.
 type ChangePublicationCompartmentRequest struct {
 
-	// The unique identifier for the listing.
+	// The unique identifier for the publication.
 	PublicationId *string `mandatory:"true" contributesTo:"path" name:"publicationId"`
 
-	// Request to change the compartment of a given Publication.
+	// The details of the request to change the compartment of a given publication.
 	ChangePublicationCompartmentDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without

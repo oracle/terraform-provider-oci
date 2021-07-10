@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -81,7 +79,7 @@ func (client *BdsClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
 }
 
-// AddAutoScalingConfiguration Add autoscaling configuration.
+// AddAutoScalingConfiguration Add an autoscale configuration to the cluster.
 //
 // See also
 //
@@ -140,8 +138,7 @@ func (client BdsClient) addAutoScalingConfiguration(ctx context.Context, request
 	return response, err
 }
 
-// AddBlockStorage Adds storage to existing worker nodes. The same amount of storage will be added to all workers.
-// No change will be made to already attached storage. Block Storage once added cannot be removed.
+// AddBlockStorage Adds block storage to existing worker nodes. The same amount of  storage will be added to all worker nodes. No change will be made  to storage that is already attached. Block storage cannot be removed.
 //
 // See also
 //
@@ -200,8 +197,7 @@ func (client BdsClient) addBlockStorage(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// AddCloudSql Adds Cloud SQL to your cluster. This will add a query server node to the cluster
-// and create cell servers on all your worker nodes.
+// AddCloudSql Adds Cloud SQL to your cluster. You can use Cloud SQL to query against non-relational data stored in multiple big data sources, including Apache Hive, HDFS, Oracle NoSQL Database, and Apache HBase. Adding Cloud SQL adds a query server node to the cluster and creates cell servers on all the worker nodes in the cluster.
 //
 // See also
 //
@@ -260,8 +256,7 @@ func (client BdsClient) addCloudSql(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// AddWorkerNodes Add worker nodes to an existing cluster. The worker nodes added will be based on an identical shape
-// and have the same amount of attached block storage as other worker nodes in the cluster.
+// AddWorkerNodes Increases the size (scales out) a cluster by adding worker nodes. The added worker nodes will have the same shape and will have the same amount of attached block storage as other worker nodes in the cluster.
 //
 // See also
 //
@@ -320,7 +315,7 @@ func (client BdsClient) addWorkerNodes(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// ChangeBdsInstanceCompartment Moves a BDS instance into a different compartment.
+// ChangeBdsInstanceCompartment Moves a Big Data Service cluster into a different compartment.
 //
 // See also
 //
@@ -379,9 +374,7 @@ func (client BdsClient) changeBdsInstanceCompartment(ctx context.Context, reques
 	return response, err
 }
 
-// ChangeShape Scale-up/down individial nodes (per role type) in the cluster. Customer can choose
-// arbitrarty VM_STANDARD shape to scale-up/down the instance. Only VM_STANDARD nodes
-// can be re-shaped.
+// ChangeShape Changes the size of a cluster by scaling up or scaling down the nodes. Nodes are scaled up or down by changing the shapes of all the nodes of the same type to the next larger or smaller shape. The node types are master, utility, worker, and Cloud SQL. Only nodes with VM-STANDARD shapes can be scaled.
 //
 // See also
 //
@@ -440,7 +433,7 @@ func (client BdsClient) changeShape(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// CreateBdsInstance Creates a new BDS instance.
+// CreateBdsInstance Creates a Big Data Service cluster.
 //
 // See also
 //
@@ -499,7 +492,7 @@ func (client BdsClient) createBdsInstance(ctx context.Context, request common.OC
 	return response, err
 }
 
-// DeleteBdsInstance Deletes a BDS instance by identifier
+// DeleteBdsInstance Deletes the cluster identified by the given ID.
 //
 // See also
 //
@@ -553,7 +546,7 @@ func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetAutoScalingConfiguration Gets information about the specified autoscaling configuration.
+// GetAutoScalingConfiguration Returns details of the autoscale configuration identified by the given ID.
 //
 // See also
 //
@@ -607,7 +600,7 @@ func (client BdsClient) getAutoScalingConfiguration(ctx context.Context, request
 	return response, err
 }
 
-// GetBdsInstance Gets a BDS instance by identifier
+// GetBdsInstance Returns information about the Big Data Service cluster identified by the given ID.
 //
 // See also
 //
@@ -661,7 +654,7 @@ func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// GetWorkRequest Gets the status of the work request with the given ID.
+// GetWorkRequest Returns the status of the work request identified by the given ID.
 //
 // See also
 //
@@ -715,7 +708,7 @@ func (client BdsClient) getWorkRequest(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// ListAutoScalingConfigurations Gets information about the  autoscaling configuration.
+// ListAutoScalingConfigurations Returns information about the autoscaling configurations for a cluster.
 //
 // See also
 //
@@ -769,7 +762,7 @@ func (client BdsClient) listAutoScalingConfigurations(ctx context.Context, reque
 	return response, err
 }
 
-// ListBdsInstances Returns a list of BDS instances.
+// ListBdsInstances Returns a list of all Big Data Service clusters in a compartment.
 //
 // See also
 //
@@ -823,7 +816,7 @@ func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Returns a paginated list of errors for a work request identified by the given ID.
 //
 // See also
 //
@@ -877,7 +870,7 @@ func (client BdsClient) listWorkRequestErrors(ctx context.Context, request commo
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list of logs for a given work request.
 //
 // See also
 //
@@ -985,7 +978,7 @@ func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// RemoveAutoScalingConfiguration Remove autoscaling configuration.
+// RemoveAutoScalingConfiguration Deletes an autoscale configuration.
 //
 // See also
 //
@@ -1044,7 +1037,7 @@ func (client BdsClient) removeAutoScalingConfiguration(ctx context.Context, requ
 	return response, err
 }
 
-// RemoveCloudSql Remove Cloud SQL capability.
+// RemoveCloudSql Removes Cloud SQL from the cluster.
 //
 // See also
 //
@@ -1103,7 +1096,7 @@ func (client BdsClient) removeCloudSql(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// RestartNode Restarts a single node of a BDS instance.
+// RestartNode Restarts a single node of a Big Data Service cluster
 //
 // See also
 //
@@ -1162,7 +1155,7 @@ func (client BdsClient) restartNode(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// UpdateAutoScalingConfiguration Updates certain fields on the specified autoscaling configuration, such as the name, the threshold value, and whether the autoscaling configuration is enabled.
+// UpdateAutoScalingConfiguration Updates fields on an autoscale configuration, including the name, the threshold value, and whether the autoscale configuration is enabled.
 //
 // See also
 //
@@ -1221,7 +1214,7 @@ func (client BdsClient) updateAutoScalingConfiguration(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateBdsInstance Update the BDS instance identified by the id
+// UpdateBdsInstance Updates the Big Data Service cluster identified by the given ID.
 //
 // See also
 //

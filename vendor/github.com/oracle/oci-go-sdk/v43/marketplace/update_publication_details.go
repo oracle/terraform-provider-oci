@@ -13,19 +13,19 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// UpdatePublicationDetails The updated details of the resource
+// UpdatePublicationDetails The model for the parameters needed to update a publication.
 type UpdatePublicationDetails struct {
 
-	// The name of the listing.
+	// The name of the publication, which is also used in the listing.
 	Name *string `mandatory:"false" json:"name"`
 
-	// short description of the catalog listing
+	// A short description of the publication to use in the listing.
 	ShortDescription *string `mandatory:"false" json:"shortDescription"`
 
-	// short description of the catalog listing
+	// A long description of the publication to use in the listing.
 	LongDescription *string `mandatory:"false" json:"longDescription"`
 
-	// Contact information to use to get support from the publisher for the listing.
+	// Contact information for getting support from the publisher for the listing.
 	SupportContacts []SupportContact `mandatory:"false" json:"supportContacts"`
 
 	// The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces.

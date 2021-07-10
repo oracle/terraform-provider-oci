@@ -16,7 +16,7 @@ import (
 // PublisherSummary Summary details about the publisher of the listing.
 type PublisherSummary struct {
 
-	// Unique identifier for the publisher.
+	// The unique identifier for the publisher.
 	Id *string `mandatory:"false" json:"id"`
 
 	// The name of the publisher.

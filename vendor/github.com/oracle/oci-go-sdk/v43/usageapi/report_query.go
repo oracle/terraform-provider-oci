@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// ReportQuery the request of generated cost analysis report.
+// ReportQuery The request of the generated Cost Analysis report.
 type ReportQuery struct {
 
-	// Tenant ID
+	// Tenant ID.
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
 	// The usage granularity.
@@ -32,14 +32,17 @@ type ReportQuery struct {
 	// The usage end time.
 	TimeUsageEnded *common.SDKTime `mandatory:"false" json:"timeUsageEnded"`
 
-	// is aggregated by time. true isAggregateByTime will add up all usage/cost over query time period
+	// Whether aggregated by time. If isAggregateByTime is true, all usage/cost over the query time period will be added up.
 	IsAggregateByTime *bool `mandatory:"false" json:"isAggregateByTime"`
 
 	Forecast *Forecast `mandatory:"false" json:"forecast"`
 
-	// The query usage type. COST by default if it is missing
+	// The query usage type. COST by default if it is missing.
 	// Usage - Query the usage data.
 	// Cost - Query the cost/billing data.
+	// Credit - Query the credit adjustments data.
+	// ExpiredCredit - Query the expired credits data
+	// AllCredit - Query the credit adjustments and expired credit
 	QueryType ReportQueryQueryTypeEnum `mandatory:"false" json:"queryType,omitempty"`
 
 	// Aggregate the result by.
@@ -59,7 +62,7 @@ type ReportQuery struct {
 
 	Filter *Filter `mandatory:"false" json:"filter"`
 
-	// the date range for ui, eg LAST_THREE_MONTHS. It is conflict with timeUsageStarted and timeUsageEnded
+	// The UI date range, for example, LAST_THREE_MONTHS. Conflicts with timeUsageStarted and timeUsageEnded.
 	DateRangeName ReportQueryDateRangeNameEnum `mandatory:"false" json:"dateRangeName,omitempty"`
 }
 
@@ -99,13 +102,19 @@ type ReportQueryQueryTypeEnum string
 
 // Set of constants representing the allowable values for ReportQueryQueryTypeEnum
 const (
-	ReportQueryQueryTypeUsage ReportQueryQueryTypeEnum = "USAGE"
-	ReportQueryQueryTypeCost  ReportQueryQueryTypeEnum = "COST"
+	ReportQueryQueryTypeUsage         ReportQueryQueryTypeEnum = "USAGE"
+	ReportQueryQueryTypeCost          ReportQueryQueryTypeEnum = "COST"
+	ReportQueryQueryTypeCredit        ReportQueryQueryTypeEnum = "CREDIT"
+	ReportQueryQueryTypeExpiredcredit ReportQueryQueryTypeEnum = "EXPIREDCREDIT"
+	ReportQueryQueryTypeAllcredit     ReportQueryQueryTypeEnum = "ALLCREDIT"
 )
 
 var mappingReportQueryQueryType = map[string]ReportQueryQueryTypeEnum{
-	"USAGE": ReportQueryQueryTypeUsage,
-	"COST":  ReportQueryQueryTypeCost,
+	"USAGE":         ReportQueryQueryTypeUsage,
+	"COST":          ReportQueryQueryTypeCost,
+	"CREDIT":        ReportQueryQueryTypeCredit,
+	"EXPIREDCREDIT": ReportQueryQueryTypeExpiredcredit,
+	"ALLCREDIT":     ReportQueryQueryTypeAllcredit,
 }
 
 // GetReportQueryQueryTypeEnumValues Enumerates the set of values for ReportQueryQueryTypeEnum

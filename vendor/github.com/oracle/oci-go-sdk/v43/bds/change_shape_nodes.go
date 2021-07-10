@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// ChangeShapeNodes Inidividual worker nodes groups details
+// ChangeShapeNodes Individual worker nodes groups details.
 type ChangeShapeNodes struct {
 
 	// Change shape of worker nodes to the desired target shape. Only VM_STANDARD shapes are allowed here.
@@ -27,7 +25,7 @@ type ChangeShapeNodes struct {
 	// Change shape of utility nodes to the desired target shape. Only VM_STANDARD shapes are allowed here.
 	Utility *string `mandatory:"false" json:"utility"`
 
-	// Change shape of cloudsql node to the desired target shape. Only VM_STANDARD shapes are allowed here.
+	// Change shape of the Cloud SQL node to the desired target shape. Only VM_STANDARD shapes are allowed here.
 	Cloudsql *string `mandatory:"false" json:"cloudsql"`
 }
 

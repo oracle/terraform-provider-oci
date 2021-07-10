@@ -19,7 +19,7 @@ type ListBdsInstancesRequest struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The state of the BDS instance.
+	// The state of the cluster.
 	LifecycleState BdsInstanceLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
@@ -77,7 +77,7 @@ type ListBdsInstancesResponse struct {
 	Items []BdsInstanceSummary `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,

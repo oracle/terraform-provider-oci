@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// KerberosDetails Details about Kerberos principals
+// KerberosDetails Details about the Kerberos principals.
 type KerberosDetails struct {
 
-	// Name of the Kerberos principal
+	// Name of the Kerberos principal.
 	PrincipalName *string `mandatory:"true" json:"principalName"`
 
 	// Location of the keytab file

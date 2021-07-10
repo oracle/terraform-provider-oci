@@ -14,22 +14,22 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// ImagePublicationPackage A package for image publications.
+// ImagePublicationPackage A publication package for image publications.
 type ImagePublicationPackage struct {
 
-	// The ID of the listing this package belongs to.
+	// The ID of the listing that the specified package belongs to.
 	ListingId *string `mandatory:"true" json:"listingId"`
 
 	// The package version.
 	Version *string `mandatory:"true" json:"version"`
 
-	// Description of this package.
+	// A description of the package.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The unique identifier for the package resource.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// The date and time this listing package was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// The date and time the publication package was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -39,10 +39,10 @@ type ImagePublicationPackage struct {
 	// The ID of the listing resource associated with this publication package. For more information, see AppCatalogListing (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API.
 	AppCatalogListingId *string `mandatory:"false" json:"appCatalogListingId"`
 
-	// The resource version of the listing resource associated with this listing package.
+	// The resource version of the listing resource associated with this publication package.
 	AppCatalogListingResourceVersion *string `mandatory:"false" json:"appCatalogListingResourceVersion"`
 
-	// The ID of the image corresponding to the package.
+	// The ID of the image that corresponds to the package.
 	ImageId *string `mandatory:"false" json:"imageId"`
 }
 

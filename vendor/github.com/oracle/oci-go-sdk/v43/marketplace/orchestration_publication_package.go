@@ -14,32 +14,32 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// OrchestrationPublicationPackage A publication package for orchestration.
+// OrchestrationPublicationPackage A publication package for stack publications.
 type OrchestrationPublicationPackage struct {
 
-	// The ID of the listing this package belongs to.
+	// The ID of the listing that the specified package belongs to.
 	ListingId *string `mandatory:"true" json:"listingId"`
 
 	// The package version.
 	Version *string `mandatory:"true" json:"version"`
 
-	// Description of this package.
+	// A description of the package.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The unique identifier for the package resource.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// The date and time this listing package was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// The date and time the publication package was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
-	// Link to the orchestration resource.
+	// A link to the stack resource.
 	ResourceLink *string `mandatory:"false" json:"resourceLink"`
 
-	// List of variables for the orchestration resource.
+	// A list of variables for the stack resource.
 	Variables []OrchestrationVariable `mandatory:"false" json:"variables"`
 }
 

@@ -36,6 +36,9 @@ type UpdateDhcpDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	Options []DhcpOption `mandatory:"false" json:"options"`
+
+	// The search domain name type of DHCP options
+	DomainNameType UpdateDhcpDetailsDomainNameTypeEnum `mandatory:"false" json:"domainNameType,omitempty"`
 }
 
 func (m UpdateDhcpDetails) String() string {
@@ -45,10 +48,11 @@ func (m UpdateDhcpDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName  *string                           `json:"displayName"`
-		FreeformTags map[string]string                 `json:"freeformTags"`
-		Options      []dhcpoption                      `json:"options"`
+		DefinedTags    map[string]map[string]interface{}   `json:"definedTags"`
+		DisplayName    *string                             `json:"displayName"`
+		FreeformTags   map[string]string                   `json:"freeformTags"`
+		Options        []dhcpoption                        `json:"options"`
+		DomainNameType UpdateDhcpDetailsDomainNameTypeEnum `json:"domainNameType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -75,5 +79,32 @@ func (m *UpdateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 
+	m.DomainNameType = model.DomainNameType
+
 	return
+}
+
+// UpdateDhcpDetailsDomainNameTypeEnum Enum with underlying type: string
+type UpdateDhcpDetailsDomainNameTypeEnum string
+
+// Set of constants representing the allowable values for UpdateDhcpDetailsDomainNameTypeEnum
+const (
+	UpdateDhcpDetailsDomainNameTypeSubnetDomain UpdateDhcpDetailsDomainNameTypeEnum = "SUBNET_DOMAIN"
+	UpdateDhcpDetailsDomainNameTypeVcnDomain    UpdateDhcpDetailsDomainNameTypeEnum = "VCN_DOMAIN"
+	UpdateDhcpDetailsDomainNameTypeCustomDomain UpdateDhcpDetailsDomainNameTypeEnum = "CUSTOM_DOMAIN"
+)
+
+var mappingUpdateDhcpDetailsDomainNameType = map[string]UpdateDhcpDetailsDomainNameTypeEnum{
+	"SUBNET_DOMAIN": UpdateDhcpDetailsDomainNameTypeSubnetDomain,
+	"VCN_DOMAIN":    UpdateDhcpDetailsDomainNameTypeVcnDomain,
+	"CUSTOM_DOMAIN": UpdateDhcpDetailsDomainNameTypeCustomDomain,
+}
+
+// GetUpdateDhcpDetailsDomainNameTypeEnumValues Enumerates the set of values for UpdateDhcpDetailsDomainNameTypeEnum
+func GetUpdateDhcpDetailsDomainNameTypeEnumValues() []UpdateDhcpDetailsDomainNameTypeEnum {
+	values := make([]UpdateDhcpDetailsDomainNameTypeEnum, 0)
+	for _, v := range mappingUpdateDhcpDetailsDomainNameType {
+		values = append(values, v)
+	}
+	return values
 }

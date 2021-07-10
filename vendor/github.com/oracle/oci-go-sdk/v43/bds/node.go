@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,52 +13,52 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// Node Specific info about a node
+// Node Details about a node.
 type Node struct {
 
-	// The OCID of the underlying compute instance
+	// The OCID of the underlying Oracle Cloud Infrastructure Compute instance.
 	InstanceId *string `mandatory:"true" json:"instanceId"`
 
-	// The name of the node
+	// The name of the node.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The state of the node
+	// The state of the node.
 	LifecycleState NodeLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// BDS instance node type
+	// Cluster node type.
 	NodeType NodeNodeTypeEnum `mandatory:"true" json:"nodeType"`
 
-	// Shape of the node
+	// Shape of the node.
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// The OCID of the subnet in which the node should be created
+	// The OCID of the subnet in which the node is to be created.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// IP address of the node
+	// IP address of the node.
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
-	// The fingerprint of the SSH key used for node access
+	// The fingerprint of the SSH key used for node access.
 	SshFingerprint *string `mandatory:"true" json:"sshFingerprint"`
 
-	// The name of the availability domain the node is running in
+	// The name of the availability domain in which the node is running.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The name of the fault domain the node is running in
+	// The name of the fault domain in which the node is running.
 	FaultDomain *string `mandatory:"true" json:"faultDomain"`
 
-	// The time the node was created. An RFC3339 formatted datetime string
+	// The time the node was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The list of block volumes attached to a given node.
 	AttachedBlockVolumes []VolumeAttachmentDetail `mandatory:"false" json:"attachedBlockVolumes"`
 
-	// The fully-qualified hostname (FQDN) of the node
+	// The fully-qualified hostname (FQDN) of the node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
-	// The OCID of the image from which the node was created
+	// The OCID of the image from which the node was created.
 	ImageId *string `mandatory:"false" json:"imageId"`
 
-	// The time the BDS instance was updated. An RFC3339 formatted datetime string
+	// The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 

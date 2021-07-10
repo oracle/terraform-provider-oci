@@ -78,6 +78,9 @@ type Zone struct {
 	// be null for zones in the global DNS, which are publicly resolvable and
 	// not part of a private view.
 	ViewId *string `mandatory:"false" json:"viewId"`
+
+	// The OCI nameservers that transfer the zone data with external nameservers.
+	ZoneTransferServers []ZoneTransferServer `mandatory:"false" json:"zoneTransferServers"`
 }
 
 func (m Zone) String() string {
@@ -117,6 +120,7 @@ const (
 	ZoneLifecycleStateDeleted  ZoneLifecycleStateEnum = "DELETED"
 	ZoneLifecycleStateDeleting ZoneLifecycleStateEnum = "DELETING"
 	ZoneLifecycleStateFailed   ZoneLifecycleStateEnum = "FAILED"
+	ZoneLifecycleStateUpdating ZoneLifecycleStateEnum = "UPDATING"
 )
 
 var mappingZoneLifecycleState = map[string]ZoneLifecycleStateEnum{
@@ -125,6 +129,7 @@ var mappingZoneLifecycleState = map[string]ZoneLifecycleStateEnum{
 	"DELETED":  ZoneLifecycleStateDeleted,
 	"DELETING": ZoneLifecycleStateDeleting,
 	"FAILED":   ZoneLifecycleStateFailed,
+	"UPDATING": ZoneLifecycleStateUpdating,
 }
 
 // GetZoneLifecycleStateEnumValues Enumerates the set of values for ZoneLifecycleStateEnum

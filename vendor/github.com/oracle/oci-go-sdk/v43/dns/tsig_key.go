@@ -74,11 +74,19 @@ type TsigKeyLifecycleStateEnum string
 const (
 	TsigKeyLifecycleStateActive   TsigKeyLifecycleStateEnum = "ACTIVE"
 	TsigKeyLifecycleStateCreating TsigKeyLifecycleStateEnum = "CREATING"
+	TsigKeyLifecycleStateDeleted  TsigKeyLifecycleStateEnum = "DELETED"
+	TsigKeyLifecycleStateDeleting TsigKeyLifecycleStateEnum = "DELETING"
+	TsigKeyLifecycleStateFailed   TsigKeyLifecycleStateEnum = "FAILED"
+	TsigKeyLifecycleStateUpdating TsigKeyLifecycleStateEnum = "UPDATING"
 )
 
 var mappingTsigKeyLifecycleState = map[string]TsigKeyLifecycleStateEnum{
 	"ACTIVE":   TsigKeyLifecycleStateActive,
 	"CREATING": TsigKeyLifecycleStateCreating,
+	"DELETED":  TsigKeyLifecycleStateDeleted,
+	"DELETING": TsigKeyLifecycleStateDeleting,
+	"FAILED":   TsigKeyLifecycleStateFailed,
+	"UPDATING": TsigKeyLifecycleStateUpdating,
 }
 
 // GetTsigKeyLifecycleStateEnumValues Enumerates the set of values for TsigKeyLifecycleStateEnum

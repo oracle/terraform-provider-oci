@@ -79,7 +79,7 @@ func (client *MarketplaceClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
-// ChangePublicationCompartment Changes the compartment of the Publication
+// ChangePublicationCompartment Moves the specified publication from one compartment to another.
 //
 // See also
 //
@@ -198,7 +198,7 @@ func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, req
 	return response, err
 }
 
-// CreatePublication Creates a publication of the given type with an optional default package
+// CreatePublication Creates a publication of the specified listing type with an optional default package.
 //
 // See also
 //
@@ -258,7 +258,7 @@ func (client MarketplaceClient) createPublication(ctx context.Context, request c
 }
 
 // DeleteAcceptedAgreement Removes a previously accepted terms of use agreement from the list of agreements that Marketplace checks
-// before initiating a deployment. Listings in the Marketplace that require acceptance of the specified terms
+// before initiating a deployment. Listings in Marketplace that require acceptance of the specified terms
 // of use can no longer be deployed, but existing deployments aren't affected.
 //
 // See also
@@ -313,7 +313,7 @@ func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, req
 	return response, err
 }
 
-// DeletePublication Deletes a Publication. This will also remove the associated Listing from Marketplace.
+// DeletePublication Deletes a publication, which also removes the associated listing from anywhere it was published, such as Marketplace or Compute.
 //
 // See also
 //
@@ -605,7 +605,7 @@ func (client MarketplaceClient) getPackage(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetPublication Get details of a publication
+// GetPublication Gets the details of the specified publication.
 //
 // See also
 //
@@ -659,7 +659,7 @@ func (client MarketplaceClient) getPublication(ctx context.Context, request comm
 	return response, err
 }
 
-// GetPublicationPackage Gets the details of a specific package within a given Publication
+// GetPublicationPackage Gets the details of a specific package version within a given publication.
 //
 // See also
 //
@@ -1006,7 +1006,7 @@ func (client MarketplaceClient) listPackages(ctx context.Context, request common
 	return response, err
 }
 
-// ListPublicationPackages Lists the packages in the given Publication
+// ListPublicationPackages Lists the packages in the specified publication.
 //
 // See also
 //
@@ -1060,7 +1060,7 @@ func (client MarketplaceClient) listPublicationPackages(ctx context.Context, req
 	return response, err
 }
 
-// ListPublications Lists the publications in the given compartment
+// ListPublications Lists the publications in the specified compartment.
 //
 // See also
 //
@@ -1330,6 +1330,61 @@ func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OC
 	return response, err
 }
 
+// SearchListings Find listings that match the specified criteria. The search query could be free text
+// or structured.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/SearchListings.go.html to see an example of how to use SearchListings API.
+func (client MarketplaceClient) SearchListings(ctx context.Context, request SearchListingsRequest) (response SearchListingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.searchListings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchListingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchListingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchListingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchListingsResponse")
+	}
+	return
+}
+
+// searchListings implements the OCIOperation interface (enables retrying operations)
+func (client MarketplaceClient) searchListings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/searchListings", binaryReqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchListingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAcceptedAgreement Updates the display name or tags associated with a listing's previously accepted terms of use agreement.
 //
 // See also
@@ -1389,7 +1444,7 @@ func (client MarketplaceClient) updateAcceptedAgreement(ctx context.Context, req
 	return response, err
 }
 
-// UpdatePublication Updates details of an existing Publication
+// UpdatePublication Updates the details of an existing publication.
 //
 // See also
 //

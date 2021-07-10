@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -18,7 +16,7 @@ import (
 // ChangeShapeDetails Resize details specified for individual nodes.
 type ChangeShapeDetails struct {
 
-	// Base-64 encoded password for Cloudera Manager admin user
+	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
 	Nodes *ChangeShapeNodes `mandatory:"true" json:"nodes"`

@@ -13,10 +13,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// ChangePublicationCompartmentDetails Contains details indicating to which compartment the Publication should be moved
+// ChangePublicationCompartmentDetails The model for the parameters needed move a publication from one compartment to another.
 type ChangePublicationCompartmentDetails struct {
 
-	// The unique identifier for the compartment to which the Publication should be moved.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want to move the publication.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

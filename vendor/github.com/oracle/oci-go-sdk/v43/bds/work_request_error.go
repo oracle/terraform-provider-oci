@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -18,14 +16,13 @@ import (
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
+	// A machine-usable code for the error that occured. Error codes are listed on (https://docs.oracle.com/en-us/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured. An RFC3339 formatted datetime string.
+	// The time the error occured, shown as an RFC 3339 formatted datetime string.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

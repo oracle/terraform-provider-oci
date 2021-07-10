@@ -57,10 +57,10 @@ type ListListingsRequest struct {
 	// Indicates whether to show only featured listings. If this is set to `false` or is omitted, then all listings will be returned.
 	IsFeatured *bool `mandatory:"false" contributesTo:"query" name:"isFeatured"`
 
-	// The type of the listing
+	// The type of the listing.
 	ListingTypes []ListingTypeEnum `contributesTo:"query" name:"listingTypes" omitEmpty:"true" collectionFormat:"multi"`
 
-	// OS of the listing.
+	// The operating system of the listing.
 	OperatingSystems []string `contributesTo:"query" name:"operatingSystems" collectionFormat:"multi"`
 
 	// The unique identifier for the compartment.

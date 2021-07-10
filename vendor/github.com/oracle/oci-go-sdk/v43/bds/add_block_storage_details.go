@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,14 +13,14 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// AddBlockStorageDetails The information about additionally added block volumes
+// AddBlockStorageDetails The information about added block volumes.
 type AddBlockStorageDetails struct {
 
-	// Base-64 encoded password for Cloudera Manager admin user
+	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
-	// The size of block volume in GB that needs to be added to each worker node.
-	// All the necessary details needed for attachment are managed by service itself.
+	// The size of block volume in GB to be added to each worker node. All the
+	// details needed for attaching the block volume are managed by service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"true" json:"blockVolumeSizeInGBs"`
 }
 

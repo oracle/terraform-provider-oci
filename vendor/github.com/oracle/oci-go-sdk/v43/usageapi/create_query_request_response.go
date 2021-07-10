@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateQuery.go.html to see an example of how to use CreateQueryRequest.
 type CreateQueryRequest struct {
 
-	// New query details. It is up to 10 saved query.
+	// New query details. Up to ten saved queries.
 	CreateQueryDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

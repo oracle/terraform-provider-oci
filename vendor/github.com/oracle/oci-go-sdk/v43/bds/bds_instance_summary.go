@@ -4,9 +4,7 @@
 
 // Big Data Service API
 //
-// API for the Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service
-// build on Hadoop, Spark and Data Science distribution, which can be fully integrated with existing enterprise
-// data in Oracle Database and Oracle Applications..
+// REST API for Oracle Big Data Service. Use this API to build, deploy, and manage fully elastic Big Data Service clusters. Build on Hadoop, Spark and Data Science distributions, which can be fully integrated with existing enterprise data in Oracle Database and Oracle applications.
 //
 
 package bds
@@ -15,45 +13,45 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// BdsInstanceSummary Summary of the BDS instance
+// BdsInstanceSummary Summary details of the Big Data Service cluster.
 type BdsInstanceSummary struct {
 
-	// The OCID of the BDS resource
+	// The OCID of the Big Data Service resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment
+	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Name of the BDS instance
+	// The name of the cluster.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The state of the BDS instance
+	// The state of the cluster.
 	LifecycleState BdsInstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Number of nodes that forming the cluster
+	// The number of nodes that form the cluster.
 	NumberOfNodes *int `mandatory:"true" json:"numberOfNodes"`
 
-	// Boolean flag specifying whether or not the cluster is HA
+	// Boolean flag specifying whether or not the cluster is highly available(HA).
 	IsHighAvailability *bool `mandatory:"true" json:"isHighAvailability"`
 
-	// Boolean flag specifying whether or not the cluster should be setup as secure.
+	// Boolean flag specifying whether or not the cluster should be set up as secure.
 	IsSecure *bool `mandatory:"true" json:"isSecure"`
 
-	// Boolean flag specifying whether we configure Cloud SQL or not
+	// Boolean flag specifying whether Cloud SQL is configured or not.
 	IsCloudSqlConfigured *bool `mandatory:"true" json:"isCloudSqlConfigured"`
 
-	// The time the BDS instance was created. An RFC3339 formatted datetime string
+	// The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Version of the Hadoop distribution
+	// Version of the Hadoop distribution.
 	ClusterVersion BdsInstanceClusterVersionEnum `mandatory:"false" json:"clusterVersion,omitempty"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// Simple key-value pair that is applied without any predefined name, type, or scope.
+	// Exists for cross-compatibility only. For example, `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// For example, `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

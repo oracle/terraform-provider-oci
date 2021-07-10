@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v43/common"
 )
 
-// UpdateQueryDetails Details for the query to update reportQuery, costAnalysisUI and displayName.
+// UpdateQueryDetails Details for the query to update reportQuery, costAnalysisUI, and displayName.
 type UpdateQueryDetails struct {
 	QueryDefinition *QueryDefinition `mandatory:"true" json:"queryDefinition"`
 }

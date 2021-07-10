@@ -16,13 +16,13 @@ import (
 // Forecast Forecast configuration of usage/cost.
 type Forecast struct {
 
-	// forecast end time.
+	// The forecast end time.
 	TimeForecastEnded *common.SDKTime `mandatory:"true" json:"timeForecastEnded"`
 
-	// BASIC uses ETS to project future usage/cost based on history data. The basis for projections will be a rolling set of equivalent historical days for which projection is being made.
+	// BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 	ForecastType ForecastForecastTypeEnum `mandatory:"false" json:"forecastType,omitempty"`
 
-	// forecast start time. Will default to UTC-1 if not specified
+	// The forecast start time. Defaults to UTC-1 if not specified.
 	TimeForecastStarted *common.SDKTime `mandatory:"false" json:"timeForecastStarted"`
 }
 

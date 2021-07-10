@@ -16,10 +16,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfigurationRequest.
 type GetAutoScalingConfigurationRequest struct {
 
-	// The OCID of the BDS instance
+	// The OCID of the cluster.
 	BdsInstanceId *string `mandatory:"true" contributesTo:"path" name:"bdsInstanceId"`
 
-	// Unique Oracle-assigned identifier of the autoscaling configuration.
+	// Unique Oracle-assigned identifier of the autoscale configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
 	// The client request ID for tracing.
@@ -62,7 +62,7 @@ type GetAutoScalingConfigurationResponse struct {
 	AutoScalingConfiguration `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.

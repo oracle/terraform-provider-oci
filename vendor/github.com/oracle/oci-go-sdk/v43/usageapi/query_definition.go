@@ -23,7 +23,7 @@ type QueryDefinition struct {
 
 	CostAnalysisUI *CostAnalysisUi `mandatory:"true" json:"costAnalysisUI"`
 
-	// the version of saved query.
+	// The saved query version.
 	Version *float32 `mandatory:"true" json:"version"`
 }
 
