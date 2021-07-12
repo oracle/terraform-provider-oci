@@ -50,7 +50,7 @@ The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
-* `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Exadata Cloud@Customer VM cluster. The name does not need to be unique.

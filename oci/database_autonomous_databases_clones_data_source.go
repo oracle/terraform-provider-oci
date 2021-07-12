@@ -80,6 +80,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"autonomous_maintenance_schedule_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"available_upgrade_versions": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -578,6 +582,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.AutonomousContainerDatabaseId != nil {
 			autonomousDatabasesClone["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
+
+		autonomousDatabasesClone["autonomous_maintenance_schedule_type"] = r.AutonomousMaintenanceScheduleType
 
 		autonomousDatabasesClone["available_upgrade_versions"] = r.AvailableUpgradeVersions
 

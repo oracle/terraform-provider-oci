@@ -48,7 +48,7 @@ The following attributes are exported:
 * `scans` - The SCAN details.
 	* `hostname` - The SCAN hostname.
 	* `ips` - The list of SCAN IP addresses. Three addresses should be provided.
-	* `port` - The SCAN port. Default is 1521.
+	* `port` - The SCAN TCPIP port. Default is 1521.
 * `state` - The current state of the VM cluster network.
 * `time_created` - The date and time when the VM cluster network was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated VM Cluster.

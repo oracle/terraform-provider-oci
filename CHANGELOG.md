@@ -1,3 +1,8 @@
+## 4.38.0 (Unreleased)
+
+### Added
+- Support for access to patches for dev/test instances in AutonomousDatabase
+
 ## 4.37.0 (July 28, 2021)
 
 ### Added
