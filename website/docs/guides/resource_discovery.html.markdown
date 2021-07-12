@@ -135,6 +135,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
     * `database_migration` - Discovers database_migration resources within the specified compartment
+    * `database_tools` - Discovers database_tools resources within the specified compartment
     * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
@@ -445,6 +446,11 @@ database_migration
     
 * oci\_database\_migration\_migration
 * oci\_database\_migration\_connection
+
+database_tools
+    
+* oci\_database\_tools\_database\_tools\_private\_endpoint
+* oci\_database\_tools\_database\_tools\_connection
 
 datacatalog
     
