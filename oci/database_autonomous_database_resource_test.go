@@ -102,7 +102,8 @@ var (
 		})
 
 	autonomousDatabaseDataGuardRepresentation = representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-		"db_version": Representation{repType: Optional, create: `19c`},
+		"db_version":                           Representation{repType: Optional, create: `19c`},
+		"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 	})
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
@@ -1804,6 +1805,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
@@ -1900,7 +1902,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 }
 
 func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T) {
-	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataGuard")
+	httpreplay.SetScenario("TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -2822,8 +2824,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
 						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -2857,8 +2860,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -2894,9 +2898,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"db_workload":  Representation{repType: Required, create: `AJD`},
-							"is_free_tier": Representation{repType: Required, create: `false`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"db_workload":                          Representation{repType: Required, create: `AJD`},
+							"is_free_tier":                         Representation{repType: Required, create: `false`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -3121,8 +3126,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Create,
 						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -3156,8 +3162,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -3193,9 +3200,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"db_workload":  Representation{repType: Required, create: `APEX`},
-							"is_free_tier": Representation{repType: Required, create: `false`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"db_workload":                          Representation{repType: Required, create: `APEX`},
+							"is_free_tier":                         Representation{repType: Required, create: `false`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),

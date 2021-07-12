@@ -42,15 +42,16 @@ resource "oci_database_autonomous_database" "autonomous_database" {
 }
 
 resource "oci_database_autonomous_database" "test_autonomous_database" {
-  admin_password           = random_string.autonomous_database_admin_password.result
-  compartment_id           = var.compartment_ocid
-  cpu_core_count           = "1"
-  data_storage_size_in_tbs = "1"
-  db_name                  = "adbdb11f"
-  db_version               = "19c"
-  db_workload              = "AJD"
-  license_model            = "LICENSE_INCLUDED"
-  is_free_tier             = "false"
+  admin_password                       = random_string.autonomous_database_admin_password.result
+  compartment_id                       = var.compartment_ocid
+  cpu_core_count                       = "1"
+  data_storage_size_in_tbs             = "1"
+  db_name                              = "adbdb11f"
+  db_version                           = "19c"
+  db_workload                          = "AJD"
+  license_model                        = "LICENSE_INCLUDED"
+  is_free_tier                         = "false"
+  autonomous_maintenance_schedule_type = var.autonomous_database_autonomous_maintenance_schedule_type
 }
 
 resource "oci_database_autonomous_database" "test_autonomous_database_apex" {
