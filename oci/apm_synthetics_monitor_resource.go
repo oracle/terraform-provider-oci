@@ -99,6 +99,47 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"network_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"number_of_hops": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"probe_mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"probe_per_hop": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"protocol": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"transmission_rate": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"req_authentication_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -289,6 +330,11 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_run_once": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"script_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -465,6 +511,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isRunOnce, ok := s.D.GetOkExists("is_run_once"); ok {
+		tmp := isRunOnce.(bool)
+		request.IsRunOnce = &tmp
+	}
+
 	if monitorType, ok := s.D.GetOkExists("monitor_type"); ok {
 		request.MonitorType = oci_apm_synthetics.MonitorTypesEnum(monitorType.(string))
 	}
@@ -596,6 +647,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isRunOnce, ok := s.D.GetOkExists("is_run_once"); ok {
+		tmp := isRunOnce.(bool)
+		request.IsRunOnce = &tmp
 	}
 
 	monitorId, apmDomainId, err := parseMonitorCompositeId(s.D.Id())
@@ -730,6 +786,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsRunOnce != nil {
+		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
 	s.D.Set("monitor_type", s.Res.MonitorType)
 
 	if s.Res.RepeatIntervalInSeconds != nil {
@@ -849,6 +909,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			tmp := isCertificateValidationEnabled.(bool)
 			details.IsCertificateValidationEnabled = &tmp
 		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
+		}
 		if verifyTexts, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_texts")); ok {
 			interfaces := verifyTexts.([]interface{})
 			tmp := make([]oci_apm_synthetics.VerifyText, len(interfaces))
@@ -879,6 +949,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 		if isRedirectionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_redirection_enabled")); ok {
 			tmp := isRedirectionEnabled.(bool)
 			details.IsRedirectionEnabled = &tmp
+		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
 		}
 		if reqAuthenticationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "req_authentication_details")); ok {
 			if tmpList := reqAuthenticationDetails.([]interface{}); len(tmpList) > 0 {
@@ -959,6 +1039,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			tmp := isCertificateValidationEnabled.(bool)
 			details.IsCertificateValidationEnabled = &tmp
 		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
+		}
 		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
 			tmp := isFailureRetried.(bool)
 			details.IsFailureRetried = &tmp
@@ -966,6 +1056,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 		baseObject = details
 	case strings.ToLower("SCRIPTED_REST_CONFIG"):
 		details := oci_apm_synthetics.ScriptedRestMonitorConfiguration{}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
+		}
 		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
 			tmp := isFailureRetried.(bool)
 			details.IsFailureRetried = &tmp
@@ -987,6 +1087,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			result["is_certificate_validation_enabled"] = bool(*v.IsCertificateValidationEnabled)
 		}
 
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
+
 		verifyTexts := []interface{}{}
 		for _, item := range v.VerifyTexts {
 			verifyTexts = append(verifyTexts, VerifyTextToMap(item))
@@ -1005,6 +1109,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 
 		if v.IsRedirectionEnabled != nil {
 			result["is_redirection_enabled"] = bool(*v.IsRedirectionEnabled)
+		}
+
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
 		}
 
 		if v.ReqAuthenticationDetails != nil {
@@ -1047,11 +1155,19 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			result["is_certificate_validation_enabled"] = bool(*v.IsCertificateValidationEnabled)
 		}
 
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
+
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
 		}
 	case oci_apm_synthetics.ScriptedRestMonitorConfiguration:
 		result["config_type"] = "SCRIPTED_REST_CONFIG"
+
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
 
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
@@ -1095,6 +1211,10 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsRunOnce != nil {
+		result["is_run_once"] = bool(*obj.IsRunOnce)
+	}
+
 	result["monitor_type"] = string(obj.MonitorType)
 
 	if obj.RepeatIntervalInSeconds != nil {
@@ -1136,6 +1256,57 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 		vantagePoints = append(vantagePoints, item.Name)
 	}
 	result["vantage_points"] = vantagePoints
+
+	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToNetworkConfiguration(fieldKeyFormat string) (oci_apm_synthetics.NetworkConfiguration, error) {
+	result := oci_apm_synthetics.NetworkConfiguration{}
+
+	if numberOfHops, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "number_of_hops")); ok {
+		tmp := numberOfHops.(int)
+		result.NumberOfHops = &tmp
+	}
+
+	if probeMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "probe_mode")); ok {
+		result.ProbeMode = oci_apm_synthetics.ProbeModeEnum(probeMode.(string))
+	}
+
+	if probePerHop, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "probe_per_hop")); ok {
+		tmp := probePerHop.(int)
+		result.ProbePerHop = &tmp
+	}
+
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+		result.Protocol = oci_apm_synthetics.ProtocolEnum(protocol.(string))
+	}
+
+	if transmissionRate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transmission_rate")); ok {
+		tmp := transmissionRate.(int)
+		result.TransmissionRate = &tmp
+	}
+
+	return result, nil
+}
+
+func NetworkConfigurationToMap(obj *oci_apm_synthetics.NetworkConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.NumberOfHops != nil {
+		result["number_of_hops"] = int(*obj.NumberOfHops)
+	}
+
+	result["probe_mode"] = string(obj.ProbeMode)
+
+	if obj.ProbePerHop != nil {
+		result["probe_per_hop"] = int(*obj.ProbePerHop)
+	}
+
+	result["protocol"] = string(obj.Protocol)
+
+	if obj.TransmissionRate != nil {
+		result["transmission_rate"] = int(*obj.TransmissionRate)
+	}
 
 	return result
 }

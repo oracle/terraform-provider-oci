@@ -54,6 +54,12 @@ The following attributes are exported:
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
 	* `is_redirection_enabled` - If redirection enabled, then redirects will be allowed while accessing target URL.
+	* `network_configuration` - Details of the network configuration.
+		* `number_of_hops` - Number of hops.
+		* `probe_mode` - Type of probe mode when TCP protocol is selected.
+		* `probe_per_hop` - Number of probes per hop.
+		* `protocol` - Type of protocol.
+		* `transmission_rate` - Number of probe packets sent out simultaneously.
 	* `req_authentication_details` - Details for request HTTP authentication.
 		* `auth_headers` - List of authentication headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]` 
 			* `header_name` - Name of the header.
@@ -82,6 +88,7 @@ The following attributes are exported:
 * `display_name` - Unique name that can be edited. The name should not contain any confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
+* `is_run_once` - If runOnce is enabled, then the monitor will run once.
 * `monitor_type` - Type of the monitor.
 * `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds. 
 * `script_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
