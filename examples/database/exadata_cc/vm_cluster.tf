@@ -18,6 +18,8 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
     ]
 
     port = 1521
+    scan_listener_port_tcp = 1521
+    scan_listener_port_tcp_ssl = 2484
   }
 
   vm_networks {
