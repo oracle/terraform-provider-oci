@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v43/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v44/apmsynthetics"
 
-	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_common "github.com/oracle/oci-go-sdk/v44/common"
 )
 
 func init() {
