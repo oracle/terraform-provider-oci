@@ -73,6 +73,16 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 						},
 
 						// Optional
+						"scan_listener_port_tcp": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"scan_listener_port_tcp_ssl": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -739,6 +749,16 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToScanDetails(fieldKeyFormat s
 		result.Port = &tmp
 	}
 
+	if scanListenerPortTcp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_listener_port_tcp")); ok {
+		tmp := scanListenerPortTcp.(int)
+		result.ScanListenerPortTcp = &tmp
+	}
+
+	if scanListenerPortTcpSsl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_listener_port_tcp_ssl")); ok {
+		tmp := scanListenerPortTcpSsl.(int)
+		result.ScanListenerPortTcpSsl = &tmp
+	}
+
 	return result, nil
 }
 
@@ -753,6 +773,14 @@ func ScanDetailsToMap(obj oci_database.ScanDetails) map[string]interface{} {
 
 	if obj.Port != nil {
 		result["port"] = int(*obj.Port)
+	}
+
+	if obj.ScanListenerPortTcp != nil {
+		result["scan_listener_port_tcp"] = int(*obj.ScanListenerPortTcp)
+	}
+
+	if obj.ScanListenerPortTcpSsl != nil {
+		result["scan_listener_port_tcp_ssl"] = int(*obj.ScanListenerPortTcpSsl)
 	}
 
 	return result
@@ -868,6 +896,12 @@ func scansHashCodeForSets(v interface{}) int {
 	}
 	if port, ok := m["port"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", port))
+	}
+	if scanListenerPortTcp, ok := m["scan_listener_port_tcp"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", scanListenerPortTcp))
+	}
+	if scanListenerPortTcpSsl, ok := m["scan_listener_port_tcp_ssl"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", scanListenerPortTcpSsl))
 	}
 	return hashcode.String(buf.String())
 }
