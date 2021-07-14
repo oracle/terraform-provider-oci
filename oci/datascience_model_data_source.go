@@ -96,6 +96,18 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}
 
+	customMetadataList := []interface{}{}
+	for _, item := range s.Res.CustomMetadataList {
+		customMetadataList = append(customMetadataList, MetadataToMap(item))
+	}
+	s.D.Set("custom_metadata_list", customMetadataList)
+
+	definedMetadataList := []interface{}{}
+	for _, item := range s.Res.DefinedMetadataList {
+		definedMetadataList = append(definedMetadataList, MetadataToMap(item))
+	}
+	s.D.Set("defined_metadata_list", definedMetadataList)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -109,6 +121,14 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.InputSchema != nil {
+		s.D.Set("input_schema", *s.Res.InputSchema)
+	}
+
+	if s.Res.OutputSchema != nil {
+		s.D.Set("output_schema", *s.Res.OutputSchema)
+	}
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)

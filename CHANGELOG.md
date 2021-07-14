@@ -5,6 +5,7 @@
 - Support for metastore integration added to `dataflow`
 - Support for Cross-Region Copy of Volume Group Backups in `core` added
 - Support for Network Bonding added to `ExaCS`
+- Support for ODSC - Model Store V2	
 
 ## 4.37.0 (July 28, 2021)
 
