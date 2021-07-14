@@ -24,6 +24,7 @@ resource "oci_datascience_model_provenance" "test_model_provenance" {
 	git_commit = var.model_provenance_git_commit
 	repository_url = var.model_provenance_repository_url
 	script_dir = var.model_provenance_script_dir
+	training_id = oci_datascience_training.test_training.id
 	training_script = var.model_provenance_training_script
 }
 ```
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `model_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 * `repository_url` - (Optional) (Updatable) For model reproducibility purposes. URL of the git repository associated with model training.
 * `script_dir` - (Optional) (Updatable) For model reproducibility purposes. Path to model artifacts.
+* `training_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a training session(Job or NotebookSession) in which the model was trained. It is used for model reproducibility purposes.
 * `training_script` - (Optional) (Updatable) For model reproducibility purposes. Path to the python script or notebook in which the model was trained." 
 
 
@@ -51,6 +53,7 @@ The following attributes are exported:
 * `git_commit` - For model reproducibility purposes. Commit ID of the git repository associated with model training.
 * `repository_url` - For model reproducibility purposes. URL of the git repository associated with model training.
 * `script_dir` - For model reproducibility purposes. Path to model artifacts.
+* `training_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a training session(Job or NotebookSession) in which the model was trained. It is used for model reproducibility purposes.
 * `training_script` - For model reproducibility purposes. Path to the python script or notebook in which the model was trained." 
 
 ## Timeouts

@@ -31,6 +31,7 @@ var (
 		"git_commit":      Representation{repType: Optional, create: `gitCommit`, update: `gitCommit2`},
 		"repository_url":  Representation{repType: Optional, create: `repositoryUrl`, update: `repositoryUrl2`},
 		"script_dir":      Representation{repType: Optional, create: `scriptDir`, update: `scriptDir2`},
+		"training_id":     Representation{repType: Optional, create: `ocid1.datasciencenotebooksession.oc1.iad.amaaaaaav66vvniaiasz7njfotab2z7i6yvnk4tnbaamqqc7g45tvme3doyq`},
 		"training_script": Representation{repType: Optional, create: `trainingScript`, update: `trainingScript2`},
 	}
 
@@ -86,6 +87,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
 					resource.TestCheckResourceAttr(resourceName, "repository_url", "repositoryUrl"),
 					resource.TestCheckResourceAttr(resourceName, "script_dir", "scriptDir"),
+					resource.TestCheckResourceAttrSet(resourceName, "training_id"),
 					resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript"),
 
 					func(s *terraform.State) (err error) {
@@ -110,6 +112,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
 					resource.TestCheckResourceAttr(resourceName, "repository_url", "repositoryUrl2"),
 					resource.TestCheckResourceAttr(resourceName, "script_dir", "scriptDir2"),
+					resource.TestCheckResourceAttrSet(resourceName, "training_id"),
 					resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript2"),
 
 					func(s *terraform.State) (err error) {
