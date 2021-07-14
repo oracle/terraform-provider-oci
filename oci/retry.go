@@ -247,15 +247,13 @@ func getRetryPolicy(disableNotFoundRetries bool, service string, optionals ...in
 
 func getDefaultRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
 	startTime := time.Now()
-	retryPolicy := &oci_common.RetryPolicy{
-		MaximumNumberAttempts: 0,
-		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			return shouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
-		},
-		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
-			return getRetryBackoffDuration(response, disableNotFoundRetries, service, startTime, optionals...)
-		},
+	maximumNumberAttempts := 0
+	shouldRetryOperation := func(response oci_common.OCIOperationResponse) bool {
+		return shouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
 	}
-
-	return retryPolicy
+	nexDuration := func(response oci_common.OCIOperationResponse) time.Duration {
+		return getRetryBackoffDuration(response, disableNotFoundRetries, service, startTime, optionals...)
+	}
+	retryPolicy := oci_common.NewRetryPolicy(uint(maximumNumberAttempts), shouldRetryOperation, nexDuration)
+	return &retryPolicy
 }
