@@ -44,7 +44,7 @@ func TestMysqlMysqlVersionResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + compartmentIdVariableStr + MysqlVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "versions.#"),

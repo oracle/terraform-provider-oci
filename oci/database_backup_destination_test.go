@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database "github.com/oracle/oci-go-sdk/v44/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -85,7 +85,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -113,7 +113,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(backupDestinationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -136,7 +136,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString2"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -160,7 +160,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", Optional, Update, backupDestinationDataSourceRepresentation) +
 					compartmentIdVariableStr + BackupDestinationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "backup_destinations.#", "1"),
@@ -182,7 +182,7 @@ func TestDatabaseBackupDestinationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Required, Create, backupDestinationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BackupDestinationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_destination_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -172,7 +172,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependenciesWithoutSecondaryVnic +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
@@ -195,7 +195,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
@@ -240,7 +240,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
@@ -277,7 +277,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -315,7 +315,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
 						"load_balancers": []RepresentationGroup{{Optional, instancePoolLoadBalancersRepresentation}, {Optional, instancePoolLoadBalancers2Representation}},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -358,7 +358,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -395,7 +395,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update,
 						getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "Stopped"}, instancePoolRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -422,7 +422,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -451,7 +451,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", Optional, Update, instancePoolDataSourceRepresentation) +
 					compartmentIdVariableStr + InstancePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
@@ -472,7 +472,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstancePoolResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
 

@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_bds "github.com/oracle/oci-go-sdk/v43/bds"
-	oci_common "github.com/oracle/oci-go-sdk/v43/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v44/bds"
+	oci_common "github.com/oracle/oci-go-sdk/v44/common"
 )
 
 func init() {
@@ -286,6 +286,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"ambari_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"bd_cell_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1188,6 +1192,10 @@ func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {
 
 func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AmbariUrl != nil {
+		result["ambari_url"] = string(*obj.AmbariUrl)
+	}
 
 	if obj.BdCellVersion != nil {
 		result["bd_cell_version"] = string(*obj.BdCellVersion)

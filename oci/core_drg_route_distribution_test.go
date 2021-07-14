@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -83,7 +83,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Required, Create, drgRouteDistributionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "distribution_type", "IMPORT"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
@@ -102,7 +102,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Optional, Create, drgRouteDistributionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -129,7 +129,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Optional, Update, drgRouteDistributionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -155,7 +155,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_distributions", "test_drg_route_distributions", Optional, Update, drgRouteDistributionDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteDistributionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Optional, Update, drgRouteDistributionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -177,7 +177,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Required, Create, drgRouteDistributionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteDistributionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_distribution_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

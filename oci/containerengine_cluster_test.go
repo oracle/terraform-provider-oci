@@ -13,9 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	"github.com/oracle/oci-go-sdk/v43/containerengine"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v43/containerengine"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	"github.com/oracle/oci-go-sdk/v44/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v44/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -115,7 +115,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -136,7 +136,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "true"),
@@ -175,7 +175,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "true"),
@@ -214,7 +214,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", Optional, Update, clusterDataSourceRepresentation) +
 					compartmentIdVariableStr + ClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "state.#", "6"),

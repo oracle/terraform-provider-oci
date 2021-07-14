@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -160,7 +160,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -181,7 +181,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -216,7 +216,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
@@ -245,7 +245,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -276,7 +276,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

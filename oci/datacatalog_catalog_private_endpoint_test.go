@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v43/datacatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v44/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -107,7 +107,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -135,7 +135,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(catalogPrivateEndpointRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -158,7 +158,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -182,7 +182,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoints", "test_catalog_private_endpoints", Optional, Update, catalogPrivateEndpointDataSourceRepresentation) +
 					compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -205,7 +205,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CatalogPrivateEndpointResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_private_endpoint_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

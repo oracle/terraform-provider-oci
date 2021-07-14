@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -51,7 +51,7 @@ func (s *DatasourceCoreDHCPOptionsTestSuite) TestAccDatasourceCoreDHCPOptions_ba
 						regex = true
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "options.#", "1"),

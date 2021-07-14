@@ -46,7 +46,7 @@ func TestLoadBalancerLoadBalancerPolicyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_policies", "test_load_balancer_policies", Required, Create, loadBalancerPolicyDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerPolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "policies.#"),

@@ -10,7 +10,9 @@ description: |-
 # oci_dns_rrset
 This resource provides the Rrset resource in Oracle Cloud Infrastructure DNS service.
 
-Replaces records in the specified RRSet. RRSet with a `domain` and `rtype` is unique within a zone.
+Replaces records in the specified RRSet. For private zones, the scope query parameter is required with a
+value of `PRIVATE`. When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
+query parameter then the viewId query parameter is required.
 
 ## Example Usage
 

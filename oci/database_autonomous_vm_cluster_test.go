@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database "github.com/oracle/oci-go-sdk/v44/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -93,7 +93,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousVmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -114,7 +114,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousVmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Optional, Create, autonomousVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
@@ -146,7 +146,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(autonomousVmClusterRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
@@ -173,7 +173,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousVmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Optional, Update, autonomousVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
@@ -201,7 +201,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_vm_clusters", "test_autonomous_vm_clusters", Optional, Update, autonomousVmClusterDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousVmClusterResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Optional, Update, autonomousVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "autonomousVmCluster"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
@@ -233,7 +233,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousVmClusterResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_vm_cluster_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v43/datascience"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v44/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -181,7 +181,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL"),
@@ -206,7 +206,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Create, modelDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "category_log_details.0.access.0.log_group_id"),
@@ -255,7 +255,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(modelDeploymentRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "category_log_details.0.access.0.log_group_id"),
@@ -299,7 +299,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "category_log_details.0.access.0.log_group_id"),
@@ -344,7 +344,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datascience_model_deployments", "test_model_deployments", Optional, Update, modelDeploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + userIdVariableStr + ModelDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "created_by", userId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -388,7 +388,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ModelDeploymentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "category_log_details.#", "1"),

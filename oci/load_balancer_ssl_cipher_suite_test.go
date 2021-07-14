@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -75,7 +75,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
 				),
 			},
@@ -88,7 +88,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
 
@@ -110,7 +110,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", Optional, Update, sslCipherSuiteDataSourceRepresentation) +
 					compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "ssl_cipher_suites.#", "1"),
@@ -122,7 +122,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SslCipherSuiteResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
 

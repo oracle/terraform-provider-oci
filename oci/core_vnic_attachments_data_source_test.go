@@ -44,7 +44,7 @@ func (s *DatasourceCoreVnicAttachmentTestSuite) TestAccDatasourceCoreVnicAttachm
 		Steps: []resource.TestStep{
 			{
 				Config: s.Config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "vnic_attachments.#", "1"),
 				),
 			},

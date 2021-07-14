@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_streaming "github.com/oracle/oci-go-sdk/v43/streaming"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_streaming "github.com/oracle/oci-go-sdk/v44/streaming"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -106,7 +106,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
 
@@ -125,7 +125,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create, streamPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
@@ -162,7 +162,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
@@ -194,7 +194,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
@@ -227,7 +227,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_streaming_stream_pools", "test_stream_pools", Optional, Update, streamPoolDataSourceRepresentation) +
 					compartmentIdVariableStr + StreamPoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -249,7 +249,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StreamPoolResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_pool_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

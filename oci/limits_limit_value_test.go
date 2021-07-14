@@ -52,7 +52,7 @@ func TestLimitsLimitValueResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_limits_limit_values", "test_limit_values", Required, Create, limitValueDataSourceRepresentation) +
 					compartmentIdVariableStr + LimitValueResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_name"),
 

@@ -77,7 +77,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 
 					func(s *terraform.State) (err error) {
@@ -95,7 +95,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "1"),
@@ -123,7 +123,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Update, authenticationPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "0"),
@@ -149,7 +149,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Required, Create, authenticationPolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AuthenticationPolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

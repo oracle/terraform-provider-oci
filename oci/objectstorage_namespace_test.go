@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v43/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v44/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -50,7 +50,7 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Optional, Create, namespaceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NamespaceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				),
 			},

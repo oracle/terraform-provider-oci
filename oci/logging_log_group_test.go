@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v43/logging"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v44/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -91,7 +91,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
@@ -110,7 +110,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create, logGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -137,7 +137,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(logGroupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -159,7 +159,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -182,7 +182,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_logging_log_groups", "test_log_groups", Optional, Update, logGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + LogGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "is_compartment_id_in_subtree", "false"),
@@ -204,7 +204,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + LogGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

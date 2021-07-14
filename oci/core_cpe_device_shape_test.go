@@ -49,7 +49,7 @@ func TestCoreCpeDeviceShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + CpeDeviceShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "cpe_device_shapes.#"),
 					resource.TestCheckResourceAttr(datasourceName, "cpe_device_shapes.0.cpe_device_info.#", "1"),
@@ -62,7 +62,7 @@ func TestCoreCpeDeviceShapeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + CpeDeviceShapeResourceConfig,
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpe_device_shape_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpe_device_info.#", "1"),

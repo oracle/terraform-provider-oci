@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database "github.com/oracle/oci-go-sdk/v44/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -229,7 +229,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Create, pluggableDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
@@ -250,7 +250,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Create, pluggableDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -279,7 +279,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -307,7 +307,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_pluggable_databases", "test_pluggable_databases", Optional, Update, pluggableDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "pdb_name", "SalesPdb"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -329,7 +329,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PluggableDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "pluggable_database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),

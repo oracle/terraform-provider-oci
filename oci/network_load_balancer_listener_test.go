@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v43/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v44/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -72,7 +72,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -95,7 +95,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -116,7 +116,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", Optional, Update, nlbListenerDataSourceRepresentation) +
 					compartmentIdVariableStr + NlbListenerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "listener_collection.#", "1"),
@@ -128,7 +128,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NlbListenerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 

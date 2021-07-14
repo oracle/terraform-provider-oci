@@ -46,7 +46,7 @@ func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", Required, Create, costTrackingTagDataSourceRepresentation) +
 					compartmentIdVariableStr + CostTrackingTagResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.#"),

@@ -182,7 +182,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create,
 						getUpdatedRepresentationCopy("items", []RepresentationGroup{{Optional, rrsetItemsRepresentation}, {Optional, rrsetItemsRepresentation2}}, rrsetRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -212,7 +212,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -244,7 +244,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAAAA),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -267,7 +267,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationAAAA),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -293,7 +293,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationCname),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", "el."+dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -319,7 +319,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationTxt),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -346,7 +346,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAlias),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -394,7 +394,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create,
 						getUpdatedRepresentationCopy("items", []RepresentationGroup{{Optional, rrsetItemsRepresentation}, {Optional, rrsetItemsRepresentation2}}, rrsetRepresentationDefault)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -423,7 +423,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -455,7 +455,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAAAADefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -484,7 +484,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationAAAADefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -517,7 +517,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationCnameDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", "el."+dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -550,7 +550,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationTxtDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -583,7 +583,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAliasDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -659,7 +659,7 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 						}
 					}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -706,7 +706,7 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 						}
 					}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -778,7 +778,7 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 						}
 					}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
@@ -823,7 +823,7 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 						}
 					}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -877,7 +877,7 @@ func TestDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetRepresentationDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
@@ -897,7 +897,7 @@ func TestDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -927,7 +927,7 @@ func TestDnsRrsetResource_default(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationDefault),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -955,7 +955,7 @@ func TestDnsRrsetResource_default(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetSingularDataSourceRepresentationDefault) +
 					compartmentIdVariableStr + RrsetResourceConfigDefault,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_name_or_id"),

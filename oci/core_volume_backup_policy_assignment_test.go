@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -65,7 +65,7 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "asset_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
 
@@ -87,7 +87,7 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_volume_backup_policy_assignments", "test_volume_backup_policy_assignments", Optional, Update, volumeBackupPolicyAssignmentDataSourceRepresentation) +
 					compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Optional, Update, volumeBackupPolicyAssignmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "asset_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policy_assignments.#", "1"),

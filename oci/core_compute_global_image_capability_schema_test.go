@@ -49,7 +49,7 @@ func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "compute_global_image_capability_schemas.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "compute_global_image_capability_schemas.0.current_version_name"),
@@ -64,7 +64,7 @@ func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schema", "test_compute_global_image_capability_schema", Required, Create, computeGlobalImageCapabilitySchemaSingularDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
 					compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_version_name"),

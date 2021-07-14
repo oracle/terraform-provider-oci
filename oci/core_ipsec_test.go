@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -85,7 +85,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -106,7 +106,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
 					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
@@ -138,7 +138,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
 					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
@@ -165,7 +165,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
 					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "fakehostname"),
@@ -193,7 +193,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", Optional, Update, ipSecConnectionDataSourceRepresentation) +
 					compartmentIdVariableStr + IpSecConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),

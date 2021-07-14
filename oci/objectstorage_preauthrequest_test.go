@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v43/objectstorage"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v44/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -93,7 +93,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
@@ -110,7 +110,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttr(resourceName, "bucket_listing_action", ""),
 					resource.TestCheckResourceAttrSet(resourceName, "access_uri"),
@@ -140,7 +140,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
 					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 					resource.TestCheckResourceAttr(datasourceName, "object_name_prefix", "my-test-object"),
@@ -162,7 +162,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "par_id"),

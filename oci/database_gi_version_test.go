@@ -47,7 +47,7 @@ func TestDatabaseGiVersionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", Required, Create, giVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + GiVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "gi_versions.#"),

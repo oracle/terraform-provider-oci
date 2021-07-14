@@ -100,7 +100,7 @@ func TestResourceDnsSteeringPolicyFailOver(t *testing.T) {
 			// verify create
 			{
 				Config: content,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),

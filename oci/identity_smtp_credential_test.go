@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -66,7 +66,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Required, Create, smtpCredentialRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -89,7 +89,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -108,7 +108,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_smtp_credentials", "test_smtp_credentials", Optional, Update, smtpCredentialDataSourceRepresentation) +
 					compartmentIdVariableStr + SmtpCredentialResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "smtp_credentials.#", "1"),

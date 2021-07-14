@@ -48,7 +48,7 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Required, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterNetworkDownloadConfigFileResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
@@ -60,7 +60,7 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Optional, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterNetworkDownloadConfigFileResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),

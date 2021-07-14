@@ -47,7 +47,7 @@ func TestDatabaseFlexComponentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_flex_components", "test_flex_components", Optional, Create, flexComponentDataSourceRepresentation) +
 					compartmentIdVariableStr + FlexComponentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "Exadata.X8M.StorageServer"),
 

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v43/blockchain"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v44/blockchain"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -85,7 +85,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 
@@ -104,7 +104,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 					//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
@@ -129,7 +129,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 					//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
@@ -151,7 +151,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", Optional, Update, osnDataSourceRepresentation) +
 					compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 
@@ -163,7 +163,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "osn_id"),
 

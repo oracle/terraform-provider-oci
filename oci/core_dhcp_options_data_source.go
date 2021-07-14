@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 )
 
 func init() {
@@ -127,6 +127,8 @@ func (s *CoreDhcpOptionsDataSourceCrud) SetData() error {
 		if r.DisplayName != nil {
 			dhcpOptions["display_name"] = *r.DisplayName
 		}
+
+		dhcpOptions["domain_name_type"] = r.DomainNameType
 
 		dhcpOptions["freeform_tags"] = r.FreeformTags
 

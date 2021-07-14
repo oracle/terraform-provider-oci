@@ -46,7 +46,7 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", Required, Create, dbSystemPatchDataSourceRepresentation) +
 					compartmentIdVariableStr + DbSystemPatchResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "patches.#"),

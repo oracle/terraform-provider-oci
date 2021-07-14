@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v43/opsi"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v44/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -93,7 +93,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -114,7 +114,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create, enterpriseManagerBridgeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -145,7 +145,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(enterpriseManagerBridgeRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -171,7 +171,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -198,7 +198,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridges", "test_enterprise_manager_bridges", Optional, Update, enterpriseManagerBridgeDataSourceRepresentation) +
 					compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"), // This is hash generated value. so we cannot match exact value
@@ -213,7 +213,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + EnterpriseManagerBridgeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_bridge_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

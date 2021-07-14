@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -112,7 +112,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -132,7 +132,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create, localPeeringGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -164,7 +164,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(localPeeringGatewayRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -191,7 +191,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -222,7 +222,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways2", Optional, Update, secondLocalPeeringGatewayDataSourceRepresentation) +
 					secondLocalPeeringGatewayWithPeerId,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
@@ -256,7 +256,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
 					secondLocalPeeringGatewayWithPeerId,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),

@@ -47,7 +47,7 @@ func TestKmsVaultReplicaResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_vault_replicas", "test_vault_replicas", Required, Create, vaultReplicaDataSourceRepresentation) +
 					compartmentIdVariableStr + VaultReplicaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "vault_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "vault_replicas.#"),

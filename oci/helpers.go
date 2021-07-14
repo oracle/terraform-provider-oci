@@ -14,7 +14,12 @@ import (
 	"os"
 	"reflect"
 	"sort"
+	"strings"
 	"time"
+
+	"github.com/hashicorp/go-multierror"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"strconv"
 
@@ -338,4 +343,39 @@ func isHex(content string) bool {
 func getTokenFromFile(path string) (string, error) {
 	token, err := ioutil.ReadFile(path)
 	return string(token), err
+}
+
+// wrapper over resource.ComposeAggregateTestCheckFunc to use customErrorFormat for multierror
+func ComposeAggregateTestCheckFuncWrapper(fs ...resource.TestCheckFunc) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		var result *multierror.Error
+
+		for i, f := range fs {
+			if err := f(s); err != nil {
+				result = multierror.Append(result, fmt.Errorf("Check %d/%d error: %s", i+1, len(fs), err))
+			}
+		}
+
+		err := result.ErrorOrNil()
+		if err != nil {
+			result.ErrorFormat = customErrorFormat
+		}
+
+		return err
+	}
+}
+
+// multierror with \t does not show up on Team City logs,
+// replacing \t with 4 blank spaces
+func customErrorFormat(es []error) string {
+	if len(es) == 1 {
+		return fmt.Sprintf("1 error occurred:\n    * %s\n\n", es[0])
+	}
+
+	points := make([]string, len(es))
+	for i, err := range es {
+		points[i] = fmt.Sprintf("* %s", err)
+	}
+
+	return fmt.Sprintf("%d errors occurred:\n    %s\n\n", len(es), strings.Join(points, "\n    "))
 }

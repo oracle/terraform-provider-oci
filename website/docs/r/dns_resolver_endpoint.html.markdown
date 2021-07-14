@@ -10,7 +10,7 @@ description: |-
 # oci_dns_resolver_endpoint
 This resource provides the Resolver Endpoint resource in Oracle Cloud Infrastructure DNS service.
 
-Creates a new resolver endpoint.
+Creates a new resolver endpoint. Requires a `PRIVATE` scope query parameter.
 
 
 ## Example Usage
@@ -41,9 +41,9 @@ The following arguments are supported:
 * `forwarding_address` - (Optional) An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part of the subnet and will be assigned by the system if unspecified when isForwarding is true. 
 * `is_forwarding` - (Required) A Boolean flag indicating whether or not the resolver endpoint is for forwarding. 
 * `is_listening` - (Required) A Boolean flag indicating whether or not the resolver endpoint is for listening. 
-* `listening_address` - (Optional) An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified. 
-* `name` - (Required) The name of the resolver endpoint. Must be unique within the resolver. 
-* `nsg_ids` - (Optional) An array of NSG OCIDs for the resolver endpoint. 
+* `listening_address` - (Optional) An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified when isListening is true. 
+* `name` - (Required) The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver. 
+* `nsg_ids` - (Optional) An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the resolver endpoint is a part of. 
 * `resolver_id` - (Required) The OCID of the target resolver.
 * `scope` - (Required) Value must be `PRIVATE` when creating private name resolver endpoints. 
 * `subnet_id` - (Required) The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
@@ -61,9 +61,9 @@ The following attributes are exported:
 * `forwarding_address` - An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part of the subnet and will be assigned by the system if unspecified when isForwarding is true. 
 * `is_forwarding` - A Boolean flag indicating whether or not the resolver endpoint is for forwarding. 
 * `is_listening` - A Boolean flag indicating whether or not the resolver endpoint is for listening. 
-* `listening_address` - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified. 
-* `name` - The name of the resolver endpoint. Must be unique within the resolver. 
-* `nsg_ids` - An array of NSG OCIDs for the resolver endpoint. 
+* `listening_address` - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified when isListening is true. 
+* `name` - The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver. 
+* `nsg_ids` - An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the resolver endpoint is a part of. 
 * `self` - The canonical absolute URL of the resource.
 * `state` - The current state of the resource.
 * `subnet_id` - The OCID of a subnet. Must be part of the VCN that the resolver is attached to.

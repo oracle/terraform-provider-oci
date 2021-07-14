@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_jms "github.com/oracle/oci-go-sdk/v43/jms"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_jms "github.com/oracle/oci-go-sdk/v44/jms"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -85,7 +85,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FleetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 
@@ -104,7 +104,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FleetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
@@ -137,7 +137,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(fleetRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
@@ -165,7 +165,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FleetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
@@ -194,7 +194,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_jms_fleets", "test_fleets", Optional, Update, fleetDataSourceRepresentation) +
 					compartmentIdVariableStr + FleetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -209,7 +209,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + FleetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_application_count"),

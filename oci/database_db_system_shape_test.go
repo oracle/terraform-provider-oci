@@ -47,7 +47,7 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_db_system_shapes", "test_db_system_shapes", Optional, Create, dbSystemShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + DbSystemShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

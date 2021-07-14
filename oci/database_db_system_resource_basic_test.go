@@ -14,8 +14,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v43/common"
-	"github.com/oracle/oci-go-sdk/v43/database"
+	oci_common "github.com/oracle/oci-go-sdk/v44/common"
+	"github.com/oracle/oci-go-sdk/v44/database"
 )
 
 var (
@@ -189,7 +189,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
 						return err
@@ -231,7 +231,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -326,7 +326,7 @@ func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 					compartment_id = "${var.compartment_id}"
 					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
 						return err
@@ -377,7 +377,7 @@ func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -466,7 +466,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -524,7 +524,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -584,7 +584,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -644,7 +644,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -707,7 +707,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
@@ -759,7 +759,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 						}
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),

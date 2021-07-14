@@ -61,7 +61,7 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
@@ -79,7 +79,7 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),

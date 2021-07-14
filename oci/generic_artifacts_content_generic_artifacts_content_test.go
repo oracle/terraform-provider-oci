@@ -46,7 +46,7 @@ func TestGenericArtifactsContentGenericArtifactsContentResource_basic(t *testing
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_generic_artifacts_content", "test_generic_artifacts_content", Required, Create, genericArtifactsContentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + GenericArtifactsContentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "artifact_id"),
 				),
 			},

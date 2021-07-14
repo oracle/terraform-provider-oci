@@ -95,7 +95,7 @@ func TestResourceDatabaseDBSystemClone(t *testing.T) {
 					}
 					freeform_tags = {"Department" = "Finance"}
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "id"),
 					resource.TestCheckResourceAttrSet(cloneDatabaseDbSystemResourceName, "availability_domain"),

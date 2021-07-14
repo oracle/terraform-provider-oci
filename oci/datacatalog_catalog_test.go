@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v43/datacatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v44/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -105,7 +105,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -132,7 +132,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(catalogRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -154,7 +154,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -177,7 +177,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", Optional, Update, catalogDataSourceRepresentation) +
 					compartmentIdVariableStr + CatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -200,7 +200,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CatalogResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "attached_catalog_private_endpoints.#", "1"),

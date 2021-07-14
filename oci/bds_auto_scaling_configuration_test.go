@@ -110,7 +110,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
@@ -154,7 +154,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, bdsAutoScalingConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -204,7 +204,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -253,7 +253,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationDataSourceRepresentation) +
 					compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -271,7 +271,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 

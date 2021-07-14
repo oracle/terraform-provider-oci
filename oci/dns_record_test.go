@@ -15,8 +15,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -88,7 +88,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
 					func(s *terraform.State) (err error) {
@@ -111,7 +111,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Create, recordRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
@@ -137,7 +137,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Update, recordRepresentation), nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
 					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
@@ -194,7 +194,7 @@ data "oci_dns_records" "test_records" {
   sort_by = "ttl"
   sort_order = "DESC"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "records.0.rtype", "NS"),
 					resource.TestCheckResourceAttr(datasourceName, "records.0.ttl", "86400"),
 				),
@@ -209,7 +209,7 @@ data "oci_dns_records" "test_records" {
 	  values = ["SOA"]
 	}
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "records.#", "1"),
 				),
 			},
@@ -245,7 +245,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
 
@@ -264,7 +264,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
 					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
 
@@ -286,7 +286,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "0000:0000:0000:0000:0000:8a2e:0370:0001"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "::8a2e:370:1"),
 				),
 			},
@@ -299,7 +299,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "8a2e:0000:0000:0000:0000:0370:0000:0000"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "8a2e::370:0:0"),
 				),
 			},
@@ -312,7 +312,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "arbitrary text"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "\"arbitrary\" \"text\""),
 				),
 			},
@@ -326,7 +326,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "other.tf-provider.oci-record-test"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "other.tf-provider.oci-record-test."),
 				),
 			},
@@ -360,7 +360,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "192.168.0.1"
 	ttl = "3600"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
 				),
 			},
@@ -373,7 +373,7 @@ resource "oci_dns_record" "test_record" {
 	rdata = "192.168.0.1"
 	ttl = "-1"
 }`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
 				// todo: this test was attempting to verify the resource is not changed if the update operation fails
 				// but this terraform testing library does not run "Checks" if you add an error expectation ;_;

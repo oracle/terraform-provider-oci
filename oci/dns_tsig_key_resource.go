@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 )
 
 func init() {
@@ -141,11 +141,15 @@ func (s *DnsTsigKeyResourceCrud) CreatedTarget() []string {
 }
 
 func (s *DnsTsigKeyResourceCrud) DeletedPending() []string {
-	return []string{}
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateDeleting),
+	}
 }
 
 func (s *DnsTsigKeyResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_dns.TsigKeyLifecycleStateDeleted),
+	}
 }
 
 func (s *DnsTsigKeyResourceCrud) Create() error {

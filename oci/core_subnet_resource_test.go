@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 )
 
 func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
@@ -83,7 +83,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 				Config: config + `
 				resource "oci_core_subnet" "s" {` + commonSubnetParams + extraSecurityListIds + `
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -114,7 +114,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 					` + commonSubnetParams + extraSecurityListIds + `
 					display_name = "-tf-subnet"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-subnet"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -144,7 +144,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "MyTestLabel"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "true"),
 					resource.TestCheckResourceAttr(resourceName, "dns_label", "mytestlabel"),
 					func(s *terraform.State) (err error) {

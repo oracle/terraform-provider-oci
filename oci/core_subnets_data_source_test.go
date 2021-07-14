@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -68,7 +68,7 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 						values = ["${oci_core_subnet.s.*.availability_domain[1]}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.availability_domain", "oci_core_subnet.s.1", "availability_domain"),
@@ -96,7 +96,7 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 					vcn_id = "${oci_core_virtual_network.vcn1.id}"
 					display_name = "${oci_core_subnet.s.2.display_name}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "1"),
 					TestCheckResourceAttributesEqual(s.ResourceName, "subnets.0.id", "oci_core_subnet.s.2", "id"),
@@ -109,7 +109,7 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 					vcn_id = "${oci_core_virtual_network.vcn1.id}"
 					state = "${oci_core_subnet.s.0.state}" # Adding implicit dependency
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "subnets.#", "3"),
 				),

@@ -67,7 +67,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "NFS1"),
@@ -88,7 +88,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "NFS1"),
@@ -113,7 +113,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", Optional, Update, backupDestinationNFSDataSourceRepresentation) +
 					compartmentIdVariableStr + BackupDestinationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "backup_destinations.#", "1"),
@@ -136,7 +136,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Required, Create, backupDestinationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BackupDestinationNFSResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_destination_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),

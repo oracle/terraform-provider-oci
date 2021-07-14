@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -76,7 +76,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Required, Create, remotePeeringConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
@@ -95,7 +95,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Create, remotePeeringConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -126,7 +126,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(remotePeeringConnectionRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -150,7 +150,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Update, remotePeeringConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -177,7 +177,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_remote_peering_connections", "test_remote_peering_connections", Optional, Update, remotePeeringConnectionDataSourceRepresentation) +
 					compartmentIdVariableStr + RemotePeeringConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Update, remotePeeringConnectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
 

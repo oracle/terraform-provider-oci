@@ -82,7 +82,7 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 						representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
 							"restore_from_file": RepresentationGroup{Optional, vaultRestoreFromFileRepresentation}})),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "content_length", "10"),
 				),
 			},
@@ -92,7 +92,7 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 						representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
 							"restore_from_object_store": RepresentationGroup{Optional, vaultRestoreFromObjectBackupLocationRepresentation}})),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				),
 			},
@@ -102,7 +102,7 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 						representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
 							"restore_from_object_store": RepresentationGroup{Optional, vaultRestoreFromObjecUriBackupLocationRepresentation}})),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				),
 			},

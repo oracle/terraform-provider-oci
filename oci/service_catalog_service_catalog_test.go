@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v43/servicecatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v44/servicecatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -83,7 +83,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Required, Create, serviceCatalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
@@ -102,7 +102,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Optional, Create, serviceCatalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -130,7 +130,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(serviceCatalogRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -153,7 +153,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceCatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Optional, Update, serviceCatalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -177,7 +177,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalogs", "test_service_catalogs", Optional, Update, serviceCatalogDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceCatalogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Optional, Update, serviceCatalogRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_id"),
@@ -191,7 +191,7 @@ func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Required, Create, serviceCatalogSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceCatalogResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

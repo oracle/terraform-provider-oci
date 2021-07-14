@@ -62,7 +62,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Required, Create, autonomousDatabaseInstanceWalletManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
@@ -82,7 +82,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Optional, Update, autonomousDatabaseInstanceWalletManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
@@ -101,7 +101,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Required, Create, autonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_rotated"),

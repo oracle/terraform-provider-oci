@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Required, Create, idpGroupMappingRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
 					resource.TestCheckResourceAttr(resourceName, "idp_group_name", "idpGroupName"),
@@ -101,7 +101,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -125,7 +125,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_idp_group_mappings", "test_idp_group_mappings", Optional, Update, idpGroupMappingDataSourceRepresentation) +
 					compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "idp_group_mappings.#", "1"),

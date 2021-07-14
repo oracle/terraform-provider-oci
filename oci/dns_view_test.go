@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -92,7 +92,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ViewResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -110,7 +110,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ViewResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -143,7 +143,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(viewRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -170,7 +170,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ViewResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -198,7 +198,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_views", "test_views", Optional, Update, viewDataSourceRepresentation) +
 					compartmentIdVariableStr + ViewResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
@@ -221,7 +221,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ViewResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

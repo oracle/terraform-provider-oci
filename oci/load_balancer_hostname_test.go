@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -66,7 +66,7 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HostnameResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "hostname", "app.example.com"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_hostname_001"),
@@ -87,7 +87,7 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HostnameResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_hostname_001"),
@@ -107,7 +107,7 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_hostnames", "test_hostnames", Optional, Update, hostnameDataSourceRepresentation) +
 					compartmentIdVariableStr + HostnameResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "hostnames.#", "1"),

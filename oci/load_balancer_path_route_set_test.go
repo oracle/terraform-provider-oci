@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -76,7 +76,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
@@ -101,7 +101,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
 					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
@@ -125,7 +125,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_path_route_sets", "test_path_route_sets", Optional, Update, pathRouteSetDataSourceRepresentation) +
 					compartmentIdVariableStr + PathRouteSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.#", "1"),

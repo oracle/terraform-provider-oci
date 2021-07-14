@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_email "github.com/oracle/oci-go-sdk/v43/email"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_email "github.com/oracle/oci-go-sdk/v44/email"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -76,7 +76,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SuppressionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					// email address is converted to lower case by the service
 					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmith@example.com"),
@@ -99,7 +99,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", Optional, Update, suppressionDataSourceRepresentation) +
 					compartmentIdVariableStr + SuppressionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "email_address", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
@@ -119,7 +119,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SuppressionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

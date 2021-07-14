@@ -91,7 +91,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database.0.backup_id"),
@@ -110,7 +110,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -144,7 +144,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -182,7 +182,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", Optional, Update, databaseBackupDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
 					resource.TestCheckResourceAttr(datasourceName, "db_name", "testDbBu"),
@@ -209,7 +209,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseBackupSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "character_set"),

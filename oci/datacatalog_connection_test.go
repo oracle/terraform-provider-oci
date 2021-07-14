@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v43/datacatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v44/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -104,7 +104,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -126,7 +126,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Create, connectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -157,7 +157,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -183,7 +183,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datacatalog_connections", "test_connections", Optional, Update, connectionDataSourceRepresentation) +
 					compartmentIdVariableStr + ConnectionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "data_asset_key"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -198,7 +198,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ConnectionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_key"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_key"),

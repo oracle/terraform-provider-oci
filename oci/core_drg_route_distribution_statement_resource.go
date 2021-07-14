@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 )
 
 func init() {
@@ -51,7 +51,7 @@ func CoreDrgRouteDistributionStatementResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Required: true,
 				MaxItems: 1,
-				MinItems: 1,
+				MinItems: 0,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -62,6 +62,7 @@ func CoreDrgRouteDistributionStatementResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"DRG_ATTACHMENT_ID",
 								"DRG_ATTACHMENT_TYPE",
+								"",
 							}, true),
 						},
 						// Optional
@@ -143,7 +144,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Create() error {
 
 			converted, err := s.mapToDrgRouteDistributionMatchCriteria(fieldKeyFormat)
 			if err != nil {
-				return fmt.Errorf("unable to convert icmp_options, encountered error: %v", err)
+				return fmt.Errorf("unable to convert match criteria, encountered error: %v", err)
 			}
 
 			statement.MatchCriteria = []oci_core.DrgRouteDistributionMatchCriteria{converted}
@@ -368,6 +369,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) mapToDrgRouteDistributio
 		matchType = matchTypeRaw.(string)
 	} else {
 		matchType = "" // default value
+		return baseObject, nil
 	}
 	switch strings.ToLower(matchType) {
 	case strings.ToLower("DRG_ATTACHMENT_ID"):

@@ -146,7 +146,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 							display_name = "-tf-instance-2"
 						}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-bootVolume-clone"),
@@ -183,7 +183,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 							display_name = "-tf-instance-2"
 						}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-bootVolume-2"),

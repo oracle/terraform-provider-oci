@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v43/datacatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v44/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -93,7 +93,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "type_key"),
@@ -113,7 +113,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -140,7 +140,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -163,7 +163,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datacatalog_data_assets", "test_data_assets", Optional, Update, dataAssetDataSourceRepresentation) +
 					compartmentIdVariableStr + DataAssetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNam"),
@@ -180,7 +180,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DataAssetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_key"),
 

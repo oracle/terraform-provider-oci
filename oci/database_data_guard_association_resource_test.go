@@ -249,7 +249,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -268,7 +268,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
@@ -288,7 +288,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
@@ -355,7 +355,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataVmCluster),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingVmCluster"),
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -374,7 +374,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
@@ -394,7 +394,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
@@ -752,7 +752,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbHome),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -772,7 +772,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
@@ -792,7 +792,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),

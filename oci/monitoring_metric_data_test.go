@@ -69,7 +69,7 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_monitoring_metric_data", "test_metric_data", Optional, Create, generateMetricDataRepresentationWithCurrentTimeInputs()) +
 					compartmentIdVariableStr + MetricDataResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "end_time", metricDataEndTimeStr),

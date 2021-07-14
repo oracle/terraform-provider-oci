@@ -46,7 +46,7 @@ func TestCoreIpSecConnectionDeviceStatusResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_ipsec_status", "test_ip_sec_connection_device_status", Required, Create, ipSecConnectionDeviceStatusSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + IpSecConnectionDeviceStatusResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

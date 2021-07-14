@@ -130,7 +130,7 @@ func TestDatabaseMigrationResource_basic(t *testing.T) {
 			{
 				Config: MigrationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_migration", "test_migration", Required, Create, migrationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_vm_cluster_id"),
@@ -139,7 +139,7 @@ func TestDatabaseMigrationResource_basic(t *testing.T) {
 			// remove db system config and apply
 			{
 				Config: config + compartmentIdVariableStr,
-				Check:  resource.ComposeAggregateTestCheckFunc(),
+				Check:  ComposeAggregateTestCheckFuncWrapper(),
 			},
 		},
 	})

@@ -53,7 +53,7 @@ func TestCoreDedicatedVmHostsInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts_instances", "test_dedicated_vm_hosts_instances", Required, Create, dedicatedVmHostsInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + DedicatedVmHostsInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_host_id"),
 

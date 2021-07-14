@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_ons "github.com/oracle/oci-go-sdk/v43/ons"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_ons "github.com/oracle/oci-go-sdk/v44/ons"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -86,7 +86,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
@@ -107,7 +107,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -136,7 +136,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -160,7 +160,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -185,7 +185,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
 					compartmentIdVariableStr + SubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
 
@@ -208,7 +208,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SubscriptionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

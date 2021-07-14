@@ -73,7 +73,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 			{
 				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
@@ -97,7 +97,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),

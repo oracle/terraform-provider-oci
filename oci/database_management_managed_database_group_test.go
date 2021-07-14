@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v43/databasemanagement"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v44/databasemanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -110,7 +110,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Required, Create, managedDatabaseGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
 
@@ -129,7 +129,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create, managedDatabaseGroupRepresentationWithManagedDatabases),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -156,7 +156,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
 							"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId3Representation}},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -183,7 +183,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
 							"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId3Representation}},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -210,7 +210,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
 							"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId4Representation}},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -237,7 +237,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(managedDatabaseGroupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -259,7 +259,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Update, managedDatabaseGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -283,7 +283,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_management_managed_database_groups", "test_managed_database_groups", Optional, Update, managedDatabaseGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Update, managedDatabaseGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -297,7 +297,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Required, Create, managedDatabaseGroupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedDatabaseGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_group_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

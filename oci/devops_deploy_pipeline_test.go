@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v43/devops"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v44/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -94,7 +94,7 @@ func TestDevopsDeployPipelineResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployPipelineResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 					func(s *terraform.State) (err error) {
@@ -112,7 +112,7 @@ func TestDevopsDeployPipelineResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployPipelineResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Optional, Create, deployPipelineRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_pipeline_parameters.#", "1"),
@@ -142,7 +142,7 @@ func TestDevopsDeployPipelineResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployPipelineResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Optional, Update, deployPipelineRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_pipeline_parameters.#", "1"),
@@ -171,7 +171,7 @@ func TestDevopsDeployPipelineResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_pipelines", "test_deploy_pipelines", Optional, Update, deployPipelineDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployPipelineResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Optional, Update, deployPipelineRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -187,7 +187,7 @@ func TestDevopsDeployPipelineResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployPipelineResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_pipeline_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

@@ -53,7 +53,7 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_console_history_data", "test_console_history_content", Optional, Create, consoleHistoryContentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ConsoleHistoryContentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "console_history_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "length", "10240"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "offset", "0"),

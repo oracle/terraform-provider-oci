@@ -93,7 +93,7 @@ func TestAccDatasourceLoadBalancerBackendsets_basic(t *testing.T) {
 			},
 			{
 				Config: config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "backendsets.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "backendsets.0.name", "-tf-backend-set"),

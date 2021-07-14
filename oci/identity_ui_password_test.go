@@ -58,7 +58,7 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + UiPasswordResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 					func(s *terraform.State) (err error) {
@@ -78,7 +78,7 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + UiPasswordResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

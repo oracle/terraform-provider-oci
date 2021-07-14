@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v43/artifacts"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v44/artifacts"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -66,7 +66,7 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", Optional, Create, containerImageDataSourceRepresentation) +
 					ContainerImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
@@ -84,7 +84,7 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation) +
 					ContainerImageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

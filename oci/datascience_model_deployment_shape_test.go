@@ -44,7 +44,7 @@ func TestDatascienceModelDeploymentShapeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_model_deployment_shapes", "test_model_deployment_shapes", Required, Create, modelDeploymentShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + ModelDeploymentShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "model_deployment_shapes.#"),

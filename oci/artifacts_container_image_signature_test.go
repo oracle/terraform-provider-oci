@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v43/artifacts"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v44/artifacts"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -100,7 +100,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 					containerImageResourceConfig +
 					containerImageSignatureKmsSignResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -131,7 +131,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 					containerImageSignatureKmsSignResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signatures", "test_container_image_signatures", Optional, Update, containerImageSignatureDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "display_name"),
@@ -155,7 +155,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 					containerImageSignatureKmsSignResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureSingularDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_signature_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),

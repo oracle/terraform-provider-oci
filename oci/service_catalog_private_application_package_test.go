@@ -53,7 +53,7 @@ func TestServiceCatalogPrivateApplicationPackageResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + compartmentIdVariableStr + PrivateApplicationPackageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "private_application_package_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_application_package_collection.0.items.0.display_name", "version"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_application_package_collection.0.items.0.package_type"),
@@ -68,7 +68,7 @@ func TestServiceCatalogPrivateApplicationPackageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_service_catalog_private_application_package", "test_private_application_package", Required, Create, privateApplicationPackageSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateApplicationPackageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_package_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_url"),

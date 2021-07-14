@@ -55,7 +55,7 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_containerengine_cluster_kube_config", "test_cluster_kube_config", Optional, Create, clusterKubeConfigSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "LEGACY_KUBERNETES"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "token_version", "2.0.0"),

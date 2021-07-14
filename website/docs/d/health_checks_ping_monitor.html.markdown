@@ -18,7 +18,7 @@ Gets the configuration for the specified ping monitor.
 ```hcl
 data "oci_health_checks_ping_monitor" "test_ping_monitor" {
 	#Required
-	monitor_id = oci_health_checks_monitor.test_monitor.id
+	monitor_id = oci_apm_synthetics_monitor.test_monitor.id
 }
 ```
 

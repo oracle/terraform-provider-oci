@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -97,7 +97,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 						values = ["${oci_core_instance.t.id}"]
 					}
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
@@ -153,7 +153,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 						"lifecycleState2": string(core.InstanceLifecycleStateTerminated),
 					},
 				),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
 					resource.TestCheckResourceAttr("data.oci_core_instances.t2", "instances.#", "0"),

@@ -47,7 +47,7 @@ func TestDatabaseAutonomousExadataInfrastructureShapeResource_basic(t *testing.T
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_shapes", "test_autonomous_exadata_infrastructure_shapes", Required, Create, autonomousExadataInfrastructureShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousExadataInfrastructureShapeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

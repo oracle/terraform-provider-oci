@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -66,7 +66,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -93,7 +93,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -112,7 +112,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", Optional, Update, customerSecretKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.#", "1"),

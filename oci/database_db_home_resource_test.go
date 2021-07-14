@@ -80,7 +80,7 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 					compartment_id = "${var.compartment_id}"
 					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
 						return err
@@ -114,7 +114,7 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 					source = "DATABASE"
 				}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// DB System Resource tests
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -160,7 +160,7 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 				Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceCloudVmClusterNew),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
 

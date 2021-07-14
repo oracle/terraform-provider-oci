@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/v43/common"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 )
 
 var (
@@ -97,7 +97,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
 					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
@@ -117,7 +117,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -150,7 +150,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
@@ -180,7 +180,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RrsetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),

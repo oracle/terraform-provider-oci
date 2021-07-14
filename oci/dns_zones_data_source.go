@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v43/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	oci_common "github.com/oracle/oci-go-sdk/v44/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 )
 
 func init() {
@@ -54,6 +54,10 @@ func DnsZonesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"time_created_less_than": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"tsig_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -142,6 +146,11 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 			return err
 		}
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if tsigKeyId, ok := s.D.GetOkExists("tsig_key_id"); ok {
+		tmp := tsigKeyId.(string)
+		request.TsigKeyId = &tmp
 	}
 
 	if viewId, ok := s.D.GetOkExists("view_id"); ok {

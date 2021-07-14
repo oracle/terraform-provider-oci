@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_limits "github.com/oracle/oci-go-sdk/v43/limits"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_limits "github.com/oracle/oci-go-sdk/v44/limits"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -82,7 +82,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
 					resource.TestCheckResourceAttr(resourceName, "name", "ComputeQuotas"),
@@ -103,7 +103,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Create, quotaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
@@ -129,7 +129,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -154,7 +154,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", Optional, Update, quotaDataSourceRepresentation) +
 					compartmentIdVariableStr + QuotaResourceDependencies +
 					generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "ComputeQuotas"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -175,7 +175,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + QuotaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "quota_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

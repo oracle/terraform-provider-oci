@@ -52,7 +52,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupsSummaryResource_basic(t *testing.T) {
 					LogAnalyticsLogGroupsSummaryResourceConfig +
 					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups_summary", "test_log_analytics_log_groups_summary", Required, Create, logAnalyticsLogGroupsSummarySingularDataSourceRepresentation),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 

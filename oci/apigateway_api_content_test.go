@@ -47,7 +47,7 @@ func TestApigatewayApiContentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_api_content", "test_api_content", Required, Create, apiContentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiContentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
 				),
 			},

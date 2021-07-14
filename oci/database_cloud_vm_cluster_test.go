@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database "github.com/oracle/oci-go-sdk/v44/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -214,7 +214,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -240,7 +240,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
@@ -283,7 +283,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(cloudVmClusterRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
@@ -321,7 +321,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
@@ -360,7 +360,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", Optional, Update, cloudVmClusterDataSourceRepresentation) +
 					compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -403,7 +403,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CloudVmClusterResourceConfig + DefinedTagsDependencies + AvailabilityDomainConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_vm_cluster_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v43/objectstorage"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v44/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -96,7 +96,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
@@ -117,7 +117,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 					resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -149,7 +149,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
 					resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
@@ -163,7 +163,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentId2VariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
@@ -192,7 +192,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -226,7 +226,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", Optional, Update, bucketDataSourceRepresentation) +
 					compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
@@ -246,7 +246,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BucketResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v43/blockchain"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v44/blockchain"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
@@ -109,7 +109,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
@@ -137,7 +137,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 					resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
 					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
@@ -162,7 +162,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", Optional, Update, peerDataSourceRepresentation) +
 					compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
 					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 				),
@@ -172,7 +172,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + idcsAccessTokenVariableStr + PeerResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_id"),
 

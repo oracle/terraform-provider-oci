@@ -50,7 +50,7 @@ func TestKmsDecryptedDataResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_decrypted_data", "test_decrypted_data", Required, Create, decryptedDataSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DecryptedDataResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "ciphertext"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),

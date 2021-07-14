@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -73,7 +73,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "eula_link"),
 					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
@@ -100,7 +100,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", Optional, Create, appCatalogSubscriptionDataSourceRepresentation) +
 					compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
 

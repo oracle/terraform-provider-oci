@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v43/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v44/managementagent"
 )
 
 func init() {

@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_integration "github.com/oracle/oci-go-sdk/v43/integration"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_integration "github.com/oracle/oci-go-sdk/v44/integration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -135,7 +135,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
@@ -166,7 +166,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 						Optional,
 						Create,
 						integrationInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
 					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
 					// 	"hostname": "hostname",
@@ -230,7 +230,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(integrationInstanceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
 					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
 					// 	"hostname": "hostname",
@@ -277,7 +277,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
 					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
 					// 	"hostname": "hostname2",
@@ -326,7 +326,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -373,7 +373,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
 					// CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
 					// 	"hostname": "hostname2",

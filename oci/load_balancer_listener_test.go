@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -91,7 +91,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
@@ -114,7 +114,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create,
 						getUpdatedRepresentationCopy("hostname_names", Representation{repType: Optional, create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}, update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
 					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
@@ -149,7 +149,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Update, listenerRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
 					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),

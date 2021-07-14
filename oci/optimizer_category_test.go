@@ -59,7 +59,7 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
 					compartmentIdVariableStr + OptimizerCategoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
@@ -74,7 +74,7 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", Required, Create, categorySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + OptimizerCategoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

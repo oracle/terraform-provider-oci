@@ -99,7 +99,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
 					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
@@ -126,7 +126,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"execute": Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"}})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -170,7 +170,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 							"execute":        Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -209,7 +209,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update,
 						dataFlowApplicationSubmitRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -250,7 +250,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "test_wordcount_app_submit2"),
 					resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
@@ -275,7 +275,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),

@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v43/optimizer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v44/optimizer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -105,7 +105,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "levels_configuration.#", "1"),
@@ -131,7 +131,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -168,7 +168,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -203,7 +203,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", Optional, Update, profileDataSourceRepresentation) +
 					compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -216,7 +216,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

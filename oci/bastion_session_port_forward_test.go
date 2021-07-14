@@ -110,7 +110,7 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, portForwardSessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 					resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
@@ -133,7 +133,7 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, portForwardSessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "portForwardTest"),
@@ -166,7 +166,7 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, portForwardSessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "portForwardTest2"),
@@ -198,7 +198,7 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", Optional, Update, portForwardSessionDataSourceRepresentation) +
 					compartmentIdVariableStr + PortForwardSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, portForwardSessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "portForwardTest2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "session_id"),
@@ -225,7 +225,7 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, portForwardSessionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PortForwardSessionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "session_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_name"),

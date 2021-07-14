@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -72,7 +72,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 				),
@@ -85,7 +85,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
@@ -110,7 +110,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),

@@ -57,7 +57,7 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategies", "test_recommendation_strategies", Required, Create, recommendationStrategyDataSourceRepresentation) +
 					compartmentIdVariableStr + RecommendationStrategyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "name"),
@@ -72,7 +72,7 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategy", "test_recommendation_strategy", Required, Create, recommendationStrategySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RecommendationStrategyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),

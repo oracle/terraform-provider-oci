@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v43/osmanagement"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v44/osmanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -92,7 +92,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
@@ -112,7 +112,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 					resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -145,7 +145,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(softwareSourceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 					resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -173,7 +173,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 					resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA256"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -202,7 +202,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", Optional, Update, softwareSourceDataSourceRepresentation) +
 					compartmentIdVariableStr + SoftwareSourceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", softwareSourceUpdateDisplayName),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -225,7 +225,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SoftwareSourceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "IA_32"),

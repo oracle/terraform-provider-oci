@@ -51,7 +51,7 @@ func TestResourceAppCatalogListingResourceVersionAgreement_basic(t *testing.T) {
 			// create resource
 			{
 				Config: config + compartmentIdVariableStr + AppCatalogListingResourceVersionAgreementResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "listing_resource_version"),
 					resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),

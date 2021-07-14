@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -86,7 +86,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -104,7 +104,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
@@ -143,7 +143,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
@@ -181,7 +181,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Optional, Update, volumeBackupPolicyDataSourceRepresentation) +
 					compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
 					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),

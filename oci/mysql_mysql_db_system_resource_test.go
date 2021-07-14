@@ -74,7 +74,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, updatedRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -118,7 +118,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, updatedRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
@@ -165,7 +165,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 						"state":         Representation{repType: Optional, create: `INACTIVE`},
 						"shutdown_type": Representation{repType: Optional, create: `FAST`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
@@ -211,7 +211,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, representationCopyWithNewProperties(updatedRepresentation, map[string]interface{}{
 						"state": Representation{repType: Optional, create: `ACTIVE`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
@@ -277,7 +277,7 @@ func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlHADbSystemRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_budget "github.com/oracle/oci-go-sdk/v43/budget"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_budget "github.com/oracle/oci-go-sdk/v44/budget"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -113,7 +113,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetTypeAsCompartmentAndTargets),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
@@ -133,7 +133,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentationWithTargetTypeAsCompartmentAndTargets),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
@@ -161,7 +161,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetTypeAsCompartmentAndTargets),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
@@ -191,7 +191,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetTypeAsTagAndTargets),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
@@ -211,7 +211,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentationWithTargetTypeAsTagAndTargets),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
@@ -238,7 +238,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetTypeAsTagAndTargets),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
@@ -268,7 +268,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
@@ -288,7 +288,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentationWithTargetCompartmentId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "budget_processing_period_start_offset", "10"),
@@ -322,7 +322,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetCompartmentId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
 					resource.TestCheckResourceAttr(resourceName, "budget_processing_period_start_offset", "11"),
@@ -355,7 +355,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_budget_budgets", "test_budgets", Optional, Update, budgetDataSourceRepresentation) +
 					compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetCompartmentId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -388,7 +388,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BudgetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "budget_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_count"),

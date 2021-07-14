@@ -48,7 +48,7 @@ func TestMeteringComputationConfigurationResource_basic(t *testing.T) {
 				Config: config + tenancyIdVariableStr +
 					generateDataSourceFromRepresentationMap("oci_metering_computation_configuration", "test_configuration", Required, Create, usageapiConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + usageapiConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tenant_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),

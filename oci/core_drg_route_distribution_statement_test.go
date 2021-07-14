@@ -98,7 +98,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create,
 						drgRouteDistributionStatementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
 					resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
@@ -122,7 +122,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
 					resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
@@ -146,7 +146,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", Optional, Create, drgRouteDistributionStatementDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.action", "ACCEPT"),
 					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.#", "1"),
@@ -175,7 +175,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", Optional, Create, drgRouteDistributionStatementRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", Required, Create, drgRouteDistributionStatementRepresentation2) +
 					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", Required, Create, drgRouteDistributionStatementRepresentation3),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//check first resource
 					resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),
 					resource.TestCheckResourceAttr(resourceName1, "action", "ACCEPT"),

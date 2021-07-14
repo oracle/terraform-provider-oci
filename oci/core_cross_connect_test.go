@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -88,7 +88,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
@@ -109,7 +109,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -138,7 +138,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(crossConnectRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -159,7 +159,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -184,7 +184,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", Optional, Update, crossConnectDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
@@ -208,7 +208,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

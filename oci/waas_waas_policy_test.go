@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v43/waas"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v44/waas"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -365,7 +365,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 
@@ -384,7 +384,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -588,7 +588,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(waasPolicyRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -786,7 +786,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -986,7 +986,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_waas_policies", "test_waas_policies", Optional, Update, waasPolicyDataSourceRepresentation) +
 					compartmentIdVariableStr + WaasPolicyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
@@ -1010,7 +1010,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + WaasPolicyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "waas_policy_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "additional_domains.#", "2"),

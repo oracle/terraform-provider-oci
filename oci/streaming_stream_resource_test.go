@@ -59,7 +59,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streampoolidRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
 					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
@@ -77,7 +77,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
 					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
@@ -97,7 +97,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -122,7 +122,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 					})) +
 					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				),
 			},
@@ -135,7 +135,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, representationCopyWithNewProperties(streampoolidRepresentation, map[string]interface{}{
 						"stream_pool_id": Representation{repType: Required, create: `${oci_streaming_stream_pool.test_stream_pool_new.id}`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -162,7 +162,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 					})) +
 					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -190,7 +190,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", Optional, Update, streampoolidDataSourceRepresentation) +
 					compartmentIdVariableStr + StreampoolidResourceDependencies +
 					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "mynewstream"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -214,7 +214,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streampoolidSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StreampoolidResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

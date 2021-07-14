@@ -69,7 +69,7 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
 					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "key", "933161"),
 					resource.TestCheckResourceAttr(resourceName, "action", "BLOCK"),
 					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
@@ -92,7 +92,7 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
 					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "key", "933111"),
 					resource.TestCheckResourceAttr(resourceName, "action", "DETECT"),
 					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
@@ -107,7 +107,7 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", Optional, Update, protectionRuleDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
 					compartmentIdVariableStr + ProtectionRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "action.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "waas_policy_id"),
 
@@ -125,7 +125,7 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
 					compartmentIdVariableStr + ProtectionRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_rule_key"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "waas_policy_id"),
 

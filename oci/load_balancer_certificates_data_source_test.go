@@ -71,7 +71,7 @@ func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {
 			},
 			{
 				Config: config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "certificates.#", "1"),
 					resource.TestMatchResourceAttr(resourceName, "certificates.0.ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),

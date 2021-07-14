@@ -68,7 +68,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
 					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
@@ -88,7 +88,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
 					resource.TestCheckResourceAttr(resourceName, "self_manage_resources", "false"),
@@ -110,7 +110,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
 					resource.TestCheckResourceAttr(resourceName, "self_manage_resources", "false"),
@@ -130,7 +130,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CloudGuardConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "reporting_region", reportingRegion),

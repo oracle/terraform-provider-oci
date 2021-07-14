@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v43/datasafe"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v44/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -111,7 +111,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
@@ -132,7 +132,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create, targetDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
@@ -168,7 +168,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(targetDatabaseRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
@@ -199,7 +199,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
@@ -231,7 +231,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_data_safe_target_databases", "test_target_databases", Optional, Update, targetDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + TargetDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "target_database_id"),
@@ -252,7 +252,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + TargetDatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

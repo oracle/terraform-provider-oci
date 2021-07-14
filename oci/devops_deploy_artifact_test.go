@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v43/devops"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v44/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -95,7 +95,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", base64_encode),
@@ -118,7 +118,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -148,7 +148,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -177,7 +177,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", Optional, Update, deployArtifactDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -193,7 +193,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeployArtifactResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_artifact_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),

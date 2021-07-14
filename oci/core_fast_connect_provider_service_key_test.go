@@ -51,7 +51,7 @@ func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service_key", "test_fast_connect_provider_service_key", Required, Create, fastConnectProviderServiceKeySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + FastConnectProviderServiceKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "provider_service_key_name", "d8f7a443-28c2-4dcf-996c-286351908c58"),
 

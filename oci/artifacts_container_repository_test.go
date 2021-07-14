@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v43/artifacts"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v44/artifacts"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -90,7 +90,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 
@@ -109,7 +109,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -145,7 +145,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(containerRepositoryRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -176,7 +176,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -208,7 +208,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", Optional, Update, containerRepositoryDataSourceRepresentation) +
 					compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -228,7 +228,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositorySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ContainerRepositoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),

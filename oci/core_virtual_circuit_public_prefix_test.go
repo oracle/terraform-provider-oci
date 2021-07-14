@@ -49,7 +49,7 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", Required, Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
 					compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.0.cidr_block"),

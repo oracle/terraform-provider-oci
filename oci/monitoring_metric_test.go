@@ -54,7 +54,7 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 						"group_by": Representation{repType: Required, create: []string{`namespace`}},
 					})) +
 					compartmentIdVariableStr + MetricResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "dimension_filters.%", "1"),

@@ -57,7 +57,7 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),

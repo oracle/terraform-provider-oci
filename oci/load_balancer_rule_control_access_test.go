@@ -73,7 +73,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Required, Create, ruleSetControlAccessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":            "CONTROL_ACCESS_USING_HTTP_METHODS",
@@ -94,7 +94,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":            "CONTROL_ACCESS_USING_HTTP_METHODS",
@@ -122,7 +122,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 						representationCopyWithNewProperties(ruleSetControlAccessRepresentation, map[string]interface{}{
 							"items": RepresentationGroup{Required, ruleSetItemsAnotherControlAccessRepresentation},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":            "CONTROL_ACCESS_USING_HTTP_METHODS",
@@ -149,7 +149,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_control_access_rule_sets", Optional, Update, ruleSetControlAccessDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "rule_sets.#", "1"),
@@ -169,7 +169,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Required, Create, ruleSetControlAccessSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_control_access_rule_set"),
 

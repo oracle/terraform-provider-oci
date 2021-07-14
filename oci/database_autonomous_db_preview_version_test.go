@@ -46,7 +46,7 @@ func TestDatabaseAutonomousDbPreviewVersionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_db_preview_versions", "test_autonomous_db_preview_versions", Required, Create, autonomousDbPreviewVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDbPreviewVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.#"),

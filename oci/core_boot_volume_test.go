@@ -13,9 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_common "github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_common "github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -111,7 +111,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -135,7 +135,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -173,7 +173,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(bootVolumeRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -208,7 +208,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					bootVolumeResponseFetchOperation, "core", false),
 				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -244,7 +244,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Optional, Update, bootVolumeDataSourceRepresentation) +
 					compartmentIdVariableStr + BootVolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -273,7 +273,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BootVolumeResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),

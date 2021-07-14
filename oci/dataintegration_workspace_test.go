@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v43/dataintegration"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v44/dataintegration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -88,7 +88,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, getUpdatedRepresentationCopy("is_private_network_enabled", Representation{repType: Required, create: `false`}, workspaceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "false"),
@@ -108,7 +108,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -136,7 +136,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(workspaceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -159,7 +159,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -185,7 +185,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", Optional, Update, workspaceDataSourceRepresentation) +
 					compartmentIdVariableStr + WorkspaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -206,7 +206,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + WorkspaceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "workspace_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

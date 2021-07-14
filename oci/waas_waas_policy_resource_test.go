@@ -81,7 +81,7 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_scenario_waas_policy", Optional, Create, waasPolicyScenarioRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(resourceName, "waf_config.#", "1"),
@@ -111,7 +111,7 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 			// verify update
 			{
 				Config: config + compartmentIdVariableStr + WaasPolicyResourceCachingOnlyConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(resourceName, "waf_config.#", "1"),

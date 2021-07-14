@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -48,7 +48,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 				data "oci_identity_swift_passwords" "p" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.#"),
 				),
 			},
@@ -61,7 +61,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 						values = ["${oci_identity_swift_password.t.description}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "passwords.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.user_id"),

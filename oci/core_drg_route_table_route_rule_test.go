@@ -81,7 +81,7 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Required, Create, drgRouteTableRouteRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 				),
 			},
@@ -94,7 +94,7 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Create, drgRouteTableRouteRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "destination"),
 					resource.TestCheckResourceAttrSet(resourceName, "destination_type"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
@@ -117,7 +117,7 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Update,
 						drgRouteTableRouteRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "destination", "192.0.0.0/24"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 
@@ -137,7 +137,7 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_drg_route_table_route_rules", "test_drg_route_table_route_rules", Optional, Create, drgRouteTableRouteRuleDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Update, drgRouteTableRouteRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_table_id"),
 					resource.TestCheckResourceAttr(datasourceName, "drg_route_rules.0.destination_type", "CIDR_BLOCK"),
 					resource.TestCheckResourceAttr(datasourceName, "drg_route_rules.0.destination", "192.0.0.0/24"),
@@ -162,7 +162,7 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule2", Optional, Create, drgRouteTableRouteRuleRepresentation2) +
 					generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule3", Required, Create, drgRouteTableRouteRuleRepresentation3),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//check first resource
 					resource.TestCheckResourceAttrSet(resourceName2, "destination"),
 					resource.TestCheckResourceAttrSet(resourceName2, "destination_type"),

@@ -47,7 +47,7 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.is_home_region", "true"),

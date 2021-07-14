@@ -79,7 +79,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
 					resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
 
@@ -98,7 +98,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Create, recommendationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "description"),
@@ -128,7 +128,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Update, recommendationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "description"),
@@ -156,7 +156,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr +
 					generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "category_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -173,7 +173,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RecommendationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "recommendation_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

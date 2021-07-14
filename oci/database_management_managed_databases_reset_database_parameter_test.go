@@ -53,7 +53,7 @@ func TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic(
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", Required, Create, managedDatabasesResetDatabaseParameterRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),

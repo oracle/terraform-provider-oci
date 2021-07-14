@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v43/dataflow"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v44/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -95,7 +95,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -115,7 +115,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -149,7 +149,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(privateEndpointRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -178,7 +178,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -208,7 +208,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dataflow_private_endpoints", "test_private_endpoints", Required, Update, privateEndpointDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateEndpointResourceDependencies + userIdVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
@@ -221,7 +221,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateEndpointResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

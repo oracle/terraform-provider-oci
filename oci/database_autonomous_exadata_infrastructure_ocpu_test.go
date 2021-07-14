@@ -49,7 +49,7 @@ func TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic(t *testing.T)
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_ocpu", "test_autonomous_exadata_infrastructure_ocpu", Required, Create, autonomousExadataInfrastructureOcpuSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousExadataInfrastructureOcpuResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_exadata_infrastructure_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "by_workload_type.#", "1"),

@@ -46,7 +46,7 @@ func TestLoadBalancerLoadBalancerProtocolResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_protocols", "test_load_balancer_protocols", Required, Create, loadBalancerProtocolDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerProtocolResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "protocols.#"),

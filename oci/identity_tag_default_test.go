@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
 					resource.TestCheckResourceAttr(resourceName, "value", "value1"),
@@ -107,7 +107,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_required", "true"),
@@ -133,7 +133,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_required", "false"),
@@ -161,7 +161,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_tag_definition_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter) +
 					compartmentIdVariableStr + TagDefaultResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.#"),
@@ -213,7 +213,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + TagDefaultResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_default_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_definition_id"),
 

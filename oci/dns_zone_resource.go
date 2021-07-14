@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 )
 
 func init() {
@@ -76,35 +76,6 @@ func DnsZoneResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
-						},
-						"tsig": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-									"algorithm": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
-									"name": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
-									"secret": {
-										Type:      schema.TypeString,
-										Required:  true,
-										Sensitive: true,
-									},
-
-									// Optional
-
-									// Computed
-								},
-							},
 						},
 						"tsig_key_id": {
 							Type:     schema.TypeString,
@@ -500,17 +471,6 @@ func (s *DnsZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dn
 		result.Port = &tmp
 	}
 
-	if tsig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tsig")); ok {
-		if tmpList := tsig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tsig"), 0)
-			tmp, err := s.mapToTSIG(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert tsig, encountered error: %v", err)
-			}
-			result.Tsig = &tmp
-		}
-	}
-
 	if tsigKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tsig_key_id")); ok {
 		tmp := tsigKeyId.(string)
 		result.TsigKeyId = &tmp
@@ -530,10 +490,6 @@ func ExternalMasterToMap(obj oci_dns.ExternalMaster) map[string]interface{} {
 		result["port"] = int(*obj.Port)
 	}
 
-	if obj.Tsig != nil {
-		result["tsig"] = []interface{}{TSIGToMap(obj.Tsig)}
-	}
-
 	if obj.TsigKeyId != nil {
 		result["tsig_key_id"] = string(*obj.TsigKeyId)
 	}
@@ -546,45 +502,6 @@ func NameserverToMap(obj oci_dns.Nameserver) map[string]interface{} {
 
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
-	}
-
-	return result
-}
-
-func (s *DnsZoneResourceCrud) mapToTSIG(fieldKeyFormat string) (oci_dns.Tsig, error) {
-	result := oci_dns.Tsig{}
-
-	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {
-		tmp := algorithm.(string)
-		result.Algorithm = &tmp
-	}
-
-	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-		tmp := name.(string)
-		result.Name = &tmp
-	}
-
-	if secret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret")); ok {
-		tmp := secret.(string)
-		result.Secret = &tmp
-	}
-
-	return result, nil
-}
-
-func TSIGToMap(obj *oci_dns.Tsig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Algorithm != nil {
-		result["algorithm"] = string(*obj.Algorithm)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Secret != nil {
-		result["secret"] = string(*obj.Secret)
 	}
 
 	return result

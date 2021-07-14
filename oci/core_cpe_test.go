@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -75,7 +75,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
 
@@ -95,7 +95,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Create, cpeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -124,7 +124,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(cpeRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -148,7 +148,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Update, cpeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -173,7 +173,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_cpes", "test_cpes", Optional, Update, cpeDataSourceRepresentation) +
 					compartmentIdVariableStr + CpeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Update, cpeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "cpes.#", "1"),

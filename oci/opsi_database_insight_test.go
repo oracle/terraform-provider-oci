@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v43/opsi"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v44/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -107,7 +107,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
 					//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
@@ -143,7 +143,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
 					//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
@@ -175,7 +175,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
 					//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
@@ -209,7 +209,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", Optional, Update, databaseInsightDataSourceRepresentation) +
 					compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
 					resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
@@ -228,7 +228,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttr(singularDatasourceName, "connection_credential_details.#", "1"), //Won't be available for EM managed databses
 					//resource.TestCheckResourceAttr(singularDatasourceName, "connection_details.#", "1"),
@@ -268,7 +268,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
 							"status": Representation{repType: Required, update: `ENABLED`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 					func(s *terraform.State) (err error) {

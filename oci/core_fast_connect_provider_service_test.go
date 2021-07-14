@@ -51,7 +51,7 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
 					compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "fast_connect_provider_services.#"),
@@ -75,7 +75,7 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service", "test_fast_connect_provider_service", Required, Create, fastConnectProviderServiceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bandwith_shape_management"),

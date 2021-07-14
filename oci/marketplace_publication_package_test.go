@@ -54,7 +54,7 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_publication_packages", "test_publication_packages", Required, Create, publicationPackageDataSourceRepresentation) +
 					compartmentIdVariableStr + PublicationPackageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "publication_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "publication_packages.#"),
@@ -69,7 +69,7 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_publication_package", "test_publication_package", Required, Create, publicationPackageSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PublicationPackageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),
 

@@ -67,7 +67,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
 
 					func(s *terraform.State) (err error) {
@@ -80,7 +80,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch"),
 					resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit"),
 					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
@@ -104,7 +104,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch2"),
 					resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit2"),
 					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
@@ -126,7 +126,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ModelProvenanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "git_branch", "gitBranch2"),
