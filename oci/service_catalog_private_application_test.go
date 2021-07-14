@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v43/servicecatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v44/servicecatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -89,7 +89,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
@@ -113,7 +113,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -149,7 +149,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(privateApplicationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -180,7 +180,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -212,7 +212,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", Optional, Update, privateApplicationDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_application_id"),
@@ -226,7 +226,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PrivateApplicationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

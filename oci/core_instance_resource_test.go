@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -178,7 +178,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						create = "15m"
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -310,7 +310,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						keyC = "[\"valC1\", \"valC2\"]"
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
@@ -351,7 +351,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
@@ -437,7 +437,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "true"),
@@ -491,7 +491,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
@@ -546,7 +546,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
@@ -654,7 +654,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "6"),
@@ -711,7 +711,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "6"),
@@ -765,7 +765,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -851,7 +851,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "true"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
 				// Verify that we didn't get a new Instance
@@ -908,7 +908,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					volume_id = "{{.preservedBootVolumeId}}"
 				}
 				`,
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				TestCheckResourceAttributesEqual("oci_core_volume_attachment.volume_attach", "instance_id", s.ResourceName, "id"),
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
@@ -958,7 +958,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				// Verify that we got a new Instance
 				func(ts *terraform.State) (err error) {
@@ -1004,7 +1004,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						create = "15m"
 					}
 				}`,
-			Check: resource.ComposeAggregateTestCheckFunc(
+			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 				// Verify that we got a new Instance
@@ -1141,7 +1141,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 			// verify fetching vnic details for an instance that is in stopped state
 			{
 				Config: config,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -1233,7 +1233,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
@@ -1266,7 +1266,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", ""),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "false"),
@@ -1303,7 +1303,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
@@ -1354,7 +1354,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
@@ -1391,7 +1391,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "2"),
@@ -1431,7 +1431,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
@@ -1471,7 +1471,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
@@ -1511,7 +1511,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 				data "oci_core_vnic" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "2"),
@@ -1557,7 +1557,7 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
@@ -1574,7 +1574,7 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
@@ -1587,7 +1587,7 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
@@ -1632,7 +1632,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCore_ForLaunchOptionsUpdate),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
@@ -1688,7 +1688,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
@@ -1748,7 +1748,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -1802,7 +1802,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 
@@ -1883,7 +1883,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCore_ForFlexibleMemory),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
@@ -1932,7 +1932,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemoryNoUpdate),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
@@ -1984,7 +1984,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
@@ -2038,7 +2038,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -2084,7 +2084,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 

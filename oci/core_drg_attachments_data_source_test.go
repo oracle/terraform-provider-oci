@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -60,7 +60,7 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 						values = ["${oci_core_drg_attachment.t.id}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "drg_attachments.0.display_name", "-tf-drg-attachment"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "drg_attachments.0.id"),

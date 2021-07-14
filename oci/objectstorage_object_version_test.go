@@ -56,7 +56,7 @@ func TestObjectStorageObjectVersionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object_versions", "test_object_versions", Optional, Create, objectVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testVersioningBucketName),
 					resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
 					resource.TestCheckResourceAttr(datasourceName, "end", "z"),

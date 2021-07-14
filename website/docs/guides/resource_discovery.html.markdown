@@ -118,6 +118,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
+    * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
     * `bastion` - Discovers bastion resources within the specified compartment
@@ -279,6 +280,11 @@ apigateway
 apm
     
 * oci\_apm\_apm\_domain
+
+apm_synthetics
+    
+* oci\_apm\_synthetics\_script
+* oci\_apm\_synthetics\_monitor
 
 artifacts
     

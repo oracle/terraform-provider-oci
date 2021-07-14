@@ -240,7 +240,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 			// verify create with all options
 			{
 				Config: s.Config + dataSource + fullConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(append(s.BuildTestsForFullConfig(s.ResourceName, ""),
+				Check: ComposeAggregateTestCheckFuncWrapper(append(s.BuildTestsForFullConfig(s.ResourceName, ""),
 					s.BuildTestsForFullConfig(s.DataSourceName, "security_lists.0.")...)...),
 			},
 			// Plan with the same config should do nothing
@@ -262,7 +262,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(s.ResourceName, "egress_security_rules", map[string]string{
 						"destination":    "0.0.0.0/1",
@@ -285,7 +285,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						vcn_id = "${oci_core_virtual_network.t.id}"
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
 				),
@@ -315,7 +315,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(s.ResourceName, "egress_security_rules", map[string]string{
@@ -355,7 +355,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(s.ResourceName, "egress_security_rules", map[string]string{
@@ -402,7 +402,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
 					CheckResourceSetContainsElementWithProperties(s.ResourceName, "egress_security_rules", map[string]string{
@@ -461,7 +461,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
 					CheckResourceSetContainsElementWithProperties(s.ResourceName, "egress_security_rules", map[string]string{
@@ -513,7 +513,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_empt
 						display_name = "default-tf-security_list-updated"
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "egress_security_rules.#", "0"),
@@ -523,12 +523,12 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_empt
 			// update with all options
 			{
 				Config: s.Config + dataSource + fullConfig,
-				Check:  resource.ComposeAggregateTestCheckFunc(s.BuildTestsForFullConfig(s.ResourceName, "")...),
+				Check:  ComposeAggregateTestCheckFuncWrapper(s.BuildTestsForFullConfig(s.ResourceName, "")...),
 			},
 			// Apply the same config and check the data source, since the data source will not have updated on the previous apply.
 			{
 				Config: s.Config + dataSource + fullConfig,
-				Check:  resource.ComposeAggregateTestCheckFunc(s.BuildTestsForFullConfig(s.DataSourceName, "security_lists.0.")...),
+				Check:  ComposeAggregateTestCheckFuncWrapper(s.BuildTestsForFullConfig(s.DataSourceName, "security_lists.0.")...),
 			},
 		},
 	})
@@ -576,7 +576,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 		Steps: []resource.TestStep{
 			{
 				Config: s.Config + defaultSecurityList,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-security_list"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "egress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "egress_security_rules", map[string]string{
@@ -637,7 +637,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 						}
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-security_list-updated"),
 					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "egress_security_rules", map[string]string{
 						"protocol":  "17",
@@ -671,7 +671,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 			// verify adding the default resource again
 			{
 				Config: s.Config + defaultSecurityList,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "display_name", "default-tf-security_list"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "egress_security_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(s.DefaultResourceName, "ingress_security_rules", map[string]string{
@@ -706,7 +706,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 						vcn_id = "${oci_core_virtual_network.t.id}"
 					}
 				`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "egress_security_rules.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ingress_security_rules.#", "0"),
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "egress_security_rules.#", "0"),

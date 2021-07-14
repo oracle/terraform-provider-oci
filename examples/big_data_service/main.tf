@@ -28,7 +28,7 @@ variable "bds_instance_cluster_public_key" {
 }
 
 variable "bds_instance_cluster_version" {
-  default = "CDH6"
+  default = "ODH1"
 }
 
 variable "bds_instance_defined_tags_value" {

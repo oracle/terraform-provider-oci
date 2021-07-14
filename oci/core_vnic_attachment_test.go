@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -97,7 +97,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -112,7 +112,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
@@ -151,7 +151,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation) +
 					compartmentIdVariableStr + VnicAttachmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Update, vnicAttachmentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 

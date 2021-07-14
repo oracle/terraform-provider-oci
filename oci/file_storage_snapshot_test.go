@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v43/filestorage"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v44/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -80,7 +80,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
 
@@ -99,7 +99,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -124,7 +124,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -148,7 +148,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", Optional, Update, snapshotDataSourceRepresentation) +
 					compartmentIdVariableStr + SnapshotResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -169,7 +169,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SnapshotResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

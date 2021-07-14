@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v43/usageapi"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v44/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -111,7 +111,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 			{
 				Config: config + tenancyIdVariableStr + QueryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, queryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
@@ -137,7 +137,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 			{
 				Config: config + tenancyIdVariableStr + QueryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
@@ -180,7 +180,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", Optional, Update, queryDataSourceRepresentation) +
 					tenancyIdVariableStr + QueryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "query_collection.#", "1"),
@@ -192,7 +192,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, querySingularDataSourceRepresentation) +
 					tenancyIdVariableStr + QueryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

@@ -141,7 +141,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Required, Create, invokeFunctionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "function_id"),
 					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 World\"}\n"),
 				),
@@ -155,7 +155,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create, invokeFunctionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -173,7 +173,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
 						getUpdatedRepresentationCopy("fn_intent", Representation{repType: Optional, create: `cloudevent`}, invokeFunctionRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 				),
 			},
@@ -182,7 +182,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
 						getUpdatedRepresentationCopy("fn_invoke_type", Representation{repType: Optional, create: `detached`}, invokeFunctionRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "function_id"),
 				),
 			},
@@ -191,7 +191,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
 						getUpdatedRepresentationCopy("fn_intent", Representation{repType: Optional, create: `cloudevent`}, getUpdatedRepresentationCopy("fn_invoke_type", Representation{repType: Optional, create: `detached`}, invokeFunctionRepresentation))),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "function_id"),
 				),
 			},
@@ -202,7 +202,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
 							"input_body_source_path": Representation{repType: Optional, create: sourceFilePath},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 				),
 			},
@@ -213,7 +213,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(representationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
 							"invoke_function_body_base64_encoded": Representation{repType: Optional, create: "eyJuYW1lIjoiQm9iIn0="},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 				),
 			},
@@ -224,7 +224,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(invokeFunctionRepresentation, map[string]interface{}{
 							"base64_encode_content": Representation{repType: Optional, create: `true`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "content", "eyJtZXNzYWdlIjoiSGVsbG8gdjMgQm9iIn0K"),
 				),
 			},

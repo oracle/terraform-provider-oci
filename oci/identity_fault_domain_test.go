@@ -48,7 +48,7 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
 					compartmentIdVariableStr + FaultDomainResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
 					resource.TestMatchResourceAttr(datasourceName, "compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
 

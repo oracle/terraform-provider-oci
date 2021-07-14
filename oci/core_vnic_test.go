@@ -62,7 +62,7 @@ data "oci_core_vnic_attachments" "t" {
 }` +
 					generateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", Required, Create, vnicSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VnicResourceConfig + VnicResourceConfigDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

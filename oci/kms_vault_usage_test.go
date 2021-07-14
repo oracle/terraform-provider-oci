@@ -46,7 +46,7 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", Required, Create, vaultUsageSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VaultUsageResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_count"),

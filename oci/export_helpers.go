@@ -10,6 +10,9 @@ import (
 )
 
 func init() {
+	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
+	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
+	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
 	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
 	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
@@ -50,6 +53,41 @@ func init() {
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+}
+
+func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
+
+	scriptId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find scriptId for ApmSynthetics Script")
+	}
+	apmDomainId, ok := resource.sourceAttributes["apm_domain_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmSynthetics Script")
+	}
+	return getScriptCompositeId(scriptId, apmDomainId), nil
+}
+
+func getApmSyntheticsMonitorId(resource *OCIResource) (string, error) {
+
+	monitorId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find monitorId for ApmSynthetics Monitor")
+	}
+	apmDomainId, ok := resource.sourceAttributes["apm_domain_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmSynthetics Monitor")
+	}
+	return getMonitorCompositeId(monitorId, apmDomainId), nil
+}
+
+func getArtifactsContainerRepositoryId(resource *OCIResource) (string, error) {
+
+	repositoryId, ok := resource.sourceAttributes["repository_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find repositoryId for Artifacts ContainerRepository")
+	}
+	return repositoryId, nil
 
 }
 

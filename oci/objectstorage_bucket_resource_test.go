@@ -118,7 +118,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentationForRetentionRules),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -181,7 +181,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -243,7 +243,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesReordered),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -305,7 +305,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesDelete),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -347,7 +347,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -409,7 +409,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesWithoutLock),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -480,7 +480,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -543,7 +543,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesWithoutLock) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRetentionRulesRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),

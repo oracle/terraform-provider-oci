@@ -58,7 +58,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + ConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
 
@@ -78,7 +78,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 			{
 				Config: config + ConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
 
@@ -96,7 +96,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationSingularDataSourceRepresentation) +
 					ConfigurationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "retention_period_days", "365"),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v43/dataflow"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v44/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -115,7 +115,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
 					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
@@ -140,7 +140,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -186,7 +186,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -230,7 +230,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 							"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -275,7 +275,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
@@ -301,7 +301,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
 						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
 					})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),

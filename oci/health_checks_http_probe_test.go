@@ -60,7 +60,7 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Required, Create, httpProbeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
@@ -75,7 +75,7 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Optional, Create, httpProbeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "method", "GET"),

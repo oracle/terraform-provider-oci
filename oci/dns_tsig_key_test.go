@@ -8,12 +8,13 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v43/dns"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -86,7 +87,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
@@ -107,7 +108,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -134,7 +135,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -156,7 +157,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -179,7 +180,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", Optional, Update, tsigKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + TsigKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", tsigKeyName),
@@ -202,7 +203,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + TsigKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tsig_key_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "algorithm", "hmac-sha1"),
@@ -247,10 +248,18 @@ func testAccCheckDnsTsigKeyDestroy(s *terraform.State) error {
 
 			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
 
-			_, err := client.GetTsigKey(context.Background(), request)
+			response, err := client.GetTsigKey(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_dns.TsigKeyLifecycleStateDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
 			}
 
 			//Verify that exception is for '404 not found'.
@@ -297,6 +306,8 @@ func sweepDnsTsigKeyResource(compartment string) error {
 				fmt.Printf("Error deleting TsigKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", tsigKeyId, error)
 				continue
 			}
+			waitTillCondition(testAccProvider, &tsigKeyId, tsigKeySweepWaitCondition, time.Duration(3*time.Minute),
+				tsigKeySweepResponseFetchOperation, "dns", true)
 		}
 	}
 	return nil
@@ -313,6 +324,7 @@ func getTsigKeyIds(compartment string) ([]string, error) {
 
 	listTsigKeysRequest := oci_dns.ListTsigKeysRequest{}
 	listTsigKeysRequest.CompartmentId = &compartmentId
+	listTsigKeysRequest.LifecycleState = oci_dns.TsigKeySummaryLifecycleStateActive
 	listTsigKeysResponse, err := dnsClient.ListTsigKeys(context.Background(), listTsigKeysRequest)
 
 	if err != nil {
@@ -324,4 +336,22 @@ func getTsigKeyIds(compartment string) ([]string, error) {
 		addResourceIdToSweeperResourceIdMap(compartmentId, "TsigKeyId", id)
 	}
 	return resourceIds, nil
+}
+
+func tsigKeySweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if tsigKeyResponse, ok := response.Response.(oci_dns.GetTsigKeyResponse); ok {
+		return tsigKeyResponse.LifecycleState != oci_dns.TsigKeyLifecycleStateDeleted
+	}
+	return false
+}
+
+func tsigKeySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.dnsClient().GetTsigKey(context.Background(), oci_dns.GetTsigKeyRequest{
+		TsigKeyId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

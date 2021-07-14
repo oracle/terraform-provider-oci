@@ -2,9 +2,9 @@
 subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_drg_attachment_management"
-sidebar_current: "docs-oci-datasource-core-drg-attachment-management"
+sidebar_current: "docs-oci-resource-core-drg-attachment-management"
 description: |-
-Provides details about specific Drg Attachment types in Oracle Cloud Infrastructure Core service
+  Provides details about specific Drg Attachment Management resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_drg_attachment_management

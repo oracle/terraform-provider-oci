@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_mysql_heat_wave_cluster"
 sidebar_current: "docs-oci-resource-mysql-heat_wave_cluster"
 description: |-
-  Provides the Heat Wave Cluster resource in Oracle Cloud Infrastructure MySQL Database service
+  Provides the HeatWave cluster resource in Oracle Cloud Infrastructure MySQL Database service
 ---
 
 # oci_mysql_heat_wave_cluster
-This resource provides the Heat Wave Cluster resource in Oracle Cloud Infrastructure MySQL Database service.
+This resource provides the HeatWave cluster resource in Oracle Cloud Infrastructure MySQL Database service.
 
 Updates the HeatWave cluster.
 
@@ -19,8 +19,6 @@ Updates the HeatWave cluster.
 resource "oci_mysql_heat_wave_cluster" "test_heat_wave_cluster" {
 	#Required
 	db_system_id = oci_database_db_system.test_db_system.id
-
-	#Optional
 	cluster_size = var.heat_wave_cluster_cluster_size
 	shape_name = oci_mysql_shape.test_shape.name
 }
@@ -30,10 +28,10 @@ resource "oci_mysql_heat_wave_cluster" "test_heat_wave_cluster" {
 
 The following arguments are supported:
 
-* `cluster_size` - (Optional) (Updatable) A change to the number of nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with the new cluster of nodes. This may result in a significant downtime for the analytics capability while the HeatWave cluster is re-provisioned. 
+* `cluster_size` - (Required) (Updatable) A change to the number of nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with the new cluster of nodes. This may result in a significant downtime for the analytics capability while the HeatWave cluster is re-provisioned.
 * `db_system_id` - (Required) The DB System [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `shape_name` - (Optional) (Updatable) A change to the shape of the nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with Compute instances of the new Shape. This may result in significant downtime for the analytics capability while the HeatWave cluster is re-provisioned. 
-
+* `shape_name` - (Required) (Updatable) A change to the shape of the nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with Compute instances of the new Shape. This may result in significant downtime for the analytics capability while the HeatWave cluster is re-provisioned.
+* `state` - (Optional) (Updatable) The target state for the HeatWave cluster. Could be set to `ACTIVE` or `INACTIVE`.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

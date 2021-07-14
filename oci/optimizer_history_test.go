@@ -54,7 +54,7 @@ func TestOptimizerHistoryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_histories", "test_histories", Required, Create, historyDataSourceRepresentation) +
 					compartmentIdVariableStr + HistoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "history_collection.0.items.0.id"),

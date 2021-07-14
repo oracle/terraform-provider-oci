@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
 					func(s *terraform.State) (err error) {
@@ -95,7 +95,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Create, consoleHistoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -122,7 +122,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -148,7 +148,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_console_histories", "test_console_histories", Optional, Update, consoleHistoryDataSourceRepresentation) +
 					compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),

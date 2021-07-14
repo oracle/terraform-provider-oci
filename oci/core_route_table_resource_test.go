@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 )
 
 var (
@@ -110,7 +110,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentationWithRouteRulesReqired),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
@@ -131,7 +131,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithRouteRulesReqired),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
@@ -156,7 +156,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 							routeTableRepresentationWithRouteRulesReqired,
 						)),
 
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
@@ -177,7 +177,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentationWithServiceCidr),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
@@ -191,7 +191,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithServiceCidr),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
@@ -205,7 +205,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithServiceCidrAddingCidrBlock),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
@@ -224,7 +224,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update, routeTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -254,7 +254,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 						getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
 							routeTableRepresentation,
 						)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -320,7 +320,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 					resource "oci_core_default_route_table" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_route_table_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -344,7 +344,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
 						}
 					}` + defaultRouteTable,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -399,7 +399,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 							network_entity_id = "${oci_core_internet_gateway.internet-gateway1.id}"
 						}
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-route-table"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -445,7 +445,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 			// verify adding the default resource back to the config
 			{
 				Config: config + defaultRouteTable,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(defaultResourceName, "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(defaultResourceName, "compartment_id"),

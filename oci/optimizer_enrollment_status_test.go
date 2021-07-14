@@ -67,7 +67,7 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
 					resource.TestCheckResourceAttr(resourceName, "status", "INACTIVE"),
 
@@ -88,7 +88,7 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
 					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -110,7 +110,7 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Optional, Update, enrollmentStatusDataSourceRepresentation) +
 					compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
 					generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.state", "ACTIVE"),
 					resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.status", "ACTIVE"),
@@ -127,7 +127,7 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + EnrollmentStatusResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "enrollment_status_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

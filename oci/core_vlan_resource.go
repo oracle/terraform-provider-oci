@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 )
 
 func init() {
@@ -27,12 +27,6 @@ func CoreVlanResource() *schema.Resource {
 		Delete:   deleteCoreVlan,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"availability_domain": {
-				Type:             schema.TypeString,
-				Required:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-			},
 			"cidr_block": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -48,6 +42,13 @@ func CoreVlanResource() *schema.Resource {
 			},
 
 			// Optional
+			"availability_domain": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,

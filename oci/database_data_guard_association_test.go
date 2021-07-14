@@ -227,7 +227,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependenciesNewDbSystem +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationNewDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.backup_network_nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
@@ -248,7 +248,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
@@ -279,7 +279,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", Optional, Update, dataGuardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
@@ -300,7 +300,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),

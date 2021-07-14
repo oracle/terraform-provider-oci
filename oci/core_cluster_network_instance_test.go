@@ -50,7 +50,7 @@ func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cluster_network_instances", "test_cluster_network_instances", Required, Create, clusterNetworkInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr + ClusterNetworkInstanceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_network_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

@@ -50,7 +50,7 @@ func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_monitoring_alarm_statuses", "test_alarm_statuses", Optional, Create, alarmStatusDataSourceRepresentation) +
 					compartmentIdVariableStr + AlarmStatusResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "display_name"),

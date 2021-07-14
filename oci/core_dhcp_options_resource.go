@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 )
 
 func init() {
@@ -103,6 +103,11 @@ func CoreDhcpOptionsResource() *schema.Resource {
 				Elem:             schema.TypeString,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"domain_name_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -216,6 +221,10 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if domainNameType, ok := s.D.GetOkExists("domain_name_type"); ok {
+		request.DomainNameType = oci_core.CreateDhcpDetailsDomainNameTypeEnum(domainNameType.(string))
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -311,6 +320,10 @@ func (s *CoreDhcpOptionsResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if domainNameType, ok := s.D.GetOkExists("domain_name_type"); ok {
+		request.DomainNameType = oci_core.UpdateDhcpDetailsDomainNameTypeEnum(domainNameType.(string))
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -368,6 +381,8 @@ func (s *CoreDhcpOptionsResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("domain_name_type", s.Res.DomainNameType)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v43/cloudguard"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v44/cloudguard"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -106,7 +106,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
@@ -126,7 +126,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -158,7 +158,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(responderRecipeRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -185,7 +185,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -213,7 +213,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "test_responder_recipes", Optional, Update, responderRecipeDataSourceRepresentation) +
 					compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
@@ -230,7 +230,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ResponderRecipeResourceConfig + DefinedTagsDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_recipe_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

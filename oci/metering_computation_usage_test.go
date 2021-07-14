@@ -131,7 +131,7 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 				},
 				Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
@@ -147,7 +147,7 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
 					generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
 					resource.TestCheckResourceAttr(resourceName, "forecast.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "forecast.0.forecast_type", "BASIC"),

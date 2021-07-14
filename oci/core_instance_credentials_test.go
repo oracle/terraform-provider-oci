@@ -50,7 +50,7 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instance_credentials", "test_instance_credentials", Required, Create, instanceCredentialSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceCredentialResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "password"),

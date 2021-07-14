@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -83,7 +83,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-va1"),
@@ -134,7 +134,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-va1"),
@@ -187,7 +187,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 						}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VnicAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
@@ -225,7 +225,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 						  vnic_id = "${oci_core_vnic_attachment.va.vnic_id}"
 						}
 					`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VnicAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
@@ -244,7 +244,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					`data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}"
 					}` + VnicAttachmentResourceDependenciesVlan,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "display_name"),
@@ -276,7 +276,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					`data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}"
 					}` + VnicAttachmentResourceDependenciesVlan,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "displayName"),

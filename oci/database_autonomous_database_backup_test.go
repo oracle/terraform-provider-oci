@@ -72,7 +72,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
 
@@ -94,7 +94,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", Optional, Update, autonomousDatabaseBackupDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "Monthly Backup"),
 
@@ -116,7 +116,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),

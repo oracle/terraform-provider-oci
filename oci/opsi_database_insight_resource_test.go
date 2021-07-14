@@ -67,7 +67,7 @@ func TestOpsiResourceDatabaseInsight(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
 					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRequiredRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
 

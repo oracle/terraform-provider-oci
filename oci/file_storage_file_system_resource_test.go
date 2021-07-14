@@ -91,7 +91,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
 					KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentationKMSKey),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -114,7 +114,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
 					KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -142,7 +142,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 					compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
 					KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -192,7 +192,7 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SnapshotResourceDependenciesNoTags +
 					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentationNoTags),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -214,7 +214,7 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + FileSystemResourceDependenciesNoTags +
 					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system_clone", Optional, Create, fileSystemRepresentationClone),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName2, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName2, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName2, "display_name", "media-files-1"),

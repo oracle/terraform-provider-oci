@@ -54,7 +54,7 @@ func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_available_histories", "test_management_agent_available_histories", Required, Create, managementAgentAvailableHistoryDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_histories.#"),
@@ -70,7 +70,7 @@ func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_available_histories", "test_management_agent_available_histories", Optional, Create, managementAgentAvailableHistoryDataSourceRepresentation) +
 					compartmentIdVariableStr + managementAgentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "time_availability_status_ended_greater_than"),
 					resource.TestCheckResourceAttrSet(datasourceName, "time_availability_status_started_less_than"),

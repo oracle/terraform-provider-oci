@@ -64,7 +64,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationJwtRemoteJWKS),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "path_prefix", "/v1"),
@@ -85,7 +85,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationJwtRemoteJWKS),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -169,7 +169,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -261,7 +261,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateway_id"),
@@ -278,7 +278,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				Config: config + imageVariableStr +
 					generateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DeploymentResourceConfigJwt,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

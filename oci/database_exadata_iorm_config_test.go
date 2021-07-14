@@ -158,7 +158,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
 
@@ -177,7 +177,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Create, exadataIormConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "objective", "AUTO"),
 
 					func(s *terraform.State) (err error) {
@@ -196,7 +196,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Update, exadataIormConfigRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "objective", "BALANCED"),
 					resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
@@ -215,7 +215,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ExadataIormConfigResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_plans.#", "1"),

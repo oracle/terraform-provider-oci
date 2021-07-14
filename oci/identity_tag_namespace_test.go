@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v43/common"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 					resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
@@ -97,7 +97,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -126,7 +126,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(tagNamespaceRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -150,7 +150,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -175,7 +175,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", Optional, Update, tagNamespaceDataSourceRepresentation) +
 					compartmentIdVariableStr + TagNamespaceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "include_subcompartments", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),

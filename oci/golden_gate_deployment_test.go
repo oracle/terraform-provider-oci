@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v43/goldengate"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v44/goldengate"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -112,7 +112,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Required, Create, goldenGateDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "deployment_type", "OGG"),
@@ -139,7 +139,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Create, goldenGateDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -212,7 +212,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Update, goldenGateDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -247,7 +247,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_golden_gate_deployments", "test_deployments", Optional, Update, goldenGateDeploymentDataSourceRepresentation) +
 					compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Optional, Update, goldenGateDeploymentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -261,7 +261,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", Required, Create, goldenGateDeploymentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + goldenGateDeploymentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "2"),

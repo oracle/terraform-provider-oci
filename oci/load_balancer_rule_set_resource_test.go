@@ -83,7 +83,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update,
 						getUpdatedRepresentationCopy("items", RepresentationGroup{Required, httpResponseRuleItemsRepresentation}, allowRuleSetRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action": "ADD_HTTP_RESPONSE_HEADER",
@@ -105,7 +105,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":       "ALLOW",
@@ -129,7 +129,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update, allowRuleSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":       "ALLOW",
@@ -153,7 +153,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update,
 						getUpdatedRepresentationCopy("items", RepresentationGroup{Required, allowRuleItemsRepresentationWithTwoConditions}, allowRuleSetRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":       "ALLOW",
@@ -176,7 +176,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":       "ALLOW",
@@ -206,7 +206,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_rule_sets", Optional, Update, ruleSetDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(datasourceName, "rule_sets.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "rule_sets.0.items.#", "2"),
@@ -231,7 +231,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "2"),
 					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{
 						"action":       "ALLOW",

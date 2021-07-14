@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database "github.com/oracle/oci-go-sdk/v44/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -207,7 +207,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
@@ -219,7 +219,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentationMigration),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
@@ -236,7 +236,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -277,7 +277,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -316,7 +316,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", Optional, Update, databaseDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
 					resource.TestCheckResourceAttr(datasourceName, "db_name", "myTestDb"),
@@ -344,7 +344,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DatabaseResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "character_set"),

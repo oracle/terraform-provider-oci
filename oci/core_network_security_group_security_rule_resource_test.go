@@ -76,7 +76,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
 							"count": Representation{repType: Optional, create: `10`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						for i := 0; i < 10; i++ {
 							resId, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "id")
@@ -96,7 +96,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
 							"count": Representation{repType: Optional, create: `10`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						for i := 0; i < 10; i++ {
 
@@ -129,7 +129,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
 				),
@@ -138,7 +138,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
 				),
@@ -151,7 +151,7 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 			{
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleUDPResourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
 				),
 			},

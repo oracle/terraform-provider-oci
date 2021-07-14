@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/identity"
+	"github.com/oracle/oci-go-sdk/v44/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -61,7 +61,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					user_id = "${oci_identity_user.t1.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
@@ -81,7 +81,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					user_id = "${oci_identity_user.t2.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),

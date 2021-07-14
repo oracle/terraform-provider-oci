@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v43/databasemigration"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v44/databasemigration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -96,7 +96,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 
 					func(s *terraform.State) (err error) {
@@ -114,7 +114,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create, agentRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName"),
@@ -144,7 +144,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(agentRepresentation2, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName"),
@@ -169,7 +169,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName2"),
@@ -195,7 +195,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_migration_agents", "test_agents", Optional, Update, agentDataSourceRepresentation2) +
 					compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "agent_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "agent_collection.0.items.#", "0"),
@@ -206,7 +206,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AgentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_displayName2"),

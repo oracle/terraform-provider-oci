@@ -192,7 +192,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolReginalResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRegionalSubnetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Image Name
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -229,7 +229,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolReginalResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRegionalSubnetRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Image Name
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -264,7 +264,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
 					compartmentIdVariableStr + NodePoolReginalResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRegionalSubnetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Datasource for NodePool created with Image Name
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -296,7 +296,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NodePoolReginalResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRegionalSubnetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Singular Datasource for NodePool created with Image Name
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
@@ -354,7 +354,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Required, Create, nodePoolRepresentationForImageId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Image Id
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "compartment_id", compartmentId),
@@ -380,7 +380,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Create, nodePoolRepresentationForImageId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Image Id
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "compartment_id", compartmentId),
@@ -406,7 +406,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Update, nodePoolRepresentationForImageId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Image Id
 					resource.TestCheckResourceAttrSet(resourceNameForImageId, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForImageId, "compartment_id", compartmentId),
@@ -436,7 +436,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 				Config: config + generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_imageId", Optional, Update, nodePoolDataSourceRepresentationForImageId) +
 					compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Update, nodePoolRepresentationForImageId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Datasource for NodePool created with Image Id
 					resource.TestCheckResourceAttrSet(datasourceNameForImageId, "cluster_id"),
 					resource.TestCheckResourceAttr(datasourceNameForImageId, "compartment_id", compartmentId),
@@ -464,7 +464,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Required, Create, nodePoolSingularDataSourceRepresentationForImageId) +
 					compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_imageId", Optional, Update, nodePoolRepresentationForImageId),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Singular Datasource for NodePool created with Image Id
 					resource.TestCheckResourceAttrSet(singularDatasourceNameForImageId, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceNameForImageId, "node_pool_id"),
@@ -516,7 +516,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Required, Create, nodePoolRepresentationForNodeSourceDetails),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Node Source Details
 					resource.TestCheckResourceAttrSet(resourceNameForNodeSourceDetails, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForNodeSourceDetails, "compartment_id", compartmentId),
@@ -545,7 +545,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Create, nodePoolRepresentationForNodeSourceDetails),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Node Source Details
 					resource.TestCheckResourceAttrSet(resourceNameForNodeSourceDetails, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForNodeSourceDetails, "compartment_id", compartmentId),
@@ -575,7 +575,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Update, nodePoolRepresentationForNodeSourceDetails),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Resource created with Node Source Details
 					resource.TestCheckResourceAttrSet(resourceNameForNodeSourceDetails, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForNodeSourceDetails, "compartment_id", compartmentId),
@@ -609,7 +609,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 						"test_node_pools_node_source_details", Optional, Update, nodePoolDataSourceRepresentationForNodeSourceDetails) + nodePoolResourceConfigForVMStandard +
 					compartmentIdVariableStr + NodePoolResourceDependencies +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Update, nodePoolRepresentationForNodeSourceDetails),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Datasource for NodePool created with Node Source Details
 					resource.TestCheckResourceAttrSet(datasourceNameForNodeSourceDetails, "cluster_id"),
 					resource.TestCheckResourceAttr(datasourceNameForNodeSourceDetails, "compartment_id", compartmentId),
@@ -639,7 +639,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Required, Create, nodePoolSingularDataSourceRepresentationForNodeSourceDetails) +
 					compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForVMStandard +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_node_source_details", Optional, Update, nodePoolRepresentationForNodeSourceDetails),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Singular Datasource for NodePool created with Image Name
 					resource.TestCheckResourceAttrSet(singularDatasourceNameForNodeSourceDetails, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceNameForNodeSourceDetails, "node_pool_id"),
@@ -692,7 +692,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 			// verify creation of flex node pool
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolRepresentationForFlexShapes),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "kubernetes_version"),
@@ -713,7 +713,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceNameForFlexibleShapes, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceNameForFlexibleShapes, "kubernetes_version"),
@@ -739,7 +739,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools_flexible_shapes", Optional, Update, nodePoolDataSourceRepresentationForFlexShapes) +
 					compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForFlexShapes +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Datasource for NodePool created with Flexible Shape
 					resource.TestCheckResourceAttrSet(datasourceNameForFlexibleShapes, "cluster_id"),
 					resource.TestCheckResourceAttr(datasourceNameForFlexibleShapes, "compartment_id", compartmentId),
@@ -764,7 +764,7 @@ func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Required, Create, nodePoolSingularDataSourceRepresentationForFlexShapes) +
 					compartmentIdVariableStr + NodePoolResourceConfig + nodePoolResourceConfigForFlexShapes +
 					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool_flexible_shapes", Optional, Update, nodePoolRepresentationForFlexShapes),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					//Asserting Singular Datasource for NodePool created with Flex Shape
 					resource.TestCheckResourceAttrSet(singularDatasourceNameForFlexibleShapes, "cluster_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceNameForFlexibleShapes, "node_pool_id"),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v43/osmanagement"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v44/osmanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -88,7 +88,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
 
@@ -107,7 +107,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -135,7 +135,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(managedInstanceGroupRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -158,7 +158,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -182,7 +182,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_groups", "test_managed_instance_groups", Optional, Update, managedInstanceGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", managedGroupUpdateDisplayName),
 					resource.TestCheckResourceAttr(datasourceName, "os_family", "WINDOWS"),
@@ -204,7 +204,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagedInstanceGroupResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_group_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

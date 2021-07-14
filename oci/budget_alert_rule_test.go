@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_budget "github.com/oracle/oci-go-sdk/v43/budget"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_budget "github.com/oracle/oci-go-sdk/v44/budget"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -91,7 +91,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
 					resource.TestCheckResourceAttr(resourceName, "threshold", "100"),
 					resource.TestCheckResourceAttr(resourceName, "threshold_type", "PERCENTAGE"),
@@ -112,7 +112,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Create, alertRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -147,7 +147,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -178,7 +178,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_budget_alert_rules", "test_alert_rules", Optional, Update, alertRuleDataSourceRepresentation) +
 					compartmentIdVariableStr + AlertRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "budget_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -206,7 +206,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AlertRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "budget_id"),
 

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v43/artifacts"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v44/artifacts"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -83,7 +83,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GenericArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -101,7 +101,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + GenericArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "artifact_path"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -130,7 +130,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_artifacts_generic_artifacts", "test_generic_artifacts", Optional, Update, genericArtifactDataSourceRepresentation) +
 					compartmentIdVariableStr + GenericArtifactResourceDependencies +
 					generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "artifact_path", "artifactPath"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -148,7 +148,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + GenericArtifactResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "artifact_path"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

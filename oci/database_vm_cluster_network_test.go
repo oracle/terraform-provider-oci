@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database "github.com/oracle/oci-go-sdk/v43/database"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database "github.com/oracle/oci-go-sdk/v44/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -136,7 +136,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -174,7 +174,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
@@ -219,7 +219,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
@@ -261,7 +261,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_networks", "test_vm_cluster_networks", Optional, Update, vmClusterNetworkDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "testVmClusterNw"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
@@ -303,7 +303,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + VmClusterNetworkResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
 

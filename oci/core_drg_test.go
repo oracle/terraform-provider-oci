@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -73,7 +73,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
@@ -91,7 +91,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDrg"),
@@ -119,7 +119,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(drgRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDrg"),
@@ -142,7 +142,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DrgResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -166,7 +166,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_drgs", "test_drgs", Optional, Update, drgDataSourceRepresentation) +
 					compartmentIdVariableStr + DrgResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
 					resource.TestCheckResourceAttr(datasourceName, "drgs.#", "1"),

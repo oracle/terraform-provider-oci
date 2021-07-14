@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v43/servicecatalog"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v44/servicecatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -80,7 +80,7 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
 				),
@@ -94,7 +94,7 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 					resource.TestCheckResourceAttr(resourceName, "entity_type", "privateapplication"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -119,7 +119,7 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", Optional, Update, serviceCatalogAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
 					resource.TestCheckResourceAttr(datasourceName, "entity_type", "privateapplication"),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_association_id"),
@@ -134,7 +134,7 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_association_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "entity_type", "privateapplication"),

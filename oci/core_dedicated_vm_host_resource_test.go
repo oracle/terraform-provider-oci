@@ -130,7 +130,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation_DenseIO2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO2.52"),
@@ -150,7 +150,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation_DenseIO2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO2.52"),
@@ -183,7 +183,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 						representationCopyWithNewProperties(dedicatedVmHostRepresentation_DenseIO2Shape, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO2.52"),
@@ -211,7 +211,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation_DenseIO2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.DenseIO2.52"),
@@ -240,7 +240,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", Optional, Update, dedicatedVmHostDataSourceRepresentation_DenseIO2Shape) +
 					compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation_DenseIO2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -269,7 +269,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DedicatedVmHostResourceConfig_DenseIO2Shape,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
@@ -337,7 +337,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation_E2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E2.64"),
@@ -357,7 +357,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation_E2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E2.64"),
@@ -390,7 +390,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 						representationCopyWithNewProperties(dedicatedVmHostRepresentation_E2Shape, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E2.64"),
@@ -418,7 +418,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation_E2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E2.64"),
@@ -447,7 +447,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", Optional, Update, dedicatedVmHostDataSourceRepresentation_E2Shape) +
 					compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation_E2Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -476,7 +476,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DedicatedVmHostResourceConfig_E2Shape,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
@@ -544,7 +544,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation_E3Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E3.128"),
@@ -564,7 +564,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation_E3Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E3.128"),
@@ -597,7 +597,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 						representationCopyWithNewProperties(dedicatedVmHostRepresentation_E3Shape, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E3.128"),
@@ -625,7 +625,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation_E3Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard.E3.128"),
@@ -654,7 +654,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", Optional, Update, dedicatedVmHostDataSourceRepresentation_E3Shape) +
 					compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation_E3Shape),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -683,7 +683,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DedicatedVmHostResourceConfig_E3Shape,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),

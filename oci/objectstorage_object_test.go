@@ -21,8 +21,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v43/objectstorage"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v44/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -136,7 +136,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
@@ -164,7 +164,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectEmptyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-empty-object"),
@@ -191,7 +191,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -224,7 +224,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -257,7 +257,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("content_md5", Representation{repType: Optional, create: Md5Base64Encoded2, update: `${md5("<a1>content</a1>")}`}, objectRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -289,7 +289,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -321,7 +321,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectSingularDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "attachment; filename=\"filename.html\""),
@@ -347,7 +347,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSingularDataSourceRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "inline"),
@@ -372,7 +372,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Required, Update, objectDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
@@ -387,7 +387,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Optional, Update, objectDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
@@ -445,7 +445,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						failObjectName, err = fromInstanceState(s, resourceName, "object")
 						if err != nil {
@@ -735,7 +735,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
@@ -764,7 +764,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -796,7 +796,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -823,7 +823,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -855,7 +855,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
@@ -869,7 +869,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
@@ -996,7 +996,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
 						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -1018,7 +1018,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
 						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)) +
 					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
@@ -1042,7 +1042,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// verify create content object with optionals
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -1067,7 +1067,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// verify copy content object in the same bucket with source etag
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObject,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
@@ -1087,7 +1087,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// metadata is updated
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
@@ -1108,7 +1108,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					ObjectResourceConfigWithSourceURIFromCopyOfContentObject + ObjectResourceConfigWithSourceURIFromContentObjectDependency +
 					ObjectResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
@@ -1130,7 +1130,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					ObjectResourceConfigWithSourceURIWithVersionId + ObjectResourceConfigWithSourceURIFromContentObjectDependency +
 					ObjectResourceDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
@@ -1153,7 +1153,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)) +
 					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
 					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),

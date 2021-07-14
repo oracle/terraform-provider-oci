@@ -88,7 +88,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					ip_address = "10.0.1.23"
 					subnet_id = "${oci_core_subnet.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.ip_address", "10.0.1.23"),
@@ -110,7 +110,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 				data "oci_core_private_ips" "t" {
 					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.#", "2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.ip_address"),
@@ -139,7 +139,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 				data "oci_core_private_ips" "t" {
 					subnet_id = "${oci_core_subnet.t.id}"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.#", "2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.ip_address"),

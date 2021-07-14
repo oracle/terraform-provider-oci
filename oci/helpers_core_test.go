@@ -9,9 +9,9 @@ import (
 	"log"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v43/common"
-	oci_core "github.com/oracle/oci-go-sdk/v43/core"
-	oci_identity "github.com/oracle/oci-go-sdk/v43/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v44/common"
+	oci_core "github.com/oracle/oci-go-sdk/v44/core"
+	oci_identity "github.com/oracle/oci-go-sdk/v44/identity"
 )
 
 const (

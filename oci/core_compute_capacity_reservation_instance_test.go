@@ -61,7 +61,7 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Required, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "capacity_reservation_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "capacity_reservation_instances.#"),
@@ -83,7 +83,7 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Optional, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
 					compartmentIdVariableStr,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "capacity_reservation_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

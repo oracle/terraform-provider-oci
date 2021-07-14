@@ -47,7 +47,7 @@ func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_cross_connect_status", "test_cross_connect_status", Required, Create, crossConnectStatusSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectStatusResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "interface_state"),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v43/managementagent"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v44/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -84,7 +84,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
@@ -103,7 +103,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -126,7 +126,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -148,7 +148,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_keys", "test_management_agent_install_keys", Optional, Update, managementAgentInstallKeyDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -172,7 +172,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeySingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagementAgentInstallKeyResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_install_key_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "allowed_key_install_count", "10"),

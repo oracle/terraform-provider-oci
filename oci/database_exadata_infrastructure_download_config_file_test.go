@@ -47,7 +47,7 @@ func TestDatabaseExadataInfrastructureDownloadConfigFileResource_basic(t *testin
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_exadata_infrastructure_download_config_file", "test_exadata_infrastructure_download_config_file", Required, Create, exadataInfrastructureDownloadConfigFileSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ExadataInfrastructureDownloadConfigFileResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
@@ -58,7 +58,7 @@ func TestDatabaseExadataInfrastructureDownloadConfigFileResource_basic(t *testin
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_exadata_infrastructure_download_config_file", "test_exadata_infrastructure_download_config_file", Optional, Create, exadataInfrastructureDownloadConfigFileSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ExadataInfrastructureDownloadConfigFileResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),

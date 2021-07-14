@@ -73,7 +73,7 @@ func TestNosqlTableResource_freeTable(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr +
 					generateResourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ddl_statement", freeTableDdlStatement),
 					resource.TestCheckResourceAttr(resourceName, "name", "test_freetable"),
@@ -90,7 +90,7 @@ func TestNosqlTableResource_freeTable(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_nosql_tables", "test_freetables", Optional, Create, freeTableDataSourceRepresentation) +
 					compartmentIdVariableStr + FreeTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(dataResourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(dataResourceName, "name", "test_freetable"),
 					resource.TestCheckResourceAttr(dataResourceName, "state", "ACTIVE"),
@@ -107,7 +107,7 @@ func TestNosqlTableResource_freeTable(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + FreeTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

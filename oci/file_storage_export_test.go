@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v43/filestorage"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v44/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -87,7 +87,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
@@ -107,7 +107,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
 					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "10"),
@@ -138,7 +138,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_ONLY"),
 					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "11"),
@@ -168,7 +168,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_file_storage_exports", "test_exports", Optional, Update, exportDataSourceRepresentation) +
 					compartmentIdVariableStr + ExportResourceDependencies +
 					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "exports.#", "1"),

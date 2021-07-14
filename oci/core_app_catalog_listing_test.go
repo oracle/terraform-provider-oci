@@ -49,7 +49,7 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
 					compartmentIdVariableStr + AppCatalogListingResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.listing_id"),
@@ -63,7 +63,7 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", Required, Create, appCatalogListingSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AppCatalogListingResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "contact_url"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),

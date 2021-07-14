@@ -42,7 +42,7 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_system_shapes.#"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_system_shapes.0.name"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_system_shapes.0.shape"),
@@ -60,7 +60,7 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 							values = ["non-existent-db-shape"]
 						}
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shapes.#", "0"),
 				),
 			},
@@ -75,7 +75,7 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 							regex = true
 						}
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestMatchResourceAttr(s.ResourceName, "db_system_shapes.#", regexp.MustCompile("[1-9][0-9]*")), // At least one image returned.
 					resource.TestMatchResourceAttr(s.ResourceName, "db_system_shapes.0.name", regexp.MustCompile(`VM\.Standard.+`)),
 					resource.TestMatchResourceAttr(s.ResourceName, "db_system_shapes.0.shape", regexp.MustCompile(`VM\.Standard.+`)),

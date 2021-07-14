@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -42,7 +42,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						cidr_block = "10.0.0.0/16"
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -64,7 +64,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						cidr_blocks = ["10.0.0.0/16", "11.0.0.0/16"]
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -86,7 +86,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						cidr_blocks = ["10.0.0.0/16", "11.0.0.0/16", "12.0.0.0/16"]
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -108,7 +108,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						cidr_blocks = ["10.0.0.0/16", "12.0.0.0/16"]
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -130,7 +130,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						cidr_blocks = ["10.0.0.0/16", "11.0.0.0/16"]
 						compartment_id = "${var.compartment_id}"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
@@ -153,7 +153,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-vcn"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-vcn"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
@@ -172,7 +172,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						compartment_id = "${var.compartment_id}"
 						dns_label= "MyTestDNSLabel"
 					}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/24"),

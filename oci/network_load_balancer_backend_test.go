@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v43/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v44/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -74,7 +74,7 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
@@ -94,7 +94,7 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Create, nlbBackendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttr(resourceName, "is_backup", "false"),
@@ -121,7 +121,7 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttr(resourceName, "is_backup", "true"),
@@ -147,7 +147,7 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backends", "test_backends", Optional, Update, nlbBackendDataSourceRepresentation) +
 					compartmentIdVariableStr + NlbBackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 

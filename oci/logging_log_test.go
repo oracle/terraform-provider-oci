@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v43/logging"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v44/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -103,7 +103,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
@@ -123,7 +123,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
@@ -159,7 +159,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + LogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
@@ -192,7 +192,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, logDataSourceRepresentation) +
 					compartmentIdVariableStr + LogResourceDependencies +
 					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "log_type", "SERVICE"),
@@ -226,7 +226,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + LogResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_id"),
 

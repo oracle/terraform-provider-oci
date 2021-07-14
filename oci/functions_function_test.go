@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v43/functions"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v44/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -108,7 +108,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 					resource.TestCheckResourceAttr(resourceName, "image", image),
@@ -129,7 +129,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -159,7 +159,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -188,7 +188,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_functions_functions", "test_functions", Optional, Update, functionDataSourceRepresentation) +
 					compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),
 					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
@@ -218,7 +218,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "function_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

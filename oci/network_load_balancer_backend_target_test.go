@@ -71,7 +71,7 @@ func TestNetworkLoadBalancerBackendTargetIdResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
@@ -94,7 +94,7 @@ func TestNetworkLoadBalancerBackendTargetIdResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Create, nlbBackendTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_id"),
@@ -122,7 +122,7 @@ func TestNetworkLoadBalancerBackendTargetIdResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NlbBackendTargetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendTargetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_id"),

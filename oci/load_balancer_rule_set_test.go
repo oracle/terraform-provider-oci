@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -179,7 +179,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action": "ADD_HTTP_REQUEST_HEADER",
@@ -206,7 +206,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					RuleSetResourceWithMultipleRules,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "11"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action": "ADD_HTTP_REQUEST_HEADER",
@@ -291,7 +291,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_rule_sets", Optional, Update, ruleSetDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update, ruleSetRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "rule_sets.#", "1"),
@@ -312,7 +312,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{},
 						[]string{}),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v43/databasemigration"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v44/databasemigration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -252,7 +252,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
 					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -277,7 +277,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
 					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
@@ -310,7 +310,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(connectionRepresentationTarget, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
@@ -339,7 +339,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
 					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
 					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
@@ -369,7 +369,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", Optional, Update, connectionDataSourceRepresentationCon) +
 					compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
 					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -381,7 +381,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentationCon) +
 					compartmentIdVariableStr + ConnectionResourceConfigTarget,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "admin_credentials.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "admin_credentials.0.username", "admin"),

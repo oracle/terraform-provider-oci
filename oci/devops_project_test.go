@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v43/devops"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v44/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -99,7 +99,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", devopsProjectName),
 					resource.TestCheckResourceAttr(resourceName, "notification_config.#", "1"),
@@ -120,7 +120,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create, devopsProjectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -149,7 +149,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(devopsProjectRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -173,7 +173,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -198,7 +198,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_devops_projects", "test_projects", Optional, Update, devopsProjectDataSourceRepresentation) +
 					compartmentIdVariableStr + DevopsProjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "name", devopsProjectName),
@@ -213,7 +213,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DevopsProjectResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

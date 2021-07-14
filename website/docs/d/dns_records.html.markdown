@@ -13,9 +13,11 @@ description: |-
 
 This data source provides the list of Records in Oracle Cloud Infrastructure DNS service.
 
-Gets all records in the specified zone. The results are
-sorted by `domain` in alphabetical order by default. For more
-information about records, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+Gets all records in the specified zone. The results are sorted by `domain` in alphabetical order by default.
+For more information about records, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+For private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
+provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
+parameter is required.
 
 
 ## Example Usage

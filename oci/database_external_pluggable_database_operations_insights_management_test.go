@@ -53,7 +53,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
 				),
@@ -63,7 +63,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
 				),
 			},
@@ -75,7 +75,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 				),
@@ -84,7 +84,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
 				),
 			},
@@ -93,7 +93,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Optional, Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 				),
@@ -102,7 +102,7 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Optional, Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "NOT_ENABLED"),
 				),
 			},

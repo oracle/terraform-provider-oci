@@ -64,7 +64,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "notebook_session_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "notebook_session_configuration_details.0.shape", "VM.Standard.E3.Flex"),
@@ -89,7 +89,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create, notebookSessionFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -126,7 +126,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 						representationCopyWithNewProperties(notebookSessionFlexRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -158,7 +158,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -191,7 +191,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_datascience_notebook_sessions", "test_notebook_sessions", Optional, Update, notebookSessionDataSourceRepresentation) +
 					compartmentIdVariableStr + NotebookSessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionFlexRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -222,7 +222,7 @@ func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NotebookSessionResourceFlexConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "notebook_session_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),

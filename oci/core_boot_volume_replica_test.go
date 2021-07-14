@@ -65,7 +65,7 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 				Config: config +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
 					compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						time.Sleep(2 * time.Minute)
 						return
@@ -77,7 +77,7 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 				Config: config +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
 					compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "boot_volume_replicas.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_replicas.0.availability_domain"),

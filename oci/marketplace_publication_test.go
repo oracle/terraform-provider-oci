@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v43/marketplace"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v44/marketplace"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -106,7 +106,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
 					resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
@@ -140,7 +140,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -191,7 +191,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(publicationRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -237,7 +237,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -284,7 +284,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", Optional, Update, publicationDataSourceRepresentation) +
 					compartmentIdVariableStr + PublicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "listing_type", "COMMUNITY"),
 					resource.TestCheckResourceAttr(datasourceName, "name.#", "1"),
@@ -308,7 +308,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PublicationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

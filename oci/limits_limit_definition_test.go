@@ -49,7 +49,7 @@ func TestLimitsLimitDefinitionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_limits_limit_definitions", "test_limit_definitions", Required, Create, limitDefinitionDataSourceRepresentation) +
 					compartmentIdVariableStr + LimitDefinitionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "limit_definitions.0.are_quotas_supported"),

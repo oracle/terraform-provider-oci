@@ -113,7 +113,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "description"),
@@ -143,7 +143,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
 
@@ -174,7 +174,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "description"),
@@ -197,7 +197,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
 					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
 
@@ -226,7 +226,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
 						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "direction"),
 					resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),
 

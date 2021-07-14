@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v43/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v44/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -98,7 +98,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Create, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
@@ -125,7 +125,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "true"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "true"),
@@ -151,7 +151,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_backends", "test_backends", Optional, Update, backendDataSourceRepresentation) +
 					compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "backendset_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 

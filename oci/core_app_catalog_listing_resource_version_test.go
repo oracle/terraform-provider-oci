@@ -56,7 +56,7 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
 					compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.#"),
@@ -72,7 +72,7 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_version", "test_app_catalog_listing_resource_version", Required, Create, appCatalogListingResourceVersionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_version"),
 

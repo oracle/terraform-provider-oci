@@ -58,7 +58,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 									)}"
                     freeform_tags = { "Department" = "Finance"}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
@@ -89,7 +89,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 									)}"
                     freeform_tags = { "Department" = "Accounting"}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
@@ -112,7 +112,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					display_name = "-private-ip2"
 					hostname_label = "ahostname"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address"),
@@ -133,7 +133,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					hostname_label = "ahostname"
 					ip_address = "10.0.1.22"
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ip_address", "10.0.1.22"),
@@ -173,7 +173,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 									)}"
                     freeform_tags = { "Department" = "Finance"}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "id"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
@@ -198,7 +198,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 									)}"
                     freeform_tags = { "Department" = "Accounting"}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.0.10"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),

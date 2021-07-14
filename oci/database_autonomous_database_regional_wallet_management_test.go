@@ -56,7 +56,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Required, Create, autonomousDatabaseRegionalWalletManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -74,7 +74,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Update, autonomousDatabaseRegionalWalletManagementRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
 					func(s *terraform.State) (err error) {
@@ -91,7 +91,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Required, Create, autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_rotated"),

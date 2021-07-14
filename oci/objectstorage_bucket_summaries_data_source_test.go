@@ -63,7 +63,7 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 						values = ["{{.token}}"]
 					}
 				}`, nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
@@ -80,7 +80,7 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 						values = ["{{.otherToken}}"]
 					}
 				}`, map[string]string{"otherToken": s.Token + "-2"}),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "1"),
@@ -97,7 +97,7 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 						values = ["non-existent-bucket"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", compartmentID),
 					TestCheckResourceAttributesEqual(s.ResourceName, "namespace", "data.oci_objectstorage_namespace.t", "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket_summaries.#", "0"),

@@ -189,7 +189,7 @@ func TestDatabasePluggableDatabasesRemoteCloneResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies + AvailabilityDomainConfigClone + PluggableDatabaseResourceCloneDependencies +
 					generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
 					generateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
 					resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),

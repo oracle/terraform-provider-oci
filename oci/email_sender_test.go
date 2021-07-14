@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v43/common"
-	oci_email "github.com/oracle/oci-go-sdk/v43/email"
+	"github.com/oracle/oci-go-sdk/v44/common"
+	oci_email "github.com/oracle/oci-go-sdk/v44/email"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -83,7 +83,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SenderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
 
@@ -102,7 +102,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SenderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
@@ -127,7 +127,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 						representationCopyWithNewProperties(senderRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
@@ -147,7 +147,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SenderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
@@ -168,7 +168,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_email_senders", "test_senders", Optional, Update, senderDataSourceRepresentation) +
 					compartmentIdVariableStr + SenderResourceDependencies +
 					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "email_address", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -188,7 +188,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SenderResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

@@ -47,7 +47,7 @@ func TestApigatewayApiDeploymentSpecificationResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_apigateway_api_deployment_specification", "test_api_deployment_specification", Required, Create, apiDeploymentSpecificationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ApiDeploymentSpecificationResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "logging_policies.#", "0"),

@@ -46,7 +46,7 @@ func TestMarketplaceCategoryResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_marketplace_categories", "test_categories", Required, Create, categoryDataSourceRepresentation) +
 					compartmentIdVariableStr + CategoryResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "categories.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "categories.0.name"),

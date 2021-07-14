@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v43/core"
+	"github.com/oracle/oci-go-sdk/v44/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -55,7 +55,7 @@ func (s *DatasourceCoreInternetGatewayTestSuite) TestAccDatasourceCoreInternetGa
 						values = ["${oci_core_internet_gateway.t.display_name}"]
 					}
 				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.display_name", "-tf-internet-gateway"),
 					resource.TestCheckResourceAttr(s.ResourceName, "gateways.0.state", string(core.InternetGatewayLifecycleStateAvailable)),

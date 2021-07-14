@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_bastion "github.com/oracle/oci-go-sdk/v43/bastion"
-	"github.com/oracle/oci-go-sdk/v43/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v44/bastion"
+	"github.com/oracle/oci-go-sdk/v44/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -153,7 +153,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 					resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
@@ -177,7 +177,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, sessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "managed_ssh"),
@@ -210,7 +210,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "managed_ssh2"),
@@ -244,7 +244,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", Optional, Update, sessionDataSourceRepresentation) +
 					compartmentIdVariableStr + SessionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "managed_ssh2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "session_id"),
@@ -273,7 +273,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SessionResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "session_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_name"),

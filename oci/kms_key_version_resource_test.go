@@ -49,7 +49,7 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 			// Our vault is in root compartment, so we need to run resource discovery in root compartment, as first RD tries to find the vault and then keys, versions inside the vault
 			{
 				Config: config + kmsKeyIdVariableStr + KeyResourceVersionResourceDiscoveryDependencies,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					func(s *terraform.State) (err error) {
 						managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")

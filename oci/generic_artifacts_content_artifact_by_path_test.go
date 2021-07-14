@@ -63,7 +63,7 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
 					generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -81,7 +81,7 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
 					generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -97,7 +97,7 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ArtifactByPathResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
+				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "artifact_path", "artifactPath"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "version", "1.0"),
