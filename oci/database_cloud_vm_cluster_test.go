@@ -61,6 +61,8 @@ var (
 		"is_sparse_diskgroup_enabled":     Representation{RepType: Optional, Create: `false`},
 		"license_model":                   Representation{RepType: Optional, Create: `LICENSE_INCLUDED`},
 		"nsg_ids":                         Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"scan_listener_port_tcp":          Representation{RepType: Optional, Create: `1521`},
+		"scan_listener_port_tcp_ssl":      Representation{RepType: Optional, Create: `2484`},
 		"time_zone":                       Representation{RepType: Optional, Create: `US/Pacific`},
 	}
 
@@ -199,7 +201,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	SaveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
 		GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation), "database", "cloudVmCluster", t)
 
@@ -270,7 +272,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create,
@@ -295,6 +297,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp", "1521"),
+				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp_ssl", "2484"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),

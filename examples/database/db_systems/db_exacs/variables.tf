@@ -35,6 +35,14 @@ variable "cloud_vm_cluster_hostname" {
   default = "myoracledb"
 }
 
+variable "cloud_vm_cluster_scan_listener_port_tcp" {
+  default = "1521"
+}
+
+variable "cloud_vm_cluster_scan_listener_port_tcp_ssl" {
+  default = "2484"
+}
+
 # DBSystem specific
 variable "db_system_shape" {
   default = "Exadata.Quarter1.84"
