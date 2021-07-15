@@ -311,7 +311,7 @@ The following arguments are supported:
 	**Metadata Example**
 
 	```
-	"metadata" : { "quake_bot_level" : "Severe", "ssh_authorized_keys" : "ssh-rsa <your_public_SSH_key>== rsa-key-20160227", "user_data" : "<your_public_SSH_key>==" }
+	"metadata" : { "quake_bot_level" : "Severe", "ssh_authorized_keys" : "ssh-rsa <your_public_SSH_key>== rsa-key-20160227", "user_data" : "<your_base64_encoded_user_data>==" }
 	```
 
 	**Getting Metadata on the Instance**
