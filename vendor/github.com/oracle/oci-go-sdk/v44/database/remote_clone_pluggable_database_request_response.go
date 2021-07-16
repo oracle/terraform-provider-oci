@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RemoteClonePluggableDatabase.go.html to see an example of how to use RemoteClonePluggableDatabaseRequest.
 type RemoteClonePluggableDatabaseRequest struct {
 
-	// Request to clone a pluggable database remotely.
+	// Request to clone a pluggable database (PDB) to a different database (CDB) from the source PDB.
 	RemoteClonePluggableDatabaseDetails `contributesTo:"body"`
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -47,9 +47,9 @@ func (request RemoteClonePluggableDatabaseRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request RemoteClonePluggableDatabaseRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+func (request RemoteClonePluggableDatabaseRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface

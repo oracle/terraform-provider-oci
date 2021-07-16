@@ -27,6 +27,9 @@ type ListTaskRunsRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Used to filter by the key of the object.
+	Key []string `contributesTo:"query" name:"key" collectionFormat:"multi"`
+
 	// Used to filter by the project or the folder object.
 	AggregatorKey *string `mandatory:"false" contributesTo:"query" name:"aggregatorKey"`
 
@@ -51,6 +54,9 @@ type ListTaskRunsRequest struct {
 	// Specifies the field to sort by. Accepts only one field. By default, when you sort by time fields, results are shown in descending order. All other fields default to ascending order. Sorting related parameters are ignored when parameter `query` is present (search operation and sorting order is by relevance score in descending order).
 	SortBy ListTaskRunsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// This filter parameter can be used to filter by model specific queryable fields of the object <br><br><B>Examples:-</B><br> <ul> <li><B>?filter=status eq Failed</B> returns all objects that have a status field with value Failed</li> </ul>
+	Filter []string `contributesTo:"query" name:"filter" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -61,9 +67,9 @@ func (request ListTaskRunsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListTaskRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+func (request ListTaskRunsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface

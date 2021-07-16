@@ -121,8 +121,9 @@ func (client OperationsInsightsClient) ChangeDatabaseInsightCompartment(ctx cont
 }
 
 // changeDatabaseInsightCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) changeDatabaseInsightCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeCompartment", binaryReqBody)
+func (client OperationsInsightsClient) changeDatabaseInsightCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -175,8 +176,9 @@ func (client OperationsInsightsClient) ChangeEnterpriseManagerBridgeCompartment(
 }
 
 // changeEnterpriseManagerBridgeCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) changeEnterpriseManagerBridgeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}/actions/changeCompartment", binaryReqBody)
+func (client OperationsInsightsClient) changeEnterpriseManagerBridgeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -234,8 +236,9 @@ func (client OperationsInsightsClient) ChangeHostInsightCompartment(ctx context.
 }
 
 // changeHostInsightCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/{hostInsightId}/actions/changeCompartment", binaryReqBody)
+func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/{hostInsightId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -293,8 +296,9 @@ func (client OperationsInsightsClient) CreateDatabaseInsight(ctx context.Context
 }
 
 // createDatabaseInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) createDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights", binaryReqBody)
+func (client OperationsInsightsClient) createDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -352,8 +356,9 @@ func (client OperationsInsightsClient) CreateEnterpriseManagerBridge(ctx context
 }
 
 // createEnterpriseManagerBridge implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) createEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/enterpriseManagerBridges", binaryReqBody)
+func (client OperationsInsightsClient) createEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/enterpriseManagerBridges", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -411,8 +416,9 @@ func (client OperationsInsightsClient) CreateHostInsight(ctx context.Context, re
 }
 
 // createHostInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) createHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights", binaryReqBody)
+func (client OperationsInsightsClient) createHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -465,8 +471,9 @@ func (client OperationsInsightsClient) DeleteDatabaseInsight(ctx context.Context
 }
 
 // deleteDatabaseInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) deleteDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseInsights/{databaseInsightId}", binaryReqBody)
+func (client OperationsInsightsClient) deleteDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseInsights/{databaseInsightId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -519,8 +526,9 @@ func (client OperationsInsightsClient) DeleteEnterpriseManagerBridge(ctx context
 }
 
 // deleteEnterpriseManagerBridge implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) deleteEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}", binaryReqBody)
+func (client OperationsInsightsClient) deleteEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -573,8 +581,9 @@ func (client OperationsInsightsClient) DeleteHostInsight(ctx context.Context, re
 }
 
 // deleteHostInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/hostInsights/{hostInsightId}", binaryReqBody)
+func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/hostInsights/{hostInsightId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -632,8 +641,9 @@ func (client OperationsInsightsClient) DisableDatabaseInsight(ctx context.Contex
 }
 
 // disableDatabaseInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) disableDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/disable", binaryReqBody)
+func (client OperationsInsightsClient) disableDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/disable", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -691,8 +701,9 @@ func (client OperationsInsightsClient) DisableHostInsight(ctx context.Context, r
 }
 
 // disableHostInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/{hostInsightId}/actions/disable", binaryReqBody)
+func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/{hostInsightId}/actions/disable", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -750,8 +761,9 @@ func (client OperationsInsightsClient) EnableDatabaseInsight(ctx context.Context
 }
 
 // enableDatabaseInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) enableDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/enable", binaryReqBody)
+func (client OperationsInsightsClient) enableDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/enable", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -809,8 +821,9 @@ func (client OperationsInsightsClient) EnableHostInsight(ctx context.Context, re
 }
 
 // enableHostInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/{hostInsightId}/actions/enable", binaryReqBody)
+func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/{hostInsightId}/actions/enable", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -863,8 +876,9 @@ func (client OperationsInsightsClient) GetDatabaseInsight(ctx context.Context, r
 }
 
 // getDatabaseInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) getDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/{databaseInsightId}", binaryReqBody)
+func (client OperationsInsightsClient) getDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/{databaseInsightId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -917,8 +931,9 @@ func (client OperationsInsightsClient) GetEnterpriseManagerBridge(ctx context.Co
 }
 
 // getEnterpriseManagerBridge implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) getEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}", binaryReqBody)
+func (client OperationsInsightsClient) getEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -971,8 +986,9 @@ func (client OperationsInsightsClient) GetHostInsight(ctx context.Context, reque
 }
 
 // getHostInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) getHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/{hostInsightId}", binaryReqBody)
+func (client OperationsInsightsClient) getHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/{hostInsightId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1025,8 +1041,9 @@ func (client OperationsInsightsClient) GetWorkRequest(ctx context.Context, reque
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1084,8 +1101,9 @@ func (client OperationsInsightsClient) IngestDatabaseConfiguration(ctx context.C
 }
 
 // ingestDatabaseConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) ingestDatabaseConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestDatabaseConfiguration", binaryReqBody)
+func (client OperationsInsightsClient) ingestDatabaseConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestDatabaseConfiguration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1143,8 +1161,9 @@ func (client OperationsInsightsClient) IngestHostConfiguration(ctx context.Conte
 }
 
 // ingestHostConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) ingestHostConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/actions/ingestHostConfiguration", binaryReqBody)
+func (client OperationsInsightsClient) ingestHostConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/actions/ingestHostConfiguration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1202,8 +1221,9 @@ func (client OperationsInsightsClient) IngestHostMetrics(ctx context.Context, re
 }
 
 // ingestHostMetrics implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/actions/ingestHostMetrics", binaryReqBody)
+func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/hostInsights/actions/ingestHostMetrics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1262,8 +1282,9 @@ func (client OperationsInsightsClient) IngestSqlBucket(ctx context.Context, requ
 }
 
 // ingestSqlBucket implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) ingestSqlBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestSqlBucket", binaryReqBody)
+func (client OperationsInsightsClient) ingestSqlBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestSqlBucket", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1322,8 +1343,9 @@ func (client OperationsInsightsClient) IngestSqlPlanLines(ctx context.Context, r
 }
 
 // ingestSqlPlanLines implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) ingestSqlPlanLines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestSqlPlanLines", binaryReqBody)
+func (client OperationsInsightsClient) ingestSqlPlanLines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestSqlPlanLines", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1383,8 +1405,9 @@ func (client OperationsInsightsClient) IngestSqlText(ctx context.Context, reques
 }
 
 // ingestSqlText implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestSqlText", binaryReqBody)
+func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestSqlText", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1437,8 +1460,9 @@ func (client OperationsInsightsClient) ListDatabaseConfigurations(ctx context.Co
 }
 
 // listDatabaseConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listDatabaseConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/databaseConfigurations", binaryReqBody)
+func (client OperationsInsightsClient) listDatabaseConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/databaseConfigurations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1491,8 +1515,9 @@ func (client OperationsInsightsClient) ListDatabaseInsights(ctx context.Context,
 }
 
 // listDatabaseInsights implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listDatabaseInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights", binaryReqBody)
+func (client OperationsInsightsClient) listDatabaseInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1545,8 +1570,9 @@ func (client OperationsInsightsClient) ListEnterpriseManagerBridges(ctx context.
 }
 
 // listEnterpriseManagerBridges implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listEnterpriseManagerBridges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enterpriseManagerBridges", binaryReqBody)
+func (client OperationsInsightsClient) listEnterpriseManagerBridges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enterpriseManagerBridges", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1599,8 +1625,9 @@ func (client OperationsInsightsClient) ListHostInsights(ctx context.Context, req
 }
 
 // listHostInsights implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listHostInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights", binaryReqBody)
+func (client OperationsInsightsClient) listHostInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1653,8 +1680,9 @@ func (client OperationsInsightsClient) ListHostedEntities(ctx context.Context, r
 }
 
 // listHostedEntities implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/hostedEntities", binaryReqBody)
+func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/hostedEntities", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1707,8 +1735,9 @@ func (client OperationsInsightsClient) ListImportableEnterpriseManagerEntities(c
 }
 
 // listImportableEnterpriseManagerEntities implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}/importableEnterpriseManagerEntities", binaryReqBody)
+func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}/importableEnterpriseManagerEntities", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1762,8 +1791,9 @@ func (client OperationsInsightsClient) ListSqlPlans(ctx context.Context, request
 }
 
 // listSqlPlans implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlPlans", binaryReqBody)
+func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlPlans", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1816,8 +1846,9 @@ func (client OperationsInsightsClient) ListSqlSearches(ctx context.Context, requ
 }
 
 // listSqlSearches implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listSqlSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlSearches", binaryReqBody)
+func (client OperationsInsightsClient) listSqlSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlSearches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1870,8 +1901,9 @@ func (client OperationsInsightsClient) ListSqlTexts(ctx context.Context, request
 }
 
 // listSqlTexts implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlTexts", binaryReqBody)
+func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlTexts", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1924,8 +1956,9 @@ func (client OperationsInsightsClient) ListWorkRequestErrors(ctx context.Context
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client OperationsInsightsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1978,8 +2011,9 @@ func (client OperationsInsightsClient) ListWorkRequestLogs(ctx context.Context, 
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client OperationsInsightsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2032,8 +2066,9 @@ func (client OperationsInsightsClient) ListWorkRequests(ctx context.Context, req
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2087,8 +2122,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceCapacityT
 }
 
 // summarizeDatabaseInsightResourceCapacityTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightResourceCapacityTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceCapacityTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightResourceCapacityTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceCapacityTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2141,8 +2177,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceForecastT
 }
 
 // summarizeDatabaseInsightResourceForecastTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightResourceForecastTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceForecastTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightResourceForecastTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceForecastTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2195,8 +2232,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceStatistic
 }
 
 // summarizeDatabaseInsightResourceStatistics implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightResourceStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceStatistics", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightResourceStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceStatistics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2251,8 +2289,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsage(ctx
 }
 
 // summarizeDatabaseInsightResourceUsage implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceUsageSummary", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceUsageSummary", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2306,8 +2345,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsageTren
 }
 
 // summarizeDatabaseInsightResourceUsageTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceUsageTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceUsageTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2360,8 +2400,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUtilizati
 }
 
 // summarizeDatabaseInsightResourceUtilizationInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUtilizationInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceUtilizationInsight", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUtilizationInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/resourceUtilizationInsight", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2416,8 +2457,9 @@ func (client OperationsInsightsClient) SummarizeDatabaseInsightTablespaceUsageTr
 }
 
 // summarizeDatabaseInsightTablespaceUsageTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeDatabaseInsightTablespaceUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/tablespaceUsageTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeDatabaseInsightTablespaceUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/tablespaceUsageTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2471,8 +2513,9 @@ func (client OperationsInsightsClient) SummarizeHostInsightResourceCapacityTrend
 }
 
 // summarizeHostInsightResourceCapacityTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeHostInsightResourceCapacityTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceCapacityTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeHostInsightResourceCapacityTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceCapacityTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2525,8 +2568,9 @@ func (client OperationsInsightsClient) SummarizeHostInsightResourceForecastTrend
 }
 
 // summarizeHostInsightResourceForecastTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeHostInsightResourceForecastTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceForecastTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeHostInsightResourceForecastTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceForecastTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2580,8 +2624,9 @@ func (client OperationsInsightsClient) SummarizeHostInsightResourceStatistics(ct
 }
 
 // summarizeHostInsightResourceStatistics implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeHostInsightResourceStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceStatistics", binaryReqBody)
+func (client OperationsInsightsClient) summarizeHostInsightResourceStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceStatistics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2636,8 +2681,9 @@ func (client OperationsInsightsClient) SummarizeHostInsightResourceUsage(ctx con
 }
 
 // summarizeHostInsightResourceUsage implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeHostInsightResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceUsageSummary", binaryReqBody)
+func (client OperationsInsightsClient) summarizeHostInsightResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceUsageSummary", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2691,8 +2737,9 @@ func (client OperationsInsightsClient) SummarizeHostInsightResourceUsageTrend(ct
 }
 
 // summarizeHostInsightResourceUsageTrend implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeHostInsightResourceUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceUsageTrend", binaryReqBody)
+func (client OperationsInsightsClient) summarizeHostInsightResourceUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceUsageTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2745,8 +2792,9 @@ func (client OperationsInsightsClient) SummarizeHostInsightResourceUtilizationIn
 }
 
 // summarizeHostInsightResourceUtilizationInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceUtilizationInsight", binaryReqBody)
+func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/resourceUtilizationInsight", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2799,8 +2847,9 @@ func (client OperationsInsightsClient) SummarizeSqlInsights(ctx context.Context,
 }
 
 // summarizeSqlInsights implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlInsights", binaryReqBody)
+func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2854,8 +2903,9 @@ func (client OperationsInsightsClient) SummarizeSqlPlanInsights(ctx context.Cont
 }
 
 // summarizeSqlPlanInsights implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlPlanInsights", binaryReqBody)
+func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlPlanInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2909,8 +2959,9 @@ func (client OperationsInsightsClient) SummarizeSqlResponseTimeDistributions(ctx
 }
 
 // summarizeSqlResponseTimeDistributions implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlResponseTimeDistributions", binaryReqBody)
+func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlResponseTimeDistributions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2963,8 +3014,9 @@ func (client OperationsInsightsClient) SummarizeSqlStatistics(ctx context.Contex
 }
 
 // summarizeSqlStatistics implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlStatistics", binaryReqBody)
+func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlStatistics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3017,8 +3069,9 @@ func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeries(ctx cont
 }
 
 // summarizeSqlStatisticsTimeSeries implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlStatisticsTimeSeries", binaryReqBody)
+func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlStatisticsTimeSeries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3072,8 +3125,9 @@ func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeriesByPlan(ct
 }
 
 // summarizeSqlStatisticsTimeSeriesByPlan implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlStatisticsTimeSeriesByPlan", binaryReqBody)
+func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseInsights/sqlStatisticsTimeSeriesByPlan", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3126,8 +3180,9 @@ func (client OperationsInsightsClient) UpdateDatabaseInsight(ctx context.Context
 }
 
 // updateDatabaseInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) updateDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseInsights/{databaseInsightId}", binaryReqBody)
+func (client OperationsInsightsClient) updateDatabaseInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseInsights/{databaseInsightId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3180,8 +3235,9 @@ func (client OperationsInsightsClient) UpdateEnterpriseManagerBridge(ctx context
 }
 
 // updateEnterpriseManagerBridge implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) updateEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}", binaryReqBody)
+func (client OperationsInsightsClient) updateEnterpriseManagerBridge(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/enterpriseManagerBridges/{enterpriseManagerBridgeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3234,8 +3290,9 @@ func (client OperationsInsightsClient) UpdateHostInsight(ctx context.Context, re
 }
 
 // updateHostInsight implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/hostInsights/{hostInsightId}", binaryReqBody)
+func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/hostInsights/{hostInsightId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

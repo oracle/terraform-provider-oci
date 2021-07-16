@@ -53,6 +53,8 @@ type ObjectMetadata struct {
 
 	// Specifies whether this object is a favorite or not.
 	IsFavorite *bool `mandatory:"false" json:"isFavorite"`
+
+	CountStatistics *CountStatistic `mandatory:"false" json:"countStatistics"`
 }
 
 func (m ObjectMetadata) String() string {

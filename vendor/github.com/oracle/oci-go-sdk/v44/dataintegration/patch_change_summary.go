@@ -50,12 +50,18 @@ const (
 	PatchChangeSummaryTypeIntegrationTask PatchChangeSummaryTypeEnum = "INTEGRATION_TASK"
 	PatchChangeSummaryTypeDataLoaderTask  PatchChangeSummaryTypeEnum = "DATA_LOADER_TASK"
 	PatchChangeSummaryTypePipelineTask    PatchChangeSummaryTypeEnum = "PIPELINE_TASK"
+	PatchChangeSummaryTypeSqlTask         PatchChangeSummaryTypeEnum = "SQL_TASK"
+	PatchChangeSummaryTypeOciDataflowTask PatchChangeSummaryTypeEnum = "OCI_DATAFLOW_TASK"
+	PatchChangeSummaryTypeRestTask        PatchChangeSummaryTypeEnum = "REST_TASK"
 )
 
 var mappingPatchChangeSummaryType = map[string]PatchChangeSummaryTypeEnum{
-	"INTEGRATION_TASK": PatchChangeSummaryTypeIntegrationTask,
-	"DATA_LOADER_TASK": PatchChangeSummaryTypeDataLoaderTask,
-	"PIPELINE_TASK":    PatchChangeSummaryTypePipelineTask,
+	"INTEGRATION_TASK":  PatchChangeSummaryTypeIntegrationTask,
+	"DATA_LOADER_TASK":  PatchChangeSummaryTypeDataLoaderTask,
+	"PIPELINE_TASK":     PatchChangeSummaryTypePipelineTask,
+	"SQL_TASK":          PatchChangeSummaryTypeSqlTask,
+	"OCI_DATAFLOW_TASK": PatchChangeSummaryTypeOciDataflowTask,
+	"REST_TASK":         PatchChangeSummaryTypeRestTask,
 }
 
 // GetPatchChangeSummaryTypeEnumValues Enumerates the set of values for PatchChangeSummaryTypeEnum

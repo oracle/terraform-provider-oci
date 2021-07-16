@@ -41,9 +41,9 @@ func (request ChangeDeploymentCompartmentRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangeDeploymentCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+func (request ChangeDeploymentCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface

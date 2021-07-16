@@ -36,7 +36,8 @@ type Parameter struct {
 	// Detailed description for the object.
 	Description *string `mandatory:"false" json:"description"`
 
-	Type BaseType `mandatory:"false" json:"type"`
+	// This can either be a string value referencing the type or a BaseType object.
+	Type *interface{} `mandatory:"false" json:"type"`
 
 	// The default value of the parameter.
 	DefaultValue *interface{} `mandatory:"false" json:"defaultValue"`
@@ -108,69 +109,6 @@ func (m Parameter) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *Parameter) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Key                    *string                            `json:"key"`
-		ModelVersion           *string                            `json:"modelVersion"`
-		ParentRef              *ParentReference                   `json:"parentRef"`
-		ConfigValues           *ConfigValues                      `json:"configValues"`
-		ObjectStatus           *int                               `json:"objectStatus"`
-		Name                   *string                            `json:"name"`
-		Description            *string                            `json:"description"`
-		Type                   basetype                           `json:"type"`
-		DefaultValue           *interface{}                       `json:"defaultValue"`
-		RootObjectDefaultValue *interface{}                       `json:"rootObjectDefaultValue"`
-		IsInput                *bool                              `json:"isInput"`
-		IsOutput               *bool                              `json:"isOutput"`
-		OutputAggregationType  ParameterOutputAggregationTypeEnum `json:"outputAggregationType"`
-		TypeName               *string                            `json:"typeName"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Key = model.Key
-
-	m.ModelVersion = model.ModelVersion
-
-	m.ParentRef = model.ParentRef
-
-	m.ConfigValues = model.ConfigValues
-
-	m.ObjectStatus = model.ObjectStatus
-
-	m.Name = model.Name
-
-	m.Description = model.Description
-
-	nn, e = model.Type.UnmarshalPolymorphicJSON(model.Type.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.Type = nn.(BaseType)
-	} else {
-		m.Type = nil
-	}
-
-	m.DefaultValue = model.DefaultValue
-
-	m.RootObjectDefaultValue = model.RootObjectDefaultValue
-
-	m.IsInput = model.IsInput
-
-	m.IsOutput = model.IsOutput
-
-	m.OutputAggregationType = model.OutputAggregationType
-
-	m.TypeName = model.TypeName
-
-	return
 }
 
 // ParameterOutputAggregationTypeEnum Enum with underlying type: string

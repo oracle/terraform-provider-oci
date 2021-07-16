@@ -114,8 +114,9 @@ func (client DataScienceClient) ActivateModel(ctx context.Context, request Activ
 }
 
 // activateModel implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) activateModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/activate", binaryReqBody)
+func (client DataScienceClient) activateModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +169,9 @@ func (client DataScienceClient) ActivateModelDeployment(ctx context.Context, req
 }
 
 // activateModelDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) activateModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments/{modelDeploymentId}/actions/activate", binaryReqBody)
+func (client DataScienceClient) activateModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments/{modelDeploymentId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -222,8 +224,9 @@ func (client DataScienceClient) ActivateNotebookSession(ctx context.Context, req
 }
 
 // activateNotebookSession implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) activateNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions/{notebookSessionId}/actions/activate", binaryReqBody)
+func (client DataScienceClient) activateNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions/{notebookSessionId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -276,8 +279,9 @@ func (client DataScienceClient) CancelWorkRequest(ctx context.Context, request C
 }
 
 // cancelWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
+func (client DataScienceClient) cancelWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -335,8 +339,9 @@ func (client DataScienceClient) ChangeModelCompartment(ctx context.Context, requ
 }
 
 // changeModelCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) changeModelCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/changeCompartment", binaryReqBody)
+func (client DataScienceClient) changeModelCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +399,9 @@ func (client DataScienceClient) ChangeModelDeploymentCompartment(ctx context.Con
 }
 
 // changeModelDeploymentCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments/{modelDeploymentId}/actions/changeCompartment", binaryReqBody)
+func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments/{modelDeploymentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -453,8 +459,9 @@ func (client DataScienceClient) ChangeNotebookSessionCompartment(ctx context.Con
 }
 
 // changeNotebookSessionCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) changeNotebookSessionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions/{notebookSessionId}/actions/changeCompartment", binaryReqBody)
+func (client DataScienceClient) changeNotebookSessionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions/{notebookSessionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -512,8 +519,9 @@ func (client DataScienceClient) ChangeProjectCompartment(ctx context.Context, re
 }
 
 // changeProjectCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) changeProjectCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/actions/changeCompartment", binaryReqBody)
+func (client DataScienceClient) changeProjectCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -571,8 +579,9 @@ func (client DataScienceClient) CreateModel(ctx context.Context, request CreateM
 }
 
 // createModel implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) createModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models", binaryReqBody)
+func (client DataScienceClient) createModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -630,8 +639,9 @@ func (client DataScienceClient) CreateModelArtifact(ctx context.Context, request
 }
 
 // createModelArtifact implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) createModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/artifact", binaryReqBody)
+func (client DataScienceClient) createModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/artifact", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -699,8 +709,9 @@ func (client DataScienceClient) CreateModelDeployment(ctx context.Context, reque
 }
 
 // createModelDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) createModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments", binaryReqBody)
+func (client DataScienceClient) createModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -758,8 +769,9 @@ func (client DataScienceClient) CreateModelProvenance(ctx context.Context, reque
 }
 
 // createModelProvenance implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) createModelProvenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/provenance", binaryReqBody)
+func (client DataScienceClient) createModelProvenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/provenance", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -817,8 +829,9 @@ func (client DataScienceClient) CreateNotebookSession(ctx context.Context, reque
 }
 
 // createNotebookSession implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) createNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions", binaryReqBody)
+func (client DataScienceClient) createNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -876,8 +889,9 @@ func (client DataScienceClient) CreateProject(ctx context.Context, request Creat
 }
 
 // createProject implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) createProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects", binaryReqBody)
+func (client DataScienceClient) createProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -930,8 +944,9 @@ func (client DataScienceClient) DeactivateModel(ctx context.Context, request Dea
 }
 
 // deactivateModel implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deactivateModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/deactivate", binaryReqBody)
+func (client DataScienceClient) deactivateModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/deactivate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -984,8 +999,9 @@ func (client DataScienceClient) DeactivateModelDeployment(ctx context.Context, r
 }
 
 // deactivateModelDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deactivateModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments/{modelDeploymentId}/actions/deactivate", binaryReqBody)
+func (client DataScienceClient) deactivateModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/modelDeployments/{modelDeploymentId}/actions/deactivate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1038,8 +1054,9 @@ func (client DataScienceClient) DeactivateNotebookSession(ctx context.Context, r
 }
 
 // deactivateNotebookSession implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deactivateNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions/{notebookSessionId}/actions/deactivate", binaryReqBody)
+func (client DataScienceClient) deactivateNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/notebookSessions/{notebookSessionId}/actions/deactivate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1092,8 +1109,9 @@ func (client DataScienceClient) DeleteModel(ctx context.Context, request DeleteM
 }
 
 // deleteModel implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deleteModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/models/{modelId}", binaryReqBody)
+func (client DataScienceClient) deleteModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/models/{modelId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1146,8 +1164,9 @@ func (client DataScienceClient) DeleteModelDeployment(ctx context.Context, reque
 }
 
 // deleteModelDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deleteModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/modelDeployments/{modelDeploymentId}", binaryReqBody)
+func (client DataScienceClient) deleteModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/modelDeployments/{modelDeploymentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1200,8 +1219,9 @@ func (client DataScienceClient) DeleteNotebookSession(ctx context.Context, reque
 }
 
 // deleteNotebookSession implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deleteNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/notebookSessions/{notebookSessionId}", binaryReqBody)
+func (client DataScienceClient) deleteNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/notebookSessions/{notebookSessionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1254,8 +1274,9 @@ func (client DataScienceClient) DeleteProject(ctx context.Context, request Delet
 }
 
 // deleteProject implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) deleteProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/projects/{projectId}", binaryReqBody)
+func (client DataScienceClient) deleteProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/projects/{projectId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1308,8 +1329,9 @@ func (client DataScienceClient) GetModel(ctx context.Context, request GetModelRe
 }
 
 // getModel implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}", binaryReqBody)
+func (client DataScienceClient) getModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1362,8 +1384,9 @@ func (client DataScienceClient) GetModelArtifactContent(ctx context.Context, req
 }
 
 // getModelArtifactContent implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getModelArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/artifact/content", binaryReqBody)
+func (client DataScienceClient) getModelArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/artifact/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1415,8 +1438,9 @@ func (client DataScienceClient) GetModelDeployment(ctx context.Context, request 
 }
 
 // getModelDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDeployments/{modelDeploymentId}", binaryReqBody)
+func (client DataScienceClient) getModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDeployments/{modelDeploymentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1469,8 +1493,9 @@ func (client DataScienceClient) GetModelProvenance(ctx context.Context, request 
 }
 
 // getModelProvenance implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getModelProvenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/provenance", binaryReqBody)
+func (client DataScienceClient) getModelProvenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/provenance", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1523,8 +1548,9 @@ func (client DataScienceClient) GetNotebookSession(ctx context.Context, request 
 }
 
 // getNotebookSession implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/notebookSessions/{notebookSessionId}", binaryReqBody)
+func (client DataScienceClient) getNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/notebookSessions/{notebookSessionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1577,8 +1603,9 @@ func (client DataScienceClient) GetProject(ctx context.Context, request GetProje
 }
 
 // getProject implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects/{projectId}", binaryReqBody)
+func (client DataScienceClient) getProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects/{projectId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1631,8 +1658,9 @@ func (client DataScienceClient) GetWorkRequest(ctx context.Context, request GetW
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client DataScienceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1685,8 +1713,9 @@ func (client DataScienceClient) HeadModelArtifact(ctx context.Context, request H
 }
 
 // headModelArtifact implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) headModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodHead, "/models/{modelId}/artifact/content", binaryReqBody)
+func (client DataScienceClient) headModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/models/{modelId}/artifact/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1739,8 +1768,9 @@ func (client DataScienceClient) ListModelDeploymentShapes(ctx context.Context, r
 }
 
 // listModelDeploymentShapes implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listModelDeploymentShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDeploymentShapes", binaryReqBody)
+func (client DataScienceClient) listModelDeploymentShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDeploymentShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1793,8 +1823,9 @@ func (client DataScienceClient) ListModelDeployments(ctx context.Context, reques
 }
 
 // listModelDeployments implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listModelDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDeployments", binaryReqBody)
+func (client DataScienceClient) listModelDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDeployments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1847,8 +1878,9 @@ func (client DataScienceClient) ListModels(ctx context.Context, request ListMode
 }
 
 // listModels implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listModels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models", binaryReqBody)
+func (client DataScienceClient) listModels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1901,8 +1933,9 @@ func (client DataScienceClient) ListNotebookSessionShapes(ctx context.Context, r
 }
 
 // listNotebookSessionShapes implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listNotebookSessionShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/notebookSessionShapes", binaryReqBody)
+func (client DataScienceClient) listNotebookSessionShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/notebookSessionShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1955,8 +1988,9 @@ func (client DataScienceClient) ListNotebookSessions(ctx context.Context, reques
 }
 
 // listNotebookSessions implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listNotebookSessions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/notebookSessions", binaryReqBody)
+func (client DataScienceClient) listNotebookSessions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/notebookSessions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2009,8 +2043,9 @@ func (client DataScienceClient) ListProjects(ctx context.Context, request ListPr
 }
 
 // listProjects implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listProjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects", binaryReqBody)
+func (client DataScienceClient) listProjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2063,8 +2098,9 @@ func (client DataScienceClient) ListWorkRequestErrors(ctx context.Context, reque
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2117,8 +2153,9 @@ func (client DataScienceClient) ListWorkRequestLogs(ctx context.Context, request
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2171,8 +2208,9 @@ func (client DataScienceClient) ListWorkRequests(ctx context.Context, request Li
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client DataScienceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2225,8 +2263,9 @@ func (client DataScienceClient) UpdateModel(ctx context.Context, request UpdateM
 }
 
 // updateModel implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) updateModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}", binaryReqBody)
+func (client DataScienceClient) updateModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2282,8 +2321,9 @@ func (client DataScienceClient) UpdateModelDeployment(ctx context.Context, reque
 }
 
 // updateModelDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) updateModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/modelDeployments/{modelDeploymentId}", binaryReqBody)
+func (client DataScienceClient) updateModelDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/modelDeployments/{modelDeploymentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2336,8 +2376,9 @@ func (client DataScienceClient) UpdateModelProvenance(ctx context.Context, reque
 }
 
 // updateModelProvenance implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) updateModelProvenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}/provenance", binaryReqBody)
+func (client DataScienceClient) updateModelProvenance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}/provenance", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2392,8 +2433,9 @@ func (client DataScienceClient) UpdateNotebookSession(ctx context.Context, reque
 }
 
 // updateNotebookSession implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) updateNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/notebookSessions/{notebookSessionId}", binaryReqBody)
+func (client DataScienceClient) updateNotebookSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/notebookSessions/{notebookSessionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2446,8 +2488,9 @@ func (client DataScienceClient) UpdateProject(ctx context.Context, request Updat
 }
 
 // updateProject implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) updateProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/projects/{projectId}", binaryReqBody)
+func (client DataScienceClient) updateProject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/projects/{projectId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

@@ -114,8 +114,9 @@ func (client BastionClient) ChangeBastionCompartment(ctx context.Context, reques
 }
 
 // changeBastionCompartment implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) changeBastionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bastions/{bastionId}/actions/changeCompartment", binaryReqBody)
+func (client BastionClient) changeBastionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bastions/{bastionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +174,9 @@ func (client BastionClient) CreateBastion(ctx context.Context, request CreateBas
 }
 
 // createBastion implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) createBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bastions", binaryReqBody)
+func (client BastionClient) createBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bastions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +234,9 @@ func (client BastionClient) CreateSession(ctx context.Context, request CreateSes
 }
 
 // createSession implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) createSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sessions", binaryReqBody)
+func (client BastionClient) createSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sessions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -286,8 +289,9 @@ func (client BastionClient) DeleteBastion(ctx context.Context, request DeleteBas
 }
 
 // deleteBastion implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) deleteBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bastions/{bastionId}", binaryReqBody)
+func (client BastionClient) deleteBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bastions/{bastionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +344,9 @@ func (client BastionClient) DeleteSession(ctx context.Context, request DeleteSes
 }
 
 // deleteSession implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) deleteSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sessions/{sessionId}", binaryReqBody)
+func (client BastionClient) deleteSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sessions/{sessionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +399,9 @@ func (client BastionClient) GetBastion(ctx context.Context, request GetBastionRe
 }
 
 // getBastion implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) getBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bastions/{bastionId}", binaryReqBody)
+func (client BastionClient) getBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bastions/{bastionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +454,9 @@ func (client BastionClient) GetSession(ctx context.Context, request GetSessionRe
 }
 
 // getSession implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) getSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sessions/{sessionId}", binaryReqBody)
+func (client BastionClient) getSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sessions/{sessionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -502,8 +509,9 @@ func (client BastionClient) GetWorkRequest(ctx context.Context, request GetWorkR
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client BastionClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -556,8 +564,9 @@ func (client BastionClient) ListBastions(ctx context.Context, request ListBastio
 }
 
 // listBastions implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) listBastions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bastions", binaryReqBody)
+func (client BastionClient) listBastions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bastions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -610,8 +619,9 @@ func (client BastionClient) ListSessions(ctx context.Context, request ListSessio
 }
 
 // listSessions implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) listSessions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sessions", binaryReqBody)
+func (client BastionClient) listSessions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sessions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -664,8 +674,9 @@ func (client BastionClient) ListWorkRequestErrors(ctx context.Context, request L
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client BastionClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -718,8 +729,9 @@ func (client BastionClient) ListWorkRequestLogs(ctx context.Context, request Lis
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client BastionClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -772,8 +784,9 @@ func (client BastionClient) ListWorkRequests(ctx context.Context, request ListWo
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client BastionClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -826,8 +839,9 @@ func (client BastionClient) UpdateBastion(ctx context.Context, request UpdateBas
 }
 
 // updateBastion implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) updateBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bastions/{bastionId}", binaryReqBody)
+func (client BastionClient) updateBastion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bastions/{bastionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -880,8 +894,9 @@ func (client BastionClient) UpdateSession(ctx context.Context, request UpdateSes
 }
 
 // updateSession implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) updateSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sessions/{sessionId}", binaryReqBody)
+func (client BastionClient) updateSession(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sessions/{sessionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

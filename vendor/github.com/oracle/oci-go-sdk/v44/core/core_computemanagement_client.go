@@ -125,8 +125,9 @@ func (client ComputeManagementClient) AttachInstancePoolInstance(ctx context.Con
 }
 
 // attachInstancePoolInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) attachInstancePoolInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/instances", binaryReqBody)
+func (client ComputeManagementClient) attachInstancePoolInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -184,8 +185,9 @@ func (client ComputeManagementClient) AttachLoadBalancer(ctx context.Context, re
 }
 
 // attachLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/attachLoadBalancer", binaryReqBody)
+func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/attachLoadBalancer", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -247,8 +249,9 @@ func (client ComputeManagementClient) ChangeClusterNetworkCompartment(ctx contex
 }
 
 // changeClusterNetworkCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusterNetworks/{clusterNetworkId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeManagementClient) changeClusterNetworkCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusterNetworks/{clusterNetworkId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -316,8 +319,9 @@ func (client ComputeManagementClient) ChangeInstanceConfigurationCompartment(ctx
 }
 
 // changeInstanceConfigurationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) changeInstanceConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations/{instanceConfigurationId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeManagementClient) changeInstanceConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations/{instanceConfigurationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -379,8 +383,9 @@ func (client ComputeManagementClient) ChangeInstancePoolCompartment(ctx context.
 }
 
 // changeInstancePoolCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -439,8 +444,9 @@ func (client ComputeManagementClient) CreateClusterNetwork(ctx context.Context, 
 }
 
 // createClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) createClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusterNetworks", binaryReqBody)
+func (client ComputeManagementClient) createClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusterNetworks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -499,8 +505,9 @@ func (client ComputeManagementClient) CreateInstanceConfiguration(ctx context.Co
 }
 
 // createInstanceConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations", binaryReqBody)
+func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -558,8 +565,9 @@ func (client ComputeManagementClient) CreateInstancePool(ctx context.Context, re
 }
 
 // createInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) createInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools", binaryReqBody)
+func (client ComputeManagementClient) createInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -612,8 +620,9 @@ func (client ComputeManagementClient) DeleteInstanceConfiguration(ctx context.Co
 }
 
 // deleteInstanceConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceConfigurations/{instanceConfigurationId}", binaryReqBody)
+func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceConfigurations/{instanceConfigurationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -671,8 +680,9 @@ func (client ComputeManagementClient) DetachInstancePoolInstance(ctx context.Con
 }
 
 // detachInstancePoolInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) detachInstancePoolInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/detachInstance", binaryReqBody)
+func (client ComputeManagementClient) detachInstancePoolInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/detachInstance", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -730,8 +740,9 @@ func (client ComputeManagementClient) DetachLoadBalancer(ctx context.Context, re
 }
 
 // detachLoadBalancer implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/detachLoadBalancer", binaryReqBody)
+func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/detachLoadBalancer", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -784,8 +795,9 @@ func (client ComputeManagementClient) GetClusterNetwork(ctx context.Context, req
 }
 
 // getClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) getClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterNetworks/{clusterNetworkId}", binaryReqBody)
+func (client ComputeManagementClient) getClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterNetworks/{clusterNetworkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -838,8 +850,9 @@ func (client ComputeManagementClient) GetInstanceConfiguration(ctx context.Conte
 }
 
 // getInstanceConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) getInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConfigurations/{instanceConfigurationId}", binaryReqBody)
+func (client ComputeManagementClient) getInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConfigurations/{instanceConfigurationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -892,8 +905,9 @@ func (client ComputeManagementClient) GetInstancePool(ctx context.Context, reque
 }
 
 // getInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) getInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}", binaryReqBody)
+func (client ComputeManagementClient) getInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -946,8 +960,9 @@ func (client ComputeManagementClient) GetInstancePoolInstance(ctx context.Contex
 }
 
 // getInstancePoolInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) getInstancePoolInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/instances/{instanceId}", binaryReqBody)
+func (client ComputeManagementClient) getInstancePoolInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/instances/{instanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1000,8 +1015,9 @@ func (client ComputeManagementClient) GetInstancePoolLoadBalancerAttachment(ctx 
 }
 
 // getInstancePoolLoadBalancerAttachment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/loadBalancerAttachments/{instancePoolLoadBalancerAttachmentId}", binaryReqBody)
+func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/loadBalancerAttachments/{instancePoolLoadBalancerAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1064,8 +1080,9 @@ func (client ComputeManagementClient) LaunchInstanceConfiguration(ctx context.Co
 }
 
 // launchInstanceConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations/{instanceConfigurationId}/actions/launch", binaryReqBody)
+func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations/{instanceConfigurationId}/actions/launch", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1118,8 +1135,9 @@ func (client ComputeManagementClient) ListClusterNetworkInstances(ctx context.Co
 }
 
 // listClusterNetworkInstances implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) listClusterNetworkInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterNetworks/{clusterNetworkId}/instances", binaryReqBody)
+func (client ComputeManagementClient) listClusterNetworkInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterNetworks/{clusterNetworkId}/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1172,8 +1190,9 @@ func (client ComputeManagementClient) ListClusterNetworks(ctx context.Context, r
 }
 
 // listClusterNetworks implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) listClusterNetworks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterNetworks", binaryReqBody)
+func (client ComputeManagementClient) listClusterNetworks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusterNetworks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1226,8 +1245,9 @@ func (client ComputeManagementClient) ListInstanceConfigurations(ctx context.Con
 }
 
 // listInstanceConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) listInstanceConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConfigurations", binaryReqBody)
+func (client ComputeManagementClient) listInstanceConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConfigurations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1280,8 +1300,9 @@ func (client ComputeManagementClient) ListInstancePoolInstances(ctx context.Cont
 }
 
 // listInstancePoolInstances implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) listInstancePoolInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/instances", binaryReqBody)
+func (client ComputeManagementClient) listInstancePoolInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1334,8 +1355,9 @@ func (client ComputeManagementClient) ListInstancePools(ctx context.Context, req
 }
 
 // listInstancePools implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) listInstancePools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools", binaryReqBody)
+func (client ComputeManagementClient) listInstancePools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1394,8 +1416,9 @@ func (client ComputeManagementClient) ResetInstancePool(ctx context.Context, req
 }
 
 // resetInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) resetInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/reset", binaryReqBody)
+func (client ComputeManagementClient) resetInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/reset", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1456,8 +1479,9 @@ func (client ComputeManagementClient) SoftresetInstancePool(ctx context.Context,
 }
 
 // softresetInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) softresetInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/softreset", binaryReqBody)
+func (client ComputeManagementClient) softresetInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/softreset", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1516,8 +1540,9 @@ func (client ComputeManagementClient) StartInstancePool(ctx context.Context, req
 }
 
 // startInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) startInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/start", binaryReqBody)
+func (client ComputeManagementClient) startInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/start", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1576,8 +1601,9 @@ func (client ComputeManagementClient) StopInstancePool(ctx context.Context, requ
 }
 
 // stopInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) stopInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/stop", binaryReqBody)
+func (client ComputeManagementClient) stopInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/stop", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1632,8 +1658,9 @@ func (client ComputeManagementClient) TerminateClusterNetwork(ctx context.Contex
 }
 
 // terminateClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) terminateClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/clusterNetworks/{clusterNetworkId}", binaryReqBody)
+func (client ComputeManagementClient) terminateClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/clusterNetworks/{clusterNetworkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1691,8 +1718,9 @@ func (client ComputeManagementClient) TerminateInstancePool(ctx context.Context,
 }
 
 // terminateInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) terminateInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instancePools/{instancePoolId}", binaryReqBody)
+func (client ComputeManagementClient) terminateInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instancePools/{instancePoolId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1750,8 +1778,9 @@ func (client ComputeManagementClient) UpdateClusterNetwork(ctx context.Context, 
 }
 
 // updateClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) updateClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/clusterNetworks/{clusterNetworkId}", binaryReqBody)
+func (client ComputeManagementClient) updateClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/clusterNetworks/{clusterNetworkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1809,8 +1838,9 @@ func (client ComputeManagementClient) UpdateInstanceConfiguration(ctx context.Co
 }
 
 // updateInstanceConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) updateInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceConfigurations/{instanceConfigurationId}", binaryReqBody)
+func (client ComputeManagementClient) updateInstanceConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceConfigurations/{instanceConfigurationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1869,8 +1899,9 @@ func (client ComputeManagementClient) UpdateInstancePool(ctx context.Context, re
 }
 
 // updateInstancePool implements the OCIOperation interface (enables retrying operations)
-func (client ComputeManagementClient) updateInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instancePools/{instancePoolId}", binaryReqBody)
+func (client ComputeManagementClient) updateInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instancePools/{instancePoolId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

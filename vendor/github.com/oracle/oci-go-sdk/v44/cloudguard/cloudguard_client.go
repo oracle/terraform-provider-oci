@@ -119,8 +119,9 @@ func (client CloudGuardClient) ChangeDetectorRecipeCompartment(ctx context.Conte
 }
 
 // changeDetectorRecipeCompartment implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectorRecipes/{detectorRecipeId}/actions/changeCompartment", binaryReqBody)
+func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectorRecipes/{detectorRecipeId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +179,9 @@ func (client CloudGuardClient) ChangeManagedListCompartment(ctx context.Context,
 }
 
 // changeManagedListCompartment implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedLists/{managedListId}/actions/changeCompartment", binaryReqBody)
+func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedLists/{managedListId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +239,9 @@ func (client CloudGuardClient) ChangeResponderRecipeCompartment(ctx context.Cont
 }
 
 // changeResponderRecipeCompartment implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderRecipes/{responderRecipeId}/actions/changeCompartment", binaryReqBody)
+func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderRecipes/{responderRecipeId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -296,8 +299,9 @@ func (client CloudGuardClient) CreateDataMaskRule(ctx context.Context, request C
 }
 
 // createDataMaskRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataMaskRules", binaryReqBody)
+func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataMaskRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -355,8 +359,9 @@ func (client CloudGuardClient) CreateDetectorRecipe(ctx context.Context, request
 }
 
 // createDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectorRecipes", binaryReqBody)
+func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectorRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -414,8 +419,9 @@ func (client CloudGuardClient) CreateManagedList(ctx context.Context, request Cr
 }
 
 // createManagedList implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedLists", binaryReqBody)
+func (client CloudGuardClient) createManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedLists", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -473,8 +479,9 @@ func (client CloudGuardClient) CreateResponderRecipe(ctx context.Context, reques
 }
 
 // createResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderRecipes", binaryReqBody)
+func (client CloudGuardClient) createResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -532,8 +539,9 @@ func (client CloudGuardClient) CreateTarget(ctx context.Context, request CreateT
 }
 
 // createTarget implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targets", binaryReqBody)
+func (client CloudGuardClient) createTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -591,8 +599,9 @@ func (client CloudGuardClient) CreateTargetDetectorRecipe(ctx context.Context, r
 }
 
 // createTargetDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targets/{targetId}/targetDetectorRecipes", binaryReqBody)
+func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targets/{targetId}/targetDetectorRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -650,8 +659,9 @@ func (client CloudGuardClient) CreateTargetResponderRecipe(ctx context.Context, 
 }
 
 // createTargetResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targets/{targetId}/targetResponderRecipes", binaryReqBody)
+func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targets/{targetId}/targetResponderRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -704,8 +714,9 @@ func (client CloudGuardClient) DeleteDataMaskRule(ctx context.Context, request D
 }
 
 // deleteDataMaskRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dataMaskRules/{dataMaskRuleId}", binaryReqBody)
+func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dataMaskRules/{dataMaskRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -763,8 +774,9 @@ func (client CloudGuardClient) DeleteDetectorRecipe(ctx context.Context, request
 }
 
 // deleteDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/detectorRecipes/{detectorRecipeId}", binaryReqBody)
+func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/detectorRecipes/{detectorRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -822,8 +834,9 @@ func (client CloudGuardClient) DeleteManagedList(ctx context.Context, request De
 }
 
 // deleteManagedList implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedLists/{managedListId}", binaryReqBody)
+func (client CloudGuardClient) deleteManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedLists/{managedListId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -876,8 +889,9 @@ func (client CloudGuardClient) DeleteResponderRecipe(ctx context.Context, reques
 }
 
 // deleteResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/responderRecipes/{responderRecipeId}", binaryReqBody)
+func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/responderRecipes/{responderRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -930,8 +944,9 @@ func (client CloudGuardClient) DeleteTarget(ctx context.Context, request DeleteT
 }
 
 // deleteTarget implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targets/{targetId}", binaryReqBody)
+func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targets/{targetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -984,8 +999,9 @@ func (client CloudGuardClient) DeleteTargetDetectorRecipe(ctx context.Context, r
 }
 
 // deleteTargetDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}", binaryReqBody)
+func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1038,8 +1054,9 @@ func (client CloudGuardClient) DeleteTargetResponderRecipe(ctx context.Context, 
 }
 
 // deleteTargetResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}", binaryReqBody)
+func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1097,8 +1114,9 @@ func (client CloudGuardClient) ExecuteResponderExecution(ctx context.Context, re
 }
 
 // executeResponderExecution implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) executeResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/{responderExecutionId}/actions/execute", binaryReqBody)
+func (client CloudGuardClient) executeResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/{responderExecutionId}/actions/execute", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1151,8 +1169,9 @@ func (client CloudGuardClient) GetConditionMetadataType(ctx context.Context, req
 }
 
 // getConditionMetadataType implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/conditionMetadataTypes/{conditionMetadataTypeId}", binaryReqBody)
+func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/conditionMetadataTypes/{conditionMetadataTypeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1205,8 +1224,9 @@ func (client CloudGuardClient) GetConfiguration(ctx context.Context, request Get
 }
 
 // getConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody)
+func (client CloudGuardClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1259,8 +1279,9 @@ func (client CloudGuardClient) GetDataMaskRule(ctx context.Context, request GetD
 }
 
 // getDataMaskRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataMaskRules/{dataMaskRuleId}", binaryReqBody)
+func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataMaskRules/{dataMaskRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1313,8 +1334,9 @@ func (client CloudGuardClient) GetDetector(ctx context.Context, request GetDetec
 }
 
 // getDetector implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getDetector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors/{detectorId}", binaryReqBody)
+func (client CloudGuardClient) getDetector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors/{detectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1367,8 +1389,9 @@ func (client CloudGuardClient) GetDetectorRecipe(ctx context.Context, request Ge
 }
 
 // getDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}", binaryReqBody)
+func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1421,8 +1444,9 @@ func (client CloudGuardClient) GetDetectorRecipeDetectorRule(ctx context.Context
 }
 
 // getDetectorRecipeDetectorRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody)
+func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1475,8 +1499,9 @@ func (client CloudGuardClient) GetDetectorRule(ctx context.Context, request GetD
 }
 
 // getDetectorRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors/{detectorId}/detectorRules/{detectorRuleId}", binaryReqBody)
+func (client CloudGuardClient) getDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors/{detectorId}/detectorRules/{detectorRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1529,8 +1554,9 @@ func (client CloudGuardClient) GetManagedList(ctx context.Context, request GetMa
 }
 
 // getManagedList implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedLists/{managedListId}", binaryReqBody)
+func (client CloudGuardClient) getManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedLists/{managedListId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1583,8 +1609,9 @@ func (client CloudGuardClient) GetProblem(ctx context.Context, request GetProble
 }
 
 // getProblem implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getProblem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}", binaryReqBody)
+func (client CloudGuardClient) getProblem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1637,8 +1664,9 @@ func (client CloudGuardClient) GetResponderExecution(ctx context.Context, reques
 }
 
 // getResponderExecution implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderExecutions/{responderExecutionId}", binaryReqBody)
+func (client CloudGuardClient) getResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderExecutions/{responderExecutionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1691,8 +1719,9 @@ func (client CloudGuardClient) GetResponderRecipe(ctx context.Context, request G
 }
 
 // getResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes/{responderRecipeId}", binaryReqBody)
+func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes/{responderRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1745,8 +1774,9 @@ func (client CloudGuardClient) GetResponderRecipeResponderRule(ctx context.Conte
 }
 
 // getResponderRecipeResponderRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes/{responderRecipeId}/responderRules/{responderRuleId}", binaryReqBody)
+func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes/{responderRecipeId}/responderRules/{responderRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1799,8 +1829,9 @@ func (client CloudGuardClient) GetResponderRule(ctx context.Context, request Get
 }
 
 // getResponderRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRules/{responderRuleId}", binaryReqBody)
+func (client CloudGuardClient) getResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRules/{responderRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1853,8 +1884,9 @@ func (client CloudGuardClient) GetTarget(ctx context.Context, request GetTargetR
 }
 
 // getTarget implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}", binaryReqBody)
+func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1907,8 +1939,9 @@ func (client CloudGuardClient) GetTargetDetectorRecipe(ctx context.Context, requ
 }
 
 // getTargetDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}", binaryReqBody)
+func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1961,8 +1994,9 @@ func (client CloudGuardClient) GetTargetDetectorRecipeDetectorRule(ctx context.C
 }
 
 // getTargetDetectorRecipeDetectorRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody)
+func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2015,8 +2049,9 @@ func (client CloudGuardClient) GetTargetResponderRecipe(ctx context.Context, req
 }
 
 // getTargetResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}", binaryReqBody)
+func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2069,8 +2104,9 @@ func (client CloudGuardClient) GetTargetResponderRecipeResponderRule(ctx context
 }
 
 // getTargetResponderRecipeResponderRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}/responderRules/{responderRuleId}", binaryReqBody)
+func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}/responderRules/{responderRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2123,8 +2159,9 @@ func (client CloudGuardClient) ListConditionMetadataTypes(ctx context.Context, r
 }
 
 // listConditionMetadataTypes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/conditionMetadataTypes", binaryReqBody)
+func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/conditionMetadataTypes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2177,8 +2214,9 @@ func (client CloudGuardClient) ListDataMaskRules(ctx context.Context, request Li
 }
 
 // listDataMaskRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataMaskRules", binaryReqBody)
+func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataMaskRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2231,8 +2269,9 @@ func (client CloudGuardClient) ListDetectorRecipeDetectorRules(ctx context.Conte
 }
 
 // listDetectorRecipeDetectorRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}/detectorRules", binaryReqBody)
+func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes/{detectorRecipeId}/detectorRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2296,8 +2335,9 @@ func (client CloudGuardClient) ListDetectorRecipes(ctx context.Context, request 
 }
 
 // listDetectorRecipes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes", binaryReqBody)
+func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectorRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2350,8 +2390,9 @@ func (client CloudGuardClient) ListDetectorRules(ctx context.Context, request Li
 }
 
 // listDetectorRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listDetectorRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors/{detectorId}/detectorRules", binaryReqBody)
+func (client CloudGuardClient) listDetectorRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors/{detectorId}/detectorRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2404,8 +2445,9 @@ func (client CloudGuardClient) ListDetectors(ctx context.Context, request ListDe
 }
 
 // listDetectors implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listDetectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors", binaryReqBody)
+func (client CloudGuardClient) listDetectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2458,8 +2500,9 @@ func (client CloudGuardClient) ListImpactedResources(ctx context.Context, reques
 }
 
 // listImpactedResources implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listImpactedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}/impactedResources", binaryReqBody)
+func (client CloudGuardClient) listImpactedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}/impactedResources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2512,8 +2555,9 @@ func (client CloudGuardClient) ListManagedListTypes(ctx context.Context, request
 }
 
 // listManagedListTypes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedListTypes", binaryReqBody)
+func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedListTypes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2577,8 +2621,9 @@ func (client CloudGuardClient) ListManagedLists(ctx context.Context, request Lis
 }
 
 // listManagedLists implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listManagedLists(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedLists", binaryReqBody)
+func (client CloudGuardClient) listManagedLists(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedLists", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2631,8 +2676,9 @@ func (client CloudGuardClient) ListPolicies(ctx context.Context, request ListPol
 }
 
 // listPolicies implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/policies", binaryReqBody)
+func (client CloudGuardClient) listPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/policies", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2685,8 +2731,9 @@ func (client CloudGuardClient) ListProblemHistories(ctx context.Context, request
 }
 
 // listProblemHistories implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listProblemHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}/histories", binaryReqBody)
+func (client CloudGuardClient) listProblemHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}/histories", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2750,8 +2797,9 @@ func (client CloudGuardClient) ListProblems(ctx context.Context, request ListPro
 }
 
 // listProblems implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems", binaryReqBody)
+func (client CloudGuardClient) listProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2804,8 +2852,9 @@ func (client CloudGuardClient) ListRecommendations(ctx context.Context, request 
 }
 
 // listRecommendations implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendations", binaryReqBody)
+func (client CloudGuardClient) listRecommendations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/recommendations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2858,8 +2907,9 @@ func (client CloudGuardClient) ListResourceTypes(ctx context.Context, request Li
 }
 
 // listResourceTypes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceTypes", binaryReqBody)
+func (client CloudGuardClient) listResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceTypes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2912,8 +2962,9 @@ func (client CloudGuardClient) ListResponderActivities(ctx context.Context, requ
 }
 
 // listResponderActivities implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listResponderActivities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}/responderActivities", binaryReqBody)
+func (client CloudGuardClient) listResponderActivities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/problems/{problemId}/responderActivities", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2966,8 +3017,9 @@ func (client CloudGuardClient) ListResponderExecutions(ctx context.Context, requ
 }
 
 // listResponderExecutions implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listResponderExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderExecutions", binaryReqBody)
+func (client CloudGuardClient) listResponderExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderExecutions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3020,8 +3072,9 @@ func (client CloudGuardClient) ListResponderRecipeResponderRules(ctx context.Con
 }
 
 // listResponderRecipeResponderRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes/{responderRecipeId}/responderRules", binaryReqBody)
+func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes/{responderRecipeId}/responderRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3085,8 +3138,9 @@ func (client CloudGuardClient) ListResponderRecipes(ctx context.Context, request
 }
 
 // listResponderRecipes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes", binaryReqBody)
+func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3139,8 +3193,9 @@ func (client CloudGuardClient) ListResponderRules(ctx context.Context, request L
 }
 
 // listResponderRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listResponderRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRules", binaryReqBody)
+func (client CloudGuardClient) listResponderRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/responderRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3193,8 +3248,9 @@ func (client CloudGuardClient) ListTargetDetectorRecipeDetectorRules(ctx context
 }
 
 // listTargetDetectorRecipeDetectorRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}/detectorRules", binaryReqBody)
+func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}/detectorRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3247,8 +3303,9 @@ func (client CloudGuardClient) ListTargetDetectorRecipes(ctx context.Context, re
 }
 
 // listTargetDetectorRecipes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes", binaryReqBody)
+func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetDetectorRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3301,8 +3358,9 @@ func (client CloudGuardClient) ListTargetResponderRecipeResponderRules(ctx conte
 }
 
 // listTargetResponderRecipeResponderRules implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}/responderRules", binaryReqBody)
+func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}/responderRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3355,8 +3413,9 @@ func (client CloudGuardClient) ListTargetResponderRecipes(ctx context.Context, r
 }
 
 // listTargetResponderRecipes implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes", binaryReqBody)
+func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets/{targetId}/targetResponderRecipes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3420,8 +3479,9 @@ func (client CloudGuardClient) ListTargets(ctx context.Context, request ListTarg
 }
 
 // listTargets implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets", binaryReqBody)
+func (client CloudGuardClient) listTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3474,8 +3534,9 @@ func (client CloudGuardClient) RequestRiskScores(ctx context.Context, request Re
 }
 
 // requestRiskScores implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestRiskScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/riskScores", binaryReqBody)
+func (client CloudGuardClient) requestRiskScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/riskScores", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3529,8 +3590,9 @@ func (client CloudGuardClient) RequestSecurityScoreSummarizedTrend(ctx context.C
 }
 
 // requestSecurityScoreSummarizedTrend implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityScores/actions/summarizeTrend", binaryReqBody)
+func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityScores/actions/summarizeTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3583,8 +3645,9 @@ func (client CloudGuardClient) RequestSecurityScores(ctx context.Context, reques
 }
 
 // requestSecurityScores implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSecurityScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityScores", binaryReqBody)
+func (client CloudGuardClient) requestSecurityScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityScores", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3648,8 +3711,9 @@ func (client CloudGuardClient) RequestSummarizedActivityProblems(ctx context.Con
 }
 
 // requestSummarizedActivityProblems implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeActivityProblems", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeActivityProblems", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3711,8 +3775,9 @@ func (client CloudGuardClient) RequestSummarizedProblems(ctx context.Context, re
 }
 
 // requestSummarizedProblems implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarize", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarize", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3774,8 +3839,9 @@ func (client CloudGuardClient) RequestSummarizedResponderExecutions(ctx context.
 }
 
 // requestSummarizedResponderExecutions implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedResponderExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/actions/summarize", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedResponderExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/actions/summarize", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3828,8 +3894,9 @@ func (client CloudGuardClient) RequestSummarizedRiskScores(ctx context.Context, 
 }
 
 // requestSummarizedRiskScores implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedRiskScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeRiskScore", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedRiskScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeRiskScore", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3882,8 +3949,9 @@ func (client CloudGuardClient) RequestSummarizedSecurityScores(ctx context.Conte
 }
 
 // requestSummarizedSecurityScores implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeSecurityScore", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeSecurityScore", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3945,8 +4013,9 @@ func (client CloudGuardClient) RequestSummarizedTrendProblems(ctx context.Contex
 }
 
 // requestSummarizedTrendProblems implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeTrend", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4008,8 +4077,9 @@ func (client CloudGuardClient) RequestSummarizedTrendResponderExecutions(ctx con
 }
 
 // requestSummarizedTrendResponderExecutions implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedTrendResponderExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/actions/summarizeTrend", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedTrendResponderExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/actions/summarizeTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4062,8 +4132,9 @@ func (client CloudGuardClient) RequestSummarizedTrendSecurityScores(ctx context.
 }
 
 // requestSummarizedTrendSecurityScores implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeSecurityScoreTrend", binaryReqBody)
+func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/summarizeSecurityScoreTrend", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4117,8 +4188,9 @@ func (client CloudGuardClient) SkipBulkResponderExecution(ctx context.Context, r
 }
 
 // skipBulkResponderExecution implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/actions/bulkSkip", binaryReqBody)
+func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/actions/bulkSkip", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4176,8 +4248,9 @@ func (client CloudGuardClient) SkipResponderExecution(ctx context.Context, reque
 }
 
 // skipResponderExecution implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) skipResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/{responderExecutionId}/actions/skip", binaryReqBody)
+func (client CloudGuardClient) skipResponderExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/responderExecutions/{responderExecutionId}/actions/skip", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4235,8 +4308,9 @@ func (client CloudGuardClient) TriggerResponder(ctx context.Context, request Tri
 }
 
 // triggerResponder implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) triggerResponder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/{problemId}/actions/triggerResponder", binaryReqBody)
+func (client CloudGuardClient) triggerResponder(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/{problemId}/actions/triggerResponder", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4290,8 +4364,9 @@ func (client CloudGuardClient) UpdateBulkProblemStatus(ctx context.Context, requ
 }
 
 // updateBulkProblemStatus implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/bulkUpdateStatus", binaryReqBody)
+func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/actions/bulkUpdateStatus", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4349,8 +4424,9 @@ func (client CloudGuardClient) UpdateConfiguration(ctx context.Context, request 
 }
 
 // updateConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody)
+func (client CloudGuardClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4403,8 +4479,9 @@ func (client CloudGuardClient) UpdateDataMaskRule(ctx context.Context, request U
 }
 
 // updateDataMaskRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dataMaskRules/{dataMaskRuleId}", binaryReqBody)
+func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dataMaskRules/{dataMaskRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4462,8 +4539,9 @@ func (client CloudGuardClient) UpdateDetectorRecipe(ctx context.Context, request
 }
 
 // updateDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/detectorRecipes/{detectorRecipeId}", binaryReqBody)
+func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/detectorRecipes/{detectorRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4516,8 +4594,9 @@ func (client CloudGuardClient) UpdateDetectorRecipeDetectorRule(ctx context.Cont
 }
 
 // updateDetectorRecipeDetectorRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody)
+func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/detectorRecipes/{detectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4575,8 +4654,9 @@ func (client CloudGuardClient) UpdateManagedList(ctx context.Context, request Up
 }
 
 // updateManagedList implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedLists/{managedListId}", binaryReqBody)
+func (client CloudGuardClient) updateManagedList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedLists/{managedListId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4634,8 +4714,9 @@ func (client CloudGuardClient) UpdateProblemStatus(ctx context.Context, request 
 }
 
 // updateProblemStatus implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/{problemId}/actions/updateStatus", binaryReqBody)
+func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/problems/{problemId}/actions/updateStatus", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4688,8 +4769,9 @@ func (client CloudGuardClient) UpdateResponderRecipe(ctx context.Context, reques
 }
 
 // updateResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/responderRecipes/{responderRecipeId}", binaryReqBody)
+func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/responderRecipes/{responderRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4742,8 +4824,9 @@ func (client CloudGuardClient) UpdateResponderRecipeResponderRule(ctx context.Co
 }
 
 // updateResponderRecipeResponderRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/responderRecipes/{responderRecipeId}/responderRules/{responderRuleId}", binaryReqBody)
+func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/responderRecipes/{responderRecipeId}/responderRules/{responderRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4796,8 +4879,9 @@ func (client CloudGuardClient) UpdateTarget(ctx context.Context, request UpdateT
 }
 
 // updateTarget implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}", binaryReqBody)
+func (client CloudGuardClient) updateTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4850,8 +4934,9 @@ func (client CloudGuardClient) UpdateTargetDetectorRecipe(ctx context.Context, r
 }
 
 // updateTargetDetectorRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}", binaryReqBody)
+func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4904,8 +4989,9 @@ func (client CloudGuardClient) UpdateTargetDetectorRecipeDetectorRule(ctx contex
 }
 
 // updateTargetDetectorRecipeDetectorRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody)
+func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetDetectorRecipes/{targetDetectorRecipeId}/detectorRules/{detectorRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4958,8 +5044,9 @@ func (client CloudGuardClient) UpdateTargetResponderRecipe(ctx context.Context, 
 }
 
 // updateTargetResponderRecipe implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}", binaryReqBody)
+func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5012,8 +5099,9 @@ func (client CloudGuardClient) UpdateTargetResponderRecipeResponderRule(ctx cont
 }
 
 // updateTargetResponderRecipeResponderRule implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}/responderRules/{responderRuleId}", binaryReqBody)
+func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targets/{targetId}/targetResponderRecipes/{targetResponderRecipeId}/responderRules/{responderRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

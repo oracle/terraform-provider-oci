@@ -16,12 +16,7 @@ import (
 
 // OracleAdwcWriteAttributes Properties to configure when writing to Oracle Autonomous Data Warehouse Cloud.
 type OracleAdwcWriteAttributes struct {
-
-	// The type of the abstract write attribute.
-	ModelType OracleAdwcWriteAttributesModelTypeEnum `mandatory:"true" json:"modelType"`
-
-	// The bucket name for the attribute.
-	BucketName *string `mandatory:"false" json:"bucketName"`
+	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 
 	// The file name for the attribute.
 	StagingFileName *string `mandatory:"false" json:"stagingFileName"`
@@ -35,14 +30,27 @@ func (m OracleAdwcWriteAttributes) String() string {
 	return common.PointerString(m)
 }
 
+// MarshalJSON marshals to json representation
+func (m OracleAdwcWriteAttributes) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeOracleAdwcWriteAttributes OracleAdwcWriteAttributes
+	s := struct {
+		DiscriminatorParam string `json:"modelType"`
+		MarshalTypeOracleAdwcWriteAttributes
+	}{
+		"ORACLE_ADWC_WRITE_ATTRIBUTE",
+		(MarshalTypeOracleAdwcWriteAttributes)(m),
+	}
+
+	return json.Marshal(&s)
+}
+
 // UnmarshalJSON unmarshals from json
 func (m *OracleAdwcWriteAttributes) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BucketName        *string                                `json:"bucketName"`
-		StagingFileName   *string                                `json:"stagingFileName"`
-		StagingDataAsset  dataasset                              `json:"stagingDataAsset"`
-		StagingConnection connection                             `json:"stagingConnection"`
-		ModelType         OracleAdwcWriteAttributesModelTypeEnum `json:"modelType"`
+		BucketSchema      *Schema    `json:"bucketSchema"`
+		StagingFileName   *string    `json:"stagingFileName"`
+		StagingDataAsset  dataasset  `json:"stagingDataAsset"`
+		StagingConnection connection `json:"stagingConnection"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -50,7 +58,7 @@ func (m *OracleAdwcWriteAttributes) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.BucketName = model.BucketName
+	m.BucketSchema = model.BucketSchema
 
 	m.StagingFileName = model.StagingFileName
 
@@ -74,38 +82,5 @@ func (m *OracleAdwcWriteAttributes) UnmarshalJSON(data []byte) (e error) {
 		m.StagingConnection = nil
 	}
 
-	m.ModelType = model.ModelType
-
 	return
-}
-
-// OracleAdwcWriteAttributesModelTypeEnum Enum with underlying type: string
-type OracleAdwcWriteAttributesModelTypeEnum string
-
-// Set of constants representing the allowable values for OracleAdwcWriteAttributesModelTypeEnum
-const (
-	OracleAdwcWriteAttributesModelTypeOraclewriteattribute     OracleAdwcWriteAttributesModelTypeEnum = "ORACLEWRITEATTRIBUTE"
-	OracleAdwcWriteAttributesModelTypeOracleatpwriteattribute  OracleAdwcWriteAttributesModelTypeEnum = "ORACLEATPWRITEATTRIBUTE"
-	OracleAdwcWriteAttributesModelTypeOracleadwcwriteattribute OracleAdwcWriteAttributesModelTypeEnum = "ORACLEADWCWRITEATTRIBUTE"
-	OracleAdwcWriteAttributesModelTypeOracleWriteAttribute     OracleAdwcWriteAttributesModelTypeEnum = "ORACLE_WRITE_ATTRIBUTE"
-	OracleAdwcWriteAttributesModelTypeOracleAtpWriteAttribute  OracleAdwcWriteAttributesModelTypeEnum = "ORACLE_ATP_WRITE_ATTRIBUTE"
-	OracleAdwcWriteAttributesModelTypeOracleAdwcWriteAttribute OracleAdwcWriteAttributesModelTypeEnum = "ORACLE_ADWC_WRITE_ATTRIBUTE"
-)
-
-var mappingOracleAdwcWriteAttributesModelType = map[string]OracleAdwcWriteAttributesModelTypeEnum{
-	"ORACLEWRITEATTRIBUTE":        OracleAdwcWriteAttributesModelTypeOraclewriteattribute,
-	"ORACLEATPWRITEATTRIBUTE":     OracleAdwcWriteAttributesModelTypeOracleatpwriteattribute,
-	"ORACLEADWCWRITEATTRIBUTE":    OracleAdwcWriteAttributesModelTypeOracleadwcwriteattribute,
-	"ORACLE_WRITE_ATTRIBUTE":      OracleAdwcWriteAttributesModelTypeOracleWriteAttribute,
-	"ORACLE_ATP_WRITE_ATTRIBUTE":  OracleAdwcWriteAttributesModelTypeOracleAtpWriteAttribute,
-	"ORACLE_ADWC_WRITE_ATTRIBUTE": OracleAdwcWriteAttributesModelTypeOracleAdwcWriteAttribute,
-}
-
-// GetOracleAdwcWriteAttributesModelTypeEnumValues Enumerates the set of values for OracleAdwcWriteAttributesModelTypeEnum
-func GetOracleAdwcWriteAttributesModelTypeEnumValues() []OracleAdwcWriteAttributesModelTypeEnum {
-	values := make([]OracleAdwcWriteAttributesModelTypeEnum, 0)
-	for _, v := range mappingOracleAdwcWriteAttributesModelType {
-		values = append(values, v)
-	}
-	return values
 }

@@ -52,12 +52,32 @@ func (m *abstractwriteattribute) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := OracleAdwcWriteAttribute{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_ATP_WRITE_ATTRIBUTE":
+		mm := OracleAtpWriteAttributes{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLEWRITEATTRIBUTE":
 		mm := OracleWriteAttribute{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_WRITE_ATTRIBUTE":
+		mm := OracleWriteAttributes{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLEATPWRITEATTRIBUTE":
 		mm := OracleAtpWriteAttribute{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OBJECTSTORAGEWRITEATTRIBUTE":
+		mm := ObjectStorageWriteAttribute{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_ADWC_WRITE_ATTRIBUTE":
+		mm := OracleAdwcWriteAttributes{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OBJECT_STORAGE_WRITE_ATTRIBUTE":
+		mm := ObjectStorageWriteAttributes{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -74,21 +94,25 @@ type AbstractWriteAttributeModelTypeEnum string
 
 // Set of constants representing the allowable values for AbstractWriteAttributeModelTypeEnum
 const (
-	AbstractWriteAttributeModelTypeOraclewriteattribute     AbstractWriteAttributeModelTypeEnum = "ORACLEWRITEATTRIBUTE"
-	AbstractWriteAttributeModelTypeOracleatpwriteattribute  AbstractWriteAttributeModelTypeEnum = "ORACLEATPWRITEATTRIBUTE"
-	AbstractWriteAttributeModelTypeOracleadwcwriteattribute AbstractWriteAttributeModelTypeEnum = "ORACLEADWCWRITEATTRIBUTE"
-	AbstractWriteAttributeModelTypeOracleWriteAttribute     AbstractWriteAttributeModelTypeEnum = "ORACLE_WRITE_ATTRIBUTE"
-	AbstractWriteAttributeModelTypeOracleAtpWriteAttribute  AbstractWriteAttributeModelTypeEnum = "ORACLE_ATP_WRITE_ATTRIBUTE"
-	AbstractWriteAttributeModelTypeOracleAdwcWriteAttribute AbstractWriteAttributeModelTypeEnum = "ORACLE_ADWC_WRITE_ATTRIBUTE"
+	AbstractWriteAttributeModelTypeOraclewriteattribute        AbstractWriteAttributeModelTypeEnum = "ORACLEWRITEATTRIBUTE"
+	AbstractWriteAttributeModelTypeOracleatpwriteattribute     AbstractWriteAttributeModelTypeEnum = "ORACLEATPWRITEATTRIBUTE"
+	AbstractWriteAttributeModelTypeOracleadwcwriteattribute    AbstractWriteAttributeModelTypeEnum = "ORACLEADWCWRITEATTRIBUTE"
+	AbstractWriteAttributeModelTypeObjectstoragewriteattribute AbstractWriteAttributeModelTypeEnum = "OBJECTSTORAGEWRITEATTRIBUTE"
+	AbstractWriteAttributeModelTypeOracleWriteAttribute        AbstractWriteAttributeModelTypeEnum = "ORACLE_WRITE_ATTRIBUTE"
+	AbstractWriteAttributeModelTypeOracleAtpWriteAttribute     AbstractWriteAttributeModelTypeEnum = "ORACLE_ATP_WRITE_ATTRIBUTE"
+	AbstractWriteAttributeModelTypeOracleAdwcWriteAttribute    AbstractWriteAttributeModelTypeEnum = "ORACLE_ADWC_WRITE_ATTRIBUTE"
+	AbstractWriteAttributeModelTypeObjectStorageWriteAttribute AbstractWriteAttributeModelTypeEnum = "OBJECT_STORAGE_WRITE_ATTRIBUTE"
 )
 
 var mappingAbstractWriteAttributeModelType = map[string]AbstractWriteAttributeModelTypeEnum{
-	"ORACLEWRITEATTRIBUTE":        AbstractWriteAttributeModelTypeOraclewriteattribute,
-	"ORACLEATPWRITEATTRIBUTE":     AbstractWriteAttributeModelTypeOracleatpwriteattribute,
-	"ORACLEADWCWRITEATTRIBUTE":    AbstractWriteAttributeModelTypeOracleadwcwriteattribute,
-	"ORACLE_WRITE_ATTRIBUTE":      AbstractWriteAttributeModelTypeOracleWriteAttribute,
-	"ORACLE_ATP_WRITE_ATTRIBUTE":  AbstractWriteAttributeModelTypeOracleAtpWriteAttribute,
-	"ORACLE_ADWC_WRITE_ATTRIBUTE": AbstractWriteAttributeModelTypeOracleAdwcWriteAttribute,
+	"ORACLEWRITEATTRIBUTE":           AbstractWriteAttributeModelTypeOraclewriteattribute,
+	"ORACLEATPWRITEATTRIBUTE":        AbstractWriteAttributeModelTypeOracleatpwriteattribute,
+	"ORACLEADWCWRITEATTRIBUTE":       AbstractWriteAttributeModelTypeOracleadwcwriteattribute,
+	"OBJECTSTORAGEWRITEATTRIBUTE":    AbstractWriteAttributeModelTypeObjectstoragewriteattribute,
+	"ORACLE_WRITE_ATTRIBUTE":         AbstractWriteAttributeModelTypeOracleWriteAttribute,
+	"ORACLE_ATP_WRITE_ATTRIBUTE":     AbstractWriteAttributeModelTypeOracleAtpWriteAttribute,
+	"ORACLE_ADWC_WRITE_ATTRIBUTE":    AbstractWriteAttributeModelTypeOracleAdwcWriteAttribute,
+	"OBJECT_STORAGE_WRITE_ATTRIBUTE": AbstractWriteAttributeModelTypeObjectStorageWriteAttribute,
 }
 
 // GetAbstractWriteAttributeModelTypeEnumValues Enumerates the set of values for AbstractWriteAttributeModelTypeEnum

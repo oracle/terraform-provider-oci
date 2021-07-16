@@ -120,8 +120,9 @@ func (client DataFlowClient) ChangeApplicationCompartment(ctx context.Context, r
 }
 
 // changeApplicationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) changeApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications/{applicationId}/actions/changeCompartment", binaryReqBody)
+func (client DataFlowClient) changeApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications/{applicationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -174,8 +175,9 @@ func (client DataFlowClient) ChangePrivateEndpointCompartment(ctx context.Contex
 }
 
 // changePrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) changePrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateEndpoints/{privateEndpointId}/actions/changeCompartment", binaryReqBody)
+func (client DataFlowClient) changePrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateEndpoints/{privateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -236,8 +238,9 @@ func (client DataFlowClient) ChangeRunCompartment(ctx context.Context, request C
 }
 
 // changeRunCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) changeRunCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs/{runId}/actions/changeCompartment", binaryReqBody)
+func (client DataFlowClient) changeRunCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs/{runId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -295,8 +298,9 @@ func (client DataFlowClient) CreateApplication(ctx context.Context, request Crea
 }
 
 // createApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) createApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications", binaryReqBody)
+func (client DataFlowClient) createApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -354,8 +358,9 @@ func (client DataFlowClient) CreatePrivateEndpoint(ctx context.Context, request 
 }
 
 // createPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) createPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateEndpoints", binaryReqBody)
+func (client DataFlowClient) createPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateEndpoints", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -413,8 +418,9 @@ func (client DataFlowClient) CreateRun(ctx context.Context, request CreateRunReq
 }
 
 // createRun implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) createRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs", binaryReqBody)
+func (client DataFlowClient) createRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -467,8 +473,9 @@ func (client DataFlowClient) DeleteApplication(ctx context.Context, request Dele
 }
 
 // deleteApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) deleteApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applications/{applicationId}", binaryReqBody)
+func (client DataFlowClient) deleteApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applications/{applicationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -521,8 +528,9 @@ func (client DataFlowClient) DeletePrivateEndpoint(ctx context.Context, request 
 }
 
 // deletePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) deletePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/privateEndpoints/{privateEndpointId}", binaryReqBody)
+func (client DataFlowClient) deletePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/privateEndpoints/{privateEndpointId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -576,8 +584,9 @@ func (client DataFlowClient) DeleteRun(ctx context.Context, request DeleteRunReq
 }
 
 // deleteRun implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/runs/{runId}", binaryReqBody)
+func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/runs/{runId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -630,8 +639,9 @@ func (client DataFlowClient) GetApplication(ctx context.Context, request GetAppl
 }
 
 // getApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) getApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications/{applicationId}", binaryReqBody)
+func (client DataFlowClient) getApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications/{applicationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -684,8 +694,9 @@ func (client DataFlowClient) GetPrivateEndpoint(ctx context.Context, request Get
 }
 
 // getPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) getPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateEndpoints/{privateEndpointId}", binaryReqBody)
+func (client DataFlowClient) getPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateEndpoints/{privateEndpointId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -738,8 +749,9 @@ func (client DataFlowClient) GetRun(ctx context.Context, request GetRunRequest) 
 }
 
 // getRun implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) getRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs/{runId}", binaryReqBody)
+func (client DataFlowClient) getRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs/{runId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -792,8 +804,9 @@ func (client DataFlowClient) GetRunLog(ctx context.Context, request GetRunLogReq
 }
 
 // getRunLog implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs/{runId}/logs/{name}", binaryReqBody)
+func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs/{runId}/logs/{name}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -845,8 +858,9 @@ func (client DataFlowClient) GetWorkRequest(ctx context.Context, request GetWork
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -899,8 +913,9 @@ func (client DataFlowClient) ListApplications(ctx context.Context, request ListA
 }
 
 // listApplications implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications", binaryReqBody)
+func (client DataFlowClient) listApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -953,8 +968,9 @@ func (client DataFlowClient) ListPrivateEndpoints(ctx context.Context, request L
 }
 
 // listPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateEndpoints", binaryReqBody)
+func (client DataFlowClient) listPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateEndpoints", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1007,8 +1023,9 @@ func (client DataFlowClient) ListRunLogs(ctx context.Context, request ListRunLog
 }
 
 // listRunLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs/{runId}/logs", binaryReqBody)
+func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs/{runId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1061,8 +1078,9 @@ func (client DataFlowClient) ListRuns(ctx context.Context, request ListRunsReque
 }
 
 // listRuns implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs", binaryReqBody)
+func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/runs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1115,8 +1133,9 @@ func (client DataFlowClient) ListWorkRequestErrors(ctx context.Context, request 
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client DataFlowClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1169,8 +1188,9 @@ func (client DataFlowClient) ListWorkRequestLogs(ctx context.Context, request Li
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client DataFlowClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1223,8 +1243,9 @@ func (client DataFlowClient) ListWorkRequests(ctx context.Context, request ListW
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client DataFlowClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1277,8 +1298,9 @@ func (client DataFlowClient) UpdateApplication(ctx context.Context, request Upda
 }
 
 // updateApplication implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) updateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/applications/{applicationId}", binaryReqBody)
+func (client DataFlowClient) updateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/applications/{applicationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1333,8 +1355,9 @@ func (client DataFlowClient) UpdatePrivateEndpoint(ctx context.Context, request 
 }
 
 // updatePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) updatePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/privateEndpoints/{privateEndpointId}", binaryReqBody)
+func (client DataFlowClient) updatePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/privateEndpoints/{privateEndpointId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1387,8 +1410,9 @@ func (client DataFlowClient) UpdateRun(ctx context.Context, request UpdateRunReq
 }
 
 // updateRun implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) updateRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/runs/{runId}", binaryReqBody)
+func (client DataFlowClient) updateRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/runs/{runId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

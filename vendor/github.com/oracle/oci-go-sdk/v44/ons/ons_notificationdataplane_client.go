@@ -123,8 +123,9 @@ func (client NotificationDataPlaneClient) ChangeSubscriptionCompartment(ctx cont
 }
 
 // changeSubscriptionCompartment implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions/{subscriptionId}/actions/changeCompartment", binaryReqBody)
+func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions/{subscriptionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -185,8 +186,9 @@ func (client NotificationDataPlaneClient) CreateSubscription(ctx context.Context
 }
 
 // createSubscription implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) createSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions", binaryReqBody)
+func (client NotificationDataPlaneClient) createSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -240,8 +242,9 @@ func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context
 }
 
 // deleteSubscription implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subscriptions/{subscriptionId}", binaryReqBody)
+func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subscriptions/{subscriptionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -295,8 +298,9 @@ func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Con
 }
 
 // getConfirmSubscription implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{id}/confirmation", binaryReqBody)
+func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{id}/confirmation", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -350,8 +354,9 @@ func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, r
 }
 
 // getSubscription implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{subscriptionId}", binaryReqBody)
+func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{subscriptionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -405,8 +410,9 @@ func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context,
 }
 
 // getUnsubscription implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{id}/unsubscription", binaryReqBody)
+func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions/{id}/unsubscription", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -460,8 +466,9 @@ func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context,
 }
 
 // listSubscriptions implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions", binaryReqBody)
+func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -524,8 +531,9 @@ func (client NotificationDataPlaneClient) PublishMessage(ctx context.Context, re
 }
 
 // publishMessage implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/messages", binaryReqBody)
+func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/messages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -579,8 +587,9 @@ func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx con
 }
 
 // resendSubscriptionConfirmation implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions/{id}/resendConfirmation", binaryReqBody)
+func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions/{id}/resendConfirmation", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -634,8 +643,9 @@ func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context
 }
 
 // updateSubscription implements the OCIOperation interface (enables retrying operations)
-func (client NotificationDataPlaneClient) updateSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/subscriptions/{subscriptionId}", binaryReqBody)
+func (client NotificationDataPlaneClient) updateSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/subscriptions/{subscriptionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

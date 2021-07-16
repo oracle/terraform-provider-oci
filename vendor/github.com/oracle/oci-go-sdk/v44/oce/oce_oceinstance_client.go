@@ -119,8 +119,9 @@ func (client OceInstanceClient) ChangeOceInstanceCompartment(ctx context.Context
 }
 
 // changeOceInstanceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) changeOceInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oceInstances/{oceInstanceId}/actions/changeCompartment", binaryReqBody)
+func (client OceInstanceClient) changeOceInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oceInstances/{oceInstanceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +179,9 @@ func (client OceInstanceClient) CreateOceInstance(ctx context.Context, request C
 }
 
 // createOceInstance implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) createOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oceInstances", binaryReqBody)
+func (client OceInstanceClient) createOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oceInstances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +234,9 @@ func (client OceInstanceClient) DeleteOceInstance(ctx context.Context, request D
 }
 
 // deleteOceInstance implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) deleteOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/oceInstances/{oceInstanceId}", binaryReqBody)
+func (client OceInstanceClient) deleteOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/oceInstances/{oceInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -286,8 +289,9 @@ func (client OceInstanceClient) GetOceInstance(ctx context.Context, request GetO
 }
 
 // getOceInstance implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) getOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oceInstances/{oceInstanceId}", binaryReqBody)
+func (client OceInstanceClient) getOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oceInstances/{oceInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +344,9 @@ func (client OceInstanceClient) GetWorkRequest(ctx context.Context, request GetW
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client OceInstanceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +399,9 @@ func (client OceInstanceClient) ListOceInstances(ctx context.Context, request Li
 }
 
 // listOceInstances implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) listOceInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oceInstances", binaryReqBody)
+func (client OceInstanceClient) listOceInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oceInstances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +454,9 @@ func (client OceInstanceClient) ListWorkRequestErrors(ctx context.Context, reque
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client OceInstanceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -502,8 +509,9 @@ func (client OceInstanceClient) ListWorkRequestLogs(ctx context.Context, request
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client OceInstanceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -556,8 +564,9 @@ func (client OceInstanceClient) ListWorkRequests(ctx context.Context, request Li
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client OceInstanceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -610,8 +619,9 @@ func (client OceInstanceClient) UpdateOceInstance(ctx context.Context, request U
 }
 
 // updateOceInstance implements the OCIOperation interface (enables retrying operations)
-func (client OceInstanceClient) updateOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/oceInstances/{oceInstanceId}", binaryReqBody)
+func (client OceInstanceClient) updateOceInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/oceInstances/{oceInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

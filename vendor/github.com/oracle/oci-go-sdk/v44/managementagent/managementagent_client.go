@@ -119,8 +119,9 @@ func (client ManagementAgentClient) CreateManagementAgentInstallKey(ctx context.
 }
 
 // createManagementAgentInstallKey implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) createManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementAgentInstallKeys", binaryReqBody)
+func (client ManagementAgentClient) createManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementAgentInstallKeys", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +174,9 @@ func (client ManagementAgentClient) DeleteManagementAgent(ctx context.Context, r
 }
 
 // deleteManagementAgent implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) deleteManagementAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgents/{managementAgentId}", binaryReqBody)
+func (client ManagementAgentClient) deleteManagementAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgents/{managementAgentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -227,8 +229,9 @@ func (client ManagementAgentClient) DeleteManagementAgentInstallKey(ctx context.
 }
 
 // deleteManagementAgentInstallKey implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) deleteManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgentInstallKeys/{managementAgentInstallKeyId}", binaryReqBody)
+func (client ManagementAgentClient) deleteManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgentInstallKeys/{managementAgentInstallKeyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -281,8 +284,9 @@ func (client ManagementAgentClient) DeleteWorkRequest(ctx context.Context, reque
 }
 
 // deleteWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
+func (client ManagementAgentClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +344,9 @@ func (client ManagementAgentClient) DeployPlugins(ctx context.Context, request D
 }
 
 // deployPlugins implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) deployPlugins(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementAgents/actions/deployPlugins", binaryReqBody)
+func (client ManagementAgentClient) deployPlugins(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementAgents/actions/deployPlugins", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +399,9 @@ func (client ManagementAgentClient) GetManagementAgent(ctx context.Context, requ
 }
 
 // getManagementAgent implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) getManagementAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}", binaryReqBody)
+func (client ManagementAgentClient) getManagementAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +454,9 @@ func (client ManagementAgentClient) GetManagementAgentInstallKey(ctx context.Con
 }
 
 // getManagementAgentInstallKey implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) getManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentInstallKeys/{managementAgentInstallKeyId}", binaryReqBody)
+func (client ManagementAgentClient) getManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentInstallKeys/{managementAgentInstallKeyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -502,8 +509,9 @@ func (client ManagementAgentClient) GetManagementAgentInstallKeyContent(ctx cont
 }
 
 // getManagementAgentInstallKeyContent implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) getManagementAgentInstallKeyContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentInstallKeys/{managementAgentInstallKeyId}/content", binaryReqBody)
+func (client ManagementAgentClient) getManagementAgentInstallKeyContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentInstallKeys/{managementAgentInstallKeyId}/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -555,8 +563,9 @@ func (client ManagementAgentClient) GetWorkRequest(ctx context.Context, request 
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client ManagementAgentClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -609,8 +618,9 @@ func (client ManagementAgentClient) ListAvailabilityHistories(ctx context.Contex
 }
 
 // listAvailabilityHistories implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/availabilityHistories", binaryReqBody)
+func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/availabilityHistories", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -668,8 +678,9 @@ func (client ManagementAgentClient) ListManagementAgentImages(ctx context.Contex
 }
 
 // listManagementAgentImages implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listManagementAgentImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentImages", binaryReqBody)
+func (client ManagementAgentClient) listManagementAgentImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentImages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -722,8 +733,9 @@ func (client ManagementAgentClient) ListManagementAgentInstallKeys(ctx context.C
 }
 
 // listManagementAgentInstallKeys implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listManagementAgentInstallKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentInstallKeys", binaryReqBody)
+func (client ManagementAgentClient) listManagementAgentInstallKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentInstallKeys", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -776,8 +788,9 @@ func (client ManagementAgentClient) ListManagementAgentPlugins(ctx context.Conte
 }
 
 // listManagementAgentPlugins implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentPlugins", binaryReqBody)
+func (client ManagementAgentClient) listManagementAgentPlugins(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgentPlugins", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -830,8 +843,9 @@ func (client ManagementAgentClient) ListManagementAgents(ctx context.Context, re
 }
 
 // listManagementAgents implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listManagementAgents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents", binaryReqBody)
+func (client ManagementAgentClient) listManagementAgents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -884,8 +898,9 @@ func (client ManagementAgentClient) ListWorkRequestErrors(ctx context.Context, r
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client ManagementAgentClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -938,8 +953,9 @@ func (client ManagementAgentClient) ListWorkRequestLogs(ctx context.Context, req
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client ManagementAgentClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -992,8 +1008,9 @@ func (client ManagementAgentClient) ListWorkRequests(ctx context.Context, reques
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client ManagementAgentClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1051,8 +1068,9 @@ func (client ManagementAgentClient) UpdateManagementAgent(ctx context.Context, r
 }
 
 // updateManagementAgent implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) updateManagementAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgents/{managementAgentId}", binaryReqBody)
+func (client ManagementAgentClient) updateManagementAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgents/{managementAgentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1110,8 +1128,9 @@ func (client ManagementAgentClient) UpdateManagementAgentInstallKey(ctx context.
 }
 
 // updateManagementAgentInstallKey implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) updateManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgentInstallKeys/{managementAgentInstallKeyId}", binaryReqBody)
+func (client ManagementAgentClient) updateManagementAgentInstallKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgentInstallKeys/{managementAgentInstallKeyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

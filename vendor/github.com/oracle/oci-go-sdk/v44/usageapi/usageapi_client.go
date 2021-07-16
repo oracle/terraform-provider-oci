@@ -119,8 +119,9 @@ func (client UsageapiClient) CreateQuery(ctx context.Context, request CreateQuer
 }
 
 // createQuery implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) createQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/queries", binaryReqBody)
+func (client UsageapiClient) createQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/queries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +174,9 @@ func (client UsageapiClient) DeleteQuery(ctx context.Context, request DeleteQuer
 }
 
 // deleteQuery implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) deleteQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/queries/{queryId}", binaryReqBody)
+func (client UsageapiClient) deleteQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/queries/{queryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -227,8 +229,9 @@ func (client UsageapiClient) GetQuery(ctx context.Context, request GetQueryReque
 }
 
 // getQuery implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) getQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/queries/{queryId}", binaryReqBody)
+func (client UsageapiClient) getQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/queries/{queryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -281,8 +284,9 @@ func (client UsageapiClient) ListQueries(ctx context.Context, request ListQuerie
 }
 
 // listQueries implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) listQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/queries", binaryReqBody)
+func (client UsageapiClient) listQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/queries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -335,8 +339,9 @@ func (client UsageapiClient) RequestSummarizedConfigurations(ctx context.Context
 }
 
 // requestSummarizedConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody)
+func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -389,8 +394,9 @@ func (client UsageapiClient) RequestSummarizedUsages(ctx context.Context, reques
 }
 
 // requestSummarizedUsages implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usage", binaryReqBody)
+func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -443,8 +449,9 @@ func (client UsageapiClient) UpdateQuery(ctx context.Context, request UpdateQuer
 }
 
 // updateQuery implements the OCIOperation interface (enables retrying operations)
-func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/queries/{queryId}", binaryReqBody)
+func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/queries/{queryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

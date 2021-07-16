@@ -126,12 +126,20 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := ConnectionFromOracle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3_CONNECTION":
+		mm := ConnectionFromAmazonS3{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL_CONNECTION":
 		mm := ConnectionFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := ConnectionFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BICC_CONNECTION":
+		mm := ConnectionFromBicc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -219,6 +227,8 @@ const (
 	ConnectionModelTypeOracledbConnection            ConnectionModelTypeEnum = "ORACLEDB_CONNECTION"
 	ConnectionModelTypeMysqlConnection               ConnectionModelTypeEnum = "MYSQL_CONNECTION"
 	ConnectionModelTypeGenericJdbcConnection         ConnectionModelTypeEnum = "GENERIC_JDBC_CONNECTION"
+	ConnectionModelTypeBiccConnection                ConnectionModelTypeEnum = "BICC_CONNECTION"
+	ConnectionModelTypeAmazonS3Connection            ConnectionModelTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
 var mappingConnectionModelType = map[string]ConnectionModelTypeEnum{
@@ -228,6 +238,8 @@ var mappingConnectionModelType = map[string]ConnectionModelTypeEnum{
 	"ORACLEDB_CONNECTION":              ConnectionModelTypeOracledbConnection,
 	"MYSQL_CONNECTION":                 ConnectionModelTypeMysqlConnection,
 	"GENERIC_JDBC_CONNECTION":          ConnectionModelTypeGenericJdbcConnection,
+	"BICC_CONNECTION":                  ConnectionModelTypeBiccConnection,
+	"AMAZON_S3_CONNECTION":             ConnectionModelTypeAmazonS3Connection,
 }
 
 // GetConnectionModelTypeEnumValues Enumerates the set of values for ConnectionModelTypeEnum

@@ -14,22 +14,31 @@ import (
 )
 
 // UpdateAutonomousDatabaseDetails Details to update an Oracle Autonomous Database.
+// **Notes**
+// - To specify OCPU core count, you must use either `ocpuCount` or `cpuCoreCount`. You cannot use both parameters at the same time.
+// - To specify a storage allocation, you must use  either `dataStorageSizeInGBs` or `dataStorageSizeInTBs`.
+// - See the individual parameter discriptions for more information on the OCPU and storage value parameters.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateAutonomousDatabaseDetails struct {
 
-	// The number of CPU cores to be made available to the database.
+	// The number of OCPU cores to be made available to the Autonomous Database.
+	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// The number of Fractional OCPU cores to be made available to the database.
+	// The number of OCPU cores to be made available to the Autonomous Database. To provision less than 1 core, enter a fractional value in an increment of 0.1. To provision 1 or more cores, you must enter an integer between 1 and the maximum number of cores available to the infrastructure shape. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. Likewise, you can provision 2 cores or 3 cores, but not 2.5 cores. The maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
-	// The size, in terabytes, of the data volume that will be attached to the database.
+	// The size, in terabytes, of the data volume that will be created and attached to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The size, in gigabytes, of the data volume that will be attached to the database.
+	// Applies to dedicated Exadata infrastructure only.
+	// The size, in gigabytes, of the data volume that will be created and attached to the database. The maximum storage value depends on the system shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `dataStorageSizeInTBs` parameter.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
-	// The user-friendly name for the Autonomous Database. The name does not have to be unique. Can only be updated for Autonomous Databases
+	// The user-friendly name for the Autonomous Database. The name does not have to be unique. The display name can only be updated for Autonomous Databases
 	// using dedicated Exadata infrastructure.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

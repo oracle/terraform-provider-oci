@@ -58,6 +58,8 @@ type TaskFromPipelineTaskDetails struct {
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 
+	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+
 	Pipeline *Pipeline `mandatory:"false" json:"pipeline"`
 }
 
@@ -134,6 +136,11 @@ func (m TaskFromPipelineTaskDetails) GetMetadata() *ObjectMetadata {
 //GetKeyMap returns KeyMap
 func (m TaskFromPipelineTaskDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
+}
+
+//GetRegistryMetadata returns RegistryMetadata
+func (m TaskFromPipelineTaskDetails) GetRegistryMetadata() *RegistryMetadata {
+	return m.RegistryMetadata
 }
 
 func (m TaskFromPipelineTaskDetails) String() string {

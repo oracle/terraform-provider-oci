@@ -119,8 +119,9 @@ func (client BudgetClient) CreateAlertRule(ctx context.Context, request CreateAl
 }
 
 // createAlertRule implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) createAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/budgets/{budgetId}/alertRules", binaryReqBody)
+func (client BudgetClient) createAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/budgets/{budgetId}/alertRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +179,9 @@ func (client BudgetClient) CreateBudget(ctx context.Context, request CreateBudge
 }
 
 // createBudget implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) createBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/budgets", binaryReqBody)
+func (client BudgetClient) createBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/budgets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +234,9 @@ func (client BudgetClient) DeleteAlertRule(ctx context.Context, request DeleteAl
 }
 
 // deleteAlertRule implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) deleteAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/budgets/{budgetId}/alertRules/{alertRuleId}", binaryReqBody)
+func (client BudgetClient) deleteAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/budgets/{budgetId}/alertRules/{alertRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -286,8 +289,9 @@ func (client BudgetClient) DeleteBudget(ctx context.Context, request DeleteBudge
 }
 
 // deleteBudget implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) deleteBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/budgets/{budgetId}", binaryReqBody)
+func (client BudgetClient) deleteBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/budgets/{budgetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +344,9 @@ func (client BudgetClient) GetAlertRule(ctx context.Context, request GetAlertRul
 }
 
 // getAlertRule implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) getAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets/{budgetId}/alertRules/{alertRuleId}", binaryReqBody)
+func (client BudgetClient) getAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets/{budgetId}/alertRules/{alertRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +399,9 @@ func (client BudgetClient) GetBudget(ctx context.Context, request GetBudgetReque
 }
 
 // getBudget implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) getBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets/{budgetId}", binaryReqBody)
+func (client BudgetClient) getBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets/{budgetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +454,9 @@ func (client BudgetClient) ListAlertRules(ctx context.Context, request ListAlert
 }
 
 // listAlertRules implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) listAlertRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets/{budgetId}/alertRules", binaryReqBody)
+func (client BudgetClient) listAlertRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets/{budgetId}/alertRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -508,8 +515,9 @@ func (client BudgetClient) ListBudgets(ctx context.Context, request ListBudgetsR
 }
 
 // listBudgets implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) listBudgets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets", binaryReqBody)
+func (client BudgetClient) listBudgets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/budgets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -562,8 +570,9 @@ func (client BudgetClient) UpdateAlertRule(ctx context.Context, request UpdateAl
 }
 
 // updateAlertRule implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) updateAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/budgets/{budgetId}/alertRules/{alertRuleId}", binaryReqBody)
+func (client BudgetClient) updateAlertRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/budgets/{budgetId}/alertRules/{alertRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -616,8 +625,9 @@ func (client BudgetClient) UpdateBudget(ctx context.Context, request UpdateBudge
 }
 
 // updateBudget implements the OCIOperation interface (enables retrying operations)
-func (client BudgetClient) updateBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/budgets/{budgetId}", binaryReqBody)
+func (client BudgetClient) updateBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/budgets/{budgetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

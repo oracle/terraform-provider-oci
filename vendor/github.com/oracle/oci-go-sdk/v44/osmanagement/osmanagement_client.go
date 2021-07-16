@@ -115,8 +115,9 @@ func (client OsManagementClient) AddPackagesToSoftwareSource(ctx context.Context
 }
 
 // addPackagesToSoftwareSource implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) addPackagesToSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/addPackages", binaryReqBody)
+func (client OsManagementClient) addPackagesToSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/addPackages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -176,8 +177,9 @@ func (client OsManagementClient) AttachChildSoftwareSourceToManagedInstance(ctx 
 }
 
 // attachChildSoftwareSourceToManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) attachChildSoftwareSourceToManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/attachChildSoftwareSource", binaryReqBody)
+func (client OsManagementClient) attachChildSoftwareSourceToManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/attachChildSoftwareSource", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +240,9 @@ func (client OsManagementClient) AttachManagedInstanceToManagedInstanceGroup(ctx
 }
 
 // attachManagedInstanceToManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) attachManagedInstanceToManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/attachManagedInstance", binaryReqBody)
+func (client OsManagementClient) attachManagedInstanceToManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/attachManagedInstance", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -300,8 +303,9 @@ func (client OsManagementClient) AttachParentSoftwareSourceToManagedInstance(ctx
 }
 
 // attachParentSoftwareSourceToManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) attachParentSoftwareSourceToManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/attachParentSoftwareSource", binaryReqBody)
+func (client OsManagementClient) attachParentSoftwareSourceToManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/attachParentSoftwareSource", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -360,8 +364,9 @@ func (client OsManagementClient) ChangeManagedInstanceGroupCompartment(ctx conte
 }
 
 // changeManagedInstanceGroupCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) changeManagedInstanceGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/changeCompartment", binaryReqBody)
+func (client OsManagementClient) changeManagedInstanceGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -420,8 +425,9 @@ func (client OsManagementClient) ChangeScheduledJobCompartment(ctx context.Conte
 }
 
 // changeScheduledJobCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) changeScheduledJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/changeCompartment", binaryReqBody)
+func (client OsManagementClient) changeScheduledJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -480,8 +486,9 @@ func (client OsManagementClient) ChangeSoftwareSourceCompartment(ctx context.Con
 }
 
 // changeSoftwareSourceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) changeSoftwareSourceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/changeCompartment", binaryReqBody)
+func (client OsManagementClient) changeSoftwareSourceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -541,8 +548,9 @@ func (client OsManagementClient) CreateManagedInstanceGroup(ctx context.Context,
 }
 
 // createManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) createManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups", binaryReqBody)
+func (client OsManagementClient) createManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -603,8 +611,9 @@ func (client OsManagementClient) CreateScheduledJob(ctx context.Context, request
 }
 
 // createScheduledJob implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) createScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs", binaryReqBody)
+func (client OsManagementClient) createScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -664,8 +673,9 @@ func (client OsManagementClient) CreateSoftwareSource(ctx context.Context, reque
 }
 
 // createSoftwareSource implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) createSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources", binaryReqBody)
+func (client OsManagementClient) createSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -718,8 +728,9 @@ func (client OsManagementClient) DeleteManagedInstanceGroup(ctx context.Context,
 }
 
 // deleteManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) deleteManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedInstanceGroups/{managedInstanceGroupId}", binaryReqBody)
+func (client OsManagementClient) deleteManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedInstanceGroups/{managedInstanceGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -772,8 +783,9 @@ func (client OsManagementClient) DeleteScheduledJob(ctx context.Context, request
 }
 
 // deleteScheduledJob implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) deleteScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/scheduledJobs/{scheduledJobId}", binaryReqBody)
+func (client OsManagementClient) deleteScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/scheduledJobs/{scheduledJobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -826,8 +838,9 @@ func (client OsManagementClient) DeleteSoftwareSource(ctx context.Context, reque
 }
 
 // deleteSoftwareSource implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) deleteSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/softwareSources/{softwareSourceId}", binaryReqBody)
+func (client OsManagementClient) deleteSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/softwareSources/{softwareSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -886,8 +899,9 @@ func (client OsManagementClient) DetachChildSoftwareSourceFromManagedInstance(ct
 }
 
 // detachChildSoftwareSourceFromManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) detachChildSoftwareSourceFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/detachChildSoftwareSource", binaryReqBody)
+func (client OsManagementClient) detachChildSoftwareSourceFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/detachChildSoftwareSource", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -945,8 +959,9 @@ func (client OsManagementClient) DetachManagedInstanceFromManagedInstanceGroup(c
 }
 
 // detachManagedInstanceFromManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) detachManagedInstanceFromManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/detachManagedInstance", binaryReqBody)
+func (client OsManagementClient) detachManagedInstanceFromManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/detachManagedInstance", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1005,8 +1020,9 @@ func (client OsManagementClient) DetachParentSoftwareSourceFromManagedInstance(c
 }
 
 // detachParentSoftwareSourceFromManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) detachParentSoftwareSourceFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/detachParentSoftwareSource", binaryReqBody)
+func (client OsManagementClient) detachParentSoftwareSourceFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/detachParentSoftwareSource", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1059,8 +1075,9 @@ func (client OsManagementClient) GetErratum(ctx context.Context, request GetErra
 }
 
 // getErratum implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getErratum(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/errata/{erratumId}", binaryReqBody)
+func (client OsManagementClient) getErratum(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/errata/{erratumId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1113,8 +1130,9 @@ func (client OsManagementClient) GetManagedInstance(ctx context.Context, request
 }
 
 // getManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}", binaryReqBody)
+func (client OsManagementClient) getManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1167,8 +1185,9 @@ func (client OsManagementClient) GetManagedInstanceGroup(ctx context.Context, re
 }
 
 // getManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstanceGroups/{managedInstanceGroupId}", binaryReqBody)
+func (client OsManagementClient) getManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstanceGroups/{managedInstanceGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1221,8 +1240,9 @@ func (client OsManagementClient) GetScheduledJob(ctx context.Context, request Ge
 }
 
 // getScheduledJob implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/scheduledJobs/{scheduledJobId}", binaryReqBody)
+func (client OsManagementClient) getScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/scheduledJobs/{scheduledJobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1275,8 +1295,9 @@ func (client OsManagementClient) GetSoftwarePackage(ctx context.Context, request
 }
 
 // getSoftwarePackage implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getSoftwarePackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/softwarePackages/{softwarePackageName}", binaryReqBody)
+func (client OsManagementClient) getSoftwarePackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/softwarePackages/{softwarePackageName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1329,8 +1350,9 @@ func (client OsManagementClient) GetSoftwareSource(ctx context.Context, request 
 }
 
 // getSoftwareSource implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}", binaryReqBody)
+func (client OsManagementClient) getSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1383,8 +1405,9 @@ func (client OsManagementClient) GetWindowsUpdate(ctx context.Context, request G
 }
 
 // getWindowsUpdate implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getWindowsUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/updates/{windowsUpdate}", binaryReqBody)
+func (client OsManagementClient) getWindowsUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/updates/{windowsUpdate}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1437,8 +1460,9 @@ func (client OsManagementClient) GetWorkRequest(ctx context.Context, request Get
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client OsManagementClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1496,8 +1520,9 @@ func (client OsManagementClient) InstallAllPackageUpdatesOnManagedInstance(ctx c
 }
 
 // installAllPackageUpdatesOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) installAllPackageUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/updateAll", binaryReqBody)
+func (client OsManagementClient) installAllPackageUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/updateAll", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1555,8 +1580,9 @@ func (client OsManagementClient) InstallAllWindowsUpdatesOnManagedInstance(ctx c
 }
 
 // installAllWindowsUpdatesOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) installAllWindowsUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/updates/installAll", binaryReqBody)
+func (client OsManagementClient) installAllWindowsUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/updates/installAll", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1614,8 +1640,9 @@ func (client OsManagementClient) InstallPackageOnManagedInstance(ctx context.Con
 }
 
 // installPackageOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) installPackageOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/install", binaryReqBody)
+func (client OsManagementClient) installPackageOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/install", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1673,8 +1700,9 @@ func (client OsManagementClient) InstallPackageUpdateOnManagedInstance(ctx conte
 }
 
 // installPackageUpdateOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) installPackageUpdateOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/update", binaryReqBody)
+func (client OsManagementClient) installPackageUpdateOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/update", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1732,8 +1760,9 @@ func (client OsManagementClient) InstallWindowsUpdateOnManagedInstance(ctx conte
 }
 
 // installWindowsUpdateOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) installWindowsUpdateOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/updates/install", binaryReqBody)
+func (client OsManagementClient) installWindowsUpdateOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/updates/install", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1786,8 +1815,9 @@ func (client OsManagementClient) ListAvailablePackagesForManagedInstance(ctx con
 }
 
 // listAvailablePackagesForManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listAvailablePackagesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/packages/available", binaryReqBody)
+func (client OsManagementClient) listAvailablePackagesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/packages/available", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1840,8 +1870,9 @@ func (client OsManagementClient) ListAvailableSoftwareSourcesForManagedInstance(
 }
 
 // listAvailableSoftwareSourcesForManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listAvailableSoftwareSourcesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/availableSoftwareSources", binaryReqBody)
+func (client OsManagementClient) listAvailableSoftwareSourcesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/availableSoftwareSources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1894,8 +1925,9 @@ func (client OsManagementClient) ListAvailableUpdatesForManagedInstance(ctx cont
 }
 
 // listAvailableUpdatesForManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listAvailableUpdatesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/packages/updates", binaryReqBody)
+func (client OsManagementClient) listAvailableUpdatesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/packages/updates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1948,8 +1980,9 @@ func (client OsManagementClient) ListAvailableWindowsUpdatesForManagedInstance(c
 }
 
 // listAvailableWindowsUpdatesForManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listAvailableWindowsUpdatesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/updates/available", binaryReqBody)
+func (client OsManagementClient) listAvailableWindowsUpdatesForManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/updates/available", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2002,8 +2035,9 @@ func (client OsManagementClient) ListErrata(ctx context.Context, request ListErr
 }
 
 // listErrata implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listErrata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/errata", binaryReqBody)
+func (client OsManagementClient) listErrata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/errata", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2056,8 +2090,9 @@ func (client OsManagementClient) ListManagedInstanceErrata(ctx context.Context, 
 }
 
 // listManagedInstanceErrata implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listManagedInstanceErrata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/errata", binaryReqBody)
+func (client OsManagementClient) listManagedInstanceErrata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/errata", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2110,8 +2145,9 @@ func (client OsManagementClient) ListManagedInstanceGroups(ctx context.Context, 
 }
 
 // listManagedInstanceGroups implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listManagedInstanceGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstanceGroups", binaryReqBody)
+func (client OsManagementClient) listManagedInstanceGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstanceGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2164,8 +2200,9 @@ func (client OsManagementClient) ListManagedInstances(ctx context.Context, reque
 }
 
 // listManagedInstances implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listManagedInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances", binaryReqBody)
+func (client OsManagementClient) listManagedInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2218,8 +2255,9 @@ func (client OsManagementClient) ListPackagesInstalledOnManagedInstance(ctx cont
 }
 
 // listPackagesInstalledOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listPackagesInstalledOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/packages", binaryReqBody)
+func (client OsManagementClient) listPackagesInstalledOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/packages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2272,8 +2310,9 @@ func (client OsManagementClient) ListScheduledJobs(ctx context.Context, request 
 }
 
 // listScheduledJobs implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listScheduledJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/scheduledJobs", binaryReqBody)
+func (client OsManagementClient) listScheduledJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/scheduledJobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2326,8 +2365,9 @@ func (client OsManagementClient) ListSoftwareSourcePackages(ctx context.Context,
 }
 
 // listSoftwareSourcePackages implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listSoftwareSourcePackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/softwarePackages", binaryReqBody)
+func (client OsManagementClient) listSoftwareSourcePackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/{softwareSourceId}/softwarePackages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2380,8 +2420,9 @@ func (client OsManagementClient) ListSoftwareSources(ctx context.Context, reques
 }
 
 // listSoftwareSources implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listSoftwareSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources", binaryReqBody)
+func (client OsManagementClient) listSoftwareSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2434,8 +2475,9 @@ func (client OsManagementClient) ListUpcomingScheduledJobs(ctx context.Context, 
 }
 
 // listUpcomingScheduledJobs implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listUpcomingScheduledJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/scheduledJobs/upcomingSchedules", binaryReqBody)
+func (client OsManagementClient) listUpcomingScheduledJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/scheduledJobs/upcomingSchedules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2488,8 +2530,9 @@ func (client OsManagementClient) ListWindowsUpdates(ctx context.Context, request
 }
 
 // listWindowsUpdates implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/updates", binaryReqBody)
+func (client OsManagementClient) listWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/updates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2542,8 +2585,9 @@ func (client OsManagementClient) ListWindowsUpdatesInstalledOnManagedInstance(ct
 }
 
 // listWindowsUpdatesInstalledOnManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listWindowsUpdatesInstalledOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/updates/installed", binaryReqBody)
+func (client OsManagementClient) listWindowsUpdatesInstalledOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/updates/installed", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2596,8 +2640,9 @@ func (client OsManagementClient) ListWorkRequestErrors(ctx context.Context, requ
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client OsManagementClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2650,8 +2695,9 @@ func (client OsManagementClient) ListWorkRequestLogs(ctx context.Context, reques
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client OsManagementClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2704,8 +2750,9 @@ func (client OsManagementClient) ListWorkRequests(ctx context.Context, request L
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client OsManagementClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2763,8 +2810,9 @@ func (client OsManagementClient) RemovePackageFromManagedInstance(ctx context.Co
 }
 
 // removePackageFromManagedInstance implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) removePackageFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/remove", binaryReqBody)
+func (client OsManagementClient) removePackageFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/packages/remove", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2817,8 +2865,9 @@ func (client OsManagementClient) RemovePackagesFromSoftwareSource(ctx context.Co
 }
 
 // removePackagesFromSoftwareSource implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) removePackagesFromSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/removePackages", binaryReqBody)
+func (client OsManagementClient) removePackagesFromSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/softwareSources/{softwareSourceId}/actions/removePackages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2877,8 +2926,9 @@ func (client OsManagementClient) RunScheduledJobNow(ctx context.Context, request
 }
 
 // runScheduledJobNow implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) runScheduledJobNow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/runNow", binaryReqBody)
+func (client OsManagementClient) runScheduledJobNow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/runNow", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2932,8 +2982,9 @@ func (client OsManagementClient) SearchSoftwarePackages(ctx context.Context, req
 }
 
 // searchSoftwarePackages implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) searchSoftwarePackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/softwarePackages", binaryReqBody)
+func (client OsManagementClient) searchSoftwarePackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/softwareSources/softwarePackages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2992,8 +3043,9 @@ func (client OsManagementClient) SkipNextScheduledJobExecution(ctx context.Conte
 }
 
 // skipNextScheduledJobExecution implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) skipNextScheduledJobExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/skipNextExecution", binaryReqBody)
+func (client OsManagementClient) skipNextScheduledJobExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/skipNextExecution", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3046,8 +3098,9 @@ func (client OsManagementClient) UpdateManagedInstanceGroup(ctx context.Context,
 }
 
 // updateManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) updateManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedInstanceGroups/{managedInstanceGroupId}", binaryReqBody)
+func (client OsManagementClient) updateManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedInstanceGroups/{managedInstanceGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3100,8 +3153,9 @@ func (client OsManagementClient) UpdateScheduledJob(ctx context.Context, request
 }
 
 // updateScheduledJob implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) updateScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/scheduledJobs/{scheduledJobId}", binaryReqBody)
+func (client OsManagementClient) updateScheduledJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/scheduledJobs/{scheduledJobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3154,8 +3208,9 @@ func (client OsManagementClient) UpdateSoftwareSource(ctx context.Context, reque
 }
 
 // updateSoftwareSource implements the OCIOperation interface (enables retrying operations)
-func (client OsManagementClient) updateSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/softwareSources/{softwareSourceId}", binaryReqBody)
+func (client OsManagementClient) updateSoftwareSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/softwareSources/{softwareSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

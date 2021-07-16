@@ -17,6 +17,9 @@ import (
 // CsvFormatAttribute The CSV format attribute.
 type CsvFormatAttribute struct {
 
+	// Defines whether a file pattern is supported.
+	IsFilePattern *bool `mandatory:"false" json:"isFilePattern"`
+
 	// The encoding for the file.
 	Encoding *string `mandatory:"false" json:"encoding"`
 
@@ -32,11 +35,13 @@ type CsvFormatAttribute struct {
 	// Defines whether the file has a header row.
 	HasHeader *bool `mandatory:"false" json:"hasHeader"`
 
-	// Defines whether a file pattern is supported.
-	IsFilePattern *bool `mandatory:"false" json:"isFilePattern"`
-
 	// Format for timestamp information.
 	TimestampFormat *string `mandatory:"false" json:"timestampFormat"`
+}
+
+//GetIsFilePattern returns IsFilePattern
+func (m CsvFormatAttribute) GetIsFilePattern() *bool {
+	return m.IsFilePattern
 }
 
 func (m CsvFormatAttribute) String() string {

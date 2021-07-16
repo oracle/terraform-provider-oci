@@ -120,8 +120,9 @@ func (client AnalyticsClient) ChangeAnalyticsInstanceCompartment(ctx context.Con
 }
 
 // changeAnalyticsInstanceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) changeAnalyticsInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/changeCompartment", binaryReqBody)
+func (client AnalyticsClient) changeAnalyticsInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client AnalyticsClient) ChangeAnalyticsInstanceNetworkEndpoint(ctx context
 }
 
 // changeAnalyticsInstanceNetworkEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) changeAnalyticsInstanceNetworkEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/changeNetworkEndpoint", binaryReqBody)
+func (client AnalyticsClient) changeAnalyticsInstanceNetworkEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/changeNetworkEndpoint", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -240,8 +242,9 @@ func (client AnalyticsClient) CreateAnalyticsInstance(ctx context.Context, reque
 }
 
 // createAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) createAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances", binaryReqBody)
+func (client AnalyticsClient) createAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -300,8 +303,9 @@ func (client AnalyticsClient) CreatePrivateAccessChannel(ctx context.Context, re
 }
 
 // createPrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) createPrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels", binaryReqBody)
+func (client AnalyticsClient) createPrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -360,8 +364,9 @@ func (client AnalyticsClient) CreateVanityUrl(ctx context.Context, request Creat
 }
 
 // createVanityUrl implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) createVanityUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/vanityUrls", binaryReqBody)
+func (client AnalyticsClient) createVanityUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/vanityUrls", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -420,8 +425,9 @@ func (client AnalyticsClient) DeleteAnalyticsInstance(ctx context.Context, reque
 }
 
 // deleteAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) deleteAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}", binaryReqBody)
+func (client AnalyticsClient) deleteAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -479,8 +485,9 @@ func (client AnalyticsClient) DeletePrivateAccessChannel(ctx context.Context, re
 }
 
 // deletePrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) deletePrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}", binaryReqBody)
+func (client AnalyticsClient) deletePrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -538,8 +545,9 @@ func (client AnalyticsClient) DeleteVanityUrl(ctx context.Context, request Delet
 }
 
 // deleteVanityUrl implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) deleteVanityUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}/vanityUrls/{vanityUrlKey}", binaryReqBody)
+func (client AnalyticsClient) deleteVanityUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/analyticsInstances/{analyticsInstanceId}/vanityUrls/{vanityUrlKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -592,8 +600,9 @@ func (client AnalyticsClient) DeleteWorkRequest(ctx context.Context, request Del
 }
 
 // deleteWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
+func (client AnalyticsClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -646,8 +655,9 @@ func (client AnalyticsClient) GetAnalyticsInstance(ctx context.Context, request 
 }
 
 // getAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) getAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances/{analyticsInstanceId}", binaryReqBody)
+func (client AnalyticsClient) getAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances/{analyticsInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -700,8 +710,9 @@ func (client AnalyticsClient) GetPrivateAccessChannel(ctx context.Context, reque
 }
 
 // getPrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) getPrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}", binaryReqBody)
+func (client AnalyticsClient) getPrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -754,8 +765,9 @@ func (client AnalyticsClient) GetWorkRequest(ctx context.Context, request GetWor
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client AnalyticsClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -808,8 +820,9 @@ func (client AnalyticsClient) ListAnalyticsInstances(ctx context.Context, reques
 }
 
 // listAnalyticsInstances implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) listAnalyticsInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances", binaryReqBody)
+func (client AnalyticsClient) listAnalyticsInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/analyticsInstances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -862,8 +875,9 @@ func (client AnalyticsClient) ListWorkRequestErrors(ctx context.Context, request
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client AnalyticsClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -916,8 +930,9 @@ func (client AnalyticsClient) ListWorkRequestLogs(ctx context.Context, request L
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client AnalyticsClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -970,8 +985,9 @@ func (client AnalyticsClient) ListWorkRequests(ctx context.Context, request List
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client AnalyticsClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1030,8 +1046,9 @@ func (client AnalyticsClient) ScaleAnalyticsInstance(ctx context.Context, reques
 }
 
 // scaleAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) scaleAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/scale", binaryReqBody)
+func (client AnalyticsClient) scaleAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/scale", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1090,8 +1107,9 @@ func (client AnalyticsClient) StartAnalyticsInstance(ctx context.Context, reques
 }
 
 // startAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) startAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/start", binaryReqBody)
+func (client AnalyticsClient) startAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/start", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1150,8 +1168,9 @@ func (client AnalyticsClient) StopAnalyticsInstance(ctx context.Context, request
 }
 
 // stopAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) stopAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/stop", binaryReqBody)
+func (client AnalyticsClient) stopAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/analyticsInstances/{analyticsInstanceId}/actions/stop", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1205,8 +1224,9 @@ func (client AnalyticsClient) UpdateAnalyticsInstance(ctx context.Context, reque
 }
 
 // updateAnalyticsInstance implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) updateAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}", binaryReqBody)
+func (client AnalyticsClient) updateAnalyticsInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1264,8 +1284,9 @@ func (client AnalyticsClient) UpdatePrivateAccessChannel(ctx context.Context, re
 }
 
 // updatePrivateAccessChannel implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) updatePrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}", binaryReqBody)
+func (client AnalyticsClient) updatePrivateAccessChannel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}/privateAccessChannels/{privateAccessChannelKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1323,8 +1344,9 @@ func (client AnalyticsClient) UpdateVanityUrl(ctx context.Context, request Updat
 }
 
 // updateVanityUrl implements the OCIOperation interface (enables retrying operations)
-func (client AnalyticsClient) updateVanityUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}/vanityUrls/{vanityUrlKey}", binaryReqBody)
+func (client AnalyticsClient) updateVanityUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/analyticsInstances/{analyticsInstanceId}/vanityUrls/{vanityUrlKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

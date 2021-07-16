@@ -108,8 +108,9 @@ func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptReques
 }
 
 // decrypt implements the OCIOperation interface (enables retrying operations)
-func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/decrypt", binaryReqBody)
+func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/decrypt", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -163,8 +164,9 @@ func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptReques
 }
 
 // encrypt implements the OCIOperation interface (enables retrying operations)
-func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/encrypt", binaryReqBody)
+func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/encrypt", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -219,8 +221,9 @@ func (client KmsCryptoClient) ExportKey(ctx context.Context, request ExportKeyRe
 }
 
 // exportKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/exportKey", binaryReqBody)
+func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/exportKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -273,8 +276,9 @@ func (client KmsCryptoClient) GenerateDataEncryptionKey(ctx context.Context, req
 }
 
 // generateDataEncryptionKey implements the OCIOperation interface (enables retrying operations)
-func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/generateDataEncryptionKey", binaryReqBody)
+func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/generateDataEncryptionKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -329,8 +333,9 @@ func (client KmsCryptoClient) Sign(ctx context.Context, request SignRequest) (re
 }
 
 // sign implements the OCIOperation interface (enables retrying operations)
-func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/sign", binaryReqBody)
+func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/sign", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -385,8 +390,9 @@ func (client KmsCryptoClient) Verify(ctx context.Context, request VerifyRequest)
 }
 
 // verify implements the OCIOperation interface (enables retrying operations)
-func (client KmsCryptoClient) verify(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/verify", binaryReqBody)
+func (client KmsCryptoClient) verify(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/verify", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

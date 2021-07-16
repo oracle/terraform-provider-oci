@@ -27,6 +27,9 @@ type GetFolderRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// This parameter allows users to specify which view of the object to return. CHILD_COUNT_STATISTICS - This option is used to get statistics on immediate children of the object by their type.
+	Projection []GetFolderProjectionEnum `contributesTo:"query" name:"projection" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -37,9 +40,9 @@ func (request GetFolderRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetFolderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+func (request GetFolderRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface
@@ -78,4 +81,25 @@ func (response GetFolderResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetFolderResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetFolderProjectionEnum Enum with underlying type: string
+type GetFolderProjectionEnum string
+
+// Set of constants representing the allowable values for GetFolderProjectionEnum
+const (
+	GetFolderProjectionChildCountStatistics GetFolderProjectionEnum = "CHILD_COUNT_STATISTICS"
+)
+
+var mappingGetFolderProjection = map[string]GetFolderProjectionEnum{
+	"CHILD_COUNT_STATISTICS": GetFolderProjectionChildCountStatistics,
+}
+
+// GetGetFolderProjectionEnumValues Enumerates the set of values for GetFolderProjectionEnum
+func GetGetFolderProjectionEnumValues() []GetFolderProjectionEnum {
+	values := make([]GetFolderProjectionEnum, 0)
+	for _, v := range mappingGetFolderProjection {
+		values = append(values, v)
+	}
+	return values
 }

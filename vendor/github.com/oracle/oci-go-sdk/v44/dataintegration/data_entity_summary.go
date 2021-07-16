@@ -59,6 +59,10 @@ func (m *dataentitysummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := DataEntitySummaryFromTable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATA_STORE_ENTITY":
+		mm := DataEntitySummaryFromDataStore{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VIEW_ENTITY":
 		mm := DataEntitySummaryFromView{}
 		err = json.Unmarshal(data, &mm)
@@ -82,15 +86,17 @@ type DataEntitySummaryModelTypeEnum string
 
 // Set of constants representing the allowable values for DataEntitySummaryModelTypeEnum
 const (
-	DataEntitySummaryModelTypeViewEntity  DataEntitySummaryModelTypeEnum = "VIEW_ENTITY"
-	DataEntitySummaryModelTypeTableEntity DataEntitySummaryModelTypeEnum = "TABLE_ENTITY"
-	DataEntitySummaryModelTypeFileEntity  DataEntitySummaryModelTypeEnum = "FILE_ENTITY"
+	DataEntitySummaryModelTypeViewEntity      DataEntitySummaryModelTypeEnum = "VIEW_ENTITY"
+	DataEntitySummaryModelTypeTableEntity     DataEntitySummaryModelTypeEnum = "TABLE_ENTITY"
+	DataEntitySummaryModelTypeFileEntity      DataEntitySummaryModelTypeEnum = "FILE_ENTITY"
+	DataEntitySummaryModelTypeDataStoreEntity DataEntitySummaryModelTypeEnum = "DATA_STORE_ENTITY"
 )
 
 var mappingDataEntitySummaryModelType = map[string]DataEntitySummaryModelTypeEnum{
-	"VIEW_ENTITY":  DataEntitySummaryModelTypeViewEntity,
-	"TABLE_ENTITY": DataEntitySummaryModelTypeTableEntity,
-	"FILE_ENTITY":  DataEntitySummaryModelTypeFileEntity,
+	"VIEW_ENTITY":       DataEntitySummaryModelTypeViewEntity,
+	"TABLE_ENTITY":      DataEntitySummaryModelTypeTableEntity,
+	"FILE_ENTITY":       DataEntitySummaryModelTypeFileEntity,
+	"DATA_STORE_ENTITY": DataEntitySummaryModelTypeDataStoreEntity,
 }
 
 // GetDataEntitySummaryModelTypeEnumValues Enumerates the set of values for DataEntitySummaryModelTypeEnum

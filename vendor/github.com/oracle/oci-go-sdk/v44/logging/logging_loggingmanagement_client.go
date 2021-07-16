@@ -115,8 +115,9 @@ func (client LoggingManagementClient) ChangeLogGroupCompartment(ctx context.Cont
 }
 
 // changeLogGroupCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) changeLogGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups/{logGroupId}/actions/changeCompartment", binaryReqBody)
+func (client LoggingManagementClient) changeLogGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups/{logGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -169,8 +170,9 @@ func (client LoggingManagementClient) ChangeLogLogGroup(ctx context.Context, req
 }
 
 // changeLogLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) changeLogLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups/{logGroupId}/logs/{logId}/actions/changeLogGroup", binaryReqBody)
+func (client LoggingManagementClient) changeLogLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups/{logGroupId}/logs/{logId}/actions/changeLogGroup", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -229,8 +231,9 @@ func (client LoggingManagementClient) ChangeLogSavedSearchCompartment(ctx contex
 }
 
 // changeLogSavedSearchCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) changeLogSavedSearchCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logSavedSearches/{logSavedSearchId}/actions/changeCompartment", binaryReqBody)
+func (client LoggingManagementClient) changeLogSavedSearchCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logSavedSearches/{logSavedSearchId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -289,8 +292,9 @@ func (client LoggingManagementClient) ChangeUnifiedAgentConfigurationCompartment
 }
 
 // changeUnifiedAgentConfigurationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) changeUnifiedAgentConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}/actions/changeCompartment", binaryReqBody)
+func (client LoggingManagementClient) changeUnifiedAgentConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -349,8 +353,9 @@ func (client LoggingManagementClient) CreateLog(ctx context.Context, request Cre
 }
 
 // createLog implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) createLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups/{logGroupId}/logs", binaryReqBody)
+func (client LoggingManagementClient) createLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups/{logGroupId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -409,8 +414,9 @@ func (client LoggingManagementClient) CreateLogGroup(ctx context.Context, reques
 }
 
 // createLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) createLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups", binaryReqBody)
+func (client LoggingManagementClient) createLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -468,8 +474,9 @@ func (client LoggingManagementClient) CreateLogSavedSearch(ctx context.Context, 
 }
 
 // createLogSavedSearch implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) createLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logSavedSearches", binaryReqBody)
+func (client LoggingManagementClient) createLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logSavedSearches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -527,8 +534,9 @@ func (client LoggingManagementClient) CreateUnifiedAgentConfiguration(ctx contex
 }
 
 // createUnifiedAgentConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) createUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAgentConfigurations", binaryReqBody)
+func (client LoggingManagementClient) createUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/unifiedAgentConfigurations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -581,8 +589,9 @@ func (client LoggingManagementClient) DeleteLog(ctx context.Context, request Del
 }
 
 // deleteLog implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) deleteLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logGroups/{logGroupId}/logs/{logId}", binaryReqBody)
+func (client LoggingManagementClient) deleteLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logGroups/{logGroupId}/logs/{logId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -635,8 +644,9 @@ func (client LoggingManagementClient) DeleteLogGroup(ctx context.Context, reques
 }
 
 // deleteLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) deleteLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logGroups/{logGroupId}", binaryReqBody)
+func (client LoggingManagementClient) deleteLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logGroups/{logGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -689,8 +699,9 @@ func (client LoggingManagementClient) DeleteLogSavedSearch(ctx context.Context, 
 }
 
 // deleteLogSavedSearch implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) deleteLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logSavedSearches/{logSavedSearchId}", binaryReqBody)
+func (client LoggingManagementClient) deleteLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logSavedSearches/{logSavedSearchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -743,8 +754,9 @@ func (client LoggingManagementClient) DeleteUnifiedAgentConfiguration(ctx contex
 }
 
 // deleteUnifiedAgentConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) deleteUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}", binaryReqBody)
+func (client LoggingManagementClient) deleteUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -797,8 +809,9 @@ func (client LoggingManagementClient) DeleteWorkRequest(ctx context.Context, req
 }
 
 // deleteWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
+func (client LoggingManagementClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -851,8 +864,9 @@ func (client LoggingManagementClient) GetLog(ctx context.Context, request GetLog
 }
 
 // getLog implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups/{logGroupId}/logs/{logId}", binaryReqBody)
+func (client LoggingManagementClient) getLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups/{logGroupId}/logs/{logId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -905,8 +919,9 @@ func (client LoggingManagementClient) GetLogGroup(ctx context.Context, request G
 }
 
 // getLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups/{logGroupId}", binaryReqBody)
+func (client LoggingManagementClient) getLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups/{logGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -959,8 +974,9 @@ func (client LoggingManagementClient) GetLogIncludedSearch(ctx context.Context, 
 }
 
 // getLogIncludedSearch implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getLogIncludedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logIncludedSearch/{logIncludedSearchId}", binaryReqBody)
+func (client LoggingManagementClient) getLogIncludedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logIncludedSearch/{logIncludedSearchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1013,8 +1029,9 @@ func (client LoggingManagementClient) GetLogSavedSearch(ctx context.Context, req
 }
 
 // getLogSavedSearch implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logSavedSearches/{logSavedSearchId}", binaryReqBody)
+func (client LoggingManagementClient) getLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logSavedSearches/{logSavedSearchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1067,8 +1084,9 @@ func (client LoggingManagementClient) GetUnifiedAgentConfiguration(ctx context.C
 }
 
 // getUnifiedAgentConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}", binaryReqBody)
+func (client LoggingManagementClient) getUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1121,8 +1139,9 @@ func (client LoggingManagementClient) GetWorkRequest(ctx context.Context, reques
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client LoggingManagementClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1175,8 +1194,9 @@ func (client LoggingManagementClient) ListLogGroups(ctx context.Context, request
 }
 
 // listLogGroups implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listLogGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups", binaryReqBody)
+func (client LoggingManagementClient) listLogGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1229,8 +1249,9 @@ func (client LoggingManagementClient) ListLogIncludedSearches(ctx context.Contex
 }
 
 // listLogIncludedSearches implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listLogIncludedSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logIncludedSearches", binaryReqBody)
+func (client LoggingManagementClient) listLogIncludedSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logIncludedSearches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1283,8 +1304,9 @@ func (client LoggingManagementClient) ListLogSavedSearches(ctx context.Context, 
 }
 
 // listLogSavedSearches implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listLogSavedSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logSavedSearches", binaryReqBody)
+func (client LoggingManagementClient) listLogSavedSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logSavedSearches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1337,8 +1359,9 @@ func (client LoggingManagementClient) ListLogs(ctx context.Context, request List
 }
 
 // listLogs implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups/{logGroupId}/logs", binaryReqBody)
+func (client LoggingManagementClient) listLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logGroups/{logGroupId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1391,8 +1414,9 @@ func (client LoggingManagementClient) ListServices(ctx context.Context, request 
 }
 
 // listServices implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listServices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/v2/registry/services", binaryReqBody)
+func (client LoggingManagementClient) listServices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/v2/registry/services", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1445,8 +1469,9 @@ func (client LoggingManagementClient) ListUnifiedAgentConfigurations(ctx context
 }
 
 // listUnifiedAgentConfigurations implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listUnifiedAgentConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAgentConfigurations", binaryReqBody)
+func (client LoggingManagementClient) listUnifiedAgentConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/unifiedAgentConfigurations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1499,8 +1524,9 @@ func (client LoggingManagementClient) ListWorkRequestErrors(ctx context.Context,
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client LoggingManagementClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1553,8 +1579,9 @@ func (client LoggingManagementClient) ListWorkRequestLogs(ctx context.Context, r
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client LoggingManagementClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1607,8 +1634,9 @@ func (client LoggingManagementClient) ListWorkRequests(ctx context.Context, requ
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client LoggingManagementClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1662,8 +1690,9 @@ func (client LoggingManagementClient) UpdateLog(ctx context.Context, request Upd
 }
 
 // updateLog implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) updateLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logGroups/{logGroupId}/logs/{logId}", binaryReqBody)
+func (client LoggingManagementClient) updateLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logGroups/{logGroupId}/logs/{logId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1717,8 +1746,9 @@ func (client LoggingManagementClient) UpdateLogGroup(ctx context.Context, reques
 }
 
 // updateLogGroup implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) updateLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logGroups/{logGroupId}", binaryReqBody)
+func (client LoggingManagementClient) updateLogGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logGroups/{logGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1771,8 +1801,9 @@ func (client LoggingManagementClient) UpdateLogSavedSearch(ctx context.Context, 
 }
 
 // updateLogSavedSearch implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) updateLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logSavedSearches/{logSavedSearchId}", binaryReqBody)
+func (client LoggingManagementClient) updateLogSavedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logSavedSearches/{logSavedSearchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1826,8 +1857,9 @@ func (client LoggingManagementClient) UpdateUnifiedAgentConfiguration(ctx contex
 }
 
 // updateUnifiedAgentConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) updateUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}", binaryReqBody)
+func (client LoggingManagementClient) updateUnifiedAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/unifiedAgentConfigurations/{unifiedAgentConfigurationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

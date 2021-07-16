@@ -121,8 +121,9 @@ func (client GatewayClient) ChangeGatewayCompartment(ctx context.Context, reques
 }
 
 // changeGatewayCompartment implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) changeGatewayCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways/{gatewayId}/actions/changeCompartment", binaryReqBody)
+func (client GatewayClient) changeGatewayCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways/{gatewayId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client GatewayClient) CreateGateway(ctx context.Context, request CreateGat
 }
 
 // createGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) createGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways", binaryReqBody)
+func (client GatewayClient) createGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -234,8 +236,9 @@ func (client GatewayClient) DeleteGateway(ctx context.Context, request DeleteGat
 }
 
 // deleteGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) deleteGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/gateways/{gatewayId}", binaryReqBody)
+func (client GatewayClient) deleteGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/gateways/{gatewayId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -288,8 +291,9 @@ func (client GatewayClient) GetGateway(ctx context.Context, request GetGatewayRe
 }
 
 // getGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways/{gatewayId}", binaryReqBody)
+func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways/{gatewayId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -342,8 +346,9 @@ func (client GatewayClient) ListGateways(ctx context.Context, request ListGatewa
 }
 
 // listGateways implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) listGateways(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways", binaryReqBody)
+func (client GatewayClient) listGateways(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gateways", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -396,8 +401,9 @@ func (client GatewayClient) UpdateGateway(ctx context.Context, request UpdateGat
 }
 
 // updateGateway implements the OCIOperation interface (enables retrying operations)
-func (client GatewayClient) updateGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/gateways/{gatewayId}", binaryReqBody)
+func (client GatewayClient) updateGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/gateways/{gatewayId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

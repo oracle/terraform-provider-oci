@@ -111,8 +111,9 @@ func (client AuditClient) GetConfiguration(ctx context.Context, request GetConfi
 }
 
 // getConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client AuditClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody)
+func (client AuditClient) getConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -166,8 +167,9 @@ func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequ
 }
 
 // listEvents implements the OCIOperation interface (enables retrying operations)
-func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/auditEvents", binaryReqBody)
+func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/auditEvents", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -220,8 +222,9 @@ func (client AuditClient) UpdateConfiguration(ctx context.Context, request Updat
 }
 
 // updateConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client AuditClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody)
+func (client AuditClient) updateConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

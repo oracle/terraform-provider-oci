@@ -119,8 +119,9 @@ func (client DbBackupsClient) CreateBackup(ctx context.Context, request CreateBa
 }
 
 // createBackup implements the OCIOperation interface (enables retrying operations)
-func (client DbBackupsClient) createBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backups", binaryReqBody)
+func (client DbBackupsClient) createBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +174,9 @@ func (client DbBackupsClient) DeleteBackup(ctx context.Context, request DeleteBa
 }
 
 // deleteBackup implements the OCIOperation interface (enables retrying operations)
-func (client DbBackupsClient) deleteBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/backups/{backupId}", binaryReqBody)
+func (client DbBackupsClient) deleteBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/backups/{backupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -227,8 +229,9 @@ func (client DbBackupsClient) GetBackup(ctx context.Context, request GetBackupRe
 }
 
 // getBackup implements the OCIOperation interface (enables retrying operations)
-func (client DbBackupsClient) getBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups/{backupId}", binaryReqBody)
+func (client DbBackupsClient) getBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups/{backupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -281,8 +284,9 @@ func (client DbBackupsClient) ListBackups(ctx context.Context, request ListBacku
 }
 
 // listBackups implements the OCIOperation interface (enables retrying operations)
-func (client DbBackupsClient) listBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups", binaryReqBody)
+func (client DbBackupsClient) listBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -335,8 +339,9 @@ func (client DbBackupsClient) UpdateBackup(ctx context.Context, request UpdateBa
 }
 
 // updateBackup implements the OCIOperation interface (enables retrying operations)
-func (client DbBackupsClient) updateBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/backups/{backupId}", binaryReqBody)
+func (client DbBackupsClient) updateBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/backups/{backupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

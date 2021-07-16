@@ -123,8 +123,9 @@ func (client DbManagementClient) AddManagedDatabaseToManagedDatabaseGroup(ctx co
 }
 
 // addManagedDatabaseToManagedDatabaseGroup implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups/{managedDatabaseGroupId}/actions/addManagedDatabase", binaryReqBody)
+func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups/{managedDatabaseGroupId}/actions/addManagedDatabase", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -192,8 +193,9 @@ func (client DbManagementClient) ChangeDatabaseParameters(ctx context.Context, r
 }
 
 // changeDatabaseParameters implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) changeDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/actions/changeDatabaseParameters", binaryReqBody)
+func (client DbManagementClient) changeDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/actions/changeDatabaseParameters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -251,8 +253,9 @@ func (client DbManagementClient) ChangeJobCompartment(ctx context.Context, reque
 }
 
 // changeJobCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) changeJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/actions/changeCompartment", binaryReqBody)
+func (client DbManagementClient) changeJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -312,8 +315,9 @@ func (client DbManagementClient) ChangeManagedDatabaseGroupCompartment(ctx conte
 }
 
 // changeManagedDatabaseGroupCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups/{managedDatabaseGroupId}/actions/changeCompartment", binaryReqBody)
+func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups/{managedDatabaseGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -373,8 +377,9 @@ func (client DbManagementClient) CreateJob(ctx context.Context, request CreateJo
 }
 
 // createJob implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) createJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs", binaryReqBody)
+func (client DbManagementClient) createJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -433,8 +438,9 @@ func (client DbManagementClient) CreateManagedDatabaseGroup(ctx context.Context,
 }
 
 // createManagedDatabaseGroup implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) createManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups", binaryReqBody)
+func (client DbManagementClient) createManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -487,8 +493,9 @@ func (client DbManagementClient) DeleteJob(ctx context.Context, request DeleteJo
 }
 
 // deleteJob implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) deleteJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/jobs/{jobId}", binaryReqBody)
+func (client DbManagementClient) deleteJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/jobs/{jobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -542,8 +549,9 @@ func (client DbManagementClient) DeleteManagedDatabaseGroup(ctx context.Context,
 }
 
 // deleteManagedDatabaseGroup implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedDatabaseGroups/{managedDatabaseGroupId}", binaryReqBody)
+func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedDatabaseGroups/{managedDatabaseGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -601,8 +609,9 @@ func (client DbManagementClient) GetAwrDbReport(ctx context.Context, request Get
 }
 
 // getAwrDbReport implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getAwrDbReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbReport", binaryReqBody)
+func (client DbManagementClient) getAwrDbReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbReport", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -660,8 +669,9 @@ func (client DbManagementClient) GetAwrDbSqlReport(ctx context.Context, request 
 }
 
 // getAwrDbSqlReport implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getAwrDbSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSqlReport", binaryReqBody)
+func (client DbManagementClient) getAwrDbSqlReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSqlReport", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -716,8 +726,9 @@ func (client DbManagementClient) GetClusterCacheMetric(ctx context.Context, requ
 }
 
 // getClusterCacheMetric implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/clusterCacheMetrics", binaryReqBody)
+func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/clusterCacheMetrics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -771,8 +782,9 @@ func (client DbManagementClient) GetDatabaseFleetHealthMetrics(ctx context.Conte
 }
 
 // getDatabaseFleetHealthMetrics implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getDatabaseFleetHealthMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleetMetrics", binaryReqBody)
+func (client DbManagementClient) getDatabaseFleetHealthMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleetMetrics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -825,8 +837,9 @@ func (client DbManagementClient) GetDatabaseHomeMetrics(ctx context.Context, req
 }
 
 // getDatabaseHomeMetrics implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseHomeMetrics", binaryReqBody)
+func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseHomeMetrics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -879,8 +892,9 @@ func (client DbManagementClient) GetJob(ctx context.Context, request GetJobReque
 }
 
 // getJob implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}", binaryReqBody)
+func (client DbManagementClient) getJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -933,8 +947,9 @@ func (client DbManagementClient) GetJobExecution(ctx context.Context, request Ge
 }
 
 // getJobExecution implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getJobExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobExecutions/{jobExecutionId}", binaryReqBody)
+func (client DbManagementClient) getJobExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobExecutions/{jobExecutionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -987,8 +1002,9 @@ func (client DbManagementClient) GetJobRun(ctx context.Context, request GetJobRu
 }
 
 // getJobRun implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getJobRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobRuns/{jobRunId}", binaryReqBody)
+func (client DbManagementClient) getJobRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobRuns/{jobRunId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1041,8 +1057,9 @@ func (client DbManagementClient) GetManagedDatabase(ctx context.Context, request
 }
 
 // getManagedDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getManagedDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}", binaryReqBody)
+func (client DbManagementClient) getManagedDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1095,8 +1112,9 @@ func (client DbManagementClient) GetManagedDatabaseGroup(ctx context.Context, re
 }
 
 // getManagedDatabaseGroup implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabaseGroups/{managedDatabaseGroupId}", binaryReqBody)
+func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabaseGroups/{managedDatabaseGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1154,8 +1172,9 @@ func (client DbManagementClient) ListAwrDbSnapshots(ctx context.Context, request
 }
 
 // listAwrDbSnapshots implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listAwrDbSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots", binaryReqBody)
+func (client DbManagementClient) listAwrDbSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSnapshots", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1213,8 +1232,9 @@ func (client DbManagementClient) ListAwrDbs(ctx context.Context, request ListAwr
 }
 
 // listAwrDbs implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listAwrDbs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs", binaryReqBody)
+func (client DbManagementClient) listAwrDbs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1267,8 +1287,9 @@ func (client DbManagementClient) ListDatabaseParameters(ctx context.Context, req
 }
 
 // listDatabaseParameters implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/databaseParameters", binaryReqBody)
+func (client DbManagementClient) listDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/databaseParameters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1324,8 +1345,9 @@ func (client DbManagementClient) ListJobExecutions(ctx context.Context, request 
 }
 
 // listJobExecutions implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listJobExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobExecutions", binaryReqBody)
+func (client DbManagementClient) listJobExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobExecutions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1381,8 +1403,9 @@ func (client DbManagementClient) ListJobRuns(ctx context.Context, request ListJo
 }
 
 // listJobRuns implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listJobRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobRuns", binaryReqBody)
+func (client DbManagementClient) listJobRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobRuns", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1438,8 +1461,9 @@ func (client DbManagementClient) ListJobs(ctx context.Context, request ListJobsR
 }
 
 // listJobs implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs", binaryReqBody)
+func (client DbManagementClient) listJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1495,8 +1519,9 @@ func (client DbManagementClient) ListManagedDatabaseGroups(ctx context.Context, 
 }
 
 // listManagedDatabaseGroups implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listManagedDatabaseGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabaseGroups", binaryReqBody)
+func (client DbManagementClient) listManagedDatabaseGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabaseGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1551,8 +1576,9 @@ func (client DbManagementClient) ListManagedDatabases(ctx context.Context, reque
 }
 
 // listManagedDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listManagedDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases", binaryReqBody)
+func (client DbManagementClient) listManagedDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1605,8 +1631,9 @@ func (client DbManagementClient) ListTablespaces(ctx context.Context, request Li
 }
 
 // listTablespaces implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) listTablespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/tablespaces", binaryReqBody)
+func (client DbManagementClient) listTablespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/tablespaces", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1667,8 +1694,9 @@ func (client DbManagementClient) RemoveManagedDatabaseFromManagedDatabaseGroup(c
 }
 
 // removeManagedDatabaseFromManagedDatabaseGroup implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) removeManagedDatabaseFromManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups/{managedDatabaseGroupId}/actions/removeManagedDatabase", binaryReqBody)
+func (client DbManagementClient) removeManagedDatabaseFromManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabaseGroups/{managedDatabaseGroupId}/actions/removeManagedDatabase", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1726,8 +1754,9 @@ func (client DbManagementClient) ResetDatabaseParameters(ctx context.Context, re
 }
 
 // resetDatabaseParameters implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) resetDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/actions/resetDatabaseParameters", binaryReqBody)
+func (client DbManagementClient) resetDatabaseParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/actions/resetDatabaseParameters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1785,8 +1814,9 @@ func (client DbManagementClient) SummarizeAwrDbCpuUsages(ctx context.Context, re
 }
 
 // summarizeAwrDbCpuUsages implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbCpuUsages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbCpuUsages", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbCpuUsages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbCpuUsages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1844,8 +1874,9 @@ func (client DbManagementClient) SummarizeAwrDbMetrics(ctx context.Context, requ
 }
 
 // summarizeAwrDbMetrics implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbMetrics", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbMetrics", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1907,8 +1938,9 @@ func (client DbManagementClient) SummarizeAwrDbParameterChanges(ctx context.Cont
 }
 
 // summarizeAwrDbParameterChanges implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbParameterChanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbParameterChanges", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbParameterChanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbParameterChanges", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1974,8 +2006,9 @@ func (client DbManagementClient) SummarizeAwrDbParameters(ctx context.Context, r
 }
 
 // summarizeAwrDbParameters implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbParameters", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbParameters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2033,8 +2066,9 @@ func (client DbManagementClient) SummarizeAwrDbSnapshotRanges(ctx context.Contex
 }
 
 // summarizeAwrDbSnapshotRanges implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbSnapshotRanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbSnapshotRanges", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbSnapshotRanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbSnapshotRanges", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2092,8 +2126,9 @@ func (client DbManagementClient) SummarizeAwrDbSysstats(ctx context.Context, req
 }
 
 // summarizeAwrDbSysstats implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbSysstats(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSysstats", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbSysstats(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbSysstats", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2151,8 +2186,9 @@ func (client DbManagementClient) SummarizeAwrDbTopWaitEvents(ctx context.Context
 }
 
 // summarizeAwrDbTopWaitEvents implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbTopWaitEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbTopWaitEvents", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbTopWaitEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbTopWaitEvents", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2210,8 +2246,9 @@ func (client DbManagementClient) SummarizeAwrDbWaitEventBuckets(ctx context.Cont
 }
 
 // summarizeAwrDbWaitEventBuckets implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbWaitEventBuckets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbWaitEventBuckets", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbWaitEventBuckets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbWaitEventBuckets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2269,8 +2306,9 @@ func (client DbManagementClient) SummarizeAwrDbWaitEvents(ctx context.Context, r
 }
 
 // summarizeAwrDbWaitEvents implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) summarizeAwrDbWaitEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbWaitEvents", binaryReqBody)
+func (client DbManagementClient) summarizeAwrDbWaitEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbWaitEvents", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2323,8 +2361,9 @@ func (client DbManagementClient) UpdateManagedDatabaseGroup(ctx context.Context,
 }
 
 // updateManagedDatabaseGroup implements the OCIOperation interface (enables retrying operations)
-func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedDatabaseGroups/{managedDatabaseGroupId}", binaryReqBody)
+func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedDatabaseGroups/{managedDatabaseGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

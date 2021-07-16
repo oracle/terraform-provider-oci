@@ -19,7 +19,7 @@ type ScanDetails struct {
 	// The SCAN hostname.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
-	// The SCAN port. Default is 1521.
+	// The SCAN TCPIP port. Default is 1521.
 	Port *int `mandatory:"true" json:"port"`
 
 	// The list of SCAN IP addresses. Three addresses should be provided.

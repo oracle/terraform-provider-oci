@@ -121,8 +121,9 @@ func (client EventsClient) ChangeRuleCompartment(ctx context.Context, request Ch
 }
 
 // changeRuleCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) changeRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules/{ruleId}/actions/changeCompartment", binaryReqBody)
+func (client EventsClient) changeRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules/{ruleId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client EventsClient) CreateRule(ctx context.Context, request CreateRuleReq
 }
 
 // createRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) createRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules", binaryReqBody)
+func (client EventsClient) createRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/rules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -234,8 +236,9 @@ func (client EventsClient) DeleteRule(ctx context.Context, request DeleteRuleReq
 }
 
 // deleteRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) deleteRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/rules/{ruleId}", binaryReqBody)
+func (client EventsClient) deleteRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/rules/{ruleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -288,8 +291,9 @@ func (client EventsClient) GetRule(ctx context.Context, request GetRuleRequest) 
 }
 
 // getRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) getRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules/{ruleId}", binaryReqBody)
+func (client EventsClient) getRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules/{ruleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -342,8 +346,9 @@ func (client EventsClient) ListRules(ctx context.Context, request ListRulesReque
 }
 
 // listRules implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) listRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules", binaryReqBody)
+func (client EventsClient) listRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/rules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -396,8 +401,9 @@ func (client EventsClient) UpdateRule(ctx context.Context, request UpdateRuleReq
 }
 
 // updateRule implements the OCIOperation interface (enables retrying operations)
-func (client EventsClient) updateRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/rules/{ruleId}", binaryReqBody)
+func (client EventsClient) updateRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/rules/{ruleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

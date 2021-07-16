@@ -59,6 +59,18 @@ type UpdateDataAssetFromAtp struct {
 
 	WalletPasswordSecret *SensitiveAttribute `mandatory:"false" json:"walletPasswordSecret"`
 
+	// The Autonomous Data Warehouse instance region Id.
+	RegionId *string `mandatory:"false" json:"regionId"`
+
+	// The Autonomous Data Warehouse instance tenancy Id.
+	TenancyId *string `mandatory:"false" json:"tenancyId"`
+
+	// The Autonomous Data Warehouse instance compartment Id.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Tha Autonomous Database Id
+	AutonomousDbId *string `mandatory:"false" json:"autonomousDbId"`
+
 	DefaultConnection *UpdateConnectionFromAtp `mandatory:"false" json:"defaultConnection"`
 }
 

@@ -123,6 +123,18 @@ func (m *tasksummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := TaskSummaryFromIntegrationTask{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SQL_TASK":
+		mm := TaskSummaryFromSqlTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_DATAFLOW_TASK":
+		mm := TaskSummaryFromOciDataflowTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_TASK":
+		mm := TaskSummaryFromRestTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PIPELINE_TASK":
 		mm := TaskSummaryFromPipelineTask{}
 		err = json.Unmarshal(data, &mm)
@@ -223,12 +235,18 @@ const (
 	TaskSummaryModelTypeIntegrationTask TaskSummaryModelTypeEnum = "INTEGRATION_TASK"
 	TaskSummaryModelTypeDataLoaderTask  TaskSummaryModelTypeEnum = "DATA_LOADER_TASK"
 	TaskSummaryModelTypePipelineTask    TaskSummaryModelTypeEnum = "PIPELINE_TASK"
+	TaskSummaryModelTypeSqlTask         TaskSummaryModelTypeEnum = "SQL_TASK"
+	TaskSummaryModelTypeOciDataflowTask TaskSummaryModelTypeEnum = "OCI_DATAFLOW_TASK"
+	TaskSummaryModelTypeRestTask        TaskSummaryModelTypeEnum = "REST_TASK"
 )
 
 var mappingTaskSummaryModelType = map[string]TaskSummaryModelTypeEnum{
-	"INTEGRATION_TASK": TaskSummaryModelTypeIntegrationTask,
-	"DATA_LOADER_TASK": TaskSummaryModelTypeDataLoaderTask,
-	"PIPELINE_TASK":    TaskSummaryModelTypePipelineTask,
+	"INTEGRATION_TASK":  TaskSummaryModelTypeIntegrationTask,
+	"DATA_LOADER_TASK":  TaskSummaryModelTypeDataLoaderTask,
+	"PIPELINE_TASK":     TaskSummaryModelTypePipelineTask,
+	"SQL_TASK":          TaskSummaryModelTypeSqlTask,
+	"OCI_DATAFLOW_TASK": TaskSummaryModelTypeOciDataflowTask,
+	"REST_TASK":         TaskSummaryModelTypeRestTask,
 }
 
 // GetTaskSummaryModelTypeEnumValues Enumerates the set of values for TaskSummaryModelTypeEnum

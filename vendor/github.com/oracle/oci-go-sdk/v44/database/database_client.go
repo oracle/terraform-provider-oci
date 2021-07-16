@@ -119,8 +119,9 @@ func (client DatabaseClient) ActivateExadataInfrastructure(ctx context.Context, 
 }
 
 // activateExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) activateExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/activate", binaryReqBody)
+func (client DatabaseClient) activateExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +179,9 @@ func (client DatabaseClient) AddStorageCapacityExadataInfrastructure(ctx context
 }
 
 // addStorageCapacityExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) addStorageCapacityExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/addStorageCapacity", binaryReqBody)
+func (client DatabaseClient) addStorageCapacityExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/addStorageCapacity", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +239,9 @@ func (client DatabaseClient) AutonomousDatabaseManualRefresh(ctx context.Context
 }
 
 // autonomousDatabaseManualRefresh implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) autonomousDatabaseManualRefresh(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/refresh", binaryReqBody)
+func (client DatabaseClient) autonomousDatabaseManualRefresh(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/refresh", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -298,8 +301,9 @@ func (client DatabaseClient) ChangeAutonomousContainerDatabaseCompartment(ctx co
 }
 
 // changeAutonomousContainerDatabaseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeAutonomousContainerDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeAutonomousContainerDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -359,8 +363,9 @@ func (client DatabaseClient) ChangeAutonomousDatabaseCompartment(ctx context.Con
 }
 
 // changeAutonomousDatabaseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeAutonomousDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeAutonomousDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -420,8 +425,9 @@ func (client DatabaseClient) ChangeAutonomousExadataInfrastructureCompartment(ct
 }
 
 // changeAutonomousExadataInfrastructureCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeAutonomousExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeAutonomousExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -480,8 +486,9 @@ func (client DatabaseClient) ChangeAutonomousVmClusterCompartment(ctx context.Co
 }
 
 // changeAutonomousVmClusterCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeAutonomousVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeAutonomousVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -541,8 +548,9 @@ func (client DatabaseClient) ChangeBackupDestinationCompartment(ctx context.Cont
 }
 
 // changeBackupDestinationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backupDestinations/{backupDestinationId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backupDestinations/{backupDestinationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -600,8 +608,9 @@ func (client DatabaseClient) ChangeCloudExadataInfrastructureCompartment(ctx con
 }
 
 // changeCloudExadataInfrastructureCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeCloudExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeCloudExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -659,8 +668,9 @@ func (client DatabaseClient) ChangeCloudVmClusterCompartment(ctx context.Context
 }
 
 // changeCloudVmClusterCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeCloudVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters/{cloudVmClusterId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeCloudVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters/{cloudVmClusterId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -720,8 +730,9 @@ func (client DatabaseClient) ChangeDatabaseSoftwareImageCompartment(ctx context.
 }
 
 // changeDatabaseSoftwareImageCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSoftwareImages/{databaseSoftwareImageId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSoftwareImages/{databaseSoftwareImageId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -781,8 +792,9 @@ func (client DatabaseClient) ChangeDbSystemCompartment(ctx context.Context, requ
 }
 
 // changeDbSystemCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeDbSystemCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeDbSystemCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -841,8 +853,9 @@ func (client DatabaseClient) ChangeExadataInfrastructureCompartment(ctx context.
 }
 
 // changeExadataInfrastructureCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeExadataInfrastructureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -903,8 +916,9 @@ func (client DatabaseClient) ChangeExternalContainerDatabaseCompartment(ctx cont
 }
 
 // changeExternalContainerDatabaseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeExternalContainerDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeExternalContainerDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -964,8 +978,9 @@ func (client DatabaseClient) ChangeExternalNonContainerDatabaseCompartment(ctx c
 }
 
 // changeExternalNonContainerDatabaseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeExternalNonContainerDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeExternalNonContainerDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1026,8 +1041,9 @@ func (client DatabaseClient) ChangeExternalPluggableDatabaseCompartment(ctx cont
 }
 
 // changeExternalPluggableDatabaseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeExternalPluggableDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeExternalPluggableDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1087,8 +1103,9 @@ func (client DatabaseClient) ChangeKeyStoreCompartment(ctx context.Context, requ
 }
 
 // changeKeyStoreCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keyStores/{keyStoreId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keyStores/{keyStoreId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1147,8 +1164,9 @@ func (client DatabaseClient) ChangeVmClusterCompartment(ctx context.Context, req
 }
 
 // changeVmClusterCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) changeVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vmClusters/{vmClusterId}/actions/changeCompartment", binaryReqBody)
+func (client DatabaseClient) changeVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vmClusters/{vmClusterId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1207,8 +1225,9 @@ func (client DatabaseClient) CheckExternalDatabaseConnectorConnectionStatus(ctx 
 }
 
 // checkExternalDatabaseConnectorConnectionStatus implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) checkExternalDatabaseConnectorConnectionStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externaldatabaseconnectors/{externalDatabaseConnectorId}/actions/checkConnectionStatus", binaryReqBody)
+func (client DatabaseClient) checkExternalDatabaseConnectorConnectionStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externaldatabaseconnectors/{externalDatabaseConnectorId}/actions/checkConnectionStatus", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1267,8 +1286,9 @@ func (client DatabaseClient) CompleteExternalBackupJob(ctx context.Context, requ
 }
 
 // completeExternalBackupJob implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalBackupJobs/{backupId}/actions/complete", binaryReqBody)
+func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalBackupJobs/{backupId}/actions/complete", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1326,8 +1346,9 @@ func (client DatabaseClient) ConfigureAutonomousDatabaseVaultKey(ctx context.Con
 }
 
 // configureAutonomousDatabaseVaultKey implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) configureAutonomousDatabaseVaultKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/configureAutonomousDatabaseVaultKey", binaryReqBody)
+func (client DatabaseClient) configureAutonomousDatabaseVaultKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/configureAutonomousDatabaseVaultKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1385,8 +1406,9 @@ func (client DatabaseClient) CreateAutonomousContainerDatabase(ctx context.Conte
 }
 
 // createAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases", binaryReqBody)
+func (client DatabaseClient) createAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1444,8 +1466,9 @@ func (client DatabaseClient) CreateAutonomousDatabase(ctx context.Context, reque
 }
 
 // createAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases", binaryReqBody)
+func (client DatabaseClient) createAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1503,8 +1526,9 @@ func (client DatabaseClient) CreateAutonomousDatabaseBackup(ctx context.Context,
 }
 
 // createAutonomousDatabaseBackup implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabaseBackups", binaryReqBody)
+func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabaseBackups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1562,8 +1586,9 @@ func (client DatabaseClient) CreateAutonomousVmCluster(ctx context.Context, requ
 }
 
 // createAutonomousVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters", binaryReqBody)
+func (client DatabaseClient) createAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1621,8 +1646,9 @@ func (client DatabaseClient) CreateBackup(ctx context.Context, request CreateBac
 }
 
 // createBackup implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backups", binaryReqBody)
+func (client DatabaseClient) createBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1680,8 +1706,9 @@ func (client DatabaseClient) CreateBackupDestination(ctx context.Context, reques
 }
 
 // createBackupDestination implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backupDestinations", binaryReqBody)
+func (client DatabaseClient) createBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/backupDestinations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1739,8 +1766,9 @@ func (client DatabaseClient) CreateCloudExadataInfrastructure(ctx context.Contex
 }
 
 // createCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures", binaryReqBody)
+func (client DatabaseClient) createCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1798,8 +1826,9 @@ func (client DatabaseClient) CreateCloudVmCluster(ctx context.Context, request C
 }
 
 // createCloudVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters", binaryReqBody)
+func (client DatabaseClient) createCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1859,8 +1888,9 @@ func (client DatabaseClient) CreateConsoleConnection(ctx context.Context, reques
 }
 
 // createConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbNodes/{dbNodeId}/consoleConnections", binaryReqBody)
+func (client DatabaseClient) createConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbNodes/{dbNodeId}/consoleConnections", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1924,8 +1954,9 @@ func (client DatabaseClient) CreateDataGuardAssociation(ctx context.Context, req
 }
 
 // createDataGuardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations", binaryReqBody)
+func (client DatabaseClient) createDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1983,8 +2014,9 @@ func (client DatabaseClient) CreateDatabase(ctx context.Context, request CreateD
 }
 
 // createDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases", binaryReqBody)
+func (client DatabaseClient) createDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2042,8 +2074,9 @@ func (client DatabaseClient) CreateDatabaseSoftwareImage(ctx context.Context, re
 }
 
 // createDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSoftwareImages", binaryReqBody)
+func (client DatabaseClient) createDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSoftwareImages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2101,8 +2134,9 @@ func (client DatabaseClient) CreateDbHome(ctx context.Context, request CreateDbH
 }
 
 // createDbHome implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbHomes", binaryReqBody)
+func (client DatabaseClient) createDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbHomes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2161,8 +2195,9 @@ func (client DatabaseClient) CreateExadataInfrastructure(ctx context.Context, re
 }
 
 // createExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures", binaryReqBody)
+func (client DatabaseClient) createExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2221,8 +2256,9 @@ func (client DatabaseClient) CreateExternalBackupJob(ctx context.Context, reques
 }
 
 // createExternalBackupJob implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createExternalBackupJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalBackupJobs", binaryReqBody)
+func (client DatabaseClient) createExternalBackupJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalBackupJobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2280,8 +2316,9 @@ func (client DatabaseClient) CreateExternalContainerDatabase(ctx context.Context
 }
 
 // createExternalContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases", binaryReqBody)
+func (client DatabaseClient) createExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2339,8 +2376,9 @@ func (client DatabaseClient) CreateExternalDatabaseConnector(ctx context.Context
 }
 
 // createExternalDatabaseConnector implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externaldatabaseconnectors", binaryReqBody)
+func (client DatabaseClient) createExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externaldatabaseconnectors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2398,8 +2436,9 @@ func (client DatabaseClient) CreateExternalNonContainerDatabase(ctx context.Cont
 }
 
 // createExternalNonContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases", binaryReqBody)
+func (client DatabaseClient) createExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2458,8 +2497,9 @@ func (client DatabaseClient) CreateExternalPluggableDatabase(ctx context.Context
 }
 
 // createExternalPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases", binaryReqBody)
+func (client DatabaseClient) createExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2517,8 +2557,9 @@ func (client DatabaseClient) CreateKeyStore(ctx context.Context, request CreateK
 }
 
 // createKeyStore implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keyStores", binaryReqBody)
+func (client DatabaseClient) createKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keyStores", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2536,8 +2577,8 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
-// CreatePluggableDatabase Create and start a pluggable database in the specified container database.
-// If needed call actions/stop to stop the PDB.
+// CreatePluggableDatabase Creates and starts a pluggable database in the specified container database.
+// Use the [StartPluggableDatabase](#/en/database/latest/PluggableDatabase/StartPluggableDatabase] and [StopPluggableDatabase](#/en/database/latest/PluggableDatabase/StopPluggableDatabase] APIs to start and stop the pluggable database.
 //
 // See also
 //
@@ -2577,8 +2618,9 @@ func (client DatabaseClient) CreatePluggableDatabase(ctx context.Context, reques
 }
 
 // createPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases", binaryReqBody)
+func (client DatabaseClient) createPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2636,8 +2678,9 @@ func (client DatabaseClient) CreateVmCluster(ctx context.Context, request Create
 }
 
 // createVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vmClusters", binaryReqBody)
+func (client DatabaseClient) createVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vmClusters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2696,8 +2739,9 @@ func (client DatabaseClient) CreateVmClusterNetwork(ctx context.Context, request
 }
 
 // createVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks", binaryReqBody)
+func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2766,8 +2810,9 @@ func (client DatabaseClient) DbNodeAction(ctx context.Context, request DbNodeAct
 }
 
 // dbNodeAction implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbNodes/{dbNodeId}", binaryReqBody)
+func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbNodes/{dbNodeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2820,8 +2865,9 @@ func (client DatabaseClient) DeleteAutonomousDatabase(ctx context.Context, reque
 }
 
 // deleteAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody)
+func (client DatabaseClient) deleteAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2874,8 +2920,9 @@ func (client DatabaseClient) DeleteAutonomousVmCluster(ctx context.Context, requ
 }
 
 // deleteAutonomousVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousVmClusters/{autonomousVmClusterId}", binaryReqBody)
+func (client DatabaseClient) deleteAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousVmClusters/{autonomousVmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2928,8 +2975,9 @@ func (client DatabaseClient) DeleteBackup(ctx context.Context, request DeleteBac
 }
 
 // deleteBackup implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/backups/{backupId}", binaryReqBody)
+func (client DatabaseClient) deleteBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/backups/{backupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2982,8 +3030,9 @@ func (client DatabaseClient) DeleteBackupDestination(ctx context.Context, reques
 }
 
 // deleteBackupDestination implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/backupDestinations/{backupDestinationId}", binaryReqBody)
+func (client DatabaseClient) deleteBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/backupDestinations/{backupDestinationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3036,8 +3085,9 @@ func (client DatabaseClient) DeleteCloudExadataInfrastructure(ctx context.Contex
 }
 
 // deleteCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) deleteCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3090,8 +3140,9 @@ func (client DatabaseClient) DeleteCloudVmCluster(ctx context.Context, request D
 }
 
 // deleteCloudVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudVmClusters/{cloudVmClusterId}", binaryReqBody)
+func (client DatabaseClient) deleteCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cloudVmClusters/{cloudVmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3144,8 +3195,9 @@ func (client DatabaseClient) DeleteConsoleConnection(ctx context.Context, reques
 }
 
 // deleteConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbNodes/{dbNodeId}/consoleConnections/{consoleConnectionId}", binaryReqBody)
+func (client DatabaseClient) deleteConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbNodes/{dbNodeId}/consoleConnections/{consoleConnectionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3199,8 +3251,9 @@ func (client DatabaseClient) DeleteDatabase(ctx context.Context, request DeleteD
 }
 
 // deleteDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databases/{databaseId}", binaryReqBody)
+func (client DatabaseClient) deleteDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databases/{databaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3253,8 +3306,9 @@ func (client DatabaseClient) DeleteDatabaseSoftwareImage(ctx context.Context, re
 }
 
 // deleteDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseSoftwareImages/{databaseSoftwareImageId}", binaryReqBody)
+func (client DatabaseClient) deleteDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseSoftwareImages/{databaseSoftwareImageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3308,8 +3362,9 @@ func (client DatabaseClient) DeleteDbHome(ctx context.Context, request DeleteDbH
 }
 
 // deleteDbHome implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbHomes/{dbHomeId}", binaryReqBody)
+func (client DatabaseClient) deleteDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbHomes/{dbHomeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3362,8 +3417,9 @@ func (client DatabaseClient) DeleteExadataInfrastructure(ctx context.Context, re
 }
 
 // deleteExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exadataInfrastructures/{exadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) deleteExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exadataInfrastructures/{exadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3418,8 +3474,9 @@ func (client DatabaseClient) DeleteExternalContainerDatabase(ctx context.Context
 }
 
 // deleteExternalContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externalcontainerdatabases/{externalContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) deleteExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externalcontainerdatabases/{externalContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3474,8 +3531,9 @@ func (client DatabaseClient) DeleteExternalDatabaseConnector(ctx context.Context
 }
 
 // deleteExternalDatabaseConnector implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externaldatabaseconnectors/{externalDatabaseConnectorId}", binaryReqBody)
+func (client DatabaseClient) deleteExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externaldatabaseconnectors/{externalDatabaseConnectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3528,8 +3586,9 @@ func (client DatabaseClient) DeleteExternalNonContainerDatabase(ctx context.Cont
 }
 
 // deleteExternalNonContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) deleteExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3583,8 +3642,9 @@ func (client DatabaseClient) DeleteExternalPluggableDatabase(ctx context.Context
 }
 
 // deleteExternalPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externalpluggabledatabases/{externalPluggableDatabaseId}", binaryReqBody)
+func (client DatabaseClient) deleteExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/externalpluggabledatabases/{externalPluggableDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3637,8 +3697,9 @@ func (client DatabaseClient) DeleteKeyStore(ctx context.Context, request DeleteK
 }
 
 // deleteKeyStore implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/keyStores/{keyStoreId}", binaryReqBody)
+func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/keyStores/{keyStoreId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3656,7 +3717,7 @@ func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
-// DeletePluggableDatabase Delete a pluggable database
+// DeletePluggableDatabase Deletes the specified pluggable database.
 //
 // See also
 //
@@ -3691,8 +3752,9 @@ func (client DatabaseClient) DeletePluggableDatabase(ctx context.Context, reques
 }
 
 // deletePluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deletePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pluggableDatabases/{pluggableDatabaseId}", binaryReqBody)
+func (client DatabaseClient) deletePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pluggableDatabases/{pluggableDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3745,8 +3807,9 @@ func (client DatabaseClient) DeleteVmCluster(ctx context.Context, request Delete
 }
 
 // deleteVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vmClusters/{vmClusterId}", binaryReqBody)
+func (client DatabaseClient) deleteVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vmClusters/{vmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3800,8 +3863,9 @@ func (client DatabaseClient) DeleteVmClusterNetwork(ctx context.Context, request
 }
 
 // deleteVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deleteVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}", binaryReqBody)
+func (client DatabaseClient) deleteVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3854,8 +3918,9 @@ func (client DatabaseClient) DeregisterAutonomousDatabaseDataSafe(ctx context.Co
 }
 
 // deregisterAutonomousDatabaseDataSafe implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deregisterAutonomousDatabaseDataSafe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/deregisterDataSafe", binaryReqBody)
+func (client DatabaseClient) deregisterAutonomousDatabaseDataSafe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/deregisterDataSafe", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3908,8 +3973,9 @@ func (client DatabaseClient) DisableAutonomousDatabaseOperationsInsights(ctx con
 }
 
 // disableAutonomousDatabaseOperationsInsights implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) disableAutonomousDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/disableOperationsInsights", binaryReqBody)
+func (client DatabaseClient) disableAutonomousDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/disableOperationsInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3967,8 +4033,9 @@ func (client DatabaseClient) DisableExternalContainerDatabaseDatabaseManagement(
 }
 
 // disableExternalContainerDatabaseDatabaseManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) disableExternalContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/disableDatabaseManagement", binaryReqBody)
+func (client DatabaseClient) disableExternalContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4028,8 +4095,9 @@ func (client DatabaseClient) DisableExternalNonContainerDatabaseDatabaseManageme
 }
 
 // disableExternalNonContainerDatabaseDatabaseManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) disableExternalNonContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/disableDatabaseManagement", binaryReqBody)
+func (client DatabaseClient) disableExternalNonContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4087,8 +4155,9 @@ func (client DatabaseClient) DisableExternalNonContainerDatabaseOperationsInsigh
 }
 
 // disableExternalNonContainerDatabaseOperationsInsights implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) disableExternalNonContainerDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/disableOperationsInsights", binaryReqBody)
+func (client DatabaseClient) disableExternalNonContainerDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/disableOperationsInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4148,8 +4217,9 @@ func (client DatabaseClient) DisableExternalPluggableDatabaseDatabaseManagement(
 }
 
 // disableExternalPluggableDatabaseDatabaseManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) disableExternalPluggableDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/disableDatabaseManagement", binaryReqBody)
+func (client DatabaseClient) disableExternalPluggableDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4207,8 +4277,9 @@ func (client DatabaseClient) DisableExternalPluggableDatabaseOperationsInsights(
 }
 
 // disableExternalPluggableDatabaseOperationsInsights implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) disableExternalPluggableDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/disableOperationsInsights", binaryReqBody)
+func (client DatabaseClient) disableExternalPluggableDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/disableOperationsInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4266,13 +4337,73 @@ func (client DatabaseClient) DownloadExadataInfrastructureConfigFile(ctx context
 }
 
 // downloadExadataInfrastructureConfigFile implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) downloadExadataInfrastructureConfigFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/downloadConfigFile", binaryReqBody)
+func (client DatabaseClient) downloadExadataInfrastructureConfigFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/downloadConfigFile", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
 	var response DownloadExadataInfrastructureConfigFileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DownloadValidationReport Downloads the network validation report file for the specified VM cluster network. Applies to Exadata Cloud@Customer instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadValidationReport.go.html to see an example of how to use DownloadValidationReport API.
+func (client DatabaseClient) DownloadValidationReport(ctx context.Context, request DownloadValidationReportRequest) (response DownloadValidationReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.downloadValidationReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadValidationReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadValidationReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadValidationReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadValidationReportResponse")
+	}
+	return
+}
+
+// downloadValidationReport implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) downloadValidationReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}/actions/downloadValidationReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadValidationReportResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
@@ -4324,8 +4455,9 @@ func (client DatabaseClient) DownloadVmClusterNetworkConfigFile(ctx context.Cont
 }
 
 // downloadVmClusterNetworkConfigFile implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) downloadVmClusterNetworkConfigFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}/actions/downloadConfigFile", binaryReqBody)
+func (client DatabaseClient) downloadVmClusterNetworkConfigFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}/actions/downloadConfigFile", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4377,8 +4509,9 @@ func (client DatabaseClient) EnableAutonomousDatabaseOperationsInsights(ctx cont
 }
 
 // enableAutonomousDatabaseOperationsInsights implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) enableAutonomousDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/enableOperationsInsights", binaryReqBody)
+func (client DatabaseClient) enableAutonomousDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/enableOperationsInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4438,8 +4571,9 @@ func (client DatabaseClient) EnableExternalContainerDatabaseDatabaseManagement(c
 }
 
 // enableExternalContainerDatabaseDatabaseManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) enableExternalContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/enableDatabaseManagement", binaryReqBody)
+func (client DatabaseClient) enableExternalContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4499,8 +4633,9 @@ func (client DatabaseClient) EnableExternalNonContainerDatabaseDatabaseManagemen
 }
 
 // enableExternalNonContainerDatabaseDatabaseManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) enableExternalNonContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/enableDatabaseManagement", binaryReqBody)
+func (client DatabaseClient) enableExternalNonContainerDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4558,8 +4693,9 @@ func (client DatabaseClient) EnableExternalNonContainerDatabaseOperationsInsight
 }
 
 // enableExternalNonContainerDatabaseOperationsInsights implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) enableExternalNonContainerDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/enableOperationsInsights", binaryReqBody)
+func (client DatabaseClient) enableExternalNonContainerDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/enableOperationsInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4619,8 +4755,9 @@ func (client DatabaseClient) EnableExternalPluggableDatabaseDatabaseManagement(c
 }
 
 // enableExternalPluggableDatabaseDatabaseManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) enableExternalPluggableDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/enableDatabaseManagement", binaryReqBody)
+func (client DatabaseClient) enableExternalPluggableDatabaseDatabaseManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4678,8 +4815,9 @@ func (client DatabaseClient) EnableExternalPluggableDatabaseOperationsInsights(c
 }
 
 // enableExternalPluggableDatabaseOperationsInsights implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) enableExternalPluggableDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/enableOperationsInsights", binaryReqBody)
+func (client DatabaseClient) enableExternalPluggableDatabaseOperationsInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/enableOperationsInsights", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4737,8 +4875,9 @@ func (client DatabaseClient) FailOverAutonomousDatabase(ctx context.Context, req
 }
 
 // failOverAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) failOverAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/failover", binaryReqBody)
+func (client DatabaseClient) failOverAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/failover", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4792,8 +4931,9 @@ func (client DatabaseClient) FailoverAutonomousContainerDatabaseDataguardAssocia
 }
 
 // failoverAutonomousContainerDatabaseDataguardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) failoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/failover", binaryReqBody)
+func (client DatabaseClient) failoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/failover", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4849,8 +4989,9 @@ func (client DatabaseClient) FailoverDataGuardAssociation(ctx context.Context, r
 }
 
 // failoverDataGuardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/failover", binaryReqBody)
+func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/failover", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4908,8 +5049,9 @@ func (client DatabaseClient) GenerateAutonomousDatabaseWallet(ctx context.Contex
 }
 
 // generateAutonomousDatabaseWallet implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) generateAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/generateWallet", binaryReqBody)
+func (client DatabaseClient) generateAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/generateWallet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4966,8 +5108,9 @@ func (client DatabaseClient) GenerateRecommendedVmClusterNetwork(ctx context.Con
 }
 
 // generateRecommendedVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) generateRecommendedVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/actions/generateRecommendedNetwork", binaryReqBody)
+func (client DatabaseClient) generateRecommendedVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/actions/generateRecommendedNetwork", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5020,8 +5163,9 @@ func (client DatabaseClient) GetAutonomousContainerDatabase(ctx context.Context,
 }
 
 // getAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5074,8 +5218,9 @@ func (client DatabaseClient) GetAutonomousContainerDatabaseDataguardAssociation(
 }
 
 // getAutonomousContainerDatabaseDataguardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5128,8 +5273,9 @@ func (client DatabaseClient) GetAutonomousDatabase(ctx context.Context, request 
 }
 
 // getAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5182,8 +5328,9 @@ func (client DatabaseClient) GetAutonomousDatabaseBackup(ctx context.Context, re
 }
 
 // getAutonomousDatabaseBackup implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseBackups/{autonomousDatabaseBackupId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseBackups/{autonomousDatabaseBackupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5236,8 +5383,9 @@ func (client DatabaseClient) GetAutonomousDatabaseDataguardAssociation(ctx conte
 }
 
 // getAutonomousDatabaseDataguardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/autonomousDatabaseDataguardAssociations/{autonomousDatabaseDataguardAssociationId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/autonomousDatabaseDataguardAssociations/{autonomousDatabaseDataguardAssociationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5290,8 +5438,9 @@ func (client DatabaseClient) GetAutonomousDatabaseRegionalWallet(ctx context.Con
 }
 
 // getAutonomousDatabaseRegionalWallet implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousDatabaseRegionalWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/wallet", binaryReqBody)
+func (client DatabaseClient) getAutonomousDatabaseRegionalWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/wallet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5344,8 +5493,9 @@ func (client DatabaseClient) GetAutonomousDatabaseWallet(ctx context.Context, re
 }
 
 // getAutonomousDatabaseWallet implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/wallet", binaryReqBody)
+func (client DatabaseClient) getAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/wallet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5398,8 +5548,9 @@ func (client DatabaseClient) GetAutonomousExadataInfrastructure(ctx context.Cont
 }
 
 // getAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5452,8 +5603,9 @@ func (client DatabaseClient) GetAutonomousPatch(ctx context.Context, request Get
 }
 
 // getAutonomousPatch implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousPatches/{autonomousPatchId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousPatches/{autonomousPatchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5506,8 +5658,9 @@ func (client DatabaseClient) GetAutonomousVmCluster(ctx context.Context, request
 }
 
 // getAutonomousVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousVmClusters/{autonomousVmClusterId}", binaryReqBody)
+func (client DatabaseClient) getAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousVmClusters/{autonomousVmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5560,8 +5713,9 @@ func (client DatabaseClient) GetBackup(ctx context.Context, request GetBackupReq
 }
 
 // getBackup implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups/{backupId}", binaryReqBody)
+func (client DatabaseClient) getBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups/{backupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5614,8 +5768,9 @@ func (client DatabaseClient) GetBackupDestination(ctx context.Context, request G
 }
 
 // getBackupDestination implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backupDestinations/{backupDestinationId}", binaryReqBody)
+func (client DatabaseClient) getBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backupDestinations/{backupDestinationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5668,8 +5823,9 @@ func (client DatabaseClient) GetCloudExadataInfrastructure(ctx context.Context, 
 }
 
 // getCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) getCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5722,8 +5878,9 @@ func (client DatabaseClient) GetCloudVmCluster(ctx context.Context, request GetC
 }
 
 // getCloudVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}", binaryReqBody)
+func (client DatabaseClient) getCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5777,8 +5934,9 @@ func (client DatabaseClient) GetCloudVmClusterIormConfig(ctx context.Context, re
 }
 
 // getCloudVmClusterIormConfig implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getCloudVmClusterIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/CloudVmClusterIormConfig", binaryReqBody)
+func (client DatabaseClient) getCloudVmClusterIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/CloudVmClusterIormConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5831,8 +5989,9 @@ func (client DatabaseClient) GetCloudVmClusterUpdate(ctx context.Context, reques
 }
 
 // getCloudVmClusterUpdate implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getCloudVmClusterUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updates/{updateId}", binaryReqBody)
+func (client DatabaseClient) getCloudVmClusterUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updates/{updateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5885,8 +6044,9 @@ func (client DatabaseClient) GetCloudVmClusterUpdateHistoryEntry(ctx context.Con
 }
 
 // getCloudVmClusterUpdateHistoryEntry implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getCloudVmClusterUpdateHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updateHistoryEntries/{updateHistoryEntryId}", binaryReqBody)
+func (client DatabaseClient) getCloudVmClusterUpdateHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updateHistoryEntries/{updateHistoryEntryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5939,8 +6099,9 @@ func (client DatabaseClient) GetConsoleConnection(ctx context.Context, request G
 }
 
 // getConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes/{dbNodeId}/consoleConnections/{consoleConnectionId}", binaryReqBody)
+func (client DatabaseClient) getConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes/{dbNodeId}/consoleConnections/{consoleConnectionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5993,8 +6154,9 @@ func (client DatabaseClient) GetDataGuardAssociation(ctx context.Context, reques
 }
 
 // getDataGuardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}", binaryReqBody)
+func (client DatabaseClient) getDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6047,8 +6209,9 @@ func (client DatabaseClient) GetDatabase(ctx context.Context, request GetDatabas
 }
 
 // getDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}", binaryReqBody)
+func (client DatabaseClient) getDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6101,8 +6264,9 @@ func (client DatabaseClient) GetDatabaseSoftwareImage(ctx context.Context, reque
 }
 
 // getDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSoftwareImages/{databaseSoftwareImageId}", binaryReqBody)
+func (client DatabaseClient) getDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSoftwareImages/{databaseSoftwareImageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6155,8 +6319,9 @@ func (client DatabaseClient) GetDatabaseUpgradeHistoryEntry(ctx context.Context,
 }
 
 // getDatabaseUpgradeHistoryEntry implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDatabaseUpgradeHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/upgradeHistoryEntries/{upgradeHistoryEntryId}", binaryReqBody)
+func (client DatabaseClient) getDatabaseUpgradeHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/upgradeHistoryEntries/{upgradeHistoryEntryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6209,8 +6374,9 @@ func (client DatabaseClient) GetDbHome(ctx context.Context, request GetDbHomeReq
 }
 
 // getDbHome implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}", binaryReqBody)
+func (client DatabaseClient) getDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6263,8 +6429,9 @@ func (client DatabaseClient) GetDbHomePatch(ctx context.Context, request GetDbHo
 }
 
 // getDbHomePatch implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbHomePatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patches/{patchId}", binaryReqBody)
+func (client DatabaseClient) getDbHomePatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patches/{patchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6317,8 +6484,9 @@ func (client DatabaseClient) GetDbHomePatchHistoryEntry(ctx context.Context, req
 }
 
 // getDbHomePatchHistoryEntry implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbHomePatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patchHistoryEntries/{patchHistoryEntryId}", binaryReqBody)
+func (client DatabaseClient) getDbHomePatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patchHistoryEntries/{patchHistoryEntryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6371,8 +6539,9 @@ func (client DatabaseClient) GetDbNode(ctx context.Context, request GetDbNodeReq
 }
 
 // getDbNode implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes/{dbNodeId}", binaryReqBody)
+func (client DatabaseClient) getDbNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes/{dbNodeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6427,8 +6596,9 @@ func (client DatabaseClient) GetDbSystem(ctx context.Context, request GetDbSyste
 }
 
 // getDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}", binaryReqBody)
+func (client DatabaseClient) getDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6481,8 +6651,9 @@ func (client DatabaseClient) GetDbSystemPatch(ctx context.Context, request GetDb
 }
 
 // getDbSystemPatch implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbSystemPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patches/{patchId}", binaryReqBody)
+func (client DatabaseClient) getDbSystemPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patches/{patchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6535,8 +6706,9 @@ func (client DatabaseClient) GetDbSystemPatchHistoryEntry(ctx context.Context, r
 }
 
 // getDbSystemPatchHistoryEntry implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getDbSystemPatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patchHistoryEntries/{patchHistoryEntryId}", binaryReqBody)
+func (client DatabaseClient) getDbSystemPatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patchHistoryEntries/{patchHistoryEntryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6590,8 +6762,9 @@ func (client DatabaseClient) GetExadataInfrastructure(ctx context.Context, reque
 }
 
 // getExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) getExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6644,8 +6817,9 @@ func (client DatabaseClient) GetExadataInfrastructureOcpus(ctx context.Context, 
 }
 
 // getExadataInfrastructureOcpus implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExadataInfrastructureOcpus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/ocpus", binaryReqBody)
+func (client DatabaseClient) getExadataInfrastructureOcpus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/ocpus", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6703,8 +6877,9 @@ func (client DatabaseClient) GetExadataIormConfig(ctx context.Context, request G
 }
 
 // getExadataIormConfig implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExadataIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/ExadataIormConfig", binaryReqBody)
+func (client DatabaseClient) getExadataIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/ExadataIormConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6758,8 +6933,9 @@ func (client DatabaseClient) GetExternalBackupJob(ctx context.Context, request G
 }
 
 // getExternalBackupJob implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExternalBackupJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalBackupJobs/{backupId}", binaryReqBody)
+func (client DatabaseClient) getExternalBackupJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalBackupJobs/{backupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6812,8 +6988,9 @@ func (client DatabaseClient) GetExternalContainerDatabase(ctx context.Context, r
 }
 
 // getExternalContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalcontainerdatabases/{externalContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) getExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalcontainerdatabases/{externalContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6866,8 +7043,9 @@ func (client DatabaseClient) GetExternalDatabaseConnector(ctx context.Context, r
 }
 
 // getExternalDatabaseConnector implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externaldatabaseconnectors/{externalDatabaseConnectorId}", binaryReqBody)
+func (client DatabaseClient) getExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externaldatabaseconnectors/{externalDatabaseConnectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6920,8 +7098,9 @@ func (client DatabaseClient) GetExternalNonContainerDatabase(ctx context.Context
 }
 
 // getExternalNonContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) getExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6975,8 +7154,9 @@ func (client DatabaseClient) GetExternalPluggableDatabase(ctx context.Context, r
 }
 
 // getExternalPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalpluggabledatabases/{externalPluggableDatabaseId}", binaryReqBody)
+func (client DatabaseClient) getExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalpluggabledatabases/{externalPluggableDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7029,8 +7209,9 @@ func (client DatabaseClient) GetKeyStore(ctx context.Context, request GetKeyStor
 }
 
 // getKeyStore implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keyStores/{keyStoreId}", binaryReqBody)
+func (client DatabaseClient) getKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keyStores/{keyStoreId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7083,8 +7264,9 @@ func (client DatabaseClient) GetMaintenanceRun(ctx context.Context, request GetM
 }
 
 // getMaintenanceRun implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getMaintenanceRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceRuns/{maintenanceRunId}", binaryReqBody)
+func (client DatabaseClient) getMaintenanceRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceRuns/{maintenanceRunId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7102,7 +7284,7 @@ func (client DatabaseClient) getMaintenanceRun(ctx context.Context, request comm
 	return response, err
 }
 
-// GetPluggableDatabase Gets information about a specific pluggable database
+// GetPluggableDatabase Gets information about the specified pluggable database.
 //
 // See also
 //
@@ -7137,8 +7319,9 @@ func (client DatabaseClient) GetPluggableDatabase(ctx context.Context, request G
 }
 
 // getPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabases/{pluggableDatabaseId}", binaryReqBody)
+func (client DatabaseClient) getPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabases/{pluggableDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7191,8 +7374,9 @@ func (client DatabaseClient) GetVmCluster(ctx context.Context, request GetVmClus
 }
 
 // getVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}", binaryReqBody)
+func (client DatabaseClient) getVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7246,8 +7430,9 @@ func (client DatabaseClient) GetVmClusterNetwork(ctx context.Context, request Ge
 }
 
 // getVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}", binaryReqBody)
+func (client DatabaseClient) getVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7300,8 +7485,9 @@ func (client DatabaseClient) GetVmClusterPatch(ctx context.Context, request GetV
 }
 
 // getVmClusterPatch implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getVmClusterPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patches/{patchId}", binaryReqBody)
+func (client DatabaseClient) getVmClusterPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patches/{patchId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7354,13 +7540,124 @@ func (client DatabaseClient) GetVmClusterPatchHistoryEntry(ctx context.Context, 
 }
 
 // getVmClusterPatchHistoryEntry implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getVmClusterPatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patchHistoryEntries/{patchHistoryEntryId}", binaryReqBody)
+func (client DatabaseClient) getVmClusterPatchHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patchHistoryEntries/{patchHistoryEntryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
 	var response GetVmClusterPatchHistoryEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetVmClusterUpdate Gets information about a specified maintenance update package for a VM cluster. Applies to Exadata Cloud@Customer instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetVmClusterUpdate.go.html to see an example of how to use GetVmClusterUpdate API.
+func (client DatabaseClient) GetVmClusterUpdate(ctx context.Context, request GetVmClusterUpdateRequest) (response GetVmClusterUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVmClusterUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVmClusterUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVmClusterUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVmClusterUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVmClusterUpdateResponse")
+	}
+	return
+}
+
+// getVmClusterUpdate implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getVmClusterUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/updates/{updateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVmClusterUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry. Applies to Exadata Cloud@Customer instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetVmClusterUpdateHistoryEntry.go.html to see an example of how to use GetVmClusterUpdateHistoryEntry API.
+func (client DatabaseClient) GetVmClusterUpdateHistoryEntry(ctx context.Context, request GetVmClusterUpdateHistoryEntryRequest) (response GetVmClusterUpdateHistoryEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVmClusterUpdateHistoryEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVmClusterUpdateHistoryEntryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVmClusterUpdateHistoryEntryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVmClusterUpdateHistoryEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVmClusterUpdateHistoryEntryResponse")
+	}
+	return
+}
+
+// getVmClusterUpdateHistoryEntry implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getVmClusterUpdateHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/updateHistoryEntries/{updateHistoryEntryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVmClusterUpdateHistoryEntryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -7413,8 +7710,9 @@ func (client DatabaseClient) LaunchAutonomousExadataInfrastructure(ctx context.C
 }
 
 // launchAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) launchAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures", binaryReqBody)
+func (client DatabaseClient) launchAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7478,8 +7776,9 @@ func (client DatabaseClient) LaunchDbSystem(ctx context.Context, request LaunchD
 }
 
 // launchDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems", binaryReqBody)
+func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7532,8 +7831,9 @@ func (client DatabaseClient) ListAutonomousContainerDatabaseDataguardAssociation
 }
 
 // listAutonomousContainerDatabaseDataguardAssociations implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousContainerDatabaseDataguardAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations", binaryReqBody)
+func (client DatabaseClient) listAutonomousContainerDatabaseDataguardAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7586,8 +7886,9 @@ func (client DatabaseClient) ListAutonomousContainerDatabases(ctx context.Contex
 }
 
 // listAutonomousContainerDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousContainerDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases", binaryReqBody)
+func (client DatabaseClient) listAutonomousContainerDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7640,8 +7941,9 @@ func (client DatabaseClient) ListAutonomousDatabaseBackups(ctx context.Context, 
 }
 
 // listAutonomousDatabaseBackups implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousDatabaseBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseBackups", binaryReqBody)
+func (client DatabaseClient) listAutonomousDatabaseBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseBackups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7694,8 +7996,9 @@ func (client DatabaseClient) ListAutonomousDatabaseClones(ctx context.Context, r
 }
 
 // listAutonomousDatabaseClones implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousDatabaseClones(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/clones", binaryReqBody)
+func (client DatabaseClient) listAutonomousDatabaseClones(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/clones", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7748,8 +8051,9 @@ func (client DatabaseClient) ListAutonomousDatabaseDataguardAssociations(ctx con
 }
 
 // listAutonomousDatabaseDataguardAssociations implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousDatabaseDataguardAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/autonomousDatabaseDataguardAssociations", binaryReqBody)
+func (client DatabaseClient) listAutonomousDatabaseDataguardAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases/{autonomousDatabaseId}/autonomousDatabaseDataguardAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7802,8 +8106,9 @@ func (client DatabaseClient) ListAutonomousDatabases(ctx context.Context, reques
 }
 
 // listAutonomousDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases", binaryReqBody)
+func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7857,8 +8162,9 @@ func (client DatabaseClient) ListAutonomousDbPreviewVersions(ctx context.Context
 }
 
 // listAutonomousDbPreviewVersions implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousDbPreviewVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDbPreviewVersions", binaryReqBody)
+func (client DatabaseClient) listAutonomousDbPreviewVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDbPreviewVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7911,8 +8217,9 @@ func (client DatabaseClient) ListAutonomousDbVersions(ctx context.Context, reque
 }
 
 // listAutonomousDbVersions implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousDbVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDbVersions", binaryReqBody)
+func (client DatabaseClient) listAutonomousDbVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDbVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7965,8 +8272,9 @@ func (client DatabaseClient) ListAutonomousExadataInfrastructureShapes(ctx conte
 }
 
 // listAutonomousExadataInfrastructureShapes implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousExadataInfrastructureShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructureShapes", binaryReqBody)
+func (client DatabaseClient) listAutonomousExadataInfrastructureShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructureShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8019,8 +8327,9 @@ func (client DatabaseClient) ListAutonomousExadataInfrastructures(ctx context.Co
 }
 
 // listAutonomousExadataInfrastructures implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures", binaryReqBody)
+func (client DatabaseClient) listAutonomousExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8073,8 +8382,9 @@ func (client DatabaseClient) ListAutonomousVmClusters(ctx context.Context, reque
 }
 
 // listAutonomousVmClusters implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listAutonomousVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousVmClusters", binaryReqBody)
+func (client DatabaseClient) listAutonomousVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousVmClusters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8127,8 +8437,9 @@ func (client DatabaseClient) ListBackupDestination(ctx context.Context, request 
 }
 
 // listBackupDestination implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backupDestinations", binaryReqBody)
+func (client DatabaseClient) listBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backupDestinations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8181,8 +8492,9 @@ func (client DatabaseClient) ListBackups(ctx context.Context, request ListBackup
 }
 
 // listBackups implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups", binaryReqBody)
+func (client DatabaseClient) listBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/backups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8235,8 +8547,9 @@ func (client DatabaseClient) ListCloudExadataInfrastructures(ctx context.Context
 }
 
 // listCloudExadataInfrastructures implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listCloudExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataInfrastructures", binaryReqBody)
+func (client DatabaseClient) listCloudExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudExadataInfrastructures", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8289,8 +8602,9 @@ func (client DatabaseClient) ListCloudVmClusterUpdateHistoryEntries(ctx context.
 }
 
 // listCloudVmClusterUpdateHistoryEntries implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listCloudVmClusterUpdateHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updateHistoryEntries", binaryReqBody)
+func (client DatabaseClient) listCloudVmClusterUpdateHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updateHistoryEntries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8343,8 +8657,9 @@ func (client DatabaseClient) ListCloudVmClusterUpdates(ctx context.Context, requ
 }
 
 // listCloudVmClusterUpdates implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listCloudVmClusterUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updates", binaryReqBody)
+func (client DatabaseClient) listCloudVmClusterUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters/{cloudVmClusterId}/updates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8397,8 +8712,9 @@ func (client DatabaseClient) ListCloudVmClusters(ctx context.Context, request Li
 }
 
 // listCloudVmClusters implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listCloudVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters", binaryReqBody)
+func (client DatabaseClient) listCloudVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudVmClusters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8451,8 +8767,9 @@ func (client DatabaseClient) ListConsoleConnections(ctx context.Context, request
 }
 
 // listConsoleConnections implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listConsoleConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes/{dbNodeId}/consoleConnections", binaryReqBody)
+func (client DatabaseClient) listConsoleConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes/{dbNodeId}/consoleConnections", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8505,8 +8822,9 @@ func (client DatabaseClient) ListContainerDatabasePatches(ctx context.Context, r
 }
 
 // listContainerDatabasePatches implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listContainerDatabasePatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/patches", binaryReqBody)
+func (client DatabaseClient) listContainerDatabasePatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/patches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8559,8 +8877,9 @@ func (client DatabaseClient) ListDataGuardAssociations(ctx context.Context, requ
 }
 
 // listDataGuardAssociations implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDataGuardAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/dataGuardAssociations", binaryReqBody)
+func (client DatabaseClient) listDataGuardAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/dataGuardAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8613,8 +8932,9 @@ func (client DatabaseClient) ListDatabaseSoftwareImages(ctx context.Context, req
 }
 
 // listDatabaseSoftwareImages implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDatabaseSoftwareImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSoftwareImages", binaryReqBody)
+func (client DatabaseClient) listDatabaseSoftwareImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSoftwareImages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8667,8 +8987,9 @@ func (client DatabaseClient) ListDatabaseUpgradeHistoryEntries(ctx context.Conte
 }
 
 // listDatabaseUpgradeHistoryEntries implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDatabaseUpgradeHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/upgradeHistoryEntries", binaryReqBody)
+func (client DatabaseClient) listDatabaseUpgradeHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases/{databaseId}/upgradeHistoryEntries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8721,8 +9042,9 @@ func (client DatabaseClient) ListDatabases(ctx context.Context, request ListData
 }
 
 // listDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases", binaryReqBody)
+func (client DatabaseClient) listDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8775,8 +9097,9 @@ func (client DatabaseClient) ListDbHomePatchHistoryEntries(ctx context.Context, 
 }
 
 // listDbHomePatchHistoryEntries implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbHomePatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patchHistoryEntries", binaryReqBody)
+func (client DatabaseClient) listDbHomePatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patchHistoryEntries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8829,8 +9152,9 @@ func (client DatabaseClient) ListDbHomePatches(ctx context.Context, request List
 }
 
 // listDbHomePatches implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbHomePatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patches", binaryReqBody)
+func (client DatabaseClient) listDbHomePatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes/{dbHomeId}/patches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8883,8 +9207,9 @@ func (client DatabaseClient) ListDbHomes(ctx context.Context, request ListDbHome
 }
 
 // listDbHomes implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbHomes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes", binaryReqBody)
+func (client DatabaseClient) listDbHomes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbHomes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8937,8 +9262,9 @@ func (client DatabaseClient) ListDbNodes(ctx context.Context, request ListDbNode
 }
 
 // listDbNodes implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbNodes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes", binaryReqBody)
+func (client DatabaseClient) listDbNodes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -8991,8 +9317,9 @@ func (client DatabaseClient) ListDbSystemPatchHistoryEntries(ctx context.Context
 }
 
 // listDbSystemPatchHistoryEntries implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbSystemPatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patchHistoryEntries", binaryReqBody)
+func (client DatabaseClient) listDbSystemPatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patchHistoryEntries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9045,8 +9372,9 @@ func (client DatabaseClient) ListDbSystemPatches(ctx context.Context, request Li
 }
 
 // listDbSystemPatches implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbSystemPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patches", binaryReqBody)
+func (client DatabaseClient) listDbSystemPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/patches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9099,8 +9427,9 @@ func (client DatabaseClient) ListDbSystemShapes(ctx context.Context, request Lis
 }
 
 // listDbSystemShapes implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbSystemShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystemShapes", binaryReqBody)
+func (client DatabaseClient) listDbSystemShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystemShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9155,8 +9484,9 @@ func (client DatabaseClient) ListDbSystems(ctx context.Context, request ListDbSy
 }
 
 // listDbSystems implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems", binaryReqBody)
+func (client DatabaseClient) listDbSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9209,8 +9539,9 @@ func (client DatabaseClient) ListDbVersions(ctx context.Context, request ListDbV
 }
 
 // listDbVersions implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listDbVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbVersions", binaryReqBody)
+func (client DatabaseClient) listDbVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9264,8 +9595,9 @@ func (client DatabaseClient) ListExadataInfrastructures(ctx context.Context, req
 }
 
 // listExadataInfrastructures implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures", binaryReqBody)
+func (client DatabaseClient) listExadataInfrastructures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9318,8 +9650,9 @@ func (client DatabaseClient) ListExternalContainerDatabases(ctx context.Context,
 }
 
 // listExternalContainerDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listExternalContainerDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalcontainerdatabases", binaryReqBody)
+func (client DatabaseClient) listExternalContainerDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalcontainerdatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9388,8 +9721,9 @@ func (client DatabaseClient) ListExternalDatabaseConnectors(ctx context.Context,
 }
 
 // listExternalDatabaseConnectors implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listExternalDatabaseConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externaldatabaseconnectors", binaryReqBody)
+func (client DatabaseClient) listExternalDatabaseConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externaldatabaseconnectors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9442,8 +9776,9 @@ func (client DatabaseClient) ListExternalNonContainerDatabases(ctx context.Conte
 }
 
 // listExternalNonContainerDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listExternalNonContainerDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalnoncontainerdatabases", binaryReqBody)
+func (client DatabaseClient) listExternalNonContainerDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalnoncontainerdatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9497,8 +9832,9 @@ func (client DatabaseClient) ListExternalPluggableDatabases(ctx context.Context,
 }
 
 // listExternalPluggableDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listExternalPluggableDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalpluggabledatabases", binaryReqBody)
+func (client DatabaseClient) listExternalPluggableDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalpluggabledatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9551,8 +9887,9 @@ func (client DatabaseClient) ListFlexComponents(ctx context.Context, request Lis
 }
 
 // listFlexComponents implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listFlexComponents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystemShapes/flexComponents", binaryReqBody)
+func (client DatabaseClient) listFlexComponents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystemShapes/flexComponents", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9605,8 +9942,9 @@ func (client DatabaseClient) ListGiVersions(ctx context.Context, request ListGiV
 }
 
 // listGiVersions implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listGiVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/giVersions", binaryReqBody)
+func (client DatabaseClient) listGiVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/giVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9659,8 +9997,9 @@ func (client DatabaseClient) ListKeyStores(ctx context.Context, request ListKeyS
 }
 
 // listKeyStores implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listKeyStores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keyStores", binaryReqBody)
+func (client DatabaseClient) listKeyStores(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keyStores", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9713,8 +10052,9 @@ func (client DatabaseClient) ListMaintenanceRuns(ctx context.Context, request Li
 }
 
 // listMaintenanceRuns implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceRuns", binaryReqBody)
+func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceRuns", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9732,8 +10072,7 @@ func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request co
 	return response, err
 }
 
-// ListPluggableDatabases Gets a list of the pluggable databases based on databaseId or compartmentId specified.
-// Either one of the query parameters must be provided.
+// ListPluggableDatabases Gets a list of the pluggable databases in a database or compartment. You must provide either a `databaseId` or `compartmentId` value.
 //
 // See also
 //
@@ -9768,8 +10107,9 @@ func (client DatabaseClient) ListPluggableDatabases(ctx context.Context, request
 }
 
 // listPluggableDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listPluggableDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabases", binaryReqBody)
+func (client DatabaseClient) listPluggableDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9822,8 +10162,9 @@ func (client DatabaseClient) ListVmClusterNetworks(ctx context.Context, request 
 }
 
 // listVmClusterNetworks implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listVmClusterNetworks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks", binaryReqBody)
+func (client DatabaseClient) listVmClusterNetworks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9876,8 +10217,9 @@ func (client DatabaseClient) ListVmClusterPatchHistoryEntries(ctx context.Contex
 }
 
 // listVmClusterPatchHistoryEntries implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listVmClusterPatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patchHistoryEntries", binaryReqBody)
+func (client DatabaseClient) listVmClusterPatchHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patchHistoryEntries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -9930,13 +10272,124 @@ func (client DatabaseClient) ListVmClusterPatches(ctx context.Context, request L
 }
 
 // listVmClusterPatches implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listVmClusterPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patches", binaryReqBody)
+func (client DatabaseClient) listVmClusterPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/patches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
 	var response ListVmClusterPatchesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified VM cluster. Applies to Exadata Cloud@Customer instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListVmClusterUpdateHistoryEntries.go.html to see an example of how to use ListVmClusterUpdateHistoryEntries API.
+func (client DatabaseClient) ListVmClusterUpdateHistoryEntries(ctx context.Context, request ListVmClusterUpdateHistoryEntriesRequest) (response ListVmClusterUpdateHistoryEntriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVmClusterUpdateHistoryEntries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVmClusterUpdateHistoryEntriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVmClusterUpdateHistoryEntriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVmClusterUpdateHistoryEntriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVmClusterUpdateHistoryEntriesResponse")
+	}
+	return
+}
+
+// listVmClusterUpdateHistoryEntries implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listVmClusterUpdateHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/updateHistoryEntries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVmClusterUpdateHistoryEntriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVmClusterUpdates Lists the maintenance updates that can be applied to the specified VM cluster. Applies to Exadata Cloud@Customer instances only.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListVmClusterUpdates.go.html to see an example of how to use ListVmClusterUpdates API.
+func (client DatabaseClient) ListVmClusterUpdates(ctx context.Context, request ListVmClusterUpdatesRequest) (response ListVmClusterUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVmClusterUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVmClusterUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVmClusterUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVmClusterUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVmClusterUpdatesResponse")
+	}
+	return
+}
+
+// listVmClusterUpdates implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listVmClusterUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters/{vmClusterId}/updates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVmClusterUpdatesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -9985,8 +10438,9 @@ func (client DatabaseClient) ListVmClusters(ctx context.Context, request ListVmC
 }
 
 // listVmClusters implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters", binaryReqBody)
+func (client DatabaseClient) listVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vmClusters", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10004,7 +10458,7 @@ func (client DatabaseClient) listVmClusters(ctx context.Context, request common.
 	return response, err
 }
 
-// LocalClonePluggableDatabase Clone and start a pluggable database on the same CDB. Only a started pluggable database can be cloned.
+// LocalClonePluggableDatabase Clones and starts a pluggable database (PDB) in the same database (CDB) as the source PDB. The source PDB must be in the `READ_WRITE` openMode to perform the clone operation.
 //
 // See also
 //
@@ -10044,8 +10498,9 @@ func (client DatabaseClient) LocalClonePluggableDatabase(ctx context.Context, re
 }
 
 // localClonePluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) localClonePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/localClone", binaryReqBody)
+func (client DatabaseClient) localClonePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/localClone", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10104,8 +10559,9 @@ func (client DatabaseClient) MigrateExadataDbSystemResourceModel(ctx context.Con
 }
 
 // migrateExadataDbSystemResourceModel implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) migrateExadataDbSystemResourceModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/migration", binaryReqBody)
+func (client DatabaseClient) migrateExadataDbSystemResourceModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbSystems/{dbSystemId}/actions/migration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10163,8 +10619,9 @@ func (client DatabaseClient) MigrateVaultKey(ctx context.Context, request Migrat
 }
 
 // migrateVaultKey implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) migrateVaultKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/migrateKey", binaryReqBody)
+func (client DatabaseClient) migrateVaultKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/migrateKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10217,8 +10674,9 @@ func (client DatabaseClient) RegisterAutonomousDatabaseDataSafe(ctx context.Cont
 }
 
 // registerAutonomousDatabaseDataSafe implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/registerDataSafe", binaryReqBody)
+func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/registerDataSafe", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10271,8 +10729,9 @@ func (client DatabaseClient) ReinstateAutonomousContainerDatabaseDataguardAssoci
 }
 
 // reinstateAutonomousContainerDatabaseDataguardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) reinstateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/reinstate", binaryReqBody)
+func (client DatabaseClient) reinstateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/reinstate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10325,8 +10784,9 @@ func (client DatabaseClient) ReinstateDataGuardAssociation(ctx context.Context, 
 }
 
 // reinstateDataGuardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/reinstate", binaryReqBody)
+func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/reinstate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10344,7 +10804,7 @@ func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, 
 	return response, err
 }
 
-// RemoteClonePluggableDatabase Clone and start a pluggable database on a different CDB. Only a started pluggable database can be cloned.
+// RemoteClonePluggableDatabase Clones a pluggable database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone.
 //
 // See also
 //
@@ -10384,8 +10844,9 @@ func (client DatabaseClient) RemoteClonePluggableDatabase(ctx context.Context, r
 }
 
 // remoteClonePluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) remoteClonePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/remoteClone", binaryReqBody)
+func (client DatabaseClient) remoteClonePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/remoteClone", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10438,8 +10899,9 @@ func (client DatabaseClient) RestartAutonomousContainerDatabase(ctx context.Cont
 }
 
 // restartAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) restartAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/restart", binaryReqBody)
+func (client DatabaseClient) restartAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/restart", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10492,8 +10954,9 @@ func (client DatabaseClient) RestartAutonomousDatabase(ctx context.Context, requ
 }
 
 // restartAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) restartAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/restart", binaryReqBody)
+func (client DatabaseClient) restartAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/restart", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10546,8 +11009,9 @@ func (client DatabaseClient) RestoreAutonomousDatabase(ctx context.Context, requ
 }
 
 // restoreAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) restoreAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/restore", binaryReqBody)
+func (client DatabaseClient) restoreAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/restore", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10600,8 +11064,9 @@ func (client DatabaseClient) RestoreDatabase(ctx context.Context, request Restor
 }
 
 // restoreDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) restoreDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/restore", binaryReqBody)
+func (client DatabaseClient) restoreDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/restore", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10659,8 +11124,9 @@ func (client DatabaseClient) RotateAutonomousContainerDatabaseEncryptionKey(ctx 
 }
 
 // rotateAutonomousContainerDatabaseEncryptionKey implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) rotateAutonomousContainerDatabaseEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/rotateKey", binaryReqBody)
+func (client DatabaseClient) rotateAutonomousContainerDatabaseEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/rotateKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10718,8 +11184,9 @@ func (client DatabaseClient) RotateAutonomousDatabaseEncryptionKey(ctx context.C
 }
 
 // rotateAutonomousDatabaseEncryptionKey implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/rotateKey", binaryReqBody)
+func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/rotateKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10777,8 +11244,9 @@ func (client DatabaseClient) RotateOrdsCerts(ctx context.Context, request Rotate
 }
 
 // rotateOrdsCerts implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) rotateOrdsCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/rotateOrdsCerts", binaryReqBody)
+func (client DatabaseClient) rotateOrdsCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/rotateOrdsCerts", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10836,8 +11304,9 @@ func (client DatabaseClient) RotateSslCerts(ctx context.Context, request RotateS
 }
 
 // rotateSslCerts implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) rotateSslCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/rotateSslCerts", binaryReqBody)
+func (client DatabaseClient) rotateSslCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/actions/rotateSslCerts", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10895,8 +11364,9 @@ func (client DatabaseClient) RotateVaultKey(ctx context.Context, request RotateV
 }
 
 // rotateVaultKey implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) rotateVaultKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/rotateKey", binaryReqBody)
+func (client DatabaseClient) rotateVaultKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/rotateKey", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -10955,8 +11425,9 @@ func (client DatabaseClient) ScanExternalContainerDatabasePluggableDatabases(ctx
 }
 
 // scanExternalContainerDatabasePluggableDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) scanExternalContainerDatabasePluggableDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/scanPluggableDatabases", binaryReqBody)
+func (client DatabaseClient) scanExternalContainerDatabasePluggableDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/scanPluggableDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11009,8 +11480,9 @@ func (client DatabaseClient) StartAutonomousDatabase(ctx context.Context, reques
 }
 
 // startAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) startAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/start", binaryReqBody)
+func (client DatabaseClient) startAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/start", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11028,7 +11500,7 @@ func (client DatabaseClient) startAutonomousDatabase(ctx context.Context, reques
 	return response, err
 }
 
-// StartPluggableDatabase start a stopped pluggable database. The openMode of the pluggable database will be READ_WRITE upon completion.
+// StartPluggableDatabase Starts a stopped pluggable database. The `openMode` value of the pluggable database will be `READ_WRITE` upon completion.
 //
 // See also
 //
@@ -11068,8 +11540,9 @@ func (client DatabaseClient) StartPluggableDatabase(ctx context.Context, request
 }
 
 // startPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) startPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/start", binaryReqBody)
+func (client DatabaseClient) startPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/start", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11122,8 +11595,9 @@ func (client DatabaseClient) StopAutonomousDatabase(ctx context.Context, request
 }
 
 // stopAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) stopAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/stop", binaryReqBody)
+func (client DatabaseClient) stopAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/stop", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11141,7 +11615,7 @@ func (client DatabaseClient) stopAutonomousDatabase(ctx context.Context, request
 	return response, err
 }
 
-// StopPluggableDatabase stop a started pluggable database. The openMode of the pluggable database will be MOUNTED upon completion.
+// StopPluggableDatabase Stops a pluggable database. The `openMode` value of the pluggable database will be `MOUNTED` upon completion.
 //
 // See also
 //
@@ -11181,8 +11655,9 @@ func (client DatabaseClient) StopPluggableDatabase(ctx context.Context, request 
 }
 
 // stopPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) stopPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/stop", binaryReqBody)
+func (client DatabaseClient) stopPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/stop", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11236,8 +11711,9 @@ func (client DatabaseClient) SwitchoverAutonomousContainerDatabaseDataguardAssoc
 }
 
 // switchoverAutonomousContainerDatabaseDataguardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/switchover", binaryReqBody)
+func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/switchover", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11295,8 +11771,9 @@ func (client DatabaseClient) SwitchoverAutonomousDatabase(ctx context.Context, r
 }
 
 // switchoverAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) switchoverAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/switchover", binaryReqBody)
+func (client DatabaseClient) switchoverAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/switchover", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11351,8 +11828,9 @@ func (client DatabaseClient) SwitchoverDataGuardAssociation(ctx context.Context,
 }
 
 // switchoverDataGuardAssociation implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) switchoverDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/switchover", binaryReqBody)
+func (client DatabaseClient) switchoverDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/switchover", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11405,8 +11883,9 @@ func (client DatabaseClient) TerminateAutonomousContainerDatabase(ctx context.Co
 }
 
 // terminateAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) terminateAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) terminateAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11459,8 +11938,9 @@ func (client DatabaseClient) TerminateAutonomousExadataInfrastructure(ctx contex
 }
 
 // terminateAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) terminateAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) terminateAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11515,8 +11995,9 @@ func (client DatabaseClient) TerminateDbSystem(ctx context.Context, request Term
 }
 
 // terminateDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) terminateDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}", binaryReqBody)
+func (client DatabaseClient) terminateDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbSystems/{dbSystemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11569,8 +12050,9 @@ func (client DatabaseClient) UpdateAutonomousContainerDatabase(ctx context.Conte
 }
 
 // updateAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) updateAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11623,8 +12105,9 @@ func (client DatabaseClient) UpdateAutonomousDatabase(ctx context.Context, reque
 }
 
 // updateAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody)
+func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11677,8 +12160,9 @@ func (client DatabaseClient) UpdateAutonomousDatabaseRegionalWallet(ctx context.
 }
 
 // updateAutonomousDatabaseRegionalWallet implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateAutonomousDatabaseRegionalWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/wallet", binaryReqBody)
+func (client DatabaseClient) updateAutonomousDatabaseRegionalWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/wallet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11731,8 +12215,9 @@ func (client DatabaseClient) UpdateAutonomousDatabaseWallet(ctx context.Context,
 }
 
 // updateAutonomousDatabaseWallet implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/{autonomousDatabaseId}/wallet", binaryReqBody)
+func (client DatabaseClient) updateAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/{autonomousDatabaseId}/wallet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11785,8 +12270,9 @@ func (client DatabaseClient) UpdateAutonomousExadataInfrastructure(ctx context.C
 }
 
 // updateAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) updateAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11839,8 +12325,9 @@ func (client DatabaseClient) UpdateAutonomousVmCluster(ctx context.Context, requ
 }
 
 // updateAutonomousVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousVmClusters/{autonomousVmClusterId}", binaryReqBody)
+func (client DatabaseClient) updateAutonomousVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousVmClusters/{autonomousVmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11895,8 +12382,9 @@ func (client DatabaseClient) UpdateBackupDestination(ctx context.Context, reques
 }
 
 // updateBackupDestination implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/backupDestinations/{backupDestinationId}", binaryReqBody)
+func (client DatabaseClient) updateBackupDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/backupDestinations/{backupDestinationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -11949,8 +12437,9 @@ func (client DatabaseClient) UpdateCloudExadataInfrastructure(ctx context.Contex
 }
 
 // updateCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) updateCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12003,8 +12492,9 @@ func (client DatabaseClient) UpdateCloudVmCluster(ctx context.Context, request U
 }
 
 // updateCloudVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudVmClusters/{cloudVmClusterId}", binaryReqBody)
+func (client DatabaseClient) updateCloudVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudVmClusters/{cloudVmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12057,13 +12547,69 @@ func (client DatabaseClient) UpdateCloudVmClusterIormConfig(ctx context.Context,
 }
 
 // updateCloudVmClusterIormConfig implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateCloudVmClusterIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudVmClusters/{cloudVmClusterId}/CloudVmClusterIormConfig", binaryReqBody)
+func (client DatabaseClient) updateCloudVmClusterIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cloudVmClusters/{cloudVmClusterId}/CloudVmClusterIormConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
 	var response UpdateCloudVmClusterIormConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDataGuardAssociation Updates the Data Guard association the specified database. This API can be used to change the `protectionMode` and `transportType` of the Data Guard association.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateDataGuardAssociation.go.html to see an example of how to use UpdateDataGuardAssociation API.
+func (client DatabaseClient) UpdateDataGuardAssociation(ctx context.Context, request UpdateDataGuardAssociationRequest) (response UpdateDataGuardAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDataGuardAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDataGuardAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDataGuardAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDataGuardAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDataGuardAssociationResponse")
+	}
+	return
+}
+
+// updateDataGuardAssociation implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateDataGuardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDataGuardAssociationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -12111,8 +12657,9 @@ func (client DatabaseClient) UpdateDatabase(ctx context.Context, request UpdateD
 }
 
 // updateDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databases/{databaseId}", binaryReqBody)
+func (client DatabaseClient) updateDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databases/{databaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12165,8 +12712,9 @@ func (client DatabaseClient) UpdateDatabaseSoftwareImage(ctx context.Context, re
 }
 
 // updateDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseSoftwareImages/{databaseSoftwareImageId}", binaryReqBody)
+func (client DatabaseClient) updateDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseSoftwareImages/{databaseSoftwareImageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12219,8 +12767,9 @@ func (client DatabaseClient) UpdateDbHome(ctx context.Context, request UpdateDbH
 }
 
 // updateDbHome implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbHomes/{dbHomeId}", binaryReqBody)
+func (client DatabaseClient) updateDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbHomes/{dbHomeId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12275,8 +12824,9 @@ func (client DatabaseClient) UpdateDbSystem(ctx context.Context, request UpdateD
 }
 
 // updateDbSystem implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}", binaryReqBody)
+func (client DatabaseClient) updateDbSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12330,8 +12880,9 @@ func (client DatabaseClient) UpdateExadataInfrastructure(ctx context.Context, re
 }
 
 // updateExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exadataInfrastructures/{exadataInfrastructureId}", binaryReqBody)
+func (client DatabaseClient) updateExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exadataInfrastructures/{exadataInfrastructureId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12388,8 +12939,9 @@ func (client DatabaseClient) UpdateExadataIormConfig(ctx context.Context, reques
 }
 
 // updateExadataIormConfig implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateExadataIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/ExadataIormConfig", binaryReqBody)
+func (client DatabaseClient) updateExadataIormConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dbSystems/{dbSystemId}/ExadataIormConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12444,8 +12996,9 @@ func (client DatabaseClient) UpdateExternalContainerDatabase(ctx context.Context
 }
 
 // updateExternalContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalcontainerdatabases/{externalContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) updateExternalContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalcontainerdatabases/{externalContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12498,8 +13051,9 @@ func (client DatabaseClient) UpdateExternalDatabaseConnector(ctx context.Context
 }
 
 // updateExternalDatabaseConnector implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externaldatabaseconnectors/{externalDatabaseConnectorId}", binaryReqBody)
+func (client DatabaseClient) updateExternalDatabaseConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externaldatabaseconnectors/{externalDatabaseConnectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12552,8 +13106,9 @@ func (client DatabaseClient) UpdateExternalNonContainerDatabase(ctx context.Cont
 }
 
 // updateExternalNonContainerDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}", binaryReqBody)
+func (client DatabaseClient) updateExternalNonContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12608,8 +13163,9 @@ func (client DatabaseClient) UpdateExternalPluggableDatabase(ctx context.Context
 }
 
 // updateExternalPluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalpluggabledatabases/{externalPluggableDatabaseId}", binaryReqBody)
+func (client DatabaseClient) updateExternalPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalpluggabledatabases/{externalPluggableDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12662,8 +13218,9 @@ func (client DatabaseClient) UpdateKeyStore(ctx context.Context, request UpdateK
 }
 
 // updateKeyStore implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/keyStores/{keyStoreId}", binaryReqBody)
+func (client DatabaseClient) updateKeyStore(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/keyStores/{keyStoreId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12716,8 +13273,9 @@ func (client DatabaseClient) UpdateMaintenanceRun(ctx context.Context, request U
 }
 
 // updateMaintenanceRun implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/maintenanceRuns/{maintenanceRunId}", binaryReqBody)
+func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/maintenanceRuns/{maintenanceRunId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12735,7 +13293,7 @@ func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request c
 	return response, err
 }
 
-// UpdatePluggableDatabase Update a pluggable database
+// UpdatePluggableDatabase Updates the specified pluggable database.
 //
 // See also
 //
@@ -12770,8 +13328,9 @@ func (client DatabaseClient) UpdatePluggableDatabase(ctx context.Context, reques
 }
 
 // updatePluggableDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updatePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pluggableDatabases/{pluggableDatabaseId}", binaryReqBody)
+func (client DatabaseClient) updatePluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pluggableDatabases/{pluggableDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12824,8 +13383,9 @@ func (client DatabaseClient) UpdateVmCluster(ctx context.Context, request Update
 }
 
 // updateVmCluster implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/vmClusters/{vmClusterId}", binaryReqBody)
+func (client DatabaseClient) updateVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/vmClusters/{vmClusterId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12879,8 +13439,9 @@ func (client DatabaseClient) UpdateVmClusterNetwork(ctx context.Context, request
 }
 
 // updateVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) updateVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}", binaryReqBody)
+func (client DatabaseClient) updateVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12933,8 +13494,9 @@ func (client DatabaseClient) UpgradeDatabase(ctx context.Context, request Upgrad
 }
 
 // upgradeDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) upgradeDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/upgrade", binaryReqBody)
+func (client DatabaseClient) upgradeDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/upgrade", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -12992,8 +13554,9 @@ func (client DatabaseClient) ValidateVmClusterNetwork(ctx context.Context, reque
 }
 
 // validateVmClusterNetwork implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) validateVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}/actions/validate", binaryReqBody)
+func (client DatabaseClient) validateVmClusterNetwork(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/vmClusterNetworks/{vmClusterNetworkId}/actions/validate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

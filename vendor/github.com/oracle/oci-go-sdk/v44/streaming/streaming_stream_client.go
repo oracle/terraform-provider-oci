@@ -108,8 +108,9 @@ func (client StreamClient) ConsumerCommit(ctx context.Context, request ConsumerC
 }
 
 // consumerCommit implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) consumerCommit(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/commit", binaryReqBody)
+func (client StreamClient) consumerCommit(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/commit", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -162,8 +163,9 @@ func (client StreamClient) ConsumerHeartbeat(ctx context.Context, request Consum
 }
 
 // consumerHeartbeat implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) consumerHeartbeat(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/heartbeat", binaryReqBody)
+func (client StreamClient) consumerHeartbeat(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/heartbeat", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -220,8 +222,9 @@ func (client StreamClient) CreateCursor(ctx context.Context, request CreateCurso
 }
 
 // createCursor implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) createCursor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/cursors", binaryReqBody)
+func (client StreamClient) createCursor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/cursors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -274,8 +277,9 @@ func (client StreamClient) CreateGroupCursor(ctx context.Context, request Create
 }
 
 // createGroupCursor implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) createGroupCursor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/groupCursors", binaryReqBody)
+func (client StreamClient) createGroupCursor(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/groupCursors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -328,8 +332,9 @@ func (client StreamClient) GetGroup(ctx context.Context, request GetGroupRequest
 }
 
 // getGroup implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) getGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}/groups/{groupName}", binaryReqBody)
+func (client StreamClient) getGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}/groups/{groupName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -384,8 +389,9 @@ func (client StreamClient) GetMessages(ctx context.Context, request GetMessagesR
 }
 
 // getMessages implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) getMessages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}/messages", binaryReqBody)
+func (client StreamClient) getMessages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}/messages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -441,8 +447,9 @@ func (client StreamClient) PutMessages(ctx context.Context, request PutMessagesR
 }
 
 // putMessages implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) putMessages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/messages", binaryReqBody)
+func (client StreamClient) putMessages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/messages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -505,8 +512,9 @@ func (client StreamClient) UpdateGroup(ctx context.Context, request UpdateGroupR
 }
 
 // updateGroup implements the OCIOperation interface (enables retrying operations)
-func (client StreamClient) updateGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streams/{streamId}/groups/{groupName}", binaryReqBody)
+func (client StreamClient) updateGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streams/{streamId}/groups/{groupName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

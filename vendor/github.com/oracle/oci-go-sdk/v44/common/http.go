@@ -20,7 +20,8 @@ import (
 )
 
 const (
-	usingExpectHeaderEnvVar = "OCI_GOSDK_USING_EXPECT_HEADER"
+	//UsingExpectHeaderEnvVar is the key to determine whether expect 100-continue is enabled or not
+	UsingExpectHeaderEnvVar = "OCI_GOSDK_USING_EXPECT_HEADER"
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -679,10 +680,15 @@ func MakeDefaultHTTPRequestWithTaggedStruct(method, path string, requestStruct i
 		return
 	}
 
-	if isExpectHeaderEnabled := getExpectHeaderConfig(); isExpectHeaderEnabled && (method == http.MethodPut || method == http.MethodPost) {
-		if httpRequest.Header.Get(requestHeaderExpect) == "" {
-			httpRequest.Header.Set(requestHeaderExpect, "100-continue")
-		}
+	return
+}
+
+// MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders creates an http request from an struct with tagged fields, see HTTPRequestMarshaller
+// for more information
+func MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path string, requestStruct interface{}, extraHeaders map[string]string) (httpRequest http.Request, err error) {
+	httpRequest, err = MakeDefaultHTTPRequestWithTaggedStruct(method, path, requestStruct)
+	for key, val := range extraHeaders {
+		httpRequest.Header.Set(key, val)
 	}
 	return
 }

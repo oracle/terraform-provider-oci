@@ -119,8 +119,9 @@ func (client SddcClient) CancelDowngradeHcx(ctx context.Context, request CancelD
 }
 
 // cancelDowngradeHcx implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/cancelDowngradeHcx", binaryReqBody)
+func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/cancelDowngradeHcx", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client SddcClient) ChangeSddcCompartment(ctx context.Context, request Chan
 }
 
 // changeSddcCompartment implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) changeSddcCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/changeCompartment", binaryReqBody)
+func (client SddcClient) changeSddcCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -242,8 +244,9 @@ func (client SddcClient) CreateSddc(ctx context.Context, request CreateSddcReque
 }
 
 // createSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) createSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs", binaryReqBody)
+func (client SddcClient) createSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -300,8 +303,9 @@ func (client SddcClient) DeleteSddc(ctx context.Context, request DeleteSddcReque
 }
 
 // deleteSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sddcs/{sddcId}", binaryReqBody)
+func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sddcs/{sddcId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -359,8 +363,9 @@ func (client SddcClient) DowngradeHcx(ctx context.Context, request DowngradeHcxR
 }
 
 // downgradeHcx implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/downgradeHcx", binaryReqBody)
+func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/downgradeHcx", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -413,8 +418,9 @@ func (client SddcClient) GetSddc(ctx context.Context, request GetSddcRequest) (r
 }
 
 // getSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs/{sddcId}", binaryReqBody)
+func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs/{sddcId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -468,8 +474,9 @@ func (client SddcClient) ListSddcs(ctx context.Context, request ListSddcsRequest
 }
 
 // listSddcs implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSddcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs", binaryReqBody)
+func (client SddcClient) listSddcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sddcs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -523,8 +530,9 @@ func (client SddcClient) ListSupportedSkus(ctx context.Context, request ListSupp
 }
 
 // listSupportedSkus implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSupportedSkus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedSkus", binaryReqBody)
+func (client SddcClient) listSupportedSkus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedSkus", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -578,8 +586,9 @@ func (client SddcClient) ListSupportedVmwareSoftwareVersions(ctx context.Context
 }
 
 // listSupportedVmwareSoftwareVersions implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedVmwareSoftwareVersions", binaryReqBody)
+func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedVmwareSoftwareVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -637,8 +646,9 @@ func (client SddcClient) RefreshHcxLicenseStatus(ctx context.Context, request Re
 }
 
 // refreshHcxLicenseStatus implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/refreshHcxLicenses", binaryReqBody)
+func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/refreshHcxLicenses", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -695,8 +705,9 @@ func (client SddcClient) UpdateSddc(ctx context.Context, request UpdateSddcReque
 }
 
 // updateSddc implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) updateSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sddcs/{sddcId}", binaryReqBody)
+func (client SddcClient) updateSddc(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sddcs/{sddcId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -754,8 +765,9 @@ func (client SddcClient) UpgradeHcx(ctx context.Context, request UpgradeHcxReque
 }
 
 // upgradeHcx implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) upgradeHcx(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/upgradeHcx", binaryReqBody)
+func (client SddcClient) upgradeHcx(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/upgradeHcx", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

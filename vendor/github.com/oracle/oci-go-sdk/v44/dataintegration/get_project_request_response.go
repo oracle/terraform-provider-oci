@@ -27,6 +27,9 @@ type GetProjectRequest struct {
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// This parameter allows users to specify which view of the object to return. CHILD_COUNT_STATISTICS - This option is used to get statistics on immediate children of the object by their type.
+	Projection []GetProjectProjectionEnum `contributesTo:"query" name:"projection" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -37,9 +40,9 @@ func (request GetProjectRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetProjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+func (request GetProjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface
@@ -78,4 +81,25 @@ func (response GetProjectResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetProjectResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetProjectProjectionEnum Enum with underlying type: string
+type GetProjectProjectionEnum string
+
+// Set of constants representing the allowable values for GetProjectProjectionEnum
+const (
+	GetProjectProjectionChildCountStatistics GetProjectProjectionEnum = "CHILD_COUNT_STATISTICS"
+)
+
+var mappingGetProjectProjection = map[string]GetProjectProjectionEnum{
+	"CHILD_COUNT_STATISTICS": GetProjectProjectionChildCountStatistics,
+}
+
+// GetGetProjectProjectionEnumValues Enumerates the set of values for GetProjectProjectionEnum
+func GetGetProjectProjectionEnumValues() []GetProjectProjectionEnum {
+	values := make([]GetProjectProjectionEnum, 0)
+	for _, v := range mappingGetProjectProjection {
+		values = append(values, v)
+	}
+	return values
 }

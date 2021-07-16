@@ -122,8 +122,16 @@ func (m *dataasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := DataAssetFromAdwcDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3_DATA_ASSET":
+		mm := DataAssetFromAmazonS3{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
 		mm := DataAssetFromObjectStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FUSION_APP_DATA_ASSET":
+		mm := DataAssetFromFusionApp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":
@@ -219,6 +227,8 @@ const (
 	DataAssetModelTypeOracleAdwcDataAsset          DataAssetModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
 	DataAssetModelTypeMysqlDataAsset               DataAssetModelTypeEnum = "MYSQL_DATA_ASSET"
 	DataAssetModelTypeGenericJdbcDataAsset         DataAssetModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
+	DataAssetModelTypeFusionAppDataAsset           DataAssetModelTypeEnum = "FUSION_APP_DATA_ASSET"
+	DataAssetModelTypeAmazonS3DataAsset            DataAssetModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
 var mappingDataAssetModelType = map[string]DataAssetModelTypeEnum{
@@ -228,6 +238,8 @@ var mappingDataAssetModelType = map[string]DataAssetModelTypeEnum{
 	"ORACLE_ADWC_DATA_ASSET":           DataAssetModelTypeOracleAdwcDataAsset,
 	"MYSQL_DATA_ASSET":                 DataAssetModelTypeMysqlDataAsset,
 	"GENERIC_JDBC_DATA_ASSET":          DataAssetModelTypeGenericJdbcDataAsset,
+	"FUSION_APP_DATA_ASSET":            DataAssetModelTypeFusionAppDataAsset,
+	"AMAZON_S3_DATA_ASSET":             DataAssetModelTypeAmazonS3DataAsset,
 }
 
 // GetDataAssetModelTypeEnumValues Enumerates the set of values for DataAssetModelTypeEnum

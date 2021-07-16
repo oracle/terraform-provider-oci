@@ -114,8 +114,9 @@ func (client StreamAdminClient) ChangeConnectHarnessCompartment(ctx context.Cont
 }
 
 // changeConnectHarnessCompartment implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectharnesses/{connectHarnessId}/actions/changeCompartment", binaryReqBody)
+func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectharnesses/{connectHarnessId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -170,8 +171,9 @@ func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, req
 }
 
 // changeStreamCompartment implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/actions/changeCompartment", binaryReqBody)
+func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -224,8 +226,9 @@ func (client StreamAdminClient) ChangeStreamPoolCompartment(ctx context.Context,
 }
 
 // changeStreamPoolCompartment implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streampools/{streamPoolId}/actions/changeCompartment", binaryReqBody)
+func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streampools/{streamPoolId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -284,8 +287,9 @@ func (client StreamAdminClient) CreateConnectHarness(ctx context.Context, reques
 }
 
 // createConnectHarness implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) createConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectharnesses", binaryReqBody)
+func (client StreamAdminClient) createConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectharnesses", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -342,8 +346,9 @@ func (client StreamAdminClient) CreateStream(ctx context.Context, request Create
 }
 
 // createStream implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) createStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams", binaryReqBody)
+func (client StreamAdminClient) createStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -403,8 +408,9 @@ func (client StreamAdminClient) CreateStreamPool(ctx context.Context, request Cr
 }
 
 // createStreamPool implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) createStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streampools", binaryReqBody)
+func (client StreamAdminClient) createStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streampools", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -461,8 +467,9 @@ func (client StreamAdminClient) DeleteConnectHarness(ctx context.Context, reques
 }
 
 // deleteConnectHarness implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/connectharnesses/{connectHarnessId}", binaryReqBody)
+func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/connectharnesses/{connectHarnessId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -519,8 +526,9 @@ func (client StreamAdminClient) DeleteStream(ctx context.Context, request Delete
 }
 
 // deleteStream implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) deleteStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streams/{streamId}", binaryReqBody)
+func (client StreamAdminClient) deleteStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streams/{streamId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -574,8 +582,9 @@ func (client StreamAdminClient) DeleteStreamPool(ctx context.Context, request De
 }
 
 // deleteStreamPool implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streampools/{streamPoolId}", binaryReqBody)
+func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streampools/{streamPoolId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -628,8 +637,9 @@ func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request G
 }
 
 // getConnectHarness implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) getConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectharnesses/{connectHarnessId}", binaryReqBody)
+func (client StreamAdminClient) getConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectharnesses/{connectHarnessId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -682,8 +692,9 @@ func (client StreamAdminClient) GetStream(ctx context.Context, request GetStream
 }
 
 // getStream implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) getStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}", binaryReqBody)
+func (client StreamAdminClient) getStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -736,8 +747,9 @@ func (client StreamAdminClient) GetStreamPool(ctx context.Context, request GetSt
 }
 
 // getStreamPool implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) getStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streampools/{streamPoolId}", binaryReqBody)
+func (client StreamAdminClient) getStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streampools/{streamPoolId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -790,8 +802,9 @@ func (client StreamAdminClient) ListConnectHarnesses(ctx context.Context, reques
 }
 
 // listConnectHarnesses implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectharnesses", binaryReqBody)
+func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectharnesses", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -844,8 +857,9 @@ func (client StreamAdminClient) ListStreamPools(ctx context.Context, request Lis
 }
 
 // listStreamPools implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) listStreamPools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streampools", binaryReqBody)
+func (client StreamAdminClient) listStreamPools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streampools", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -901,8 +915,9 @@ func (client StreamAdminClient) ListStreams(ctx context.Context, request ListStr
 }
 
 // listStreams implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) listStreams(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams", binaryReqBody)
+func (client StreamAdminClient) listStreams(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -955,8 +970,9 @@ func (client StreamAdminClient) UpdateConnectHarness(ctx context.Context, reques
 }
 
 // updateConnectHarness implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) updateConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/connectharnesses/{connectHarnessId}", binaryReqBody)
+func (client StreamAdminClient) updateConnectHarness(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/connectharnesses/{connectHarnessId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1009,8 +1025,9 @@ func (client StreamAdminClient) UpdateStream(ctx context.Context, request Update
 }
 
 // updateStream implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) updateStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streams/{streamId}", binaryReqBody)
+func (client StreamAdminClient) updateStream(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streams/{streamId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1063,8 +1080,9 @@ func (client StreamAdminClient) UpdateStreamPool(ctx context.Context, request Up
 }
 
 // updateStreamPool implements the OCIOperation interface (enables retrying operations)
-func (client StreamAdminClient) updateStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streampools/{streamPoolId}", binaryReqBody)
+func (client StreamAdminClient) updateStreamPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streampools/{streamPoolId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
