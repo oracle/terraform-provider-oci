@@ -313,12 +313,18 @@ const (
 	TaskOperatorTaskTypePipelineTask    TaskOperatorTaskTypeEnum = "PIPELINE_TASK"
 	TaskOperatorTaskTypeIntegrationTask TaskOperatorTaskTypeEnum = "INTEGRATION_TASK"
 	TaskOperatorTaskTypeDataLoaderTask  TaskOperatorTaskTypeEnum = "DATA_LOADER_TASK"
+	TaskOperatorTaskTypeSqlTask         TaskOperatorTaskTypeEnum = "SQL_TASK"
+	TaskOperatorTaskTypeOciDataflowTask TaskOperatorTaskTypeEnum = "OCI_DATAFLOW_TASK"
+	TaskOperatorTaskTypeRestTask        TaskOperatorTaskTypeEnum = "REST_TASK"
 )
 
 var mappingTaskOperatorTaskType = map[string]TaskOperatorTaskTypeEnum{
-	"PIPELINE_TASK":    TaskOperatorTaskTypePipelineTask,
-	"INTEGRATION_TASK": TaskOperatorTaskTypeIntegrationTask,
-	"DATA_LOADER_TASK": TaskOperatorTaskTypeDataLoaderTask,
+	"PIPELINE_TASK":     TaskOperatorTaskTypePipelineTask,
+	"INTEGRATION_TASK":  TaskOperatorTaskTypeIntegrationTask,
+	"DATA_LOADER_TASK":  TaskOperatorTaskTypeDataLoaderTask,
+	"SQL_TASK":          TaskOperatorTaskTypeSqlTask,
+	"OCI_DATAFLOW_TASK": TaskOperatorTaskTypeOciDataflowTask,
+	"REST_TASK":         TaskOperatorTaskTypeRestTask,
 }
 
 // GetTaskOperatorTaskTypeEnumValues Enumerates the set of values for TaskOperatorTaskTypeEnum

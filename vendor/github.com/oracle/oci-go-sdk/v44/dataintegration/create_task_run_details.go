@@ -36,6 +36,9 @@ type CreateTaskRunDetails struct {
 	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
+	// Optional task schedule key reference.
+	TaskScheduleKey *string `mandatory:"false" json:"taskScheduleKey"`
+
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 

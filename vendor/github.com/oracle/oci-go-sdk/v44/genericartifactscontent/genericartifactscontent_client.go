@@ -115,8 +115,9 @@ func (client GenericArtifactsContentClient) GetGenericArtifactContent(ctx contex
 }
 
 // getGenericArtifactContent implements the OCIOperation interface (enables retrying operations)
-func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generic/artifacts/{artifactId}/content", binaryReqBody)
+func (client GenericArtifactsContentClient) getGenericArtifactContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generic/artifacts/{artifactId}/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +169,9 @@ func (client GenericArtifactsContentClient) GetGenericArtifactContentByPath(ctx 
 }
 
 // getGenericArtifactContentByPath implements the OCIOperation interface (enables retrying operations)
-func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generic/repositories/{repositoryId}/artifactPaths/{artifactPath}/versions/{version}/content", binaryReqBody)
+func (client GenericArtifactsContentClient) getGenericArtifactContentByPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generic/repositories/{repositoryId}/artifactPaths/{artifactPath}/versions/{version}/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -221,8 +223,9 @@ func (client GenericArtifactsContentClient) PutGenericArtifactContentByPath(ctx 
 }
 
 // putGenericArtifactContentByPath implements the OCIOperation interface (enables retrying operations)
-func (client GenericArtifactsContentClient) putGenericArtifactContentByPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/generic/repositories/{repositoryId}/artifactPaths/{artifactPath}/versions/{version}/content", binaryReqBody)
+func (client GenericArtifactsContentClient) putGenericArtifactContentByPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/generic/repositories/{repositoryId}/artifactPaths/{artifactPath}/versions/{version}/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

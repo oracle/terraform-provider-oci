@@ -119,8 +119,9 @@ func (client ResourceManagerClient) CancelJob(ctx context.Context, request Cance
 }
 
 // cancelJob implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) cancelJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/jobs/{jobId}", binaryReqBody)
+func (client ResourceManagerClient) cancelJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/jobs/{jobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client ResourceManagerClient) ChangeConfigurationSourceProviderCompartment
 }
 
 // changeConfigurationSourceProviderCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) changeConfigurationSourceProviderCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configurationSourceProviders/{configurationSourceProviderId}/actions/changeCompartment", binaryReqBody)
+func (client ResourceManagerClient) changeConfigurationSourceProviderCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configurationSourceProviders/{configurationSourceProviderId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -239,8 +241,9 @@ func (client ResourceManagerClient) ChangeStackCompartment(ctx context.Context, 
 }
 
 // changeStackCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) changeStackCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/changeCompartment", binaryReqBody)
+func (client ResourceManagerClient) changeStackCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -300,8 +303,9 @@ func (client ResourceManagerClient) ChangeTemplateCompartment(ctx context.Contex
 }
 
 // changeTemplateCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/templates/{templateId}/actions/changeCompartment", binaryReqBody)
+func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/templates/{templateId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -361,8 +365,9 @@ func (client ResourceManagerClient) CreateConfigurationSourceProvider(ctx contex
 }
 
 // createConfigurationSourceProvider implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) createConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configurationSourceProviders", binaryReqBody)
+func (client ResourceManagerClient) createConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/configurationSourceProviders", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -420,8 +425,9 @@ func (client ResourceManagerClient) CreateJob(ctx context.Context, request Creat
 }
 
 // createJob implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) createJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs", binaryReqBody)
+func (client ResourceManagerClient) createJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -485,8 +491,9 @@ func (client ResourceManagerClient) CreateStack(ctx context.Context, request Cre
 }
 
 // createStack implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) createStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks", binaryReqBody)
+func (client ResourceManagerClient) createStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -544,8 +551,9 @@ func (client ResourceManagerClient) CreateTemplate(ctx context.Context, request 
 }
 
 // createTemplate implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) createTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/templates", binaryReqBody)
+func (client ResourceManagerClient) createTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/templates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -598,8 +606,9 @@ func (client ResourceManagerClient) DeleteConfigurationSourceProvider(ctx contex
 }
 
 // deleteConfigurationSourceProvider implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) deleteConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/configurationSourceProviders/{configurationSourceProviderId}", binaryReqBody)
+func (client ResourceManagerClient) deleteConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/configurationSourceProviders/{configurationSourceProviderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -652,8 +661,9 @@ func (client ResourceManagerClient) DeleteStack(ctx context.Context, request Del
 }
 
 // deleteStack implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) deleteStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/stacks/{stackId}", binaryReqBody)
+func (client ResourceManagerClient) deleteStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/stacks/{stackId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -706,8 +716,9 @@ func (client ResourceManagerClient) DeleteTemplate(ctx context.Context, request 
 }
 
 // deleteTemplate implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) deleteTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/templates/{templateId}", binaryReqBody)
+func (client ResourceManagerClient) deleteTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/templates/{templateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -765,8 +776,9 @@ func (client ResourceManagerClient) DetectStackDrift(ctx context.Context, reques
 }
 
 // detectStackDrift implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) detectStackDrift(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/detectDrift", binaryReqBody)
+func (client ResourceManagerClient) detectStackDrift(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/detectDrift", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -819,8 +831,9 @@ func (client ResourceManagerClient) GetConfigurationSourceProvider(ctx context.C
 }
 
 // getConfigurationSourceProvider implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurationSourceProviders/{configurationSourceProviderId}", binaryReqBody)
+func (client ResourceManagerClient) getConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurationSourceProviders/{configurationSourceProviderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -873,8 +886,9 @@ func (client ResourceManagerClient) GetJob(ctx context.Context, request GetJobRe
 }
 
 // getJob implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}", binaryReqBody)
+func (client ResourceManagerClient) getJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -927,8 +941,9 @@ func (client ResourceManagerClient) GetJobLogs(ctx context.Context, request GetJ
 }
 
 // getJobLogs implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getJobLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/logs", binaryReqBody)
+func (client ResourceManagerClient) getJobLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -982,8 +997,9 @@ func (client ResourceManagerClient) GetJobLogsContent(ctx context.Context, reque
 }
 
 // getJobLogsContent implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getJobLogsContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/logs/content", binaryReqBody)
+func (client ResourceManagerClient) getJobLogsContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/logs/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1037,8 +1053,9 @@ func (client ResourceManagerClient) GetJobTfConfig(ctx context.Context, request 
 }
 
 // getJobTfConfig implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/tfConfig", binaryReqBody)
+func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/tfConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1090,8 +1107,9 @@ func (client ResourceManagerClient) GetJobTfState(ctx context.Context, request G
 }
 
 // getJobTfState implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getJobTfState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/tfState", binaryReqBody)
+func (client ResourceManagerClient) getJobTfState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/tfState", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1143,8 +1161,9 @@ func (client ResourceManagerClient) GetStack(ctx context.Context, request GetSta
 }
 
 // getStack implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}", binaryReqBody)
+func (client ResourceManagerClient) getStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1198,8 +1217,9 @@ func (client ResourceManagerClient) GetStackTfConfig(ctx context.Context, reques
 }
 
 // getStackTfConfig implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getStackTfConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}/tfConfig", binaryReqBody)
+func (client ResourceManagerClient) getStackTfConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}/tfConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1251,8 +1271,9 @@ func (client ResourceManagerClient) GetStackTfState(ctx context.Context, request
 }
 
 // getStackTfState implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getStackTfState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}/tfState", binaryReqBody)
+func (client ResourceManagerClient) getStackTfState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks/{stackId}/tfState", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1304,8 +1325,9 @@ func (client ResourceManagerClient) GetTemplate(ctx context.Context, request Get
 }
 
 // getTemplate implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates/{templateId}", binaryReqBody)
+func (client ResourceManagerClient) getTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates/{templateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1359,8 +1381,9 @@ func (client ResourceManagerClient) GetTemplateLogo(ctx context.Context, request
 }
 
 // getTemplateLogo implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getTemplateLogo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates/{templateId}/logo", binaryReqBody)
+func (client ResourceManagerClient) getTemplateLogo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates/{templateId}/logo", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1413,8 +1436,9 @@ func (client ResourceManagerClient) GetTemplateTfConfig(ctx context.Context, req
 }
 
 // getTemplateTfConfig implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getTemplateTfConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates/{templateId}/tfConfig", binaryReqBody)
+func (client ResourceManagerClient) getTemplateTfConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates/{templateId}/tfConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1466,8 +1490,9 @@ func (client ResourceManagerClient) GetWorkRequest(ctx context.Context, request 
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client ResourceManagerClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1522,8 +1547,9 @@ func (client ResourceManagerClient) ListConfigurationSourceProviders(ctx context
 }
 
 // listConfigurationSourceProviders implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurationSourceProviders", binaryReqBody)
+func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configurationSourceProviders", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1579,8 +1605,9 @@ func (client ResourceManagerClient) ListJobs(ctx context.Context, request ListJo
 }
 
 // listJobs implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs", binaryReqBody)
+func (client ResourceManagerClient) listJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1633,8 +1660,9 @@ func (client ResourceManagerClient) ListResourceDiscoveryServices(ctx context.Co
 }
 
 // listResourceDiscoveryServices implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceDiscoveryServices", binaryReqBody)
+func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceDiscoveryServices", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1691,8 +1719,9 @@ func (client ResourceManagerClient) ListStackResourceDriftDetails(ctx context.Co
 }
 
 // listStackResourceDriftDetails implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listStackResourceDriftDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/listResourceDriftDetails", binaryReqBody)
+func (client ResourceManagerClient) listStackResourceDriftDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/listResourceDriftDetails", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1747,8 +1776,9 @@ func (client ResourceManagerClient) ListStacks(ctx context.Context, request List
 }
 
 // listStacks implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listStacks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks", binaryReqBody)
+func (client ResourceManagerClient) listStacks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/stacks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1801,8 +1831,9 @@ func (client ResourceManagerClient) ListTemplateCategories(ctx context.Context, 
 }
 
 // listTemplateCategories implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listTemplateCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templateCategories", binaryReqBody)
+func (client ResourceManagerClient) listTemplateCategories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templateCategories", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1855,8 +1886,9 @@ func (client ResourceManagerClient) ListTemplates(ctx context.Context, request L
 }
 
 // listTemplates implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listTemplates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates", binaryReqBody)
+func (client ResourceManagerClient) listTemplates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/templates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1909,8 +1941,9 @@ func (client ResourceManagerClient) ListTerraformVersions(ctx context.Context, r
 }
 
 // listTerraformVersions implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listTerraformVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/terraformVersions", binaryReqBody)
+func (client ResourceManagerClient) listTerraformVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/terraformVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1963,8 +1996,9 @@ func (client ResourceManagerClient) ListWorkRequestErrors(ctx context.Context, r
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client ResourceManagerClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2017,8 +2051,9 @@ func (client ResourceManagerClient) ListWorkRequestLogs(ctx context.Context, req
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client ResourceManagerClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2071,8 +2106,9 @@ func (client ResourceManagerClient) ListWorkRequests(ctx context.Context, reques
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client ResourceManagerClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2127,8 +2163,9 @@ func (client ResourceManagerClient) UpdateConfigurationSourceProvider(ctx contex
 }
 
 // updateConfigurationSourceProvider implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) updateConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configurationSourceProviders/{configurationSourceProviderId}", binaryReqBody)
+func (client ResourceManagerClient) updateConfigurationSourceProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configurationSourceProviders/{configurationSourceProviderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2181,8 +2218,9 @@ func (client ResourceManagerClient) UpdateJob(ctx context.Context, request Updat
 }
 
 // updateJob implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) updateJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/jobs/{jobId}", binaryReqBody)
+func (client ResourceManagerClient) updateJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/jobs/{jobId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2240,8 +2278,9 @@ func (client ResourceManagerClient) UpdateStack(ctx context.Context, request Upd
 }
 
 // updateStack implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) updateStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/stacks/{stackId}", binaryReqBody)
+func (client ResourceManagerClient) updateStack(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/stacks/{stackId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2294,8 +2333,9 @@ func (client ResourceManagerClient) UpdateTemplate(ctx context.Context, request 
 }
 
 // updateTemplate implements the OCIOperation interface (enables retrying operations)
-func (client ResourceManagerClient) updateTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/templates/{templateId}", binaryReqBody)
+func (client ResourceManagerClient) updateTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/templates/{templateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

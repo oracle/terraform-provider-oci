@@ -111,12 +111,18 @@ const (
 	TaskRunDetailsTaskTypeIntegrationTask TaskRunDetailsTaskTypeEnum = "INTEGRATION_TASK"
 	TaskRunDetailsTaskTypeDataLoaderTask  TaskRunDetailsTaskTypeEnum = "DATA_LOADER_TASK"
 	TaskRunDetailsTaskTypePipelineTask    TaskRunDetailsTaskTypeEnum = "PIPELINE_TASK"
+	TaskRunDetailsTaskTypeSqlTask         TaskRunDetailsTaskTypeEnum = "SQL_TASK"
+	TaskRunDetailsTaskTypeOciDataflowTask TaskRunDetailsTaskTypeEnum = "OCI_DATAFLOW_TASK"
+	TaskRunDetailsTaskTypeRestTask        TaskRunDetailsTaskTypeEnum = "REST_TASK"
 )
 
 var mappingTaskRunDetailsTaskType = map[string]TaskRunDetailsTaskTypeEnum{
-	"INTEGRATION_TASK": TaskRunDetailsTaskTypeIntegrationTask,
-	"DATA_LOADER_TASK": TaskRunDetailsTaskTypeDataLoaderTask,
-	"PIPELINE_TASK":    TaskRunDetailsTaskTypePipelineTask,
+	"INTEGRATION_TASK":  TaskRunDetailsTaskTypeIntegrationTask,
+	"DATA_LOADER_TASK":  TaskRunDetailsTaskTypeDataLoaderTask,
+	"PIPELINE_TASK":     TaskRunDetailsTaskTypePipelineTask,
+	"SQL_TASK":          TaskRunDetailsTaskTypeSqlTask,
+	"OCI_DATAFLOW_TASK": TaskRunDetailsTaskTypeOciDataflowTask,
+	"REST_TASK":         TaskRunDetailsTaskTypeRestTask,
 }
 
 // GetTaskRunDetailsTaskTypeEnumValues Enumerates the set of values for TaskRunDetailsTaskTypeEnum

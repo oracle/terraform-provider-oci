@@ -114,8 +114,9 @@ func (client AccountClient) GetLaunchEligibility(ctx context.Context, request Ge
 }
 
 // getLaunchEligibility implements the OCIOperation interface (enables retrying operations)
-func (client AccountClient) getLaunchEligibility(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/launchEligibility", binaryReqBody)
+func (client AccountClient) getLaunchEligibility(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/launchEligibility", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +169,9 @@ func (client AccountClient) GetThirdPartyPaidListingEligibility(ctx context.Cont
 }
 
 // getThirdPartyPaidListingEligibility implements the OCIOperation interface (enables retrying operations)
-func (client AccountClient) getThirdPartyPaidListingEligibility(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/thirdPartyPaidListingEligibility", binaryReqBody)
+func (client AccountClient) getThirdPartyPaidListingEligibility(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/thirdPartyPaidListingEligibility", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

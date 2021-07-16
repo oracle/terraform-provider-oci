@@ -122,8 +122,9 @@ func (client NosqlClient) ChangeTableCompartment(ctx context.Context, request Ch
 }
 
 // changeTableCompartment implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) changeTableCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tables/{tableNameOrId}/actions/changeCompartment", binaryReqBody)
+func (client NosqlClient) changeTableCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tables/{tableNameOrId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +182,9 @@ func (client NosqlClient) CreateIndex(ctx context.Context, request CreateIndexRe
 }
 
 // createIndex implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) createIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tables/{tableNameOrId}/indexes", binaryReqBody)
+func (client NosqlClient) createIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tables/{tableNameOrId}/indexes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -240,8 +242,9 @@ func (client NosqlClient) CreateTable(ctx context.Context, request CreateTableRe
 }
 
 // createTable implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) createTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tables", binaryReqBody)
+func (client NosqlClient) createTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tables", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -294,8 +297,9 @@ func (client NosqlClient) DeleteIndex(ctx context.Context, request DeleteIndexRe
 }
 
 // deleteIndex implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) deleteIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tables/{tableNameOrId}/indexes/{indexName}", binaryReqBody)
+func (client NosqlClient) deleteIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tables/{tableNameOrId}/indexes/{indexName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -348,8 +352,9 @@ func (client NosqlClient) DeleteRow(ctx context.Context, request DeleteRowReques
 }
 
 // deleteRow implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) deleteRow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tables/{tableNameOrId}/rows", binaryReqBody)
+func (client NosqlClient) deleteRow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tables/{tableNameOrId}/rows", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -402,8 +407,9 @@ func (client NosqlClient) DeleteTable(ctx context.Context, request DeleteTableRe
 }
 
 // deleteTable implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) deleteTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tables/{tableNameOrId}", binaryReqBody)
+func (client NosqlClient) deleteTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tables/{tableNameOrId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -456,8 +462,9 @@ func (client NosqlClient) DeleteWorkRequest(ctx context.Context, request DeleteW
 }
 
 // deleteWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody)
+func (client NosqlClient) deleteWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -510,8 +517,9 @@ func (client NosqlClient) GetIndex(ctx context.Context, request GetIndexRequest)
 }
 
 // getIndex implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) getIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/indexes/{indexName}", binaryReqBody)
+func (client NosqlClient) getIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/indexes/{indexName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -564,8 +572,9 @@ func (client NosqlClient) GetRow(ctx context.Context, request GetRowRequest) (re
 }
 
 // getRow implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/rows", binaryReqBody)
+func (client NosqlClient) getRow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/rows", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -618,8 +627,9 @@ func (client NosqlClient) GetTable(ctx context.Context, request GetTableRequest)
 }
 
 // getTable implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) getTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}", binaryReqBody)
+func (client NosqlClient) getTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -672,8 +682,9 @@ func (client NosqlClient) GetWorkRequest(ctx context.Context, request GetWorkReq
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client NosqlClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -726,8 +737,9 @@ func (client NosqlClient) ListIndexes(ctx context.Context, request ListIndexesRe
 }
 
 // listIndexes implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/indexes", binaryReqBody)
+func (client NosqlClient) listIndexes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/indexes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -780,8 +792,9 @@ func (client NosqlClient) ListTableUsage(ctx context.Context, request ListTableU
 }
 
 // listTableUsage implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/usage", binaryReqBody)
+func (client NosqlClient) listTableUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables/{tableNameOrId}/usage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -834,8 +847,9 @@ func (client NosqlClient) ListTables(ctx context.Context, request ListTablesRequ
 }
 
 // listTables implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables", binaryReqBody)
+func (client NosqlClient) listTables(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tables", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -888,8 +902,9 @@ func (client NosqlClient) ListWorkRequestErrors(ctx context.Context, request Lis
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client NosqlClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -942,8 +957,9 @@ func (client NosqlClient) ListWorkRequestLogs(ctx context.Context, request ListW
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client NosqlClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -996,8 +1012,9 @@ func (client NosqlClient) ListWorkRequests(ctx context.Context, request ListWork
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client NosqlClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1050,8 +1067,9 @@ func (client NosqlClient) PrepareStatement(ctx context.Context, request PrepareS
 }
 
 // prepareStatement implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) prepareStatement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/query/prepare", binaryReqBody)
+func (client NosqlClient) prepareStatement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/query/prepare", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1104,8 +1122,9 @@ func (client NosqlClient) Query(ctx context.Context, request QueryRequest) (resp
 }
 
 // query implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) query(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/query", binaryReqBody)
+func (client NosqlClient) query(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/query", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1158,8 +1177,9 @@ func (client NosqlClient) SummarizeStatement(ctx context.Context, request Summar
 }
 
 // summarizeStatement implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) summarizeStatement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/query/summarize", binaryReqBody)
+func (client NosqlClient) summarizeStatement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/query/summarize", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1212,8 +1232,9 @@ func (client NosqlClient) UpdateRow(ctx context.Context, request UpdateRowReques
 }
 
 // updateRow implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) updateRow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tables/{tableNameOrId}/rows", binaryReqBody)
+func (client NosqlClient) updateRow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tables/{tableNameOrId}/rows", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1267,8 +1288,9 @@ func (client NosqlClient) UpdateTable(ctx context.Context, request UpdateTableRe
 }
 
 // updateTable implements the OCIOperation interface (enables retrying operations)
-func (client NosqlClient) updateTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tables/{tableNameOrId}", binaryReqBody)
+func (client NosqlClient) updateTable(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tables/{tableNameOrId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

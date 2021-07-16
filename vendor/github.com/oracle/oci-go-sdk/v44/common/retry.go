@@ -184,6 +184,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			}
 		}
 
+		extraHeaders := make(map[string]string)
 		// use a one-based counter because it's easier to think about operation retry in terms of attempt numbering
 		for currentOperationAttempt := uint(1); shouldContinueIssuingRequests(currentOperationAttempt, policy.MaximumNumberAttempts); currentOperationAttempt++ {
 			Debugln(fmt.Sprintf("operation attempt #%v", currentOperationAttempt))
@@ -192,7 +193,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				rsc = NewOCIReadSeekCloser(rsc.rc)
 				rsc.Seek(curPos, io.SeekStart)
 			}
-			response, err = operation(ctx, request, rsc)
+			response, err = operation(ctx, request, rsc, extraHeaders)
 
 			operationResponse := NewOCIOperationResponse(response, err, currentOperationAttempt)
 

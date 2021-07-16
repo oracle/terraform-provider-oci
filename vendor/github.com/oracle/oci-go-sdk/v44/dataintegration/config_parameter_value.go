@@ -30,6 +30,9 @@ type ConfigParameterValue struct {
 
 	// Reference to the parameter by its key.
 	ParameterValue *string `mandatory:"false" json:"parameterValue"`
+
+	// The root object value, used in custom parameters.
+	RootObjectValue *interface{} `mandatory:"false" json:"rootObjectValue"`
 }
 
 func (m ConfigParameterValue) String() string {

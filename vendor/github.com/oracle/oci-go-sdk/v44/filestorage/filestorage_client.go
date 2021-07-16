@@ -114,8 +114,9 @@ func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context,
 }
 
 // changeFileSystemCompartment implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/changeCompartment", binaryReqBody)
+func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +169,9 @@ func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context
 }
 
 // changeMountTargetCompartment implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/changeCompartment", binaryReqBody)
+func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -228,8 +230,9 @@ func (client FileStorageClient) CreateExport(ctx context.Context, request Create
 }
 
 // createExport implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) createExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exports", binaryReqBody)
+func (client FileStorageClient) createExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exports", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -310,8 +313,9 @@ func (client FileStorageClient) CreateFileSystem(ctx context.Context, request Cr
 }
 
 // createFileSystem implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) createFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems", binaryReqBody)
+func (client FileStorageClient) createFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -396,8 +400,9 @@ func (client FileStorageClient) CreateMountTarget(ctx context.Context, request C
 }
 
 // createMountTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) createMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets", binaryReqBody)
+func (client FileStorageClient) createMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -456,8 +461,9 @@ func (client FileStorageClient) CreateSnapshot(ctx context.Context, request Crea
 }
 
 // createSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) createSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/snapshots", binaryReqBody)
+func (client FileStorageClient) createSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/snapshots", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -510,8 +516,9 @@ func (client FileStorageClient) DeleteExport(ctx context.Context, request Delete
 }
 
 // deleteExport implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) deleteExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exports/{exportId}", binaryReqBody)
+func (client FileStorageClient) deleteExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exports/{exportId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -566,8 +573,9 @@ func (client FileStorageClient) DeleteFileSystem(ctx context.Context, request De
 }
 
 // deleteFileSystem implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) deleteFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fileSystems/{fileSystemId}", binaryReqBody)
+func (client FileStorageClient) deleteFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fileSystems/{fileSystemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -621,8 +629,9 @@ func (client FileStorageClient) DeleteMountTarget(ctx context.Context, request D
 }
 
 // deleteMountTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) deleteMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mountTargets/{mountTargetId}", binaryReqBody)
+func (client FileStorageClient) deleteMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mountTargets/{mountTargetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -675,8 +684,9 @@ func (client FileStorageClient) DeleteSnapshot(ctx context.Context, request Dele
 }
 
 // deleteSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) deleteSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/snapshots/{snapshotId}", binaryReqBody)
+func (client FileStorageClient) deleteSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/snapshots/{snapshotId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -729,8 +739,9 @@ func (client FileStorageClient) GetExport(ctx context.Context, request GetExport
 }
 
 // getExport implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exports/{exportId}", binaryReqBody)
+func (client FileStorageClient) getExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exports/{exportId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -783,8 +794,9 @@ func (client FileStorageClient) GetExportSet(ctx context.Context, request GetExp
 }
 
 // getExportSet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getExportSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exportSets/{exportSetId}", binaryReqBody)
+func (client FileStorageClient) getExportSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exportSets/{exportSetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -837,8 +849,9 @@ func (client FileStorageClient) GetFileSystem(ctx context.Context, request GetFi
 }
 
 // getFileSystem implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}", binaryReqBody)
+func (client FileStorageClient) getFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -891,8 +904,9 @@ func (client FileStorageClient) GetMountTarget(ctx context.Context, request GetM
 }
 
 // getMountTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mountTargets/{mountTargetId}", binaryReqBody)
+func (client FileStorageClient) getMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mountTargets/{mountTargetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -945,8 +959,9 @@ func (client FileStorageClient) GetSnapshot(ctx context.Context, request GetSnap
 }
 
 // getSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/snapshots/{snapshotId}", binaryReqBody)
+func (client FileStorageClient) getSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/snapshots/{snapshotId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -999,8 +1014,9 @@ func (client FileStorageClient) ListExportSets(ctx context.Context, request List
 }
 
 // listExportSets implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listExportSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exportSets", binaryReqBody)
+func (client FileStorageClient) listExportSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exportSets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1055,8 +1071,9 @@ func (client FileStorageClient) ListExports(ctx context.Context, request ListExp
 }
 
 // listExports implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listExports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exports", binaryReqBody)
+func (client FileStorageClient) listExports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exports", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1109,8 +1126,9 @@ func (client FileStorageClient) ListFileSystems(ctx context.Context, request Lis
 }
 
 // listFileSystems implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listFileSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems", binaryReqBody)
+func (client FileStorageClient) listFileSystems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1163,8 +1181,9 @@ func (client FileStorageClient) ListMountTargets(ctx context.Context, request Li
 }
 
 // listMountTargets implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listMountTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mountTargets", binaryReqBody)
+func (client FileStorageClient) listMountTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mountTargets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1217,8 +1236,9 @@ func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListS
 }
 
 // listSnapshots implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/snapshots", binaryReqBody)
+func (client FileStorageClient) listSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/snapshots", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1271,8 +1291,9 @@ func (client FileStorageClient) UpdateExport(ctx context.Context, request Update
 }
 
 // updateExport implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exports/{exportId}", binaryReqBody)
+func (client FileStorageClient) updateExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exports/{exportId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1325,8 +1346,9 @@ func (client FileStorageClient) UpdateExportSet(ctx context.Context, request Upd
 }
 
 // updateExportSet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateExportSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exportSets/{exportSetId}", binaryReqBody)
+func (client FileStorageClient) updateExportSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exportSets/{exportSetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1380,8 +1402,9 @@ func (client FileStorageClient) UpdateFileSystem(ctx context.Context, request Up
 }
 
 // updateFileSystem implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fileSystems/{fileSystemId}", binaryReqBody)
+func (client FileStorageClient) updateFileSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fileSystems/{fileSystemId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1434,8 +1457,9 @@ func (client FileStorageClient) UpdateMountTarget(ctx context.Context, request U
 }
 
 // updateMountTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mountTargets/{mountTargetId}", binaryReqBody)
+func (client FileStorageClient) updateMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mountTargets/{mountTargetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1488,8 +1512,9 @@ func (client FileStorageClient) UpdateSnapshot(ctx context.Context, request Upda
 }
 
 // updateSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/snapshots/{snapshotId}", binaryReqBody)
+func (client FileStorageClient) updateSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/snapshots/{snapshotId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

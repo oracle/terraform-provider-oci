@@ -114,8 +114,9 @@ func (client ServiceCatalogClient) BulkReplaceServiceCatalogAssociations(ctx con
 }
 
 // bulkReplaceServiceCatalogAssociations implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) bulkReplaceServiceCatalogAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceCatalogs/{serviceCatalogId}/actions/bulkReplaceAssociations", binaryReqBody)
+func (client ServiceCatalogClient) bulkReplaceServiceCatalogAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceCatalogs/{serviceCatalogId}/actions/bulkReplaceAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +169,9 @@ func (client ServiceCatalogClient) ChangePrivateApplicationCompartment(ctx conte
 }
 
 // changePrivateApplicationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) changePrivateApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateApplications/{privateApplicationId}/actions/changeCompartment", binaryReqBody)
+func (client ServiceCatalogClient) changePrivateApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateApplications/{privateApplicationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -222,8 +224,9 @@ func (client ServiceCatalogClient) ChangeServiceCatalogCompartment(ctx context.C
 }
 
 // changeServiceCatalogCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) changeServiceCatalogCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceCatalogs/{serviceCatalogId}/actions/changeCompartment", binaryReqBody)
+func (client ServiceCatalogClient) changeServiceCatalogCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceCatalogs/{serviceCatalogId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -281,8 +284,9 @@ func (client ServiceCatalogClient) CreatePrivateApplication(ctx context.Context,
 }
 
 // createPrivateApplication implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) createPrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateApplications", binaryReqBody)
+func (client ServiceCatalogClient) createPrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/privateApplications", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +344,9 @@ func (client ServiceCatalogClient) CreateServiceCatalog(ctx context.Context, req
 }
 
 // createServiceCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) createServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceCatalogs", binaryReqBody)
+func (client ServiceCatalogClient) createServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceCatalogs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -399,8 +404,9 @@ func (client ServiceCatalogClient) CreateServiceCatalogAssociation(ctx context.C
 }
 
 // createServiceCatalogAssociation implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) createServiceCatalogAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceCatalogAssociations", binaryReqBody)
+func (client ServiceCatalogClient) createServiceCatalogAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceCatalogAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -453,8 +459,9 @@ func (client ServiceCatalogClient) DeletePrivateApplication(ctx context.Context,
 }
 
 // deletePrivateApplication implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) deletePrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/privateApplications/{privateApplicationId}", binaryReqBody)
+func (client ServiceCatalogClient) deletePrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/privateApplications/{privateApplicationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -507,8 +514,9 @@ func (client ServiceCatalogClient) DeleteServiceCatalog(ctx context.Context, req
 }
 
 // deleteServiceCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) deleteServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceCatalogs/{serviceCatalogId}", binaryReqBody)
+func (client ServiceCatalogClient) deleteServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceCatalogs/{serviceCatalogId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -561,8 +569,9 @@ func (client ServiceCatalogClient) DeleteServiceCatalogAssociation(ctx context.C
 }
 
 // deleteServiceCatalogAssociation implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) deleteServiceCatalogAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceCatalogAssociations/{serviceCatalogAssociationId}", binaryReqBody)
+func (client ServiceCatalogClient) deleteServiceCatalogAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/serviceCatalogAssociations/{serviceCatalogAssociationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -615,8 +624,9 @@ func (client ServiceCatalogClient) GetPrivateApplication(ctx context.Context, re
 }
 
 // getPrivateApplication implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getPrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplications/{privateApplicationId}", binaryReqBody)
+func (client ServiceCatalogClient) getPrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplications/{privateApplicationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -669,8 +679,9 @@ func (client ServiceCatalogClient) GetPrivateApplicationActionDownloadLogo(ctx c
 }
 
 // getPrivateApplicationActionDownloadLogo implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getPrivateApplicationActionDownloadLogo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplications/{privateApplicationId}/actions/downloadLogo", binaryReqBody)
+func (client ServiceCatalogClient) getPrivateApplicationActionDownloadLogo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplications/{privateApplicationId}/actions/downloadLogo", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -722,8 +733,9 @@ func (client ServiceCatalogClient) GetPrivateApplicationPackage(ctx context.Cont
 }
 
 // getPrivateApplicationPackage implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getPrivateApplicationPackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplicationPackages/{privateApplicationPackageId}", binaryReqBody)
+func (client ServiceCatalogClient) getPrivateApplicationPackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplicationPackages/{privateApplicationPackageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -776,8 +788,9 @@ func (client ServiceCatalogClient) GetPrivateApplicationPackageActionDownloadCon
 }
 
 // getPrivateApplicationPackageActionDownloadConfig implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getPrivateApplicationPackageActionDownloadConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplicationPackages/{privateApplicationPackageId}/actions/downloadConfig", binaryReqBody)
+func (client ServiceCatalogClient) getPrivateApplicationPackageActionDownloadConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplicationPackages/{privateApplicationPackageId}/actions/downloadConfig", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -829,8 +842,9 @@ func (client ServiceCatalogClient) GetServiceCatalog(ctx context.Context, reques
 }
 
 // getServiceCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogs/{serviceCatalogId}", binaryReqBody)
+func (client ServiceCatalogClient) getServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogs/{serviceCatalogId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -883,8 +897,9 @@ func (client ServiceCatalogClient) GetServiceCatalogAssociation(ctx context.Cont
 }
 
 // getServiceCatalogAssociation implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getServiceCatalogAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogAssociations/{serviceCatalogAssociationId}", binaryReqBody)
+func (client ServiceCatalogClient) getServiceCatalogAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogAssociations/{serviceCatalogAssociationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -937,8 +952,9 @@ func (client ServiceCatalogClient) GetWorkRequest(ctx context.Context, request G
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client ServiceCatalogClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -993,8 +1009,9 @@ func (client ServiceCatalogClient) ListApplications(ctx context.Context, request
 }
 
 // listApplications implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications", binaryReqBody)
+func (client ServiceCatalogClient) listApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1047,8 +1064,9 @@ func (client ServiceCatalogClient) ListPrivateApplicationPackages(ctx context.Co
 }
 
 // listPrivateApplicationPackages implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listPrivateApplicationPackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplicationPackages", binaryReqBody)
+func (client ServiceCatalogClient) listPrivateApplicationPackages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplicationPackages", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1101,8 +1119,9 @@ func (client ServiceCatalogClient) ListPrivateApplications(ctx context.Context, 
 }
 
 // listPrivateApplications implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listPrivateApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplications", binaryReqBody)
+func (client ServiceCatalogClient) listPrivateApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/privateApplications", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1155,8 +1174,9 @@ func (client ServiceCatalogClient) ListServiceCatalogAssociations(ctx context.Co
 }
 
 // listServiceCatalogAssociations implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listServiceCatalogAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogAssociations", binaryReqBody)
+func (client ServiceCatalogClient) listServiceCatalogAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogAssociations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1209,8 +1229,9 @@ func (client ServiceCatalogClient) ListServiceCatalogs(ctx context.Context, requ
 }
 
 // listServiceCatalogs implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listServiceCatalogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogs", binaryReqBody)
+func (client ServiceCatalogClient) listServiceCatalogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/serviceCatalogs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1263,8 +1284,9 @@ func (client ServiceCatalogClient) ListWorkRequestErrors(ctx context.Context, re
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client ServiceCatalogClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1317,8 +1339,9 @@ func (client ServiceCatalogClient) ListWorkRequestLogs(ctx context.Context, requ
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client ServiceCatalogClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1371,8 +1394,9 @@ func (client ServiceCatalogClient) ListWorkRequests(ctx context.Context, request
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client ServiceCatalogClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1425,8 +1449,9 @@ func (client ServiceCatalogClient) UpdatePrivateApplication(ctx context.Context,
 }
 
 // updatePrivateApplication implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) updatePrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/privateApplications/{privateApplicationId}", binaryReqBody)
+func (client ServiceCatalogClient) updatePrivateApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/privateApplications/{privateApplicationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1479,8 +1504,9 @@ func (client ServiceCatalogClient) UpdateServiceCatalog(ctx context.Context, req
 }
 
 // updateServiceCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ServiceCatalogClient) updateServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceCatalogs/{serviceCatalogId}", binaryReqBody)
+func (client ServiceCatalogClient) updateServiceCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/serviceCatalogs/{serviceCatalogId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

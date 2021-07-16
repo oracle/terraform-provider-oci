@@ -45,8 +45,8 @@ func (request CreateModelArtifactRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateModelArtifactRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
-	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+func (request CreateModelArtifactRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+	httpRequest, err := common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 	if err == nil && binaryRequestBody.Seekable() {
 		common.UpdateRequestBinaryBody(&httpRequest, binaryRequestBody)
 	}

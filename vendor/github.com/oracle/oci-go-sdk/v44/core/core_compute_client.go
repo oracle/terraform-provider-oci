@@ -118,8 +118,9 @@ func (client ComputeClient) AddImageShapeCompatibilityEntry(ctx context.Context,
 }
 
 // addImageShapeCompatibilityEntry implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/images/{imageId}/shapes/{shapeName}", binaryReqBody)
+func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/images/{imageId}/shapes/{shapeName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -177,8 +178,9 @@ func (client ComputeClient) AttachBootVolume(ctx context.Context, request Attach
 }
 
 // attachBootVolume implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) attachBootVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bootVolumeAttachments", binaryReqBody)
+func (client ComputeClient) attachBootVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bootVolumeAttachments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +240,9 @@ func (client ComputeClient) AttachVnic(ctx context.Context, request AttachVnicRe
 }
 
 // attachVnic implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vnicAttachments", binaryReqBody)
+func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vnicAttachments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -297,8 +300,9 @@ func (client ComputeClient) AttachVolume(ctx context.Context, request AttachVolu
 }
 
 // attachVolume implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) attachVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/volumeAttachments", binaryReqBody)
+func (client ComputeClient) attachVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/volumeAttachments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -370,8 +374,9 @@ func (client ComputeClient) CaptureConsoleHistory(ctx context.Context, request C
 }
 
 // captureConsoleHistory implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) captureConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConsoleHistories", binaryReqBody)
+func (client ComputeClient) captureConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConsoleHistories", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -431,8 +436,9 @@ func (client ComputeClient) ChangeComputeCapacityReservationCompartment(ctx cont
 }
 
 // changeComputeCapacityReservationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityReservations/{capacityReservationId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityReservations/{capacityReservationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -492,8 +498,9 @@ func (client ComputeClient) ChangeComputeImageCapabilitySchemaCompartment(ctx co
 }
 
 // changeComputeImageCapabilitySchemaCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) changeComputeImageCapabilitySchemaCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeClient) changeComputeImageCapabilitySchemaCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -551,8 +558,9 @@ func (client ComputeClient) ChangeDedicatedVmHostCompartment(ctx context.Context
 }
 
 // changeDedicatedVmHostCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVmHosts/{dedicatedVmHostId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVmHosts/{dedicatedVmHostId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -612,8 +620,9 @@ func (client ComputeClient) ChangeImageCompartment(ctx context.Context, request 
 }
 
 // changeImageCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) changeImageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/images/{imageId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeClient) changeImageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/images/{imageId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -675,8 +684,9 @@ func (client ComputeClient) ChangeInstanceCompartment(ctx context.Context, reque
 }
 
 // changeInstanceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) changeInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/{instanceId}/actions/changeCompartment", binaryReqBody)
+func (client ComputeClient) changeInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/{instanceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -734,8 +744,9 @@ func (client ComputeClient) CreateAppCatalogSubscription(ctx context.Context, re
 }
 
 // createAppCatalogSubscription implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/appCatalogSubscriptions", binaryReqBody)
+func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/appCatalogSubscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -797,8 +808,9 @@ func (client ComputeClient) CreateComputeCapacityReservation(ctx context.Context
 }
 
 // createComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityReservations", binaryReqBody)
+func (client ComputeClient) createComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityReservations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -856,8 +868,9 @@ func (client ComputeClient) CreateComputeImageCapabilitySchema(ctx context.Conte
 }
 
 // createComputeImageCapabilitySchema implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeImageCapabilitySchemas", binaryReqBody)
+func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeImageCapabilitySchemas", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -918,8 +931,9 @@ func (client ComputeClient) CreateDedicatedVmHost(ctx context.Context, request C
 }
 
 // createDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVmHosts", binaryReqBody)
+func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVmHosts", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -993,8 +1007,9 @@ func (client ComputeClient) CreateImage(ctx context.Context, request CreateImage
 }
 
 // createImage implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/images", binaryReqBody)
+func (client ComputeClient) createImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/images", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1055,8 +1070,9 @@ func (client ComputeClient) CreateInstanceConsoleConnection(ctx context.Context,
 }
 
 // createInstanceConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConsoleConnections", binaryReqBody)
+func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConsoleConnections", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1109,8 +1125,9 @@ func (client ComputeClient) DeleteAppCatalogSubscription(ctx context.Context, re
 }
 
 // deleteAppCatalogSubscription implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/appCatalogSubscriptions", binaryReqBody)
+func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/appCatalogSubscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1163,8 +1180,9 @@ func (client ComputeClient) DeleteComputeCapacityReservation(ctx context.Context
 }
 
 // deleteComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeCapacityReservations/{capacityReservationId}", binaryReqBody)
+func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeCapacityReservations/{capacityReservationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1217,8 +1235,9 @@ func (client ComputeClient) DeleteComputeImageCapabilitySchema(ctx context.Conte
 }
 
 // deleteComputeImageCapabilitySchema implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}", binaryReqBody)
+func (client ComputeClient) deleteComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1271,8 +1290,9 @@ func (client ComputeClient) DeleteConsoleHistory(ctx context.Context, request De
 }
 
 // deleteConsoleHistory implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceConsoleHistories/{instanceConsoleHistoryId}", binaryReqBody)
+func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceConsoleHistories/{instanceConsoleHistoryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1327,8 +1347,9 @@ func (client ComputeClient) DeleteDedicatedVmHost(ctx context.Context, request D
 }
 
 // deleteDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dedicatedVmHosts/{dedicatedVmHostId}", binaryReqBody)
+func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dedicatedVmHosts/{dedicatedVmHostId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1381,8 +1402,9 @@ func (client ComputeClient) DeleteImage(ctx context.Context, request DeleteImage
 }
 
 // deleteImage implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/images/{imageId}", binaryReqBody)
+func (client ComputeClient) deleteImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/images/{imageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1435,8 +1457,9 @@ func (client ComputeClient) DeleteInstanceConsoleConnection(ctx context.Context,
 }
 
 // deleteInstanceConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceConsoleConnections/{instanceConsoleConnectionId}", binaryReqBody)
+func (client ComputeClient) deleteInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceConsoleConnections/{instanceConsoleConnectionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1491,8 +1514,9 @@ func (client ComputeClient) DetachBootVolume(ctx context.Context, request Detach
 }
 
 // detachBootVolume implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) detachBootVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bootVolumeAttachments/{bootVolumeAttachmentId}", binaryReqBody)
+func (client ComputeClient) detachBootVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bootVolumeAttachments/{bootVolumeAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1553,8 +1577,9 @@ func (client ComputeClient) DetachVnic(ctx context.Context, request DetachVnicRe
 }
 
 // detachVnic implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) detachVnic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vnicAttachments/{vnicAttachmentId}", binaryReqBody)
+func (client ComputeClient) detachVnic(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/vnicAttachments/{vnicAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1609,8 +1634,9 @@ func (client ComputeClient) DetachVolume(ctx context.Context, request DetachVolu
 }
 
 // detachVolume implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) detachVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/volumeAttachments/{volumeAttachmentId}", binaryReqBody)
+func (client ComputeClient) detachVolume(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/volumeAttachments/{volumeAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1674,8 +1700,9 @@ func (client ComputeClient) ExportImage(ctx context.Context, request ExportImage
 }
 
 // exportImage implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) exportImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/images/{imageId}/actions/export", binaryReqBody)
+func (client ComputeClient) exportImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/images/{imageId}/actions/export", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1728,8 +1755,9 @@ func (client ComputeClient) GetAppCatalogListing(ctx context.Context, request Ge
 }
 
 // getAppCatalogListing implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getAppCatalogListing(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}", binaryReqBody)
+func (client ComputeClient) getAppCatalogListing(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1782,8 +1810,9 @@ func (client ComputeClient) GetAppCatalogListingAgreements(ctx context.Context, 
 }
 
 // getAppCatalogListingAgreements implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}/resourceVersions/{resourceVersion}/agreements", binaryReqBody)
+func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}/resourceVersions/{resourceVersion}/agreements", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1836,8 +1865,9 @@ func (client ComputeClient) GetAppCatalogListingResourceVersion(ctx context.Cont
 }
 
 // getAppCatalogListingResourceVersion implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}/resourceVersions/{resourceVersion}", binaryReqBody)
+func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}/resourceVersions/{resourceVersion}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1890,8 +1920,9 @@ func (client ComputeClient) GetBootVolumeAttachment(ctx context.Context, request
 }
 
 // getBootVolumeAttachment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeAttachments/{bootVolumeAttachmentId}", binaryReqBody)
+func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeAttachments/{bootVolumeAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1944,8 +1975,9 @@ func (client ComputeClient) GetComputeCapacityReservation(ctx context.Context, r
 }
 
 // getComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations/{capacityReservationId}", binaryReqBody)
+func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations/{capacityReservationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1998,8 +2030,9 @@ func (client ComputeClient) GetComputeGlobalImageCapabilitySchema(ctx context.Co
 }
 
 // getComputeGlobalImageCapabilitySchema implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}", binaryReqBody)
+func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2052,8 +2085,9 @@ func (client ComputeClient) GetComputeGlobalImageCapabilitySchemaVersion(ctx con
 }
 
 // getComputeGlobalImageCapabilitySchemaVersion implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}/versions/{computeGlobalImageCapabilitySchemaVersionName}", binaryReqBody)
+func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}/versions/{computeGlobalImageCapabilitySchemaVersionName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2106,8 +2140,9 @@ func (client ComputeClient) GetComputeImageCapabilitySchema(ctx context.Context,
 }
 
 // getComputeImageCapabilitySchema implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}", binaryReqBody)
+func (client ComputeClient) getComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2162,8 +2197,9 @@ func (client ComputeClient) GetConsoleHistory(ctx context.Context, request GetCo
 }
 
 // getConsoleHistory implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories/{instanceConsoleHistoryId}", binaryReqBody)
+func (client ComputeClient) getConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories/{instanceConsoleHistoryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2218,8 +2254,9 @@ func (client ComputeClient) GetConsoleHistoryContent(ctx context.Context, reques
 }
 
 // getConsoleHistoryContent implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories/{instanceConsoleHistoryId}/data", binaryReqBody)
+func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories/{instanceConsoleHistoryId}/data", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2272,8 +2309,9 @@ func (client ComputeClient) GetDedicatedVmHost(ctx context.Context, request GetD
 }
 
 // getDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts/{dedicatedVmHostId}", binaryReqBody)
+func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts/{dedicatedVmHostId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2326,8 +2364,9 @@ func (client ComputeClient) GetImage(ctx context.Context, request GetImageReques
 }
 
 // getImage implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images/{imageId}", binaryReqBody)
+func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images/{imageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2380,8 +2419,9 @@ func (client ComputeClient) GetImageShapeCompatibilityEntry(ctx context.Context,
 }
 
 // getImageShapeCompatibilityEntry implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images/{imageId}/shapes/{shapeName}", binaryReqBody)
+func (client ComputeClient) getImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images/{imageId}/shapes/{shapeName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2434,8 +2474,9 @@ func (client ComputeClient) GetInstance(ctx context.Context, request GetInstance
 }
 
 // getInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}", binaryReqBody)
+func (client ComputeClient) getInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2488,8 +2529,9 @@ func (client ComputeClient) GetInstanceConsoleConnection(ctx context.Context, re
 }
 
 // getInstanceConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleConnections/{instanceConsoleConnectionId}", binaryReqBody)
+func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleConnections/{instanceConsoleConnectionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2542,8 +2584,9 @@ func (client ComputeClient) GetVnicAttachment(ctx context.Context, request GetVn
 }
 
 // getVnicAttachment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getVnicAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vnicAttachments/{vnicAttachmentId}", binaryReqBody)
+func (client ComputeClient) getVnicAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vnicAttachments/{vnicAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2596,8 +2639,9 @@ func (client ComputeClient) GetVolumeAttachment(ctx context.Context, request Get
 }
 
 // getVolumeAttachment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getVolumeAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/volumeAttachments/{volumeAttachmentId}", binaryReqBody)
+func (client ComputeClient) getVolumeAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/volumeAttachments/{volumeAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2651,8 +2695,9 @@ func (client ComputeClient) GetWindowsInstanceInitialCredentials(ctx context.Con
 }
 
 // getWindowsInstanceInitialCredentials implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/initialCredentials", binaryReqBody)
+func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/initialCredentials", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2730,8 +2775,9 @@ func (client ComputeClient) InstanceAction(ctx context.Context, request Instance
 }
 
 // instanceAction implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) instanceAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/{instanceId}", binaryReqBody)
+func (client ComputeClient) instanceAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/{instanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2820,8 +2866,9 @@ func (client ComputeClient) LaunchInstance(ctx context.Context, request LaunchIn
 }
 
 // launchInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) launchInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances", binaryReqBody)
+func (client ComputeClient) launchInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2874,8 +2921,9 @@ func (client ComputeClient) ListAppCatalogListingResourceVersions(ctx context.Co
 }
 
 // listAppCatalogListingResourceVersions implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}/resourceVersions", binaryReqBody)
+func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings/{listingId}/resourceVersions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2928,8 +2976,9 @@ func (client ComputeClient) ListAppCatalogListings(ctx context.Context, request 
 }
 
 // listAppCatalogListings implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listAppCatalogListings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings", binaryReqBody)
+func (client ComputeClient) listAppCatalogListings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogListings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2982,8 +3031,9 @@ func (client ComputeClient) ListAppCatalogSubscriptions(ctx context.Context, req
 }
 
 // listAppCatalogSubscriptions implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogSubscriptions", binaryReqBody)
+func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/appCatalogSubscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3037,8 +3087,9 @@ func (client ComputeClient) ListBootVolumeAttachments(ctx context.Context, reque
 }
 
 // listBootVolumeAttachments implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeAttachments", binaryReqBody)
+func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeAttachments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3091,8 +3142,9 @@ func (client ComputeClient) ListComputeCapacityReservationInstanceShapes(ctx con
 }
 
 // listComputeCapacityReservationInstanceShapes implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservationInstanceShapes", binaryReqBody)
+func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservationInstanceShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3145,8 +3197,9 @@ func (client ComputeClient) ListComputeCapacityReservationInstances(ctx context.
 }
 
 // listComputeCapacityReservationInstances implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations/{capacityReservationId}/instances", binaryReqBody)
+func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations/{capacityReservationId}/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3201,8 +3254,9 @@ func (client ComputeClient) ListComputeCapacityReservations(ctx context.Context,
 }
 
 // listComputeCapacityReservations implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listComputeCapacityReservations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations", binaryReqBody)
+func (client ComputeClient) listComputeCapacityReservations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityReservations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3255,8 +3309,9 @@ func (client ComputeClient) ListComputeGlobalImageCapabilitySchemaVersions(ctx c
 }
 
 // listComputeGlobalImageCapabilitySchemaVersions implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}/versions", binaryReqBody)
+func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}/versions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3309,8 +3364,9 @@ func (client ComputeClient) ListComputeGlobalImageCapabilitySchemas(ctx context.
 }
 
 // listComputeGlobalImageCapabilitySchemas implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas", binaryReqBody)
+func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeGlobalImageCapabilitySchemas", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3363,8 +3419,9 @@ func (client ComputeClient) ListComputeImageCapabilitySchemas(ctx context.Contex
 }
 
 // listComputeImageCapabilitySchemas implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listComputeImageCapabilitySchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeImageCapabilitySchemas", binaryReqBody)
+func (client ComputeClient) listComputeImageCapabilitySchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeImageCapabilitySchemas", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3417,8 +3474,9 @@ func (client ComputeClient) ListConsoleHistories(ctx context.Context, request Li
 }
 
 // listConsoleHistories implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listConsoleHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories", binaryReqBody)
+func (client ComputeClient) listConsoleHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3472,8 +3530,9 @@ func (client ComputeClient) ListDedicatedVmHostInstanceShapes(ctx context.Contex
 }
 
 // listDedicatedVmHostInstanceShapes implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHostInstanceShapes", binaryReqBody)
+func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHostInstanceShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3526,8 +3585,9 @@ func (client ComputeClient) ListDedicatedVmHostInstances(ctx context.Context, re
 }
 
 // listDedicatedVmHostInstances implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts/{dedicatedVmHostId}/instances", binaryReqBody)
+func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts/{dedicatedVmHostId}/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3580,8 +3640,9 @@ func (client ComputeClient) ListDedicatedVmHostShapes(ctx context.Context, reque
 }
 
 // listDedicatedVmHostShapes implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHostShapes", binaryReqBody)
+func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHostShapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3636,8 +3697,9 @@ func (client ComputeClient) ListDedicatedVmHosts(ctx context.Context, request Li
 }
 
 // listDedicatedVmHosts implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts", binaryReqBody)
+func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3690,8 +3752,9 @@ func (client ComputeClient) ListImageShapeCompatibilityEntries(ctx context.Conte
 }
 
 // listImageShapeCompatibilityEntries implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images/{imageId}/shapes", binaryReqBody)
+func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images/{imageId}/shapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3750,8 +3813,9 @@ func (client ComputeClient) ListImages(ctx context.Context, request ListImagesRe
 }
 
 // listImages implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images", binaryReqBody)
+func (client ComputeClient) listImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/images", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3805,8 +3869,9 @@ func (client ComputeClient) ListInstanceConsoleConnections(ctx context.Context, 
 }
 
 // listInstanceConsoleConnections implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleConnections", binaryReqBody)
+func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleConnections", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3859,8 +3924,9 @@ func (client ComputeClient) ListInstanceDevices(ctx context.Context, request Lis
 }
 
 // listInstanceDevices implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceDevices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/devices", binaryReqBody)
+func (client ComputeClient) listInstanceDevices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/devices", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3915,8 +3981,9 @@ func (client ComputeClient) ListInstances(ctx context.Context, request ListInsta
 }
 
 // listInstances implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances", binaryReqBody)
+func (client ComputeClient) listInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3970,8 +4037,9 @@ func (client ComputeClient) ListShapes(ctx context.Context, request ListShapesRe
 }
 
 // listShapes implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shapes", binaryReqBody)
+func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shapes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4026,8 +4094,9 @@ func (client ComputeClient) ListVnicAttachments(ctx context.Context, request Lis
 }
 
 // listVnicAttachments implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listVnicAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vnicAttachments", binaryReqBody)
+func (client ComputeClient) listVnicAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vnicAttachments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4099,8 +4168,9 @@ func (client ComputeClient) ListVolumeAttachments(ctx context.Context, request L
 }
 
 // listVolumeAttachments implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listVolumeAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/volumeAttachments", binaryReqBody)
+func (client ComputeClient) listVolumeAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/volumeAttachments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4153,8 +4223,9 @@ func (client ComputeClient) RemoveImageShapeCompatibilityEntry(ctx context.Conte
 }
 
 // removeImageShapeCompatibilityEntry implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/images/{imageId}/shapes/{shapeName}", binaryReqBody)
+func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/images/{imageId}/shapes/{shapeName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4212,8 +4283,9 @@ func (client ComputeClient) TerminateInstance(ctx context.Context, request Termi
 }
 
 // terminateInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) terminateInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instances/{instanceId}", binaryReqBody)
+func (client ComputeClient) terminateInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instances/{instanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4268,8 +4340,9 @@ func (client ComputeClient) UpdateComputeCapacityReservation(ctx context.Context
 }
 
 // updateComputeCapacityReservation implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeCapacityReservations/{capacityReservationId}", binaryReqBody)
+func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeCapacityReservations/{capacityReservationId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4322,8 +4395,9 @@ func (client ComputeClient) UpdateComputeImageCapabilitySchema(ctx context.Conte
 }
 
 // updateComputeImageCapabilitySchema implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}", binaryReqBody)
+func (client ComputeClient) updateComputeImageCapabilitySchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4376,8 +4450,9 @@ func (client ComputeClient) UpdateConsoleHistory(ctx context.Context, request Up
 }
 
 // updateConsoleHistory implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceConsoleHistories/{instanceConsoleHistoryId}", binaryReqBody)
+func (client ComputeClient) updateConsoleHistory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceConsoleHistories/{instanceConsoleHistoryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4436,8 +4511,9 @@ func (client ComputeClient) UpdateDedicatedVmHost(ctx context.Context, request U
 }
 
 // updateDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dedicatedVmHosts/{dedicatedVmHostId}", binaryReqBody)
+func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dedicatedVmHosts/{dedicatedVmHostId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4495,8 +4571,9 @@ func (client ComputeClient) UpdateImage(ctx context.Context, request UpdateImage
 }
 
 // updateImage implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/images/{imageId}", binaryReqBody)
+func (client ComputeClient) updateImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/images/{imageId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4558,8 +4635,9 @@ func (client ComputeClient) UpdateInstance(ctx context.Context, request UpdateIn
 }
 
 // updateInstance implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instances/{instanceId}", binaryReqBody)
+func (client ComputeClient) updateInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instances/{instanceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4612,8 +4690,9 @@ func (client ComputeClient) UpdateInstanceConsoleConnection(ctx context.Context,
 }
 
 // updateInstanceConsoleConnection implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceConsoleConnections/{instanceConsoleConnectionId}", binaryReqBody)
+func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceConsoleConnections/{instanceConsoleConnectionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4666,8 +4745,9 @@ func (client ComputeClient) UpdateVolumeAttachment(ctx context.Context, request 
 }
 
 // updateVolumeAttachment implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateVolumeAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/volumeAttachments/{volumeAttachmentId}", binaryReqBody)
+func (client ComputeClient) updateVolumeAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/volumeAttachments/{volumeAttachmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

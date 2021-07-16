@@ -95,8 +95,16 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3_CONNECTION":
+		mm := CreateConnectionFromAmazonS3{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := CreateConnectionFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BICC_CONNECTION":
+		mm := CreateConnectionFromBicc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_CONNECTION":
@@ -180,6 +188,8 @@ const (
 	CreateConnectionDetailsModelTypeOracledbConnection            CreateConnectionDetailsModelTypeEnum = "ORACLEDB_CONNECTION"
 	CreateConnectionDetailsModelTypeMysqlConnection               CreateConnectionDetailsModelTypeEnum = "MYSQL_CONNECTION"
 	CreateConnectionDetailsModelTypeGenericJdbcConnection         CreateConnectionDetailsModelTypeEnum = "GENERIC_JDBC_CONNECTION"
+	CreateConnectionDetailsModelTypeBiccConnection                CreateConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
+	CreateConnectionDetailsModelTypeAmazonS3Connection            CreateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 )
 
 var mappingCreateConnectionDetailsModelType = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -189,6 +199,8 @@ var mappingCreateConnectionDetailsModelType = map[string]CreateConnectionDetails
 	"ORACLEDB_CONNECTION":              CreateConnectionDetailsModelTypeOracledbConnection,
 	"MYSQL_CONNECTION":                 CreateConnectionDetailsModelTypeMysqlConnection,
 	"GENERIC_JDBC_CONNECTION":          CreateConnectionDetailsModelTypeGenericJdbcConnection,
+	"BICC_CONNECTION":                  CreateConnectionDetailsModelTypeBiccConnection,
+	"AMAZON_S3_CONNECTION":             CreateConnectionDetailsModelTypeAmazonS3Connection,
 }
 
 // GetCreateConnectionDetailsModelTypeEnumValues Enumerates the set of values for CreateConnectionDetailsModelTypeEnum

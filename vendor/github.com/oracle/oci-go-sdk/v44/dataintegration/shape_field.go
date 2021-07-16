@@ -37,7 +37,7 @@ type ShapeField struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// The reference to the type.
-	Type *string `mandatory:"false" json:"type"`
+	Type *interface{} `mandatory:"false" json:"type"`
 
 	// Labels are keywords or labels that you can add to data assets, dataflows etc. You can define your own labels and use them to categorize content.
 	Labels []string `mandatory:"false" json:"labels"`

@@ -68,6 +68,9 @@ type TaskRun struct {
 	// Task Key of the task for which TaskRun is being created. If not specified, the AggregatorKey in RegistryMetadata will be assumed to be the TaskKey
 	TaskKey *string `mandatory:"false" json:"taskKey"`
 
+	// The external identifier for the task run.
+	ExternalId *string `mandatory:"false" json:"externalId"`
+
 	// Holds the particular attempt number.
 	RetryAttempt *int `mandatory:"false" json:"retryAttempt"`
 
@@ -76,11 +79,17 @@ type TaskRun struct {
 	// A map of metrics for the run.
 	Metrics map[string]float32 `mandatory:"false" json:"metrics"`
 
+	// A map of the outputs of the run.
+	Outputs map[string]ParameterValue `mandatory:"false" json:"outputs"`
+
 	// An array of execution errors from the run.
 	ExecutionErrors []string `mandatory:"false" json:"executionErrors"`
 
 	// An array of termination errors from the run.
 	TerminationErrors []string `mandatory:"false" json:"terminationErrors"`
+
+	// The autorization mode for when the task was executed.
+	AuthMode TaskRunAuthModeEnum `mandatory:"false" json:"authMode,omitempty"`
 
 	// The OPC request ID of execution of the task run.
 	OpcRequestId *string `mandatory:"false" json:"opcRequestId"`
@@ -164,6 +173,31 @@ func GetTaskRunExpectedDurationUnitEnumValues() []TaskRunExpectedDurationUnitEnu
 	return values
 }
 
+// TaskRunAuthModeEnum Enum with underlying type: string
+type TaskRunAuthModeEnum string
+
+// Set of constants representing the allowable values for TaskRunAuthModeEnum
+const (
+	TaskRunAuthModeObo               TaskRunAuthModeEnum = "OBO"
+	TaskRunAuthModeResourcePrincipal TaskRunAuthModeEnum = "RESOURCE_PRINCIPAL"
+	TaskRunAuthModeUserCertificate   TaskRunAuthModeEnum = "USER_CERTIFICATE"
+)
+
+var mappingTaskRunAuthMode = map[string]TaskRunAuthModeEnum{
+	"OBO":                TaskRunAuthModeObo,
+	"RESOURCE_PRINCIPAL": TaskRunAuthModeResourcePrincipal,
+	"USER_CERTIFICATE":   TaskRunAuthModeUserCertificate,
+}
+
+// GetTaskRunAuthModeEnumValues Enumerates the set of values for TaskRunAuthModeEnum
+func GetTaskRunAuthModeEnumValues() []TaskRunAuthModeEnum {
+	values := make([]TaskRunAuthModeEnum, 0)
+	for _, v := range mappingTaskRunAuthMode {
+		values = append(values, v)
+	}
+	return values
+}
+
 // TaskRunTaskTypeEnum Enum with underlying type: string
 type TaskRunTaskTypeEnum string
 
@@ -172,12 +206,18 @@ const (
 	TaskRunTaskTypeIntegrationTask TaskRunTaskTypeEnum = "INTEGRATION_TASK"
 	TaskRunTaskTypeDataLoaderTask  TaskRunTaskTypeEnum = "DATA_LOADER_TASK"
 	TaskRunTaskTypePipelineTask    TaskRunTaskTypeEnum = "PIPELINE_TASK"
+	TaskRunTaskTypeSqlTask         TaskRunTaskTypeEnum = "SQL_TASK"
+	TaskRunTaskTypeOciDataflowTask TaskRunTaskTypeEnum = "OCI_DATAFLOW_TASK"
+	TaskRunTaskTypeRestTask        TaskRunTaskTypeEnum = "REST_TASK"
 )
 
 var mappingTaskRunTaskType = map[string]TaskRunTaskTypeEnum{
-	"INTEGRATION_TASK": TaskRunTaskTypeIntegrationTask,
-	"DATA_LOADER_TASK": TaskRunTaskTypeDataLoaderTask,
-	"PIPELINE_TASK":    TaskRunTaskTypePipelineTask,
+	"INTEGRATION_TASK":  TaskRunTaskTypeIntegrationTask,
+	"DATA_LOADER_TASK":  TaskRunTaskTypeDataLoaderTask,
+	"PIPELINE_TASK":     TaskRunTaskTypePipelineTask,
+	"SQL_TASK":          TaskRunTaskTypeSqlTask,
+	"OCI_DATAFLOW_TASK": TaskRunTaskTypeOciDataflowTask,
+	"REST_TASK":         TaskRunTaskTypeRestTask,
 }
 
 // GetTaskRunTaskTypeEnumValues Enumerates the set of values for TaskRunTaskTypeEnum

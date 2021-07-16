@@ -16,13 +16,13 @@ import (
 // PluggableDatabaseConnectionStrings Connection strings to connect to an Oracle Pluggable Database.
 type PluggableDatabaseConnectionStrings struct {
 
-	// Host name based PDB Connection String.
+	// A host name-based PDB connection string.
 	PdbDefault *string `mandatory:"false" json:"pdbDefault"`
 
-	// IP based PDB Connection String.
+	// An IP-based PDB connection string.
 	PdbIpDefault *string `mandatory:"false" json:"pdbIpDefault"`
 
-	// All connection strings to use to connect to the Pluggable Database.
+	// All connection strings to use to connect to the pluggable database.
 	AllConnectionStrings map[string]string `mandatory:"false" json:"allConnectionStrings"`
 }
 

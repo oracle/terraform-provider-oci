@@ -51,9 +51,9 @@ func (request ListServiceCatalogsRequest) String() string {
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListServiceCatalogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser) (http.Request, error) {
+func (request ListServiceCatalogsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
-	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
+	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface

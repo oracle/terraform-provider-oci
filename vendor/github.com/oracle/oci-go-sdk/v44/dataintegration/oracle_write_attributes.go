@@ -10,14 +10,12 @@
 package dataintegration
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v44/common"
 )
 
 // OracleWriteAttributes Properties to configure when writing to an Oracle Database.
 type OracleWriteAttributes struct {
-
-	// The type of the abstract write attribute.
-	ModelType OracleWriteAttributesModelTypeEnum `mandatory:"true" json:"modelType"`
 
 	// The batch size for writing.
 	BatchSize *int `mandatory:"false" json:"batchSize"`
@@ -33,33 +31,16 @@ func (m OracleWriteAttributes) String() string {
 	return common.PointerString(m)
 }
 
-// OracleWriteAttributesModelTypeEnum Enum with underlying type: string
-type OracleWriteAttributesModelTypeEnum string
-
-// Set of constants representing the allowable values for OracleWriteAttributesModelTypeEnum
-const (
-	OracleWriteAttributesModelTypeOraclewriteattribute     OracleWriteAttributesModelTypeEnum = "ORACLEWRITEATTRIBUTE"
-	OracleWriteAttributesModelTypeOracleatpwriteattribute  OracleWriteAttributesModelTypeEnum = "ORACLEATPWRITEATTRIBUTE"
-	OracleWriteAttributesModelTypeOracleadwcwriteattribute OracleWriteAttributesModelTypeEnum = "ORACLEADWCWRITEATTRIBUTE"
-	OracleWriteAttributesModelTypeOracleWriteAttribute     OracleWriteAttributesModelTypeEnum = "ORACLE_WRITE_ATTRIBUTE"
-	OracleWriteAttributesModelTypeOracleAtpWriteAttribute  OracleWriteAttributesModelTypeEnum = "ORACLE_ATP_WRITE_ATTRIBUTE"
-	OracleWriteAttributesModelTypeOracleAdwcWriteAttribute OracleWriteAttributesModelTypeEnum = "ORACLE_ADWC_WRITE_ATTRIBUTE"
-)
-
-var mappingOracleWriteAttributesModelType = map[string]OracleWriteAttributesModelTypeEnum{
-	"ORACLEWRITEATTRIBUTE":        OracleWriteAttributesModelTypeOraclewriteattribute,
-	"ORACLEATPWRITEATTRIBUTE":     OracleWriteAttributesModelTypeOracleatpwriteattribute,
-	"ORACLEADWCWRITEATTRIBUTE":    OracleWriteAttributesModelTypeOracleadwcwriteattribute,
-	"ORACLE_WRITE_ATTRIBUTE":      OracleWriteAttributesModelTypeOracleWriteAttribute,
-	"ORACLE_ATP_WRITE_ATTRIBUTE":  OracleWriteAttributesModelTypeOracleAtpWriteAttribute,
-	"ORACLE_ADWC_WRITE_ATTRIBUTE": OracleWriteAttributesModelTypeOracleAdwcWriteAttribute,
-}
-
-// GetOracleWriteAttributesModelTypeEnumValues Enumerates the set of values for OracleWriteAttributesModelTypeEnum
-func GetOracleWriteAttributesModelTypeEnumValues() []OracleWriteAttributesModelTypeEnum {
-	values := make([]OracleWriteAttributesModelTypeEnum, 0)
-	for _, v := range mappingOracleWriteAttributesModelType {
-		values = append(values, v)
+// MarshalJSON marshals to json representation
+func (m OracleWriteAttributes) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeOracleWriteAttributes OracleWriteAttributes
+	s := struct {
+		DiscriminatorParam string `json:"modelType"`
+		MarshalTypeOracleWriteAttributes
+	}{
+		"ORACLE_WRITE_ATTRIBUTE",
+		(MarshalTypeOracleWriteAttributes)(m),
 	}
-	return values
+
+	return json.Marshal(&s)
 }

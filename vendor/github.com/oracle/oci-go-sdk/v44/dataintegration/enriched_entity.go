@@ -19,6 +19,11 @@ type EnrichedEntity struct {
 	Entity DataEntity `mandatory:"false" json:"entity"`
 
 	DataFormat *DataFormat `mandatory:"false" json:"dataFormat"`
+
+	// The model type for the entity which is referenced.
+	ModelType *string `mandatory:"false" json:"modelType"`
+
+	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 }
 
 func (m EnrichedEntity) String() string {
@@ -28,8 +33,10 @@ func (m EnrichedEntity) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *EnrichedEntity) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Entity     dataentity  `json:"entity"`
-		DataFormat *DataFormat `json:"dataFormat"`
+		Entity     dataentity       `json:"entity"`
+		DataFormat *DataFormat      `json:"dataFormat"`
+		ModelType  *string          `json:"modelType"`
+		ParentRef  *ParentReference `json:"parentRef"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -48,6 +55,10 @@ func (m *EnrichedEntity) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.DataFormat = model.DataFormat
+
+	m.ModelType = model.ModelType
+
+	m.ParentRef = model.ParentRef
 
 	return
 }

@@ -23,7 +23,7 @@ type NativeShapeField struct {
 	ModelType *string `mandatory:"false" json:"modelType"`
 
 	// The type reference.
-	Type *string `mandatory:"false" json:"type"`
+	Type *interface{} `mandatory:"false" json:"type"`
 
 	ConfigValues *ConfigValues `mandatory:"false" json:"configValues"`
 

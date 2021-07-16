@@ -50,12 +50,18 @@ const (
 	PatchObjectMetadataTypeIntegrationTask PatchObjectMetadataTypeEnum = "INTEGRATION_TASK"
 	PatchObjectMetadataTypeDataLoaderTask  PatchObjectMetadataTypeEnum = "DATA_LOADER_TASK"
 	PatchObjectMetadataTypePipelineTask    PatchObjectMetadataTypeEnum = "PIPELINE_TASK"
+	PatchObjectMetadataTypeSqlTask         PatchObjectMetadataTypeEnum = "SQL_TASK"
+	PatchObjectMetadataTypeOciDataflowTask PatchObjectMetadataTypeEnum = "OCI_DATAFLOW_TASK"
+	PatchObjectMetadataTypeRestTask        PatchObjectMetadataTypeEnum = "REST_TASK"
 )
 
 var mappingPatchObjectMetadataType = map[string]PatchObjectMetadataTypeEnum{
-	"INTEGRATION_TASK": PatchObjectMetadataTypeIntegrationTask,
-	"DATA_LOADER_TASK": PatchObjectMetadataTypeDataLoaderTask,
-	"PIPELINE_TASK":    PatchObjectMetadataTypePipelineTask,
+	"INTEGRATION_TASK":  PatchObjectMetadataTypeIntegrationTask,
+	"DATA_LOADER_TASK":  PatchObjectMetadataTypeDataLoaderTask,
+	"PIPELINE_TASK":     PatchObjectMetadataTypePipelineTask,
+	"SQL_TASK":          PatchObjectMetadataTypeSqlTask,
+	"OCI_DATAFLOW_TASK": PatchObjectMetadataTypeOciDataflowTask,
+	"REST_TASK":         PatchObjectMetadataTypeRestTask,
 }
 
 // GetPatchObjectMetadataTypeEnumValues Enumerates the set of values for PatchObjectMetadataTypeEnum

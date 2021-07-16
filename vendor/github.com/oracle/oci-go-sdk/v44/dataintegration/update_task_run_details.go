@@ -37,6 +37,9 @@ type UpdateTaskRunDetails struct {
 	// The version of the object that is used to track changes in the object instance.
 	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
+	// Optional task schedule key reference.
+	TaskScheduleKey *string `mandatory:"false" json:"taskScheduleKey"`
+
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 

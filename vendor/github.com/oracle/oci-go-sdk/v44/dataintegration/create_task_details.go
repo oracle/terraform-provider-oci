@@ -121,6 +121,18 @@ func (m *createtaskdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := CreateTaskFromPipelineTask{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_DATAFLOW_TASK":
+		mm := CreateTaskFromOciDataflowTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SQL_TASK":
+		mm := CreateTaskFromSqlTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_TASK":
+		mm := CreateTaskFromRestTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -203,12 +215,18 @@ const (
 	CreateTaskDetailsModelTypeIntegrationTask CreateTaskDetailsModelTypeEnum = "INTEGRATION_TASK"
 	CreateTaskDetailsModelTypeDataLoaderTask  CreateTaskDetailsModelTypeEnum = "DATA_LOADER_TASK"
 	CreateTaskDetailsModelTypePipelineTask    CreateTaskDetailsModelTypeEnum = "PIPELINE_TASK"
+	CreateTaskDetailsModelTypeSqlTask         CreateTaskDetailsModelTypeEnum = "SQL_TASK"
+	CreateTaskDetailsModelTypeOciDataflowTask CreateTaskDetailsModelTypeEnum = "OCI_DATAFLOW_TASK"
+	CreateTaskDetailsModelTypeRestTask        CreateTaskDetailsModelTypeEnum = "REST_TASK"
 )
 
 var mappingCreateTaskDetailsModelType = map[string]CreateTaskDetailsModelTypeEnum{
-	"INTEGRATION_TASK": CreateTaskDetailsModelTypeIntegrationTask,
-	"DATA_LOADER_TASK": CreateTaskDetailsModelTypeDataLoaderTask,
-	"PIPELINE_TASK":    CreateTaskDetailsModelTypePipelineTask,
+	"INTEGRATION_TASK":  CreateTaskDetailsModelTypeIntegrationTask,
+	"DATA_LOADER_TASK":  CreateTaskDetailsModelTypeDataLoaderTask,
+	"PIPELINE_TASK":     CreateTaskDetailsModelTypePipelineTask,
+	"SQL_TASK":          CreateTaskDetailsModelTypeSqlTask,
+	"OCI_DATAFLOW_TASK": CreateTaskDetailsModelTypeOciDataflowTask,
+	"REST_TASK":         CreateTaskDetailsModelTypeRestTask,
 }
 
 // GetCreateTaskDetailsModelTypeEnumValues Enumerates the set of values for CreateTaskDetailsModelTypeEnum

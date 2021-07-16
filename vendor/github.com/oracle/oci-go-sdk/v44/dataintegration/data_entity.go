@@ -55,6 +55,10 @@ func (m *dataentity) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := DataEntityFromTable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATA_STORE_ENTITY":
+		mm := DataEntityFromDataStore{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VIEW_ENTITY":
 		mm := DataEntityFromView{}
 		err = json.Unmarshal(data, &mm)
@@ -82,15 +86,17 @@ type DataEntityModelTypeEnum string
 
 // Set of constants representing the allowable values for DataEntityModelTypeEnum
 const (
-	DataEntityModelTypeViewEntity  DataEntityModelTypeEnum = "VIEW_ENTITY"
-	DataEntityModelTypeTableEntity DataEntityModelTypeEnum = "TABLE_ENTITY"
-	DataEntityModelTypeFileEntity  DataEntityModelTypeEnum = "FILE_ENTITY"
+	DataEntityModelTypeViewEntity      DataEntityModelTypeEnum = "VIEW_ENTITY"
+	DataEntityModelTypeTableEntity     DataEntityModelTypeEnum = "TABLE_ENTITY"
+	DataEntityModelTypeFileEntity      DataEntityModelTypeEnum = "FILE_ENTITY"
+	DataEntityModelTypeDataStoreEntity DataEntityModelTypeEnum = "DATA_STORE_ENTITY"
 )
 
 var mappingDataEntityModelType = map[string]DataEntityModelTypeEnum{
-	"VIEW_ENTITY":  DataEntityModelTypeViewEntity,
-	"TABLE_ENTITY": DataEntityModelTypeTableEntity,
-	"FILE_ENTITY":  DataEntityModelTypeFileEntity,
+	"VIEW_ENTITY":       DataEntityModelTypeViewEntity,
+	"TABLE_ENTITY":      DataEntityModelTypeTableEntity,
+	"FILE_ENTITY":       DataEntityModelTypeFileEntity,
+	"DATA_STORE_ENTITY": DataEntityModelTypeDataStoreEntity,
 }
 
 // GetDataEntityModelTypeEnumValues Enumerates the set of values for DataEntityModelTypeEnum

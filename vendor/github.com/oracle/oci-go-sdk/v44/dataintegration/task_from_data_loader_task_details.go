@@ -58,6 +58,8 @@ type TaskFromDataLoaderTaskDetails struct {
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 
+	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 }
 
@@ -134,6 +136,11 @@ func (m TaskFromDataLoaderTaskDetails) GetMetadata() *ObjectMetadata {
 //GetKeyMap returns KeyMap
 func (m TaskFromDataLoaderTaskDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
+}
+
+//GetRegistryMetadata returns RegistryMetadata
+func (m TaskFromDataLoaderTaskDetails) GetRegistryMetadata() *RegistryMetadata {
+	return m.RegistryMetadata
 }
 
 func (m TaskFromDataLoaderTaskDetails) String() string {

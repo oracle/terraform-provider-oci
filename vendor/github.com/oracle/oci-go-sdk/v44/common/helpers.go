@@ -284,11 +284,10 @@ func makeACopy(original []string) []string {
 	return tmp
 }
 
-// getExpectHeaderConfig is used for checking if Expect header Env var is explicitly set to false, otherwise would add
-// the header by default
-func getExpectHeaderConfig() bool {
-	if val, existed := os.LookupEnv(usingExpectHeaderEnvVar); existed && val == "FALSE" {
-		return false
+// IsEnvVarFalse is used for checking if an environment variable is explicitly set to false, otherwise would set it true by default
+func IsEnvVarFalse(envVarKey string) bool {
+	if val, existed := os.LookupEnv(envVarKey); existed && strings.ToLower(val) == "false" {
+		return true
 	}
-	return true
+	return false
 }

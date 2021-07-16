@@ -121,8 +121,9 @@ func (client DeploymentClient) ChangeDeploymentCompartment(ctx context.Context, 
 }
 
 // changeDeploymentCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) changeDeploymentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/changeCompartment", binaryReqBody)
+func (client DeploymentClient) changeDeploymentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client DeploymentClient) CreateDeployment(ctx context.Context, request Cre
 }
 
 // createDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) createDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments", binaryReqBody)
+func (client DeploymentClient) createDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -234,8 +236,9 @@ func (client DeploymentClient) DeleteDeployment(ctx context.Context, request Del
 }
 
 // deleteDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) deleteDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/deployments/{deploymentId}", binaryReqBody)
+func (client DeploymentClient) deleteDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/deployments/{deploymentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -288,8 +291,9 @@ func (client DeploymentClient) GetDeployment(ctx context.Context, request GetDep
 }
 
 // getDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) getDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}", binaryReqBody)
+func (client DeploymentClient) getDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -342,8 +346,9 @@ func (client DeploymentClient) ListDeployments(ctx context.Context, request List
 }
 
 // listDeployments implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) listDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments", binaryReqBody)
+func (client DeploymentClient) listDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -396,8 +401,9 @@ func (client DeploymentClient) UpdateDeployment(ctx context.Context, request Upd
 }
 
 // updateDeployment implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) updateDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/deployments/{deploymentId}", binaryReqBody)
+func (client DeploymentClient) updateDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/deployments/{deploymentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

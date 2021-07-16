@@ -121,12 +121,20 @@ func (m *dataassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := DataAssetSummaryFromJdbc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3_DATA_ASSET":
+		mm := DataAssetSummaryFromAmazonS3{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
 		mm := DataAssetSummaryFromObjectStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_DATA_ASSET":
 		mm := DataAssetSummaryFromOracle{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FUSION_APP_DATA_ASSET":
+		mm := DataAssetSummaryFromFusionApp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -209,6 +217,8 @@ const (
 	DataAssetSummaryModelTypeOracleAdwcDataAsset          DataAssetSummaryModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
 	DataAssetSummaryModelTypeMysqlDataAsset               DataAssetSummaryModelTypeEnum = "MYSQL_DATA_ASSET"
 	DataAssetSummaryModelTypeGenericJdbcDataAsset         DataAssetSummaryModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
+	DataAssetSummaryModelTypeFusionAppDataAsset           DataAssetSummaryModelTypeEnum = "FUSION_APP_DATA_ASSET"
+	DataAssetSummaryModelTypeAmazonS3DataAsset            DataAssetSummaryModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
 var mappingDataAssetSummaryModelType = map[string]DataAssetSummaryModelTypeEnum{
@@ -218,6 +228,8 @@ var mappingDataAssetSummaryModelType = map[string]DataAssetSummaryModelTypeEnum{
 	"ORACLE_ADWC_DATA_ASSET":           DataAssetSummaryModelTypeOracleAdwcDataAsset,
 	"MYSQL_DATA_ASSET":                 DataAssetSummaryModelTypeMysqlDataAsset,
 	"GENERIC_JDBC_DATA_ASSET":          DataAssetSummaryModelTypeGenericJdbcDataAsset,
+	"FUSION_APP_DATA_ASSET":            DataAssetSummaryModelTypeFusionAppDataAsset,
+	"AMAZON_S3_DATA_ASSET":             DataAssetSummaryModelTypeAmazonS3DataAsset,
 }
 
 // GetDataAssetSummaryModelTypeEnumValues Enumerates the set of values for DataAssetSummaryModelTypeEnum

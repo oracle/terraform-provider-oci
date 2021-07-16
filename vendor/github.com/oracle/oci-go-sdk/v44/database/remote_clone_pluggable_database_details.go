@@ -13,11 +13,11 @@ import (
 	"github.com/oracle/oci-go-sdk/v44/common"
 )
 
-// RemoteClonePluggableDatabaseDetails Parameters for cloning a pluggable database on a remote (different) CDB.
+// RemoteClonePluggableDatabaseDetails Parameters for cloning a pluggable database (PDB) in a remote database (CDB). A remote CDB is one that does not contain the source PDB.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type RemoteClonePluggableDatabaseDetails struct {
 
-	// The name for the pluggable database. The name is unique in the context of a Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
+	// The name for the pluggable database (PDB). The name is unique in the context of a Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
 	ClonedPdbName *string `mandatory:"true" json:"clonedPdbName"`
 
 	// A strong password for PDB Admin of the newly cloned PDB. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.

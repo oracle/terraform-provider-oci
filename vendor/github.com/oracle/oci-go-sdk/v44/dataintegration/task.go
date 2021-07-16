@@ -57,6 +57,8 @@ type Task interface {
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	GetKeyMap() map[string]string
+
+	GetRegistryMetadata() *RegistryMetadata
 }
 
 type task struct {
@@ -76,6 +78,7 @@ type task struct {
 	ConfigProviderDelegate *ConfigProvider   `mandatory:"false" json:"configProviderDelegate"`
 	Metadata               *ObjectMetadata   `mandatory:"false" json:"metadata"`
 	KeyMap                 map[string]string `mandatory:"false" json:"keyMap"`
+	RegistryMetadata       *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 	ModelType              string            `json:"modelType"`
 }
 
@@ -105,6 +108,7 @@ func (m *task) UnmarshalJSON(data []byte) error {
 	m.ConfigProviderDelegate = s.Model.ConfigProviderDelegate
 	m.Metadata = s.Model.Metadata
 	m.KeyMap = s.Model.KeyMap
+	m.RegistryMetadata = s.Model.RegistryMetadata
 	m.ModelType = s.Model.ModelType
 
 	return err
@@ -125,6 +129,18 @@ func (m *task) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		return mm, err
 	case "INTEGRATION_TASK":
 		mm := TaskFromIntegrationTaskDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SQL_TASK":
+		mm := TaskFromSqlTaskDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_TASK":
+		mm := TaskFromRestTaskDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_DATAFLOW_TASK":
+		mm := TaskFromOciDataflowTaskDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DATA_LOADER_TASK":
@@ -211,6 +227,11 @@ func (m task) GetKeyMap() map[string]string {
 	return m.KeyMap
 }
 
+//GetRegistryMetadata returns RegistryMetadata
+func (m task) GetRegistryMetadata() *RegistryMetadata {
+	return m.RegistryMetadata
+}
+
 func (m task) String() string {
 	return common.PointerString(m)
 }
@@ -223,12 +244,18 @@ const (
 	TaskModelTypeIntegrationTask TaskModelTypeEnum = "INTEGRATION_TASK"
 	TaskModelTypeDataLoaderTask  TaskModelTypeEnum = "DATA_LOADER_TASK"
 	TaskModelTypePipelineTask    TaskModelTypeEnum = "PIPELINE_TASK"
+	TaskModelTypeSqlTask         TaskModelTypeEnum = "SQL_TASK"
+	TaskModelTypeOciDataflowTask TaskModelTypeEnum = "OCI_DATAFLOW_TASK"
+	TaskModelTypeRestTask        TaskModelTypeEnum = "REST_TASK"
 )
 
 var mappingTaskModelType = map[string]TaskModelTypeEnum{
-	"INTEGRATION_TASK": TaskModelTypeIntegrationTask,
-	"DATA_LOADER_TASK": TaskModelTypeDataLoaderTask,
-	"PIPELINE_TASK":    TaskModelTypePipelineTask,
+	"INTEGRATION_TASK":  TaskModelTypeIntegrationTask,
+	"DATA_LOADER_TASK":  TaskModelTypeDataLoaderTask,
+	"PIPELINE_TASK":     TaskModelTypePipelineTask,
+	"SQL_TASK":          TaskModelTypeSqlTask,
+	"OCI_DATAFLOW_TASK": TaskModelTypeOciDataflowTask,
+	"REST_TASK":         TaskModelTypeRestTask,
 }
 
 // GetTaskModelTypeEnumValues Enumerates the set of values for TaskModelTypeEnum

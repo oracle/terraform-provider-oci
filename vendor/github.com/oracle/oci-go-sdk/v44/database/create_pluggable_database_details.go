@@ -13,11 +13,11 @@ import (
 	"github.com/oracle/oci-go-sdk/v44/common"
 )
 
-// CreatePluggableDatabaseDetails Parameters for creating a pluggable database in a specified container database.
+// CreatePluggableDatabaseDetails Parameters for creating a pluggable database in a specified container database (CDB).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreatePluggableDatabaseDetails struct {
 
-	// The name for the pluggable database. The name is unique in the context of a Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
+	// The name for the pluggable database (PDB). The name is unique in the context of a Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
 	PdbName *string `mandatory:"true" json:"pdbName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the CDB

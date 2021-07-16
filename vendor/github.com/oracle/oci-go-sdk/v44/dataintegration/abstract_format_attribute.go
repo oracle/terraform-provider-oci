@@ -16,11 +16,15 @@ import (
 
 // AbstractFormatAttribute The abstract format attribute.
 type AbstractFormatAttribute interface {
+
+	// Defines whether a file pattern is supported.
+	GetIsFilePattern() *bool
 }
 
 type abstractformatattribute struct {
-	JsonData  []byte
-	ModelType string `json:"modelType"`
+	JsonData      []byte
+	IsFilePattern *bool  `mandatory:"false" json:"isFilePattern"`
+	ModelType     string `json:"modelType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -34,6 +38,7 @@ func (m *abstractformatattribute) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.IsFilePattern = s.Model.IsFilePattern
 	m.ModelType = s.Model.ModelType
 
 	return err
@@ -60,9 +65,18 @@ func (m *abstractformatattribute) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CsvFormatAttribute{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PARQUET_FORMAT":
+		mm := ParquetFormatAttribute{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
+}
+
+//GetIsFilePattern returns IsFilePattern
+func (m abstractformatattribute) GetIsFilePattern() *bool {
+	return m.IsFilePattern
 }
 
 func (m abstractformatattribute) String() string {

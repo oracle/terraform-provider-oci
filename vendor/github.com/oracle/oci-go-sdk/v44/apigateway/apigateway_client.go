@@ -121,8 +121,9 @@ func (client ApiGatewayClient) ChangeApiCompartment(ctx context.Context, request
 }
 
 // changeApiCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) changeApiCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/apis/{apiId}/actions/changeCompartment", binaryReqBody)
+func (client ApiGatewayClient) changeApiCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/apis/{apiId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client ApiGatewayClient) ChangeCertificateCompartment(ctx context.Context,
 }
 
 // changeCertificateCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/changeCompartment", binaryReqBody)
+func (client ApiGatewayClient) changeCertificateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -239,8 +241,9 @@ func (client ApiGatewayClient) CreateApi(ctx context.Context, request CreateApiR
 }
 
 // createApi implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/apis", binaryReqBody)
+func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/apis", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -298,8 +301,9 @@ func (client ApiGatewayClient) CreateCertificate(ctx context.Context, request Cr
 }
 
 // createCertificate implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) createCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates", binaryReqBody)
+func (client ApiGatewayClient) createCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -357,8 +361,9 @@ func (client ApiGatewayClient) CreateSdk(ctx context.Context, request CreateSdkR
 }
 
 // createSdk implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) createSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sdks", binaryReqBody)
+func (client ApiGatewayClient) createSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sdks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -411,8 +416,9 @@ func (client ApiGatewayClient) DeleteApi(ctx context.Context, request DeleteApiR
 }
 
 // deleteApi implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) deleteApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/apis/{apiId}", binaryReqBody)
+func (client ApiGatewayClient) deleteApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/apis/{apiId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -465,8 +471,9 @@ func (client ApiGatewayClient) DeleteCertificate(ctx context.Context, request De
 }
 
 // deleteCertificate implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) deleteCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/certificates/{certificateId}", binaryReqBody)
+func (client ApiGatewayClient) deleteCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/certificates/{certificateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -519,8 +526,9 @@ func (client ApiGatewayClient) DeleteSdk(ctx context.Context, request DeleteSdkR
 }
 
 // deleteSdk implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) deleteSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sdks/{sdkId}", binaryReqBody)
+func (client ApiGatewayClient) deleteSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sdks/{sdkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -573,8 +581,9 @@ func (client ApiGatewayClient) GetApi(ctx context.Context, request GetApiRequest
 }
 
 // getApi implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}", binaryReqBody)
+func (client ApiGatewayClient) getApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -627,8 +636,9 @@ func (client ApiGatewayClient) GetApiContent(ctx context.Context, request GetApi
 }
 
 // getApiContent implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getApiContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}/content", binaryReqBody)
+func (client ApiGatewayClient) getApiContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}/content", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -680,8 +690,9 @@ func (client ApiGatewayClient) GetApiDeploymentSpecification(ctx context.Context
 }
 
 // getApiDeploymentSpecification implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}/deploymentSpecification", binaryReqBody)
+func (client ApiGatewayClient) getApiDeploymentSpecification(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}/deploymentSpecification", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -734,8 +745,9 @@ func (client ApiGatewayClient) GetApiValidations(ctx context.Context, request Ge
 }
 
 // getApiValidations implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getApiValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}/validations", binaryReqBody)
+func (client ApiGatewayClient) getApiValidations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis/{apiId}/validations", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -788,8 +800,9 @@ func (client ApiGatewayClient) GetCertificate(ctx context.Context, request GetCe
 }
 
 // getCertificate implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates/{certificateId}", binaryReqBody)
+func (client ApiGatewayClient) getCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates/{certificateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -842,8 +855,9 @@ func (client ApiGatewayClient) GetSdk(ctx context.Context, request GetSdkRequest
 }
 
 // getSdk implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdks/{sdkId}", binaryReqBody)
+func (client ApiGatewayClient) getSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdks/{sdkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -896,8 +910,9 @@ func (client ApiGatewayClient) ListApis(ctx context.Context, request ListApisReq
 }
 
 // listApis implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis", binaryReqBody)
+func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/apis", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -950,8 +965,9 @@ func (client ApiGatewayClient) ListCertificates(ctx context.Context, request Lis
 }
 
 // listCertificates implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) listCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates", binaryReqBody)
+func (client ApiGatewayClient) listCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/certificates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1004,8 +1020,9 @@ func (client ApiGatewayClient) ListSdkLanguageTypes(ctx context.Context, request
 }
 
 // listSdkLanguageTypes implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) listSdkLanguageTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdkLanguageTypes", binaryReqBody)
+func (client ApiGatewayClient) listSdkLanguageTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdkLanguageTypes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1058,8 +1075,9 @@ func (client ApiGatewayClient) ListSdks(ctx context.Context, request ListSdksReq
 }
 
 // listSdks implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) listSdks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdks", binaryReqBody)
+func (client ApiGatewayClient) listSdks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sdks", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1112,8 +1130,9 @@ func (client ApiGatewayClient) UpdateApi(ctx context.Context, request UpdateApiR
 }
 
 // updateApi implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) updateApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/apis/{apiId}", binaryReqBody)
+func (client ApiGatewayClient) updateApi(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/apis/{apiId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1166,8 +1185,9 @@ func (client ApiGatewayClient) UpdateCertificate(ctx context.Context, request Up
 }
 
 // updateCertificate implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) updateCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/certificates/{certificateId}", binaryReqBody)
+func (client ApiGatewayClient) updateCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/certificates/{certificateId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1220,8 +1240,9 @@ func (client ApiGatewayClient) UpdateSdk(ctx context.Context, request UpdateSdkR
 }
 
 // updateSdk implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) updateSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sdks/{sdkId}", binaryReqBody)
+func (client ApiGatewayClient) updateSdk(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sdks/{sdkId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

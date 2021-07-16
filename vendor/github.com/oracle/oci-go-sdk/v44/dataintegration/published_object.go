@@ -156,12 +156,18 @@ const (
 	PublishedObjectModelTypeIntegrationTask PublishedObjectModelTypeEnum = "INTEGRATION_TASK"
 	PublishedObjectModelTypeDataLoaderTask  PublishedObjectModelTypeEnum = "DATA_LOADER_TASK"
 	PublishedObjectModelTypePipelineTask    PublishedObjectModelTypeEnum = "PIPELINE_TASK"
+	PublishedObjectModelTypeSqlTask         PublishedObjectModelTypeEnum = "SQL_TASK"
+	PublishedObjectModelTypeOciDataflowTask PublishedObjectModelTypeEnum = "OCI_DATAFLOW_TASK"
+	PublishedObjectModelTypeRestTask        PublishedObjectModelTypeEnum = "REST_TASK"
 )
 
 var mappingPublishedObjectModelType = map[string]PublishedObjectModelTypeEnum{
-	"INTEGRATION_TASK": PublishedObjectModelTypeIntegrationTask,
-	"DATA_LOADER_TASK": PublishedObjectModelTypeDataLoaderTask,
-	"PIPELINE_TASK":    PublishedObjectModelTypePipelineTask,
+	"INTEGRATION_TASK":  PublishedObjectModelTypeIntegrationTask,
+	"DATA_LOADER_TASK":  PublishedObjectModelTypeDataLoaderTask,
+	"PIPELINE_TASK":     PublishedObjectModelTypePipelineTask,
+	"SQL_TASK":          PublishedObjectModelTypeSqlTask,
+	"OCI_DATAFLOW_TASK": PublishedObjectModelTypeOciDataflowTask,
+	"REST_TASK":         PublishedObjectModelTypeRestTask,
 }
 
 // GetPublishedObjectModelTypeEnumValues Enumerates the set of values for PublishedObjectModelTypeEnum

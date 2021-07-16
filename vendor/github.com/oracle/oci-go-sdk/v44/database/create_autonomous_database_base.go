@@ -15,8 +15,10 @@ import (
 )
 
 // CreateAutonomousDatabaseBase Details to create an Oracle Autonomous Database.
-// Choose either Fractional ocpuCount or cpuCoreCount.
-// Choose either dataStorageSizeInGBs or dataStorageSizeInTBs
+// **Notes:**
+// - To specify OCPU core count, you must use either `ocpuCount` or `cpuCoreCount`. You cannot use both parameters at the same time.
+// - To specify a storage allocation, you must use  either `dataStorageSizeInGBs` or `dataStorageSizeInTBs`.
+// - See the individual parameter discriptions for more information on the OCPU and storage value parameters.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseBase interface {
 
@@ -26,10 +28,16 @@ type CreateAutonomousDatabaseBase interface {
 	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 	GetDbName() *string
 
-	// The number of OCPU cores to be made available to the database.
+	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	GetCpuCoreCount() *int
 
-	// The number of Fractional OCPU cores to be made available to the database.
+	// The number of OCPU cores to be made available to the database.
+	// The following points apply:
+	// - For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)
+	// - To provision 1 or more cores, you must enter an integer between 1 and the maximum number of cores available for the infrastructure shape. For example, you can provision 2 cores or 3 cores, but not 2.5 cores. This applies to Autonomous Databases on both shared and dedicated Exadata infrastructure.
+	// For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	GetOcpuCount() *float32
 
 	// The Autonomous Database workload type. The following values are valid:
@@ -39,10 +47,14 @@ type CreateAutonomousDatabaseBase interface {
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
 
-	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter.
 	GetDataStorageSizeInTBs() *int
 
-	// The size, in gigabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed.
+	// The size, in gigabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. The maximum storage value is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// **Notes**
+	// - This parameter is only supported for dedicated Exadata infrastructure.
+	// - This parameter cannot be used with the `dataStorageSizeInTBs` parameter.
 	GetDataStorageSizeInGBs() *int
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.

@@ -17,8 +17,16 @@ import (
 // AvroFormatAttribute The AVRO format attribute.
 type AvroFormatAttribute struct {
 
+	// Defines whether a file pattern is supported.
+	IsFilePattern *bool `mandatory:"false" json:"isFilePattern"`
+
 	// The compression for the file.
 	Compression *string `mandatory:"false" json:"compression"`
+}
+
+//GetIsFilePattern returns IsFilePattern
+func (m AvroFormatAttribute) GetIsFilePattern() *bool {
+	return m.IsFilePattern
 }
 
 func (m AvroFormatAttribute) String() string {

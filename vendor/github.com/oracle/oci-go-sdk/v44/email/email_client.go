@@ -127,8 +127,9 @@ func (client EmailClient) ChangeEmailDomainCompartment(ctx context.Context, requ
 }
 
 // changeEmailDomainCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) changeEmailDomainCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDomains/{emailDomainId}/actions/changeCompartment", binaryReqBody)
+func (client EmailClient) changeEmailDomainCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDomains/{emailDomainId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +182,9 @@ func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request C
 }
 
 // changeSenderCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) changeSenderCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders/{senderId}/actions/changeCompartment", binaryReqBody)
+func (client EmailClient) changeSenderCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders/{senderId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -244,8 +246,9 @@ func (client EmailClient) CreateDkim(ctx context.Context, request CreateDkimRequ
 }
 
 // createDkim implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dkims", binaryReqBody)
+func (client EmailClient) createDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dkims", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -303,8 +306,9 @@ func (client EmailClient) CreateEmailDomain(ctx context.Context, request CreateE
 }
 
 // createEmailDomain implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDomains", binaryReqBody)
+func (client EmailClient) createEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailDomains", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -357,8 +361,9 @@ func (client EmailClient) CreateSender(ctx context.Context, request CreateSender
 }
 
 // createSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders", binaryReqBody)
+func (client EmailClient) createSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -414,8 +419,9 @@ func (client EmailClient) CreateSuppression(ctx context.Context, request CreateS
 }
 
 // createSuppression implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/suppressions", binaryReqBody)
+func (client EmailClient) createSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/suppressions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -473,8 +479,9 @@ func (client EmailClient) DeleteDkim(ctx context.Context, request DeleteDkimRequ
 }
 
 // deleteDkim implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dkims/{dkimId}", binaryReqBody)
+func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dkims/{dkimId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -527,8 +534,9 @@ func (client EmailClient) DeleteEmailDomain(ctx context.Context, request DeleteE
 }
 
 // deleteEmailDomain implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailDomains/{emailDomainId}", binaryReqBody)
+func (client EmailClient) deleteEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailDomains/{emailDomainId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -582,8 +590,9 @@ func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSender
 }
 
 // deleteSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/senders/{senderId}", binaryReqBody)
+func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/senders/{senderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -637,8 +646,9 @@ func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteS
 }
 
 // deleteSuppression implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/suppressions/{suppressionId}", binaryReqBody)
+func (client EmailClient) deleteSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/suppressions/{suppressionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -691,8 +701,9 @@ func (client EmailClient) GetDkim(ctx context.Context, request GetDkimRequest) (
 }
 
 // getDkim implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dkims/{dkimId}", binaryReqBody)
+func (client EmailClient) getDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dkims/{dkimId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -745,8 +756,9 @@ func (client EmailClient) GetEmailDomain(ctx context.Context, request GetEmailDo
 }
 
 // getEmailDomain implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDomains/{emailDomainId}", binaryReqBody)
+func (client EmailClient) getEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDomains/{emailDomainId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -799,8 +811,9 @@ func (client EmailClient) GetSender(ctx context.Context, request GetSenderReques
 }
 
 // getSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders/{senderId}", binaryReqBody)
+func (client EmailClient) getSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders/{senderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -854,8 +867,9 @@ func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppres
 }
 
 // getSuppression implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions/{suppressionId}", binaryReqBody)
+func (client EmailClient) getSuppression(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions/{suppressionId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -908,8 +922,9 @@ func (client EmailClient) GetWorkRequest(ctx context.Context, request GetWorkReq
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client EmailClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -962,8 +977,9 @@ func (client EmailClient) ListDkims(ctx context.Context, request ListDkimsReques
 }
 
 // listDkims implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listDkims(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dkims", binaryReqBody)
+func (client EmailClient) listDkims(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dkims", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1016,8 +1032,9 @@ func (client EmailClient) ListEmailDomains(ctx context.Context, request ListEmai
 }
 
 // listEmailDomains implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listEmailDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDomains", binaryReqBody)
+func (client EmailClient) listEmailDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailDomains", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1070,8 +1087,9 @@ func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRe
 }
 
 // listSenders implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listSenders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders", binaryReqBody)
+func (client EmailClient) listSenders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/senders", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1126,8 +1144,9 @@ func (client EmailClient) ListSuppressions(ctx context.Context, request ListSupp
 }
 
 // listSuppressions implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listSuppressions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions", binaryReqBody)
+func (client EmailClient) listSuppressions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/suppressions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1180,8 +1199,9 @@ func (client EmailClient) ListWorkRequestErrors(ctx context.Context, request Lis
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client EmailClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1234,8 +1254,9 @@ func (client EmailClient) ListWorkRequestLogs(ctx context.Context, request ListW
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client EmailClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1288,8 +1309,9 @@ func (client EmailClient) ListWorkRequests(ctx context.Context, request ListWork
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client EmailClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1342,8 +1364,9 @@ func (client EmailClient) UpdateDkim(ctx context.Context, request UpdateDkimRequ
 }
 
 // updateDkim implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dkims/{dkimId}", binaryReqBody)
+func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dkims/{dkimId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1396,8 +1419,9 @@ func (client EmailClient) UpdateEmailDomain(ctx context.Context, request UpdateE
 }
 
 // updateEmailDomain implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailDomains/{emailDomainId}", binaryReqBody)
+func (client EmailClient) updateEmailDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailDomains/{emailDomainId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1453,8 +1477,9 @@ func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSender
 }
 
 // updateSender implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/senders/{senderId}", binaryReqBody)
+func (client EmailClient) updateSender(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/senders/{senderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

@@ -107,8 +107,9 @@ func (client FunctionsInvokeClient) InvokeFunction(ctx context.Context, request 
 }
 
 // invokeFunction implements the OCIOperation interface (enables retrying operations)
-func (client FunctionsInvokeClient) invokeFunction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/functions/{functionId}/actions/invoke", binaryReqBody)
+func (client FunctionsInvokeClient) invokeFunction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/functions/{functionId}/actions/invoke", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

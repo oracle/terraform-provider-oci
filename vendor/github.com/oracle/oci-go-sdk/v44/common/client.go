@@ -172,7 +172,7 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 func defaultHTTPDispatcher() http.Client {
 	var httpClient http.Client
 
-	if isExpectHeaderEnabled := getExpectHeaderConfig(); isExpectHeaderEnabled {
+	if isExpectHeaderDisabled := IsEnvVarFalse(UsingExpectHeaderEnvVar); !isExpectHeaderDisabled {
 		var tp http.RoundTripper = &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 			DialContext: (&net.Dialer{
@@ -428,7 +428,7 @@ func checkBodyLengthExceedLimit(contentLength int64) bool {
 // OCIRequest is any request made to an OCI service.
 type OCIRequest interface {
 	// HTTPRequest assembles an HTTP request.
-	HTTPRequest(method, path string, binaryRequestBody *OCIReadSeekCloser) (http.Request, error)
+	HTTPRequest(method, path string, binaryRequestBody *OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error)
 }
 
 // RequestMetadata is metadata about an OCIRequest. This structure represents the behavior exhibited by the SDK when
@@ -516,7 +516,7 @@ type OCIResponse interface {
 }
 
 // OCIOperation is the generalization of a request-response cycle undergone by an OCI service.
-type OCIOperation func(context.Context, OCIRequest, *OCIReadSeekCloser) (OCIResponse, error)
+type OCIOperation func(context.Context, OCIRequest, *OCIReadSeekCloser, map[string]string) (OCIResponse, error)
 
 //ClientCallDetails a set of settings used by the a single Call operation of the http Client
 type ClientCallDetails struct {

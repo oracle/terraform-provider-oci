@@ -119,8 +119,9 @@ func (client RedirectClient) ChangeHttpRedirectCompartment(ctx context.Context, 
 }
 
 // changeHttpRedirectCompartment implements the OCIOperation interface (enables retrying operations)
-func (client RedirectClient) changeHttpRedirectCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpRedirects/{httpRedirectId}/actions/changeCompartment", binaryReqBody)
+func (client RedirectClient) changeHttpRedirectCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpRedirects/{httpRedirectId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +179,9 @@ func (client RedirectClient) CreateHttpRedirect(ctx context.Context, request Cre
 }
 
 // createHttpRedirect implements the OCIOperation interface (enables retrying operations)
-func (client RedirectClient) createHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpRedirects", binaryReqBody)
+func (client RedirectClient) createHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/httpRedirects", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +239,9 @@ func (client RedirectClient) DeleteHttpRedirect(ctx context.Context, request Del
 }
 
 // deleteHttpRedirect implements the OCIOperation interface (enables retrying operations)
-func (client RedirectClient) deleteHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/httpRedirects/{httpRedirectId}", binaryReqBody)
+func (client RedirectClient) deleteHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/httpRedirects/{httpRedirectId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -291,8 +294,9 @@ func (client RedirectClient) GetHttpRedirect(ctx context.Context, request GetHtt
 }
 
 // getHttpRedirect implements the OCIOperation interface (enables retrying operations)
-func (client RedirectClient) getHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpRedirects/{httpRedirectId}", binaryReqBody)
+func (client RedirectClient) getHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpRedirects/{httpRedirectId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -345,8 +349,9 @@ func (client RedirectClient) ListHttpRedirects(ctx context.Context, request List
 }
 
 // listHttpRedirects implements the OCIOperation interface (enables retrying operations)
-func (client RedirectClient) listHttpRedirects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpRedirects", binaryReqBody)
+func (client RedirectClient) listHttpRedirects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/httpRedirects", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -404,8 +409,9 @@ func (client RedirectClient) UpdateHttpRedirect(ctx context.Context, request Upd
 }
 
 // updateHttpRedirect implements the OCIOperation interface (enables retrying operations)
-func (client RedirectClient) updateHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/httpRedirects/{httpRedirectId}", binaryReqBody)
+func (client RedirectClient) updateHttpRedirect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/httpRedirects/{httpRedirectId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

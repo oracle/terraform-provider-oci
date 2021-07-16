@@ -119,8 +119,9 @@ func (client DataSafeClient) ActivateTargetDatabase(ctx context.Context, request
 }
 
 // activateTargetDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) activateTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/activate", binaryReqBody)
+func (client DataSafeClient) activateTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -173,8 +174,9 @@ func (client DataSafeClient) ChangeDataSafePrivateEndpointCompartment(ctx contex
 }
 
 // changeDataSafePrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}/actions/changeCompartment", binaryReqBody)
+func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +234,9 @@ func (client DataSafeClient) ChangeOnPremConnectorCompartment(ctx context.Contex
 }
 
 // changeOnPremConnectorCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremConnectors/{onPremConnectorId}/actions/changeCompartment", binaryReqBody)
+func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremConnectors/{onPremConnectorId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -291,8 +294,9 @@ func (client DataSafeClient) ChangeTargetDatabaseCompartment(ctx context.Context
 }
 
 // changeTargetDatabaseCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/changeCompartment", binaryReqBody)
+func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -350,8 +354,9 @@ func (client DataSafeClient) CreateDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // createDataSafePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) createDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSafePrivateEndpoints", binaryReqBody)
+func (client DataSafeClient) createDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSafePrivateEndpoints", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -409,8 +414,9 @@ func (client DataSafeClient) CreateOnPremConnector(ctx context.Context, request 
 }
 
 // createOnPremConnector implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) createOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremConnectors", binaryReqBody)
+func (client DataSafeClient) createOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremConnectors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -468,8 +474,9 @@ func (client DataSafeClient) CreateTargetDatabase(ctx context.Context, request C
 }
 
 // createTargetDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) createTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases", binaryReqBody)
+func (client DataSafeClient) createTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -527,8 +534,9 @@ func (client DataSafeClient) DeactivateTargetDatabase(ctx context.Context, reque
 }
 
 // deactivateTargetDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deactivateTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/deactivate", binaryReqBody)
+func (client DataSafeClient) deactivateTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/deactivate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -581,8 +589,9 @@ func (client DataSafeClient) DeleteDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // deleteDataSafePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deleteDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}", binaryReqBody)
+func (client DataSafeClient) deleteDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -635,8 +644,9 @@ func (client DataSafeClient) DeleteOnPremConnector(ctx context.Context, request 
 }
 
 // deleteOnPremConnector implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/onPremConnectors/{onPremConnectorId}", binaryReqBody)
+func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/onPremConnectors/{onPremConnectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -689,8 +699,9 @@ func (client DataSafeClient) DeleteTargetDatabase(ctx context.Context, request D
 }
 
 // deleteTargetDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deleteTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targetDatabases/{targetDatabaseId}", binaryReqBody)
+func (client DataSafeClient) deleteTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targetDatabases/{targetDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -748,8 +759,9 @@ func (client DataSafeClient) DownloadPrivilegeScript(ctx context.Context, reques
 }
 
 // downloadPrivilegeScript implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) downloadPrivilegeScript(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/downloadPrivilegeScript", binaryReqBody)
+func (client DataSafeClient) downloadPrivilegeScript(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/downloadPrivilegeScript", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -801,8 +813,9 @@ func (client DataSafeClient) EnableDataSafeConfiguration(ctx context.Context, re
 }
 
 // enableDataSafeConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody)
+func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -860,8 +873,9 @@ func (client DataSafeClient) GenerateOnPremConnectorConfiguration(ctx context.Co
 }
 
 // generateOnPremConnectorConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremConnectors/{onPremConnectorId}/actions/generateConfiguration", binaryReqBody)
+func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremConnectors/{onPremConnectorId}/actions/generateConfiguration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -913,8 +927,9 @@ func (client DataSafeClient) GetDataSafeConfiguration(ctx context.Context, reque
 }
 
 // getDataSafeConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getDataSafeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody)
+func (client DataSafeClient) getDataSafeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -967,8 +982,9 @@ func (client DataSafeClient) GetDataSafePrivateEndpoint(ctx context.Context, req
 }
 
 // getDataSafePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}", binaryReqBody)
+func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1021,8 +1037,9 @@ func (client DataSafeClient) GetOnPremConnector(ctx context.Context, request Get
 }
 
 // getOnPremConnector implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremConnectors/{onPremConnectorId}", binaryReqBody)
+func (client DataSafeClient) getOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremConnectors/{onPremConnectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1075,8 +1092,9 @@ func (client DataSafeClient) GetTargetDatabase(ctx context.Context, request GetT
 }
 
 // getTargetDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabases/{targetDatabaseId}", binaryReqBody)
+func (client DataSafeClient) getTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabases/{targetDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1129,8 +1147,9 @@ func (client DataSafeClient) GetWorkRequest(ctx context.Context, request GetWork
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1183,8 +1202,9 @@ func (client DataSafeClient) ListDataSafePrivateEndpoints(ctx context.Context, r
 }
 
 // listDataSafePrivateEndpoints implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSafePrivateEndpoints", binaryReqBody)
+func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSafePrivateEndpoints", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1237,8 +1257,9 @@ func (client DataSafeClient) ListOnPremConnectors(ctx context.Context, request L
 }
 
 // listOnPremConnectors implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremConnectors", binaryReqBody)
+func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremConnectors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1291,8 +1312,9 @@ func (client DataSafeClient) ListTargetDatabases(ctx context.Context, request Li
 }
 
 // listTargetDatabases implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listTargetDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabases", binaryReqBody)
+func (client DataSafeClient) listTargetDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabases", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1345,8 +1367,9 @@ func (client DataSafeClient) ListWorkRequestErrors(ctx context.Context, request 
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client DataSafeClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1399,8 +1422,9 @@ func (client DataSafeClient) ListWorkRequestLogs(ctx context.Context, request Li
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client DataSafeClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1453,8 +1477,9 @@ func (client DataSafeClient) ListWorkRequests(ctx context.Context, request ListW
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client DataSafeClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1507,8 +1532,9 @@ func (client DataSafeClient) UpdateDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // updateDataSafePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}", binaryReqBody)
+func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dataSafePrivateEndpoints/{dataSafePrivateEndpointId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1561,8 +1587,9 @@ func (client DataSafeClient) UpdateOnPremConnector(ctx context.Context, request 
 }
 
 // updateOnPremConnector implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onPremConnectors/{onPremConnectorId}", binaryReqBody)
+func (client DataSafeClient) updateOnPremConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onPremConnectors/{onPremConnectorId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1620,8 +1647,9 @@ func (client DataSafeClient) UpdateOnPremConnectorWallet(ctx context.Context, re
 }
 
 // updateOnPremConnectorWallet implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onPremConnectors/{onPremConnectorId}/wallet", binaryReqBody)
+func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onPremConnectors/{onPremConnectorId}/wallet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1679,8 +1707,9 @@ func (client DataSafeClient) UpdateTargetDatabase(ctx context.Context, request U
 }
 
 // updateTargetDatabase implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targetDatabases/{targetDatabaseId}", binaryReqBody)
+func (client DataSafeClient) updateTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targetDatabases/{targetDatabaseId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

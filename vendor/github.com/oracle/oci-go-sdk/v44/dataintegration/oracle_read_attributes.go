@@ -10,14 +10,12 @@
 package dataintegration
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v44/common"
 )
 
 // OracleReadAttributes Properties to configure reading from an Oracle Database.
 type OracleReadAttributes struct {
-
-	// The type of the abstract read attribute.
-	ModelType OracleReadAttributesModelTypeEnum `mandatory:"true" json:"modelType"`
 
 	// The fetch size for reading.
 	FetchSize *int `mandatory:"false" json:"fetchSize"`
@@ -27,25 +25,16 @@ func (m OracleReadAttributes) String() string {
 	return common.PointerString(m)
 }
 
-// OracleReadAttributesModelTypeEnum Enum with underlying type: string
-type OracleReadAttributesModelTypeEnum string
-
-// Set of constants representing the allowable values for OracleReadAttributesModelTypeEnum
-const (
-	OracleReadAttributesModelTypeOraclereadattribute OracleReadAttributesModelTypeEnum = "ORACLEREADATTRIBUTE"
-	OracleReadAttributesModelTypeOracleReadAttribute OracleReadAttributesModelTypeEnum = "ORACLE_READ_ATTRIBUTE"
-)
-
-var mappingOracleReadAttributesModelType = map[string]OracleReadAttributesModelTypeEnum{
-	"ORACLEREADATTRIBUTE":   OracleReadAttributesModelTypeOraclereadattribute,
-	"ORACLE_READ_ATTRIBUTE": OracleReadAttributesModelTypeOracleReadAttribute,
-}
-
-// GetOracleReadAttributesModelTypeEnumValues Enumerates the set of values for OracleReadAttributesModelTypeEnum
-func GetOracleReadAttributesModelTypeEnumValues() []OracleReadAttributesModelTypeEnum {
-	values := make([]OracleReadAttributesModelTypeEnum, 0)
-	for _, v := range mappingOracleReadAttributesModelType {
-		values = append(values, v)
+// MarshalJSON marshals to json representation
+func (m OracleReadAttributes) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeOracleReadAttributes OracleReadAttributes
+	s := struct {
+		DiscriminatorParam string `json:"modelType"`
+		MarshalTypeOracleReadAttributes
+	}{
+		"ORACLE_READ_ATTRIBUTE",
+		(MarshalTypeOracleReadAttributes)(m),
 	}
-	return values
+
+	return json.Marshal(&s)
 }

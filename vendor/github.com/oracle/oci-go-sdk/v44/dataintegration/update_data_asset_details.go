@@ -113,6 +113,14 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := UpdateDataAssetFromObjectStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3_DATA_ASSET":
+		mm := UpdateDataAssetFromAmazonS3{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FUSION_APP_DATA_ASSET":
+		mm := UpdateDataAssetFromFusionApp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL_DATA_ASSET":
 		mm := UpdateDataAssetFromMySql{}
 		err = json.Unmarshal(data, &mm)
@@ -191,6 +199,8 @@ const (
 	UpdateDataAssetDetailsModelTypeOracleAdwcDataAsset          UpdateDataAssetDetailsModelTypeEnum = "ORACLE_ADWC_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeMysqlDataAsset               UpdateDataAssetDetailsModelTypeEnum = "MYSQL_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset         UpdateDataAssetDetailsModelTypeEnum = "GENERIC_JDBC_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeFusionAppDataAsset           UpdateDataAssetDetailsModelTypeEnum = "FUSION_APP_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeAmazonS3DataAsset            UpdateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 )
 
 var mappingUpdateDataAssetDetailsModelType = map[string]UpdateDataAssetDetailsModelTypeEnum{
@@ -200,6 +210,8 @@ var mappingUpdateDataAssetDetailsModelType = map[string]UpdateDataAssetDetailsMo
 	"ORACLE_ADWC_DATA_ASSET":           UpdateDataAssetDetailsModelTypeOracleAdwcDataAsset,
 	"MYSQL_DATA_ASSET":                 UpdateDataAssetDetailsModelTypeMysqlDataAsset,
 	"GENERIC_JDBC_DATA_ASSET":          UpdateDataAssetDetailsModelTypeGenericJdbcDataAsset,
+	"FUSION_APP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
+	"AMAZON_S3_DATA_ASSET":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
 }
 
 // GetUpdateDataAssetDetailsModelTypeEnumValues Enumerates the set of values for UpdateDataAssetDetailsModelTypeEnum

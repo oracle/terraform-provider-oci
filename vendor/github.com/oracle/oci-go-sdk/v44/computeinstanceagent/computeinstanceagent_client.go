@@ -118,8 +118,9 @@ func (client ComputeInstanceAgentClient) CancelInstanceAgentCommand(ctx context.
 }
 
 // cancelInstanceAgentCommand implements the OCIOperation interface (enables retrying operations)
-func (client ComputeInstanceAgentClient) cancelInstanceAgentCommand(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceAgentCommands/{instanceAgentCommandId}", binaryReqBody)
+func (client ComputeInstanceAgentClient) cancelInstanceAgentCommand(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/instanceAgentCommands/{instanceAgentCommandId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +182,9 @@ func (client ComputeInstanceAgentClient) CreateInstanceAgentCommand(ctx context.
 }
 
 // createInstanceAgentCommand implements the OCIOperation interface (enables retrying operations)
-func (client ComputeInstanceAgentClient) createInstanceAgentCommand(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceAgentCommands", binaryReqBody)
+func (client ComputeInstanceAgentClient) createInstanceAgentCommand(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceAgentCommands", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -235,8 +237,9 @@ func (client ComputeInstanceAgentClient) GetInstanceAgentCommand(ctx context.Con
 }
 
 // getInstanceAgentCommand implements the OCIOperation interface (enables retrying operations)
-func (client ComputeInstanceAgentClient) getInstanceAgentCommand(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommands/{instanceAgentCommandId}", binaryReqBody)
+func (client ComputeInstanceAgentClient) getInstanceAgentCommand(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommands/{instanceAgentCommandId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -289,8 +292,9 @@ func (client ComputeInstanceAgentClient) GetInstanceAgentCommandExecution(ctx co
 }
 
 // getInstanceAgentCommandExecution implements the OCIOperation interface (enables retrying operations)
-func (client ComputeInstanceAgentClient) getInstanceAgentCommandExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommands/{instanceAgentCommandId}/status", binaryReqBody)
+func (client ComputeInstanceAgentClient) getInstanceAgentCommandExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommands/{instanceAgentCommandId}/status", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -344,8 +348,9 @@ func (client ComputeInstanceAgentClient) ListInstanceAgentCommandExecutions(ctx 
 }
 
 // listInstanceAgentCommandExecutions implements the OCIOperation interface (enables retrying operations)
-func (client ComputeInstanceAgentClient) listInstanceAgentCommandExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommandExecutions", binaryReqBody)
+func (client ComputeInstanceAgentClient) listInstanceAgentCommandExecutions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommandExecutions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -398,8 +403,9 @@ func (client ComputeInstanceAgentClient) ListInstanceAgentCommands(ctx context.C
 }
 
 // listInstanceAgentCommands implements the OCIOperation interface (enables retrying operations)
-func (client ComputeInstanceAgentClient) listInstanceAgentCommands(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommands", binaryReqBody)
+func (client ComputeInstanceAgentClient) listInstanceAgentCommands(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceAgentCommands", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

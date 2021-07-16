@@ -119,8 +119,9 @@ func (client IdentityClient) ActivateMfaTotpDevice(ctx context.Context, request 
 }
 
 // activateMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}/actions/activate", binaryReqBody)
+func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -180,8 +181,9 @@ func (client IdentityClient) AddUserToGroup(ctx context.Context, request AddUser
 }
 
 // addUserToGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) addUserToGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/userGroupMemberships", binaryReqBody)
+func (client IdentityClient) addUserToGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/userGroupMemberships", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -237,8 +239,9 @@ func (client IdentityClient) AssembleEffectiveTagSet(ctx context.Context, reques
 }
 
 // assembleEffectiveTagSet implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagDefaults/actions/assembleEffectiveTagSet", binaryReqBody)
+func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagDefaults/actions/assembleEffectiveTagSet", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -300,8 +303,9 @@ func (client IdentityClient) BulkDeleteResources(ctx context.Context, request Bu
 }
 
 // bulkDeleteResources implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) bulkDeleteResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/bulkDeleteResources", binaryReqBody)
+func (client IdentityClient) bulkDeleteResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/bulkDeleteResources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -374,8 +378,9 @@ func (client IdentityClient) BulkDeleteTags(ctx context.Context, request BulkDel
 }
 
 // bulkDeleteTags implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) bulkDeleteTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tags/actions/bulkDelete", binaryReqBody)
+func (client IdentityClient) bulkDeleteTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tags/actions/bulkDelete", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -443,8 +448,9 @@ func (client IdentityClient) BulkEditTags(ctx context.Context, request BulkEditT
 }
 
 // bulkEditTags implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) bulkEditTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tags/actions/bulkEdit", binaryReqBody)
+func (client IdentityClient) bulkEditTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tags/actions/bulkEdit", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -506,8 +512,9 @@ func (client IdentityClient) BulkMoveResources(ctx context.Context, request Bulk
 }
 
 // bulkMoveResources implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) bulkMoveResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/bulkMoveResources", binaryReqBody)
+func (client IdentityClient) bulkMoveResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/bulkMoveResources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -577,8 +584,9 @@ func (client IdentityClient) CascadeDeleteTagNamespace(ctx context.Context, requ
 }
 
 // cascadeDeleteTagNamespace implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/cascadeDelete", binaryReqBody)
+func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/cascadeDelete", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -639,8 +647,9 @@ func (client IdentityClient) ChangeTagNamespaceCompartment(ctx context.Context, 
 }
 
 // changeTagNamespaceCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/changeCompartment", binaryReqBody)
+func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -705,8 +714,9 @@ func (client IdentityClient) CreateAuthToken(ctx context.Context, request Create
 }
 
 // createAuthToken implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/authTokens", binaryReqBody)
+func (client IdentityClient) createAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/authTokens", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -777,8 +787,9 @@ func (client IdentityClient) CreateCompartment(ctx context.Context, request Crea
 }
 
 // createCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments", binaryReqBody)
+func (client IdentityClient) createCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -844,8 +855,9 @@ func (client IdentityClient) CreateCustomerSecretKey(ctx context.Context, reques
 }
 
 // createCustomerSecretKey implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createCustomerSecretKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/customerSecretKeys", binaryReqBody)
+func (client IdentityClient) createCustomerSecretKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/customerSecretKeys", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -916,8 +928,9 @@ func (client IdentityClient) CreateDynamicGroup(ctx context.Context, request Cre
 }
 
 // createDynamicGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dynamicGroups", binaryReqBody)
+func (client IdentityClient) createDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dynamicGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -990,8 +1003,9 @@ func (client IdentityClient) CreateGroup(ctx context.Context, request CreateGrou
 }
 
 // createGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/groups", binaryReqBody)
+func (client IdentityClient) createGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/groups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1062,8 +1076,9 @@ func (client IdentityClient) CreateIdentityProvider(ctx context.Context, request
 }
 
 // createIdentityProvider implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders", binaryReqBody)
+func (client IdentityClient) createIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1122,8 +1137,9 @@ func (client IdentityClient) CreateIdpGroupMapping(ctx context.Context, request 
 }
 
 // createIdpGroupMapping implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders/{identityProviderId}/groupMappings", binaryReqBody)
+func (client IdentityClient) createIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders/{identityProviderId}/groupMappings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1181,8 +1197,9 @@ func (client IdentityClient) CreateMfaTotpDevice(ctx context.Context, request Cr
 }
 
 // createMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices", binaryReqBody)
+func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1255,8 +1272,9 @@ func (client IdentityClient) CreateNetworkSource(ctx context.Context, request Cr
 }
 
 // createNetworkSource implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkSources", binaryReqBody)
+func (client IdentityClient) createNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkSources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1314,8 +1332,9 @@ func (client IdentityClient) CreateOAuthClientCredential(ctx context.Context, re
 }
 
 // createOAuthClientCredential implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createOAuthClientCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/oauth2ClientCredentials", binaryReqBody)
+func (client IdentityClient) createOAuthClientCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/oauth2ClientCredentials", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1381,8 +1400,9 @@ func (client IdentityClient) CreateOrResetUIPassword(ctx context.Context, reques
 }
 
 // createOrResetUIPassword implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createOrResetUIPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/uiPassword", binaryReqBody)
+func (client IdentityClient) createOrResetUIPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/uiPassword", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1451,8 +1471,9 @@ func (client IdentityClient) CreatePolicy(ctx context.Context, request CreatePol
 }
 
 // createPolicy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/policies", binaryReqBody)
+func (client IdentityClient) createPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/policies", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1510,8 +1531,9 @@ func (client IdentityClient) CreateRegionSubscription(ctx context.Context, reque
 }
 
 // createRegionSubscription implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createRegionSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancies/{tenancyId}/regionSubscriptions", binaryReqBody)
+func (client IdentityClient) createRegionSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancies/{tenancyId}/regionSubscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1572,8 +1594,9 @@ func (client IdentityClient) CreateSmtpCredential(ctx context.Context, request C
 }
 
 // createSmtpCredential implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createSmtpCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/smtpCredentials", binaryReqBody)
+func (client IdentityClient) createSmtpCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/smtpCredentials", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1639,8 +1662,9 @@ func (client IdentityClient) CreateSwiftPassword(ctx context.Context, request Cr
 }
 
 // createSwiftPassword implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createSwiftPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/swiftPasswords", binaryReqBody)
+func (client IdentityClient) createSwiftPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/swiftPasswords", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1714,8 +1738,9 @@ func (client IdentityClient) CreateTag(ctx context.Context, request CreateTagReq
 }
 
 // createTag implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/tags", binaryReqBody)
+func (client IdentityClient) createTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/tags", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1778,8 +1803,9 @@ func (client IdentityClient) CreateTagDefault(ctx context.Context, request Creat
 }
 
 // createTagDefault implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagDefaults", binaryReqBody)
+func (client IdentityClient) createTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagDefaults", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1847,8 +1873,9 @@ func (client IdentityClient) CreateTagNamespace(ctx context.Context, request Cre
 }
 
 // createTagNamespace implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces", binaryReqBody)
+func (client IdentityClient) createTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1934,8 +1961,9 @@ func (client IdentityClient) CreateUser(ctx context.Context, request CreateUserR
 }
 
 // createUser implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) createUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users", binaryReqBody)
+func (client IdentityClient) createUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1992,8 +2020,9 @@ func (client IdentityClient) DeleteApiKey(ctx context.Context, request DeleteApi
 }
 
 // deleteApiKey implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteApiKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/apiKeys/{fingerprint}", binaryReqBody)
+func (client IdentityClient) deleteApiKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/apiKeys/{fingerprint}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2046,8 +2075,9 @@ func (client IdentityClient) DeleteAuthToken(ctx context.Context, request Delete
 }
 
 // deleteAuthToken implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/authTokens/{authTokenId}", binaryReqBody)
+func (client IdentityClient) deleteAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/authTokens/{authTokenId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2100,8 +2130,9 @@ func (client IdentityClient) DeleteCompartment(ctx context.Context, request Dele
 }
 
 // deleteCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/compartments/{compartmentId}", binaryReqBody)
+func (client IdentityClient) deleteCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/compartments/{compartmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2154,8 +2185,9 @@ func (client IdentityClient) DeleteCustomerSecretKey(ctx context.Context, reques
 }
 
 // deleteCustomerSecretKey implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteCustomerSecretKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/customerSecretKeys/{customerSecretKeyId}", binaryReqBody)
+func (client IdentityClient) deleteCustomerSecretKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/customerSecretKeys/{customerSecretKeyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2208,8 +2240,9 @@ func (client IdentityClient) DeleteDynamicGroup(ctx context.Context, request Del
 }
 
 // deleteDynamicGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dynamicGroups/{dynamicGroupId}", binaryReqBody)
+func (client IdentityClient) deleteDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dynamicGroups/{dynamicGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2262,8 +2295,9 @@ func (client IdentityClient) DeleteGroup(ctx context.Context, request DeleteGrou
 }
 
 // deleteGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/groups/{groupId}", binaryReqBody)
+func (client IdentityClient) deleteGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/groups/{groupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2317,8 +2351,9 @@ func (client IdentityClient) DeleteIdentityProvider(ctx context.Context, request
 }
 
 // deleteIdentityProvider implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/identityProviders/{identityProviderId}", binaryReqBody)
+func (client IdentityClient) deleteIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/identityProviders/{identityProviderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2371,8 +2406,9 @@ func (client IdentityClient) DeleteIdpGroupMapping(ctx context.Context, request 
 }
 
 // deleteIdpGroupMapping implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/identityProviders/{identityProviderId}/groupMappings/{mappingId}", binaryReqBody)
+func (client IdentityClient) deleteIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/identityProviders/{identityProviderId}/groupMappings/{mappingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2425,8 +2461,9 @@ func (client IdentityClient) DeleteMfaTotpDevice(ctx context.Context, request De
 }
 
 // deleteMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}", binaryReqBody)
+func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2479,8 +2516,9 @@ func (client IdentityClient) DeleteNetworkSource(ctx context.Context, request De
 }
 
 // deleteNetworkSource implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkSources/{networkSourceId}", binaryReqBody)
+func (client IdentityClient) deleteNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkSources/{networkSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2533,8 +2571,9 @@ func (client IdentityClient) DeleteOAuthClientCredential(ctx context.Context, re
 }
 
 // deleteOAuthClientCredential implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteOAuthClientCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/oauth2ClientCredentials/{oauth2ClientCredentialId}", binaryReqBody)
+func (client IdentityClient) deleteOAuthClientCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/oauth2ClientCredentials/{oauth2ClientCredentialId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2587,8 +2626,9 @@ func (client IdentityClient) DeletePolicy(ctx context.Context, request DeletePol
 }
 
 // deletePolicy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deletePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/policies/{policyId}", binaryReqBody)
+func (client IdentityClient) deletePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/policies/{policyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2641,8 +2681,9 @@ func (client IdentityClient) DeleteSmtpCredential(ctx context.Context, request D
 }
 
 // deleteSmtpCredential implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/smtpCredentials/{smtpCredentialId}", binaryReqBody)
+func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/smtpCredentials/{smtpCredentialId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2696,8 +2737,9 @@ func (client IdentityClient) DeleteSwiftPassword(ctx context.Context, request De
 }
 
 // deleteSwiftPassword implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/swiftPasswords/{swiftPasswordId}", binaryReqBody)
+func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/swiftPasswords/{swiftPasswordId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2765,8 +2807,9 @@ func (client IdentityClient) DeleteTag(ctx context.Context, request DeleteTagReq
 }
 
 // deleteTag implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", binaryReqBody)
+func (client IdentityClient) deleteTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2819,8 +2862,9 @@ func (client IdentityClient) DeleteTagDefault(ctx context.Context, request Delet
 }
 
 // deleteTagDefault implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagDefaults/{tagDefaultId}", binaryReqBody)
+func (client IdentityClient) deleteTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagDefaults/{tagDefaultId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2877,8 +2921,9 @@ func (client IdentityClient) DeleteTagNamespace(ctx context.Context, request Del
 }
 
 // deleteTagNamespace implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagNamespaces/{tagNamespaceId}", binaryReqBody)
+func (client IdentityClient) deleteTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagNamespaces/{tagNamespaceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2931,8 +2976,9 @@ func (client IdentityClient) DeleteUser(ctx context.Context, request DeleteUserR
 }
 
 // deleteUser implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}", binaryReqBody)
+func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2985,8 +3031,9 @@ func (client IdentityClient) GenerateTotpSeed(ctx context.Context, request Gener
 }
 
 // generateTotpSeed implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) generateTotpSeed(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}/actions/generateSeed", binaryReqBody)
+func (client IdentityClient) generateTotpSeed(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}/actions/generateSeed", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3040,8 +3087,9 @@ func (client IdentityClient) GetAuthenticationPolicy(ctx context.Context, reques
 }
 
 // getAuthenticationPolicy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getAuthenticationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/authenticationPolicies/{compartmentId}", binaryReqBody)
+func (client IdentityClient) getAuthenticationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/authenticationPolicies/{compartmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3100,8 +3148,9 @@ func (client IdentityClient) GetCompartment(ctx context.Context, request GetComp
 }
 
 // getCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments/{compartmentId}", binaryReqBody)
+func (client IdentityClient) getCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments/{compartmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3154,8 +3203,9 @@ func (client IdentityClient) GetDynamicGroup(ctx context.Context, request GetDyn
 }
 
 // getDynamicGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dynamicGroups/{dynamicGroupId}", binaryReqBody)
+func (client IdentityClient) getDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dynamicGroups/{dynamicGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3211,8 +3261,9 @@ func (client IdentityClient) GetGroup(ctx context.Context, request GetGroupReque
 }
 
 // getGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/groups/{groupId}", binaryReqBody)
+func (client IdentityClient) getGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/groups/{groupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3265,8 +3316,9 @@ func (client IdentityClient) GetIdentityProvider(ctx context.Context, request Ge
 }
 
 // getIdentityProvider implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}", binaryReqBody)
+func (client IdentityClient) getIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3319,8 +3371,9 @@ func (client IdentityClient) GetIdpGroupMapping(ctx context.Context, request Get
 }
 
 // getIdpGroupMapping implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groupMappings/{mappingId}", binaryReqBody)
+func (client IdentityClient) getIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groupMappings/{mappingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3373,8 +3426,9 @@ func (client IdentityClient) GetMfaTotpDevice(ctx context.Context, request GetMf
 }
 
 // getMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}", binaryReqBody)
+func (client IdentityClient) getMfaTotpDevice(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3427,8 +3481,9 @@ func (client IdentityClient) GetNetworkSource(ctx context.Context, request GetNe
 }
 
 // getNetworkSource implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkSources/{networkSourceId}", binaryReqBody)
+func (client IdentityClient) getNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkSources/{networkSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3481,8 +3536,9 @@ func (client IdentityClient) GetPolicy(ctx context.Context, request GetPolicyReq
 }
 
 // getPolicy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/policies/{policyId}", binaryReqBody)
+func (client IdentityClient) getPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/policies/{policyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3535,8 +3591,9 @@ func (client IdentityClient) GetTag(ctx context.Context, request GetTagRequest) 
 }
 
 // getTag implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", binaryReqBody)
+func (client IdentityClient) getTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3589,8 +3646,9 @@ func (client IdentityClient) GetTagDefault(ctx context.Context, request GetTagDe
 }
 
 // getTagDefault implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagDefaults/{tagDefaultId}", binaryReqBody)
+func (client IdentityClient) getTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagDefaults/{tagDefaultId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3643,8 +3701,9 @@ func (client IdentityClient) GetTagNamespace(ctx context.Context, request GetTag
 }
 
 // getTagNamespace implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/{tagNamespaceId}", binaryReqBody)
+func (client IdentityClient) getTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/{tagNamespaceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3698,8 +3757,9 @@ func (client IdentityClient) GetTaggingWorkRequest(ctx context.Context, request 
 }
 
 // getTaggingWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getTaggingWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests/{workRequestId}", binaryReqBody)
+func (client IdentityClient) getTaggingWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3752,8 +3812,9 @@ func (client IdentityClient) GetTenancy(ctx context.Context, request GetTenancyR
 }
 
 // getTenancy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getTenancy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tenancies/{tenancyId}", binaryReqBody)
+func (client IdentityClient) getTenancy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tenancies/{tenancyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3806,8 +3867,9 @@ func (client IdentityClient) GetUser(ctx context.Context, request GetUserRequest
 }
 
 // getUser implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}", binaryReqBody)
+func (client IdentityClient) getUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3860,8 +3922,9 @@ func (client IdentityClient) GetUserGroupMembership(ctx context.Context, request
 }
 
 // getUserGroupMembership implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getUserGroupMembership(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userGroupMemberships/{userGroupMembershipId}", binaryReqBody)
+func (client IdentityClient) getUserGroupMembership(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userGroupMemberships/{userGroupMembershipId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3915,8 +3978,9 @@ func (client IdentityClient) GetUserUIPasswordInformation(ctx context.Context, r
 }
 
 // getUserUIPasswordInformation implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/uiPassword", binaryReqBody)
+func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/uiPassword", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3970,8 +4034,9 @@ func (client IdentityClient) GetWorkRequest(ctx context.Context, request GetWork
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client IdentityClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4026,8 +4091,9 @@ func (client IdentityClient) ListApiKeys(ctx context.Context, request ListApiKey
 }
 
 // listApiKeys implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listApiKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/apiKeys", binaryReqBody)
+func (client IdentityClient) listApiKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/apiKeys", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4081,8 +4147,9 @@ func (client IdentityClient) ListAuthTokens(ctx context.Context, request ListAut
 }
 
 // listAuthTokens implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listAuthTokens(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/authTokens", binaryReqBody)
+func (client IdentityClient) listAuthTokens(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/authTokens", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4139,8 +4206,9 @@ func (client IdentityClient) ListAvailabilityDomains(ctx context.Context, reques
 }
 
 // listAvailabilityDomains implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listAvailabilityDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/availabilityDomains", binaryReqBody)
+func (client IdentityClient) listAvailabilityDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/availabilityDomains", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4199,8 +4267,9 @@ func (client IdentityClient) ListBulkActionResourceTypes(ctx context.Context, re
 }
 
 // listBulkActionResourceTypes implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listBulkActionResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments/bulkActionResourceTypes", binaryReqBody)
+func (client IdentityClient) listBulkActionResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments/bulkActionResourceTypes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4253,8 +4322,9 @@ func (client IdentityClient) ListBulkEditTagsResourceTypes(ctx context.Context, 
 }
 
 // listBulkEditTagsResourceTypes implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listBulkEditTagsResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tags/bulkEditResourceTypes", binaryReqBody)
+func (client IdentityClient) listBulkEditTagsResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tags/bulkEditResourceTypes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4320,8 +4390,9 @@ func (client IdentityClient) ListCompartments(ctx context.Context, request ListC
 }
 
 // listCompartments implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listCompartments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments", binaryReqBody)
+func (client IdentityClient) listCompartments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/compartments", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4375,8 +4446,9 @@ func (client IdentityClient) ListCostTrackingTags(ctx context.Context, request L
 }
 
 // listCostTrackingTags implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listCostTrackingTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/actions/listCostTrackingTags", binaryReqBody)
+func (client IdentityClient) listCostTrackingTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/actions/listCostTrackingTags", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4430,8 +4502,9 @@ func (client IdentityClient) ListCustomerSecretKeys(ctx context.Context, request
 }
 
 // listCustomerSecretKeys implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listCustomerSecretKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/customerSecretKeys", binaryReqBody)
+func (client IdentityClient) listCustomerSecretKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/customerSecretKeys", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4486,8 +4559,9 @@ func (client IdentityClient) ListDynamicGroups(ctx context.Context, request List
 }
 
 // listDynamicGroups implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listDynamicGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dynamicGroups", binaryReqBody)
+func (client IdentityClient) listDynamicGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dynamicGroups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4542,8 +4616,9 @@ func (client IdentityClient) ListFaultDomains(ctx context.Context, request ListF
 }
 
 // listFaultDomains implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listFaultDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/faultDomains", binaryReqBody)
+func (client IdentityClient) listFaultDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/faultDomains", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4598,8 +4673,9 @@ func (client IdentityClient) ListGroups(ctx context.Context, request ListGroupsR
 }
 
 // listGroups implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/groups", binaryReqBody)
+func (client IdentityClient) listGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/groups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4652,8 +4728,9 @@ func (client IdentityClient) ListIdentityProviderGroups(ctx context.Context, req
 }
 
 // listIdentityProviderGroups implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listIdentityProviderGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groups", binaryReqBody)
+func (client IdentityClient) listIdentityProviderGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groups", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4725,8 +4802,9 @@ func (client IdentityClient) ListIdentityProviders(ctx context.Context, request 
 }
 
 // listIdentityProviders implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listIdentityProviders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders", binaryReqBody)
+func (client IdentityClient) listIdentityProviders(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4779,8 +4857,9 @@ func (client IdentityClient) ListIdpGroupMappings(ctx context.Context, request L
 }
 
 // listIdpGroupMappings implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listIdpGroupMappings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groupMappings", binaryReqBody)
+func (client IdentityClient) listIdpGroupMappings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groupMappings", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4834,8 +4913,9 @@ func (client IdentityClient) ListMfaTotpDevices(ctx context.Context, request Lis
 }
 
 // listMfaTotpDevices implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listMfaTotpDevices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/mfaTotpDevices", binaryReqBody)
+func (client IdentityClient) listMfaTotpDevices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/mfaTotpDevices", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4890,8 +4970,9 @@ func (client IdentityClient) ListNetworkSources(ctx context.Context, request Lis
 }
 
 // listNetworkSources implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listNetworkSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkSources", binaryReqBody)
+func (client IdentityClient) listNetworkSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkSources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4944,8 +5025,9 @@ func (client IdentityClient) ListOAuthClientCredentials(ctx context.Context, req
 }
 
 // listOAuthClientCredentials implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listOAuthClientCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/oauth2ClientCredentials", binaryReqBody)
+func (client IdentityClient) listOAuthClientCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/oauth2ClientCredentials", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5001,8 +5083,9 @@ func (client IdentityClient) ListPolicies(ctx context.Context, request ListPolic
 }
 
 // listPolicies implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/policies", binaryReqBody)
+func (client IdentityClient) listPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/policies", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5055,8 +5138,9 @@ func (client IdentityClient) ListRegionSubscriptions(ctx context.Context, reques
 }
 
 // listRegionSubscriptions implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listRegionSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tenancies/{tenancyId}/regionSubscriptions", binaryReqBody)
+func (client IdentityClient) listRegionSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tenancies/{tenancyId}/regionSubscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5155,8 +5239,9 @@ func (client IdentityClient) ListSmtpCredentials(ctx context.Context, request Li
 }
 
 // listSmtpCredentials implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listSmtpCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/smtpCredentials", binaryReqBody)
+func (client IdentityClient) listSmtpCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/smtpCredentials", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5211,8 +5296,9 @@ func (client IdentityClient) ListSwiftPasswords(ctx context.Context, request Lis
 }
 
 // listSwiftPasswords implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listSwiftPasswords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/swiftPasswords", binaryReqBody)
+func (client IdentityClient) listSwiftPasswords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/swiftPasswords", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5265,8 +5351,9 @@ func (client IdentityClient) ListTagDefaults(ctx context.Context, request ListTa
 }
 
 // listTagDefaults implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listTagDefaults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagDefaults", binaryReqBody)
+func (client IdentityClient) listTagDefaults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagDefaults", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5319,8 +5406,9 @@ func (client IdentityClient) ListTagNamespaces(ctx context.Context, request List
 }
 
 // listTagNamespaces implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listTagNamespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces", binaryReqBody)
+func (client IdentityClient) listTagNamespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5373,8 +5461,9 @@ func (client IdentityClient) ListTaggingWorkRequestErrors(ctx context.Context, r
 }
 
 // listTaggingWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listTaggingWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests/{workRequestId}/errors", binaryReqBody)
+func (client IdentityClient) listTaggingWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5427,8 +5516,9 @@ func (client IdentityClient) ListTaggingWorkRequestLogs(ctx context.Context, req
 }
 
 // listTaggingWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listTaggingWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests/{workRequestId}/logs", binaryReqBody)
+func (client IdentityClient) listTaggingWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5481,8 +5571,9 @@ func (client IdentityClient) ListTaggingWorkRequests(ctx context.Context, reques
 }
 
 // listTaggingWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listTaggingWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests", binaryReqBody)
+func (client IdentityClient) listTaggingWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/taggingWorkRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5535,8 +5626,9 @@ func (client IdentityClient) ListTags(ctx context.Context, request ListTagsReque
 }
 
 // listTags implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/{tagNamespaceId}/tags", binaryReqBody)
+func (client IdentityClient) listTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/{tagNamespaceId}/tags", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5597,8 +5689,9 @@ func (client IdentityClient) ListUserGroupMemberships(ctx context.Context, reque
 }
 
 // listUserGroupMemberships implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listUserGroupMemberships(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userGroupMemberships", binaryReqBody)
+func (client IdentityClient) listUserGroupMemberships(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userGroupMemberships", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5653,8 +5746,9 @@ func (client IdentityClient) ListUsers(ctx context.Context, request ListUsersReq
 }
 
 // listUsers implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listUsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users", binaryReqBody)
+func (client IdentityClient) listUsers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5707,8 +5801,9 @@ func (client IdentityClient) ListWorkRequests(ctx context.Context, request ListW
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client IdentityClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5772,8 +5867,9 @@ func (client IdentityClient) MoveCompartment(ctx context.Context, request MoveCo
 }
 
 // moveCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) moveCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/moveCompartment", binaryReqBody)
+func (client IdentityClient) moveCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/moveCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5826,8 +5922,9 @@ func (client IdentityClient) RecoverCompartment(ctx context.Context, request Rec
 }
 
 // recoverCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) recoverCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/recoverCompartment", binaryReqBody)
+func (client IdentityClient) recoverCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/recoverCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5880,8 +5977,9 @@ func (client IdentityClient) RemoveUserFromGroup(ctx context.Context, request Re
 }
 
 // removeUserFromGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) removeUserFromGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/userGroupMemberships/{userGroupMembershipId}", binaryReqBody)
+func (client IdentityClient) removeUserFromGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/userGroupMemberships/{userGroupMembershipId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5934,8 +6032,9 @@ func (client IdentityClient) ResetIdpScimClient(ctx context.Context, request Res
 }
 
 // resetIdpScimClient implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) resetIdpScimClient(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders/{identityProviderId}/actions/resetScimClient", binaryReqBody)
+func (client IdentityClient) resetIdpScimClient(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders/{identityProviderId}/actions/resetScimClient", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -5988,8 +6087,9 @@ func (client IdentityClient) UpdateAuthToken(ctx context.Context, request Update
 }
 
 // updateAuthToken implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/authTokens/{authTokenId}", binaryReqBody)
+func (client IdentityClient) updateAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/authTokens/{authTokenId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6042,8 +6142,9 @@ func (client IdentityClient) UpdateAuthenticationPolicy(ctx context.Context, req
 }
 
 // updateAuthenticationPolicy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateAuthenticationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/authenticationPolicies/{compartmentId}", binaryReqBody)
+func (client IdentityClient) updateAuthenticationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/authenticationPolicies/{compartmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6096,8 +6197,9 @@ func (client IdentityClient) UpdateCompartment(ctx context.Context, request Upda
 }
 
 // updateCompartment implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/compartments/{compartmentId}", binaryReqBody)
+func (client IdentityClient) updateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/compartments/{compartmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6150,8 +6252,9 @@ func (client IdentityClient) UpdateCustomerSecretKey(ctx context.Context, reques
 }
 
 // updateCustomerSecretKey implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/customerSecretKeys/{customerSecretKeyId}", binaryReqBody)
+func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/customerSecretKeys/{customerSecretKeyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6204,8 +6307,9 @@ func (client IdentityClient) UpdateDynamicGroup(ctx context.Context, request Upd
 }
 
 // updateDynamicGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dynamicGroups/{dynamicGroupId}", binaryReqBody)
+func (client IdentityClient) updateDynamicGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dynamicGroups/{dynamicGroupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6258,8 +6362,9 @@ func (client IdentityClient) UpdateGroup(ctx context.Context, request UpdateGrou
 }
 
 // updateGroup implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/groups/{groupId}", binaryReqBody)
+func (client IdentityClient) updateGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/groups/{groupId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6312,8 +6417,9 @@ func (client IdentityClient) UpdateIdentityProvider(ctx context.Context, request
 }
 
 // updateIdentityProvider implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/identityProviders/{identityProviderId}", binaryReqBody)
+func (client IdentityClient) updateIdentityProvider(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/identityProviders/{identityProviderId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6366,8 +6472,9 @@ func (client IdentityClient) UpdateIdpGroupMapping(ctx context.Context, request 
 }
 
 // updateIdpGroupMapping implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/identityProviders/{identityProviderId}/groupMappings/{mappingId}", binaryReqBody)
+func (client IdentityClient) updateIdpGroupMapping(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/identityProviders/{identityProviderId}/groupMappings/{mappingId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6420,8 +6527,9 @@ func (client IdentityClient) UpdateNetworkSource(ctx context.Context, request Up
 }
 
 // updateNetworkSource implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkSources/{networkSourceId}", binaryReqBody)
+func (client IdentityClient) updateNetworkSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkSources/{networkSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6474,8 +6582,9 @@ func (client IdentityClient) UpdateOAuthClientCredential(ctx context.Context, re
 }
 
 // updateOAuthClientCredential implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateOAuthClientCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/oauth2ClientCredentials/{oauth2ClientCredentialId}", binaryReqBody)
+func (client IdentityClient) updateOAuthClientCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/oauth2ClientCredentials/{oauth2ClientCredentialId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6529,8 +6638,9 @@ func (client IdentityClient) UpdatePolicy(ctx context.Context, request UpdatePol
 }
 
 // updatePolicy implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updatePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/policies/{policyId}", binaryReqBody)
+func (client IdentityClient) updatePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/policies/{policyId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6583,8 +6693,9 @@ func (client IdentityClient) UpdateSmtpCredential(ctx context.Context, request U
 }
 
 // updateSmtpCredential implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateSmtpCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/smtpCredentials/{smtpCredentialId}", binaryReqBody)
+func (client IdentityClient) updateSmtpCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/smtpCredentials/{smtpCredentialId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6638,8 +6749,9 @@ func (client IdentityClient) UpdateSwiftPassword(ctx context.Context, request Up
 }
 
 // updateSwiftPassword implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateSwiftPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/swiftPasswords/{swiftPasswordId}", binaryReqBody)
+func (client IdentityClient) updateSwiftPassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/swiftPasswords/{swiftPasswordId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6699,8 +6811,9 @@ func (client IdentityClient) UpdateTag(ctx context.Context, request UpdateTagReq
 }
 
 // updateTag implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", binaryReqBody)
+func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6757,8 +6870,9 @@ func (client IdentityClient) UpdateTagDefault(ctx context.Context, request Updat
 }
 
 // updateTagDefault implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tagDefaults/{tagDefaultId}", binaryReqBody)
+func (client IdentityClient) updateTagDefault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tagDefaults/{tagDefaultId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6817,8 +6931,9 @@ func (client IdentityClient) UpdateTagNamespace(ctx context.Context, request Upd
 }
 
 // updateTagNamespace implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tagNamespaces/{tagNamespaceId}", binaryReqBody)
+func (client IdentityClient) updateTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tagNamespaces/{tagNamespaceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6871,8 +6986,9 @@ func (client IdentityClient) UpdateUser(ctx context.Context, request UpdateUserR
 }
 
 // updateUser implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}", binaryReqBody)
+func (client IdentityClient) updateUser(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6925,8 +7041,9 @@ func (client IdentityClient) UpdateUserCapabilities(ctx context.Context, request
 }
 
 // updateUserCapabilities implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateUserCapabilities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/capabilities", binaryReqBody)
+func (client IdentityClient) updateUserCapabilities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/capabilities", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -6979,8 +7096,9 @@ func (client IdentityClient) UpdateUserState(ctx context.Context, request Update
 }
 
 // updateUserState implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) updateUserState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/state", binaryReqBody)
+func (client IdentityClient) updateUserState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/state", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -7049,8 +7167,9 @@ func (client IdentityClient) UploadApiKey(ctx context.Context, request UploadApi
 }
 
 // uploadApiKey implements the OCIOperation interface (enables retrying operations)
-func (client IdentityClient) uploadApiKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/apiKeys", binaryReqBody)
+func (client IdentityClient) uploadApiKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/apiKeys", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

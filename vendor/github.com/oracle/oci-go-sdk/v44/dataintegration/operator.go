@@ -138,6 +138,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := Union{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXPRESSION_OPERATOR":
+		mm := ExpressionOperator{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INTERSECT_OPERATOR":
 		mm := Intersect{}
 		err = json.Unmarshal(data, &mm)
@@ -152,6 +156,10 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		return mm, err
 	case "FILTER_OPERATOR":
 		mm := Filter{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOOKUP_OPERATOR":
+		mm := Lookup{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "START_OPERATOR":
@@ -255,8 +263,9 @@ const (
 	OperatorModelTypeStartOperator      OperatorModelTypeEnum = "START_OPERATOR"
 	OperatorModelTypeEndOperator        OperatorModelTypeEnum = "END_OPERATOR"
 	OperatorModelTypePipelineOperator   OperatorModelTypeEnum = "PIPELINE_OPERATOR"
-	OperatorModelTypeRestOperator       OperatorModelTypeEnum = "REST_OPERATOR"
 	OperatorModelTypeTaskOperator       OperatorModelTypeEnum = "TASK_OPERATOR"
+	OperatorModelTypeExpressionOperator OperatorModelTypeEnum = "EXPRESSION_OPERATOR"
+	OperatorModelTypeLookupOperator     OperatorModelTypeEnum = "LOOKUP_OPERATOR"
 )
 
 var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
@@ -275,8 +284,9 @@ var mappingOperatorModelType = map[string]OperatorModelTypeEnum{
 	"START_OPERATOR":      OperatorModelTypeStartOperator,
 	"END_OPERATOR":        OperatorModelTypeEndOperator,
 	"PIPELINE_OPERATOR":   OperatorModelTypePipelineOperator,
-	"REST_OPERATOR":       OperatorModelTypeRestOperator,
 	"TASK_OPERATOR":       OperatorModelTypeTaskOperator,
+	"EXPRESSION_OPERATOR": OperatorModelTypeExpressionOperator,
+	"LOOKUP_OPERATOR":     OperatorModelTypeLookupOperator,
 }
 
 // GetOperatorModelTypeEnumValues Enumerates the set of values for OperatorModelTypeEnum

@@ -119,8 +119,9 @@ func (client JavaManagementServiceClient) ChangeFleetCompartment(ctx context.Con
 }
 
 // changeFleetCompartment implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/changeCompartment", binaryReqBody)
+func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +179,9 @@ func (client JavaManagementServiceClient) CreateFleet(ctx context.Context, reque
 }
 
 // createFleet implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) createFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets", binaryReqBody)
+func (client JavaManagementServiceClient) createFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +234,9 @@ func (client JavaManagementServiceClient) DeleteFleet(ctx context.Context, reque
 }
 
 // deleteFleet implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fleets/{fleetId}", binaryReqBody)
+func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fleets/{fleetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -286,8 +289,9 @@ func (client JavaManagementServiceClient) GetFleet(ctx context.Context, request 
 }
 
 // getFleet implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) getFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}", binaryReqBody)
+func (client JavaManagementServiceClient) getFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -340,8 +344,9 @@ func (client JavaManagementServiceClient) GetFleetAgentConfiguration(ctx context
 }
 
 // getFleetAgentConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/agentConfiguration", binaryReqBody)
+func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/agentConfiguration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -394,8 +399,9 @@ func (client JavaManagementServiceClient) GetWorkRequest(ctx context.Context, re
 }
 
 // getWorkRequest implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody)
+func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -448,8 +454,9 @@ func (client JavaManagementServiceClient) ListFleets(ctx context.Context, reques
 }
 
 // listFleets implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) listFleets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets", binaryReqBody)
+func (client JavaManagementServiceClient) listFleets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -502,8 +509,9 @@ func (client JavaManagementServiceClient) ListWorkRequestErrors(ctx context.Cont
 }
 
 // listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody)
+func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -556,8 +564,9 @@ func (client JavaManagementServiceClient) ListWorkRequestLogs(ctx context.Contex
 }
 
 // listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody)
+func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -610,8 +619,9 @@ func (client JavaManagementServiceClient) ListWorkRequests(ctx context.Context, 
 }
 
 // listWorkRequests implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody)
+func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -664,8 +674,9 @@ func (client JavaManagementServiceClient) RequestSummarizedApplicationUsage(ctx 
 }
 
 // requestSummarizedApplicationUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) requestSummarizedApplicationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeApplicationUsage", binaryReqBody)
+func (client JavaManagementServiceClient) requestSummarizedApplicationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeApplicationUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -718,8 +729,9 @@ func (client JavaManagementServiceClient) RequestSummarizedInstallationUsage(ctx
 }
 
 // requestSummarizedInstallationUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) requestSummarizedInstallationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeInstallationUsage", binaryReqBody)
+func (client JavaManagementServiceClient) requestSummarizedInstallationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeInstallationUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -772,8 +784,9 @@ func (client JavaManagementServiceClient) RequestSummarizedJreUsage(ctx context.
 }
 
 // requestSummarizedJreUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) requestSummarizedJreUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeJreUsage", binaryReqBody)
+func (client JavaManagementServiceClient) requestSummarizedJreUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeJreUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -826,8 +839,9 @@ func (client JavaManagementServiceClient) RequestSummarizedManagedInstanceUsage(
 }
 
 // requestSummarizedManagedInstanceUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) requestSummarizedManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeManagedInstanceUsage", binaryReqBody)
+func (client JavaManagementServiceClient) requestSummarizedManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/summarizeManagedInstanceUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -880,8 +894,9 @@ func (client JavaManagementServiceClient) SummarizeApplicationUsage(ctx context.
 }
 
 // summarizeApplicationUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeApplicationUsage", binaryReqBody)
+func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeApplicationUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -934,8 +949,9 @@ func (client JavaManagementServiceClient) SummarizeInstallationUsage(ctx context
 }
 
 // summarizeInstallationUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeInstallationUsage", binaryReqBody)
+func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeInstallationUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -988,8 +1004,9 @@ func (client JavaManagementServiceClient) SummarizeJreUsage(ctx context.Context,
 }
 
 // summarizeJreUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeJreUsage", binaryReqBody)
+func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeJreUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1042,8 +1059,9 @@ func (client JavaManagementServiceClient) SummarizeManagedInstanceUsage(ctx cont
 }
 
 // summarizeManagedInstanceUsage implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeManagedInstanceUsage", binaryReqBody)
+func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeManagedInstanceUsage", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1096,8 +1114,9 @@ func (client JavaManagementServiceClient) UpdateFleet(ctx context.Context, reque
 }
 
 // updateFleet implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) updateFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fleets/{fleetId}", binaryReqBody)
+func (client JavaManagementServiceClient) updateFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fleets/{fleetId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1150,8 +1169,9 @@ func (client JavaManagementServiceClient) UpdateFleetAgentConfiguration(ctx cont
 }
 
 // updateFleetAgentConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client JavaManagementServiceClient) updateFleetAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fleets/{fleetId}/agentConfiguration", binaryReqBody)
+func (client JavaManagementServiceClient) updateFleetAgentConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fleets/{fleetId}/agentConfiguration", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
