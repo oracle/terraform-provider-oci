@@ -125,12 +125,24 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["additional_details"] = *r.AdditionalDetails
 		}
 
+		if r.BackupIpId != nil {
+			dbNode["backup_ip_id"] = *r.BackupIpId
+		}
+
+		if r.BackupVnic2Id != nil {
+			dbNode["backup_vnic2id"] = *r.BackupVnic2Id
+		}
+
 		if r.BackupVnicId != nil {
 			dbNode["backup_vnic_id"] = *r.BackupVnicId
 		}
 
 		if r.FaultDomain != nil {
 			dbNode["fault_domain"] = *r.FaultDomain
+		}
+
+		if r.HostIpId != nil {
+			dbNode["host_ip_id"] = *r.HostIpId
 		}
 
 		if r.Hostname != nil {
@@ -160,6 +172,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceWindowStart != nil {
 			dbNode["time_maintenance_window_start"] = r.TimeMaintenanceWindowStart.String()
+		}
+
+		if r.Vnic2Id != nil {
+			dbNode["vnic2id"] = *r.Vnic2Id
 		}
 
 		if r.VnicId != nil {

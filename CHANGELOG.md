@@ -4,6 +4,7 @@
 - Support for access to patches for dev/test instances in AutonomousDatabase
 - Support for metastore integration added to `dataflow`
 - Support for Cross-Region Copy of Volume Group Backups in `core` added
+- Support for Network Bonding added to `ExaCS`
 
 ## 4.37.0 (July 28, 2021)
 
