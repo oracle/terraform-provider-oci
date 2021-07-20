@@ -385,6 +385,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #Required
   sddc_id = oci_ocvp_sddc.test_sddc.id
   #Optional
+  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
   current_sku = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
   next_sku    = data.oci_ocvp_supported_skus.test_supported_skus.items[0].name
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}

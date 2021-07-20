@@ -41,6 +41,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 
 			// Optional
+			"compute_availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"current_sku": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -174,6 +180,11 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 
 func (s *OcvpEsxiHostResourceCrud) Create() error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
+
+	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
+		tmp := computeAvailabilityDomain.(string)
+		request.ComputeAvailabilityDomain = &tmp
+	}
 
 	if currentSku, ok := s.D.GetOkExists("current_sku"); ok {
 		request.CurrentSku = oci_ocvp.SkuEnum(currentSku.(string))
@@ -415,6 +426,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ComputeAvailabilityDomain != nil {
+		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
+	}
+
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
@@ -459,6 +474,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.ComputeAvailabilityDomain != nil {
+		result["compute_availability_domain"] = string(*obj.ComputeAvailabilityDomain)
 	}
 
 	if obj.ComputeInstanceId != nil {
