@@ -50,15 +50,17 @@ var (
 	deployStageLoadBalancerInstanceGroupConfigRepresentation = map[string]interface{}{
 		"backend_port":     Representation{repType: Optional, create: `8080`},
 		"listener_name":    Representation{repType: Required, create: `LoadBalancerListener`, update: `LoadBalancerListener2`},
-		"load_balancer_id": Representation{repType: Required, create: `ocid1.loadbalancer.oc1.phx.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstofake1`, update: `ocid1.loadbalancer.oc1.phx.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstofake2`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer_1.id}`, update: `${oci_load_balancer_load_balancer.test_load_balancer_2.id}`},
 	}
 
 	DeployComputeInstanceGroupStageResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_generic_artifact", Required, Create, deployGenericArtifactRepresentation) +
 		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_instance_group_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation) +
 		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
 		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
-		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer_1", Required, Create, loadBalancerRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer_2", Optional, Create, loadBalancerRepresentation) +
+		LoadBalancerResourceDependencies
 )
 
 func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
@@ -141,7 +143,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "rollback_policy.0.policy_type", "AUTOMATED_STAGE_ROLLBACK_POLICY"),
 					resource.TestCheckResourceAttr(resourceName, "load_balancer_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "load_balancer_config.0.listener_name", "LoadBalancerListener"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_config.0.load_balancer_id", "ocid1.loadbalancer.oc1.phx.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstofake1"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_config.0.load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "failure_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "failure_policy.0.failure_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
@@ -182,7 +184,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "rollback_policy.0.policy_type", "AUTOMATED_STAGE_ROLLBACK_POLICY"),
 					resource.TestCheckResourceAttr(resourceName, "load_balancer_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "load_balancer_config.0.listener_name", "LoadBalancerListener2"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_config.0.load_balancer_id", "ocid1.loadbalancer.oc1.phx.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstofake2"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_config.0.load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "failure_policy.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "failure_policy.0.failure_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
@@ -240,7 +242,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "rollback_policy.0.policy_type", "AUTOMATED_STAGE_ROLLBACK_POLICY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_config.0.listener_name", "LoadBalancerListener2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_config.0.load_balancer_id", "ocid1.loadbalancer.oc1.phx.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstofake2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_config.0.load_balancer_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "failure_policy.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "failure_policy.0.failure_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
