@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v44/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v45/apmsynthetics"
 )
 
 func init() {

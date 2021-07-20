@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apm "github.com/oracle/oci-go-sdk/v44/apmcontrolplane"
-	oci_common "github.com/oracle/oci-go-sdk/v44/common"
+	oci_apm "github.com/oracle/oci-go-sdk/v45/apmcontrolplane"
+	oci_common "github.com/oracle/oci-go-sdk/v45/common"
 )
 
 func init() {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm "github.com/oracle/oci-go-sdk/v44/apmcontrolplane"
+	oci_apm "github.com/oracle/oci-go-sdk/v45/apmcontrolplane"
 )
 
 func init() {

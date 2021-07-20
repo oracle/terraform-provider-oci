@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v44/database"
+	"github.com/oracle/oci-go-sdk/v45/database"
 )
 
 // TestAccResourceDatabaseDBSystem_Exadata tests DBsystems using Exadata
