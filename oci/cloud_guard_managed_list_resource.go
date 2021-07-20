@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v44/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v45/cloudguard"
 )
 
 func init() {
