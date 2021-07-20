@@ -75,6 +75,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ComputeAvailabilityDomain != nil {
+		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
+	}
+
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}

@@ -34,20 +34,20 @@ var (
 		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"sddc_id":             Representation{RepType: Optional, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 		"state":               Representation{RepType: Optional, Create: `ACTIVE`},
-		"filter":              RepresentationGroup{Required, esxiHostDataSourceFilterRepresentation},
-	}
+		"filter":              RepresentationGroup{Required, esxiHostDataSourceFilterRepresentation}}
 	esxiHostDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_ocvp_esxi_host.test_esxi_host.id}`}},
 	}
 
 	esxiHostRepresentation = map[string]interface{}{
-		"sddc_id":       Representation{RepType: Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
-		"current_sku":   Representation{RepType: Optional, Create: `HOUR`},
-		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"next_sku":      Representation{RepType: Optional, Create: `HOUR`, Update: `MONTH`},
+		"sddc_id":                     Representation{RepType: Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"compute_availability_domain": Representation{RepType: Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"current_sku":                 Representation{RepType: Optional, Create: `HOUR`},
+		"defined_tags":                Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":               Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"next_sku":                    Representation{RepType: Optional, Create: `HOUR`, Update: `MONTH`},
 	}
 
 	EsxiHostResourceDependencies = SddcRequiredOnlyResource
@@ -97,6 +97,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -123,6 +124,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -148,6 +150,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "esxi_host_collection.0.compute_availability_domain"),
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_instance_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "esxi_host_collection.#", "1"),
@@ -172,6 +175,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "HOUR"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
