@@ -290,7 +290,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + goldenGateDeploymentResourceConfig,
+				Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + goldenGateDeploymentResourceConfig,
 			},
 			// verify resource import
 			{
