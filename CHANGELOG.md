@@ -1,4 +1,4 @@
-## 4.36.0 (Unreleased)
+## 4.36.0 (July 21, 2021)
 
 ### Added
 - Support for Data Guard Protection Modes
