@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v44/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v44/mysql"
+	"github.com/oracle/oci-go-sdk/v45/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v45/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,7 +34,7 @@ var (
 		"db_system_id": Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"cluster_size": Representation{repType: Required, create: `2`, update: `3`},
 		"shape_name":   Representation{repType: Required, create: `VM.Standard.E2.2`, update: `VM.Standard.E2.4`},
-		"state":        Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`}, // testing stop & start actions
+		"state":        Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
 	}
 
 	AnalyticsClusterResourceDependencies = MysqlConfigurationResourceConfig +

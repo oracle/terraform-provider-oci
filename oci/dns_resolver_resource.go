@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v45/dns"
 )
 
 func init() {
@@ -233,7 +233,6 @@ func createDnsResolver(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsResolverResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient()
-
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
 	err := CreateResource(d, sync)

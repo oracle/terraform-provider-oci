@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	oci_database "github.com/oracle/oci-go-sdk/v44/database"
+	oci_database "github.com/oracle/oci-go-sdk/v45/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,7 +34,23 @@ var (
 		"dns":                         Representation{repType: Optional, create: []string{`192.168.10.10`}, update: []string{`192.168.10.12`}},
 		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"ntp":                         Representation{repType: Optional, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`}},
-		"validate_vm_cluster_network": Representation{repType: Optional, create: "true"},
+		"validate_vm_cluster_network": Representation{repType: Optional, create: "true", update: "true"},
+		"lifecycle":                   RepresentationGroup{repType: Optional, group: vmClusterNetworkIgnoreChangesRepresentation},
+	}
+	vmClusterNetworkIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`validate_vm_cluster_network`}},
+	}
+	vmClusterNetworkValidateUpdateRepresentation = map[string]interface{}{
+		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":                Representation{repType: Required, create: `testVmClusterNw`},
+		"exadata_infrastructure_id":   Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"scans":                       RepresentationGroup{Required, vmClusterNetworkScansRepresentation},
+		"vm_networks":                 []RepresentationGroup{{Required, vmClusterNetworkBackupVmNetworkRepresentation}, {Required, vmClusterNetworkClientVmNetworkRepresentation}},
+		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                         Representation{repType: Optional, create: []string{`192.168.10.10`}, update: []string{`192.168.10.12`}},
+		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"ntp":                         Representation{repType: Optional, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`}},
+		"validate_vm_cluster_network": Representation{repType: Optional, create: "true", update: "true"},
 	}
 
 	VmClusterNetworkValidateResourceDependencies = DefinedTagsDependencies +
@@ -105,7 +121,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 			// verify create without validation
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update,
+					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create,
 						representationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{`validate_vm_cluster_network`})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -117,16 +133,16 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
-						"hostname": "myprefix2-ivmmj-scan",
+						"hostname": "myprefix1-ivmmj-scan",
 						"ips.#":    "3",
-						"port":     "1522",
+						"port":     "1521",
 					},
 						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
 						"domain_name":  "oracle.com",
-						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.192.0",
+						"gateway":      "192.169.20.1",
+						"netmask":      "255.255.0.0",
 						"network_type": "BACKUP",
 						"nodes.#":      "2",
 					},
@@ -144,8 +160,8 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 			// verify validation
 			{
 				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateUpdateRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),

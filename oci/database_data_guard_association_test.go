@@ -212,7 +212,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_data_guard_associations.test_data_guard_associations"
 	singularDatasourceName := "data.oci_database_data_guard_association.test_data_guard_association"
 
-	var resId string
+	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+DataGuardAssociationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
@@ -237,6 +237,11 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
 				),
 			},
 
@@ -273,6 +278,33 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
+					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+					resource.TestCheckResourceAttr(resourceName, "delete_standby_db_home_on_delete", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttrSet(resourceName, "role"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify datasource
 			{
 				Config: config +

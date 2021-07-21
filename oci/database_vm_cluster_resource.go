@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v44/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v44/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v45/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v45/workrequests"
 )
 
 func init() {
@@ -47,9 +47,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"gi_version": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: giVersionDiffSuppress,
 			},
 			"ssh_public_keys": {
 				Type:     schema.TypeSet,
@@ -136,6 +137,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"system_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -510,6 +515,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	s.D.Set("ssh_public_keys", schema.NewSet(literalTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemVersion != nil {
+		s.D.Set("system_version", *s.Res.SystemVersion)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
