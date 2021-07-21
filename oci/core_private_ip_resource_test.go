@@ -176,7 +176,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "id"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
@@ -201,7 +200,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "-private-ip2"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "ip_address", "10.0.0.10"),
-					resource.TestCheckResourceAttrSet(s.VlanResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),

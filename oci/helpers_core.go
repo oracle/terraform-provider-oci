@@ -12,8 +12,8 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v44/common"
-	oci_core "github.com/oracle/oci-go-sdk/v44/core"
+	oci_common "github.com/oracle/oci-go-sdk/v45/common"
+	oci_core "github.com/oracle/oci-go-sdk/v45/core"
 )
 
 const (

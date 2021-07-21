@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v44/database"
+	oci_database "github.com/oracle/oci-go-sdk/v45/database"
 )
 
 func init() {
@@ -184,6 +184,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 		vmCluster["ssh_public_keys"] = r.SshPublicKeys
 
 		vmCluster["state"] = r.LifecycleState
+
+		if r.SystemVersion != nil {
+			vmCluster["system_version"] = *r.SystemVersion
+		}
 
 		if r.TimeCreated != nil {
 			vmCluster["time_created"] = r.TimeCreated.String()

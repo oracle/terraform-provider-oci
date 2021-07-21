@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v44/core"
+	oci_core "github.com/oracle/oci-go-sdk/v45/core"
 )
 
 func init() {
@@ -153,7 +153,6 @@ func createCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
-
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
 	err := CreateResource(d, sync)

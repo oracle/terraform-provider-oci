@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/v44/common"
+	"github.com/oracle/oci-go-sdk/v45/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v44/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v45/dns"
 )
 
 var (
