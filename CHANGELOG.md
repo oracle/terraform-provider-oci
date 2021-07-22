@@ -5,6 +5,9 @@
 - Support for ExaCS Customer Contact
 - Support for Email Authentication: DKIM API
 
+### Fixed
+- Update issue in `oci_database_autonomous_container_database` - Issue [1417](https://github.com/terraform-providers/terraform-provider-oci/issues/1417)
+
 ## 4.36.0 (July 21, 2021)
 
 ### Added
