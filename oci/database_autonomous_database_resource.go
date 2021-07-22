@@ -1044,19 +1044,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.OcpuCount = &tmp
 	}
 
-	if openMode, ok := s.D.GetOkExists("open_mode"); ok {
-		request.OpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
-	}
-
-	if permissionLevel, ok := s.D.GetOkExists("permission_level"); ok {
-		request.PermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
-	}
-
-	if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
-		tmp := privateEndpointLabel.(string)
-		request.PrivateEndpointLabel = &tmp
-	}
-
 	if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok && s.D.HasChange("refreshable_mode") {
 		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}

@@ -1668,7 +1668,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbDbVersionName),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "18c"),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
