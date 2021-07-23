@@ -35,6 +35,9 @@ type UpdateCloudExadataInfrastructureDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Customer contacts. Setting this to an empty list removes all customer contact information (email addresses) for the specified OCI Database service resource.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 }
 
 func (m UpdateCloudExadataInfrastructureDetails) String() string {

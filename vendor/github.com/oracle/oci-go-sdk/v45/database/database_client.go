@@ -4835,7 +4835,7 @@ func (client DatabaseClient) enableExternalPluggableDatabaseOperationsInsights(c
 	return response, err
 }
 
-// FailOverAutonomousDatabase Initiates a failover the specified Autonomous Database to a standby.
+// FailOverAutonomousDatabase Initiates a failover the specified Autonomous Database to a standby. To perform a failover to a standby located in a remote region, specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote standby using the `peerDbId` parameter.
 //
 // See also
 //
@@ -11731,7 +11731,7 @@ func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguardAssoc
 	return response, err
 }
 
-// SwitchoverAutonomousDatabase Initiates a switchover of the specified Autonomous Database to the associated standby database. Applicable only to databases with Autonomous Data Guard enabled.
+// SwitchoverAutonomousDatabase Initiates a switchover of the specified Autonomous Database to the associated standby database. Applicable only to databases with Autonomous Data Guard enabled. To perform a switchover to a standby located in a remote region, specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote standby using the `peerDbId` parameter.
 //
 // See also
 //

@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/common"
 )
 
-// MacsManagedExternalHostInsight Host insight resource.
+// MacsManagedExternalHostInsight MACS-managed external host insight resource.
 type MacsManagedExternalHostInsight struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.

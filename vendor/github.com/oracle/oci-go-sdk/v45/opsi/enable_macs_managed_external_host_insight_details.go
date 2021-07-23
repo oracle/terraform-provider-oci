@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/common"
 )
 
-// EnableMacsManagedExternalHostInsightDetails The information about host to be analyzed.
+// EnableMacsManagedExternalHostInsightDetails The information about the MACS-managed external host to be analyzed.
 type EnableMacsManagedExternalHostInsightDetails struct {
 }
 
