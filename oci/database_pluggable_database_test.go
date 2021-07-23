@@ -53,14 +53,6 @@ var (
 		"depends_on":            Representation{repType: Required, create: []string{"oci_database_db_system.t"}},
 	}
 
-	pluggableDatabasesLocalCloneRepresentation = map[string]interface{}{
-		"cloned_pdb_name":            Representation{repType: Required, create: `NewSalesPdb`},
-		"pdb_admin_password":         Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"pluggable_database_id":      Representation{repType: Required, create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
-		"target_tde_wallet_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
-	}
-
 	ResourcePluggableDatabaseBaseConfig = `
 
 	data "oci_identity_availability_domains" "ADs" {
@@ -138,7 +130,7 @@ var (
 			node_count = "1"
 			fault_domains = ["FAULT-DOMAIN-1"]
 			db_home {
-				db_version = "12.2.0.1"
+				db_version = "19.11.0.0"
 				display_name = "-tf-db-home"
 				database {
 					admin_password = "BEstrO0ng_#11"

@@ -119,7 +119,7 @@ var (
 		"is_response_buffering_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 		"is_sni_enabled":                Representation{repType: Optional, create: `false`, update: `true`},
 		"load_balancing_method":         RepresentationGroup{Optional, waasPolicyPolicyConfigLoadBalancingMethodRepresentation},
-		"tls_protocols":                 Representation{repType: Optional, create: []string{`TLS_V1`}, update: []string{`TLS_V1_1`}},
+		"tls_protocols":                 Representation{repType: Optional, create: []string{`TLS_V1_2`}, update: []string{`TLS_V1_3`}},
 		"websocket_path_prefixes":       Representation{repType: Optional, create: []string{`/url1`}, update: []string{`/url2`}},
 	}
 	waasPolicyWafConfigRepresentation = map[string]interface{}{
