@@ -247,7 +247,7 @@ type AutonomousDatabaseSummary struct {
 
 	StandbyDb *AutonomousDatabaseStandbySummary `mandatory:"false" json:"standbyDb"`
 
-	// The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled.
+	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
 	Role AutonomousDatabaseSummaryRoleEnum `mandatory:"false" json:"role,omitempty"`
 
 	// List of Oracle Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
@@ -259,8 +259,23 @@ type AutonomousDatabaseSummary struct {
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
+	// The list of regions that support the creation of Autonomous Data Guard standby database.
+	SupportedRegionsToCloneTo []string `mandatory:"false" json:"supportedRegionsToCloneTo"`
+
 	// Customer Contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	// The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.
+	TimeLocalDataGuardEnabled *common.SDKTime `mandatory:"false" json:"timeLocalDataGuardEnabled"`
+
+	// The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Databases on shared Exadata infrastructure, Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Data Guard association, and cannot be performed when the database using the "primary" role is operating in a remote Data Guard standby region.```
+	DataguardRegionType AutonomousDatabaseSummaryDataguardRegionTypeEnum `mandatory:"false" json:"dataguardRegionType,omitempty"`
+
+	// The date and time the Autonomous Data Guard role was switched for the Autonomous Database. For databases that have standbys in both the primary Data Guard region and a remote Data Guard standby region, this is the latest timestamp of either the database using the "primary" role in the primary Data Guard region, or database located in the remote Data Guard standby region.
+	TimeDataGuardRoleChanged *common.SDKTime `mandatory:"false" json:"timeDataGuardRoleChanged"`
+
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for shared Exadata infrastructure, standby databases located in the same region as the source primary database do not have OCIDs.
+	PeerDbIds []string `mandatory:"false" json:"peerDbIds"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -571,6 +586,29 @@ var mappingAutonomousDatabaseSummaryRole = map[string]AutonomousDatabaseSummaryR
 func GetAutonomousDatabaseSummaryRoleEnumValues() []AutonomousDatabaseSummaryRoleEnum {
 	values := make([]AutonomousDatabaseSummaryRoleEnum, 0)
 	for _, v := range mappingAutonomousDatabaseSummaryRole {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseSummaryDataguardRegionTypeEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryDataguardRegionTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryDataguardRegionTypeEnum
+const (
+	AutonomousDatabaseSummaryDataguardRegionTypePrimaryDgRegion       AutonomousDatabaseSummaryDataguardRegionTypeEnum = "PRIMARY_DG_REGION"
+	AutonomousDatabaseSummaryDataguardRegionTypeRemoteStandbyDgRegion AutonomousDatabaseSummaryDataguardRegionTypeEnum = "REMOTE_STANDBY_DG_REGION"
+)
+
+var mappingAutonomousDatabaseSummaryDataguardRegionType = map[string]AutonomousDatabaseSummaryDataguardRegionTypeEnum{
+	"PRIMARY_DG_REGION":        AutonomousDatabaseSummaryDataguardRegionTypePrimaryDgRegion,
+	"REMOTE_STANDBY_DG_REGION": AutonomousDatabaseSummaryDataguardRegionTypeRemoteStandbyDgRegion,
+}
+
+// GetAutonomousDatabaseSummaryDataguardRegionTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDataguardRegionTypeEnum
+func GetAutonomousDatabaseSummaryDataguardRegionTypeEnumValues() []AutonomousDatabaseSummaryDataguardRegionTypeEnum {
+	values := make([]AutonomousDatabaseSummaryDataguardRegionTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryDataguardRegionType {
 		values = append(values, v)
 	}
 	return values

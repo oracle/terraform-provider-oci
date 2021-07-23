@@ -22,7 +22,7 @@ type ListDatabaseInsightsRequest struct {
 	// Unique Enterprise Manager bridge identifier
 	EnterpriseManagerBridgeId *string `mandatory:"false" contributesTo:"query" name:"enterpriseManagerBridgeId"`
 
-	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
+	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
 	// Resource Status

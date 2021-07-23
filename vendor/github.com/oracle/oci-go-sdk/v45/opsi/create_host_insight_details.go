@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/common"
 )
 
-// CreateHostInsightDetails The information about host to be analyzed.
+// CreateHostInsightDetails The information about the host to be analyzed.
 type CreateHostInsightDetails interface {
 
 	// Compartment Identifier of host
