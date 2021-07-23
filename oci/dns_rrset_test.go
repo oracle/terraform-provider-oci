@@ -52,19 +52,11 @@ var (
 	}
 
 	RrsetResourceDependencies = `
-data "oci_identity_tenancy" "test_tenancy" {
-	tenancy_id = "${var.tenancy_ocid}"
-}
-
-resource "oci_dns_zone" "test_zone" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	name = "` + dnsDomainName + `"
-	zone_type = "PRIMARY"
-	scope = "PRIVATE"
-	view_id = "${oci_dns_view.test_view.id}"
-}
-` + generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
+	data "oci_identity_tenancy" "test_tenancy" {
+		tenancy_id = "${var.tenancy_ocid}"
+	}
+	` + generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, getUpdatedRepresentationCopy("name", Representation{repType: Required, create: dnsDomainName}, zoneRepresentationPrimary)) +
+		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
 func TestDnsRrsetResource_basic(t *testing.T) {
@@ -91,7 +83,6 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckDnsRrsetDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
