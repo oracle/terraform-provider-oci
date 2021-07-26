@@ -245,8 +245,8 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Get() error {
 	if err != nil {
 		return err
 	}
-	s.Res = &response.Items[0]
-	if len(response.Items) > 0 {
+
+	if response.Items != nil && len(response.Items) > 0 {
 		s.Res = &response.Items[0]
 
 	}
