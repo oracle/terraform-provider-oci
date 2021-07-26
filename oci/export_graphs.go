@@ -389,6 +389,8 @@ var dataSafeResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
 		{TerraformResourceHints: exportDataSafeOnPremConnectorHints},
 		{TerraformResourceHints: exportDataSafeTargetDatabaseHints},
+		{TerraformResourceHints: exportDataSafeSecurityAssessmentHints},
+		{TerraformResourceHints: exportDataSafeUserAssessmentHints},
 	},
 }
 
