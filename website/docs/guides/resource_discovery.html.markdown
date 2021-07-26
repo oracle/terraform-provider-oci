@@ -394,6 +394,8 @@ data_safe
 * oci\_data\_safe\_data\_safe\_private\_endpoint
 * oci\_data\_safe\_on\_prem\_connector
 * oci\_data\_safe\_target\_database
+* oci\_data\_safe\_security\_assessment
+* oci\_data\_safe\_user\_assessment
 
 database
     

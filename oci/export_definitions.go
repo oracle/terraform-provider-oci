@@ -890,6 +890,26 @@ var exportDataSafeTargetDatabaseHints = &TerraformResourceHints{
 	},
 }
 
+var exportDataSafeSecurityAssessmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_data_safe_security_assessment",
+	datasourceClass:      "oci_data_safe_security_assessments",
+	datasourceItemsAttr:  "security_assessments",
+	resourceAbbreviation: "security_assessment",
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.SecurityAssessmentLifecycleStateSucceeded),
+	},
+}
+
+var exportDataSafeUserAssessmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_data_safe_user_assessment",
+	datasourceClass:      "oci_data_safe_user_assessments",
+	datasourceItemsAttr:  "user_assessments",
+	resourceAbbreviation: "user_assessment",
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.UserAssessmentLifecycleStateSucceeded),
+	},
+}
+
 var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_container_database",
 	datasourceClass:      "oci_database_autonomous_container_databases",
