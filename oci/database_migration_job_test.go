@@ -66,6 +66,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
+// issue-routing-tag: database_migration/default
 func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 	t.Skip("Skip this job creation is an independent operation after validating the migration")
 	httpreplay.SetScenario("TestDatabaseMigrationJobResource_basic")

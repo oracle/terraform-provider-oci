@@ -100,6 +100,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: bds/default
 func TestBdsBdsInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBdsBdsInstanceResource_basic")
 	defer httpreplay.SaveScenario()

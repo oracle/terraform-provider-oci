@@ -78,6 +78,7 @@ var (
 		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreBootVolumeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeResource_basic")
 	defer httpreplay.SaveScenario()

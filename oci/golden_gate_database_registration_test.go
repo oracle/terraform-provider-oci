@@ -122,6 +122,7 @@ var (
 		KmsVaultIdVariableStr
 )
 
+// issue-routing-tag: golden_gate/default
 func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDatabaseRegistrationResource_basic")
 	defer httpreplay.SaveScenario()

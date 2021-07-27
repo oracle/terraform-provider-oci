@@ -51,6 +51,7 @@ var (
 	VaultResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: kms/default
 func TestKmsVaultResource_basic(t *testing.T) {
 	t.Skip("Skip this test till KMS provides a better way of testing this.")
 

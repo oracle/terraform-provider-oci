@@ -379,6 +379,7 @@ resource "oci_core_vlan" "test_replication_vlan" {
 `
 )
 
+// issue-routing-tag: ocvp/default
 func TestOcvpSddcResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSddcResource_basic")
 	defer httpreplay.SaveScenario()

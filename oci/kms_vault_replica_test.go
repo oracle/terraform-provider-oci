@@ -21,6 +21,7 @@ var (
 	VaultReplicaResourceConfig = generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation)
 )
 
+// issue-routing-tag: kms/default
 func TestKmsVaultReplicaResource_basic(t *testing.T) {
 	t.Skip("Skip this test because virtual private vault is needed")
 	httpreplay.SetScenario("TestKmsVaultReplicaResource_basic")

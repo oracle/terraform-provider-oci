@@ -59,6 +59,7 @@ var (
 		generateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation)
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceAcceptedAgreementResource_basic")
 	defer httpreplay.SaveScenario()

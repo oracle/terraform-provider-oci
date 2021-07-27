@@ -66,6 +66,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
 )
 
+// issue-routing-tag: core/pnp
 func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteDistributionStatementResource_basic")
 	defer httpreplay.SaveScenario()

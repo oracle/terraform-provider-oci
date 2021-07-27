@@ -151,6 +151,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: dns/default
 func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsSteeringPolicyResource_basic")
 	defer httpreplay.SaveScenario()

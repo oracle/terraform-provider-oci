@@ -51,6 +51,7 @@ var (
 	SenderResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: email/default
 func TestEmailSenderResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEmailSenderResource_basic")
 	defer httpreplay.SaveScenario()

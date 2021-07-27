@@ -77,6 +77,7 @@ var (
 	ManagedDatabaseGroupResourceDependencies = ""
 )
 
+// issue-routing-tag: database_management/default
 func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabaseGroupResource_basic")
 	defer httpreplay.SaveScenario()

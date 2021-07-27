@@ -56,6 +56,7 @@ var (
 	TagDefaultResourceDependencies = TagRequiredOnlyResource
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityTagDefaultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagDefaultResource_basic")
 	defer httpreplay.SaveScenario()

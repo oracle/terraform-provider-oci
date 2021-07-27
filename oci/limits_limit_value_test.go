@@ -26,6 +26,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
+// issue-routing-tag: limits/default
 func TestLimitsLimitValueResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLimitsLimitValueResource_basic")
 	defer httpreplay.SaveScenario()

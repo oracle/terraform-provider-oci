@@ -19,6 +19,7 @@ var (
 	}
 )
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineMigrateToNativeVcnStatusResource_basic")
 	defer httpreplay.SaveScenario()

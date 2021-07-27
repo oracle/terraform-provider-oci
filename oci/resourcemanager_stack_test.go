@@ -35,6 +35,7 @@ var (
 	StackResourceConfig = DefinedTagsDependencies
 )
 
+// issue-routing-tag: resourcemanager/default
 func TestResourcemanagerStackResource_basic(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackResource_basic") {
 		t.Skip("Skipping suppressed TestResourcemanagerStackResource_basic")

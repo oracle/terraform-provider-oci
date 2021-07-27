@@ -30,6 +30,7 @@ var (
 		}))
 )
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineClusterKubeConfigResource_basic")
 	defer httpreplay.SaveScenario()

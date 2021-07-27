@@ -42,6 +42,7 @@ var (
 	publicKeyUpdateVariableStr = fmt.Sprintf("variable \"api_key_update_value\" { default = \"%s\" }\n", publicKeyUpdate)
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityApiKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityApiKeyResource_basic")
 	defer httpreplay.SaveScenario()

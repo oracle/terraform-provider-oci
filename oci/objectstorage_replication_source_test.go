@@ -23,6 +23,7 @@ var (
 		generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation)
 )
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageReplicationSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageReplicationSourceResource_basic")
 	defer httpreplay.SaveScenario()

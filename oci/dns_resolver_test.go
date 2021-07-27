@@ -76,6 +76,7 @@ var (
 		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
+// issue-routing-tag: dns/default
 func TestDnsResolverResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsResolverResource_basic")
 	defer httpreplay.SaveScenario()

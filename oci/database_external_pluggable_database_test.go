@@ -53,6 +53,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalPluggableDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

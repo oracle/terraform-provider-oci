@@ -53,6 +53,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/pnp
 func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteDistributionResource_basic")
 	defer httpreplay.SaveScenario()

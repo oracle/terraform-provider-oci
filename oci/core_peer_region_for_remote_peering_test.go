@@ -19,6 +19,7 @@ var (
 	PeerRegionForRemotePeeringResourceConfig = ""
 )
 
+// issue-routing-tag: core/default
 func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePeerRegionForRemotePeeringResource_basic")
 	defer httpreplay.SaveScenario()

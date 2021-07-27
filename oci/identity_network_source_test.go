@@ -59,6 +59,7 @@ var (
 	NetworkSourceResourceDependencies = DefinedTagsDependencies + VcnRequiredOnlyResource
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityNetworkSourceResource_basic")
 	defer httpreplay.SaveScenario()

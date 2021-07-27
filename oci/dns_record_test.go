@@ -60,6 +60,7 @@ resource "oci_dns_zone" "test_global_zone" {
 `
 )
 
+// issue-routing-tag: dns/default
 func TestDnsRecordsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_basic")
 	defer httpreplay.SaveScenario()

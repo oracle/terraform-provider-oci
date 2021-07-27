@@ -33,6 +33,7 @@ var (
 	DataSafeConfigurationResourceDependencies = ""
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeDataSafeConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

@@ -21,6 +21,7 @@ var (
 	VaultUsageResourceConfig = KeyResourceDependencies
 )
 
+// issue-routing-tag: kms/default
 func TestKmsVaultUsageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsVaultUsageResource_basic")
 	defer httpreplay.SaveScenario()

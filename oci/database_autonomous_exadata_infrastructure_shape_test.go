@@ -22,6 +22,7 @@ var (
 	AutonomousExadataInfrastructureShapeResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousExadataInfrastructureShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousExadataInfrastructureShapeResource_basic")
 	defer httpreplay.SaveScenario()

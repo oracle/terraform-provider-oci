@@ -30,6 +30,7 @@ var (
 	AvailabilityDomainConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation)
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAvailabilityDomainResource_basic")
 	defer httpreplay.SaveScenario()

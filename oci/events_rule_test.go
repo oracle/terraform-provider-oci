@@ -85,6 +85,7 @@ var (
 		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
 )
 
+// issue-routing-tag: events/default
 func TestEventsRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEventsRuleResource_basic")
 	defer httpreplay.SaveScenario()

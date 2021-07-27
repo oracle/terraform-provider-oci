@@ -125,6 +125,7 @@ var (
 	`
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_Exadata") {
 		t.Skip("Skipping suppressed DBSystem_Exadata")

@@ -23,6 +23,7 @@ var (
 	AppCatalogListingResourceConfig = ""
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogListingResource_basic")
 	defer httpreplay.SaveScenario()

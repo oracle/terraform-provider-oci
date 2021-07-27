@@ -52,6 +52,7 @@ var (
 	LogSavedSearchResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: logging/default
 func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingLogSavedSearchResource_basic")
 	defer httpreplay.SaveScenario()

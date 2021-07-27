@@ -63,6 +63,7 @@ var (
 	VmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
 )
 
+// issue-routing-tag: database/ExaCC
 func TestDatabaseVmClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterResource_basic")
 	defer httpreplay.SaveScenario()

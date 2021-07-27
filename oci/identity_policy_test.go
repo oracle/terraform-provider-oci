@@ -44,6 +44,7 @@ var (
 	PolicyResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityPolicyResource_basic")
 	defer httpreplay.SaveScenario()

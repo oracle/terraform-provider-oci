@@ -96,6 +96,7 @@ var (
 			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}}))
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

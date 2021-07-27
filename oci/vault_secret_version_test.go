@@ -22,6 +22,7 @@ var (
 	SecretVersionResourceConfig = ``
 )
 
+// issue-routing-tag: vault/default
 func TestVaultSecretVersionResource_basic(t *testing.T) {
 	t.Skip("Skip this test till Secret Management service provides a better way of testing this.")
 	httpreplay.SetScenario("TestVaultSecretVersionResource_basic")

@@ -21,6 +21,7 @@ var (
 	IpSecConnectionDeviceConfigResourceConfig = IpSecConnectionRequiredOnlyResource
 )
 
+// issue-routing-tag: core/default
 func TestCoreIpSecConnectionDeviceConfigResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpSecConnectionDeviceConfigResource_basic")
 	defer httpreplay.SaveScenario()

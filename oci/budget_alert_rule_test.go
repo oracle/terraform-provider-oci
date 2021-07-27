@@ -58,6 +58,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: budget/default
 func TestBudgetAlertRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBudgetAlertRuleResource_basic")
 	defer httpreplay.SaveScenario()

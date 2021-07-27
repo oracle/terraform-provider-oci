@@ -26,6 +26,7 @@ var (
 	ImageShapeResourceConfig = FlexVmImageIdsVariable
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreImageShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreImageShapeResource_basic")
 	defer httpreplay.SaveScenario()

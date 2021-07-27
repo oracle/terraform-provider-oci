@@ -118,6 +118,7 @@ var (
 		generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update, serviceConnectorFunctionTargetRepresentation)
 )
 
+// issue-routing-tag: sch/default
 func TestSchServiceConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestSchServiceConnectorResource_basic")
 	defer httpreplay.SaveScenario()

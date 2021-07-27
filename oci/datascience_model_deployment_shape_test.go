@@ -21,6 +21,7 @@ var (
 	ModelDeploymentShapeResourceConfig = ""
 )
 
+// issue-routing-tag: datascience/default
 func TestDatascienceModelDeploymentShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceModelDeploymentShapeResource_basic")
 	defer httpreplay.SaveScenario()

@@ -22,6 +22,7 @@ var (
 	FlexComponentResourceConfig = ""
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseFlexComponentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseFlexComponentResource_basic")
 	defer httpreplay.SaveScenario()

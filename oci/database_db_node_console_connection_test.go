@@ -52,6 +52,7 @@ var (
 		}`
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbNodeConsoleConnectionResource_basic")
 	defer httpreplay.SaveScenario()

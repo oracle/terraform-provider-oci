@@ -30,6 +30,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeAttachmentResource_basic")
 	defer httpreplay.SaveScenario()

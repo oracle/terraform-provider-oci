@@ -26,6 +26,7 @@ var (
 	StackTfStateResourceConfig = generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation)
 )
 
+// issue-routing-tag: resourcemanager/default
 func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackTfStateResource_basic") {
 		t.Skip("Skipping suppressed TestResourcemanagerStackTfStateResource_basic")

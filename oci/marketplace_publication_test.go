@@ -74,6 +74,7 @@ var (
 	PublicationResourceDependencies = ImageRequiredOnlyResource
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplacePublicationResource_basic(t *testing.T) {
 	t.Skip("Skip this test till Marketplace automates background processes and reduces the turnaround time.")
 

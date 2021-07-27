@@ -24,6 +24,7 @@ var (
 	}
 )
 
+// issue-routing-tag: apm_synthetics/default
 func TestApmSyntheticsResultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsResultResource_basic")
 	defer httpreplay.SaveScenario()

@@ -37,6 +37,7 @@ var (
 	EnrollmentStatusResourceDependencies = ""
 )
 
+// issue-routing-tag: optimizer/default
 func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerEnrollmentStatusResource_basic")
 	defer httpreplay.SaveScenario()

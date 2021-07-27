@@ -53,6 +53,7 @@ var (
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "tsubscription"))
 )
 
+// issue-routing-tag: ons/default
 func TestOnsSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOnsSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()

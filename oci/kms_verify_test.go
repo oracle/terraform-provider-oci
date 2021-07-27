@@ -38,6 +38,7 @@ var (
 		KeyResourceDependencyConfig
 )
 
+// issue-routing-tag: kms/default
 func TestKmsVerifyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsVerifyResource_basic")
 	defer httpreplay.SaveScenario()

@@ -25,6 +25,7 @@ var (
 		KeyResourceDependencyConfig
 )
 
+// issue-routing-tag: kms/default
 func TestKmsDecryptedDataResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsDecryptedDataResource_basic")
 	defer httpreplay.SaveScenario()

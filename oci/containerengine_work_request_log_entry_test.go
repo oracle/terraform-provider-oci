@@ -23,6 +23,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation)
 )
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineWorkRequestLogEntryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineWorkRequestLogEntryResource_basic")
 	defer httpreplay.SaveScenario()

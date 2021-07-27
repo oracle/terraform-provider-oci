@@ -23,6 +23,7 @@ var (
 	ClusterOptionResourceConfig = ""
 )
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineClusterOptionResource_basic")
 	defer httpreplay.SaveScenario()

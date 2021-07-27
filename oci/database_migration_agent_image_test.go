@@ -19,6 +19,7 @@ var (
 	AgentImageResourceConfig = ""
 )
 
+// issue-routing-tag: database_migration/default
 func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationAgentImageResource_basic")
 	defer httpreplay.SaveScenario()

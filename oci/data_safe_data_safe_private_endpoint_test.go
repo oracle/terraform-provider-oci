@@ -60,6 +60,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeDataSafePrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()

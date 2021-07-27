@@ -19,6 +19,7 @@ var (
 	EdgeSubnetResourceConfig = ""
 )
 
+// issue-routing-tag: waas/default
 func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasEdgeSubnetResource_basic")
 	defer httpreplay.SaveScenario()

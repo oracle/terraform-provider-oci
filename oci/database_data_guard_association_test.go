@@ -198,6 +198,7 @@ data "oci_database_db_systems" "t" {
 `
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDataGuardAssociationResource_basic")
 	defer httpreplay.SaveScenario()

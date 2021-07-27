@@ -51,6 +51,7 @@ var (
 	OsnResourceDependencies = generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
 )
 
+// issue-routing-tag: blockchain/default
 func TestBlockchainOsnResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBlockchainOsnResource_basic")
 	defer httpreplay.SaveScenario()

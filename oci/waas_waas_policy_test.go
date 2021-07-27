@@ -331,6 +331,7 @@ var (
 		CustomProtectionRuleRequiredResourceWithoutDependencies
 )
 
+// issue-routing-tag: waas/default
 func TestWaasWaasPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasWaasPolicyResource_basic")
 	defer httpreplay.SaveScenario()

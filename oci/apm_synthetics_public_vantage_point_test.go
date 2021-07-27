@@ -29,6 +29,7 @@ var (
 	PublicVantagePointResourceConfig = ""
 )
 
+// issue-routing-tag: apm_synthetics/default
 func TestApmSyntheticsPublicVantagePointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsPublicVantagePointResource_basic")
 	defer httpreplay.SaveScenario()

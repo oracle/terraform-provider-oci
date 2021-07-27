@@ -23,6 +23,7 @@ var (
 	ComputeCapacityReservationInstanceShapeResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreComputeCapacityReservationInstanceShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeCapacityReservationInstanceShapeResource_basic")
 	defer httpreplay.SaveScenario()

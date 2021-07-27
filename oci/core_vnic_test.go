@@ -32,6 +32,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreVnicResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVnicResource_basic")
 	defer httpreplay.SaveScenario()

@@ -56,6 +56,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDhcpOptionsResource_basic")
 	defer httpreplay.SaveScenario()

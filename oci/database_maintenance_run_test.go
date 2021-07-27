@@ -41,6 +41,7 @@ var (
 	MaintenanceRunResourceDependencies = ""
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 	t.Skip("Skip this test till DBaas provides a better way of testing this.")
 

@@ -56,6 +56,7 @@ var (
 	ApmDomainResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: apm/default
 func TestApmApmDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmApmDomainResource_basic")
 	defer httpreplay.SaveScenario()

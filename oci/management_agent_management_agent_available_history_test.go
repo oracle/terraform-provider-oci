@@ -23,6 +23,7 @@ var (
 	ManagementAgentAvailableHistoryResourceConfig = ""
 )
 
+// issue-routing-tag: management_agent/default
 func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentAvailableHistoryResource_basic")
 	defer httpreplay.SaveScenario()

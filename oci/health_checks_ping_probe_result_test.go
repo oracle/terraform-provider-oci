@@ -27,6 +27,7 @@ var (
 	PingProbeResultResourceConfig = generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation)
 )
 
+// issue-routing-tag: health_checks/default
 func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksPingProbeResultResource_basic")
 	defer httpreplay.SaveScenario()

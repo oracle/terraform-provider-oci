@@ -31,6 +31,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation)
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceListingPackageResource_basic")
 	defer httpreplay.SaveScenario()

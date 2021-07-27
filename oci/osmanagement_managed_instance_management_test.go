@@ -95,6 +95,7 @@ var (
 		AvailabilityDomainConfig + OsManagedImageIdsVariable
 )
 
+// issue-routing-tag: osmanagement/default
 func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementManagedInstanceGroupResource_basic")
 	defer httpreplay.SaveScenario()

@@ -56,6 +56,7 @@ var (
 	PrivateApplicationResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: service_catalog/default
 func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogPrivateApplicationResource_basic")
 	defer httpreplay.SaveScenario()

@@ -62,6 +62,7 @@ func getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(length int, chars
 	})
 }
 
+// issue-routing-tag: ons/default
 func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOnsNotificationTopicResource_basic")
 	defer httpreplay.SaveScenario()

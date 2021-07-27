@@ -41,6 +41,7 @@ var (
 	BlockVolumeReplicaResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBlockVolumeReplicaResource_basic")
 	defer httpreplay.SaveScenario()

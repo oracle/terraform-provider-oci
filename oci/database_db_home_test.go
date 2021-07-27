@@ -180,6 +180,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomeTdeWalletPassword")
 	defer httpreplay.SaveScenario()

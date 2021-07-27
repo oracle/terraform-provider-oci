@@ -30,6 +30,7 @@ var (
 	`
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogListingResourceVersionResource_basic")
 	defer httpreplay.SaveScenario()

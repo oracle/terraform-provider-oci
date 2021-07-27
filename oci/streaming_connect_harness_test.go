@@ -51,6 +51,7 @@ var (
 	ConnectHarnessResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: streaming/default
 func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingConnectHarnessResource_basic")
 	defer httpreplay.SaveScenario()

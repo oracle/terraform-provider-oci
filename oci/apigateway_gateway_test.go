@@ -74,6 +74,7 @@ var (
 		apiCertificateVariableStr + apiPrivateKeyVariableStr
 )
 
+// issue-routing-tag: apigateway/default
 func TestApigatewayGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayGatewayResource_basic")
 	defer httpreplay.SaveScenario()

@@ -52,6 +52,7 @@ var (
 	ProjectResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: datascience/default
 func TestDatascienceProjectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceProjectResource_basic")
 	defer httpreplay.SaveScenario()

@@ -22,6 +22,7 @@ var (
 	ReplicationStatusResourceDependencies = KeyResourceDependencies
 )
 
+// issue-routing-tag: kms/default
 func TestKmsReplicationStatusResource_basic(t *testing.T) {
 	t.Skip("Skip this test because virtual private vault is needed")
 	httpreplay.SetScenario("TestKmsReplicationStatusResource_basic")

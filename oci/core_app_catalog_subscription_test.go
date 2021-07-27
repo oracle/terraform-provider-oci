@@ -44,6 +44,7 @@ var (
 	AppCatalogSubscriptionResourceDependencies = AppCatalogListingResourceVersionAgreementResourceConfig
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()

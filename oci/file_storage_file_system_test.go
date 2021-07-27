@@ -53,6 +53,7 @@ var (
 		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
 )
 
+// issue-routing-tag: file_storage/default
 func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageFileSystemResource_basic")
 	defer httpreplay.SaveScenario()
