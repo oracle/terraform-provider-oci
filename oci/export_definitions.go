@@ -2362,6 +2362,30 @@ var exportVulnerabilityScanningHostScanTargetHints = &TerraformResourceHints{
 	},
 }
 
+var exportVulnerabilityScanningContainerScanRecipeHints = &TerraformResourceHints{
+	resourceClass:          "oci_vulnerability_scanning_container_scan_recipe",
+	datasourceClass:        "oci_vulnerability_scanning_container_scan_recipes",
+	datasourceItemsAttr:    "container_scan_recipe_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "container_scan_recipe",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_vulnerability_scanning.LifecycleStateActive),
+	},
+}
+
+var exportVulnerabilityScanningContainerScanTargetHints = &TerraformResourceHints{
+	resourceClass:          "oci_vulnerability_scanning_container_scan_target",
+	datasourceClass:        "oci_vulnerability_scanning_container_scan_targets",
+	datasourceItemsAttr:    "container_scan_target_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "container_scan_target",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_vulnerability_scanning.LifecycleStateActive),
+	},
+}
+
 var exportWaasAddressListHints = &TerraformResourceHints{
 	resourceClass:          "oci_waas_address_list",
 	datasourceClass:        "oci_waas_address_lists",
