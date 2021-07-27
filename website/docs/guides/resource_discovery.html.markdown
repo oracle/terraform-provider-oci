@@ -661,13 +661,8 @@ vulnerability_scanning
     
 * oci\_vulnerability\_scanning\_host\_scan\_recipe
 * oci\_vulnerability\_scanning\_host\_scan\_target
-* oci\_vulnerability\_scanning\_host\_agent\_scan\_result
-* oci\_vulnerability\_scanning\_host\_port\_scan\_result
-* oci\_vulnerability\_scanning\_host\_cis\_benchmark\_scan\_result
-* oci\_vulnerability\_scanning\_host\_endpoint\_protection\_scan\_result
 * oci\_vulnerability\_scanning\_container\_scan\_recipe
 * oci\_vulnerability\_scanning\_container\_scan\_target
-* oci\_vulnerability\_scanning\_container\_scan\_result
 
 waas
     

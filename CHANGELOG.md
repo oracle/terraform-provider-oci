@@ -2,6 +2,7 @@
 
 ### Added
 - Support for service AI Anomaly detection added
+- Support for container scan recipe and target for vulnerability scanning.
 
 ## 4.39.0 (August 11, 2021)
 

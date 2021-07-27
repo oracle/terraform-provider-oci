@@ -1010,6 +1010,8 @@ var vulnerabilityScanningResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportVulnerabilityScanningHostScanRecipeHints},
 		{TerraformResourceHints: exportVulnerabilityScanningHostScanTargetHints},
+		{TerraformResourceHints: exportVulnerabilityScanningContainerScanRecipeHints},
+		{TerraformResourceHints: exportVulnerabilityScanningContainerScanTargetHints},
 	},
 }
 
