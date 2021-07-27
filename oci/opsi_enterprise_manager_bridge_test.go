@@ -60,6 +60,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
+// issue-routing-tag: opsi/controlPlane
 func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiEnterpriseManagerBridgeResource_basic")
 	defer httpreplay.SaveScenario()

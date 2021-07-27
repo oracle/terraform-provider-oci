@@ -71,6 +71,7 @@ var (
 		KeyResourceDependencyConfig
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_basic(t *testing.T) {
 	if httpreplay.ShouldRetryImmediately() {
 		t.Skip("TestCoreVolumeResource_basic is running flaky in http replay mode, will skip this for checkin test.")

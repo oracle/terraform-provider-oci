@@ -73,6 +73,7 @@ var (
 		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr
 )
 
+// issue-routing-tag: streaming/default
 func TestStreamingStreamPoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamPoolResource_basic")
 	defer httpreplay.SaveScenario()

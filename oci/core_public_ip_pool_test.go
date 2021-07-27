@@ -50,6 +50,7 @@ var (
 	PublicIpPoolResourceDependencies = DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
+// issue-routing-tag: core/vcnip
 func TestCorePublicIpPoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePublicIpPoolResource_basic")
 	defer httpreplay.SaveScenario()

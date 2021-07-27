@@ -21,6 +21,7 @@ var (
 	MysqlVersionResourceConfig = generateDataSourceFromRepresentationMap("oci_mysql_mysql_versions", "test_mysql_versions", Required, Create, mysqlVersionDataSourceRepresentation)
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlMysqlVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlVersionResource_basic")
 	defer httpreplay.SaveScenario()

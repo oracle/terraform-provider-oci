@@ -59,6 +59,7 @@ var (
 	DatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResource_basic")
 	defer httpreplay.SaveScenario()

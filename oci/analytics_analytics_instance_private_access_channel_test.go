@@ -38,6 +38,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
+// issue-routing-tag: analytics/default
 func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic")
 	defer httpreplay.SaveScenario()

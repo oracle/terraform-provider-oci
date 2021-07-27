@@ -22,6 +22,7 @@ var (
 	AutonomousDbVersionResourceConfig = ""
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDbVersionResource_basic")
 	defer httpreplay.SaveScenario()

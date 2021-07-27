@@ -33,6 +33,7 @@ var (
 		})
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()

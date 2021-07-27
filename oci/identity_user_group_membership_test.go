@@ -37,6 +37,7 @@ var (
 		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityUserGroupMembershipResource_basic")
 	defer httpreplay.SaveScenario()

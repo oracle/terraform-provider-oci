@@ -105,6 +105,7 @@ var (
 			}))
 )
 
+// issue-routing-tag: database/ExaCC
 func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()

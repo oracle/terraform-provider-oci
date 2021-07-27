@@ -61,6 +61,7 @@ var (
 	HostInsightResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: opsi/controlPlane
 func TestOpsiHostInsightResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiHostInsightResource_basic")
 	defer httpreplay.SaveScenario()

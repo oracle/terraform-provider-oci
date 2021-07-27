@@ -64,6 +64,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: oce/default
 func TestOceOceInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOceOceInstanceResource_basic")
 	defer httpreplay.SaveScenario()

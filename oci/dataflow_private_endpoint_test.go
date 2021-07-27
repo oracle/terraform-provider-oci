@@ -60,6 +60,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: dataflow/default
 func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowPrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()

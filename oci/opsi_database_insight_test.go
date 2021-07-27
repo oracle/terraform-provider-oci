@@ -65,6 +65,7 @@ var (
 	DatabaseInsightResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: opsi/controlPlane
 func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiDatabaseInsightResource_basic")
 	defer httpreplay.SaveScenario()

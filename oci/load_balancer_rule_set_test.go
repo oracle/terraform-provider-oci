@@ -149,6 +149,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 `
 )
 
+// issue-routing-tag: load_balancer/default
 func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerRuleSetResource_basic")
 	defer httpreplay.SaveScenario()

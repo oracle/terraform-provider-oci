@@ -47,6 +47,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/computeServices
 func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceConsoleConnectionResource_basic")
 	defer httpreplay.SaveScenario()

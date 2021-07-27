@@ -72,6 +72,7 @@ var (
 	SubnetRequiredOnlyResourceDependencies  = AvailabilityDomainConfig + VcnResourceConfig
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreSubnetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreSubnetResource_basic")
 	defer httpreplay.SaveScenario()

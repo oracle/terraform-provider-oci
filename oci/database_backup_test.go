@@ -40,6 +40,7 @@ data "oci_database_databases" "db" {
 }`
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseBackupResource_basic")
 	defer httpreplay.SaveScenario()

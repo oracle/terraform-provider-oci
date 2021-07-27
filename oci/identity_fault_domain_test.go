@@ -23,6 +23,7 @@ var (
 	FaultDomainResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityFaultDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityFaultDomainResource_basic")
 	defer httpreplay.SaveScenario()

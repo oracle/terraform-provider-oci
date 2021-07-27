@@ -102,6 +102,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation)
 )
 
+// issue-routing-tag: auto_scaling/default
 func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

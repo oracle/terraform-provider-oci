@@ -66,6 +66,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: functions/default
 func TestFunctionsFunctionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_basic")
 	defer httpreplay.SaveScenario()

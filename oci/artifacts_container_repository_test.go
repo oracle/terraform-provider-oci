@@ -57,6 +57,7 @@ var (
 	ContainerRepositoryResourceDependencies = generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
 )
 
+// issue-routing-tag: artifacts/default
 func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_basic")
 	defer httpreplay.SaveScenario()

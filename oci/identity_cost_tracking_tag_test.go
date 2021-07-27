@@ -21,6 +21,7 @@ var (
 	CostTrackingTagResourceConfig = ""
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityCostTrackingTagResource_basic")
 	defer httpreplay.SaveScenario()

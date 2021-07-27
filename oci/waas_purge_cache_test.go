@@ -26,6 +26,7 @@ var (
 	PurgeCacheResourceDependencies = WaasPolicyResourceCachingOnlyConfig
 )
 
+// issue-routing-tag: waas/default
 func TestWaasPurgeCacheResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasPurgeCacheResource_basic")
 	defer httpreplay.SaveScenario()

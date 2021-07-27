@@ -58,6 +58,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/default
 func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDedicatedVmHostResource_basic")
 	defer httpreplay.SaveScenario()

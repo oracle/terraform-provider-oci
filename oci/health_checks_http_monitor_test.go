@@ -59,6 +59,7 @@ var (
 	HttpMonitorResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: health_checks/default
 func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksHttpMonitorResource_basic")
 	defer httpreplay.SaveScenario()

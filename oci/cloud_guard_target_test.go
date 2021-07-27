@@ -98,6 +98,7 @@ var (
 		detectorRecipeRepresentation)
 )
 
+// issue-routing-tag: cloud_guard/default
 func TestCloudGuardTargetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardTargetResource_basic")
 	defer httpreplay.SaveScenario()

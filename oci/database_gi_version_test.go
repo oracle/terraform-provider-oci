@@ -22,6 +22,7 @@ var (
 	GiVersionResourceConfig = ""
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseGiVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseGiVersionResource_basic")
 	defer httpreplay.SaveScenario()

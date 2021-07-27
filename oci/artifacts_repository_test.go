@@ -55,6 +55,7 @@ var (
 	RepositoryResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: artifacts/default
 func TestArtifactsRepositoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsRepositoryResource_basic")
 	defer httpreplay.SaveScenario()

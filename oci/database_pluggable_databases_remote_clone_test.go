@@ -161,6 +161,7 @@ var (
 	PluggableDatabaseResourceCloneDependencies = ResourcePluggableDatabaseBaseCloneConfig + dbSystemForPluggableDbCloneRepresentation
 )
 
+// issue-routing-tag: database/default
 func TestDatabasePluggableDatabasesRemoteCloneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabasePluggableDatabasesRemoteCloneResource_basic")
 	defer httpreplay.SaveScenario()

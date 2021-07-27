@@ -181,6 +181,7 @@ var (
 `
 )
 
+// issue-routing-tag: database/ExaCS
 func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_basic")
 	defer httpreplay.SaveScenario()

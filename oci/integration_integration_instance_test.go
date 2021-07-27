@@ -95,6 +95,7 @@ display_name   = "vcn"
 	IntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation
 )
 
+// issue-routing-tag: integration/default
 func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIntegrationIntegrationInstanceResource_basic")
 	defer httpreplay.SaveScenario()

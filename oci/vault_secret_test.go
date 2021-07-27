@@ -27,6 +27,7 @@ var (
 	SecretResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: vault/default
 func TestVaultSecretResource_basic(t *testing.T) {
 	t.Skip("Skip this test till Secret Management service provides a better way of testing this.")
 	httpreplay.SetScenario("TestVaultSecretResource_basic")

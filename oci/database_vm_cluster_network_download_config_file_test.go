@@ -23,6 +23,7 @@ var (
 	VmClusterNetworkDownloadConfigFileResourceConfig = VmClusterNetworkValidatedResourceConfig
 )
 
+// issue-routing-tag: database/ExaCC
 func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic")
 	defer httpreplay.SaveScenario()

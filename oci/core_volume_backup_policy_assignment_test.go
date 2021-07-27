@@ -36,6 +36,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeBackupPolicyAssignmentResource_basic")
 	defer httpreplay.SaveScenario()

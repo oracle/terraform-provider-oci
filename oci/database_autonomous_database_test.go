@@ -95,6 +95,7 @@ var (
 				"db_workload": Representation{repType: Required, create: `DW`}}))
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

@@ -99,6 +99,7 @@ var (
 	Md5Base64Encoded2, _ = hexToB64(getMd5Hash("<a1>content</a1>"))
 )
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageObjectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_basic")
 	defer httpreplay.SaveScenario()

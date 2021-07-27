@@ -21,6 +21,7 @@ var (
 	CrossConnectPortSpeedShapeResourceConfig = ""
 )
 
+// issue-routing-tag: core/default
 func TestCoreCrossConnectPortSpeedShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCrossConnectPortSpeedShapeResource_basic")
 	defer httpreplay.SaveScenario()

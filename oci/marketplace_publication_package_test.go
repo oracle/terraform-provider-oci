@@ -29,6 +29,7 @@ var (
 		generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation)
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 	t.Skip("Skip this test till Marketplace automates background processes and reduces the turnaround time.")
 	httpreplay.SetScenario("TestMarketplacePublicationPackageResource_basic")

@@ -64,6 +64,7 @@ var (
 	HttpRedirectResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: waas/default
 func TestWaasHttpRedirectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasHttpRedirectResource_basic")
 	defer httpreplay.SaveScenario()

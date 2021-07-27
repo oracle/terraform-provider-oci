@@ -28,6 +28,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreConsoleHistoryContentResource_basic")
 	defer httpreplay.SaveScenario()

@@ -54,6 +54,7 @@ var (
 	AddressListResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: waas/default
 func TestWaasAddressListResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasAddressListResource_basic")
 	defer httpreplay.SaveScenario()

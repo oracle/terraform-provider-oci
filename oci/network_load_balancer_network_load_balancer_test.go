@@ -63,6 +63,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: network_load_balancer/default
 func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerNetworkLoadBalancerResource_basic")
 	defer httpreplay.SaveScenario()

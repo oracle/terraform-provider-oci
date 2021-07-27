@@ -21,6 +21,7 @@ var (
 	AutonomousPatchResourceConfig = ""
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousPatchResource_basic(t *testing.T) {
 	t.Skip("Skip this test till the MR resource test is skipped since the patch id is reliably fetched from MR resource")
 	httpreplay.SetScenario("TestDatabaseAutonomousPatchResource_basic")

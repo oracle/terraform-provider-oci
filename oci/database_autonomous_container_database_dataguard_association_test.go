@@ -98,6 +98,7 @@ var (
 			getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ExaccACDWithDataGuardRepresentation))
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()

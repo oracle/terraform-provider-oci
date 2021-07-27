@@ -80,6 +80,7 @@ data "oci_identity_tenancy" "test_tenancy" {
 ` + generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
+// issue-routing-tag: dns/default
 func TestDnsZoneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsZoneResource_basic")
 	defer httpreplay.SaveScenario()

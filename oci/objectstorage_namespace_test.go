@@ -25,6 +25,7 @@ var (
 	NamespaceResourceConfig = ""
 )
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageNamespaceResource_basic")
 	defer httpreplay.SaveScenario()

@@ -93,6 +93,7 @@ var (
 		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation) + caCertificateVariableStr
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlChannelResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlChannelResource_basic")
 	defer httpreplay.SaveScenario()

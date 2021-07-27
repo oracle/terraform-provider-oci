@@ -50,6 +50,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation)
 )
 
+// issue-routing-tag: core/pnp
 func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteTableRouteRuleResource_basic")
 	defer httpreplay.SaveScenario()

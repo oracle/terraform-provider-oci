@@ -41,6 +41,7 @@ var (
 	DrgResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreDrgResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgResource_basic")
 	defer httpreplay.SaveScenario()

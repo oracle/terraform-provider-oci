@@ -39,6 +39,7 @@ var (
 		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation)
 )
 
+// issue-routing-tag: datascience/default
 func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceModelProvenanceResource_basic")
 	defer httpreplay.SaveScenario()

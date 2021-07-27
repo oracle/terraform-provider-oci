@@ -42,6 +42,7 @@ var (
 	CpeResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/default
 func TestCoreCpeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCpeResource_basic")
 	defer httpreplay.SaveScenario()

@@ -44,6 +44,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/default
 func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreRemotePeeringConnectionResource_basic")
 	defer httpreplay.SaveScenario()

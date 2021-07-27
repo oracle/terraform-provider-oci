@@ -54,6 +54,7 @@ var (
 	TsigKeyResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: dns/default
 func TestDnsTsigKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsTsigKeyResource_basic")
 	defer httpreplay.SaveScenario()

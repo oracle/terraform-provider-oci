@@ -67,6 +67,7 @@ var (
 		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 )
 
+// issue-routing-tag: cloud_guard/default
 func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardDataMaskRuleResource_basic")
 	defer httpreplay.SaveScenario()

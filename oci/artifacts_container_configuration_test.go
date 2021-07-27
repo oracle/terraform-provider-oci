@@ -30,6 +30,7 @@ var (
 	ContainerConfigurationResourceDependencies = ""
 )
 
+// issue-routing-tag: artifacts/default
 func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

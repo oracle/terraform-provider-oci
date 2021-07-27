@@ -22,6 +22,7 @@ var (
 	FastConnectProviderServiceKeyResourceConfig = generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 	if httpreplay.ShouldRetryImmediately() {
 		t.Skip("FastConnect failed in dxterraformtest tenancy IAD region with a known issue: TER-1232")

@@ -27,6 +27,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceDeviceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceDeviceResource_basic")
 	defer httpreplay.SaveScenario()

@@ -71,6 +71,7 @@ var (
 		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation)
 )
 
+// issue-routing-tag: dns/default
 func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsSteeringPolicyAttachmentResource_basic")
 	defer httpreplay.SaveScenario()

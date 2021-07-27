@@ -39,6 +39,7 @@ var (
 	NameSpaceSingularDataSourceDependencies = NameSpaceResourceDependencies + generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation)
 )
 
+// issue-routing-tag: log_analytics/default
 func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsNamespaceResource_basic")
 	defer httpreplay.SaveScenario()

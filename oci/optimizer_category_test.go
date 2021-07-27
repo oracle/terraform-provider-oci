@@ -33,6 +33,7 @@ var (
 	OptimizerCategoryResourceConfig = ""
 )
 
+// issue-routing-tag: optimizer/default
 func TestOptimizerCategoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerCategoryResource_basic")
 	defer httpreplay.SaveScenario()

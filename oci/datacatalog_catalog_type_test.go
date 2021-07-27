@@ -29,6 +29,7 @@ var (
 	CatalogTypeResourceConfig = generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation)
 )
 
+// issue-routing-tag: datacatalog/default
 func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogCatalogTypeResource_basic")
 	defer httpreplay.SaveScenario()

@@ -59,6 +59,7 @@ var (
 		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
 )
 
+// issue-routing-tag: apm_synthetics/default
 func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsScriptResource_basic")
 	defer httpreplay.SaveScenario()

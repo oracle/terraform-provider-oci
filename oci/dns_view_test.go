@@ -59,6 +59,7 @@ var (
 	ViewResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: dns/default
 func TestDnsViewResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsViewResource_basic")
 	defer httpreplay.SaveScenario()

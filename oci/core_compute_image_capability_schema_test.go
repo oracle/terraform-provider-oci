@@ -85,6 +85,7 @@ resource "oci_core_image" "custom_image" {
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 	t.Skip("Skip test for Windows image")
 	httpreplay.SetScenario("TestCoreComputeImageCapabilitySchemaResource_basic")

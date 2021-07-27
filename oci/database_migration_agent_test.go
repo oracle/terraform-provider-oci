@@ -62,6 +62,7 @@ var (
 		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
 )
 
+// issue-routing-tag: database_migration/default
 func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 	t.Skip("Skip this test agent creation is an independent operation.")
 	httpreplay.SetScenario("TestDatabaseMigrationAgentResource_basic")

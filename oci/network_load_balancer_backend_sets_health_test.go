@@ -25,6 +25,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
+// issue-routing-tag: network_load_balancer/default
 func TestNetworkLoadBalancerBackendSetHealthResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerBackendSetHealthResource_basic")
 	defer httpreplay.SaveScenario()

@@ -64,6 +64,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_optimizer_resource_actions", "test_resource_actions", Required, Create, resourceActionDataSourceRepresentation)
 )
 
+// issue-routing-tag: optimizer/default
 func TestOptimizerResourceActionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerResourceActionResource_basic")
 	defer httpreplay.SaveScenario()

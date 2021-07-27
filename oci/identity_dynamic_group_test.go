@@ -44,6 +44,7 @@ var (
 	DynamicGroupResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityDynamicGroupResource_basic")
 	defer httpreplay.SaveScenario()

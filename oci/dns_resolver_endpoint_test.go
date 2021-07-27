@@ -59,6 +59,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation)
 )
 
+// issue-routing-tag: dns/default
 func TestDnsResolverEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsResolverEndpointResource_basic")
 	defer httpreplay.SaveScenario()

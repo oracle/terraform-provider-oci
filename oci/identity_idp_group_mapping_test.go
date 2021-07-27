@@ -38,6 +38,7 @@ var (
 		IdentityProviderPropertyVariables
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {

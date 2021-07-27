@@ -56,6 +56,7 @@ var (
 	PingMonitorResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: health_checks/default
 func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksPingMonitorResource_basic")
 	defer httpreplay.SaveScenario()

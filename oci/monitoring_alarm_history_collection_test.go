@@ -25,6 +25,7 @@ var (
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
+// issue-routing-tag: monitoring/default
 func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringAlarmHistoryCollectionResource_basic")
 	defer httpreplay.SaveScenario()

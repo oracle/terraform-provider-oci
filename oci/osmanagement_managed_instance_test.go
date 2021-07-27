@@ -45,6 +45,7 @@ var (
 			})) + generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: groupCreateDisplayName}, managedInstanceGroupRepresentation))
 )
 
+// issue-routing-tag: osmanagement/default
 func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementManagedInstanceResource_basic")
 	defer httpreplay.SaveScenario()

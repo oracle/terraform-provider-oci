@@ -21,6 +21,7 @@ var (
 	usageapiConfigurationResourceConfig = ""
 )
 
+// issue-routing-tag: metering_computation/default
 func TestMeteringComputationConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
