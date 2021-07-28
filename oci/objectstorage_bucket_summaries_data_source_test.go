@@ -108,6 +108,7 @@ func (s *DatasourceObjectstorageBucketSummaryTestSuite) TestAccDatasourceObjects
 	)
 }
 
+// issue-routing-tag: object_storage/default
 func TestDatasourceObjectstorageBucketSummaryTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceObjectstorageBucketSummaryTestSuite")
 	defer httpreplay.SaveScenario()

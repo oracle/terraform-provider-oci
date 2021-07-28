@@ -31,6 +31,7 @@ var (
 	}
 )
 
+// issue-routing-tag: opsi/controlPlane
 func TestOpsiResourceDatabaseInsight(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiResourceDatabaseInsight")
 	defer httpreplay.SaveScenario()

@@ -197,6 +197,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 	})
 }
 
+// issue-routing-tag: core/blockStorage
 func TestResourceCoreBootVolumeTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreBootVolumeTestSuite")
 	defer httpreplay.SaveScenario()

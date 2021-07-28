@@ -72,6 +72,7 @@ var (
 	}
 )
 
+// issue-routing-tag: sch/default
 func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 	httpreplay.SetScenario("TestSchServiceConnectorResource_streamingAnalytics")
 	defer httpreplay.SaveScenario()

@@ -103,6 +103,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 	})
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitResourceObjectstoragePAR_parseIds(t *testing.T) {
 	t.Run("Parse Composite Ids", func(t *testing.T) {
 		tests := []struct {
@@ -147,6 +148,7 @@ func TestUnitResourceObjectstoragePAR_parseIds(t *testing.T) {
 }
 
 // Tests the usage of newly created parameter "object_name" in place of the deprecated "object" parameter in object_storage_PAR
+// issue-routing-tag: object_storage/default
 func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam")
 	defer httpreplay.SaveScenario()
@@ -288,6 +290,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 	})
 }
 
+// issue-routing-tag: object_storage/default
 func TestResourceObjectstoragePARTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceObjectstoragePARTestSuite")
 	defer httpreplay.SaveScenario()

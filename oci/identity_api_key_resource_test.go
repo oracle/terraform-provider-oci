@@ -97,6 +97,7 @@ EOF
 	})
 }
 
+// issue-routing-tag: identity/default
 func TestResourceIdentityAPIKeyTestSuite(t *testing.T) {
 	t.Skip("Run manually with a valid api key")
 	httpreplay.SetScenario("TestResourceIdentityAPIKeyTestSuite")

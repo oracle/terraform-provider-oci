@@ -15,6 +15,7 @@ import (
 )
 
 // Not supplying filters should not restrict results
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_passThrough(t *testing.T) {
 	items := []map[string]interface{}{
 		{},
@@ -34,6 +35,7 @@ func TestUnitApplyFilters_passThrough(t *testing.T) {
 }
 
 // Filtering against a nonexistent property should throw no errors and return no results
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_nonExistentProperty(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
@@ -57,6 +59,7 @@ func TestUnitApplyFilters_nonExistentProperty(t *testing.T) {
 }
 
 // Filtering against an empty resource set should not throw errors
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_noResources(t *testing.T) {
 	items := []map[string]interface{}{}
 
@@ -78,6 +81,7 @@ func TestUnitApplyFilters_noResources(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_basic(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
@@ -103,6 +107,7 @@ func TestUnitApplyFilters_basic(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_duplicates(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
@@ -129,6 +134,7 @@ func TestUnitApplyFilters_duplicates(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_OR(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
@@ -163,6 +169,7 @@ func TestUnitApplyFilters_OR(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_cascadeAND(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
@@ -200,6 +207,7 @@ func TestUnitApplyFilters_cascadeAND(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_regex(t *testing.T) {
 	items := []map[string]interface{}{
 		{"string": "xblx:PHX-AD-1"},
@@ -229,6 +237,7 @@ func TestUnitApplyFilters_regex(t *testing.T) {
 }
 
 // Filters should test against an array of strings
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_arrayOfStrings(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letters": []string{"a"}},
@@ -271,6 +280,7 @@ type CustomStringTypeA string
 type CustomStringTypeB CustomStringTypeA
 type CustomEnumType oci_core.VcnLifecycleStateEnum
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_underlyingStringTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
@@ -384,6 +394,7 @@ func TestUnitApplyFilters_underlyingStringTypes(t *testing.T) {
 }
 
 // Test fields that aren't supported: list of non-strings or structured objects
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_unsupportedTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
@@ -422,6 +433,7 @@ func TestUnitApplyFilters_unsupportedTypes(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_booleanTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
@@ -512,6 +524,7 @@ func TestUnitApplyFilters_booleanTypes(t *testing.T) {
 	filters.Remove(falsyBooleanFilter)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_numberTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
@@ -583,6 +596,7 @@ func TestUnitApplyFilters_numberTypes(t *testing.T) {
 	filters.Remove(floatFilter)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_multiProperty(t *testing.T) {
 	items := []map[string]interface{}{
 		{
@@ -644,6 +658,7 @@ func TestUnitApplyFilters_multiProperty(t *testing.T) {
 }
 
 // Test to validate that the Apply filters do not impact the original item order
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_ElementOrder(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
@@ -674,6 +689,7 @@ func TestUnitApplyFilters_ElementOrder(t *testing.T) {
 
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetValue_EmptyMap(t *testing.T) {
 	item := map[string]interface{}{}
 
@@ -685,6 +701,7 @@ func TestUnitGetValue_EmptyMap(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetValue_MultiLevelMap(t *testing.T) {
 	item := map[string]interface{}{
 		"level1": map[string]interface{}{
@@ -710,36 +727,42 @@ func TestUnitGetValue_MultiLevelMap(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetPathElements_EmptyFilterName(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, ""); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetPathElements_NonExistentPropertyTopLevel(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "non_existent"); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetPathElements_NonExistentPropertyNestedLevel(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "create_vnic_details.non_existent"); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetPathElements_TopLevelPrimitive(t *testing.T) {
 	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "boot_volume_id"); error != nil || !reflect.DeepEqual(path, []string{"boot_volume_id"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetPathElements_MultiLevelMap(t *testing.T) {
 	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "create_vnic_details.defined_tags.namespace.key"); error != nil || !reflect.DeepEqual(path, []string{"create_vnic_details", "defined_tags", "namespace.key"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetPathElements_MultiLevelNonMap(t *testing.T) {
 	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "launch_options.firmware"); error != nil || !reflect.DeepEqual(path, []string{"launch_options", "firmware"}) {
 		t.Errorf("unexpected path value %s found", path)
@@ -749,6 +772,7 @@ func TestUnitGetPathElements_MultiLevelNonMap(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitNestedMap(t *testing.T) {
 	item := map[string]interface{}{
 		"level1": map[string]interface{}{

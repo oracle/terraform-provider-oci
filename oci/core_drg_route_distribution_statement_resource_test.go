@@ -41,6 +41,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation)
 )
 
+// issue-routing-tag: core/pnp
 func TestCoreDrgRouteDistributionStatementResource_DrgAttachmentId(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteDistributionStatementResource_DrgAttachmentId")
 	defer httpreplay.SaveScenario()

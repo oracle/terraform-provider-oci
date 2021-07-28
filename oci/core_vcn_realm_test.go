@@ -13,6 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 	//if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
 	//	t.Skip("DoDIPv6 test not supported in this realm")

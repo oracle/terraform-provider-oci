@@ -54,6 +54,7 @@ var (
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeploymentResource_pipelineRedeployment")
 	defer httpreplay.SaveScenario()

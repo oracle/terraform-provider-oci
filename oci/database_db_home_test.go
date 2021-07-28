@@ -278,6 +278,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/default
 func TestDatabaseDbHomeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomeResource_basic")
 	defer httpreplay.SaveScenario()

@@ -80,6 +80,7 @@ var (
 			}))
 )
 
+// issue-routing-tag: bastion/default
 func TestBastionSessionResource_port_forwarding(t *testing.T) {
 	httpreplay.SetScenario("TestBastionSessionResource_port_forwarding")
 	defer httpreplay.SaveScenario()

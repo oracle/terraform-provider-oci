@@ -22,6 +22,7 @@ var (
 	}
 )
 
+// issue-routing-tag: object_storage/default
 func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_validations")
 	defer httpreplay.SaveScenario()
@@ -162,6 +163,7 @@ func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: object_storage/default
 func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_MultiPartUploadsRule")
 	defer httpreplay.SaveScenario()

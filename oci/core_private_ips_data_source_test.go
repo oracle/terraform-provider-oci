@@ -167,6 +167,7 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 	)
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestDatasourceCorePrivateIPTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCorePrivateIPTestSuite")
 	defer httpreplay.SaveScenario()

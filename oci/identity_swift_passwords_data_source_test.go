@@ -78,6 +78,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 	)
 }
 
+// issue-routing-tag: identity/default
 func TestDatasourceIdentitySwiftPasswordsTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceIdentitySwiftPasswordsTestSuite")
 	defer httpreplay.SaveScenario()

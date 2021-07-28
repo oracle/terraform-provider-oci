@@ -239,6 +239,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: file_storage/default
 func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageMountTargetResource_failedWorkRequest")
 	defer httpreplay.SaveScenario()

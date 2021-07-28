@@ -53,6 +53,7 @@ var (
 		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptRepresentation)
 )
 
+// issue-routing-tag: apm_synthetics/default
 func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsMonitorResource_basic")
 	defer httpreplay.SaveScenario()

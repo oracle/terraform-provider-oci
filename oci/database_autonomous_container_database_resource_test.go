@@ -72,6 +72,7 @@ var (
 	dgDbUniqueName = randomString(10, charsetWithoutDigits)
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_basic")
 	defer httpreplay.SaveScenario()
@@ -275,6 +276,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_rotateDatabase")
 	defer httpreplay.SaveScenario()

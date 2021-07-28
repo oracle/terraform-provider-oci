@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
+// issue-routing-tag: load_balancer/default
 func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAccDatasourceLoadBalancerBackends_basic")
 	defer httpreplay.SaveScenario()

@@ -56,6 +56,7 @@ resource "oci_core_instance" "test_instance" {
 `
 )
 
+// issue-routing-tag: terraform/default
 func TestResourceCoreApplyFiltersIntegration_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApplyFiltersIntegration_basic")
 	defer httpreplay.SaveScenario()

@@ -71,6 +71,7 @@ func (s *DatasourceCoreIPSecStatusTestSuite) TestAccDatasourceCoreIPSecStatus_ba
 	)
 }
 
+// issue-routing-tag: core/default
 func TestDatasourceCoreIPSecStatusTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreIPSecStatusTestSuite")
 	defer httpreplay.SaveScenario()

@@ -104,6 +104,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 	)
 }
 
+// issue-routing-tag: identity/default
 func TestResourceIdentityUserGroupMembershipTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceIdentityUserGroupMembershipTestSuite")
 	defer httpreplay.SaveScenario()

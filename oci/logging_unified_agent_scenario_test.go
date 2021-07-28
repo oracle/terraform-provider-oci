@@ -165,6 +165,7 @@ var (
 	}
 )
 
+// issue-routing-tag: logging/default
 func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingUnifiedAgentConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

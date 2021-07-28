@@ -44,6 +44,7 @@ var (
 	}
 )
 
+// issue-routing-tag: apm_synthetics/default
 func TestApmSyntheticsScriptResource(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsScriptResource_js")
 	defer httpreplay.SaveScenario()

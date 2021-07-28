@@ -1529,6 +1529,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_platformConfig") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_platformConfig")
@@ -1598,6 +1599,7 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestResourceCoreInstanceTestSuite(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestResourceCoreInstanceTestSuite in HttpReplay mode.")
@@ -1853,6 +1855,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreInstance_FlexibleMemory")
 	defer httpreplay.SaveScenario()

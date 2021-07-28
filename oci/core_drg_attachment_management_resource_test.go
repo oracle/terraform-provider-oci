@@ -54,6 +54,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Required, Create, remotePeeringConnectionRepresentation)
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreDrgAttachmentManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentManagementResource_basic")
 	defer httpreplay.SaveScenario()

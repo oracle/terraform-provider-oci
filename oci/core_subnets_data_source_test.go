@@ -119,6 +119,7 @@ func (s *DatasourceCoreSubnetTestSuite) TestAccDatasourceCoreSubnet_basic() {
 	)
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestDatasourceCoreSubnetTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreSubnetTestSuite")
 	defer httpreplay.SaveScenario()

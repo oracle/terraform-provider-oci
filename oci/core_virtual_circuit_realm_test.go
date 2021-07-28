@@ -66,6 +66,7 @@ var (
 	}
 )
 
+// issue-routing-tag: core/default
 func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
 		t.Skip("DoDIPv6 test not supported in this realm")

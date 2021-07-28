@@ -50,6 +50,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: bastion/default
 func TestBastionBastionResource_internal(t *testing.T) {
 	httpreplay.SetScenario("TestBastionBastionResource_internal")
 	defer httpreplay.SaveScenario()

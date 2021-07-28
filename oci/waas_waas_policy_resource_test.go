@@ -56,6 +56,7 @@ var (
 			map[string]interface{}{"waf_config": RepresentationGroup{Optional, waasPolicyWafConfigScenarioRepresentation2}}))
 )
 
+// issue-routing-tag: waas/default
 func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 
 	httpreplay.SetScenario("TestResourceWaasWaasPolicyResource_basic")

@@ -45,6 +45,7 @@ var (
 		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation)
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourceBackup")
 	defer httpreplay.SaveScenario()
@@ -255,6 +256,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: mysql/default
 func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_HA")
 	defer httpreplay.SaveScenario()

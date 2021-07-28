@@ -8,6 +8,7 @@ import (
 	"testing"
 )
 
+// issue-routing-tag: terraform/default
 func TestUnitSafeMutexMap_GetOrCreateNlbBackendSetMutex(t *testing.T) {
 	testMap := NlbSafeMutexMap{}
 
@@ -50,6 +51,7 @@ func TestUnitSafeMutexMap_GetOrCreateNlbBackendSetMutex(t *testing.T) {
 
 // Test that concurrently accessing an empty map with the same nlb and backend set name always gives back the same mutex
 // i.e. A mutex should never be overwritten by concurrent accesses
+// issue-routing-tag: terraform/default
 func TestUnitSafeMutexMap_ConcurrentGetOrCreateNlbBackendSetMutex(t *testing.T) {
 	testMap := NlbSafeMutexMap{}
 	numConcurrentAccesses := 100
