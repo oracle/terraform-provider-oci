@@ -1,4 +1,4 @@
-## 4.37.0 (Unreleased)
+## 4.37.0 (July 28, 2021)
 
 ### Added
 - Support for oci_metering_computation_custom_table
