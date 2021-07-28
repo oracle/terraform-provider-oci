@@ -53,6 +53,7 @@ func (s *DatasourceCoreVnicAttachmentTestSuite) TestAccDatasourceCoreVnicAttachm
 	)
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestDatasourceCoreVnicAttachmentTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreVnicAttachmentTestSuite")
 	defer httpreplay.SaveScenario()

@@ -15,6 +15,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/core"
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreSubnetCreate_basic")
 	defer httpreplay.SaveScenario()

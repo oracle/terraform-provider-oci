@@ -122,6 +122,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 	})
 }
 
+// issue-routing-tag: identity/default
 func TestResourceIdentityUserCapabilitiesManagementTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceIdentityUserCapabilitiesManagementTestSuite")
 	defer httpreplay.SaveScenario()

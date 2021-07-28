@@ -49,6 +49,7 @@ var (
 		})
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource_basic(t *testing.T) {
 	t.Skip("Skipping Test for TeamCity")
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource_basic")
@@ -170,6 +171,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 	})
 }
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationResource_basic")
 	defer httpreplay.SaveScenario()

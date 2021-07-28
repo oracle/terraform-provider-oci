@@ -47,6 +47,7 @@ var (
 	}
 )
 
+// issue-routing-tag: nosql/default
 func TestNosqlTableResource_freeTable(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlTableResource_freeTable")
 	defer httpreplay.SaveScenario()

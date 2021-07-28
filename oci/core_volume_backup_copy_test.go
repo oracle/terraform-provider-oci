@@ -19,6 +19,7 @@ var (
 	VolumeBackupCopyResourceDependencies = VolumeBackupResourceDependencies
 )
 
+// issue-routing-tag: core/blockStorage
 func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVolumeBackup_copy")
 	defer httpreplay.SaveScenario()

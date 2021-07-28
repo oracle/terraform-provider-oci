@@ -5,6 +5,7 @@ package oci
 
 import "testing"
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_toString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -32,6 +33,7 @@ func TestUnitTfHclVersion11_toString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getVarHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -64,6 +66,7 @@ func TestUnitTfHclVersion11_getVarHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getDataSourceHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -97,6 +100,7 @@ func TestUnitTfHclVersion11_getDataSourceHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getSingleExpHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -130,6 +134,7 @@ func TestUnitTfHclVersion11_getSingleExpHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getDoubleExpHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -163,6 +168,7 @@ func TestUnitTfHclVersion11_getDoubleExpHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_toString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -190,6 +196,7 @@ func TestUnitTfHclVersion12_toString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getVarHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -222,6 +229,7 @@ func TestUnitTfHclVersion12_getVarHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getDataSourceHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -255,6 +263,7 @@ func TestUnitTfHclVersion12_getDataSourceHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getSingleExpHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum
@@ -287,6 +296,7 @@ func TestUnitTfHclVersion12_getSingleExpHclString(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getDoubleExpHclString(t *testing.T) {
 	type fields struct {
 		Value TfVersionEnum

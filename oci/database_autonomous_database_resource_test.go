@@ -200,6 +200,7 @@ var (
 	ExaccADBWithDataguardResourceDependencies = ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseDedicated")
 	defer httpreplay.SaveScenario()
@@ -546,6 +547,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 	t.Skip("Skip this test as this is a seasonal feature only when Dbaas has a preview to be released.")
 
@@ -950,6 +952,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus")
 	defer httpreplay.SaveScenario()
@@ -1125,6 +1128,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupFromId")
 	defer httpreplay.SaveScenario()
@@ -1205,6 +1209,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp")
 	defer httpreplay.SaveScenario()
@@ -1285,6 +1290,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_privateEndPoint")
 	defer httpreplay.SaveScenario()
@@ -1630,6 +1636,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dbVersion")
 	defer httpreplay.SaveScenario()
@@ -1765,6 +1772,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
@@ -1901,6 +1909,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/ExaCC
 func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
@@ -2012,6 +2021,7 @@ func listListAutonomousDatabasesFetchOperation(client *OracleClients, databaseId
 	return err
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_switchover")
 	defer httpreplay.SaveScenario()
@@ -2282,6 +2292,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_refreshableClone")
 	defer httpreplay.SaveScenario()
@@ -2632,6 +2643,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_AJD")
 	defer httpreplay.SaveScenario()
@@ -2935,6 +2947,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_APEX")
 	defer httpreplay.SaveScenario()
@@ -3237,6 +3250,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey")
 	defer httpreplay.SaveScenario()

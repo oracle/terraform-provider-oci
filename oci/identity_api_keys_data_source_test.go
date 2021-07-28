@@ -89,6 +89,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 	)
 }
 
+// issue-routing-tag: identity/default
 func TestDatasourceIdentityAPIKeysTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceIdentityAPIKeysTestSuite")
 	defer httpreplay.SaveScenario()

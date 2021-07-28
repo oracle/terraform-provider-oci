@@ -63,6 +63,7 @@ var (
 		LoadBalancerResourceDependencies
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployStageResource_computeInstanceGroup")
 	defer httpreplay.SaveScenario()

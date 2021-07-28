@@ -328,6 +328,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 }
 
 // This test runs the Provider sanity checks.
+// issue-routing-tag: terraform/default
 func TestUnitProvider(t *testing.T) {
 	// Real client for the sanity check. Makes this more of an acceptance test.
 	client := &OracleClients{}
@@ -517,6 +518,7 @@ func removeFile(file string) {
 	os.Remove(file)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitProviderConfig(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestProviderConfig in HttpReplay mode.")
@@ -544,6 +546,7 @@ func TestUnitProviderConfig(t *testing.T) {
 }
 
 // ensure the http client is configured with the expected settings
+// issue-routing-tag: terraform/default
 func TestUnitBuildHttpClient(t *testing.T) {
 	client := buildHttpClient()
 	assert.Equal(t, time.Duration(defaultRequestTimeout), client.Timeout)
@@ -555,6 +558,7 @@ func TestUnitBuildHttpClient(t *testing.T) {
 }
 
 // ensure desired http client settings are not removed when sdk clients are configured
+// issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn(t *testing.T) {
 	configProvider := oci_common.DefaultConfigProvider()
 	httpClient := buildHttpClient()
@@ -572,6 +576,7 @@ func TestUnitBuildClientConfigureFn(t *testing.T) {
 }
 
 // ensure custom certs can be added to the cert pool and expected http client settings are preserved
+// issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn_withCustomCert(t *testing.T) {
 	ca := "-----BEGIN CERTIFICATE-----\nMIIC9jCCAd4CCQD2rPUVJETHGzANBgkqhkiG9w0BAQsFADA9MQswCQYDVQQGEwJV\nUzELMAkGA1UECAwCV0ExEDAOBgNVBAcMB1NlYXR0bGUxDzANBgNVBAoMBk9yYWNs\nZTAeFw0xOTAxMTcyMjU4MDVaFw0yMTAxMTYyMjU4MDVaMD0xCzAJBgNVBAYTAlVT\nMQswCQYDVQQIDAJXQTEQMA4GA1UEBwwHU2VhdHRsZTEPMA0GA1UECgwGT3JhY2xl\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA30+wt7OlUB/YpmWbTRkx\nnLG0lKWiV+oupNKj8luXmC5jvOFTUejt1pQhpA47nCqywlOAfk2N8hJWTyJZUmKU\n+DWVV2So2B/obYxpiiyWF2tcF/cYi1kBYeAIu5JkVFwDe4ITK/oQUFEhIn3Qg/oC\nMQ2985/MTdCXONgnbmePU64GrJwfvOeJcQB3VIL1BBfISj4pPw5708qTRv5MJBOO\njLKRM68KXC5us4879IrSA77NQr1KwjGnQlykyCgGvvgwgrUTd5c/dH8EKrZVcFi6\nytM66P/1CTpk1YpbI4gqiG0HBbuXG4JRIjyzW4GT4JXeSjgvrkIYL8k/M4Az1WEc\n2wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAuI53m8Va6EafDi6GQdQrzNNQFCAVQ\nxIABAB0uaSYCs3H+pqTktHzOrOluSUEogXRl0UU5/OuvxAz4idA4cfBdId4i7AcY\nqZsBjA/xqH/rxR3pcgfaGyxQzrUsJFf0ZwnzqYJs7fUvuatHJYi/cRBxrKR2+4Oj\nlUbb9TSmezlzHK5CaD5XzN+lZqbsSvN3OQbOryJCbtjZVQFGZ1SmL6OLrwpbBKuP\nn2ob+gaP57YSzO3zk1NDXMlQPHRsdSOqocyKx8y+7J0g6MqPvBzIe+wI3QW85MQY\nj1/IHmj84LNGp7pHCyiYx/oI+00gRch04H2pJv0TP3sAQ37gplBwDrUo\n-----END CERTIFICATE-----"
 	tempCert, err := ioutil.TempFile("", "caCert*.pem")
@@ -613,6 +618,7 @@ func TestUnitBuildClientConfigureFn_withCustomCert(t *testing.T) {
 }
 
 // ensure local certs can be admitted
+// issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(acceptLocalCerts)
 	if hadPreviousEnvVar {
@@ -686,6 +692,7 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 }
 
 // ensure a custom domain can be targeted and expected http client settings are preserved
+// issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
 
 	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(domainNameOverrideEnv)
@@ -739,6 +746,7 @@ func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
 }
 
 // ensure a custom domain that has already override with more than 2 dots can be targeted and expected http client settings are preserved
+// issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn_withDomainNameOverrideAndCorrectDomainName(t *testing.T) {
 
 	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(domainNameOverrideEnv)
@@ -794,6 +802,7 @@ func TestUnitBuildClientConfigureFn_withDomainNameOverrideAndCorrectDomainName(t
 }
 
 // ensure use_obo_token env var results in `opc-obo-token` http header injection
+// issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 
 	prevEnvVar, hadPreviousEnvVar := os.LookupEnv("use_obo_token")
@@ -828,6 +837,7 @@ func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 	assert.Equal(t, "another-token", r.Header.Get(requestHeaderOpcOboToken))
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitSupportChangeOboToken(t *testing.T) {
 	t.Skip("Run manual with a valid obo token")
 
@@ -869,6 +879,7 @@ func TestUnitSupportChangeOboToken(t *testing.T) {
 	client.ListBudgets(context.Background(), request)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitReadOboTokenFromFile(t *testing.T) {
 	t.Skip("Run manual with a valid obo token")
 
@@ -924,6 +935,7 @@ func TestUnitReadOboTokenFromFile(t *testing.T) {
 	client.ListBudgets(context.Background(), request)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
 	defer httpreplay.SaveScenario()
@@ -978,6 +990,7 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 }
 
 // This test verifies that user can specify private key paths with "~/" and they should resolve to the home directory
+// issue-routing-tag: terraform/default
 func TestUnitHomeDirectoryPrivateKeyPath_basic(t *testing.T) {
 	privateKeyName := "TestUnitHomeDirectoryPrivateKeyPath_basic.pem"
 	privateKeyPath := path.Join(getHomeFolder(), privateKeyName)
@@ -1012,6 +1025,7 @@ func TestUnitHomeDirectoryPrivateKeyPath_basic(t *testing.T) {
 	assert.True(t, privateRsaKey != nil)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitSecurityToken_basic(t *testing.T) {
 	t.Skip("Run manual with a valid security token")
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {

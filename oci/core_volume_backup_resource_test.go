@@ -215,6 +215,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 	})
 }
 
+// issue-routing-tag: core/blockStorage
 func TestResourceCoreVolumeBackupTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVolumeBackupTestSuite")
 	defer httpreplay.SaveScenario()

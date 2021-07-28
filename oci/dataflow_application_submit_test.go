@@ -58,6 +58,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: dataflow/default
 func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowApplicationResource_SparkSubmit")
 	defer httpreplay.SaveScenario()

@@ -75,6 +75,7 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 	)
 }
 
+// issue-routing-tag: core/pnp
 func TestDatasourceCoreDrgAttachmentTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreDrgAttachmentTestSuite")
 	defer httpreplay.SaveScenario()

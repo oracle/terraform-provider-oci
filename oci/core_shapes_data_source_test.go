@@ -58,6 +58,7 @@ func (s *DatasourceCoreShapeTestSuite) TestAccDatasourceCoreShape_basic() {
 	)
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestDatasourceCoreShapeTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreShapeTestSuite")
 	defer httpreplay.SaveScenario()

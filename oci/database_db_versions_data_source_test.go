@@ -93,6 +93,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 	)
 }
 
+// issue-routing-tag: database/default
 func TestDatasourceDatabaseDBVersionTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceDatabaseDBVersionTestSuite")
 	defer httpreplay.SaveScenario()

@@ -810,6 +810,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceResource_capacityReservation")
 	defer httpreplay.SaveScenario()
@@ -1187,6 +1188,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceResource_flexShape(t *testing.T) {
 	httpreplay.SetScenario("TestCoreFlexInstanceResource_basic")
 	defer httpreplay.SaveScenario()

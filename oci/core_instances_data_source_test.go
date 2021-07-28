@@ -164,6 +164,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 	)
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestDatasourceCoreInstanceTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreInstanceTestSuite")
 	defer httpreplay.SaveScenario()

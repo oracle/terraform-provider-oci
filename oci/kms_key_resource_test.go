@@ -15,6 +15,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+// issue-routing-tag: kms/default
 func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyResource_ResourceDiscovery")
 	defer httpreplay.SaveScenario()

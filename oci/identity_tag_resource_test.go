@@ -21,6 +21,7 @@ var (
 )
 
 // This test will be executed in a separate suite with 'tags_import_if_exists = false'
+// issue-routing-tag: identity/default
 func TestResourceIdentityTagDeletion(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagDeletion")
 	defer httpreplay.SaveScenario()
@@ -99,6 +100,7 @@ func TestResourceIdentityTagDeletion(t *testing.T) {
 }
 
 // execute this test in identity compartment only and not on root compartment
+// issue-routing-tag: identity/default
 func TestResourceIdentityDefaultTag_required(t *testing.T) {
 	httpreplay.SetScenario("TestResourceIdentityDefaultTag_required")
 	defer httpreplay.SaveScenario()

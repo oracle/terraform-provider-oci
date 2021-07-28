@@ -45,6 +45,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
 )
 
+// issue-routing-tag: load_balancer/default
 func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
 		t.Skip("DoDIPv6 test not supported in this realm")

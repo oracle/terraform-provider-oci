@@ -44,6 +44,7 @@ var (
 )
 
 // TestDatabaseDatabaseUpgradeResource_basic tests Database using Virtual Machines.
+// issue-routing-tag: database/default
 func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "Database_upgrade") {
 		t.Skip("Skipping suppressed upgrade_tests")

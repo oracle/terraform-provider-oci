@@ -108,6 +108,7 @@ var (
 				}`
 )
 
+// issue-routing-tag: database_migration/default
 func TestDatabaseMigrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationResource_basic")
 	defer httpreplay.SaveScenario()

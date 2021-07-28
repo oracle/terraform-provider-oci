@@ -58,6 +58,7 @@ var examplesTestAllowedEnvironmentVariables = []string{
 	"TF_VAR_database_software_image_id",
 }
 
+// issue-routing-tag: terraform/default
 func TestExamplesPlan(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestExamplesPlan")
@@ -69,6 +70,7 @@ func TestExamplesPlan(t *testing.T) {
 	RunExamples(t, true)
 }
 
+// issue-routing-tag: terraform/default
 func TestExamplesApply(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestExamplesApply")
@@ -79,6 +81,7 @@ func TestExamplesApply(t *testing.T) {
 	RunExamples(t, false)
 }
 
+// issue-routing-tag: terraform/default
 func TestTerraformVersions(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestTerraformVersions")
@@ -96,6 +99,7 @@ func TestTerraformVersions(t *testing.T) {
  * The acceptance import tests have a test gap, because they do not cover Terraform's resource state to state file
  * normalization logic. Import tests only verify that in-memory state is correct.
  */
+// issue-routing-tag: terraform/default
 func TestTerraformImport(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestTerraformImport")
