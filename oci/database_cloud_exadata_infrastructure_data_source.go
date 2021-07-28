@@ -83,6 +83,12 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("compute_count", *s.Res.ComputeCount)
 	}
 
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, CustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}

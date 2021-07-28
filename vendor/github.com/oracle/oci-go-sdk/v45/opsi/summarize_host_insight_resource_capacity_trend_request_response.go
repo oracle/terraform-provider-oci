@@ -46,7 +46,7 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 	// Possible value is LINUX.
 	PlatformType []SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
+	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
 	// Filter by utilization level by the following buckets:
@@ -70,6 +70,31 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+	// Each item in the list has the format "{namespace}.{tagName}.{value}".  All inputs are case-insensitive.
+	// Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR".
+	// Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND".
+	DefinedTagEquals []string `contributesTo:"query" name:"definedTagEquals" collectionFormat:"multi"`
+
+	// A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+	// The key for each tag is "{tagName}.{value}".  All inputs are case-insensitive.
+	// Multiple values for the same tag name are interpreted as "OR".  Values for different tag names are interpreted as "AND".
+	FreeformTagEquals []string `contributesTo:"query" name:"freeformTagEquals" collectionFormat:"multi"`
+
+	// A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+	// Each item in the list has the format "{namespace}.{tagName}.true" (for checking existence of a defined tag)
+	// or "{namespace}.true".  All inputs are case-insensitive.
+	// Currently, only existence ("true" at the end) is supported. Absence ("false" at the end) is not supported.
+	// Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR".
+	// Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND".
+	DefinedTagExists []string `contributesTo:"query" name:"definedTagExists" collectionFormat:"multi"`
+
+	// A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+	// The key for each tag is "{tagName}.true".  All inputs are case-insensitive.
+	// Currently, only existence ("true" at the end) is supported. Absence ("false" at the end) is not supported.
+	// Multiple values for different tag names are interpreted as "AND".
+	FreeformTagExists []string `contributesTo:"query" name:"freeformTagExists" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

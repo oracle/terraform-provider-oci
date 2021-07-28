@@ -1361,6 +1361,31 @@ var exportEmailSenderHints = &TerraformResourceHints{
 	},
 }
 
+var exportEmailEmailDomainHints = &TerraformResourceHints{
+	resourceClass:          "oci_email_email_domain",
+	datasourceClass:        "oci_email_email_domains",
+	datasourceItemsAttr:    "email_domain_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "email_domain",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_email.EmailDomainLifecycleStateActive),
+	},
+}
+
+var exportEmailDkimHints = &TerraformResourceHints{
+	resourceClass:          "oci_email_dkim",
+	datasourceClass:        "oci_email_dkims",
+	datasourceItemsAttr:    "dkim_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "dkim",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_email.DkimLifecycleStateActive),
+		string(oci_email.DkimLifecycleStateNeedsAttention),
+	},
+}
+
 var exportEventsRuleHints = &TerraformResourceHints{
 	resourceClass:          "oci_events_rule",
 	datasourceClass:        "oci_events_rules",
@@ -1901,6 +1926,15 @@ var exportMeteringComputationQueryHints = &TerraformResourceHints{
 	isDatasourceCollection: true,
 	datasourceItemsAttr:    "query_collection",
 	resourceAbbreviation:   "query",
+	requireResourceRefresh: true,
+}
+
+var exportMeteringComputationCustomTableHints = &TerraformResourceHints{
+	resourceClass:          "oci_metering_computation_custom_table",
+	datasourceClass:        "oci_metering_computation_custom_tables",
+	datasourceItemsAttr:    "custom_table_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "custom_table",
 	requireResourceRefresh: true,
 }
 

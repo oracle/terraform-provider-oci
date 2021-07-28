@@ -53,6 +53,10 @@ func EmailSenderResource() *schema.Resource {
 			},
 
 			// Computed
+			"email_domain_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_spf": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -251,6 +255,10 @@ func (s *EmailSenderResourceCrud) SetData() error {
 
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
+	}
+
+	if s.Res.EmailDomainId != nil {
+		s.D.Set("email_domain_id", *s.Res.EmailDomainId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

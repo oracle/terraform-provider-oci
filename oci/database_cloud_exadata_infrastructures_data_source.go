@@ -123,6 +123,12 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["compute_count"] = *r.ComputeCount
 		}
 
+		customerContacts := []interface{}{}
+		for _, item := range r.CustomerContacts {
+			customerContacts = append(customerContacts, CustomerContactToMap(item))
+		}
+		cloudExadataInfrastructure["customer_contacts"] = customerContacts
+
 		if r.DefinedTags != nil {
 			cloudExadataInfrastructure["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

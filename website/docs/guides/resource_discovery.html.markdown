@@ -462,6 +462,8 @@ email
     
 * oci\_email\_suppression
 * oci\_email\_sender
+* oci\_email\_email\_domain
+* oci\_email\_dkim
 
 events
     
@@ -565,6 +567,7 @@ marketplace
 metering_computation
     
 * oci\_metering\_computation\_query
+* oci\_metering\_computation\_custom\_table
 
 monitoring
     

@@ -121,7 +121,8 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 			// Disablement of parent CDB
 			{
 				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
+					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
 			},
 			// Disablement of PDB
 			{

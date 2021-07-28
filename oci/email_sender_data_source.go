@@ -79,6 +79,10 @@ func (s *EmailSenderDataSourceCrud) SetData() error {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}
 
+	if s.Res.EmailDomainId != nil {
+		s.D.Set("email_domain_id", *s.Res.EmailDomainId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSpf != nil {

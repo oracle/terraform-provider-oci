@@ -68,6 +68,11 @@ type CloudExadataInfrastructure struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of customer email addresses that receive information from Oracle about the specified OCI Database service resource.
+	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
+	// Up to 10 email addresses can be added to the customer contacts for a cloud Exadata infrastructure instance.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 }
 
 func (m CloudExadataInfrastructure) String() string {

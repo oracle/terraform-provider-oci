@@ -143,17 +143,10 @@ var (
 		generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationDefault)
 
 	RrsetResourceDependenciesDefault = `
-data "oci_identity_tenancy" "test_tenancy" {
-	tenancy_id = "${var.tenancy_ocid}"
-}
-
-resource "oci_dns_zone" "test_zone" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	name = "` + dnsDomainName + `"
-	zone_type = "PRIMARY"
-}
-`
+	data "oci_identity_tenancy" "test_tenancy" {
+		tenancy_id = "${var.tenancy_ocid}"
+	}
+	` + generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("name", Representation{repType: Required, create: dnsDomainName}, zoneRepresentationPrimary), []string{"scope", "view_id"}))
 )
 
 func TestResourceDnsRrsetResource_basic(t *testing.T) {
@@ -175,7 +168,6 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckDnsRrsetDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -387,7 +379,6 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckDnsRrsetDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -631,7 +622,6 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckDnsRrsetDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -752,7 +742,6 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckDnsRrsetDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -871,7 +860,6 @@ func TestDnsRrsetResource_default(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckDnsRrsetDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{

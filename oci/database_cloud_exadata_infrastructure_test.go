@@ -46,10 +46,14 @@ var (
 		"display_name":        Representation{repType: Required, create: `tstExaInfra`, update: `displayName2`},
 		"shape":               Representation{repType: Required, create: `Exadata.X8M`},
 		"compute_count":       Representation{repType: Required, create: `2`}, // required for shape Exadata.X8M
+		"customer_contacts":   RepresentationGroup{Optional, cloudExadataInfrastructureCustomerContactsRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"maintenance_window":  RepresentationGroup{Optional, cloudExadataInfrastructureMaintenanceWindowRepresentation},
 		"storage_count":       Representation{repType: Required, create: `3`}, // required for shape Exadata.X8M
+	}
+	cloudExadataInfrastructureCustomerContactsRepresentation = map[string]interface{}{
+		"email": Representation{repType: Optional, create: `test@oracle.com`, update: `test2@oracle.com`},
 	}
 	cloudExadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
 		"preference":         Representation{repType: Required, create: `CUSTOM_PREFERENCE`},
@@ -137,6 +141,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -177,6 +183,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -212,6 +220,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -254,6 +264,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.available_storage_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compute_count", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.0.email", "test2@oracle.com"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.freeform_tags.%", "1"),
@@ -288,6 +300,8 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "available_storage_size_in_gbs"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compute_count", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

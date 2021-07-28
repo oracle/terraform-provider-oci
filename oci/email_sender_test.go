@@ -32,7 +32,8 @@ var (
 
 	senderDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"email_address":  Representation{repType: Optional, create: `JohnSmith@example.com`},
+		"domain":         Representation{repType: Optional, create: `example.com`},
+		"email_address":  Representation{repType: Optional, create: `johnsmithtester@example.com`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, senderDataSourceFilterRepresentation}}
 	senderDataSourceFilterRepresentation = map[string]interface{}{
@@ -42,7 +43,7 @@ var (
 
 	senderRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"email_address":  Representation{repType: Required, create: `JohnSmith@example.com`},
+		"email_address":  Representation{repType: Required, create: `johnsmithtester@example.com`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
@@ -85,7 +86,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -105,8 +106,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -130,8 +132,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -150,8 +153,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -170,13 +174,13 @@ func TestEmailSenderResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "senders.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "senders.0.email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "senders.0.email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "senders.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "senders.0.state"),
@@ -193,7 +197,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_spf"),
