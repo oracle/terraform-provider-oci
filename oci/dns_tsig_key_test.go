@@ -30,7 +30,7 @@ var (
 		"tsig_key_id": Representation{repType: Required, create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 	}
 
-	tsigKeyName                     = randomString(15, charsetWithoutDigits)
+	tsigKeyName                     = randomString(7, charsetWithoutDigits) + "." + randomString(8, charsetWithoutDigits)
 	tsigKeyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"id":             Representation{repType: Optional, create: `${oci_dns_tsig_key.test_tsig_key.id}`},

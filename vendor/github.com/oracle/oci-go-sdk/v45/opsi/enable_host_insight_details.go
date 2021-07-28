@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/common"
 )
 
-// EnableHostInsightDetails The information about host to be analyzed.
+// EnableHostInsightDetails The information about the host to be analyzed.
 type EnableHostInsightDetails interface {
 }
 

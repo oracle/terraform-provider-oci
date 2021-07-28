@@ -551,6 +551,15 @@ var dnsResourceGraph = TerraformResourceGraph{
 var emailResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},
+		{TerraformResourceHints: exportEmailEmailDomainHints},
+	},
+	"oci_email_email_domain": {
+		{
+			TerraformResourceHints: exportEmailDkimHints,
+			datasourceQueryParams: map[string]string{
+				"email_domain_id": "id",
+			},
+		},
 	},
 }
 

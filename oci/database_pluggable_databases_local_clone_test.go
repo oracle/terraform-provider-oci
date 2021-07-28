@@ -13,6 +13,16 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+var (
+	pluggableDatabasesLocalCloneRepresentation = map[string]interface{}{
+		"cloned_pdb_name":            Representation{repType: Required, create: `NewSalesPdb`},
+		"pdb_admin_password":         Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"pluggable_database_id":      Representation{repType: Required, create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"target_tde_wallet_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
+	}
+)
+
 func TestDatabasePluggableDatabasesLocalCloneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabasePluggableDatabasesLocalCloneResource_basic")
 	defer httpreplay.SaveScenario()

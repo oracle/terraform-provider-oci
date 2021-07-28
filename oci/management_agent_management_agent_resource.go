@@ -288,14 +288,14 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 	response := oci_management_agent.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
-			string(oci_management_agent.WorkDeliveryStatusInProgress),
-			string(oci_management_agent.WorkDeliveryStatusAccepted),
-			string(oci_management_agent.WorkDeliveryStatusCanceling),
+			string(oci_management_agent.OperationStatusInProgress),
+			string(oci_management_agent.OperationStatusAccepted),
+			string(oci_management_agent.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_management_agent.WorkDeliveryStatusSucceeded),
-			string(oci_management_agent.WorkDeliveryStatusFailed),
-			string(oci_management_agent.WorkDeliveryStatusCanceled),
+			string(oci_management_agent.OperationStatusSucceeded),
+			string(oci_management_agent.OperationStatusFailed),
+			string(oci_management_agent.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error

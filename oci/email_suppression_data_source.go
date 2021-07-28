@@ -75,10 +75,26 @@ func (s *EmailSuppressionDataSourceCrud) SetData() error {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}
 
+	if s.Res.ErrorDetail != nil {
+		s.D.Set("error_detail", *s.Res.ErrorDetail)
+	}
+
+	if s.Res.ErrorSource != nil {
+		s.D.Set("error_source", *s.Res.ErrorSource)
+	}
+
+	if s.Res.MessageId != nil {
+		s.D.Set("message_id", *s.Res.MessageId)
+	}
+
 	s.D.Set("reason", s.Res.Reason)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastSuppressed != nil {
+		s.D.Set("time_last_suppressed", s.Res.TimeLastSuppressed.String())
 	}
 
 	return nil

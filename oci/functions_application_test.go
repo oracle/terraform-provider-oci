@@ -54,13 +54,13 @@ var (
 		"trace_config":   RepresentationGroup{Optional, applicationTraceConfigRepresentation},
 	}
 	applicationTraceConfigRepresentation = map[string]interface{}{
-		// "domain_id":  Representation{repType: Optional, create: `${oci_functions_domain.test_domain.id}`}, APM TF coming soon.
-		"domain_id":  Representation{repType: Optional, create: getEnvSettingWithBlankDefault("domain_id")},
+		"domain_id":  Representation{repType: Optional, create: "${oci_apm_apm_domain.test_apm_domain.id}"},
 		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
 	ApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
 		DefinedTagsDependencies
 )
 

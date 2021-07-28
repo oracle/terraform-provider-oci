@@ -28,7 +28,7 @@ var (
 
 	suppressionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"email_address":                         Representation{repType: Optional, create: `JohnSmith@example.com`},
+		"email_address":                         Representation{repType: Optional, create: `johnsmithtester@example.com`},
 		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
 		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, suppressionDataSourceFilterRepresentation}}
@@ -39,7 +39,7 @@ var (
 
 	suppressionRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"email_address":  Representation{repType: Required, create: `JohnSmith@example.com`},
+		"email_address":  Representation{repType: Required, create: `johnsmithtester@example.com`},
 	}
 
 	SuppressionResourceDependencies = ""
@@ -79,7 +79,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					// email address is converted to lower case by the service
-					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -101,14 +101,14 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
 					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.compartment_id", tenancyId),
 					// email address is converted to lower case by the service
-					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.email_address", "johnsmith@example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.reason"),
 					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.time_created"),
@@ -123,11 +123,11 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					// email address is converted to lower case by the service
-					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmith@example.com"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmithtester@example.com"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reason"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_suppressed"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

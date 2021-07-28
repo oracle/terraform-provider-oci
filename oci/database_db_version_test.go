@@ -72,11 +72,6 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 					compartmentIdVariableStr + DbVersionResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "db_system_shape", "BM.DenseIO2.52"),
-					resource.TestCheckResourceAttr(datasourceName, "is_database_software_image_supported", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "is_upgrade_supported", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "storage_management", "ASM"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.0.is_latest_for_major_version"),

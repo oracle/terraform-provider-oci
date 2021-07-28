@@ -2,7 +2,7 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "suppression_email_address" {
-  default = "JohnSmith@example.com"
+  default = "johnsmithtester@example.com"
 }
 
 variable "suppression_time_created_greater_than_or_equal_to" {
@@ -37,4 +37,3 @@ data "oci_email_suppressions" "test_suppressions" {
 output "emailSuppressions" {
   value = data.oci_email_suppressions.test_suppressions.suppressions
 }
-
