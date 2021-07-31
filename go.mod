@@ -9,11 +9,11 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
 	github.com/oracle/oci-go-sdk/v45 v45.1.0
 	github.com/stretchr/testify v1.7.0
-	golang.org/x/mod v0.3.0
+	golang.org/x/mod v0.4.2
 	gopkg.in/yaml.v2 v2.3.0
 )
 
 // Uncomment this line to get OCI Go SDK from local source instead of github
-//replace github.com/oracle/oci-go-sdk => ../../oracle/oci-go-sdk
+replace github.com/oracle/oci-go-sdk/v45 v45.1.0 => ./vendor/github.com/oracle/oci-go-sdk
 
 go 1.13

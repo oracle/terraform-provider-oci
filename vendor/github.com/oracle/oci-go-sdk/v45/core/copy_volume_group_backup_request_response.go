@@ -9,18 +9,18 @@ import (
 	"net/http"
 )
 
-// CopyVolumeBackupRequest wrapper for the CopyVolumeBackup operation
+// CopyVolumeGroupBackupRequest wrapper for the CopyVolumeGroupBackup operation
 //
 // See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CopyVolumeBackup.go.html to see an example of how to use CopyVolumeBackupRequest.
-type CopyVolumeBackupRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CopyVolumeGroupBackup.go.html to see an example of how to use CopyVolumeGroupBackupRequest.
+type CopyVolumeGroupBackupRequest struct {
 
-	// The OCID of the volume backup.
-	VolumeBackupId *string `mandatory:"true" contributesTo:"path" name:"volumeBackupId"`
+	// The Oracle Cloud ID (OCID) that uniquely identifies the volume group backup.
+	VolumeGroupBackupId *string `mandatory:"true" contributesTo:"path" name:"volumeGroupBackupId"`
 
-	// Request to create a cross-region copy of given backup.
-	CopyVolumeBackupDetails `contributesTo:"body"`
+	// Request to create a cross-region copy of given volume group backup.
+	CopyVolumeGroupBackupDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -38,36 +38,36 @@ type CopyVolumeBackupRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CopyVolumeBackupRequest) String() string {
+func (request CopyVolumeGroupBackupRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CopyVolumeBackupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request CopyVolumeGroupBackupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	return common.MakeDefaultHTTPRequestWithTaggedStructAndExtraHeaders(method, path, request, extraHeaders)
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CopyVolumeBackupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request CopyVolumeGroupBackupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CopyVolumeBackupRequest) RetryPolicy() *common.RetryPolicy {
+func (request CopyVolumeGroupBackupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// CopyVolumeBackupResponse wrapper for the CopyVolumeBackup operation
-type CopyVolumeBackupResponse struct {
+// CopyVolumeGroupBackupResponse wrapper for the CopyVolumeGroupBackup operation
+type CopyVolumeGroupBackupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The VolumeBackup instance
-	VolumeBackup `presentIn:"body"`
+	// The VolumeGroupBackup instance
+	VolumeGroupBackup `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -75,23 +75,13 @@ type CopyVolumeBackupResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The OCID of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
-	// with this ID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
-	// Location of the resource.
-	Location *string `presentIn:"header" name:"location"`
-
-	// Location of the resource.
-	ContentLocation *string `presentIn:"header" name:"content-location"`
 }
 
-func (response CopyVolumeBackupResponse) String() string {
+func (response CopyVolumeGroupBackupResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CopyVolumeBackupResponse) HTTPResponse() *http.Response {
+func (response CopyVolumeGroupBackupResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
