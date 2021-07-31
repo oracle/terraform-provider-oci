@@ -111,6 +111,9 @@ type Run struct {
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
+	// The OCID of OCI Hive Metastore.
+	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
 	// Unique Oracle assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" json:"opcRequestId"`

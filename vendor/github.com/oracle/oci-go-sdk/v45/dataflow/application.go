@@ -105,6 +105,9 @@ type Application struct {
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
+	// The OCID of OCI Hive Metastore.
+	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
 	// The username of the user who created the resource.  If the username of the owner does not exist,
 	// `null` will be returned and the caller should refer to the ownerPrincipalId value instead.
 	OwnerUserName *string `mandatory:"false" json:"ownerUserName"`

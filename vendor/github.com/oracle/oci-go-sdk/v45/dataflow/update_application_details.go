@@ -82,6 +82,9 @@ type UpdateApplicationDetails struct {
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
+	// The OCID of OCI Hive Metastore.
+	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
 	// The number of executor VMs requested.
 	NumExecutors *int `mandatory:"false" json:"numExecutors"`
 

@@ -276,6 +276,10 @@ type AutonomousDatabaseSummary struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for shared Exadata infrastructure, standby databases located in the same region as the source primary database do not have OCIDs.
 	PeerDbIds []string `mandatory:"false" json:"peerDbIds"`
+
+	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
+	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
+	AutonomousMaintenanceScheduleType AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -609,6 +613,29 @@ var mappingAutonomousDatabaseSummaryDataguardRegionType = map[string]AutonomousD
 func GetAutonomousDatabaseSummaryDataguardRegionTypeEnumValues() []AutonomousDatabaseSummaryDataguardRegionTypeEnum {
 	values := make([]AutonomousDatabaseSummaryDataguardRegionTypeEnum, 0)
 	for _, v := range mappingAutonomousDatabaseSummaryDataguardRegionType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum
+const (
+	AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEarly   AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum = "EARLY"
+	AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeRegular AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
+)
+
+var mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleType = map[string]AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum{
+	"EARLY":   AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEarly,
+	"REGULAR": AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeRegular,
+}
+
+// GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum
+func GetAutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnumValues() []AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum {
+	values := make([]AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryAutonomousMaintenanceScheduleType {
 		values = append(values, v)
 	}
 	return values
