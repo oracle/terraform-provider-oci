@@ -43,6 +43,7 @@ var (
 	ContainerImageResourceConfig = ""
 )
 
+// issue-routing-tag: artifacts/default
 func TestArtifactsContainerImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerImageResource_basic")
 	defer httpreplay.SaveScenario()

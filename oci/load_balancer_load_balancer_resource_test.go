@@ -274,12 +274,14 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPub
 	})
 }
 
+// issue-routing-tag: load_balancer/default
 func TestResourceLoadBalancerLBTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceLoadBalancerLBTestSuite")
 	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceLoadBalancerLBTestSuite))
 }
 
+// issue-routing-tag: load_balancer/default
 func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceLoadBalancerLoadBalancerResource_basic")
 	defer httpreplay.SaveScenario()

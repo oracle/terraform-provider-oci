@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
+// issue-routing-tag: database/default
 func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
 		t.Skip("This test requires a source DB with automatic backups enabled. " +
@@ -131,6 +132,7 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 }
 
 // Creates a oci_database_db_home resource under a Cloud VM Cluster (also known as an ExaCS VM cluster).
+// issue-routing-tag: database/default
 func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomeResource_createFromCloudVmCluster")
 	defer httpreplay.SaveScenario()

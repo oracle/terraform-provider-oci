@@ -35,6 +35,7 @@ var (
 	AuthTokenResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityAuthTokenResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAuthTokenResource_basic")
 	defer httpreplay.SaveScenario()

@@ -50,6 +50,7 @@ var (
 		generateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Required, Create, serviceCatalogRepresentation)
 )
 
+// issue-routing-tag: service_catalog/default
 func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogServiceCatalogAssociationResource_basic")
 	defer httpreplay.SaveScenario()

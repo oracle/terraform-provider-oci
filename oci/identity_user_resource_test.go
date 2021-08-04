@@ -152,6 +152,7 @@ func identityUserTestStepConfigFn(name string) string {
 					}`, name)
 }
 
+// issue-routing-tag: identity/default
 func TestResourceIdentityUserTestSuite(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestResourceIdentityUserTestSuite in httpreplay mode.")

@@ -137,6 +137,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreSecurityListResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreSecurityListResource_basic")
 	defer httpreplay.SaveScenario()

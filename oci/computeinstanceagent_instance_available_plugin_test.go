@@ -23,6 +23,7 @@ var (
 	InstanceAvailablePluginResourceConfig = ""
 )
 
+// issue-routing-tag: computeinstanceagent/default
 func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestComputeinstanceagentInstanceAvailablePluginResource_basic")
 	defer httpreplay.SaveScenario()

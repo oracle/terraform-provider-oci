@@ -100,6 +100,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: bds/default
 func TestResourceBdsOdhInstance(t *testing.T) {
 	httpreplay.SetScenario("TestResourceBdsOdhInstance")
 	defer httpreplay.SaveScenario()

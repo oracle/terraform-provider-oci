@@ -19,6 +19,7 @@ var (
 			Representation{repType: Required, create: `DEFAULT`}}, vaultRepresentation)
 )
 
+// issue-routing-tag: kms/default
 func TestResourceKmsVaultResource_default(t *testing.T) {
 	t.Skip("Skip this test till KMS provides a better way of testing this.")
 

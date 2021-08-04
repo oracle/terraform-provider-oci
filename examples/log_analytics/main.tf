@@ -35,3 +35,8 @@ resource "oci_log_analytics_namespace" "test_namespace" {
   compartment_id = var.tenancy_ocid
 }
 
+# Fetch namespace name from object store GET /n
+data "oci_objectstorage_namespace" "ns" {
+  compartment_id             = var.compartment_ocid
+}
+

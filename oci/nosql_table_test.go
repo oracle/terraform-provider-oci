@@ -60,6 +60,7 @@ var (
 	TableResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: nosql/default
 func TestNosqlTableResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlTableResource_basic")
 	defer httpreplay.SaveScenario()

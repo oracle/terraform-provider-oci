@@ -34,6 +34,22 @@ type DbNode struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup VNIC.
 	BackupVnicId *string `mandatory:"false" json:"backupVnicId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the host IP address associated with the database node.
+	// **Note:** Applies only to Exadata Cloud Service.
+	HostIpId *string `mandatory:"false" json:"hostIpId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup IP address associated with the database node.
+	// **Note:** Applies only to Exadata Cloud Service.
+	BackupIpId *string `mandatory:"false" json:"backupIpId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the second VNIC.
+	// **Note:** Applies only to Exadata Cloud Service.
+	Vnic2Id *string `mandatory:"false" json:"vnic2Id"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the second backup VNIC.
+	// **Note:** Applies only to Exadata Cloud Service.
+	BackupVnic2Id *string `mandatory:"false" json:"backupVnic2Id"`
+
 	// The host name for the database node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 

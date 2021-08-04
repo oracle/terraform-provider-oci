@@ -95,6 +95,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreDrgAttachmentTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDrgAttachmentTestSuite")
 	defer httpreplay.SaveScenario()

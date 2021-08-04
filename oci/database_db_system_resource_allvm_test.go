@@ -17,6 +17,7 @@ import (
 )
 
 // TestAccResourceDatabaseDBSystem_allVM tests DBsystems using Virtual Machines.
+// issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allVM") {
 		t.Skip("Skipping suppressed DBSystem_allVM")

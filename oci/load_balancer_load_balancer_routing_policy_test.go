@@ -56,6 +56,7 @@ var (
 		LoadBalancerSubnetDependencies
 )
 
+// issue-routing-tag: load_balancer/default
 func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerLoadBalancerRoutingPolicyResource_basic")
 	defer httpreplay.SaveScenario()

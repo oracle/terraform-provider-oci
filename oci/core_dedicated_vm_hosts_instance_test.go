@@ -25,6 +25,7 @@ var (
 			Representation{repType: Required, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}, instanceRepresentation))
 )
 
+// issue-routing-tag: core/default
 func TestCoreDedicatedVmHostsInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDedicatedVmHostsInstanceResource_basic")
 	defer httpreplay.SaveScenario()

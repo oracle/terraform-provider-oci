@@ -176,6 +176,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceNone)
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

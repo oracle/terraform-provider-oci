@@ -17,6 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+// issue-routing-tag: containerengine/default
 func TestFunctionsFunctionResource_digest(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_digest")
 	defer httpreplay.SaveScenario()
@@ -228,6 +229,7 @@ func retrieveFunctionResourceFromControlPlane(id string) (oci_functions.GetFunct
 	return client.GetFunction(context.Background(), request)
 }
 
+// issue-routing-tag: containerengine/default
 func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_digest_create")
 	defer httpreplay.SaveScenario()

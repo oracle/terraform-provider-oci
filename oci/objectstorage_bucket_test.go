@@ -63,6 +63,7 @@ var (
 		KeyResourceDependencyConfig2
 )
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageBucketResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageBucketResource_basic")
 	defer httpreplay.SaveScenario()

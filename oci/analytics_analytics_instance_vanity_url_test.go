@@ -71,6 +71,7 @@ func getEnvWithNewlineExpansion(env_variable string) string {
 	return strings.ReplaceAll(getEnvSettingWithBlankDefault(env_variable), "\\n", "\n")
 }
 
+// issue-routing-tag: analytics/default
 func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAnalyticsAnalyticsInstanceVanityUrlResource_basic")
 	defer httpreplay.SaveScenario()

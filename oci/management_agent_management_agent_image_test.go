@@ -22,6 +22,7 @@ var (
 	ManagementAgentImageResourceConfig = ""
 )
 
+// issue-routing-tag: management_agent/default
 func TestManagementAgentManagementAgentImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentImageResource_basic")
 	defer httpreplay.SaveScenario()

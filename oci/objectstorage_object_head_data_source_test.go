@@ -78,6 +78,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestDatasourceObjectHead_ba
 	})
 }
 
+// issue-routing-tag: object_storage/default
 func TestDatasourceObjectstorageObjectHeadTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceObjectstorageObjectHeadTestSuite")
 	defer httpreplay.SaveScenario()

@@ -60,6 +60,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployEnvironmentResource_basic")
 	defer httpreplay.SaveScenario()

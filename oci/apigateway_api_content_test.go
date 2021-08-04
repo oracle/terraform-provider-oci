@@ -22,6 +22,7 @@ var (
 		generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation)
 )
 
+// issue-routing-tag: apigateway/default
 func TestApigatewayApiContentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayApiContentResource_basic")
 	defer httpreplay.SaveScenario()

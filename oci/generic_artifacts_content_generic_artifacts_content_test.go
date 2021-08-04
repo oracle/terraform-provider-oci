@@ -21,6 +21,7 @@ var (
 	GenericArtifactsContentResourceConfig = ""
 )
 
+// issue-routing-tag: generic_artifacts_content/default
 func TestGenericArtifactsContentGenericArtifactsContentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGenericArtifactsContentGenericArtifactsContentResource_basic")
 	defer httpreplay.SaveScenario()

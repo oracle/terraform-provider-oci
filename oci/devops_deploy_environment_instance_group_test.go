@@ -39,6 +39,7 @@ var (
 	}
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployEnvironmentResource_instanceGroup")
 	defer httpreplay.SaveScenario()

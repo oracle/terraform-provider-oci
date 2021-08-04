@@ -75,6 +75,7 @@ var (
 	SteeringPolicyFailOverResourceDependencies = HttpMonitorRequiredOnlyResource
 )
 
+// issue-routing-tag: dns/default
 func TestResourceDnsSteeringPolicyFailOver(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsSteeringPolicyFailOver")
 	defer httpreplay.SaveScenario()

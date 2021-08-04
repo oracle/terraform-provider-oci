@@ -21,6 +21,7 @@ var (
 	NotebookSessionShapeResourceConfig = ""
 )
 
+// issue-routing-tag: datascience/default
 func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceNotebookSessionShapeResource_basic")
 	defer httpreplay.SaveScenario()

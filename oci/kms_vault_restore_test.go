@@ -55,6 +55,7 @@ var (
 	`
 )
 
+// issue-routing-tag: kms/default
 func TestResourceKmsVaultRestore_default(t *testing.T) {
 	t.Skip("Skip this test till KMS provides a better way of testing this.")
 	httpreplay.SetScenario("TestResourceKmsVaultRestore_virtual")

@@ -63,6 +63,7 @@ var (
 `
 )
 
+// issue-routing-tag: load_balancer/default
 func TestLoadBalancerListenerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerListenerResource_basic")
 	defer httpreplay.SaveScenario()

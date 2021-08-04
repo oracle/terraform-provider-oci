@@ -45,6 +45,7 @@ var (
 	}
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePreemptibleInstanceConfigResource_basic")
 	defer httpreplay.SaveScenario()

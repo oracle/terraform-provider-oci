@@ -28,6 +28,7 @@ var (
 	}
 )
 
+// issue-routing-tag: database_management/default
 func TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic(t *testing.T) {
 	t.Skip("Skip this test till Database Management service provides a better way of testing this. It requires a live managed database instance")
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic")

@@ -74,7 +74,7 @@ The following attributes are exported:
 * `scans` - The SCAN details.
 	* `hostname` - The SCAN hostname.
 	* `ips` - The list of SCAN IP addresses. Three addresses should be provided.
-	* `port` - The SCAN port. Default is 1521.
+	* `port` - The SCAN TCPIP port. Default is 1521.
 * `vm_networks` - Details of the client and backup networks.
 	* `domain_name` - The network domain name.
 	* `gateway` - The network gateway.

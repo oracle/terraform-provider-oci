@@ -31,6 +31,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/pnp
 func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentsListResource_basic")
 	defer httpreplay.SaveScenario()

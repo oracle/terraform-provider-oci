@@ -101,6 +101,7 @@ var (
 				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
 )
 
+// issue-routing-tag: core/computeManagement
 func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()

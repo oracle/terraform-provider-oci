@@ -31,6 +31,7 @@ var (
 	RecommendationStrategyResourceConfig = RecommendationResourceDependencies + generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
 )
 
+// issue-routing-tag: optimizer/default
 func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerRecommendationStrategyResource_basic")
 	defer httpreplay.SaveScenario()

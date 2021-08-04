@@ -96,6 +96,7 @@ time_forecast_ended= "2021-03-21T00:00:00Z"
 	UsageResourceDependencies = ""
 )
 
+// issue-routing-tag: metering_computation/default
 func TestMeteringComputationUsageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationUsageResource_basic")
 	defer httpreplay.SaveScenario()

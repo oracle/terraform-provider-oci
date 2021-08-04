@@ -50,6 +50,7 @@ var (
 	ExternalNonContainerDatabaseResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalNonContainerDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

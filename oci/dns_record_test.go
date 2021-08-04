@@ -60,6 +60,7 @@ resource "oci_dns_zone" "test_global_zone" {
 `
 )
 
+// issue-routing-tag: dns/default
 func TestDnsRecordsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_basic")
 	defer httpreplay.SaveScenario()
@@ -165,6 +166,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 // This was because the datasource steps do not create a record resource (and won't need one because, because a zone has default records).
 // If this was kept in the previous test case, the CheckDestroy step would run after the datasource steps ran and would fail
 // because it wouldn't have a record resource to delete and to verify destruction for.
+// issue-routing-tag: dns/default
 func TestDnsRecordsResource_datasources(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_datasources")
 	defer httpreplay.SaveScenario()
@@ -217,6 +219,7 @@ data "oci_dns_records" "test_records" {
 	})
 }
 
+// issue-routing-tag: dns/default
 func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_diffSuppression")
 	defer httpreplay.SaveScenario()
@@ -334,6 +337,7 @@ resource "oci_dns_record" "test_record" {
 	})
 }
 
+// issue-routing-tag: dns/default
 func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_badUpdate")
 	defer httpreplay.SaveScenario()

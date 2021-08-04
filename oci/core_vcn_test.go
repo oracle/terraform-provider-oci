@@ -52,6 +52,7 @@ var (
 	VcnResourceDependencies             = DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreVcnResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVcnResource_basic")
 	defer httpreplay.SaveScenario()

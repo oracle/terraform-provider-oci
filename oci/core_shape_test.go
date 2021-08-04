@@ -48,6 +48,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreShapeResource_basic")
 	defer httpreplay.SaveScenario()

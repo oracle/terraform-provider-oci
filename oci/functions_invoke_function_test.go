@@ -97,6 +97,7 @@ func createTmpSourceFile() (string, error) {
 	return sourceFile.Name(), nil
 }
 
+// issue-routing-tag: functions/default
 func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestFunctionsInvokeFunctionResource_basic in HttpReplay mode till json encoding is fixed.")

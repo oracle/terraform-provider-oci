@@ -62,6 +62,7 @@ var (
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation)
 )
 
+// issue-routing-tag: object_storage/default
 func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStoragePreauthenticatedRequestResource_basic")
 	defer httpreplay.SaveScenario()

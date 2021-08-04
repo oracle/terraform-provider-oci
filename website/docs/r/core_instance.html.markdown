@@ -358,7 +358,7 @@ The following arguments are supported:
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
 * `source_details` - (Optional) (Updatable) 
-	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). 
+	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
@@ -500,7 +500,7 @@ The following attributes are exported:
 	* `ocpus` - The total number of OCPUs available to the instance. 
 	* `processor_description` - A short description of the instance's processor (CPU). 
 * `source_details` - 
-	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). 
+	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
 	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 

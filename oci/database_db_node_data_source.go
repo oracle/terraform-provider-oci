@@ -27,6 +27,14 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"backup_ip_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"backup_vnic2id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"backup_vnic_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -36,6 +44,10 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"fault_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"host_ip_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -64,6 +76,10 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_maintenance_window_start": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vnic2id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -123,6 +139,14 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("additional_details", *s.Res.AdditionalDetails)
 	}
 
+	if s.Res.BackupIpId != nil {
+		s.D.Set("backup_ip_id", *s.Res.BackupIpId)
+	}
+
+	if s.Res.BackupVnic2Id != nil {
+		s.D.Set("backup_vnic2id", *s.Res.BackupVnic2Id)
+	}
+
 	if s.Res.BackupVnicId != nil {
 		s.D.Set("backup_vnic_id", *s.Res.BackupVnicId)
 	}
@@ -133,6 +157,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	if s.Res.FaultDomain != nil {
 		s.D.Set("fault_domain", *s.Res.FaultDomain)
+	}
+
+	if s.Res.HostIpId != nil {
+		s.D.Set("host_ip_id", *s.Res.HostIpId)
 	}
 
 	if s.Res.Hostname != nil {
@@ -157,6 +185,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceWindowStart != nil {
 		s.D.Set("time_maintenance_window_start", s.Res.TimeMaintenanceWindowStart.String())
+	}
+
+	if s.Res.Vnic2Id != nil {
+		s.D.Set("vnic2id", *s.Res.Vnic2Id)
 	}
 
 	if s.Res.VnicId != nil {

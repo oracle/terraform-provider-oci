@@ -86,6 +86,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_basic")
 	defer httpreplay.SaveScenario()

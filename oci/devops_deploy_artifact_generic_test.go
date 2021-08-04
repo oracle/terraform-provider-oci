@@ -38,6 +38,7 @@ var (
 	}
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployArtifactResource_generic")
 	defer httpreplay.SaveScenario()

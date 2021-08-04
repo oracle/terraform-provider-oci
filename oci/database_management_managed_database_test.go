@@ -27,6 +27,7 @@ var (
 	ManagedDatabaseResourceConfig = ""
 )
 
+// issue-routing-tag: database_management/default
 func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

@@ -98,6 +98,7 @@ var (
 			getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ExaccACDWithDataGuardRepresentation))
 )
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()
@@ -165,6 +166,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 	})
 }
 
+// issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()

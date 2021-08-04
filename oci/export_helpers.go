@@ -43,6 +43,7 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
 	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
 	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
+	exportLoggingLogHints.getIdFn = getLoggingLogId
 	exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
 	exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
 	exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
@@ -425,6 +426,16 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer RuleSet")
 	}
 	return getRuleSetCompositeId(loadBalancerId, name), nil
+}
+
+func getLoggingLogId(resource *OCIResource) (string, error) {
+
+	logGroupId := resource.parent.id
+	logId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find logId for Logging Log")
+	}
+	return getLogCompositeId(logGroupId, logId), nil
 }
 
 func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {

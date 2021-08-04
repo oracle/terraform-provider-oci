@@ -23,6 +23,7 @@ var (
 	DedicatedVmHostInstanceShapeResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/default
 func TestCoreDedicatedVmHostInstanceShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDedicatedVmHostInstanceShapeResource_basic")
 	defer httpreplay.SaveScenario()

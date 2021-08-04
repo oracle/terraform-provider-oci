@@ -67,6 +67,7 @@ var (
 `
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreIpv6Resource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpv6Resource_basic")
 	defer httpreplay.SaveScenario()

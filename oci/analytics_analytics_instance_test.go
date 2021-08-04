@@ -78,6 +78,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
+// issue-routing-tag: analytics/default
 func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAnalyticsAnalyticsInstanceResource_basic") {
 		t.Skip("Skipping suppressed TestAnalyticsAnalyticsInstanceResource_basic")

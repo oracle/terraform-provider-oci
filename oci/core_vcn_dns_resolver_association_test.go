@@ -23,6 +23,7 @@ var (
 	VcnDnsResolverAssociationResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVcnDnsResolverAssociationResource_basic")
 	defer httpreplay.SaveScenario()

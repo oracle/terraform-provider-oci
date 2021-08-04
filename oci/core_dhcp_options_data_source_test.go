@@ -70,6 +70,7 @@ func (s *DatasourceCoreDHCPOptionsTestSuite) TestAccDatasourceCoreDHCPOptions_ba
 	)
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestDatasourceCoreDHCPOptionsTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreDHCPOptionsTestSuite")
 	defer httpreplay.SaveScenario()

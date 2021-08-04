@@ -16,6 +16,7 @@ import (
 )
 
 // TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Bare Metal instances.
+// issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemAllBM(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allBM") {
 		t.Skip("Skipping suppressed DBSystem_allBM")

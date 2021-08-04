@@ -25,6 +25,7 @@ var (
 	FastConnectProviderServiceResourceConfig = ""
 )
 
+// issue-routing-tag: core/default
 func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreFastConnectProviderServiceResource_basic")
 	defer httpreplay.SaveScenario()

@@ -92,6 +92,7 @@ var (
 	}
 )
 
+// issue-routing-tag: object_storage/default
 func TestResourceBucket_retentionRules(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageBucketResource_retentionRules")
 	defer httpreplay.SaveScenario()

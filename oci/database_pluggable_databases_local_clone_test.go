@@ -23,6 +23,7 @@ var (
 	}
 )
 
+// issue-routing-tag: database/default
 func TestDatabasePluggableDatabasesLocalCloneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabasePluggableDatabasesLocalCloneResource_basic")
 	defer httpreplay.SaveScenario()

@@ -33,6 +33,7 @@ var (
 	HttpProbeResourceDependencies = ""
 )
 
+// issue-routing-tag: health_checks/default
 func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksHttpProbeResource_basic")
 	defer httpreplay.SaveScenario()

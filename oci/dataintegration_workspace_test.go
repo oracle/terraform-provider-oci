@@ -55,6 +55,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: dataintegration/default
 func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataintegrationWorkspaceResource_basic")
 	defer httpreplay.SaveScenario()

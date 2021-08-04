@@ -83,6 +83,10 @@ func (s *DatascienceModelProvenanceDataSourceCrud) SetData() error {
 		s.D.Set("script_dir", *s.Res.ScriptDir)
 	}
 
+	if s.Res.TrainingId != nil {
+		s.D.Set("training_id", *s.Res.TrainingId)
+	}
+
 	if s.Res.TrainingScript != nil {
 		s.D.Set("training_script", *s.Res.TrainingScript)
 	}

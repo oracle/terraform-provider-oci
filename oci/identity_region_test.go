@@ -25,6 +25,7 @@ var (
 	RegionResourceConfig = ""
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityRegionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityRegionResource_basic")
 	defer httpreplay.SaveScenario()

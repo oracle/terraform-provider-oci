@@ -41,6 +41,7 @@ var (
 	DbVersionResourceConfig = DbSystemResourceConfig
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDbVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbVersionResource_basic")
 	defer httpreplay.SaveScenario()

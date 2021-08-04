@@ -214,6 +214,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVirtualNetworkTestSuite")
 	defer httpreplay.SaveScenario()

@@ -29,6 +29,7 @@ var (
 		}))
 )
 
+// issue-routing-tag: dataflow/default
 func TestDataflowRunLogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowRunLogResource_basic")
 	defer httpreplay.SaveScenario()

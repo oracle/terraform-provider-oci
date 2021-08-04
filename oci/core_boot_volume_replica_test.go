@@ -40,6 +40,7 @@ var (
 	BootVolumeReplicaResourceConfig = BootVolumeResourceDependencies
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeReplicaResource_basic")
 	defer httpreplay.SaveScenario()

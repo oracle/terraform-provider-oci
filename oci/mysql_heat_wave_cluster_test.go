@@ -67,6 +67,7 @@ var (
 		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemHeatWaveRepresentation)
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlHeatWaveClusterResource_basic")
 	defer httpreplay.SaveScenario()

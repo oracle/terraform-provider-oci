@@ -123,6 +123,7 @@ func testBastionAvailableImage() string {
 	}`
 }
 
+// issue-routing-tag: bastion/default
 func TestBastionSessionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBastionSessionResource_basic")
 	defer httpreplay.SaveScenario()

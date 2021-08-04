@@ -159,6 +159,10 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+
+	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
+	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
+	AutonomousMaintenanceScheduleType CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 }
 
 //GetCompartmentId returns CompartmentId
@@ -304,6 +308,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetDbVersion() *string {
 //GetCustomerContacts returns CustomerContacts
 func (m CreateAutonomousDatabaseCloneDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
+}
+
+//GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
+func (m CreateAutonomousDatabaseCloneDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
+	return m.AutonomousMaintenanceScheduleType
 }
 
 func (m CreateAutonomousDatabaseCloneDetails) String() string {

@@ -24,6 +24,7 @@ var (
 	MySQLShapeResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlShapeResource_basic")
 	defer httpreplay.SaveScenario()

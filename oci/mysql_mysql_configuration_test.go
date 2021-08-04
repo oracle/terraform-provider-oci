@@ -36,6 +36,7 @@ var (
 	MysqlConfigurationResourceConfig = MysqlConfigurationIdVariable
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

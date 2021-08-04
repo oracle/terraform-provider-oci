@@ -87,6 +87,71 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 	return *createVolumeResponse.Id, nil
 }
 
+func createVolumeGroupInRegion(clients *OracleClients, region string, volumeId *string) (string, error) {
+	compartment := getEnvSettingWithBlankDefault("compartment_ocid")
+
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
+	if err != nil {
+		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
+	blockStorageClient.SetRegion(region)
+	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient().ConfigurationProvider())
+	if err != nil {
+		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&identityClient.BaseClient)
+	if err != nil {
+		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
+	identityClient.SetRegion(region)
+	listAvailabilityDomainsResponse, err := identityClient.ListAvailabilityDomains(context.Background(),
+		oci_identity.ListAvailabilityDomainsRequest{
+			CompartmentId: &compartment,
+		})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] failed to get the domain name with the error %v", err)
+	}
+	domain := listAvailabilityDomainsResponse.Items[0].Name
+	sourceDetails := map[string]interface{}{
+		"type":      "volumeIds",
+		"volumeIds": [1]*string{volumeId},
+	}
+
+	createVolumeGroupResponse, err := blockStorageClient.CreateVolumeGroup(context.Background(), oci_core.CreateVolumeGroupRequest{
+		CreateVolumeGroupDetails: oci_core.CreateVolumeGroupDetails{
+			AvailabilityDomain: domain,
+			CompartmentId:      &compartment,
+			SourceDetails:      sourceDetails,
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: getRetryPolicy(false, "core"),
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] failed to create source Volume Group with the error %v", err)
+	}
+	retryPolicy := getRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), volumeGroupAvailableWaitCondition, "core", false)
+
+	_, err = blockStorageClient.GetVolumeGroup(context.Background(), oci_core.GetVolumeGroupRequest{
+		VolumeGroupId: createVolumeGroupResponse.Id,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] wait for volumeGroupAvailableWaitCondition failed for %s resource with error %v", *createVolumeGroupResponse.Id, err)
+	} else {
+		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createVolumeGroupResponse.Id)
+	}
+
+	return *createVolumeGroupResponse.Id, nil
+}
+
 func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId *string) (string, error) {
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
@@ -126,6 +191,45 @@ func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId 
 
 }
 
+func createVolumeGroupBackupInRegion(clients *OracleClients, region string, volumeGroupId *string) (string, error) {
+
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
+	if err != nil {
+		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
+	blockStorageClient.SetRegion(region)
+
+	createVolumeGroupBackupResponse, err := blockStorageClient.CreateVolumeGroupBackup(context.Background(), oci_core.CreateVolumeGroupBackupRequest{
+		CreateVolumeGroupBackupDetails: oci_core.CreateVolumeGroupBackupDetails{
+			VolumeGroupId: volumeGroupId,
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] failed to create source VolumeGroupBackup with the error %v", err)
+
+	}
+
+	retryPolicy := getRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), volumeGroupBackupAvailableWaitCondition, "core", false)
+	_, err = blockStorageClient.GetVolumeGroupBackup(context.Background(), oci_core.GetVolumeGroupBackupRequest{
+		VolumeGroupBackupId: createVolumeGroupBackupResponse.Id,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] wait for volumeGroupBackupAvailableWaitCondition failed for %s resource with error %v", *createVolumeGroupBackupResponse.Id, err)
+	} else {
+		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createVolumeGroupBackupResponse.Id)
+	}
+	return *createVolumeGroupBackupResponse.Id, nil
+
+}
+
 func deleteVolumeInRegion(clients *OracleClients, region string, volumeId string) error {
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
@@ -145,6 +249,31 @@ func deleteVolumeInRegion(clients *OracleClients, region string, volumeId string
 		_, err := blockStorageClient.DeleteVolume(context.Background(), deleteVolumeRequest)
 		if err != nil {
 			return fmt.Errorf("failed to delete source Volume %s resource with error %v", *deleteVolumeRequest.VolumeId, err)
+		}
+	}
+
+	return nil
+}
+
+func deleteVolumeGroupInRegion(clients *OracleClients, region string, volumeGroupId string) error {
+
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
+	if err != nil {
+		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
+	blockStorageClient.SetRegion(region)
+
+	if volumeGroupId != "" {
+		deleteVolumeGroupRequest := oci_core.DeleteVolumeGroupRequest{}
+		deleteVolumeGroupRequest.VolumeGroupId = &volumeGroupId
+
+		_, err := blockStorageClient.DeleteVolumeGroup(context.Background(), deleteVolumeGroupRequest)
+		if err != nil {
+			return fmt.Errorf("failed to delete source VolumeGroup %s resource with error %v", *deleteVolumeGroupRequest.VolumeGroupId, err)
 		}
 	}
 
@@ -176,6 +305,31 @@ func deleteVolumeBackupInRegion(clients *OracleClients, region string, volumeBac
 	return nil
 }
 
+func deleteVolumeGroupBackupInRegion(clients *OracleClients, region string, volumeGroupBackupId string) error {
+
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
+	if err != nil {
+		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
+	blockStorageClient.SetRegion(region)
+
+	if volumeGroupBackupId != "" {
+		deleteVolumeGroupBackupRequest := oci_core.DeleteVolumeGroupBackupRequest{}
+		deleteVolumeGroupBackupRequest.VolumeGroupBackupId = &volumeGroupBackupId
+
+		_, err := blockStorageClient.DeleteVolumeGroupBackup(context.Background(), deleteVolumeGroupBackupRequest)
+		if err != nil {
+			return fmt.Errorf("failed to delete source VolumeGroupBackup %s resource with error %v", *deleteVolumeGroupBackupRequest.VolumeGroupBackupId, err)
+		}
+	}
+
+	return nil
+}
+
 func volumeAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {
 	if volumeResponse, ok := response.Response.(oci_core.GetVolumeResponse); ok {
 		return volumeResponse.LifecycleState != oci_core.VolumeLifecycleStateAvailable
@@ -184,9 +338,25 @@ func volumeAvailableWaitCondition(response oci_common.OCIOperationResponse) bool
 	return false
 }
 
+func volumeGroupAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {
+	if volumeGroupResponse, ok := response.Response.(oci_core.GetVolumeGroupResponse); ok {
+		return volumeGroupResponse.LifecycleState != oci_core.VolumeGroupLifecycleStateAvailable
+	}
+
+	return false
+}
+
 func volumeBackupAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {
 	if volumeBackupResponse, ok := response.Response.(oci_core.GetVolumeBackupResponse); ok {
 		return volumeBackupResponse.LifecycleState != oci_core.VolumeBackupLifecycleStateAvailable
+	}
+
+	return false
+}
+
+func volumeGroupBackupAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {
+	if volumeGroupBackupResponse, ok := response.Response.(oci_core.GetVolumeGroupBackupResponse); ok {
+		return volumeGroupBackupResponse.LifecycleState != oci_core.VolumeGroupBackupLifecycleStateAvailable
 	}
 
 	return false

@@ -58,6 +58,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 	})
 }
 
+// issue-routing-tag: identity/default
 func TestResourceIdentityUIPasswordTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceIdentityUIPasswordTestSuite")
 	defer httpreplay.SaveScenario()

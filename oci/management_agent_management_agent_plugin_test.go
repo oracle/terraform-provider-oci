@@ -22,6 +22,7 @@ var (
 	ManagementAgentPluginResourceConfig = ""
 )
 
+// issue-routing-tag: management_agent/default
 func TestManagementAgentManagementAgentPluginResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentPluginResource_basic")
 	defer httpreplay.SaveScenario()

@@ -79,6 +79,7 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 }
 
 // Test a simple retry loop, simulating a 429 rate error
+// issue-routing-tag: terraform/default
 func TestUnitRetryLoop_basic(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -98,6 +99,7 @@ func TestUnitRetryLoop_basic(t *testing.T) {
 }
 
 // Configured retry timeout should be used for 429/500 errors
+// issue-routing-tag: terraform/default
 func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -117,6 +119,7 @@ func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -137,6 +140,7 @@ func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 }
 
 // Even if a retry timeout is configured, it should be ignored for errors that are not 429/500
+// issue-routing-tag: terraform/default
 func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -157,6 +161,7 @@ func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 }
 
 // Test concurrent retry loops
+// issue-routing-tag: terraform/default
 func TestUnitRetryLoop_concurrent(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -188,6 +193,7 @@ func TestUnitRetryLoop_concurrent(t *testing.T) {
 	waitGroup.Wait()
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryKMSThrottling(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -209,6 +215,7 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -233,6 +240,7 @@ func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -257,6 +265,7 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryDatabase(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -276,6 +285,7 @@ func TestUnitRetryDatabase(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -295,6 +305,7 @@ func TestUnitRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -314,6 +325,7 @@ func TestUnitRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testin
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryObjectStorage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -333,6 +345,7 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -353,6 +366,7 @@ func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
@@ -373,6 +387,7 @@ func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
 	retryLoop(t, &r)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")

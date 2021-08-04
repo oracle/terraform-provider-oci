@@ -1264,6 +1264,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 	})
 }
 
+// issue-routing-tag: load_balancer/default
 func TestResourceLoadBalancerBackendSetTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceLoadBalancerBackendSetTestSuite")
 	defer httpreplay.SaveScenario()

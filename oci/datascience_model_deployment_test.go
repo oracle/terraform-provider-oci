@@ -148,6 +148,7 @@ var (
 		generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Create, logGroupUpdateMDRepresentation)
 )
 
+// issue-routing-tag: datascience/default
 func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceModelDeploymentResource_basic")
 	defer httpreplay.SaveScenario()

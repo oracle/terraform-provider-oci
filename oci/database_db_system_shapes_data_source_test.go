@@ -86,6 +86,7 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 	)
 }
 
+// issue-routing-tag: database/default
 func TestDatasourceDatabaseDBSystemShapeTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceDatabaseDBSystemShapeTestSuite")
 	defer httpreplay.SaveScenario()

@@ -45,6 +45,7 @@ var (
 	AuthenticationPolicyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation)
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 	t.Skip("Skip this test as this might lock users out of the tenancy and they will not be able to login through console")
 

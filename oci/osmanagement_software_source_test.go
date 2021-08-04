@@ -59,6 +59,7 @@ var (
 	SoftwareSourceResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: osmanagement/default
 func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementSoftwareSourceResource_basic")
 	defer httpreplay.SaveScenario()

@@ -23,6 +23,7 @@ var (
 	CpeDeviceShapeResourceConfig = ""
 )
 
+// issue-routing-tag: core/default
 func TestCoreCpeDeviceShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCpeDeviceShapeResource_basic")
 	defer httpreplay.SaveScenario()

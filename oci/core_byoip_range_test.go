@@ -33,6 +33,7 @@ var (
 	ByoipRangeResourceConfig = byoipRangeIdVariableStr
 )
 
+// issue-routing-tag: core/vcnip
 func TestCoreByoipRangeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreByoipRangeResource_basic")
 	defer httpreplay.SaveScenario()

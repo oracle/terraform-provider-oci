@@ -55,6 +55,7 @@ var (
 	ManagedInstanceGroupResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: osmanagement/default
 func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementManagedInstanceGroupResource_basic")
 	defer httpreplay.SaveScenario()

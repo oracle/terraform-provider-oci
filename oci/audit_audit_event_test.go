@@ -23,6 +23,7 @@ var (
 	AuditEventResourceConfig = ""
 )
 
+// issue-routing-tag: audit/default
 func TestAuditAuditEventResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAuditAuditEventResource_basic")
 	defer httpreplay.SaveScenario()

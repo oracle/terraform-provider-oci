@@ -38,6 +38,7 @@ var (
 	CrossConnectWithGroupResourceDependencies = CrossConnectGroupResourceConfig + generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreCrossConnectResourceWithinGroup")
 	defer httpreplay.SaveScenario()

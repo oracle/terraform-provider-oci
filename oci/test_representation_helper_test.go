@@ -246,6 +246,7 @@ const (
 `
 )
 
+// issue-routing-tag: terraform/default
 func TestUnitGenerateResourceRepresentationFromMap(t *testing.T) {
 	assert := assert.New(t)
 

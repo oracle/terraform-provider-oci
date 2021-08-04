@@ -24,6 +24,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation)
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource_basic")
 	defer httpreplay.SaveScenario()

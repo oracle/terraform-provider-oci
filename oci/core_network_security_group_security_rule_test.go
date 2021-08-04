@@ -83,6 +83,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreNetworkSecurityGroupSecurityRuleResource_basic")
 	defer httpreplay.SaveScenario()

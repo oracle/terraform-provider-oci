@@ -36,6 +36,7 @@ var (
 	}
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployStageResource_ManualApproval")
 	defer httpreplay.SaveScenario()

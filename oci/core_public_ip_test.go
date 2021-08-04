@@ -144,6 +144,7 @@ var (
 	}`
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCorePublicIpResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePublicIpResource_basic")
 	defer httpreplay.SaveScenario()

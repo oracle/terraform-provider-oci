@@ -52,6 +52,7 @@ var (
 	FleetResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: jms/default
 func TestJmsFleetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestJmsFleetResource_basic")
 	defer httpreplay.SaveScenario()

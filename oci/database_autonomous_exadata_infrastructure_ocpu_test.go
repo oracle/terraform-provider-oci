@@ -24,6 +24,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, getUpdatedRepresentationCopy("vcn_id", Representation{repType: Required, create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation))
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic")
 	defer httpreplay.SaveScenario()

@@ -53,6 +53,7 @@ var (
 	OdaInstanceResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: oda/default
 func TestOdaOdaInstanceResource_basic(t *testing.T) {
 	if httpreplay.ShouldRetryImmediately() {
 		t.Skip("TestOdaOdaInstanceResource_basic test environment is not ready, skip this test for checkin test.")

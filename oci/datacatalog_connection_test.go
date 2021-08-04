@@ -72,6 +72,7 @@ var (
 				"type_key": Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_dataAssset.type_collection.0.items.0.key}`}}))
 )
 
+// issue-routing-tag: datacatalog/default
 func TestDatacatalogConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogConnectionResource_basic")
 	defer httpreplay.SaveScenario()

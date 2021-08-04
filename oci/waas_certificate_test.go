@@ -62,6 +62,7 @@ var (
 	WaasCertificateResourceDependencies = DefinedTagsDependencies + caCertificateVariableStr + privateKeyVariableStr
 )
 
+// issue-routing-tag: waas/default
 func TestWaasCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasCertificateResource_basic")
 	defer httpreplay.SaveScenario()

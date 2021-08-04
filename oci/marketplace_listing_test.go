@@ -35,6 +35,7 @@ var (
 	ListingResourceConfig = ``
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplaceListingResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceListingResource_basic")
 	defer httpreplay.SaveScenario()

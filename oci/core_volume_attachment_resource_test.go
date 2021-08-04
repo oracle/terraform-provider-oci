@@ -441,6 +441,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVolumeAttachmentTestSuite")
 	defer httpreplay.SaveScenario()

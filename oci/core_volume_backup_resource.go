@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v45/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v45/workrequests"
 )
 
 func init() {
@@ -51,16 +52,16 @@ func CoreVolumeBackupResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-						// Optional
-						"kms_key_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							ForceNew: true,
-						},
 						// Required
 						"volume_backup_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
+						},
+						// Optional
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
 							ForceNew: true,
 						},
 					},
@@ -158,6 +159,8 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
+
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
 	err := CreateResource(d, sync)
@@ -188,6 +191,7 @@ func readCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -196,6 +200,7 @@ func updateCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -204,6 +209,7 @@ func deleteCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -213,6 +219,7 @@ type CoreVolumeBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	SourceRegionClient     *oci_core.BlockstorageClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.VolumeBackup
 	DisableNotFoundRetries bool
 }
@@ -311,7 +318,23 @@ func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
 		return err
 	}
 
+	workRequestId := response.OpcWorkRequestId
+
 	s.Res = &response.VolumeBackup
+
+	if workRequestId != nil {
+		_, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workRequestId, "volumeBackup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	s.D.SetId(*s.Res.Id)
+	err = WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_core.VolumeBackupLifecycleStateAvailable }, s.D.Timeout(schema.TimeoutCreate))
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

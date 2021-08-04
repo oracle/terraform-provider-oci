@@ -17,6 +17,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/database"
 )
 
+// issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")

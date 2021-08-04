@@ -33,6 +33,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalContainerDatabaseConnectorRepresentation)
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalContainerDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()

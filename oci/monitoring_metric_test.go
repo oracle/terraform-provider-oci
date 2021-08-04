@@ -26,6 +26,7 @@ var (
 	MetricResourceConfig = LoadBalancerResourceConfig
 )
 
+// issue-routing-tag: monitoring/default
 func TestMonitoringMetricResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringMetricResource_basic")
 	defer httpreplay.SaveScenario()

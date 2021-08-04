@@ -17,12 +17,16 @@ variable "private_key_path" {
 }
 
 variable "region" {
+  // Define the region the destination volume backup copy will be created in
+
 }
 
 variable "source_region" {
+  // Define the region the source volume backup will be created in
 }
 
 variable "source_volume_backup_id" {
+  // Define a source volume backup Id to copy when using resource oci_core_volume_backup.test_volume_backup_cross_region_sourced
 }
 
 variable "volume_backup_defined_tags_value" {

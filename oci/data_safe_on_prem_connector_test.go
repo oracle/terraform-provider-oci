@@ -59,6 +59,7 @@ var (
 	OnPremConnectorResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeOnPremConnectorResource_basic")
 	defer httpreplay.SaveScenario()

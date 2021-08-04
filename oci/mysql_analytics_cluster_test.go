@@ -45,6 +45,7 @@ var (
 		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation)
 )
 
+// issue-routing-tag: mysql/default
 func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlAnalyticsClusterResource_basic")
 	defer httpreplay.SaveScenario()

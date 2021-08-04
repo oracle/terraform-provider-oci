@@ -30,6 +30,7 @@ var (
 	}
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeCapacityReservationInstanceResource_basic")
 	defer httpreplay.SaveScenario()

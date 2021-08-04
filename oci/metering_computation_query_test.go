@@ -84,6 +84,7 @@ func StartOfDay(t time.Time) time.Time {
 	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 }
 
+// issue-routing-tag: metering_computation/default
 func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationQueryResource_basic")
 	defer httpreplay.SaveScenario()

@@ -31,6 +31,7 @@ var (
 		notebookSessionRepresentation)
 )
 
+// issue-routing-tag: datascience/default
 func TestDatascienceNotebookSessionResource_flex(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceNotebookSessionResource_flex")
 	defer httpreplay.SaveScenario()

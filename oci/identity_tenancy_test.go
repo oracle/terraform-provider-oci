@@ -20,6 +20,7 @@ var (
 	TenancyResourceConfig = ""
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityTenancyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTenancyResource_basic")
 	defer httpreplay.SaveScenario()

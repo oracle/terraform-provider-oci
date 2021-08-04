@@ -24,7 +24,7 @@ type InstanceSourceViaImageDetails struct {
 	// The OCID of the image used to boot the instance.
 	ImageId *string `mandatory:"true" json:"imageId"`
 
-	// The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
+	// The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB).
 	BootVolumeSizeInGBs *int64 `mandatory:"false" json:"bootVolumeSizeInGBs"`
 
 	// The OCID of the Key Management key to assign as the master encryption key for the boot volume.
