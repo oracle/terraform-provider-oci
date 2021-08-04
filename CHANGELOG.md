@@ -3,6 +3,7 @@
 ### Added
 - Support change compartment using lifecycle state
 - Support retry for Eventually consistency failure
+- Support for Count API added to `os_management` resource
 
 ## 4.42.0 (September 01, 2021)
 

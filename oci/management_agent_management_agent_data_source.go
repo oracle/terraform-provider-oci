@@ -87,6 +87,10 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 		s.D.Set("host", *s.Res.Host)
 	}
 
+	if s.Res.HostId != nil {
+		s.D.Set("host_id", *s.Res.HostId)
+	}
+
 	if s.Res.InstallKeyId != nil {
 		s.D.Set("install_key_id", *s.Res.InstallKeyId)
 	}
@@ -97,6 +101,10 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 
 	if s.Res.IsAgentAutoUpgradable != nil {
 		s.D.Set("is_agent_auto_upgradable", *s.Res.IsAgentAutoUpgradable)
+	}
+
+	if s.Res.IsCustomerDeployed != nil {
+		s.D.Set("is_customer_deployed", *s.Res.IsCustomerDeployed)
 	}
 
 	if s.Res.LifecycleDetails != nil {

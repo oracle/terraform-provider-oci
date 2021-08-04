@@ -15,6 +15,7 @@ import (
 var (
 	managementAgentPluginDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"platform_type":  Representation{repType: Optional, create: []string{`LINUX`}},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 	}
 

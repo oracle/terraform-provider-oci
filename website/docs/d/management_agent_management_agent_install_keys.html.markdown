@@ -33,7 +33,7 @@ data "oci_management_agent_management_agent_install_keys" "test_management_agent
 The following arguments are supported:
 
 * `access_level` - (Optional) Value of this is always "ACCESSIBLE" and any other value is not supported.
-* `compartment_id` - (Required) The ID of the compartment from which the Management Agents to be listed.
+* `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `compartment_id_in_subtree` - (Optional) if set to true then it fetches install key for all compartments where user has access to else only on the compartment specified.
 * `display_name` - (Optional) The display name for which the Key needs to be listed.
 * `state` - (Optional) Filter to return only Management Agents in the particular lifecycle state.
