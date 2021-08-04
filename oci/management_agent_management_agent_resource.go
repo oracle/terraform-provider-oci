@@ -84,12 +84,20 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"host_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"install_key_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"install_path": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_customer_deployed": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"lifecycle_details": {
@@ -118,6 +126,10 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"plugin_display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -471,6 +483,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		s.D.Set("host", *s.Res.Host)
 	}
 
+	if s.Res.HostId != nil {
+		s.D.Set("host_id", *s.Res.HostId)
+	}
+
 	if s.Res.InstallKeyId != nil {
 		s.D.Set("install_key_id", *s.Res.InstallKeyId)
 	}
@@ -481,6 +497,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 
 	if s.Res.IsAgentAutoUpgradable != nil {
 		s.D.Set("is_agent_auto_upgradable", *s.Res.IsAgentAutoUpgradable)
+	}
+
+	if s.Res.IsCustomerDeployed != nil {
+		s.D.Set("is_customer_deployed", *s.Res.IsCustomerDeployed)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -526,6 +546,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 
 func ManagementAgentPluginDetailsToMap(obj oci_management_agent.ManagementAgentPluginDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
 
 	if obj.PluginDisplayName != nil {
 		result["plugin_display_name"] = string(*obj.PluginDisplayName)

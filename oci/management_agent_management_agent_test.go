@@ -28,11 +28,14 @@ var (
 	}
 
 	managementAgentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"platform_type":  Representation{repType: Optional, create: `LINUX`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"filter":         RepresentationGroup{Required, managementAgentDataSourceFilterRepresentation}}
+		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_status":  Representation{repType: Optional, create: `ACTIVE`},
+		"display_name":         Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"host_id":              Representation{repType: Optional, create: ``},
+		"is_customer_deployed": Representation{repType: Optional, create: `true`},
+		"platform_type":        Representation{repType: Optional, create: []string{`LINUX`}},
+		"state":                Representation{repType: Optional, create: `ACTIVE`},
+		"filter":               RepresentationGroup{Required, managementAgentDataSourceFilterRepresentation}}
 	managementAgentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_management_agent_management_agent.test_management_agent.id}`}},
@@ -121,7 +124,12 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
 				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "availability_status", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "is_customer_deployed", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "platform_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "management_agents.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.availability_status"),
@@ -130,6 +138,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_customer_deployed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_type"),
@@ -138,6 +147,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_updated"),
 			),
 		},
 		// verify singular datasource
@@ -160,6 +170,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_path"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_agent_auto_upgradable"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_customer_deployed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
