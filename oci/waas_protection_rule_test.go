@@ -40,6 +40,7 @@ var (
 	ProtectionRuleResourceConfig = WaasPolicyResourceDependencies + generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation)
 )
 
+// issue-routing-tag: waas/default
 func TestWaasProtectionRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasProtectionRuleResource_basic")
 	defer httpreplay.SaveScenario()

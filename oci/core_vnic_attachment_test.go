@@ -68,6 +68,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVnicAttachmentResource_basic")
 	defer httpreplay.SaveScenario()

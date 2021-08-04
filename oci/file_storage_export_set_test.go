@@ -43,6 +43,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: file_storage/default
 func TestFileStorageExportSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageExportSetResource_basic")
 	defer httpreplay.SaveScenario()

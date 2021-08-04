@@ -24,6 +24,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVirtualCircuitPublicPrefixResource_basic")
 	defer httpreplay.SaveScenario()

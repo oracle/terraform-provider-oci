@@ -700,6 +700,7 @@ func generateTestResourceFromSchema(id int, resourceSchemaMap map[string]*schema
 }
 
 // Basic test to ensure that RunExportCommand generates TF artifacts
+// issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_basic(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -750,6 +751,7 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_Parallel(t *testing.T) {
 	initResourceDiscoveryTests()
 	// add more services to compartment graphs
@@ -814,6 +816,7 @@ func TestUnitRunExportCommand_Parallel(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_ParallelNegative(t *testing.T) {
 	initResourceDiscoveryTests()
 
@@ -853,6 +856,7 @@ func TestUnitRunExportCommand_ParallelNegative(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_error(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -881,6 +885,7 @@ func TestUnitRunExportCommand_error(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_panic(t *testing.T) {
 	//compartmentId := resourceDiscoveryTestCompartmentOcid
 	outputDir, err := os.Getwd()
@@ -899,6 +904,7 @@ func TestUnitRunExportCommand_panic(t *testing.T) {
 }
 
 // Test exit status in case of partial success
+// issue-routing-tag: terraform/default
 func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 	initResourceDiscoveryTests()
 	// Replace compartmentResourceGraphs with the one having resource that has error in read
@@ -949,6 +955,7 @@ func TestUnitRunExportCommand_exitStatusForPartialSuccess(t *testing.T) {
 }
 
 // Test that resources can be found using a resource dependency graph
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_basic(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -985,6 +992,7 @@ func TestUnitFindResources_basic(t *testing.T) {
 }
 
 // Test that resource with 404 Not found error do not show up in results
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_404Error(t *testing.T) {
 	initResourceDiscoveryTests()
 	// Replace compartmentResourceGraphs with the one having resource that has 404 error in read
@@ -1018,6 +1026,7 @@ func TestUnitFindResources_404Error(t *testing.T) {
 }
 
 // Test that discovery continues after panic
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_panic(t *testing.T) {
 	// env var export_enable_tenancy_lookup=false needed for this test
 	initResourceDiscoveryTests()
@@ -1044,6 +1053,7 @@ func TestUnitFindResources_panic(t *testing.T) {
 }
 
 // Test that errorList has errors if resources are not found
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_errorList(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1064,6 +1074,7 @@ func TestUnitFindResources_errorList(t *testing.T) {
 }
 
 // Test that only targeted ocid resources are exportable
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_restrictedOcids(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1121,6 +1132,7 @@ func TestUnitFindResources_restrictedOcids(t *testing.T) {
 }
 
 // Test that overriden find function is invoked if a resource has one
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_overrideFn(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1156,6 +1168,7 @@ func TestUnitFindResources_overrideFn(t *testing.T) {
 }
 
 // Test that process resource function is invoked if a resource has one
+// issue-routing-tag: terraform/default
 func TestUnitFindResources_processResourceFn(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1197,6 +1210,7 @@ func TestUnitFindResources_processResourceFn(t *testing.T) {
 }
 
 // Test that Terraform names can be generated from discovered resources
+// issue-routing-tag: terraform/default
 func TestUnitGenerateTerraformNameFromResource_basic(t *testing.T) {
 	type testCase struct {
 		resource     map[string]interface{}
@@ -1254,6 +1268,7 @@ func TestUnitGenerateTerraformNameFromResource_basic(t *testing.T) {
 }
 
 // Test that correct HCL is generated from a discovered test resource
+// issue-routing-tag: terraform/default
 func TestUnitGetHCLString_basic(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1334,6 +1349,7 @@ parent_id = "ocid1.parent.abcdefghiklmnop.3"
 }
 
 // Test that HCL can be generated when optional or required fields are missing
+// issue-routing-tag: terraform/default
 func TestUnitGetHCLString_missingFields(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1379,6 +1395,7 @@ func TestUnitGetHCLString_missingFields(t *testing.T) {
 }
 
 // Test that HCL can be generated with values replaced by interpolation syntax
+// issue-routing-tag: terraform/default
 func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1430,6 +1447,7 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 	initResourceDiscoveryTests()
 	defer cleanupResourceDiscoveryTests()
@@ -1470,6 +1488,7 @@ func TestUnitGetHCLString_tfSyntaxVersion(t *testing.T) {
 
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetExportConfig(t *testing.T) {
 	if os.Getenv("TF_HOME_OVERRIDE") == "" {
 		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
@@ -1502,6 +1521,7 @@ stack_id: stack for the job
 job_operation: APPLY/DESTROY. Job operation for the stack
 DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
 */
+// issue-routing-tag: terraform/default
 func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	// env var check so as to prevent local run of this test.
 	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
@@ -1559,6 +1579,7 @@ func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+// issue-routing-tag: terraform/default
 func TestResourceDiscoveryUpdateStack(t *testing.T) {
 	stackId := getEnvSettingWithBlankDefault("stack_id")
 	if stackId == "" {
@@ -1624,6 +1645,7 @@ func jobSuccessWaitCondition(response oci_common.OCIOperationResponse) bool {
 	return false
 }
 
+// issue-routing-tag: terraform/default
 func TestResourceDiscoveryOnCompartment(t *testing.T) {
 
 	var exportCommandArgs ExportCommandArgs
@@ -1639,6 +1661,7 @@ func TestResourceDiscoveryOnCompartment(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+// issue-routing-tag: terraform/default
 func TestExportCommandArgs_finalizeServices(t *testing.T) {
 	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
 	compartmentResourceGraphs["compartment_testing_2"] = compartmentTestingResourceGraph
@@ -1728,6 +1751,7 @@ func TestExportCommandArgs_finalizeServices(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestUnitGetHCLString_logging(t *testing.T) {
 
 	initResourceDiscoveryTests()
@@ -1761,6 +1785,7 @@ func TestUnitGetHCLString_logging(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+// issue-routing-tag: terraform/default
 func TestRunListExportableServicesCommand(t *testing.T) {
 
 	outputDir, _ := os.Getwd()
@@ -1783,6 +1808,7 @@ func TestRunListExportableServicesCommand(t *testing.T) {
 }
 
 // deleteInvalidReferences removes invalid reference from referenceMap if import fails for any resource
+// issue-routing-tag: terraform/default
 func Test_deleteInvalidReferences(t *testing.T) {
 	discoveredResources := []*OCIResource{
 		{
@@ -1833,6 +1859,7 @@ func Test_deleteInvalidReferences(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func Test_createTerraformStruct(t *testing.T) {
 
 	_ = os.Unsetenv(terraformBinPathName)

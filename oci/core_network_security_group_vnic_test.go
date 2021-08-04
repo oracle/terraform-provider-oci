@@ -21,6 +21,7 @@ var (
 	NetworkSecurityGroupVnicResourceConfig = VnicAttachmentResourceConfig
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreNetworkSecurityGroupVnicResource_basic")
 	defer httpreplay.SaveScenario()

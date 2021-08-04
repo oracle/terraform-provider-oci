@@ -50,6 +50,7 @@ var (
 	ServiceCatalogResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: service_catalog/default
 func TestServiceCatalogServiceCatalogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogServiceCatalogResource_basic")
 	defer httpreplay.SaveScenario()

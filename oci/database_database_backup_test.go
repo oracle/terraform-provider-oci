@@ -62,6 +62,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupDatabaseRepresentation)
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 	// Skip the test because CreateDatabaseFromBackupDetails missing some parameters
 	// https://confluence.oci.oraclecorp.com/display/TER/Support+ExaCS%3A+Create+DB+from+backup

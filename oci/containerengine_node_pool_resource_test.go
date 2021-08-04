@@ -165,6 +165,7 @@ var (
 		}))
 )
 
+// issue-routing-tag: containerengine/default
 func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 	httpreplay.SetScenario("TestResourceContainerengineNodePool_regionalsubnet")
 	defer httpreplay.SaveScenario()
@@ -325,6 +326,7 @@ func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineNodePoolResource_image(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineNodePoolResource_image")
 	defer httpreplay.SaveScenario()
@@ -487,6 +489,7 @@ func TestContainerengineNodePoolResource_image(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineNodePoolResource_nodeSourceDetails")
 	defer httpreplay.SaveScenario()
@@ -664,6 +667,7 @@ func TestContainerengineNodePoolResource_nodeSourceDetails(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineNodePoolResource_flexibleShapes(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineNodePoolResource_flexibleShapes")
 	defer httpreplay.SaveScenario()

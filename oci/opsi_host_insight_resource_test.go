@@ -30,6 +30,7 @@ var (
 )
 
 // This test basically covers the required field
+// issue-routing-tag: opsi/controlPlane
 func TestResourceOpsiHostInsight(t *testing.T) {
 	httpreplay.SetScenario("TestResourceOpsiHostInsight")
 	defer httpreplay.SaveScenario()

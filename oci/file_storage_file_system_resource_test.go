@@ -63,6 +63,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: file_storage/default
 func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 
 	httpreplay.SetScenario("TestFileStorageFileSystemResource_removeKMSKey")
@@ -166,6 +167,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: file_storage/default
 func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageFileSystemResource_cloneFromSnapshot")
 	defer httpreplay.SaveScenario()

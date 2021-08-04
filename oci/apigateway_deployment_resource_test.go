@@ -34,6 +34,7 @@ var (
 		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys)
 )
 
+// issue-routing-tag: apigateway/default
 func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayDeploymentResourceJwt_basic")
 	defer httpreplay.SaveScenario()

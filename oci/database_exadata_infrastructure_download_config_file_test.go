@@ -22,6 +22,7 @@ var (
 	ExadataInfrastructureDownloadConfigFileResourceConfig = generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create, exadataInfrastructureRepresentation)
 )
 
+// issue-routing-tag: database/ExaCC
 func TestDatabaseExadataInfrastructureDownloadConfigFileResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExadataInfrastructureDownloadConfigFileResource_basic")
 	defer httpreplay.SaveScenario()

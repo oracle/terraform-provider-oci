@@ -59,6 +59,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {

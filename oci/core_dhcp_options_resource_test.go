@@ -48,6 +48,7 @@ var additionalDhcpOption4 = `
 		}
 	}`
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_basic")
 	defer httpreplay.SaveScenario()
@@ -353,6 +354,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 //If you set DhcpDnsOption to `VcnLocalPlusInternet`, and you assign a DNS label to the VCN during creation, the search domain name in the VCN's default set of DHCP options is automatically set to the VCN domain
 //To avoid multiple applies we perform an apply after the create in order have the options match what the user has in the config
 //This test makes sure we handle that case correctly and that there is a non empty plan after the apply
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_avoidServiceDefault")
 	defer httpreplay.SaveScenario()
@@ -398,6 +400,7 @@ func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_changeOptionsServerType")
 	defer httpreplay.SaveScenario()
@@ -468,6 +471,7 @@ func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_changeOptionsOrder")
 	defer httpreplay.SaveScenario()

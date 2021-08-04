@@ -278,6 +278,7 @@ var (
 	}, deploymentRepresentation)
 )
 
+// issue-routing-tag: apigateway/default
 func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayDeploymentResource_basic")
 	defer httpreplay.SaveScenario()

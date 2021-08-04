@@ -22,6 +22,7 @@ var (
 	PublisherResourceConfig = ``
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplacePublisherResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplacePublisherResource_basic")
 	defer httpreplay.SaveScenario()

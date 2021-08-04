@@ -28,6 +28,7 @@ var (
 	SignResourceDependencies = KeyResourceDependencyConfig
 )
 
+// issue-routing-tag: kms/default
 func TestKmsSignResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsSignResource_basic")
 	defer httpreplay.SaveScenario()

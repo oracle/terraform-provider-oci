@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// issue-routing-tag: terraform/default
 func TestUnitGetVersionAndDateError(t *testing.T) {
 	versionError := getVersionAndDateError()
 	assert.Contains(t, versionError, "Provider version: ")

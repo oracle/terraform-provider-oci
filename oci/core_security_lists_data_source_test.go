@@ -153,6 +153,7 @@ func (s *DatasourceCoreSecurityListTestSuite) TestAccDatasourceCoreSecurityLists
 	)
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestDatasourceCoreSecurityListTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreSecurityListTestSuite")
 	defer httpreplay.SaveScenario()

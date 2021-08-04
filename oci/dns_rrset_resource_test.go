@@ -149,6 +149,7 @@ var (
 	` + generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("name", Representation{repType: Required, create: dnsDomainName}, zoneRepresentationPrimary), []string{"scope", "view_id"}))
 )
 
+// issue-routing-tag: dns/default
 func TestResourceDnsRrsetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_basic")
 	defer httpreplay.SaveScenario()
@@ -360,6 +361,7 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: dns/default
 func TestResourceDnsRrsetResource_default(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_default")
 	defer httpreplay.SaveScenario()
@@ -603,6 +605,7 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: dns/default
 func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_iterative_basic")
 	defer httpreplay.SaveScenario()
@@ -723,6 +726,7 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: dns/default
 func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_iterative_default")
 	defer httpreplay.SaveScenario()
@@ -839,6 +843,7 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: dns/default
 func TestDnsRrsetResource_default(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRrsetResource_default")
 	defer httpreplay.SaveScenario()

@@ -5,6 +5,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strconv"
 
@@ -28,11 +29,42 @@ func CoreVolumeGroupBackupResource() *schema.Resource {
 		Update:   updateCoreVolumeGroupBackup,
 		Delete:   deleteCoreVolumeGroupBackup,
 		Schema: map[string]*schema.Schema{
-			// Required
 			"volume_group_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"source_details"},
+			},
+
+			"source_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				ForceNew:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"volume_group_id"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"region": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"volume_group_backup_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						// Optional
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+					},
+				},
 			},
 
 			// Optional
@@ -177,6 +209,7 @@ func deleteCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 
 type CoreVolumeGroupBackupResourceCrud struct {
 	BaseCrud
+	SourceRegionClient     *oci_core.BlockstorageClient
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeGroupBackup
 	DisableNotFoundRetries bool
@@ -190,12 +223,12 @@ func (s *CoreVolumeGroupBackupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VolumeGroupBackupLifecycleStateCreating),
 		string(oci_core.VolumeGroupBackupLifecycleStateRequestReceived),
+		string(oci_core.VolumeGroupBackupLifecycleStateCommitted),
 	}
 }
 
 func (s *CoreVolumeGroupBackupResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_core.VolumeGroupBackupLifecycleStateCommitted),
 		string(oci_core.VolumeGroupBackupLifecycleStateAvailable),
 	}
 }
@@ -213,6 +246,33 @@ func (s *CoreVolumeGroupBackupResourceCrud) DeletedTarget() []string {
 }
 
 func (s *CoreVolumeGroupBackupResourceCrud) Create() error {
+	if s.isCopyCreate() {
+		err := s.createVolumeGroupBackupCopy()
+		if err != nil {
+			return err
+		}
+		s.D.SetId(*s.Res.Id)
+		err = WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_core.VolumeGroupBackupLifecycleStateAvailable }, s.D.Timeout(schema.TimeoutCreate))
+		if err != nil {
+			return err
+		}
+		// Update for some fields that can't be created by copy
+		return s.Update()
+	}
+
+	return s.CreateVolumeGroupBackup()
+}
+
+func (s *CoreVolumeGroupBackupResourceCrud) isCopyCreate() bool {
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *CoreVolumeGroupBackupResourceCrud) CreateVolumeGroupBackup() error {
 	request := oci_core.CreateVolumeGroupBackupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -257,6 +317,56 @@ func (s *CoreVolumeGroupBackupResourceCrud) Create() error {
 	return nil
 }
 
+func (s *CoreVolumeGroupBackupResourceCrud) createVolumeGroupBackupCopy() error {
+	copyVolumeGroupBackupRequest := oci_core.CopyVolumeGroupBackupRequest{}
+
+	configProvider := *s.Client.ConfigurationProvider()
+	if configProvider == nil {
+		return fmt.Errorf("cannot access ConfigurationProvider")
+	}
+	currentRegion, error := configProvider.Region()
+	if error != nil {
+		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
+	}
+
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok && sourceDetails != nil {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			err := s.createBlockStorageSourceRegionClient(tmp)
+			if err != nil {
+				return err
+			}
+		}
+		copyVolumeGroupBackupRequest.DestinationRegion = &currentRegion
+
+		if volumeGroupBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_group_backup_id")); ok {
+			tmp := volumeGroupBackupId.(string)
+			copyVolumeGroupBackupRequest.VolumeGroupBackupId = &tmp
+		}
+
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			copyVolumeGroupBackupRequest.KmsKeyId = &tmp
+		}
+
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		copyVolumeGroupBackupRequest.DisplayName = &tmp
+	}
+
+	response, err := s.SourceRegionClient.CopyVolumeGroupBackup(context.Background(), copyVolumeGroupBackupRequest)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.VolumeGroupBackup
+	return nil
+}
+
 func (s *CoreVolumeGroupBackupResourceCrud) Get() error {
 	request := oci_core.GetVolumeGroupBackupRequest{}
 
@@ -284,6 +394,10 @@ func (s *CoreVolumeGroupBackupResourceCrud) Update() error {
 			}
 		}
 	}
+
+	//check if there are any fields to update (empty update request is invalid)
+	hasAttributeSet := false
+
 	request := oci_core.UpdateVolumeGroupBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -292,15 +406,21 @@ func (s *CoreVolumeGroupBackupResourceCrud) Update() error {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
+		hasAttributeSet = true
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+		hasAttributeSet = true
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		hasAttributeSet = true
+	}
+	if !hasAttributeSet {
+		return nil
 	}
 
 	tmp := s.D.Id()

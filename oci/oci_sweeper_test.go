@@ -37,6 +37,7 @@ For example: vcn can have default dhcpOptions, routeTables and securityLists whi
 */
 var SweeperDefaultResourceId = make(map[string]bool)
 
+// issue-routing-tag: terraform/default
 func TestMain(m *testing.M) {
 	resource.TestMain(m)
 }

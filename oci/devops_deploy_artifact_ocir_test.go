@@ -40,6 +40,7 @@ var (
 	}
 )
 
+// issue-routing-tag: devops/default
 func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployArtifactResource_ocir")
 	defer httpreplay.SaveScenario()

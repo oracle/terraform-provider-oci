@@ -80,6 +80,7 @@ resource "oci_core_vcn" "test_vcn2" {
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreLocalPeeringGatewayResource_basic")
 	defer httpreplay.SaveScenario()

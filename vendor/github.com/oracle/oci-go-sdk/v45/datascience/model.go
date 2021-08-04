@@ -48,6 +48,18 @@ type Model struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// An array of custom metadata details for the model.
+	CustomMetadataList []Metadata `mandatory:"false" json:"customMetadataList"`
+
+	// An array of defined metadata details for the model.
+	DefinedMetadataList []Metadata `mandatory:"false" json:"definedMetadataList"`
+
+	// Input schema file content in String format
+	InputSchema *string `mandatory:"false" json:"inputSchema"`
+
+	// Output schema file content in String format
+	OutputSchema *string `mandatory:"false" json:"outputSchema"`
 }
 
 func (m Model) String() string {

@@ -14,6 +14,7 @@ import (
 )
 
 // TestAccResourceDatabaseDBSystem_clone tests DBsystems using Virtual Machines.
+// issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemClone(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_clone") {
 		t.Skip("Skipping suppressed DBSystem_clone")

@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v45/common"
 )
 
-// ModelDeployment Model deployments are interactive coding environments for data scientists.
+// ModelDeployment Model deployments are used by data scientists to perform predictions from the model hosted on an HTTP server.
 type ModelDeployment struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment.

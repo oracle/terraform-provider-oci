@@ -128,6 +128,7 @@ var (
 	`
 )
 
+// issue-routing-tag: kms/default
 func TestKmsKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyResource_basic")
 	defer httpreplay.SaveScenario()

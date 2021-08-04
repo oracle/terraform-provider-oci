@@ -30,6 +30,7 @@ var (
 	ConfigurationResourceDependencies = ""
 )
 
+// issue-routing-tag: audit/default
 func TestAuditConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAuditConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

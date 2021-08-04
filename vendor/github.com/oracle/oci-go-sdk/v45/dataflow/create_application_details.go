@@ -88,6 +88,9 @@ type CreateApplicationDetails struct {
 	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat.
 	LogsBucketUri *string `mandatory:"false" json:"logsBucketUri"`
 
+	// The OCID of OCI Hive Metastore.
+	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
 	// An array of name/value pairs used to fill placeholders found in properties like
 	// `Application.arguments`.  The name must be a string of one or more word characters
 	// (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind.

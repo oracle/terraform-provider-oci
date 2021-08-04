@@ -81,6 +81,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
 	}
 
+	s.D.Set("autonomous_maintenance_schedule_type", s.Res.AutonomousMaintenanceScheduleType)
+
 	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
 
 	if s.Res.BackupConfig != nil {

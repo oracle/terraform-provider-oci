@@ -22,6 +22,7 @@ var (
 	DbSystemShapeResourceConfig = AvailabilityDomainConfig
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbSystemShapeResource_basic")
 	defer httpreplay.SaveScenario()

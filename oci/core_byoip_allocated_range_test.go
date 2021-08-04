@@ -24,6 +24,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation)
 )
 
+// issue-routing-tag: core/vcnip
 func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreByoipAllocatedRangeResource_basic")
 	defer httpreplay.SaveScenario()

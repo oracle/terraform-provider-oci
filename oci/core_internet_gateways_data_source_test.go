@@ -71,6 +71,7 @@ func (s *DatasourceCoreInternetGatewayTestSuite) TestAccDatasourceCoreInternetGa
 	)
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestDatasourceCoreInternetGatewayTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreInternetGatewayTestSuite")
 	defer httpreplay.SaveScenario()

@@ -46,6 +46,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: network_load_balancer/default
 func TestNetworkLoadBalancerBackendTargetIdResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerBackendTargetIdResource_basic")
 	defer httpreplay.SaveScenario()

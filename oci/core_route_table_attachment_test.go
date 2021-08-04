@@ -34,6 +34,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", Required, Create, routeTableRepresentation)
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreRouteTableAttachmentResource_basic")
 	defer httpreplay.SaveScenario()

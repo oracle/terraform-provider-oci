@@ -54,6 +54,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: datacatalog/default
 func TestDatacatalogCatalogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogCatalogResource_basic")
 	defer httpreplay.SaveScenario()

@@ -69,6 +69,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 	)
 }
 
+// issue-routing-tag: identity/default
 func TestDatasourceIdentityAvailabilityDomainsTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceIdentityAvailabilityDomainsTestSuite")
 	defer httpreplay.SaveScenario()

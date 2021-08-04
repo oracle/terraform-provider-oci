@@ -85,6 +85,7 @@ var (
 	}
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDatabaseSoftwareImageResourceForExaccShape(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResourceForExaccShape")
 	defer httpreplay.SaveScenario()
@@ -323,6 +324,7 @@ func databaseSoftwareImageSweepResponseFetchOperationForExacc(client *OracleClie
 
 // Exadata test function
 
+// issue-routing-tag: database/default
 func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResourceExadata_basic")
 	defer httpreplay.SaveScenario()

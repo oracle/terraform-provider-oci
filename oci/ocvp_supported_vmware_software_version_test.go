@@ -21,6 +21,7 @@ var (
 	SupportedVmwareSoftwareVersionResourceConfig = ""
 )
 
+// issue-routing-tag: ocvp/default
 func TestOcvpSupportedVmwareSoftwareVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSupportedVmwareSoftwareVersionResource_basic")
 	defer httpreplay.SaveScenario()

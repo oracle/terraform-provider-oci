@@ -158,40 +158,45 @@ type CreateAutonomousDatabaseBase interface {
 
 	// Customer Contacts.
 	GetCustomerContacts() []CustomerContact
+
+	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
+	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
+	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
 }
 
 type createautonomousdatabasebase struct {
 	JsonData                                 []byte
-	CompartmentId                            *string                                      `mandatory:"true" json:"compartmentId"`
-	DbName                                   *string                                      `mandatory:"true" json:"dbName"`
-	CpuCoreCount                             *int                                         `mandatory:"false" json:"cpuCoreCount"`
-	OcpuCount                                *float32                                     `mandatory:"false" json:"ocpuCount"`
-	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
-	DataStorageSizeInTBs                     *int                                         `mandatory:"false" json:"dataStorageSizeInTBs"`
-	DataStorageSizeInGBs                     *int                                         `mandatory:"false" json:"dataStorageSizeInGBs"`
-	IsFreeTier                               *bool                                        `mandatory:"false" json:"isFreeTier"`
-	KmsKeyId                                 *string                                      `mandatory:"false" json:"kmsKeyId"`
-	VaultId                                  *string                                      `mandatory:"false" json:"vaultId"`
-	AdminPassword                            *string                                      `mandatory:"false" json:"adminPassword"`
-	DisplayName                              *string                                      `mandatory:"false" json:"displayName"`
-	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
-	IsPreviewVersionWithServiceTermsAccepted *bool                                        `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
-	IsAutoScalingEnabled                     *bool                                        `mandatory:"false" json:"isAutoScalingEnabled"`
-	IsDedicated                              *bool                                        `mandatory:"false" json:"isDedicated"`
-	AutonomousContainerDatabaseId            *string                                      `mandatory:"false" json:"autonomousContainerDatabaseId"`
-	IsAccessControlEnabled                   *bool                                        `mandatory:"false" json:"isAccessControlEnabled"`
-	WhitelistedIps                           []string                                     `mandatory:"false" json:"whitelistedIps"`
-	ArePrimaryWhitelistedIpsUsed             *bool                                        `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
-	StandbyWhitelistedIps                    []string                                     `mandatory:"false" json:"standbyWhitelistedIps"`
-	IsDataGuardEnabled                       *bool                                        `mandatory:"false" json:"isDataGuardEnabled"`
-	SubnetId                                 *string                                      `mandatory:"false" json:"subnetId"`
-	NsgIds                                   []string                                     `mandatory:"false" json:"nsgIds"`
-	PrivateEndpointLabel                     *string                                      `mandatory:"false" json:"privateEndpointLabel"`
-	FreeformTags                             map[string]string                            `mandatory:"false" json:"freeformTags"`
-	DefinedTags                              map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
-	DbVersion                                *string                                      `mandatory:"false" json:"dbVersion"`
-	CustomerContacts                         []CustomerContact                            `mandatory:"false" json:"customerContacts"`
-	Source                                   string                                       `json:"source"`
+	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
+	DbName                                   *string                                                           `mandatory:"true" json:"dbName"`
+	CpuCoreCount                             *int                                                              `mandatory:"false" json:"cpuCoreCount"`
+	OcpuCount                                *float32                                                          `mandatory:"false" json:"ocpuCount"`
+	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                        `mandatory:"false" json:"dbWorkload,omitempty"`
+	DataStorageSizeInTBs                     *int                                                              `mandatory:"false" json:"dataStorageSizeInTBs"`
+	DataStorageSizeInGBs                     *int                                                              `mandatory:"false" json:"dataStorageSizeInGBs"`
+	IsFreeTier                               *bool                                                             `mandatory:"false" json:"isFreeTier"`
+	KmsKeyId                                 *string                                                           `mandatory:"false" json:"kmsKeyId"`
+	VaultId                                  *string                                                           `mandatory:"false" json:"vaultId"`
+	AdminPassword                            *string                                                           `mandatory:"false" json:"adminPassword"`
+	DisplayName                              *string                                                           `mandatory:"false" json:"displayName"`
+	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `mandatory:"false" json:"licenseModel,omitempty"`
+	IsPreviewVersionWithServiceTermsAccepted *bool                                                             `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
+	IsAutoScalingEnabled                     *bool                                                             `mandatory:"false" json:"isAutoScalingEnabled"`
+	IsDedicated                              *bool                                                             `mandatory:"false" json:"isDedicated"`
+	AutonomousContainerDatabaseId            *string                                                           `mandatory:"false" json:"autonomousContainerDatabaseId"`
+	IsAccessControlEnabled                   *bool                                                             `mandatory:"false" json:"isAccessControlEnabled"`
+	WhitelistedIps                           []string                                                          `mandatory:"false" json:"whitelistedIps"`
+	ArePrimaryWhitelistedIpsUsed             *bool                                                             `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
+	StandbyWhitelistedIps                    []string                                                          `mandatory:"false" json:"standbyWhitelistedIps"`
+	IsDataGuardEnabled                       *bool                                                             `mandatory:"false" json:"isDataGuardEnabled"`
+	SubnetId                                 *string                                                           `mandatory:"false" json:"subnetId"`
+	NsgIds                                   []string                                                          `mandatory:"false" json:"nsgIds"`
+	PrivateEndpointLabel                     *string                                                           `mandatory:"false" json:"privateEndpointLabel"`
+	FreeformTags                             map[string]string                                                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags                              map[string]map[string]interface{}                                 `mandatory:"false" json:"definedTags"`
+	DbVersion                                *string                                                           `mandatory:"false" json:"dbVersion"`
+	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
+	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+	Source                                   string                                                            `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -234,6 +239,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.DbVersion = s.Model.DbVersion
 	m.CustomerContacts = s.Model.CustomerContacts
+	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.Source = s.Model.Source
 
 	return err
@@ -422,6 +428,11 @@ func (m createautonomousdatabasebase) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
+//GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
+func (m createautonomousdatabasebase) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
+	return m.AutonomousMaintenanceScheduleType
+}
+
 func (m createautonomousdatabasebase) String() string {
 	return common.PointerString(m)
 }
@@ -471,6 +482,29 @@ var mappingCreateAutonomousDatabaseBaseLicenseModel = map[string]CreateAutonomou
 func GetCreateAutonomousDatabaseBaseLicenseModelEnumValues() []CreateAutonomousDatabaseBaseLicenseModelEnum {
 	values := make([]CreateAutonomousDatabaseBaseLicenseModelEnum, 0)
 	for _, v := range mappingCreateAutonomousDatabaseBaseLicenseModel {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
+type CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
+const (
+	CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEarly   CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum = "EARLY"
+	CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeRegular CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
+)
+
+var mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType = map[string]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum{
+	"EARLY":   CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEarly,
+	"REGULAR": CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeRegular,
+}
+
+// GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
+func GetCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnumValues() []CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
+	values := make([]CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum, 0)
+	for _, v := range mappingCreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleType {
 		values = append(values, v)
 	}
 	return values

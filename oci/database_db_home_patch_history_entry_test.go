@@ -21,6 +21,7 @@ var (
 	DbHomePatchHistoryEntryResourceConfig = DbSystemResourceConfig
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDbHomePatchHistoryEntryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomePatchHistoryEntryResource_basic")
 	defer httpreplay.SaveScenario()

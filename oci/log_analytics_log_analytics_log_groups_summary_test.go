@@ -24,6 +24,7 @@ var (
 	LogAnalyticsLogGroupsSummaryResourceConfig = ""
 )
 
+// issue-routing-tag: log_analytics/default
 func TestLogAnalyticsLogAnalyticsLogGroupsSummaryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsLogGroupsSummaryResource_basic")
 	defer httpreplay.SaveScenario()

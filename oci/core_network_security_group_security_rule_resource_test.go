@@ -47,6 +47,7 @@ var (
 	}
 )
 
+// issue-routing-tag: core/virtualNetwork
 func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreNetworkSecurityGroupSecurityRule_multipleRules")
 	defer httpreplay.SaveScenario()

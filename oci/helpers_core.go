@@ -114,6 +114,23 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 	return nil
 }
 
+func (s *CoreVolumeGroupBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
+	if s.SourceRegionClient == nil {
+		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
+		if err != nil {
+			return fmt.Errorf("cannot create client for the source region: %v", err)
+		}
+		err = configureClient(&sourceBlockStorageClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
+		s.SourceRegionClient = &sourceBlockStorageClient
+	}
+	s.SourceRegionClient.SetRegion(region)
+
+	return nil
+}
+
 func (s *CoreBootVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())

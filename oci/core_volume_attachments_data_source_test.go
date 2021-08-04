@@ -147,6 +147,7 @@ func checkExpectedValue(mapped map[string]interface{}, key string, expected stri
 	}
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestDatasourceCoreVolumeAttachmentTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreVolumeAttachmentTestSuite")
 	defer httpreplay.SaveScenario()

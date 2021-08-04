@@ -23,6 +23,7 @@ var (
 	ClusterNetworkInstanceResourceConfig = ClusterNetworkResourceConfig
 )
 
+// issue-routing-tag: core/computeManagement
 func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreClusterNetworkInstanceResource_basic")
 	defer httpreplay.SaveScenario()

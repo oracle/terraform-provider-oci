@@ -54,6 +54,7 @@ var (
 	VolumeBackupPolicyResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeBackupPolicyResource_basic")
 	defer httpreplay.SaveScenario()

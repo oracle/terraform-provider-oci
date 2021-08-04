@@ -78,6 +78,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: data_safe/default
 func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeTargetDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

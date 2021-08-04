@@ -23,6 +23,7 @@ var (
 		AutonomousExadataInfrastructureResourceConfig
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerPatchResource_basic")
 	defer httpreplay.SaveScenario()

@@ -35,6 +35,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/v45/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/v45/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v45/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v45/loganalytics"
 	oci_logging "github.com/oracle/oci-go-sdk/v45/logging"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v45/managementagent"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v45/marketplace"
@@ -1855,11 +1856,26 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &TerraformResourceHints{
+	resourceClass:          "oci_log_analytics_log_analytics_object_collection_rule",
+	datasourceClass:        "oci_log_analytics_log_analytics_object_collection_rules",
+	datasourceItemsAttr:    "log_analytics_object_collection_rule_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "log_analytics_object_collection_rule",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_log_analytics.ObjectCollectionRuleLifecycleStatesActive),
+	},
+}
+
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",
 	datasourceItemsAttr:  "log_groups",
 	resourceAbbreviation: "log_group",
+	discoverableLifecycleStates: []string{
+		string(oci_logging.LogGroupLifecycleStateActive),
+	},
 }
 
 var exportLoggingLogHints = &TerraformResourceHints{

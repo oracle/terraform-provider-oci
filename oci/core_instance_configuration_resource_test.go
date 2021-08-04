@@ -38,6 +38,7 @@ var (
 	}
 )
 
+// issue-routing-tag: core/computeImaging
 func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccCoreInstanceConfigurationResource_platformConfig") {
 		t.Skip("Skipping suppressed TestAccCoreInstanceConfigurationResource_platformConfig")

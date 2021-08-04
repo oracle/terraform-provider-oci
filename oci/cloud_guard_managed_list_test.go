@@ -63,6 +63,7 @@ var (
 	ManagedListResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: cloud_guard/default
 func TestCloudGuardManagedListResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardManagedListResource_basic")
 	defer httpreplay.SaveScenario()

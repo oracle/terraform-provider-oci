@@ -21,6 +21,7 @@ var (
 	VirtualCircuitBandwidthShapeResourceConfig = generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestCoreVirtualCircuitBandwidthShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVirtualCircuitBandwidthShapeResource_basic")
 	defer httpreplay.SaveScenario()

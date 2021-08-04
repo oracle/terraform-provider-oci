@@ -59,6 +59,7 @@ var (
 	KeyStoreResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + OkvSecretVariableStr
 )
 
+// issue-routing-tag: database/ExaCC
 func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseKeyStoreResource_basic")
 	defer httpreplay.SaveScenario()

@@ -73,6 +73,7 @@ var (
 	ResponderRecipeResourceDependencies = generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "oracle_responder_recipe", Required, Create, responderRecipeDataSourceRepresentationPluralDataSource)
 )
 
+// issue-routing-tag: cloud_guard/default
 func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardResponderRecipeResource_basic")
 	defer httpreplay.SaveScenario()

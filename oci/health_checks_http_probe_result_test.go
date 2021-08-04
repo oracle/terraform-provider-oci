@@ -27,6 +27,7 @@ var (
 	HttpProbeResultResourceConfig = generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation)
 )
 
+// issue-routing-tag: health_checks/default
 func TestHealthChecksHttpProbeResultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksHttpProbeResultResource_basic")
 	defer httpreplay.SaveScenario()

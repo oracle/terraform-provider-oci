@@ -53,6 +53,7 @@ var (
 		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation)
 )
 
+// issue-routing-tag: artifacts/default
 func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsGenericArtifactResource_basic")
 	defer httpreplay.SaveScenario()

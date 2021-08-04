@@ -213,6 +213,7 @@ var (
 		getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
 )
 
+// issue-routing-tag: core/computeManagement
 func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

@@ -40,6 +40,7 @@ var (
 	}
 )
 
+// issue-routing-tag: database/ExaCC
 func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseBackupDestinationResource_basic")
 	defer httpreplay.SaveScenario()

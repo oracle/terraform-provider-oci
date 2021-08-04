@@ -27,6 +27,7 @@ var (
 	AutonomousDatabaseRegionalWalletManagementResourceDependencies = ""
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic")
 	defer httpreplay.SaveScenario()

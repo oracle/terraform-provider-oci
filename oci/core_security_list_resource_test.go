@@ -717,6 +717,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreSecurityListTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreSecurityListTestSuite")
 	defer httpreplay.SaveScenario()

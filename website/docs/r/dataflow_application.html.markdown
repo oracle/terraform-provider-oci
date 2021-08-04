@@ -37,6 +37,7 @@ resource "oci_dataflow_application" "test_application" {
 	execute = var.application_execute
 	freeform_tags = {"Department"= "Finance"}
 	logs_bucket_uri = var.application_logs_bucket_uri
+	metastore_id = var.metastore_id
 	parameters {
 		#Required
 		name = var.application_parameters_name
@@ -66,6 +67,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `language` - (Required) (Updatable) The Spark language. 
 * `logs_bucket_uri` - (Optional) (Updatable) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
+* `metastore_id` - (Optional) (Updatable) The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `num_executors` - (Required) (Updatable) The number of executor VMs requested. 
 * `parameters` - (Optional) (Updatable) An array of name/value pairs used to fill placeholders found in properties like `Application.arguments`.  The name must be a string of one or more word characters (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind. Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ] 
 	* `name` - (Required) (Updatable) The name of the parameter.  It must be a string of one or more word characters (a-z, A-Z, 0-9, _). Examples: "iterations", "input_file" 
@@ -98,6 +100,7 @@ The following attributes are exported:
 * `id` - The application ID. 
 * `language` - The Spark language. 
 * `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
+* `metastore_id` - The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `num_executors` - The number of executor VMs requested. 
 * `owner_principal_id` - The OCID of the user who created the resource. 
 * `owner_user_name` - The username of the user who created the resource.  If the username of the owner does not exist, `null` will be returned and the caller should refer to the ownerPrincipalId value instead. 

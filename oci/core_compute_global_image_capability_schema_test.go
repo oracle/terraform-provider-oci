@@ -23,6 +23,7 @@ var (
 	ComputeGlobalImageCapabilitySchemaResourceConfig = ""
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeGlobalImageCapabilitySchemaResource_basic")
 	defer httpreplay.SaveScenario()

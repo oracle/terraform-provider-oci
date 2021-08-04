@@ -21,6 +21,7 @@ var (
 	CrossConnectLocationResourceConfig = ""
 )
 
+// issue-routing-tag: core/default
 func TestCoreCrossConnectLocationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCrossConnectLocationResource_basic")
 	defer httpreplay.SaveScenario()

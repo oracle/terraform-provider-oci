@@ -50,6 +50,7 @@ var (
 		LoadBalancerSubnetDependencies + privateKeyVariableStr + caCertificateVariableStr
 )
 
+// issue-routing-tag: load_balancer/default
 func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerCertificateResource_basic")
 	defer httpreplay.SaveScenario()

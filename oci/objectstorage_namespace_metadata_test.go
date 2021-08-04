@@ -13,6 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+// issue-routing-tag: object_storage/default
 func TestResourceNamespaceMetadata_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageNamespaceMetadataResource_basic")
 	defer httpreplay.SaveScenario()

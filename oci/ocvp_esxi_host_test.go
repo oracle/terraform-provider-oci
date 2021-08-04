@@ -53,6 +53,7 @@ var (
 	EsxiHostResourceDependencies = SddcRequiredOnlyResource
 )
 
+// issue-routing-tag: ocvp/default
 func TestOcvpEsxiHostResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpEsxiHostResource_basic")
 	defer httpreplay.SaveScenario()

@@ -18,6 +18,7 @@ var (
 	NetworkLoadBalancersPolicyResourceConfig = ""
 )
 
+// issue-routing-tag: network_load_balancer/default
 func TestNetworkLoadBalancerNetworkLoadBalancersPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerNetworkLoadBalancersPolicyResource_basic")
 	defer httpreplay.SaveScenario()

@@ -50,6 +50,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: file_storage/default
 func TestFileStorageSnapshotResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageSnapshotResource_basic")
 	defer httpreplay.SaveScenario()

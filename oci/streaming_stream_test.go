@@ -53,6 +53,7 @@ var (
 	StreamResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: streaming/default
 func TestStreamingStreamResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamResource_basic")
 	defer httpreplay.SaveScenario()

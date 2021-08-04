@@ -191,6 +191,7 @@ var (
 		DefinedTagsDependencies + dbSystemForPluggableDbRepresentation
 )
 
+// issue-routing-tag: database/default
 func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabasePluggableDatabaseResource_basic")
 	defer httpreplay.SaveScenario()

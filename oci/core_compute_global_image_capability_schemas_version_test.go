@@ -27,6 +27,7 @@ var (
 	ComputeGlobalImageCapabilitySchemasVersionResourceConfig = generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation)
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreComputeGlobalImageCapabilitySchemasVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeGlobalImageCapabilitySchemasVersionResource_basic")
 	defer httpreplay.SaveScenario()

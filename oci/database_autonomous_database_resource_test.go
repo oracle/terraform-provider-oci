@@ -102,7 +102,8 @@ var (
 		})
 
 	autonomousDatabaseDataGuardRepresentation = representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-		"db_version": Representation{repType: Optional, create: `19c`},
+		"db_version":                           Representation{repType: Optional, create: `19c`},
+		"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 	})
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
@@ -199,6 +200,7 @@ var (
 	ExaccADBWithDataguardResourceDependencies = ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseDedicated")
 	defer httpreplay.SaveScenario()
@@ -545,6 +547,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 	t.Skip("Skip this test as this is a seasonal feature only when Dbaas has a preview to be released.")
 
@@ -949,6 +952,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus")
 	defer httpreplay.SaveScenario()
@@ -1124,6 +1128,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupFromId")
 	defer httpreplay.SaveScenario()
@@ -1204,6 +1209,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp")
 	defer httpreplay.SaveScenario()
@@ -1284,6 +1290,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_privateEndPoint")
 	defer httpreplay.SaveScenario()
@@ -1629,6 +1636,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dbVersion")
 	defer httpreplay.SaveScenario()
@@ -1764,6 +1772,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
@@ -1804,6 +1813,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
@@ -1899,8 +1909,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/ExaCC
 func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T) {
-	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataGuard")
+	httpreplay.SetScenario("TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -2010,6 +2021,7 @@ func listListAutonomousDatabasesFetchOperation(client *OracleClients, databaseId
 	return err
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_switchover")
 	defer httpreplay.SaveScenario()
@@ -2280,6 +2292,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_refreshableClone")
 	defer httpreplay.SaveScenario()
@@ -2630,6 +2643,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_AJD")
 	defer httpreplay.SaveScenario()
@@ -2822,8 +2836,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
 						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -2857,8 +2872,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -2894,9 +2910,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"db_workload":  Representation{repType: Required, create: `AJD`},
-							"is_free_tier": Representation{repType: Required, create: `false`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"db_workload":                          Representation{repType: Required, create: `AJD`},
+							"is_free_tier":                         Representation{repType: Required, create: `false`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -2930,6 +2947,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_APEX")
 	defer httpreplay.SaveScenario()
@@ -3121,8 +3139,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Create,
 						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -3156,8 +3175,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"is_free_tier": Representation{repType: Required, create: `true`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"is_free_tier":                         Representation{repType: Required, create: `true`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -3193,9 +3213,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
 						representationCopyWithRemovedProperties(representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"db_version":   Representation{repType: Required, create: `19c`},
-							"db_workload":  Representation{repType: Required, create: `APEX`},
-							"is_free_tier": Representation{repType: Required, create: `false`},
+							"db_version":                           Representation{repType: Required, create: `19c`},
+							"db_workload":                          Representation{repType: Required, create: `APEX`},
+							"is_free_tier":                         Representation{repType: Required, create: `false`},
+							"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
 						}), []string{"operations_insights_status"})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -3229,6 +3250,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey")
 	defer httpreplay.SaveScenario()

@@ -145,6 +145,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_source", Required, Create, connectionRepresentationSource)
 )
 
+// issue-routing-tag: database_migration/default
 func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationMigrationResource_basic")
 	defer httpreplay.SaveScenario()

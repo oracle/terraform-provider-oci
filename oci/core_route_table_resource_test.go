@@ -85,6 +85,7 @@ resource "oci_core_default_route_table" "default" {
 
 // We needed to add a lot of special code to handle this case because of the terraform deficiency on differentiating values from statefile and from the config
 // We test all the edge cases for that code here.
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreRouteTable_deprecatedCidrBlock")
 	defer httpreplay.SaveScenario()
@@ -278,6 +279,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreRouteTable_defaultResource")
 	defer httpreplay.SaveScenario()

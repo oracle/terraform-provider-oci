@@ -25,6 +25,7 @@ var (
 	`
 )
 
+// issue-routing-tag: kms/default
 func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyVersionResource_ResourceDiscovery")
 	defer httpreplay.SaveScenario()

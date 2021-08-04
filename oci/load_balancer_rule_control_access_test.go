@@ -46,6 +46,7 @@ var (
 	}
 )
 
+// issue-routing-tag: load_balancer/default
 func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 	httpreplay.SetScenario("TestResourceLoadBalancerRuleSetResource_controlAccess_test")
 	defer httpreplay.SaveScenario()

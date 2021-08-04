@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v45/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v45/workrequests"
 )
 
 func init() {
@@ -153,6 +154,8 @@ func createCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
+
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
 	err := CreateResource(d, sync)
@@ -183,6 +186,7 @@ func readCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -191,6 +195,7 @@ func updateCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -199,6 +204,7 @@ func deleteCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient()
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -208,6 +214,7 @@ type CoreBootVolumeBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	SourceRegionClient     *oci_core.BlockstorageClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.BootVolumeBackup
 	DisableNotFoundRetries bool
 }
@@ -354,7 +361,17 @@ func (s *CoreBootVolumeBackupResourceCrud) createBootVolumeBackupCopy() error {
 		return err
 	}
 
+	workRequestId := response.OpcWorkRequestId
+
 	s.Res = &response.BootVolumeBackup
+
+	if workRequestId != nil {
+		_, err := WaitForWorkRequestWithErrorHandling(s.workRequestClient, workRequestId, "bootVolumeBackup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 

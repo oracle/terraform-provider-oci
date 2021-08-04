@@ -36,5 +36,6 @@ The following attributes are exported:
 * `git_commit` - For model reproducibility purposes. Commit ID of the git repository associated with model training.
 * `repository_url` - For model reproducibility purposes. URL of the git repository associated with model training.
 * `script_dir` - For model reproducibility purposes. Path to model artifacts.
+* `training_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a training session(Job or NotebookSession) in which the model was trained. It is used for model reproducibility purposes.
 * `training_script` - For model reproducibility purposes. Path to the python script or notebook in which the model was trained." 
 

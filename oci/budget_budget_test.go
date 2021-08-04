@@ -82,6 +82,7 @@ var (
 	BudgetResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: budget/default
 func TestBudgetBudgetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBudgetBudgetResource_basic")
 	defer httpreplay.SaveScenario()

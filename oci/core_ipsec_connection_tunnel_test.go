@@ -45,6 +45,7 @@ var (
 	IpSecConnectionTunnelResourceConfig = IpSecConnectionOptionalResource
 )
 
+// issue-routing-tag: core/default
 func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpSecConnectionTunnelResource_basic")
 	defer httpreplay.SaveScenario()

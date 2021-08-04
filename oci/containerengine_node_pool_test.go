@@ -70,6 +70,7 @@ var (
 		}))
 )
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineNodePoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineNodePoolResource_basic")
 	defer httpreplay.SaveScenario()

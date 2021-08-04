@@ -30,6 +30,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseVmClusterUpdateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterUpdateResource_basic")
 	defer httpreplay.SaveScenario()

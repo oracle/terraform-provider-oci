@@ -21,6 +21,7 @@ var (
 	DbHomePatchResourceConfig = DbSystemResourceConfig
 )
 
+// issue-routing-tag: database/default
 func TestDatabaseDbHomePatchResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomePatchResource_basic")
 	defer httpreplay.SaveScenario()

@@ -46,18 +46,19 @@ var (
 	adbCloneName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
-		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpu_core_count":           Representation{repType: Required, create: `1`},
-		"data_storage_size_in_tbs": Representation{repType: Required, create: `1`},
-		"db_name":                  Representation{repType: Required, create: adbName},
-		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"db_version":               Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
-		"db_workload":              Representation{repType: Optional, create: `OLTP`},
-		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":             Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
-		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_auto_scaling_enabled":  Representation{repType: Optional, create: `false`},
-		"is_dedicated":             Representation{repType: Optional, create: `false`},
+		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
+		"cpu_core_count":                       Representation{repType: Required, create: `1`},
+		"data_storage_size_in_tbs":             Representation{repType: Required, create: `1`},
+		"db_name":                              Representation{repType: Required, create: adbName},
+		"admin_password":                       Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
+		"db_version":                           Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
+		"db_workload":                          Representation{repType: Optional, create: `OLTP`},
+		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                         Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
+		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"is_auto_scaling_enabled":              Representation{repType: Optional, create: `false`},
+		"is_dedicated":                         Representation{repType: Optional, create: `false`},
+		"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `EARLY`},
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
 		"customer_contacts":          RepresentationGroup{Optional, autonomousDatabaseCustomerContactsRepresentation},
 		"kms_key_id":                 Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
@@ -94,6 +95,7 @@ var (
 				"db_workload": Representation{repType: Required, create: `DW`}}))
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
@@ -157,6 +159,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
@@ -205,6 +208,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
@@ -245,6 +249,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
@@ -454,7 +459,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "0"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
@@ -499,7 +505,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),

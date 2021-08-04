@@ -131,6 +131,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 	})
 }
 
+// issue-routing-tag: core/computeImaging
 func TestResourceCoreImageTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreImageTestSuite")
 	defer httpreplay.SaveScenario()

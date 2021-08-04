@@ -256,7 +256,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v45 v45.1.0
+# github.com/oracle/oci-go-sdk/v45 v45.2.0
 github.com/oracle/oci-go-sdk/v45/analytics
 github.com/oracle/oci-go-sdk/v45/apigateway
 github.com/oracle/oci-go-sdk/v45/apmcontrolplane
@@ -392,7 +392,7 @@ golang.org/x/crypto/scrypt
 # golang.org/x/lint v0.0.0-20200302205851-738671d3881b
 golang.org/x/lint
 golang.org/x/lint/golint
-# golang.org/x/mod v0.3.0
+# golang.org/x/mod v0.4.2
 golang.org/x/mod/module
 golang.org/x/mod/semver
 # golang.org/x/net v0.0.0-20210326060303-6b1517762897

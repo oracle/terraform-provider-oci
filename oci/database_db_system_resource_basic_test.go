@@ -127,6 +127,7 @@ var (
 	ResourceDatabaseToken, ResourceDatabaseTokenFn = tokenizeWithHttpReplay("database_db")
 )
 
+// issue-routing-tag: database/default
 func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")
@@ -262,6 +263,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/default
 func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
 		t.Skip("This test requires a source DB with automatic backups enabled. " +
@@ -420,6 +422,7 @@ func dbAutomaticBackupAvailableWaitCondition(response oci_common.OCIOperationRes
 
 // TestAccResourceDatabaseDBSystem_basic tests creation of a DBSystem with the minimum required properties
 // to assert expected default values are set
+// issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemBasic")
 	defer httpreplay.SaveScenario()

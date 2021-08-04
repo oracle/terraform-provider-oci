@@ -49,3 +49,6 @@ variable "autonomous_database_is_dedicated" {
   default = false
 }
 
+variable "autonomous_database_autonomous_maintenance_schedule_type" {
+  default = "EARLY"
+}

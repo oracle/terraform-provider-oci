@@ -53,6 +53,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/default
 func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpSecConnectionResource_basic")
 	defer httpreplay.SaveScenario()

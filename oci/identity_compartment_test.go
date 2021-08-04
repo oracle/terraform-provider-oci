@@ -52,6 +52,7 @@ var (
 	CompartmentResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityCompartmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityCompartmentResource_basic")
 	defer httpreplay.SaveScenario()

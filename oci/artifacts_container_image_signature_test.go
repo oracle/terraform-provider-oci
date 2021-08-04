@@ -74,6 +74,7 @@ var (
 	}
 )
 
+// issue-routing-tag: artifacts/default
 func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerImageSignatureResource_basic")
 	defer httpreplay.SaveScenario()

@@ -59,6 +59,11 @@ func DatascienceModelProvenanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"training_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"training_script": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -137,6 +142,11 @@ func (s *DatascienceModelProvenanceResourceCrud) Create() error {
 		request.ScriptDir = &tmp
 	}
 
+	if trainingId, ok := s.D.GetOkExists("training_id"); ok {
+		tmp := trainingId.(string)
+		request.TrainingId = &tmp
+	}
+
 	if trainingScript, ok := s.D.GetOkExists("training_script"); ok {
 		tmp := trainingScript.(string)
 		request.TrainingScript = &tmp
@@ -207,6 +217,11 @@ func (s *DatascienceModelProvenanceResourceCrud) Update() error {
 		request.ScriptDir = &tmp
 	}
 
+	if trainingId, ok := s.D.GetOkExists("training_id"); ok {
+		tmp := trainingId.(string)
+		request.TrainingId = &tmp
+	}
+
 	if trainingScript, ok := s.D.GetOkExists("training_script"); ok {
 		tmp := trainingScript.(string)
 		request.TrainingScript = &tmp
@@ -246,6 +261,10 @@ func (s *DatascienceModelProvenanceResourceCrud) SetData() error {
 
 	if s.Res.ScriptDir != nil {
 		s.D.Set("script_dir", *s.Res.ScriptDir)
+	}
+
+	if s.Res.TrainingId != nil {
+		s.D.Set("training_id", *s.Res.TrainingId)
 	}
 
 	if s.Res.TrainingScript != nil {

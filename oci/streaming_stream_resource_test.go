@@ -29,6 +29,7 @@ var (
 		generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolRepresentation)
 )
 
+// issue-routing-tag: streaming/default
 func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamResource_basic")
 	defer httpreplay.SaveScenario()

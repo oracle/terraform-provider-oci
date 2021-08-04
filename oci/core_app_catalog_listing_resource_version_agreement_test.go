@@ -30,6 +30,7 @@ resource "oci_core_app_catalog_listing_resource_version_agreement" "test_app_cat
 	`
 )
 
+// issue-routing-tag: core/computeImaging
 func TestResourceAppCatalogListingResourceVersionAgreement_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogListingResourceVersionAgreementResource_basic")
 	defer httpreplay.SaveScenario()

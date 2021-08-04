@@ -38,6 +38,7 @@ var (
 	CloudGuardConfigurationResourceDependencies = ""
 )
 
+// issue-routing-tag: cloud_guard/default
 func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardCloudGuardConfigurationResource_basic")
 	defer httpreplay.SaveScenario()

@@ -54,6 +54,7 @@ var (
 	ManagementAgentInstallKeyResourceDependencies = ""
 )
 
+// issue-routing-tag: management_agent/default
 func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentInstallKeyResource_basic")
 	defer httpreplay.SaveScenario()

@@ -261,6 +261,7 @@ resource "oci_core_instance" "test_instance" {
 		"filter":                  RepresentationGroup{Required, instanceDataSourceFilterRepresentation}}
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceResource_basic")
 	defer httpreplay.SaveScenario()
@@ -809,6 +810,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceResource_capacityReservation")
 	defer httpreplay.SaveScenario()
@@ -1186,6 +1188,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceResource_flexShape(t *testing.T) {
 	httpreplay.SetScenario("TestCoreFlexInstanceResource_basic")
 	defer httpreplay.SaveScenario()

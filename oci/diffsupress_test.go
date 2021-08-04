@@ -8,6 +8,7 @@ import (
 	"testing"
 )
 
+// issue-routing-tag: terraform/default
 func TestDbVersionDiffSuppress(t *testing.T) {
 	oldValues := [9]string{"11.2.0.4.190416", "12.1.0.2.190416", "12.2.0.1.190416", "18.6.0.0.190416", "18.6.0.0.190416", "11.2.0.4", "11.2.0.4", "11.2.0.4", "18.6.0.0.190416"}
 	newValues := [9]string{"11.2.0.4", "12.1.0.2", "12.2.0.1", "18.6.0.0", "18.0.0.0", "12.1.0.2", "12.2.0.4", "11.2.0.5", "19.6.0.0.190416"}
@@ -25,6 +26,7 @@ func TestDbVersionDiffSuppress(t *testing.T) {
 	}
 }
 
+// issue-routing-tag: terraform/default
 func TestGiVersionDiffSuppress(t *testing.T) {
 	oldValues := [7]string{"", "18.0.0.0", "19.0.0.0", "19.0.0.0", "18.0.2.0", "19.0.0.3", "18.0.0.0"}
 	newValues := [7]string{"18.0.0.0", "", "18.2.0.0", "19.0.0.0", "18.0.0.0", "19.0.0.0", "18.0.3.0"}

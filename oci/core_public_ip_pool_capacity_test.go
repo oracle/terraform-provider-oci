@@ -29,6 +29,7 @@ var (
 	PublicIpPoolAddCapacityResourceDependencies = publicIpPoolCidrBlockVariableStr + byoipRangeIdVariableStr + generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation)
 )
 
+// issue-routing-tag: core/vcnip
 func TestResourceCorePublicIpPoolCapacity_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePublicIpPoolCapacityResource_basic")
 	defer httpreplay.SaveScenario()

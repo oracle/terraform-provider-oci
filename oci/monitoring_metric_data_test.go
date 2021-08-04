@@ -44,6 +44,7 @@ func generateMetricDataRepresentationWithCurrentTimeInputs() map[string]interfac
 	})
 }
 
+// issue-routing-tag: monitoring/default
 func TestMonitoringMetricDataResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringMetricDataResource_basic")
 	defer httpreplay.SaveScenario()

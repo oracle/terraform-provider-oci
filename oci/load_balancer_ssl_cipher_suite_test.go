@@ -45,6 +45,7 @@ var (
 		LoadBalancerSubnetDependencies
 )
 
+// issue-routing-tag: load_balancer/default
 func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerSslCipherSuiteResource_basic")
 	defer httpreplay.SaveScenario()

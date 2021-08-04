@@ -46,6 +46,7 @@ var (
 		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
 )
 
+// issue-routing-tag: logging/default
 func TestLoggingCustomLogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingLogResource_basic")
 	defer httpreplay.SaveScenario()

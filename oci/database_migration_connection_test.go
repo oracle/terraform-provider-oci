@@ -218,6 +218,7 @@ var (
 		KmsVaultIdVariableStr
 )
 
+// issue-routing-tag: database_migration/default
 func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationConnectionResource_basic")
 	defer httpreplay.SaveScenario()

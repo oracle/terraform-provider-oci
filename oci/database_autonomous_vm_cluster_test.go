@@ -60,6 +60,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: database/ExaCC
 func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousVmClusterResource_basic")
 	defer httpreplay.SaveScenario()

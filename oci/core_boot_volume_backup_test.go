@@ -52,6 +52,7 @@ var (
 	BootVolumeBackupResourceDependencies         = BootVolumeOptionalResource
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 	if httpreplay.ShouldRetryImmediately() {
 		t.Skip("TestCoreBootVolumeBackupResource_basic test is flaky in httpreplay mode, skip this test for checkin test.")

@@ -55,6 +55,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/default
 func TestCoreCrossConnectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCrossConnectResource_basic")
 	defer httpreplay.SaveScenario()

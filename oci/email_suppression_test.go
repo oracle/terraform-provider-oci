@@ -45,6 +45,7 @@ var (
 	SuppressionResourceDependencies = ""
 )
 
+// issue-routing-tag: email/default
 func TestEmailSuppressionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEmailSuppressionResource_basic")
 	defer httpreplay.SaveScenario()

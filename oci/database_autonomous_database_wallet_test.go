@@ -40,6 +40,7 @@ var (
 		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbWalletDbName}, autonomousDatabaseRepresentation))
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseWalletResource_basic")
 	defer httpreplay.SaveScenario()

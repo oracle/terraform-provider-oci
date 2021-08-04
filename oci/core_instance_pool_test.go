@@ -139,6 +139,7 @@ var (
 		LoadBalancerSubnetDependencies
 )
 
+// issue-routing-tag: core/computeManagement
 func TestCoreInstancePoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePoolResource_basic")
 	defer httpreplay.SaveScenario()

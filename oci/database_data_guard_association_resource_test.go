@@ -152,6 +152,7 @@ var (
 `
 )
 
+// issue-routing-tag: database/default
 func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_Exadata")
 	defer httpreplay.SaveScenario()
@@ -305,6 +306,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/default
 func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster")
 	defer httpreplay.SaveScenario()
@@ -411,6 +413,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 	})
 }
 
+// issue-routing-tag: database/default
 func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome")
 	defer httpreplay.SaveScenario()

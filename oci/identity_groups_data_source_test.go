@@ -85,6 +85,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 	)
 }
 
+// issue-routing-tag: identity/default
 func TestDatasourceIdentityGroupsTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceIdentityGroupsTestSuite")
 	defer httpreplay.SaveScenario()

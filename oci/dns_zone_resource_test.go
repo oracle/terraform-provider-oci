@@ -60,6 +60,7 @@ data "oci_identity_tenancy" "test_tenancy" {
 `
 )
 
+// issue-routing-tag: dns/default
 func TestDnsZoneResource_default(t *testing.T) {
 	httpreplay.SetScenario("TestDnsZoneResource_default")
 	defer httpreplay.SaveScenario()

@@ -43,6 +43,7 @@ var (
 		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbBackupDbName}, autonomousDatabaseRepresentation))
 )
 
+// issue-routing-tag: database/dbaas-adb
 func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseBackupResource_basic")
 	defer httpreplay.SaveScenario()

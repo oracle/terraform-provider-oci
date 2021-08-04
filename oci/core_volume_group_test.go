@@ -89,6 +89,7 @@ resource "oci_core_volume" "source_volume_list" {
 `
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeGroupResource_basic(t *testing.T) {
 	if httpreplay.ShouldRetryImmediately() {
 		t.Skip("TestCoreVolumeGroupResource_basic is flaky in replay mode, will skip this test for checkin test")

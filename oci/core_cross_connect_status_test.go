@@ -22,6 +22,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCrossConnectStatusResource_basic")
 	defer httpreplay.SaveScenario()

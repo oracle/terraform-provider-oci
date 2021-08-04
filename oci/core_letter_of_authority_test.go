@@ -22,6 +22,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
 )
 
+// issue-routing-tag: core/default
 func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreLetterOfAuthorityResource_basic")
 	defer httpreplay.SaveScenario()

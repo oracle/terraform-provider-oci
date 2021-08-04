@@ -47,6 +47,7 @@ var (
 		"executor_shape":       Representation{repType: Optional, create: `VM.Standard2.1`},
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":         Representation{repType: Optional, create: `${var.metastore_id}`},
 		"num_executors":        Representation{repType: Optional, create: `1`},
 		"spark_version":        Representation{repType: Optional, create: `2.4.4`},
 		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
@@ -58,6 +59,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: dataflow/default
 func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowInvokeRunResource_SparkSubmit")
 	defer httpreplay.SaveScenario()
@@ -78,6 +80,8 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
 	warehouseBucketUri := getEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
 	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
+	metastoreId := getEnvSettingWithBlankDefault("metastore_id")
+	metastoreIdVariableStr := fmt.Sprintf("variable \"metastore_id\" { default = \"%s\" }\n", metastoreId)
 
 	resourceName := "oci_dataflow_invoke_run.test_invoke_run_submit"
 	datasourceName := "data.oci_dataflow_invoke_runs.test_invoke_run_submit"
@@ -93,7 +97,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create run with required execute
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunSubmitResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -108,11 +112,11 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunSubmitResourceDependencies,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies,
 			},
 			// verify create with execute, display_name, spark_version
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunSubmitResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Create, invokeRunSubmitRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -153,7 +157,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 			{
 				PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
 					dataFlowInvokeRunFetchOperation, "dataflow", false),
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunSubmitResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunSubmitResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Create,
 						representationCopyWithNewProperties(invokeRunSubmitRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
@@ -193,7 +197,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunSubmitResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -231,7 +235,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_run_submit", Optional, Update, invokeRunSubmitDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunSubmitResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					//resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
@@ -261,7 +265,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunSubmitResourceConfig,
+					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
 

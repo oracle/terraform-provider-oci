@@ -19,6 +19,7 @@ var (
 	ServiceResourceConfig = ""
 )
 
+// issue-routing-tag: core/serviceGateway
 func TestCoreServiceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreServiceResource_basic")
 	defer httpreplay.SaveScenario()

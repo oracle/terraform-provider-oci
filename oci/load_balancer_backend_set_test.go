@@ -84,6 +84,7 @@ var (
 		LoadBalancerResourceDependencies + caCertificateVariableStr + privateKeyVariableStr
 )
 
+// issue-routing-tag: load_balancer/default
 func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerBackendSetResource_basic")
 	defer httpreplay.SaveScenario()

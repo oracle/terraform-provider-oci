@@ -51,6 +51,7 @@ var (
 	QuotaResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: limits/default
 func TestLimitsQuotaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLimitsQuotaResource_basic")
 	defer httpreplay.SaveScenario()

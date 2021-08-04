@@ -62,6 +62,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/computeImaging
 func TestCoreImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreImageResource_basic")
 	defer httpreplay.SaveScenario()

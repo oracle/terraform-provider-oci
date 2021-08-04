@@ -64,6 +64,7 @@ func (s *DatasourceCoreVnicTestSuite) TestAccDatasourceCoreAttachVnic_basic() {
 	})
 }
 
+// issue-routing-tag: core/virtualNetwork
 func TestDatasourceCoreVnicTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestDatasourceCoreVnicTestSuite")
 	defer httpreplay.SaveScenario()

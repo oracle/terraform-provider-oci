@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -28,6 +29,8 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v45/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v45/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v45/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v45/loganalytics"
+	oci_objectstorage "github.com/oracle/oci-go-sdk/v45/objectstorage"
 )
 
 var isInitDone bool
@@ -113,6 +116,9 @@ type resourceDiscoveryContext struct {
 	missingAttributesPerResource map[string][]string
 	isImportError                bool // flag indicates if there was an import failure and if reference map needs to be updated
 	state                        interface{}
+	timeTakenToDiscover          time.Duration
+	timeTakenToGenerateState     time.Duration
+	timeTakenForEntireExport     time.Duration
 }
 
 // Resource discovery Exit status
@@ -128,7 +134,13 @@ const (
 	OracleTagsCreatedBy           = "Oracle-Tags.CreatedBy"
 	OkeTagValue                   = "oke"
 	ResourceCreatedByInstancePool = "oci:compute:instancepool"
+
+	// parallelism configs
+	ChunkSize         int = 10
+	MaxParallelChunks int = 4
 )
+
+var isAllDataSourceLock sync.Mutex
 
 func (ctx *resourceDiscoveryContext) addErrorToList(error *ResourceDiscoveryError) {
 	ctx.ctxLock.Lock()
@@ -169,6 +181,11 @@ func (ctx *resourceDiscoveryContext) printSummary() {
 	for _, statement := range ctx.summaryStatements {
 		Logln(green(statement))
 	}
+	Logln(green("========= PERFORMANCE SUMMARY =========="))
+	Logln(green(fmt.Sprintf("Total resources: %v", len(ctx.discoveredResources))))
+	Logln(green(fmt.Sprintf("Total time taken for discovering all services: %v", ctx.timeTakenToDiscover)))
+	Logln(green(fmt.Sprintf("Total time taken for generating state of all services: %v", ctx.timeTakenToGenerateState)))
+	Logln(green(fmt.Sprintf("Total time taken by entire export: %v", ctx.timeTakenForEntireExport)))
 }
 
 func (ctx *resourceDiscoveryContext) printErrors() {
@@ -265,20 +282,53 @@ type resourceDiscoveryStep interface {
 	writeTmpConfigurationForImport() error
 	writeConfiguration() error
 	writeTmpState() error
+	getBaseStep() *resourceDiscoveryBaseStep
+	mergeTempStateFiles(tmpStateOutputDir string) error
 	mergeGeneratedStateFile() error
 	getDiscoveredResources() []*OCIResource
+	updateTimeTakenForDiscovery(timeTaken time.Duration)
+	updateTimeTakenForGeneratingState(timeTaken time.Duration)
 }
 
 type resourceDiscoveryBaseStep struct {
-	ctx                 *resourceDiscoveryContext
-	name                string
-	discoveredResources []*OCIResource
-	omittedResources    []*OCIResource
-	tempState           interface{}
+	ctx                         *resourceDiscoveryContext
+	name                        string
+	discoveredResources         []*OCIResource
+	omittedResources            []*OCIResource
+	tempState                   interface{}
+	timeTakenForDiscovery       time.Duration
+	timeTakenForGeneratingState time.Duration
 }
 
+func (r *resourceDiscoveryBaseStep) mergeTempStateFiles(tmpStateOutputDir string) error {
+	defer elapsed(fmt.Sprintf("merging temp state files for %v", r.name), nil, 0)()
+	files, err := ioutil.ReadDir(tmpStateOutputDir)
+	if err != nil {
+		return err
+	}
+	// loop over tmp state files for each chunk and merge all to form temp State for the service
+	for _, file := range files {
+		var tempState interface{}
+		tmpFilePath := filepath.Join(tmpStateOutputDir, file.Name())
+		if !strings.HasSuffix(file.Name(), ".backup") { // ignore the backup file created by terraform
+			if jsonState, err := ioutil.ReadFile(tmpFilePath); err != nil {
+				return err
+			} else {
+				if err := json.Unmarshal(jsonState, &tempState); err != nil {
+					return err
+				}
+			}
+			if r.tempState == nil {
+				r.tempState = tempState
+			} else {
+				r.tempState, _ = mergeState(r.tempState, tempState)
+			}
+		}
+	}
+	return nil
+}
 func (r *resourceDiscoveryBaseStep) writeTmpState() error {
-
+	defer elapsed(fmt.Sprintf("writing temp state for %d '%s' resources", len(r.getDiscoveredResources()), r.name), nil, 0)()
 	// Run terraform init if not already done
 	if !isInitDone {
 		Debugf("[DEBUG] acquiring lock to run terraform init")
@@ -304,54 +354,73 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 		initLock.Unlock()
 		Debugf("[DEBUG] releasing lock")
 	}
+	tmpStateOutputDir := filepath.Join(*r.ctx.OutputDir, "tmp", r.name)
+	tmpStateOutputFilePrefix := filepath.Join(tmpStateOutputDir, defaultTmpStateFile)
 
-	stateOutputFile := fmt.Sprintf("%s%s%s%s%s%s%s", *r.ctx.OutputDir, string(os.PathSeparator), "tmp", string(os.PathSeparator), r.name, string(os.PathSeparator), defaultStateFilename)
-	tmpStateOutputFile := fmt.Sprintf("%s%s%s%s%s%s%s", *r.ctx.OutputDir, string(os.PathSeparator), "tmp", string(os.PathSeparator), r.name, string(os.PathSeparator), defaultTmpStateFile)
-
-	if err := os.RemoveAll(tmpStateOutputFile); err != nil {
-		Logf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
+	if err := os.RemoveAll(tmpStateOutputDir); err != nil {
+		Logf("[WARN] unable to delete existing tmp state directory %s", tmpStateOutputDir)
 		return err
 	}
 
 	isAllDataSources := true
-	for _, resource := range r.discoveredResources {
-		importResource(r.ctx, resource, tmpStateOutputFile)
-		if resource.terraformTypeInfo != nil && !resource.terraformTypeInfo.isDataSource {
-			isAllDataSources = false
-		}
+	totalResources := len(r.discoveredResources)
+	// divide list of discovered resources which is a slice into chunks
+	// process each chunk in parallel
+	chunkSize := ChunkSize // chunk size defines number of resources in each chunk.
+	// if there are additional chunks required for left over resources.
+	// For example, if chunk size is 5 and we have 8 resources then 8/5 gives int output as 1.
+	// So chunk 1 will occupy 5 resources and 8 % 5 = 3. For remaining 3 resources we need additional chunk.
+	additionalChunks := 1 // no. of additional chunks required to process (totalResources % chunkSize) resources.
+	if totalResources%chunkSize == 0 {
+		additionalChunks = 0
 	}
-
+	totalChunks := totalResources/chunkSize + additionalChunks
+	var importWg sync.WaitGroup
+	importWg.Add(totalChunks) // we need to wait for all chunks to finish importing resources
+	// we create buffered channel to control max parallel chunks that can be executed in parallel
+	semImport := make(chan struct{}, MaxParallelChunks)
+	// loop over chunks
+	for chunkIdx := 0; chunkIdx < totalResources; chunkIdx += chunkSize {
+		// position of last element of chunk
+		lastPos := chunkIdx + chunkSize
+		semImport <- struct{}{}
+		// in case last chunk isn't full set the lastPos accordingly
+		if lastPos > totalResources {
+			lastPos = totalResources
+		}
+		go func(resources []*OCIResource, chunkIndex int) {
+			for _, res := range resources {
+				fileName := tmpStateOutputFilePrefix + fmt.Sprint(chunkIndex)
+				importResource(r.ctx, res, fileName)
+				if res.terraformTypeInfo != nil && !res.terraformTypeInfo.isDataSource {
+					isAllDataSourceLock.Lock()
+					isAllDataSources = false
+					isAllDataSourceLock.Unlock()
+				}
+			}
+			<-semImport
+			importWg.Done()
+			// take resources beginning at chunkIdx upto and excluding lastPos
+		}(r.discoveredResources[chunkIdx:lastPos], chunkIdx)
+	}
+	// wait for all chunks to finish importing resources
+	importWg.Wait()
 	// The found resource only include the data sources (ADs and namespaces) that resource discovery adds
 	if isAllDataSources {
 		return nil
 	}
-
-	if _, err := os.Stat(tmpStateOutputFile); !os.IsNotExist(err) {
-		if err := os.Rename(tmpStateOutputFile, stateOutputFile); err != nil {
-			return err
-		}
-	} else {
-		Logf("[WARN] temporary state file %s not found for %s: %s", stateOutputFile, r.name, err.Error())
-		return nil
-	}
-
-	if jsonState, err := ioutil.ReadFile(stateOutputFile); err != nil {
+	err := r.mergeTempStateFiles(tmpStateOutputDir)
+	if err != nil {
 		return err
-	} else {
-		if err := json.Unmarshal(jsonState, &r.tempState); err != nil {
-			return err
-		}
 	}
-
 	return nil
-
 }
 
 // writeTmpConfigurationForImport writes temporary configuration to run terraform import on the discovered resources
 // It only writes the resource block and skips the resource fields
 // The configuration will be discarded and written again after import is completed for all resources
 func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
-
+	defer elapsed(fmt.Sprintf("writing temp configuration for %d %s resources", len(r.getDiscoveredResources()), r.name), nil, 0)()
 	configOutputFile := fmt.Sprintf("%s%s%s.tf", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
 	tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
 
@@ -369,6 +438,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
 		} else {
 			builder.WriteString(fmt.Sprintf("resource %s %s {}\n\n", resource.terraformClass, resource.terraformName))
 		}
+
 		r.ctx.ctxLock.Lock()
 		r.ctx.discoveredResources = append(r.ctx.discoveredResources, resource)
 		r.ctx.ctxLock.Unlock()
@@ -391,6 +461,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
 }
 
 func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
+	defer elapsed(fmt.Sprintf("writing actual configuration for %d %s resources", len(r.getDiscoveredResources()), r.name), nil, 0)()
 	configOutputFile := fmt.Sprintf("%s%s%s.tf", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
 	tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *r.ctx.OutputDir, string(os.PathSeparator), r.name)
 
@@ -464,6 +535,7 @@ func (r *resourceDiscoveryBaseStep) writeConfiguration() error {
 	} else {
 		r.ctx.summaryStatements = append(r.ctx.summaryStatements, fmt.Sprintf("Found %d '%s' resources. Generated under '%s'", exportedResourceCount, r.name, configOutputFile))
 	}
+	r.ctx.summaryStatements = append(r.ctx.summaryStatements, fmt.Sprintf("Time taken for discovery: %v, generating state: %v", r.timeTakenForDiscovery, r.timeTakenForGeneratingState))
 	return nil
 }
 
@@ -473,6 +545,17 @@ func (r *resourceDiscoveryBaseStep) getOmittedResources() []*OCIResource {
 
 func (r *resourceDiscoveryBaseStep) getDiscoveredResources() []*OCIResource {
 	return r.discoveredResources
+}
+
+func (r *resourceDiscoveryBaseStep) updateTimeTakenForDiscovery(timeTaken time.Duration) {
+	r.timeTakenForDiscovery = timeTaken
+}
+func (r *resourceDiscoveryBaseStep) updateTimeTakenForGeneratingState(timeTaken time.Duration) {
+	r.timeTakenForGeneratingState = timeTaken
+}
+
+func (r *resourceDiscoveryBaseStep) getBaseStep() *resourceDiscoveryBaseStep {
+	return r
 }
 
 type resourceDiscoveryWithGraph struct {
@@ -755,6 +838,9 @@ func init() {
 	exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
+
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
 }
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
@@ -1322,6 +1408,16 @@ func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resour
 	return resources, nil
 }
 
+func processLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		namespace := resource.sourceAttributes["namespace"].(string)
+		logAnalyticsObjectCollectionRuleId := resource.id
+		resource.importId = getLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace)
+	}
+
+	return resources, nil
+}
+
 func processNetworkLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
 		if backendSet.parent == nil {
@@ -1509,6 +1605,77 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 	}
 
 	return results, nil
+}
+
+func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
+	// List on LogAnalyticsObjectCollectionRules requires namespaceName path parameter.
+	// Getting namespace from ObjectStorage.GetNamespace API before calling ListLogAnalyticsObjectCollectionRules API.
+	results := []*OCIResource{}
+
+	namespaceRequest := oci_objectstorage.GetNamespaceRequest{}
+	namespaceResponse, err := ctx.clients.objectStorageClient().GetNamespace(context.Background(), namespaceRequest)
+	if err != nil {
+		return results, err
+	}
+	namespace := namespaceResponse.Value
+	request := oci_log_analytics.ListLogAnalyticsObjectCollectionRulesRequest{}
+
+	request.NamespaceName = namespace
+	request.CompartmentId = ctx.CompartmentId
+	request.LifecycleState = oci_log_analytics.ListLogAnalyticsObjectCollectionRulesLifecycleStateActive
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+
+	response, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
+	if err != nil {
+		return results, err
+	}
+
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
+		if err != nil {
+			return results, err
+		}
+
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	for _, logAnalyticsObjectCollectionRule := range response.Items {
+		logAnalyticsObjectCollectionRuleResource := resourcesMap[tfMeta.resourceClass]
+
+		d := logAnalyticsObjectCollectionRuleResource.TestResourceData()
+		d.SetId(getLogAnalyticsObjectCollectionRuleCompositeId(*logAnalyticsObjectCollectionRule.Id, *namespace))
+
+		if err := logAnalyticsObjectCollectionRuleResource.Read(d, ctx.clients); err != nil {
+			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+			ctx.addErrorToList(rdError)
+			continue
+		}
+
+		resource := &OCIResource{
+			compartmentId:    *ctx.CompartmentId,
+			sourceAttributes: convertResourceDataToMap(logAnalyticsObjectCollectionRuleResource.Schema, d),
+			rawResource:      logAnalyticsObjectCollectionRule,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+
+		if resource.terraformName, err = generateTerraformNameFromResource(resource.sourceAttributes, logAnalyticsObjectCollectionRuleResource.Schema); err != nil {
+			resource.terraformName = fmt.Sprintf("%s_%s", parent.parent.terraformName, *logAnalyticsObjectCollectionRule.Name)
+		}
+
+		results = append(results, resource)
+	}
+
+	return results, nil
+
 }
 
 func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
@@ -1812,6 +1979,7 @@ func (r *resourceDiscoveryBaseStep) mergeGeneratedStateFile() error {
 		return nil
 	}
 	Debugf("[DEBUG] merging state file for %s", r.name)
+	defer elapsed(fmt.Sprintf("[DEBUG] merging state file for %s", r.name), nil, 0)()
 	if r.ctx.state == nil {
 		// if state exists for the step, initialize the final state
 		r.ctx.state = r.tempState

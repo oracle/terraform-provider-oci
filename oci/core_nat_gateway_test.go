@@ -61,6 +61,7 @@ var (
 		DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
+// issue-routing-tag: core/pnp
 func TestCoreNatGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreNatGatewayResource_basic")
 	defer httpreplay.SaveScenario()

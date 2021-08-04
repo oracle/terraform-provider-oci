@@ -29,6 +29,7 @@ var (
 		generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation)
 )
 
+// issue-routing-tag: service_catalog/default
 func TestServiceCatalogPrivateApplicationPackageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogPrivateApplicationPackageResource_basic")
 	defer httpreplay.SaveScenario()

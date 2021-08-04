@@ -151,6 +151,7 @@ variable "virtual_circuit_type" { default = "PUBLIC" }
 	VirtualCircuitResourceDependencies = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfig
 )
 
+// issue-routing-tag: core/default
 func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVirtualCircuitResource_basic")
 	defer httpreplay.SaveScenario()

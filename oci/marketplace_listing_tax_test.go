@@ -22,6 +22,7 @@ var (
 	ListingTaxResourceConfig = generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation)
 )
 
+// issue-routing-tag: marketplace/default
 func TestMarketplaceListingTaxResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceListingTaxResource_basic")
 	defer httpreplay.SaveScenario()

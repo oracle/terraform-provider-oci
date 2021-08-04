@@ -58,6 +58,7 @@ var (
 	LogGroupResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: logging/default
 func TestLoggingLogGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingLogGroupResource_basic")
 	defer httpreplay.SaveScenario()

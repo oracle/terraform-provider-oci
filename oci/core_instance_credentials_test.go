@@ -25,6 +25,7 @@ var (
 		AvailabilityDomainConfig
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceCredentialResource_basic")
 	defer httpreplay.SaveScenario()

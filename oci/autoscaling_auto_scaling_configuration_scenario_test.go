@@ -297,6 +297,7 @@ func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingCo
 	})
 }
 
+// issue-routing-tag: auto_scaling/default
 func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testing.T) {
 	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_scheduledExecution")
 	defer httpreplay.SaveScenario()
@@ -525,6 +526,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 	})
 }
 
+// issue-routing-tag: auto_scaling/default
 func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_ResourceAction(t *testing.T) {
 	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_ResourceAction")
 	defer httpreplay.SaveScenario()
@@ -756,6 +758,7 @@ func instancePoolRunningWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
+// issue-routing-tag: auto_scaling/default
 func TestResourceAutoScalingConfigurationTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceAutoScalingConfigurationTestSuite")
 	defer httpreplay.SaveScenario()

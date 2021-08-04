@@ -17,6 +17,7 @@ import (
 )
 
 // TestAccResourceDatabaseDBSystem_Exadata tests DBsystems using Exadata
+// issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemExaData")
 	defer httpreplay.SaveScenario()

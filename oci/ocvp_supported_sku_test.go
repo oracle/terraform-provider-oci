@@ -21,6 +21,7 @@ var (
 	SupportedSkuResourceConfig = ""
 )
 
+// issue-routing-tag: ocvp/default
 func TestOcvpSupportedSkuResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSupportedSkuResource_basic")
 	defer httpreplay.SaveScenario()

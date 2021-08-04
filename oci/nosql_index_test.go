@@ -69,6 +69,7 @@ var (
 	IndexResourceDependencies = generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation)
 )
 
+// issue-routing-tag: nosql/default
 func TestNosqlIndexResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlIndexResource_basic")
 	defer httpreplay.SaveScenario()

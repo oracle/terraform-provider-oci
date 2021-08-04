@@ -60,6 +60,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
+// issue-routing-tag: golden_gate/default
 func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDeploymentBackupResource_basic")
 	defer httpreplay.SaveScenario()

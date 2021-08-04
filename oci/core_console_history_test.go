@@ -48,6 +48,7 @@ var (
 		DefinedTagsDependencies
 )
 
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreConsoleHistoryResource_basic")
 	defer httpreplay.SaveScenario()

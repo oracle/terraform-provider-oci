@@ -99,6 +99,7 @@ var (
 	Md5Base64Encoded2, _ = hexToB64(getMd5Hash("<a1>content</a1>"))
 )
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageObjectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_basic")
 	defer httpreplay.SaveScenario()
@@ -423,6 +424,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_failContentLengthLimit")
 	defer httpreplay.SaveScenario()
@@ -493,6 +495,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 // This test is separated from the above test due to weird behavior from Terraform test framework.
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
+// issue-routing-tag: object_storage/default
 func TestObjectStorageObjectResource_metadata(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_metadata")
 	defer httpreplay.SaveScenario()
@@ -704,6 +707,7 @@ func createTmpFiles() (string, string, error) {
 	return singlePartFile.Name(), multiPartFile.Name(), nil
 }
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_multipartUpload")
 	defer httpreplay.SaveScenario()
@@ -964,6 +968,7 @@ func createTmpObjectInOtherRegion() (string, error) {
 	return singlePartFile.Name(), nil
 }
 
+// issue-routing-tag: object_storage/default
 func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_crossRegionCopy")
 	defer httpreplay.SaveScenario()

@@ -71,6 +71,7 @@ var (
 		KeyResourceDependencyConfig
 )
 
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_basic(t *testing.T) {
 	if httpreplay.ShouldRetryImmediately() {
 		t.Skip("TestCoreVolumeResource_basic is running flaky in http replay mode, will skip this for checkin test.")
@@ -307,6 +308,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 // This test is separated from the basic test due to weird behavior from Terraform test framework.
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_expectError(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_expectError")
 	defer httpreplay.SaveScenario()
@@ -398,6 +400,7 @@ variable "volume_state" { default = "AVAILABLE" }
 // This is a test to validate that interpolation syntax can be passed into int64
 // fields that are being represented as strings in the schema. This is a regression
 // test for issue found in https://github.com/terraform-providers/terraform-provider-oci/issues/607
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_int64_interpolation")
 	defer httpreplay.SaveScenario()
@@ -455,6 +458,7 @@ resource "oci_core_volume" "test_volume2" {
 // This test is separated from the basic test due to weird behavior from Terraform test framework.
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
+// issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_validations(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_validations")
 	defer httpreplay.SaveScenario()

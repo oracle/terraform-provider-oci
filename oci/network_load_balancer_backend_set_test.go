@@ -78,6 +78,7 @@ var (
 		generateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
 )
 
+// issue-routing-tag: network_load_balancer/default
 func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerBackendSetResource_basic")
 	defer httpreplay.SaveScenario()

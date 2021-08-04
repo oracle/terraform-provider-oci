@@ -44,6 +44,7 @@ var (
 	ExadataInfrastructureResourceActivateDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: database/ExaCC
 func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseExadataInfrastructure_basic")
 	defer httpreplay.SaveScenario()

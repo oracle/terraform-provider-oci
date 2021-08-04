@@ -86,6 +86,7 @@ var (
 		KeyResourceDependencyConfig
 )
 
+// issue-routing-tag: containerengine/default
 func TestContainerengineClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineClusterResource_basic")
 	defer httpreplay.SaveScenario()

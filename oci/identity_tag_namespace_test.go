@@ -45,6 +45,7 @@ var (
 	TagNamespaceResourceDependencies = DefinedTagsDependencies
 )
 
+// issue-routing-tag: identity/default
 func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagNamespaceResource_basic")
 	defer httpreplay.SaveScenario()

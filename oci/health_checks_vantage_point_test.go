@@ -22,6 +22,7 @@ var (
 	VantagePointResourceConfig = ""
 )
 
+// issue-routing-tag: health_checks/default
 func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksVantagePointResource_basic")
 	defer httpreplay.SaveScenario()

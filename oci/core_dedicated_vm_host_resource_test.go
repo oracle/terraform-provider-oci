@@ -97,6 +97,7 @@ var (
 	}
 )
 
+// issue-routing-tag: core/default
 func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH")
 	defer httpreplay.SaveScenario()
@@ -304,6 +305,7 @@ func TestResourceCoreDedicatedVmHost_DenseIO2ShapeDVH(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/default
 func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDedicatedVmHostResource_E2ShapeDVH")
 	defer httpreplay.SaveScenario()
@@ -511,6 +513,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/default
 func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDedicatedVmHostResource_E3ShapeDVH")
 	defer httpreplay.SaveScenario()

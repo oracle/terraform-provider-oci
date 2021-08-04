@@ -105,7 +105,7 @@ resource "oci_core_volume_group" "test_volume_group_from_vol_ids" {
     type = "volumeIds"
 
     // Mix of named volume and splatted multiple volumes
-     volume_ids = concat([oci_core_volume.t.id], oci_core_volume.test_volume.*.id)
+    volume_ids = concat([oci_core_volume.t.id], oci_core_volume.test_volume.*.id)
   }
 
   #Optional
@@ -227,4 +227,3 @@ data "oci_core_volume_group_backups" "test_volume_group_backups" {
 output "volumeGroupBackups" {
   value = data.oci_core_volume_group_backups.test_volume_group_backups.volume_group_backups
 }
-

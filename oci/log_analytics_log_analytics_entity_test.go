@@ -69,6 +69,7 @@ var (
 		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
+// issue-routing-tag: log_analytics/default
 func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsEntityResource_basic")
 	defer httpreplay.SaveScenario()
