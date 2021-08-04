@@ -4,6 +4,7 @@
 package oci
 
 import (
+	"log"
 	"math/rand"
 	"strings"
 	"time"
@@ -109,6 +110,12 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 
 func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool) time.Duration {
 	defaultRetryTime := shortRetryTime
+
+	if oci_common.IsNetworkError(response.Error) {
+		log.Printf("[DEBUG] Retrying for network error...")
+		return defaultRetryTime
+	}
+
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return 0
 	}
@@ -151,6 +158,10 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 
 func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if oci_common.IsNetworkError(response.Error) {
+		return defaultRetryTime
+	}
+
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
@@ -173,6 +184,10 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 
 func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if oci_common.IsNetworkError(response.Error) {
+		return defaultRetryTime
+	}
+
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
@@ -191,6 +206,9 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 
 func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if oci_common.IsNetworkError(response.Error) {
+		return defaultRetryTime
+	}
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
