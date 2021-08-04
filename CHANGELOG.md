@@ -1,4 +1,4 @@
-## 4.38.0 (Unreleased)
+## 4.38.0 (August 04, 2021)
 
 ### Added
 - Support for metastore integration added to `dataflow`
