@@ -1,3 +1,11 @@
+## 4.39.0 (Unreleased)
+
+### Added
+- Support for network error retry
+
+### Fixed
+- Removed default value for `assign_private_dns_record` in `oci_core_vnic_attachment`
+
 ## 4.38.0 (August 04, 2021)
 
 ### Added
