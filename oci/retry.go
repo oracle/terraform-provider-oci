@@ -4,6 +4,7 @@
 package oci
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"strings"
@@ -116,6 +117,11 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 		return defaultRetryTime
 	}
 
+	if ok, remainingEc := isRetriableByEc(response); ok && remainingEc != nil {
+		log.Printf("[DEBUG] Retrying Eventual consistency...")
+		return *remainingEc
+	}
+
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return 0
 	}
@@ -156,10 +162,52 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	return defaultRetryTime
 }
 
+func isRetriableByEc(r oci_common.OCIOperationResponse) (bool, *time.Duration) {
+	if _, ok := oci_common.IsServiceError(r.Error); ok {
+		now := time.Now()
+		if r.EndOfWindowTime == nil || r.EndOfWindowTime.Before(now) {
+			// either no eventually consistent effects, or they have disappeared by now
+			Debugln(fmt.Sprintf("EC.ShouldRetryOperation, no EC or in the past, returning false: endOfWindowTime = %v, now = %v", r.EndOfWindowTime, now))
+			return false, nil
+		}
+		// there were eventually consistent effects present at the time of the first request
+		// and they could still affect the retries
+		if oci_common.IsErrorAffectedByEventualConsistency(r.Error) {
+			// and it's one of the three affected error codes
+			Debugln(fmt.Sprintf("EC.ShouldRetryOperation, affected by EC, EC is present: endOfWindowTime = %v, now = %v", r.EndOfWindowTime, now))
+			return true, getRemainingEventualConsistencyDuration(r)
+		}
+		return false, nil
+	}
+	return false, nil
+}
+
+// returns the remaining time with eventual consistency, or nil if there is no eventual consistency
+func getRemainingEventualConsistencyDuration(r oci_common.OCIOperationResponse) *time.Duration {
+	endOfWindow := oci_common.EcContext.GetEndOfWindow()
+	if endOfWindow != nil {
+		// there was an eventually consistent request
+		if endOfWindow.After(r.InitialAttemptTime) {
+			// and the eventually consistent effects may still be present
+			remaining := endOfWindow.Sub(time.Now())
+			if remaining > 0 {
+				return &remaining
+			}
+		}
+	}
+
+	return nil
+}
+
 func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 	if oci_common.IsNetworkError(response.Error) {
 		return defaultRetryTime
+	}
+
+	if ok, remainingEc := isRetriableByEc(response); ok && remainingEc != nil {
+		log.Printf("[DEBUG] Retrying Eventual consistency...")
+		return *remainingEc
 	}
 
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
@@ -188,6 +236,11 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 		return defaultRetryTime
 	}
 
+	if ok, remainingEc := isRetriableByEc(response); ok && remainingEc != nil {
+		log.Printf("[DEBUG] Retrying Eventual consistency...")
+		return *remainingEc
+	}
+
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
@@ -209,6 +262,12 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 	if oci_common.IsNetworkError(response.Error) {
 		return defaultRetryTime
 	}
+
+	if ok, remainingEc := isRetriableByEc(response); ok && remainingEc != nil {
+		log.Printf("[DEBUG] Retrying Eventual consistency...")
+		return *remainingEc
+	}
+
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}

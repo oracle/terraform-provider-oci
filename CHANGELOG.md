@@ -1,3 +1,9 @@
+## 4.43.0 (Unreleased)
+
+### Added
+- Support change compartment using lifecycle state
+- Support retry for Eventually consistency failure
+
 ## 4.42.0 (September 01, 2021)
 
 ### Added
