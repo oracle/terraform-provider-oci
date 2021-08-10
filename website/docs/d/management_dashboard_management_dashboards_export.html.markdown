@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_management_dashboard_management_dashboards_export
 This data source provides details about a specific Management Dashboards Export resource in Oracle Cloud Infrastructure Management Dashboard service.
 
-Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard. An example using Oracle Cloud Infrastructure CLI is $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json $oci management-dashboard dashboard import --from-json file://dashboards.json
+Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard. Here's an example of how you can use CLI to export a dashboard. $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json
 
 ## Example Usage
 
@@ -25,7 +25,7 @@ data "oci_management_dashboard_management_dashboards_export" "test_management_da
 
 The following arguments are supported:
 
-* `export_dashboard_id` - (Required) List of dashboardIds in plain text. The syntaxt is '{"dashboardIds":["dashboardId1", "dashboardId2", ...]}'. Escaping is needed when using in Oracle Cloud Infrastructure CLI. For example, "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}" .
+* `export_dashboard_id` - (Required) List of dashboardIds in plain text. The syntax is '{"dashboardIds":["dashboardId1", "dashboardId2", ...]}'. Escaping is needed when using in Oracle Cloud Infrastructure CLI. For example, "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}" .
 
 
 ## Attributes Reference

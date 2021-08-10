@@ -27,6 +27,7 @@
 
 ### Added
 - Support for network error retry
+- Documentation updated for Log Analytics Management Dashboard
 
 ### Fixed
 - Removed default value for `assign_private_dns_record` in `oci_core_vnic_attachment`
