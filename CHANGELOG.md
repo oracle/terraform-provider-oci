@@ -2,6 +2,7 @@
 
 ### Added
 - Support for Custom Listener Port added to `database`
+- Support ignore API key when using InstancePrincipal authentication
 
 ## 4.40.0 (August 18, 2021)
 

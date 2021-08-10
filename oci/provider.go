@@ -399,9 +399,10 @@ func getSdkConfigProvider(d *schema.ResourceData, clients *OracleClients) (oci_c
 		clients.configuration["region"] = region
 	}
 
-	// TODO: DefaultConfigProvider will return us a composingConfigurationProvider that reads from SDK config files,
-	// and then from the environment variables ("TF_VAR" prefix). References to "TF_VAR" prefix should be removed from
-	// the SDK, since it's Terraform specific. When that happens, we need to update this to pass in the right prefix.
+	//In GoSDK, the first step is to check if AuthType exists,
+	//for composite provider, we only check the first provider in the list for the AuthType.
+	//Then SDK will based on the AuthType to create the actual provider if it's a valid value.
+	//If not, then SDK will base on the order in the composite provider list to check for necessary info (tenancyid, userID, fingerprint, region, keyID).
 	configProviders = append(configProviders, resourceDataConfigProvider)
 	if profile == "" {
 		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
@@ -428,9 +429,9 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 	case strings.ToLower(authAPIKeySetting):
 		// No additional config providers needed
 	case strings.ToLower(authInstancePrincipalSetting):
-		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		_, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
-			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, strings.Join(apiKeyConfigVariablesToUnset, ", "))
+			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
 
 		region, ok := d.GetOk(regionAttrName)
@@ -459,9 +460,9 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		configProviders = append(configProviders, cfg)
 	case strings.ToLower(authInstancePrincipalWithCertsSetting):
-		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		_, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
-			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, strings.Join(apiKeyConfigVariablesToUnset, ", "))
+			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
 
 		region, ok := d.GetOkExists(regionAttrName)
@@ -511,9 +512,9 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		configProviders = append(configProviders, cfg)
 
 	case strings.ToLower(authSecurityToken):
-		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		_, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
-			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, strings.Join(apiKeyConfigVariablesToUnset, ", "))
+			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
 		profile, ok := d.GetOk(configFileProfileAttrName)
 		if !ok {
