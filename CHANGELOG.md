@@ -1,4 +1,4 @@
-## 4.39.0 (Unreleased)
+## 4.39.0 (August 11, 2021)
 
 ### Added
 - Support for network error retry
