@@ -5,10 +5,13 @@ package oci
 
 import (
 	"fmt"
+	"net"
 	"net/http"
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -45,7 +48,6 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 
 	for i := uint(1); true; i++ {
 		operationResponse := common.NewOCIOperationResponse(TestOCIResponse{statusCode: r.httpResponseStatusCode, header: r.header}, r.responseError, i)
-
 		expectedShouldRetry := getElapsedRetryDuration(startTime) < (time.Duration(r.expectedRetryTimeSeconds) * time.Second)
 		actualShouldRetry := retryPolicy.ShouldRetryOperation(operationResponse)
 		if actualShouldRetry != expectedShouldRetry {
@@ -76,6 +78,54 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 
 		time.Sleep(waitTime)
 	}
+}
+
+func TestNetTimeoutError(t *testing.T) {
+	errNet := net.DNSError{
+		Err:       "Timeout",
+		IsTimeout: true,
+	}
+	assert.Equal(t, common.IsNetworkError(&errNet), true)
+
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	shortRetryTime = 15 * time.Second
+	longRetryTime = 30 * time.Second
+	configuredRetryDuration = nil
+	r := retryTestInput{
+		serviceName:              "core",
+		httpResponseStatusCode:   404,
+		header:                   map[string][]string{},
+		responseError:            &errNet,
+		expectedRetryTimeSeconds: 15,
+		jitterMode:               true,
+	}
+	retryLoop(t, &r)
+}
+
+func TestNetTemporaryError(t *testing.T) {
+	errNet := net.DNSError{
+		Err:         "Temporary",
+		IsTemporary: true,
+	}
+	assert.Equal(t, common.IsNetworkError(&errNet), true)
+
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
+	shortRetryTime = 15 * time.Second
+	longRetryTime = 30 * time.Second
+	configuredRetryDuration = nil
+	r := retryTestInput{
+		serviceName:              "core",
+		httpResponseStatusCode:   404,
+		header:                   map[string][]string{},
+		responseError:            &errNet,
+		expectedRetryTimeSeconds: 15,
+		jitterMode:               true,
+	}
+	retryLoop(t, &r)
 }
 
 // Test a simple retry loop, simulating a 429 rate error
