@@ -40,14 +40,20 @@ type ManagementAgentSummary struct {
 	// Platform Version
 	PlatformVersion *string `mandatory:"false" json:"platformVersion"`
 
-	// true if the agent can be upgraded automatically; false if it must be upgraded manually. true is currently unsupported.
+	// true if the agent can be upgraded automatically; false if it must be upgraded manually.
 	IsAgentAutoUpgradable *bool `mandatory:"false" json:"isAgentAutoUpgradable"`
 
 	// The time the Management Agent was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// The time the Management Agent was last updated. An RFC3339 formatted datetime string
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
 	// Management Agent host machine name
 	Host *string `mandatory:"false" json:"host"`
+
+	// Host resource ocid
+	HostId *string `mandatory:"false" json:"hostId"`
 
 	// list of managementAgentPlugins associated with the agent
 	PluginList []ManagementAgentPluginDetails `mandatory:"false" json:"pluginList"`
@@ -63,6 +69,9 @@ type ManagementAgentSummary struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
+	IsCustomerDeployed *bool `mandatory:"false" json:"isCustomerDeployed"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

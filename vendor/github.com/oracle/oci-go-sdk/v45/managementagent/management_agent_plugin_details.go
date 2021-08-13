@@ -27,6 +27,9 @@ type ManagementAgentPluginDetails struct {
 
 	// Plugin Version
 	PluginVersion *string `mandatory:"false" json:"pluginVersion"`
+
+	// flag indicating whether the plugin is in enabled mode or disabled mode.
+	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 
 func (m ManagementAgentPluginDetails) String() string {

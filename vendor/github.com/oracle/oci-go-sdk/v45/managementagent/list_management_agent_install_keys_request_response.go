@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentInstallKeys.go.html to see an example of how to use ListManagementAgentInstallKeysRequest.
 type ListManagementAgentInstallKeysRequest struct {
 
-	// The ID of the compartment from which the Management Agents to be listed.
+	// The OCID of the compartment to which a request will be scoped.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// if set to true then it fetches install key for all compartments where user has access to else only on the compartment specified.

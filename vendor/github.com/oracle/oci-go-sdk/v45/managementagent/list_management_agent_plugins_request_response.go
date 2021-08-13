@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentPlugins.go.html to see an example of how to use ListManagementAgentPluginsRequest.
 type ListManagementAgentPluginsRequest struct {
 
-	// The ID of the compartment from which the Management Agents to be listed.
+	// The OCID of the compartment to which a request will be scoped.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Filter to return only Management Agent Plugins having the particular display name.
@@ -39,6 +39,9 @@ type ListManagementAgentPluginsRequest struct {
 
 	// Filter to return only Management Agents in the particular lifecycle state.
 	LifecycleState ListManagementAgentPluginsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// Filter to return only results having the particular platform type.
+	PlatformType []PlatformTypesEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
