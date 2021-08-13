@@ -75,8 +75,8 @@ var (
 
 	dataAssetDataSourceDetailsObjRepresentation = map[string]interface{}{
 		"data_source_type": Representation{repType: Required, create: `ORACLE_OBJECT_STORAGE`},
-		"bucket":           Representation{repType: Required, create: `mset-idp-test-datasets`},
-		"namespace":        Representation{repType: Required, create: `ax3dvjxgkemg`},
+		"bucket":           Representation{repType: Required, create: `bucket-test`},
+		"namespace":        Representation{repType: Required, create: `dxterraformtest`},
 		"object":           Representation{repType: Required, create: `latest_training_data.json`},
 	}
 
