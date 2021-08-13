@@ -27,22 +27,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			/*"platform_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"plugin_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},*/
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			/*"version": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},*/
 			"management_agents": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -83,23 +71,9 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	/*if platformType, ok := s.D.GetOkExists("platform_type"); ok {
-		request.PlatformType = oci_management_agent.ListManagementAgentsPlatformTypeEnum(platformType.(string))
-	}
-
-	if pluginName, ok := s.D.GetOkExists("plugin_name"); ok {
-		tmp := pluginName.(string)
-		request.PluginName = &tmp
-	}*/
-
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_management_agent.ListManagementAgentsLifecycleStateEnum(state.(string))
 	}
-
-	/*if version, ok := s.D.GetOkExists("version"); ok {
-		tmp := version.(string)
-		request.Version = &tmp
-	}*/
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
 
