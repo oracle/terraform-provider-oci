@@ -226,9 +226,7 @@ func (client ObjectStorageClient) CommitMultipartUpload(ctx context.Context, req
 
 // commitMultipartUpload implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/u/{objectName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -283,9 +281,7 @@ func (client ObjectStorageClient) CopyObject(ctx context.Context, request CopyOb
 
 // copyObject implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) copyObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/copyObject", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -341,9 +337,7 @@ func (client ObjectStorageClient) CreateBucket(ctx context.Context, request Crea
 
 // createBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -398,9 +392,7 @@ func (client ObjectStorageClient) CreateMultipartUpload(ctx context.Context, req
 
 // createMultipartUpload implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/u", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -455,9 +447,7 @@ func (client ObjectStorageClient) CreatePreauthenticatedRequest(ctx context.Cont
 
 // createPreauthenticatedRequest implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/p", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -512,9 +502,7 @@ func (client ObjectStorageClient) CreateReplicationPolicy(ctx context.Context, r
 
 // createReplicationPolicy implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/replicationPolicies", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -570,9 +558,7 @@ func (client ObjectStorageClient) CreateRetentionRule(ctx context.Context, reque
 
 // createRetentionRule implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createRetentionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/retentionRules", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2378,9 +2364,7 @@ func (client ObjectStorageClient) PutObjectLifecyclePolicy(ctx context.Context, 
 
 // putObjectLifecyclePolicy implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/l", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2508,9 +2492,7 @@ func (client ObjectStorageClient) ReencryptObject(ctx context.Context, request R
 
 // reencryptObject implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) reencryptObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/reencrypt/{objectName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2567,9 +2549,7 @@ func (client ObjectStorageClient) RenameObject(ctx context.Context, request Rena
 
 // renameObject implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) renameObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/renameObject", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2625,9 +2605,7 @@ func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request Re
 
 // restoreObjects implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) restoreObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/restoreObjects", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2685,9 +2663,7 @@ func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request Upda
 
 // updateBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) updateBucket(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2747,9 +2723,7 @@ func (client ObjectStorageClient) UpdateNamespaceMetadata(ctx context.Context, r
 
 // updateNamespaceMetadata implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2804,9 +2778,7 @@ func (client ObjectStorageClient) UpdateObjectStorageTier(ctx context.Context, r
 
 // updateObjectStorageTier implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/updateObjectStorageTier", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
@@ -2861,9 +2833,7 @@ func (client ObjectStorageClient) UpdateRetentionRule(ctx context.Context, reque
 
 // updateRetentionRule implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
+
 	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err

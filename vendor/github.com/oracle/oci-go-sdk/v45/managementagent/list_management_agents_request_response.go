@@ -16,14 +16,14 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgents.go.html to see an example of how to use ListManagementAgentsRequest.
 type ListManagementAgentsRequest struct {
 
-	// The ID of the compartment from which the Management Agents to be listed.
+	// The OCID of the compartment to which a request will be scoped.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Filter to return only Management Agents having the particular Plugin installed.
-	PluginName *string `mandatory:"false" contributesTo:"query" name:"pluginName"`
+	// Filter to return only Management Agents having the particular Plugin installed. A special pluginName of 'None' can be provided and this will return only Management Agents having no plugin installed.
+	PluginName []string `contributesTo:"query" name:"pluginName" collectionFormat:"multi"`
 
 	// Filter to return only Management Agents having the particular agent version.
-	Version *string `mandatory:"false" contributesTo:"query" name:"version"`
+	Version []string `contributesTo:"query" name:"version" collectionFormat:"multi"`
 
 	// Filter to return only Management Agents having the particular display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -31,8 +31,17 @@ type ListManagementAgentsRequest struct {
 	// Filter to return only Management Agents in the particular lifecycle state.
 	LifecycleState ListManagementAgentsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Filter to return only Management Agents having the particular platform type.
-	PlatformType ListManagementAgentsPlatformTypeEnum `mandatory:"false" contributesTo:"query" name:"platformType" omitEmpty:"true"`
+	// Filter to return only Management Agents in the particular availability status.
+	AvailabilityStatus ListManagementAgentsAvailabilityStatusEnum `mandatory:"false" contributesTo:"query" name:"availabilityStatus" omitEmpty:"true"`
+
+	// Filter to return only Management Agents having the particular agent host id.
+	HostId *string `mandatory:"false" contributesTo:"query" name:"hostId"`
+
+	// Filter to return only results having the particular platform type.
+	PlatformType []PlatformTypesEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
+	IsCustomerDeployed *bool `mandatory:"false" contributesTo:"query" name:"isCustomerDeployed"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -139,24 +148,26 @@ func GetListManagementAgentsLifecycleStateEnumValues() []ListManagementAgentsLif
 	return values
 }
 
-// ListManagementAgentsPlatformTypeEnum Enum with underlying type: string
-type ListManagementAgentsPlatformTypeEnum string
+// ListManagementAgentsAvailabilityStatusEnum Enum with underlying type: string
+type ListManagementAgentsAvailabilityStatusEnum string
 
-// Set of constants representing the allowable values for ListManagementAgentsPlatformTypeEnum
+// Set of constants representing the allowable values for ListManagementAgentsAvailabilityStatusEnum
 const (
-	ListManagementAgentsPlatformTypeLinux   ListManagementAgentsPlatformTypeEnum = "LINUX"
-	ListManagementAgentsPlatformTypeWindows ListManagementAgentsPlatformTypeEnum = "WINDOWS"
+	ListManagementAgentsAvailabilityStatusActive       ListManagementAgentsAvailabilityStatusEnum = "ACTIVE"
+	ListManagementAgentsAvailabilityStatusSilent       ListManagementAgentsAvailabilityStatusEnum = "SILENT"
+	ListManagementAgentsAvailabilityStatusNotAvailable ListManagementAgentsAvailabilityStatusEnum = "NOT_AVAILABLE"
 )
 
-var mappingListManagementAgentsPlatformType = map[string]ListManagementAgentsPlatformTypeEnum{
-	"LINUX":   ListManagementAgentsPlatformTypeLinux,
-	"WINDOWS": ListManagementAgentsPlatformTypeWindows,
+var mappingListManagementAgentsAvailabilityStatus = map[string]ListManagementAgentsAvailabilityStatusEnum{
+	"ACTIVE":        ListManagementAgentsAvailabilityStatusActive,
+	"SILENT":        ListManagementAgentsAvailabilityStatusSilent,
+	"NOT_AVAILABLE": ListManagementAgentsAvailabilityStatusNotAvailable,
 }
 
-// GetListManagementAgentsPlatformTypeEnumValues Enumerates the set of values for ListManagementAgentsPlatformTypeEnum
-func GetListManagementAgentsPlatformTypeEnumValues() []ListManagementAgentsPlatformTypeEnum {
-	values := make([]ListManagementAgentsPlatformTypeEnum, 0)
-	for _, v := range mappingListManagementAgentsPlatformType {
+// GetListManagementAgentsAvailabilityStatusEnumValues Enumerates the set of values for ListManagementAgentsAvailabilityStatusEnum
+func GetListManagementAgentsAvailabilityStatusEnumValues() []ListManagementAgentsAvailabilityStatusEnum {
+	values := make([]ListManagementAgentsAvailabilityStatusEnum, 0)
+	for _, v := range mappingListManagementAgentsAvailabilityStatus {
 		values = append(values, v)
 	}
 	return values
@@ -190,13 +201,23 @@ type ListManagementAgentsSortByEnum string
 
 // Set of constants representing the allowable values for ListManagementAgentsSortByEnum
 const (
-	ListManagementAgentsSortByTimecreated ListManagementAgentsSortByEnum = "timeCreated"
-	ListManagementAgentsSortByDisplayname ListManagementAgentsSortByEnum = "displayName"
+	ListManagementAgentsSortByTimecreated        ListManagementAgentsSortByEnum = "timeCreated"
+	ListManagementAgentsSortByDisplayname        ListManagementAgentsSortByEnum = "displayName"
+	ListManagementAgentsSortByHost               ListManagementAgentsSortByEnum = "host"
+	ListManagementAgentsSortByAvailabilitystatus ListManagementAgentsSortByEnum = "availabilityStatus"
+	ListManagementAgentsSortByPlatformtype       ListManagementAgentsSortByEnum = "platformType"
+	ListManagementAgentsSortByPlugindisplaynames ListManagementAgentsSortByEnum = "pluginDisplayNames"
+	ListManagementAgentsSortByVersion            ListManagementAgentsSortByEnum = "version"
 )
 
 var mappingListManagementAgentsSortBy = map[string]ListManagementAgentsSortByEnum{
-	"timeCreated": ListManagementAgentsSortByTimecreated,
-	"displayName": ListManagementAgentsSortByDisplayname,
+	"timeCreated":        ListManagementAgentsSortByTimecreated,
+	"displayName":        ListManagementAgentsSortByDisplayname,
+	"host":               ListManagementAgentsSortByHost,
+	"availabilityStatus": ListManagementAgentsSortByAvailabilitystatus,
+	"platformType":       ListManagementAgentsSortByPlatformtype,
+	"pluginDisplayNames": ListManagementAgentsSortByPlugindisplaynames,
+	"version":            ListManagementAgentsSortByVersion,
 }
 
 // GetListManagementAgentsSortByEnumValues Enumerates the set of values for ListManagementAgentsSortByEnum

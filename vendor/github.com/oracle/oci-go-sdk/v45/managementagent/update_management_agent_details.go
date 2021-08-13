@@ -16,7 +16,7 @@ import (
 // UpdateManagementAgentDetails Details required to update console-managed properties of the Management Agent.
 type UpdateManagementAgentDetails struct {
 
-	// true if the agent can be upgraded automatically; false if it must be upgraded manually. true is currently unsupported.
+	// Setting of this flag is no longer supported.
 	IsAgentAutoUpgradable *bool `mandatory:"false" json:"isAgentAutoUpgradable"`
 
 	// New displayName of Agent.
