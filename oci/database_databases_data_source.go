@@ -205,6 +205,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["pdb_name"] = *r.PdbName
 		}
 
+		if r.SidPrefix != nil {
+			database["sid_prefix"] = *r.SidPrefix
+		}
+
 		if r.SourceDatabasePointInTimeRecoveryTimestamp != nil {
 			database["source_database_point_in_time_recovery_timestamp"] = r.SourceDatabasePointInTimeRecoveryTimestamp.String()
 		}

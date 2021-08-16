@@ -50,23 +50,28 @@ var (
 				"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 			}),
 		) +
-		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network_primary_db", Optional, Update, vmClusterNetworkValidateRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster", Required, Create,
 			RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
-				"depends_on":   Representation{RepType: Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
-				"display_name": Representation{RepType: Required, Create: `vmClusterForPrimaryDB`},
+				"depends_on":            Representation{RepType: Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network_primary_db`}},
+				"display_name":          Representation{RepType: Required, Create: `vmClusterForPrimaryDB`},
+				"vm_cluster_network_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network_primary_db.id}`},
 			})) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network_standby_db", Optional, Update, vmClusterNetworkValidateUpdateRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster_for_standby_db", Required, Create,
 			RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
-				"depends_on":   Representation{RepType: Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
-				"display_name": Representation{RepType: Required, Create: `vmClusterForStandbyDB`},
+				"depends_on":            Representation{RepType: Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network_standby_db`}},
+				"display_name":          Representation{RepType: Required, Create: `vmClusterForStandbyDB`},
+				"vm_cluster_network_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network_standby_db.id}`},
 			}))
 
 	dataGuardAssociationRepresentationExistingExadataVmCluster = RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
-		"depends_on":         Representation{RepType: Required, Create: []string{`oci_database_vm_cluster.test_exadata_vm_cluster`, `oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db`}},
-		"database_id":        Representation{RepType: Required, Create: `${data.oci_database_databases.exadb.databases.0.id}`},
-		"creation_type":      Representation{RepType: Required, Create: `ExistingVmCluster`},
-		"peer_vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id}`},
+		"depends_on":          Representation{RepType: Required, Create: []string{`oci_database_vm_cluster.test_exadata_vm_cluster`, `oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db`}},
+		"database_id":         Representation{RepType: Required, Create: `${data.oci_database_databases.exadb.databases.0.id}`},
+		"creation_type":       Representation{RepType: Required, Create: `ExistingVmCluster`},
+		"peer_vm_cluster_id":  Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id}`},
+		"peer_db_unique_name": Representation{RepType: Optional, Create: `dbUniqueName`},
+		"peer_sid_prefix":     Representation{RepType: Optional, Create: `sidPrefix`},
 	})
 
 	ExadataBaseDependencies = DefinedTagsDependencies + `
@@ -182,7 +187,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 		backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 		database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 		disk_redundancy = "HIGH"
-		shape = "Exadata.Quarter2.92"
+		shape = "Exadata.Quarter1.84"
 		cpu_core_count = "22"
 		ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNpUvNPYAJUoH/C7sS90htOdIqSPG/YHJzQdUniBJTOe5TtI+wNQ7xFLc6rPp430kbt/KtQ3YyaTkWIiOHcuInBirGUGF1JPdjovmppBA8FJIz69YghLit1uLV6HxVBuEqbSEsh8zA7ZjyR1qDtA5pvjzvSBjxFKBrRhq+HD+CHMTUufbyZzk1oWItdJF5GqJtMZoDw5EwRrvll8PqHkNUCONrSTgZC85oxsgaDdseXNPRT5fzf8i5BWmkvLcq9gx0Hvk/pt7USnI0qW4jo877qljxA8TqLFipvBa9s+xRJKGzgdaSdfKaEPwDRkjKP5WVH+RYZPrEjn9vW+IsCRWcsmBsrkfrCCZ1QEWxzI3MxRrICdQ1v/++o3oD2Ksp4pMZHEI/RSGo0rZW8znerD8+WoEtHvyQAmJnmFBKoAiqLHWCgeHjXB1+UMSebLhy1LG1PFcw4bTf1vD66dkSvUOIj1lLz67N4rlmFz7bkTOj2WvYAGlqMrpBTVCj4qvKqGj9eSi8Mk2MydTEMgxIrVUAYp2+e2fgBm7Nopu23lPYwa/2gKpkNfaOjxAro0R5E6nweFCVqxA71UvNWCWI4NEBz7PQFqpY65COGVt/okNLZy0U154foYJNGYhXBpIeXvpeJU8sdmiSe4BbK0VR+LwZHHlAhOk/64n160fzTH8Cbw== dummy.user@abc.com"]
 		domain = "${oci_core_subnet.exadata_subnet.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -209,7 +214,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 					backup_subnet_id = "${oci_core_subnet.exadata_backup_subnet.id}"
 					database_edition = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 					disk_redundancy = "HIGH"
-					shape = "Exadata.Quarter2.92"
+					shape = "Exadata.Quarter1.84"
 					cpu_core_count = "22"
 					ssh_public_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNpUvNPYAJUoH/C7sS90htOdIqSPG/YHJzQdUniBJTOe5TtI+wNQ7xFLc6rPp430kbt/KtQ3YyaTkWIiOHcuInBirGUGF1JPdjovmppBA8FJIz69YghLit1uLV6HxVBuEqbSEsh8zA7ZjyR1qDtA5pvjzvSBjxFKBrRhq+HD+CHMTUufbyZzk1oWItdJF5GqJtMZoDw5EwRrvll8PqHkNUCONrSTgZC85oxsgaDdseXNPRT5fzf8i5BWmkvLcq9gx0Hvk/pt7USnI0qW4jo877qljxA8TqLFipvBa9s+xRJKGzgdaSdfKaEPwDRkjKP5WVH+RYZPrEjn9vW+IsCRWcsmBsrkfrCCZ1QEWxzI3MxRrICdQ1v/++o3oD2Ksp4pMZHEI/RSGo0rZW8znerD8+WoEtHvyQAmJnmFBKoAiqLHWCgeHjXB1+UMSebLhy1LG1PFcw4bTf1vD66dkSvUOIj1lLz67N4rlmFz7bkTOj2WvYAGlqMrpBTVCj4qvKqGj9eSi8Mk2MydTEMgxIrVUAYp2+e2fgBm7Nopu23lPYwa/2gKpkNfaOjxAro0R5E6nweFCVqxA71UvNWCWI4NEBz7PQFqpY65COGVt/okNLZy0U154foYJNGYhXBpIeXvpeJU8sdmiSe4BbK0VR+LwZHHlAhOk/64n160fzTH8Cbw== dummy.user@abc.com"]
 					domain = "${oci_core_subnet.exadata_subnet.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -647,6 +652,18 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 		months {
 		  name = "APRIL"
 		}
+
+		months {
+		  name = "JULY"
+		}
+
+		months {
+		  name = "OCTOBER"
+		}
+
+		months {
+		  name = "JANUARY"
+		}
 	
 		weeks_of_month = ["2"]
 	  }
@@ -703,7 +720,19 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 		months {
 		  name = "APRIL"
 		}
-	
+
+		months {
+		  name = "JULY"
+		}
+
+		months {
+		  name = "OCTOBER"
+		}
+
+		months {
+		  name = "JANUARY"
+		}
+
 		weeks_of_month = ["2"]
 	  }
 	
