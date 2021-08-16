@@ -185,6 +185,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["id"] = *r.Id
 		}
 
+		if r.IsCdb != nil {
+			database["is_cdb"] = *r.IsCdb
+		}
+
 		if r.KmsKeyId != nil {
 			database["kms_key_id"] = *r.KmsKeyId
 		}
