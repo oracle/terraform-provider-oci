@@ -277,6 +277,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_free_tier"] = *r.IsFreeTier
 		}
 
+		if r.IsMtlsConnectionRequired != nil {
+			autonomousDatabase["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
+		}
+
 		if r.IsPreview != nil {
 			autonomousDatabase["is_preview"] = *r.IsPreview
 		}
