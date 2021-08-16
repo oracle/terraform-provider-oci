@@ -41,6 +41,8 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	nsg_ids = var.data_guard_association_nsg_ids
 	peer_db_home_id = oci_database_db_home.test_db_home.id
 	peer_db_system_id = oci_database_db_system.test_db_system.id
+	peer_db_unique_name = var.data_guard_association_peer_db_unique_name
+	peer_sid_prefix = var.data_guard_association_peer_sid_prefix
 	peer_vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	shape = var.data_guard_association_shape
 	subnet_id = oci_core_subnet.test_subnet.id
@@ -72,6 +74,8 @@ The following arguments are supported:
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `peer_db_home_id` - (Applicable when creation_type=ExistingDbSystem | ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database. You must supply this value to create standby database with an existing DB home 
 * `peer_db_system_id` - (Applicable when creation_type=ExistingDbSystem) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database. You must supply this value if creationType is `ExistingDbSystem`. 
+* `peer_db_unique_name` - (Optional) Specifies the `DB_UNIQUE_NAME` of the peer database to be created. 
+* `peer_sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
 * `peer_vm_cluster_id` - (Applicable when creation_type=ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster in which to create the standby database. You must supply this value if creationType is `ExistingVmCluster`. 
 * `protection_mode` - (Required) (Updatable) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.
 

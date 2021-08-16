@@ -235,6 +235,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"sid_prefix": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"source_database_point_in_time_recovery_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -415,6 +419,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
+	}
+
+	if s.Res.SidPrefix != nil {
+		s.D.Set("sid_prefix", *s.Res.SidPrefix)
 	}
 
 	if s.Res.SourceDatabasePointInTimeRecoveryTimestamp != nil {

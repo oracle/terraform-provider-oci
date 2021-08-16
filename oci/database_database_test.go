@@ -160,6 +160,7 @@ var (
 		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"ncharacter_set":   Representation{RepType: Optional, Create: `AL16UTF16`},
 		"pdb_name":         Representation{RepType: Optional, Create: `pdbName`},
+		"sid_prefix":       Representation{RepType: Optional, Create: `sidPrefix`},
 		// "tde_wallet_password": Representation{RepType: Optional, Create: `tdeWalletPassword`},	exadata doesn't support it.
 	}
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
@@ -246,6 +247,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
+				resource.TestCheckResourceAttr(resourceName, "sid_prefix", "sidPrefix"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
@@ -328,6 +330,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.kms_key_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.ncharacter_set"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.pdb_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.sid_prefix"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
@@ -352,6 +355,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "sid_prefix"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
