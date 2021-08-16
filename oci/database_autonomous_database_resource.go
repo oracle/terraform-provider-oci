@@ -188,6 +188,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_mtls_connection_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_preview_version_with_service_terms_accepted": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -392,6 +397,51 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						"medium": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"profiles": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"consumer_group": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"host_format": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"protocol": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"session_mode": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"syntax_format": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"tls_authentication": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -1019,6 +1069,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsFreeTier = &tmp
 	}
 
+	if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok && s.D.HasChange("is_mtls_connection_required") {
+		tmp := isMtlsConnectionRequired.(bool)
+		request.IsMtlsConnectionRequired = &tmp
+	}
+
 	if isRefreshableClone, ok := s.D.GetOkExists("is_refreshable_clone"); ok && s.D.HasChange("is_refreshable_clone") {
 		tmp := isRefreshableClone.(bool)
 		request.IsRefreshableClone = &tmp
@@ -1229,6 +1284,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
 
+	if s.Res.IsMtlsConnectionRequired != nil {
+		s.D.Set("is_mtls_connection_required", *s.Res.IsMtlsConnectionRequired)
+	}
+
 	if s.Res.IsPreview != nil {
 		s.D.Set("is_preview", *s.Res.IsPreview)
 	}
@@ -1431,6 +1490,12 @@ func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDataba
 		result["medium"] = string(*obj.Medium)
 	}
 
+	profiles := []interface{}{}
+	for _, item := range obj.Profiles {
+		profiles = append(profiles, DatabaseConnectionStringProfileToMap(item))
+	}
+	result["profiles"] = profiles
+
 	return result
 }
 
@@ -1505,6 +1570,32 @@ func CustomerContactToMap(obj oci_database.CustomerContact) map[string]interface
 
 	if obj.Email != nil {
 		result["email"] = string(*obj.Email)
+	}
+
+	return result
+}
+
+func DatabaseConnectionStringProfileToMap(obj oci_database.DatabaseConnectionStringProfile) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["consumer_group"] = string(obj.ConsumerGroup)
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["host_format"] = string(obj.HostFormat)
+
+	result["protocol"] = string(obj.Protocol)
+
+	result["session_mode"] = string(obj.SessionMode)
+
+	result["syntax_format"] = string(obj.SyntaxFormat)
+
+	result["tls_authentication"] = string(obj.TlsAuthentication)
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
 	}
 
 	return result
@@ -1616,6 +1707,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
+		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
 		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
@@ -1789,6 +1884,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
+		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
@@ -1953,6 +2052,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
+		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
 		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
@@ -2125,6 +2228,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
+		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
@@ -2284,6 +2391,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
+		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
 		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)

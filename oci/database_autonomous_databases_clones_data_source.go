@@ -151,6 +151,51 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"profiles": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"consumer_group": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"host_format": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"protocol": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"session_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"syntax_format": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"tls_authentication": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 								},
 							},
 						},
@@ -273,6 +318,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"is_free_tier": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_mtls_connection_required": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -673,6 +722,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.IsFreeTier != nil {
 			autonomousDatabasesClone["is_free_tier"] = *r.IsFreeTier
+		}
+
+		if r.IsMtlsConnectionRequired != nil {
+			autonomousDatabasesClone["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
 		}
 
 		if r.IsPreview != nil {

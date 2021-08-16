@@ -173,6 +173,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
 
+	if s.Res.IsMtlsConnectionRequired != nil {
+		s.D.Set("is_mtls_connection_required", *s.Res.IsMtlsConnectionRequired)
+	}
+
 	if s.Res.IsPreview != nil {
 		s.D.Set("is_preview", *s.Res.IsPreview)
 	}
