@@ -23,7 +23,15 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"deployment_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"management_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -67,6 +75,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"deployment_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -99,6 +111,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 												},
 											},
 										},
+									},
+									"management_option": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 									"name": {
 										Type:     schema.TypeString,
@@ -148,9 +164,17 @@ func (s *DatabaseManagementManagedDatabasesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if deploymentType, ok := s.D.GetOkExists("deployment_type"); ok {
+		request.DeploymentType = oci_database_management.ListManagedDatabasesDeploymentTypeEnum(deploymentType.(string))
+	}
+
 	if id, ok := s.D.GetOkExists("id"); ok {
 		tmp := id.(string)
 		request.Id = &tmp
+	}
+
+	if managementOption, ok := s.D.GetOkExists("management_option"); ok {
+		request.ManagementOption = oci_database_management.ListManagedDatabasesManagementOptionEnum(managementOption.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -220,6 +244,8 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 
 	result["database_type"] = string(obj.DatabaseType)
 
+	result["deployment_type"] = string(obj.DeploymentType)
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -227,6 +253,8 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 	if obj.IsCluster != nil {
 		result["is_cluster"] = bool(*obj.IsCluster)
 	}
+
+	result["management_option"] = string(obj.ManagementOption)
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
