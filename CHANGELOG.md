@@ -2,6 +2,7 @@
 
 ### Added
 - Support InstanceConsoleConnection API with new serviceHostKeyFingerprint Property 
+- Support for Data science ML jobs added
 
 ### Notes
 - Disabled resource discovery on resource `oci_core_drg_route_distribution_statement`

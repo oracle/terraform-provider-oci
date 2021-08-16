@@ -1268,6 +1268,29 @@ var exportDatascienceModelDeploymentHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatascienceJobHints = &TerraformResourceHints{
+	resourceClass:          "oci_datascience_job",
+	datasourceClass:        "oci_datascience_jobs",
+	datasourceItemsAttr:    "jobs",
+	resourceAbbreviation:   "job",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.JobLifecycleStateActive),
+	},
+}
+
+var exportDatascienceJobRunHints = &TerraformResourceHints{
+	resourceClass:          "oci_datascience_job_run",
+	datasourceClass:        "oci_datascience_job_runs",
+	datasourceItemsAttr:    "job_runs",
+	resourceAbbreviation:   "job_run",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_datascience.JobRunLifecycleStateSucceeded),
+		string(oci_datascience.JobRunLifecycleStateNeedsAttention),
+	},
+}
+
 var exportDevopsProjectHints = &TerraformResourceHints{
 	resourceClass:          "oci_devops_project",
 	datasourceClass:        "oci_devops_projects",

@@ -448,6 +448,8 @@ datascience
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
 * oci\_datascience\_model\_deployment
+* oci\_datascience\_job
+* oci\_datascience\_job\_run
 
 devops
     
