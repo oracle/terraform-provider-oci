@@ -47,6 +47,12 @@ func DatabaseManagementManagedDatabasesChangeDatabaseParameterResource() *schema
 							Computed: true,
 							ForceNew: true,
 						},
+						"secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"user_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -243,6 +249,11 @@ func (s *DatabaseManagementManagedDatabasesChangeDatabaseParameterResourceCrud) 
 		result.Role = oci_database_management.DatabaseCredentialsRoleEnum(role.(string))
 	}
 
+	if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+		tmp := secretId.(string)
+		result.SecretId = &tmp
+	}
+
 	if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
 		tmp := userName.(string)
 		result.UserName = &tmp
@@ -259,6 +270,10 @@ func Dbmgmt_DatabaseCredentialsToMap(obj *oci_database_management.DatabaseCreden
 	}
 
 	result["role"] = string(obj.Role)
+
+	if obj.SecretId != nil {
+		result["secret_id"] = string(*obj.SecretId)
+	}
 
 	if obj.UserName != nil {
 		result["user_name"] = string(*obj.UserName)

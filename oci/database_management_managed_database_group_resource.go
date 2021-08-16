@@ -73,6 +73,10 @@ func DatabaseManagementManagedDatabaseGroupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"deployment_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"database_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -475,6 +479,8 @@ func ChildDatabaseToMap(obj oci_database_management.ChildDatabase) map[string]in
 	result["database_sub_type"] = string(obj.DatabaseSubType)
 
 	result["database_type"] = string(obj.DatabaseType)
+
+	result["deployment_type"] = string(obj.DeploymentType)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

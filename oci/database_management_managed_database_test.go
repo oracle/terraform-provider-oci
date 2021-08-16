@@ -18,9 +18,11 @@ var (
 	}
 
 	managedDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_database_management_managed_database.test_managed_database.id}`},
-		"name":           Representation{repType: Optional, create: `name`},
+		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
+		"deployment_type":   Representation{repType: Optional, create: `ONPREMISE`},
+		"id":                Representation{repType: Optional, create: `${oci_database_management_managed_database.test_managed_database.id}`},
+		"management_option": Representation{repType: Optional, create: `BASIC`},
+		"name":              Representation{repType: Optional, create: `name`},
 	}
 
 	ManagedDatabaseResourceConfig = ""
@@ -51,6 +53,8 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.deployment_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.0.items.0.management_option"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_collection.#"),
 			),
@@ -67,9 +71,11 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_sub_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cluster"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_groups.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_option"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
