@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_database_management "github.com/oracle/oci-go-sdk/v45/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v46/databasemanagement"
 
-	oci_common "github.com/oracle/oci-go-sdk/v45/common"
+	oci_common "github.com/oracle/oci-go-sdk/v46/common"
 )
 
 func init() {
