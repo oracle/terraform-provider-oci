@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v45/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v46/resourcemanager"
 
-	oci_common "github.com/oracle/oci-go-sdk/v45/common"
+	oci_common "github.com/oracle/oci-go-sdk/v46/common"
 )
 
 func init() {

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v45/aianomalydetection"
-	"github.com/oracle/oci-go-sdk/v45/common"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v46/aianomalydetection"
+	"github.com/oracle/oci-go-sdk/v46/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

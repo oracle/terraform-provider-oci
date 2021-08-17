@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v45/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v46/apmsynthetics"
 )
 
 func init() {
