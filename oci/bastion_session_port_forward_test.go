@@ -85,7 +85,6 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 	httpreplay.SetScenario("TestBastionSessionResource_port_forwarding")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -100,163 +99,156 @@ func TestBastionSessionResource_port_forwarding(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PortForwardSessionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, portForwardSessionRepresentation), "bastion", "session", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckBastionSessionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, portForwardSessionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
+				resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckBastionSessionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, portForwardSessionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
-					resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, portForwardSessionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "portForwardTest"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
+				resource.TestCheckResourceAttr(resourceName, "key_type", "PUB"),
+				resource.TestCheckResourceAttr(resourceName, "session_ttl_in_seconds", "3600"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.target_resource_port", "22"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, portForwardSessionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "portForwardTest"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
-					resource.TestCheckResourceAttr(resourceName, "key_type", "PUB"),
-					resource.TestCheckResourceAttr(resourceName, "session_ttl_in_seconds", "3600"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.target_resource_port", "22"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, portForwardSessionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "portForwardTest2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
-					resource.TestCheckResourceAttr(resourceName, "key_type", "PUB"),
-					resource.TestCheckResourceAttr(resourceName, "session_ttl_in_seconds", "3600"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.target_resource_port", "22"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PortForwardSessionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, portForwardSessionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "portForwardTest2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
+				resource.TestCheckResourceAttr(resourceName, "key_type", "PUB"),
+				resource.TestCheckResourceAttr(resourceName, "session_ttl_in_seconds", "3600"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_details.0.target_resource_port", "22"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", Optional, Update, portForwardSessionDataSourceRepresentation) +
-					compartmentIdVariableStr + PortForwardSessionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, portForwardSessionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "portForwardTest2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "session_id"),
-					resource.TestCheckResourceAttr(datasourceName, "session_lifecycle_state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", Optional, Update, portForwardSessionDataSourceRepresentation) +
+				compartmentIdVariableStr + PortForwardSessionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, portForwardSessionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "portForwardTest2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "session_id"),
+				resource.TestCheckResourceAttr(datasourceName, "session_lifecycle_state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "sessions.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.bastion_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.bastion_name"),
-					resource.TestCheckResourceAttr(datasourceName, "sessions.0.display_name", "portForwardTest2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "sessions.0.session_ttl_in_seconds", "3600"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.session_type", "PORT_FORWARDING"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.target_resource_details.0.target_resource_id"),
-					resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.target_resource_port", "22"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, portForwardSessionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + PortForwardSessionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "session_id"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.bastion_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.bastion_name"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.0.display_name", "portForwardTest2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.0.session_ttl_in_seconds", "3600"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.session_type", "PORT_FORWARDING"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.target_resource_details.0.target_resource_id"),
+				resource.TestCheckResourceAttr(datasourceName, "sessions.0.target_resource_details.0.target_resource_port", "22"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sessions.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, portForwardSessionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + PortForwardSessionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "session_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "portForwardTest2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "key_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "key_type", "PUB"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "session_ttl_in_seconds", "3600"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.target_resource_port", "22"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PortForwardSessionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "portForwardTest2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_details.0.public_key_content"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_type", "PUB"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "session_ttl_in_seconds", "3600"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.session_type", "PORT_FORWARDING"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_details.0.target_resource_port", "22"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_private_ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + PortForwardSessionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

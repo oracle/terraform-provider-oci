@@ -24,7 +24,6 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVolumeBackup_copy")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -51,111 +50,104 @@ func TestResourceCoreVolumeBackup_copy(t *testing.T) {
 
 	var resId string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreVolumeBackupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config +
-					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Required, Create, volumeBackupWithSourceDetailsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
+	ResourceTest(t, testAccCheckCoreVolumeBackupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config +
+				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Required, Create, volumeBackupWithSourceDetailsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceNameCopy, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VolumeBackupCopyResourceDependencies,
-			},
-			// verify create from the backup with optionals
-			{
-				Config: config +
-					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Create, volumeBackupWithSourceDetailsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "state"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "type"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_backup_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceNameCopy, "id")
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config +
-					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Update, volumeBackupWithSourceDetailsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "state"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "type"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
-					resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_backup_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err := fromInstanceState(s, resourceNameCopy, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_volume_backups", "test_volume_backups", Optional, Update, volumeBackupFromSourceDataSourceRepresentation) +
-					compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Update, volumeBackupWithSourceDetailsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "source_volume_backup_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "volume_backups.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.kms_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.volume_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.source_volume_backup_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"source_details",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceNameCopy, "id")
+					return err
 				},
-				ResourceName: resourceNameCopy,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VolumeBackupCopyResourceDependencies,
+		},
+		// verify create from the backup with optionals
+		{
+			Config: config +
+				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Create, volumeBackupWithSourceDetailsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "state"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "type"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_backup_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceNameCopy, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config +
+				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Update, volumeBackupWithSourceDetailsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "state"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "type"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
+				resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_backup_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err := fromInstanceState(s, resourceNameCopy, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_volume_backups", "test_volume_backups", Optional, Update, volumeBackupFromSourceDataSourceRepresentation) +
+				compartmentIdVariableStr + VolumeBackupCopyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup_copy", Optional, Update, volumeBackupWithSourceDetailsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "source_volume_backup_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "volume_backups.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.volume_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.source_volume_backup_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"source_details",
 			},
+			ResourceName: resourceNameCopy,
 		},
 	})
 }

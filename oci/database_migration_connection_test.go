@@ -223,7 +223,6 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationConnectionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -242,177 +241,170 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependenciesTarget+
 		generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget), "databasemigration", "connection", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseMigrationConnectionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+	ResourceTest(t, testAccCheckDatabaseMigrationConnectionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_display_test_create"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ConnectionResourceDependenciesTarget +
-					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create,
-						representationCopyWithNewProperties(connectionRepresentationTarget, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_display_test_create"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
-					resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_display_test_update"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", Optional, Update, connectionDataSourceRepresentationCon) +
-					compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-					generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "connection_collection.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentationCon) +
-					compartmentIdVariableStr + ConnectionResourceConfigTarget,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "admin_credentials.0.username", "admin"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_type", "AUTONOMOUS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_display_test_update"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.0.compartment_id", compartmentId),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ConnectionResourceConfigTarget,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"tls_keystore",
-					"tls_wallet",
-					"admin_credentials.0.password",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_display_test_create"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ConnectionResourceDependenciesTarget +
+				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create,
+					representationCopyWithNewProperties(connectionRepresentationTarget, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_display_test_create"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
+				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "database_type", "AUTONOMOUS"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_display_test_update"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", Optional, Update, connectionDataSourceRepresentationCon) +
+				compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
+				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "connection_collection.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentationCon) +
+				compartmentIdVariableStr + ConnectionResourceConfigTarget,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_type", "AUTONOMOUS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_display_test_update"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.0.compartment_id", compartmentId),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ConnectionResourceConfigTarget,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"tls_keystore",
+				"tls_wallet",
+				"admin_credentials.0.password",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

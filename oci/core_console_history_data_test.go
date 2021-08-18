@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -33,7 +32,6 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreConsoleHistoryContentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -43,23 +41,17 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_console_history_data", "test_console_history_content", Optional, Create, consoleHistoryContentSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ConsoleHistoryContentResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "console_history_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "length", "10240"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "offset", "0"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_console_history_data", "test_console_history_content", Optional, Create, consoleHistoryContentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ConsoleHistoryContentResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "console_history_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "length", "10240"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "offset", "0"),
+			),
 		},
 	})
 }

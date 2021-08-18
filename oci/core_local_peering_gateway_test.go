@@ -85,7 +85,6 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreLocalPeeringGatewayResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -102,182 +101,175 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+LocalPeeringGatewayResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create, localPeeringGatewayRepresentation), "core", "localPeeringGateway", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreLocalPeeringGatewayDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreLocalPeeringGatewayDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create, localPeeringGatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
+				resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create, localPeeringGatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create,
-						representationCopyWithNewProperties(localPeeringGatewayRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LocalPeeringGatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create,
+					representationCopyWithNewProperties(localPeeringGatewayRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
+				resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
+				resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways", Optional, Update, localPeeringGatewayDataSourceRepresentation) +
-					compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways2", Optional, Update, secondLocalPeeringGatewayDataSourceRepresentation) +
-					secondLocalPeeringGatewayWithPeerId,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways", Optional, Update, localPeeringGatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways2", Optional, Update, secondLocalPeeringGatewayDataSourceRepresentation) +
+				secondLocalPeeringGatewayWithPeerId,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status_details"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.route_table_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"2", "local_peering_gateways.0.peer_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
-			// verify connect functionality
-			{
-				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
-					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
-					secondLocalPeeringGatewayWithPeerId,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_id"),
-					resource.TestCheckResourceAttr(resourceName+"2", "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName+"2", "display_name", "requestor"),
-					resource.TestCheckResourceAttrSet(resourceName+"2", "id"),
-					resource.TestCheckResourceAttrSet(resourceName+"2", "is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(resourceName+"2", "peer_id"),
-					resource.TestCheckResourceAttr(resourceName+"2", "peering_status", string(oci_core.LocalPeeringGatewayPeeringStatusPeered)),
-					resource.TestCheckResourceAttr(resourceName+"2", "state", string(oci_core.LocalPeeringGatewayLifecycleStateAvailable)),
-					resource.TestCheckResourceAttrSet(resourceName+"2", "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName+"2", "vcn_id"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.is_cross_tenancy_peering"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status_details"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.route_table_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.vcn_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"2", "local_peering_gateways.0.peer_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+		// verify connect functionality
+		{
+			Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
+				generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
+				secondLocalPeeringGatewayWithPeerId,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
+				resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_id"),
+				resource.TestCheckResourceAttr(resourceName+"2", "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName+"2", "display_name", "requestor"),
+				resource.TestCheckResourceAttrSet(resourceName+"2", "id"),
+				resource.TestCheckResourceAttrSet(resourceName+"2", "is_cross_tenancy_peering"),
+				resource.TestCheckResourceAttrSet(resourceName+"2", "peer_id"),
+				resource.TestCheckResourceAttr(resourceName+"2", "peering_status", string(oci_core.LocalPeeringGatewayPeeringStatusPeered)),
+				resource.TestCheckResourceAttr(resourceName+"2", "state", string(oci_core.LocalPeeringGatewayLifecycleStateAvailable)),
+				resource.TestCheckResourceAttrSet(resourceName+"2", "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName+"2", "vcn_id"),
+			),
 		},
 	})
 }

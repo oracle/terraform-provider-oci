@@ -52,7 +52,6 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 	httpreplay.SetScenario("TestAccResourceCoreNetworkSecurityGroupSecurityRule_multipleRules")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -62,100 +61,93 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T)
 
 	var resId1, resId2 [10]string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+
+		//verify create 10 rules
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
+						"count": Representation{repType: Optional, create: `10`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					for i := 0; i < 10; i++ {
+						resId, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "id")
+						if resId == "" {
+							return err
+						}
+						resId1[i] = resId
+					}
+					return nil
+				},
+			),
 		},
+		//verify update 10 rules
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
+						"count": Representation{repType: Optional, create: `10`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					for i := 0; i < 10; i++ {
 
-		Steps: []resource.TestStep{
-
-			//verify create 10 rules
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
-							"count": Representation{repType: Optional, create: `10`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					func(s *terraform.State) (err error) {
-						for i := 0; i < 10; i++ {
-							resId, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "id")
-							if resId == "" {
-								return err
-							}
-							resId1[i] = resId
+						resId, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "id")
+						if resId == "" {
+							return err
 						}
-						return nil
-					},
-				),
-			},
-			//verify update 10 rules
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleResourceRepresentation, map[string]interface{}{
-							"count": Representation{repType: Optional, create: `10`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					func(s *terraform.State) (err error) {
-						for i := 0; i < 10; i++ {
+						resId2[i] = resId
 
-							resId, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "id")
-							if resId == "" {
-								return err
-							}
-							resId2[i] = resId
-
-							if resId1[i] != resId2[i] {
-								return fmt.Errorf("resource recreated when it was supposed to be updated")
-							}
-							description, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "description")
-							if description == "" {
-								return err
-							}
-							if description != "updated description" {
-								return fmt.Errorf("%s: Attribute 'description' expected \"updated description\", got %s", fmt.Sprintf("%s.%d", resourceName, i), description)
-							}
+						if resId1[i] != resId2[i] {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
-						return nil
-					},
-				),
-			},
-			// delete
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
-			},
-			// create rule without specifying `code` in icmp options
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
-				),
-			},
-			// update rule without specifying code in icmp options
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
-				),
-			},
-			// delete
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
-			},
-			// create rule without specifying `code` in udp options
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleUDPResourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
-				),
-			},
+						description, err := fromInstanceState(s, fmt.Sprintf("%s.%d", resourceName, i), "description")
+						if description == "" {
+							return err
+						}
+						if description != "updated description" {
+							return fmt.Errorf("%s: Attribute 'description' expected \"updated description\", got %s", fmt.Sprintf("%s.%d", resourceName, i), description)
+						}
+					}
+					return nil
+				},
+			),
+		},
+		// delete
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+		},
+		// create rule without specifying `code` in icmp options
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
+			),
+		},
+		// update rule without specifying code in icmp options
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
+			),
+		},
+		// delete
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+		},
+		// create rule without specifying `code` in udp options
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleUDPResourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
+			),
 		},
 	})
 }

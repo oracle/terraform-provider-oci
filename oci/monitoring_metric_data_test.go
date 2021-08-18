@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -49,7 +48,6 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringMetricDataResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -59,30 +57,24 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_monitoring_metric_data", "test_metric_data", Optional, Create, generateMetricDataRepresentationWithCurrentTimeInputs()) +
-					compartmentIdVariableStr + MetricDataResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "end_time", metricDataEndTimeStr),
-					resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_vcn"),
-					resource.TestCheckResourceAttr(datasourceName, "query", "VnicToNetworkPackets[4m].max()"),
-					resource.TestCheckResourceAttr(datasourceName, "resolution", "2m"),
-					resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup"),
-					resource.TestCheckResourceAttr(datasourceName, "start_time", metricDataStartTimeStr),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_monitoring_metric_data", "test_metric_data", Optional, Create, generateMetricDataRepresentationWithCurrentTimeInputs()) +
+				compartmentIdVariableStr + MetricDataResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "end_time", metricDataEndTimeStr),
+				resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_vcn"),
+				resource.TestCheckResourceAttr(datasourceName, "query", "VnicToNetworkPackets[4m].max()"),
+				resource.TestCheckResourceAttr(datasourceName, "resolution", "2m"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup"),
+				resource.TestCheckResourceAttr(datasourceName, "start_time", metricDataStartTimeStr),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.#"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "metric_data.#"),
+			),
 		},
 	})
 }

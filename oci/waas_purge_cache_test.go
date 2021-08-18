@@ -31,7 +31,6 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasPurgeCacheResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -44,44 +43,38 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PurgeCacheResourceDependencies+
 		generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation), "waas", "purgeCache", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify purge select resources
+		{
+			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "resources.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify purge select resources
-			{
-				Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "resources.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies,
-			},
-			// verify purge all resources
-			{
-				Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies,
+		},
+		// verify purge all resources
+		{
+			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

@@ -67,7 +67,6 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteTableResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,170 +81,163 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DrgRouteTableResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Create, drgRouteTableRepresentation), "core", "drgRouteTable", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreDrgRouteTableDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreDrgRouteTableDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Create, drgRouteTableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "import_drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Create, drgRouteTableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "import_drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					//resource.TestCheckResourceAttr(resourceName, "import_drg_route_distribution_id", "0"),
-					resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				//resource.TestCheckResourceAttr(resourceName, "import_drg_route_distribution_id", "0"),
+				resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify remove import trigger
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableTriggerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "import_drg_route_distribution_id"),
-				),
-			},
-			// verify updates with import trigger
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableTriggerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "import_drg_route_distribution_id", ""),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify remove import trigger
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableTriggerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "import_drg_route_distribution_id"),
+			),
+		},
+		// verify updates with import trigger
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableTriggerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "import_drg_route_distribution_id", ""),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies,
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_drg_route_tables", "test_drg_route_tables", Optional, Update, drgRouteTableDataSourceRepresentation) +
-					compartmentIdVariableStr + DrgRouteTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "import_drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceDependencies,
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_drg_route_tables", "test_drg_route_tables", Optional, Update, drgRouteTableDataSourceRepresentation) +
+				compartmentIdVariableStr + DrgRouteTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "import_drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.drg_id"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.import_drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.is_ecmp_enabled", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DrgRouteTableResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_table_id"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.drg_id"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.import_drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.is_ecmp_enabled", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DrgRouteTableResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_table_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_ecmp_enabled", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteTableResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_ecmp_enabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteTableResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

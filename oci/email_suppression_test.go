@@ -50,7 +50,6 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEmailSuppressionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -66,83 +65,76 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SuppressionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation), "email", "suppression", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckEmailSuppressionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + SuppressionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					// email address is converted to lower case by the service
-					resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
+	ResourceTest(t, testAccCheckEmailSuppressionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + SuppressionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				// email address is converted to lower case by the service
+				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", Optional, Update, suppressionDataSourceRepresentation) +
-					compartmentIdVariableStr + SuppressionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", Optional, Update, suppressionDataSourceRepresentation) +
+				compartmentIdVariableStr + SuppressionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
-					resource.TestCheckResourceAttr(datasourceName, "suppressions.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.compartment_id", tenancyId),
-					// email address is converted to lower case by the service
-					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.email_address", "johnsmithtester@example.com"),
-					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.reason"),
-					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SuppressionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
+				resource.TestCheckResourceAttr(datasourceName, "suppressions.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "suppressions.0.compartment_id", tenancyId),
+				// email address is converted to lower case by the service
+				resource.TestCheckResourceAttr(datasourceName, "suppressions.0.email_address", "johnsmithtester@example.com"),
+				resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.reason"),
+				resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SuppressionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmithtester@example.com"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "reason"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_suppressed"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SuppressionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmithtester@example.com"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "reason"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_suppressed"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SuppressionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

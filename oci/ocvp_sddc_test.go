@@ -384,7 +384,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSddcResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -402,316 +401,309 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SddcResourceDependencies+
 		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcRepresentation), "ocvp", "sddc", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOcvpSddcDestroy, []resource.TestStep{
+		//verify create
+		{
+			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOcvpSddcDestroy,
-		Steps: []resource.TestStep{
-			//verify create
-			{
-				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify update VMware version
+		{
+			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Update, sddcRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 
-			// verify update VMware version
-			{
-				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Update, sddcRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + SddcResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcV7Representation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", UpgradeHcxAction),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
+				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + SddcResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcV7Representation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
-					resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
-					resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
-					resource.TestCheckResourceAttr(resourceName, "hcx_action", UpgradeHcxAction),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-					resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create,
-						representationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
-					resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
-					resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
-					resource.TestCheckResourceAttr(resourceName, "hcx_action", UpgradeHcxAction),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-					resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SddcResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create,
+					representationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", UpgradeHcxAction),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
+				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			// Cannot update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
-			{
-				Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
-					resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-					resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
-					resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_hcx_billing_cycle_end"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_hcx_license_status_updated"),
-					resource.TestCheckResourceAttr(resourceName, "hcx_action", UpgradeHcxAction),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-					resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "true"),
+		// verify updates to updatable parameters
+		// Cannot update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
+		{
+			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
+				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_hcx_billing_cycle_end"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_hcx_license_status_updated"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", UpgradeHcxAction),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
+				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "true"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", Optional, Update, sddcDataSourceRepresentation) +
-					compartmentIdVariableStr + SddcV7ResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 2"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.freeform_tags.%", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SddcV7ResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", Optional, Update, sddcDataSourceRepresentation) +
+				compartmentIdVariableStr + SddcV7ResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 2"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.freeform_tags.%", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SddcV7ResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_fqdn"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_initial_password"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_licenses.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_private_ip_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_vlan_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "initial_sku", "HOUR"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "njki"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enterprise_enabled", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_initial_password"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_private_ip_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_username"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_overlay_segment_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ssh_authorized_keys"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_hcx_billing_cycle_end"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_hcx_license_status_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_fqdn"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SddcV7ResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"hcx_action", "refresh_hcx_license_status"},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_fqdn"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_initial_password"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_licenses.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_private_ip_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_sku", "HOUR"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "njki"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_initial_password"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_private_ip_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_username"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_overlay_segment_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ssh_authorized_keys"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_hcx_billing_cycle_end"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_hcx_license_status_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_fqdn"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SddcV7ResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"hcx_action", "refresh_hcx_license_status"},
+			ResourceName:            resourceName,
 		},
 	})
 }

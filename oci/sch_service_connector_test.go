@@ -123,7 +123,6 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestSchServiceConnectorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -147,403 +146,395 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ServiceConnectorResourceDependencies+imageVariableStr+
 		generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorObjectStorageTargetRepresentation), "sch", "serviceConnector", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckSchServiceConnectorDestroy, []resource.TestStep{
+		// verify create with functions
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
 
-		CheckDestroy: testAccCheckSchServiceConnectorDestroy,
-		Steps: []resource.TestStep{
-			// verify create with functions
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify create with objectstorage
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorObjectStorageTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "objectStorage"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.batch_rollover_size_in_mbs", "10"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.batch_rollover_time_in_ms", "80000"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
-			},
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-			// verify create with objectstorage
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorObjectStorageTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "objectStorage"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.bucket"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.batch_rollover_size_in_mbs", "10"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.batch_rollover_time_in_ms", "80000"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify create with log analytics
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorLogAnTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "loggingAnalytics"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.log_group_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
-			},
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-			// verify create with log analytics
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorLogAnTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "loggingAnalytics"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.log_group_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify create with ons
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorOnsTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "notifications"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.topic_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.enable_formatted_messaging", "true"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
-			},
-
-			// verify create with ons
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorOnsTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "notifications"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.topic_id"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.enable_formatted_messaging", "true"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
+		},
 
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorFunctionTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "data.action='REJECT'"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorFunctionTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "data.action='REJECT'"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create,
-						representationCopyWithNewProperties(serviceConnectorFunctionTargetRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "data.action='REJECT'"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create,
+					representationCopyWithNewProperties(serviceConnectorFunctionTargetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "functions"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "data.action='REJECT'"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "streaming"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.stream_id"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='20'"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
+						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "streaming"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.stream_id"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='20'"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify stop service connector
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
-							"state":  Representation{repType: Optional, create: `INACTIVE`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "streaming"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.stream_id"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='20'"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify stop service connector
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
+						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
+						"state":  Representation{repType: Optional, create: `INACTIVE`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "streaming"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.stream_id"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='20'"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify start service connector
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
-							"state":  Representation{repType: Optional, create: `ACTIVE`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.kind", "streaming"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.stream_id"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='20'"),
-					resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify start service connector
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
+						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
+						"state":  Representation{repType: Optional, create: `ACTIVE`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.log_sources.0.log_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "streaming"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.stream_id"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.condition", "logContent='20'"),
+				resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "logRule"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_sch_service_connectors", "test_service_connectors", Optional, Update, serviceConnectorDataSourceRepresentation) +
-					compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_sch_service_connectors", "test_service_connectors", Optional, Update, serviceConnectorDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
+						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "service_connector_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "service_connector_collection.0.items.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "service_connector_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "service_connector_collection.0.items.#", "1"),
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-					generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
-							"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_connector_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
+				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"target"}), map[string]interface{}{
+						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_connector_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "source.0.kind", "logging"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "source.0.log_sources.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "source.0.log_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.0.kind", "streaming"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "tasks.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "tasks.0.condition", "logContent='20'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "tasks.0.kind", "logRule"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.kind", "logging"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.log_sources.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.log_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.kind", "streaming"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tasks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tasks.0.condition", "logContent='20'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tasks.0.kind", "logRule"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
 
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ServiceConnectorResourceConfig + imageVariableStr,
-			},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ServiceConnectorResourceConfig + imageVariableStr,
+		},
 
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

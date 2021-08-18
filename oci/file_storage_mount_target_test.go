@@ -65,7 +65,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageMountTargetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,159 +81,152 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+MountTargetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation), "filestorage", "mountTarget", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckFileStorageMountTargetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_ip_ids.0"),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip_ids.0"),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create,
-						representationCopyWithNewProperties(mountTargetRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MountTargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create,
+					representationCopyWithNewProperties(mountTargetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", Optional, Update, mountTargetDataSourceRepresentation) +
-					compartmentIdVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.nsg_ids.#", "0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.private_ip_ids.#"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.state", string(oci_file_storage.MountTargetLifecycleStateActive)),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", Optional, Update, mountTargetDataSourceRepresentation) +
+				compartmentIdVariableStr + MountTargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.nsg_ids.#", "0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.private_ip_ids.#"),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.state", string(oci_file_storage.MountTargetLifecycleStateActive)),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }
@@ -243,7 +235,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageMountTargetResource_failedWorkRequest")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -251,23 +242,16 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 
 	resourceName := "oci_file_storage_mount_target.test_mount_target2"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckFileStorageMountTargetDestroy,
-		Steps: []resource.TestStep{
-			// verify resource creation fails for the second mount target with the same ip_address
-			{
-				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Update, mountTargetRepresentation) +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Update, mountTargetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
-				),
-				ExpectError: regexp.MustCompile("Resource creation failed"),
-			},
+	ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
+		// verify resource creation fails for the second mount target with the same ip_address
+		{
+			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Update, mountTargetRepresentation) +
+				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Update, mountTargetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+			),
+			ExpectError: regexp.MustCompile("Resource creation failed"),
 		},
 	})
 }

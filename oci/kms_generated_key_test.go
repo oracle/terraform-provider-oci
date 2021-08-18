@@ -39,7 +39,6 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsGeneratedKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -52,56 +51,50 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+GeneratedKeyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation), "keymanagement", "generatedKey", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
-					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
-					resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
+				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

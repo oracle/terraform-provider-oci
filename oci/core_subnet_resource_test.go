@@ -19,7 +19,6 @@ import (
 func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreSubnetCreate_basic")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
 	testAccPreCheck(t)
 	config := legacyTestProviderConfig() + `
 		data "oci_identity_availability_domains" "ADs" {
@@ -74,113 +73,108 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + `
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + `
 				resource "oci_core_subnet" "s" {` + commonSubnetParams + extraSecurityListIds + `
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
-					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestMatchResourceAttr(resourceName, "vcn_id", regexp.MustCompile("ocid1\\.vcn\\.oc1\\..*")),
-					resource.TestMatchResourceAttr(resourceName, "dhcp_options_id", regexp.MustCompile("ocid1\\.dhcpoptions\\.oc1\\..*")),
-					resource.TestMatchResourceAttr(resourceName, "route_table_id", regexp.MustCompile("ocid1\\.routetable\\.oc1\\..*")),
-					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "3"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.2.0/24"),
-					resource.TestCheckNoResourceAttr(resourceName, "dns_label"),
-					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
-					resource.TestMatchResourceAttr(resourceName, "id", regexp.MustCompile("ocid1\\.subnet\\.oc1\\..*")),
-					resource.TestCheckResourceAttr(resourceName, "state", string(core.SubnetLifecycleStateAvailable)),
-					// TODO: Add test for scenario where subnet_domain_name is set?
-					resource.TestCheckNoResourceAttr(resourceName, "subnet_domain_name"),
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// verify update
-			{
-				Config: config + `
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestMatchResourceAttr(resourceName, "vcn_id", regexp.MustCompile("ocid1\\.vcn\\.oc1\\..*")),
+				resource.TestMatchResourceAttr(resourceName, "dhcp_options_id", regexp.MustCompile("ocid1\\.dhcpoptions\\.oc1\\..*")),
+				resource.TestMatchResourceAttr(resourceName, "route_table_id", regexp.MustCompile("ocid1\\.routetable\\.oc1\\..*")),
+				resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.2.0/24"),
+				resource.TestCheckNoResourceAttr(resourceName, "dns_label"),
+				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+				resource.TestMatchResourceAttr(resourceName, "id", regexp.MustCompile("ocid1\\.subnet\\.oc1\\..*")),
+				resource.TestCheckResourceAttr(resourceName, "state", string(core.SubnetLifecycleStateAvailable)),
+				// TODO: Add test for scenario where subnet_domain_name is set?
+				resource.TestCheckNoResourceAttr(resourceName, "subnet_domain_name"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify update
+		{
+			Config: config + `
 				resource "oci_core_subnet" "s" {
 					` + commonSubnetParams + extraSecurityListIds + `
 					display_name = "-tf-subnet"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-subnet"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Expected same subnet ocid, got the different.")
-						}
-						return err
-					},
-				),
-			},
-			// verify no diffs when reordering security list IDs
-			{
-				Config: config + `
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-subnet"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Expected same subnet ocid, got the different.")
+					}
+					return err
+				},
+			),
+		},
+		// verify no diffs when reordering security list IDs
+		{
+			Config: config + `
 				resource "oci_core_subnet" "s" {
 					` + reorderedSecurityListIds + commonSubnetParams + `
 					display_name = "-tf-subnet"
 				}`,
-				PlanOnly:           true,
-				ExpectNonEmptyPlan: false,
-			},
-			// test a destructive update results in a new resource
-			{
-				Config: config + `
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: false,
+		},
+		// test a destructive update results in a new resource
+		{
+			Config: config + `
 				resource "oci_core_subnet" "s" {
 					` + commonSubnetParams + singleSecurityListId + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "MyTestLabel"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "true"),
-					resource.TestCheckResourceAttr(resourceName, "dns_label", "mytestlabel"),
-					func(s *terraform.State) (err error) {
-						resId3, err := fromInstanceState(s, resourceName, "id")
-						if resId2 == resId3 {
-							return fmt.Errorf("Expected new subnet ocid, got the same.")
-						}
-						return err
-					},
-				),
-			},
-			// DNS capitalization changes should be ignored.
-			{
-				Config: config + `
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "true"),
+				resource.TestCheckResourceAttr(resourceName, "dns_label", "mytestlabel"),
+				func(s *terraform.State) (err error) {
+					resId3, err := fromInstanceState(s, resourceName, "id")
+					if resId2 == resId3 {
+						return fmt.Errorf("Expected new subnet ocid, got the same.")
+					}
+					return err
+				},
+			),
+		},
+		// DNS capitalization changes should be ignored.
+		{
+			Config: config + `
 				resource "oci_core_subnet" "s" {
 					` + commonSubnetParams + singleSecurityListId + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "mytestlabel"
 				}`,
-				ExpectNonEmptyPlan: false,
-				PlanOnly:           true,
-			},
-			// DNS label change should cause a change
-			{
-				Config: config + `
+			ExpectNonEmptyPlan: false,
+			PlanOnly:           true,
+		},
+		// DNS label change should cause a change
+		{
+			Config: config + `
 				resource "oci_core_subnet" "s" {
 					` + commonSubnetParams + singleSecurityListId + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "NewLabel"
 				}`,
-				ExpectNonEmptyPlan: true,
-				PlanOnly:           true,
-			},
+			ExpectNonEmptyPlan: true,
+			PlanOnly:           true,
 		},
 	})
 }

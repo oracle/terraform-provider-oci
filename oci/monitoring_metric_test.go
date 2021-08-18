@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,7 +30,6 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringMetricResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -41,35 +39,29 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics", Optional, Create, metricDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics_with_group_by", Required, Create, representationCopyWithNewProperties(metricDataSourceRepresentation, map[string]interface{}{
-						"group_by": Representation{repType: Required, create: []string{`namespace`}},
-					})) +
-					compartmentIdVariableStr + MetricResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "dimension_filters.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "AcceptedConnections"),
-					resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_lbaas"),
-					resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics", Optional, Create, metricDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics_with_group_by", Required, Create, representationCopyWithNewProperties(metricDataSourceRepresentation, map[string]interface{}{
+					"group_by": Representation{repType: Required, create: []string{`namespace`}},
+				})) +
+				compartmentIdVariableStr + MetricResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "dimension_filters.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "AcceptedConnections"),
+				resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_lbaas"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "metrics.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "metrics.#"),
 
-					resource.TestCheckResourceAttr("data.oci_monitoring_metrics.test_metrics_with_group_by", "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr("data.oci_monitoring_metrics.test_metrics_with_group_by", "group_by.#", "1"),
-					resource.TestCheckResourceAttrSet("data.oci_monitoring_metrics.test_metrics_with_group_by", "metrics.#"),
-				),
-			},
+				resource.TestCheckResourceAttr("data.oci_monitoring_metrics.test_metrics_with_group_by", "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr("data.oci_monitoring_metrics.test_metrics_with_group_by", "group_by.#", "1"),
+				resource.TestCheckResourceAttrSet("data.oci_monitoring_metrics.test_metrics_with_group_by", "metrics.#"),
+			),
 		},
 	})
 }

@@ -49,7 +49,6 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -64,127 +63,120 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PolicyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation), "identity", "policy", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckIdentityPolicyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
-					resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
-					resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
+	ResourceTest(t, testAccCheckIdentityPolicyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
+				resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
+				resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PolicyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckNoResourceAttr(resourceName, "version_date"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "version_date", "2018-01-01"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
-					compartmentIdVariableStr + PolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.name", "LaunchInstances"),
-					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.statements.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "policies.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "policies.0.version_date", "2018-01-01"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					// ETag, lastUpdateETag, and policyHash are non-API fields that
-					// get computed during resource Create/Update but omitted from Get calls.
-					// These are internally used for diff suppression and not needed for imports.
-					// Omit them in the import verification.
-					"ETag",
-					"lastUpdateETag",
-					"policyHash",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PolicyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckNoResourceAttr(resourceName, "version_date"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "LaunchInstances"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "version_date", "2018-01-01"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
+				compartmentIdVariableStr + PolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "policies.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "policies.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.name", "LaunchInstances"),
+				resource.TestCheckResourceAttrSet(datasourceName, "policies.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.statements.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "policies.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "policies.0.version_date", "2018-01-01"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				// ETag, lastUpdateETag, and policyHash are non-API fields that
+				// get computed during resource Create/Update but omitted from Get calls.
+				// These are internally used for diff suppression and not needed for imports.
+				// Omit them in the import verification.
+				"ETag",
+				"lastUpdateETag",
+				"policyHash",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

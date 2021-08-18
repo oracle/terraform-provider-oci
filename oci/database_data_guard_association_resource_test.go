@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -161,7 +160,6 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 		t.Skip("Skipping suppressed DataGuardAssociation_Exadata")
 	}
 
-	provider := testAccProvider
 	config := testProviderConfig() + ExadataBaseDependencies + `
 	data "oci_database_databases" "exadb" {
        compartment_id = "${var.compartment_id}"
@@ -240,68 +238,62 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 	datasourceName := "data.oci_database_data_guard_associations.test_exadata_data_guard_associations"
 	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create with optionals Existing DbSystem
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
+				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create with optionals Existing DbSystem
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
-					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(resourceName, "role"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
-					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+				compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
-					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+				compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
+			),
 		},
 	})
 }
@@ -311,7 +303,6 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig() + ExadataBaseDependenciesForDataGuardWithExistingVMCluster + `
 	data "oci_database_databases" "exadb" {
 		compartment_id = "${var.compartment_id}"
@@ -347,68 +338,62 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 	datasourceName := "data.oci_database_data_guard_associations.test_exadata_data_guard_associations"
 	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create with optionals Existing VM Cluster
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataVmCluster),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingVmCluster"),
+				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_vm_cluster_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create with optionals Existing VM Cluster
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataVmCluster),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingVmCluster"),
-					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_vm_cluster_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(resourceName, "role"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
-					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+				compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
-					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+				compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
+			),
 		},
 	})
 }
@@ -418,7 +403,6 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig() + `
 
 	data "oci_identity_availability_domain" "ad" {
@@ -745,69 +729,63 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	datasourceName := "data.oci_database_data_guard_associations.test_exadata_data_guard_associations"
 	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create with optionals Existing DbSystem
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbHome),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
+				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create with optionals Existing DbSystem
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbHome),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
-					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(resourceName, "role"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
-					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+				compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
-					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_home_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+				compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_home_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
+			),
 		},
 	})
 }

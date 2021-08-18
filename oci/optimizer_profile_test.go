@@ -76,7 +76,6 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerProfileResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -94,164 +93,157 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ProfileResourceDependencies+
 		generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation), "optimizer", "profile", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckOptimizerProfileDestroy,
-		Steps: []resource.TestStep{
-			// Pre-requisite: There shouldn't be a profile with the same <recommendationId, targetCompartment, targetTags> combination or with same name existing for the compartmentId
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "levels_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
+	ResourceTest(t, testAccCheckOptimizerProfileDestroy, []resource.TestStep{
+		// Pre-requisite: There shouldn't be a profile with the same <recommendationId, targetCompartment, targetTags> combination or with same name existing for the compartmentId
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "levels_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ProfileResourceDependencies,
-				Check: func(s *terraform.State) (err error) {
-					log.Printf("[DEBUG] Service limits may take 2 minutes to be available post deletion")
-					time.Sleep(2 * time.Minute)
-					return nil
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_aggressive_average"),
-					resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target_compartments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_compartments.0.items.0", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_value_type", "VALUE"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_values.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ProfileResourceDependencies,
+			Check: func(s *terraform.State) (err error) {
+				log.Printf("[DEBUG] Service limits may take 2 minutes to be available post deletion")
+				time.Sleep(2 * time.Minute)
+				return nil
+			},
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_aggressive_average"),
+				resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_compartments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_compartments.0.items.0", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_value_type", "VALUE"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_values.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_conservative_average"),
-					resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "target_compartments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_compartments.0.items.0", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName2"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName2"),
-					resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_value_type", "ANY"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_conservative_average"),
+				resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "target_compartments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_compartments.0.items.0", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName2"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName2"),
+				resource.TestCheckResourceAttr(resourceName, "target_tags.0.items.0.tag_value_type", "ANY"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", Optional, Update, profileDataSourceRepresentation) +
-					compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", Optional, Update, profileDataSourceRepresentation) +
+				compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "profile_collection.#"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "profile_collection.#"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_conservative_average"),
-					resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_compartments.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_compartments.0.items.0", compartmentIdU),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_value_type", "ANY"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "levels_configuration.0.items.0.level", "cost-compute_conservative_average"),
+				resource.TestCheckResourceAttrSet(resourceName, "levels_configuration.0.items.0.recommendation_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_compartments.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_compartments.0.items.0", compartmentIdU),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_definition_name", "tagDefinitionName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_namespace_name", "tagNamespaceName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_tags.0.items.0.tag_value_type", "ANY"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

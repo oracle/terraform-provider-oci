@@ -48,7 +48,6 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -63,87 +62,81 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseBackupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", Optional, Update, autonomousDatabaseBackupDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "Monthly Backup"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", Optional, Update, autonomousDatabaseBackupDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "Monthly Backup"),
 
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_database_backups.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.autonomous_database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_database_backups.0.display_name", "Monthly Backup"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.is_automatic"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.is_restorable"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.time_ended"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.time_started"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.type"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_database_backups.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.autonomous_database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_database_backups.0.display_name", "Monthly Backup"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.is_automatic"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.is_restorable"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.time_ended"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.time_started"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.type"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Monthly Backup"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_automatic"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-				ExpectNonEmptyPlan:      true,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Monthly Backup"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_automatic"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+			ExpectNonEmptyPlan:      true,
 		},
 	})
 }

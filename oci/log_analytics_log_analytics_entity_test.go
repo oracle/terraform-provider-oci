@@ -74,7 +74,6 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsEntityResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -98,207 +97,200 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+LogAnalyticsEntityResourceDependencies+
 		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation), "loganalytics", "logAnalyticsEntity", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckLogAnalyticsLogAnalyticsEntityDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+	ResourceTest(t, testAccCheckLogAnalyticsLogAnalyticsEntityDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
-					LogAnalyticsEntityResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
-					resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_id", "source1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "timezone_region", "PST8PDT"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create,
-						representationCopyWithNewProperties(logAnalyticsEntityRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
-					resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_id", "source1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "timezone_region", "PST8PDT"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
-					LogAnalyticsEntityResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
-					resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_id", "source1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "timezone_region", "EST5EDT"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities", "test_log_analytics_entities", Optional, Update, logAnalyticsEntityDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr +
-					LogAnalyticsEntityResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_resource_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "entity_type_name.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "hostname", "hostname2"),
-					resource.TestCheckResourceAttr(datasourceName, "hostname_contains", "hostname"),
-					resource.TestCheckResourceAttr(datasourceName, "is_management_agent_id_null", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "lifecycle_details_contains", "READY"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "TF_LA_ENTITY"),
-					resource.TestCheckResourceAttr(datasourceName, "name_contains", "TF_LA"),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(datasourceName, "source_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "log_analytics_entity_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "log_analytics_entity_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntitySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr +
-					LogAnalyticsEntityResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_entity_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "are_logs_collected"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "entity_type_internal_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "entity_type_name", "Host (Linux)"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "hostname", "hostname2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_display_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "TF_LA_ENTITY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "timezone_region", "EST5EDT"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceConfig,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: getLogAnalyticsEntityEndpointImportId(resourceName),
-				ImportStateVerifyIgnore: []string{
-					"namespace",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
+				LogAnalyticsEntityResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
+				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_id", "source1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone_region", "PST8PDT"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create,
+					representationCopyWithNewProperties(logAnalyticsEntityRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
+				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_id", "source1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone_region", "PST8PDT"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
+				LogAnalyticsEntityResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
+				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "TF_LA_ENTITY"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_id", "source1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "timezone_region", "EST5EDT"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities", "test_log_analytics_entities", Optional, Update, logAnalyticsEntityDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr +
+				LogAnalyticsEntityResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_resource_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "entity_type_name.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "hostname", "hostname2"),
+				resource.TestCheckResourceAttr(datasourceName, "hostname_contains", "hostname"),
+				resource.TestCheckResourceAttr(datasourceName, "is_management_agent_id_null", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "lifecycle_details_contains", "READY"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "TF_LA_ENTITY"),
+				resource.TestCheckResourceAttr(datasourceName, "name_contains", "TF_LA"),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+				resource.TestCheckResourceAttrSet(datasourceName, "source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "log_analytics_entity_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "log_analytics_entity_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntitySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr +
+				LogAnalyticsEntityResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_entity_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "are_logs_collected"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "entity_type_internal_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "entity_type_name", "Host (Linux)"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "hostname", "hostname2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "TF_LA_ENTITY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timezone_region", "EST5EDT"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceConfig,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateIdFunc: getLogAnalyticsEntityEndpointImportId(resourceName),
+			ImportStateVerifyIgnore: []string{
+				"namespace",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

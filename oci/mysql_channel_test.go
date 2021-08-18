@@ -98,7 +98,6 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlChannelResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -113,146 +112,139 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ChannelResourceDependencies+
 		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Create, channelRepresentation), "mysql", "channel", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckMysqlChannelDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ChannelRequiredOnlyResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "REQUIRED"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
+	ResourceTest(t, testAccCheckMysqlChannelDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ChannelRequiredOnlyResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "REQUIRED"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ChannelResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ChannelWithOptionalsResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.port", "3300"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "REQUIRED"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.ssl_ca_certificate.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.applier_username", "adminUser"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.channel_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ChannelUpdateResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname2.my.company.com"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.port", "3306"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "VERIFY_CA"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.ssl_ca_certificate.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.username", "username2"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.applier_username", "adminUser"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.channel_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", Optional, Update, channelDataSourceRepresentation) +
-					compartmentIdVariableStr + ChannelUpdateResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "channel_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "is_enabled", "false"),
-
-					resource.TestCheckResourceAttr(datasourceName, "channels.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ChannelUpdateResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "channel_id"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ChannelUpdateResource,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"lifecycle_details",
-					"source.0.password",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ChannelResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ChannelWithOptionalsResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.port", "3300"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "REQUIRED"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.ssl_ca_certificate.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.applier_username", "adminUser"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.channel_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ChannelUpdateResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname2.my.company.com"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.port", "3306"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "VERIFY_CA"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.ssl_ca_certificate.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.username", "username2"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.applier_username", "adminUser"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.channel_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", Optional, Update, channelDataSourceRepresentation) +
+				compartmentIdVariableStr + ChannelUpdateResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "channel_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "is_enabled", "false"),
+
+				resource.TestCheckResourceAttr(datasourceName, "channels.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ChannelUpdateResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "channel_id"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ChannelUpdateResource,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"lifecycle_details",
+				"source.0.password",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

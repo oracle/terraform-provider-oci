@@ -61,7 +61,6 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagDefaultResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentIdCreate := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,168 +76,161 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+TagDefaultResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation), "identity", "tagDefault", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityTagDefaultDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
+				resource.TestCheckResourceAttr(resourceName, "value", "value1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckIdentityTagDefaultDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
-					resource.TestCheckResourceAttr(resourceName, "value", "value1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_required", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_definition_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "value", "value1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_required", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "value", "value1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_required", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "value", "value2"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_required", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_definition_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "value", "value2"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_compartment_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithCompartmentIdFilter) +
-					generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithIdFilter) +
-					generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_state_filter", Optional, Update, tagDefaultDataSourceRepresentationWithStateFilter) +
-					generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_tag_definition_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter) +
-					compartmentIdVariableStr + TagDefaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "compartment_id", compartmentId),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_compartment_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithCompartmentIdFilter) +
+				generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithIdFilter) +
+				generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_state_filter", Optional, Update, tagDefaultDataSourceRepresentationWithStateFilter) +
+				generateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_tag_definition_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter) +
+				compartmentIdVariableStr + TagDefaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.#"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.tag_definition_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.tag_definition_name"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.#"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.tag_definition_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.tag_definition_name"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_compartment_id_filter", "tag_defaults.0.value", "value2"),
 
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.#"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_id_filter", "tag_defaults.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.tag_definition_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.tag_definition_name"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_id_filter", "tag_defaults.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.#"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_id_filter", "tag_defaults.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.tag_definition_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.tag_definition_name"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_id_filter", "tag_defaults.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_id_filter", "tag_defaults.0.value", "value2"),
 
-					resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.#"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "tag_defaults.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.tag_definition_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.tag_definition_name"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "tag_defaults.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.#"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "tag_defaults.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.tag_definition_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.tag_definition_name"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_state_filter", "tag_defaults.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_state_filter", "tag_defaults.0.value", "value2"),
 
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_definition_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_definition_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.#"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.tag_definition_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.tag_definition_name"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.value", "value2"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + TagDefaultResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_default_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_definition_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.#"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.tag_definition_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.tag_definition_name"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName+"_with_tag_definition_id_filter", "tag_defaults.0.value", "value2"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + TagDefaultResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_default_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_definition_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_required", "false"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_definition_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "value", "value2"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + TagDefaultResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_required", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_definition_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "value", "value2"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + TagDefaultResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

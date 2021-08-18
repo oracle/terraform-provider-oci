@@ -64,7 +64,6 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementSoftwareSourceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,182 +81,175 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SoftwareSourceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation), "osmanagement", "softwareSource", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOsmanagementSoftwareSourceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOsmanagementSoftwareSourceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
+				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_email", "maintainerEmail"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_name", "maintainerName"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_phone", "maintainerPhone"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
-					resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_email", "maintainerEmail"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_name", "maintainerName"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_phone", "maintainerPhone"),
-					resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SoftwareSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create,
-						representationCopyWithNewProperties(softwareSourceRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
-					resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_email", "maintainerEmail"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_name", "maintainerName"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_phone", "maintainerPhone"),
-					resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SoftwareSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create,
+					representationCopyWithNewProperties(softwareSourceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
+				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_email", "maintainerEmail"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_name", "maintainerName"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_phone", "maintainerPhone"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
-					resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA256"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceUpdateDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_email", "maintainerEmail2"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_name", "maintainerName2"),
-					resource.TestCheckResourceAttr(resourceName, "maintainer_phone", "maintainerPhone2"),
-					resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
+				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA256"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceUpdateDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_email", "maintainerEmail2"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_name", "maintainerName2"),
+				resource.TestCheckResourceAttr(resourceName, "maintainer_phone", "maintainerPhone2"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", Optional, Update, softwareSourceDataSourceRepresentation) +
-					compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", softwareSourceUpdateDisplayName),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", Optional, Update, softwareSourceDataSourceRepresentation) +
+				compartmentIdVariableStr + SoftwareSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", softwareSourceUpdateDisplayName),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "software_sources.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "software_sources.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "software_sources.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "software_sources.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "software_sources.0.display_name", softwareSourceUpdateDisplayName),
-					resource.TestCheckResourceAttr(datasourceName, "software_sources.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.packages"),
-					resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.repo_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.status"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SoftwareSourceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "software_sources.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "software_sources.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "software_sources.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "software_sources.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "software_sources.0.display_name", softwareSourceUpdateDisplayName),
+				resource.TestCheckResourceAttr(datasourceName, "software_sources.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.packages"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.repo_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "software_sources.0.status"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SoftwareSourceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "IA_32"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "checksum_type", "SHA256"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", softwareSourceUpdateDisplayName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintainer_email", "maintainerEmail2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintainer_name", "maintainerName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintainer_phone", "maintainerPhone2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "packages"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SoftwareSourceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "IA_32"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "checksum_type", "SHA256"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", softwareSourceUpdateDisplayName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintainer_email", "maintainerEmail2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintainer_name", "maintainerName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintainer_phone", "maintainerPhone2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "packages"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SoftwareSourceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

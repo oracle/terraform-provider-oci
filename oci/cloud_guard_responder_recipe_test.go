@@ -78,7 +78,6 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardResponderRecipeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -96,190 +95,183 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ResponderRecipeResourceDependencies+
 		generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation), "cloudguard", "responderRecipe", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCloudGuardResponderRecipeDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCloudGuardResponderRecipeDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.0.is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "responder_rules.0.responder_rule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.0.is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "responder_rules.0.responder_rule_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create,
-						representationCopyWithNewProperties(responderRecipeRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.0.is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "responder_rules.0.responder_rule_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create,
+					representationCopyWithNewProperties(responderRecipeRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.0.is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "responder_rules.0.responder_rule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.0.is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "responder_rules.0.responder_rule_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "responder_rules.0.details.0.is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "responder_rules.0.responder_rule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "test_responder_recipes", Optional, Update, responderRecipeDataSourceRepresentation) +
-					compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "resource_metadata_only", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "test_responder_recipes", Optional, Update, responderRecipeDataSourceRepresentation) +
+				compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_metadata_only", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "responder_recipe_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "responder_recipe_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ResponderRecipeResourceConfig + DefinedTagsDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_recipe_id"),
+				resource.TestCheckResourceAttr(datasourceName, "responder_recipe_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "responder_recipe_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ResponderRecipeResourceConfig + DefinedTagsDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_recipe_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.#", "1"),
-					//These are effective rules, after applying defaults over user input so here the count is more and can increase on addition of more rules.
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "effective_responder_rules.#"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "owner"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.details.0.is_enabled", "true"),
-					//Since these are not passed in input, they can't be in input.
-					//But these will be in effective_rules
-					resource.TestCheckResourceAttr(singularDatasourceName, "effective_responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "effective_responder_rules.0.details.0.is_enabled", "true"),
-					//Conditions and Configurations can be added from target level, hence if no I/P is there, no O/P will be there.
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "effective_responder_rules.0.details.0.mode"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.display_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.policies.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.state"),
-					//There are 2 supported modes.
-					resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.supported_modes.#", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ResponderRecipeResourceConfig + DefinedTagsDependencies,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.#", "1"),
+				//These are effective rules, after applying defaults over user input so here the count is more and can increase on addition of more rules.
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "effective_responder_rules.#"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "owner"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.details.0.is_enabled", "true"),
+				//Since these are not passed in input, they can't be in input.
+				//But these will be in effective_rules
+				resource.TestCheckResourceAttr(singularDatasourceName, "effective_responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "effective_responder_rules.0.details.0.is_enabled", "true"),
+				//Conditions and Configurations can be added from target level, hence if no I/P is there, no O/P will be there.
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "effective_responder_rules.0.details.0.mode"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.policies.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.state"),
+				//There are 2 supported modes.
+				resource.TestCheckResourceAttr(singularDatasourceName, "responder_rules.0.supported_modes.#", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_rules.0.type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ResponderRecipeResourceConfig + DefinedTagsDependencies,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

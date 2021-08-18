@@ -69,7 +69,6 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasHttpRedirectResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -87,194 +86,187 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+HttpRedirectResourceDependencies+
 		generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation), "waas", "httpRedirect", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckWaasHttpRedirectDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", domainName),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckWaasHttpRedirectDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "domain", domainName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_code", "301"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_code", "301"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpRedirectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create,
-						representationCopyWithNewProperties(httpRedirectRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_code", "301"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpRedirectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create,
+					representationCopyWithNewProperties(httpRedirectRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "domain", domainName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_code", "301"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_code", "302"),
-					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.host", "example2.com"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test2{path}"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.port", "8082"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(resourceName, "target.0.query", "{query}"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "domain", domainName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_code", "302"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.host", "example2.com"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test2{path}"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.port", "8082"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.query", "{query}"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", Optional, Update, httpRedirectDataSourceRepresentation) +
-					compartmentIdVariableStr + HttpRedirectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "states.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", Optional, Update, httpRedirectDataSourceRepresentation) +
+				compartmentIdVariableStr + HttpRedirectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "states.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.domain", domainName),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.response_code", "302"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.host", "example2.com"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.path", "/test2{path}"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.port", "8082"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.query", "{query}"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + HttpRedirectResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "http_redirect_id"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.domain", domainName),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.response_code", "302"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.host", "example2.com"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.path", "/test2{path}"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.port", "8082"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.target.0.query", "{query}"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + HttpRedirectResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "http_redirect_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "domain", domainName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_code", "302"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.0.host", "example2.com"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.0.path", "/test2{path}"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.0.port", "8082"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target.0.query", "{query}"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + HttpRedirectResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "domain", domainName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_code", "302"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.host", "example2.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.path", "/test2{path}"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.port", "8082"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target.0.query", "{query}"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + HttpRedirectResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

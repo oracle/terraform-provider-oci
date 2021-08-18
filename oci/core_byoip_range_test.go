@@ -11,7 +11,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/oracle/oci-go-sdk/v46/common"
 	oci_core "github.com/oracle/oci-go-sdk/v46/core"
@@ -38,7 +37,6 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreByoipRangeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -49,39 +47,33 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", Required, Create, byoipRangeDataSourceRepresentation) +
+				compartmentIdVariableStr + ByoipRangeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_collection.#"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", Required, Create, byoipRangeDataSourceRepresentation) +
-					compartmentIdVariableStr + ByoipRangeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", Required, Create, byoipRangeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ByoipRangeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_collection.#"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", Required, Create, byoipRangeSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ByoipRangeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_BYOIP_range_do_not_delete"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "validation_token"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", publicIpPoolCidrBlock),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_BYOIP_range_do_not_delete"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "validation_token"),
+			),
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -28,7 +27,6 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogListingResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -39,42 +37,36 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
+				compartmentIdVariableStr + AppCatalogListingResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.listing_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.publisher_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.summary"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
-					compartmentIdVariableStr + AppCatalogListingResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.publisher_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.summary"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", Required, Create, appCatalogListingSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AppCatalogListingResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "contact_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "publisher_logo_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "publisher_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "summary"),
-				),
-			},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", Required, Create, appCatalogListingSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AppCatalogListingResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "contact_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "publisher_logo_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "publisher_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "summary"),
+			),
 		},
 	})
 }

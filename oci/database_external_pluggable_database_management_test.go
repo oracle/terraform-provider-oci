@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -47,7 +46,6 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 	httpreplay.SetScenario("TestDatabaseExternalPluggableDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -60,90 +58,84 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 	saveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseManagementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Required, Create, externalPluggableDatabaseManagementRepresentation), "database", "externalPluggableDatabaseManagement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// Enablement of parent CDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
 		},
-		Steps: []resource.TestStep{
-			// Enablement of parent CDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
-			},
-			// Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Required, Create, externalPluggableDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Required, Create, externalPluggableDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourcePDB, "database_management_config.0.database_management_status", "ENABLED"),
-				),
-			},
+		// Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Required, Create, externalPluggableDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// Verify Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Required, Create, externalPluggableDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourcePDB, "database_management_config.0.database_management_status", "ENABLED"),
+			),
+		},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies,
-			},
-			// Enablement of parent CDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation),
-			},
-			// Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Create, externalPluggableDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Create, externalPluggableDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourcePDB, "database_management_config.0.database_management_status", "ENABLED"),
-				),
-			},
-			// Disablement of parent CDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
-			},
-			// Disablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Disablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourcePDB, "database_management_config.0.database_management_status", "NOT_ENABLED"),
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies,
+		},
+		// Enablement of parent CDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation),
+		},
+		// Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Create, externalPluggableDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// Verify Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Create, externalPluggableDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourcePDB, "database_management_config.0.database_management_status", "ENABLED"),
+			),
+		},
+		// Disablement of parent CDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
+		},
+		// Disablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// Verify Disablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_management", "test_external_pluggable_database_management", Optional, Update, externalPluggableDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourcePDB, "database_management_config.0.database_management_status", "NOT_ENABLED"),
+			),
 		},
 	})
 }

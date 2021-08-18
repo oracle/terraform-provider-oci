@@ -62,7 +62,6 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -80,187 +79,180 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ContainerRepositoryResourceDependencies+
 		generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation), "artifacts", "containerRepository", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckArtifactsContainerRepositoryDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckArtifactsContainerRepositoryDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_count"),
+				resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "layer_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "layers_size_in_bytes"),
+				resource.TestCheckResourceAttr(resourceName, "readme.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "readme.0.content", "content"),
+				resource.TestCheckResourceAttr(resourceName, "readme.0.format", "TEXT_MARKDOWN"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_count"),
-					resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "layer_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "layers_size_in_bytes"),
-					resource.TestCheckResourceAttr(resourceName, "readme.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "readme.0.content", "content"),
-					resource.TestCheckResourceAttr(resourceName, "readme.0.format", "TEXT_MARKDOWN"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ContainerRepositoryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create,
-						representationCopyWithNewProperties(containerRepositoryRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_count"),
-					resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "layer_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "layers_size_in_bytes"),
-					resource.TestCheckResourceAttr(resourceName, "readme.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "readme.0.content", "content"),
-					resource.TestCheckResourceAttr(resourceName, "readme.0.format", "TEXT_MARKDOWN"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ContainerRepositoryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create,
+					representationCopyWithNewProperties(containerRepositoryRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_count"),
+				resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_public", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "layer_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "layers_size_in_bytes"),
+				resource.TestCheckResourceAttr(resourceName, "readme.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "readme.0.content", "content"),
+				resource.TestCheckResourceAttr(resourceName, "readme.0.format", "TEXT_MARKDOWN"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_count"),
-					resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_public", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "layer_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "layers_size_in_bytes"),
-					resource.TestCheckResourceAttr(resourceName, "readme.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "readme.0.content", "content2"),
-					resource.TestCheckResourceAttr(resourceName, "readme.0.format", "TEXT_PLAIN"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_count"),
+				resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_public", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "layer_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "layers_size_in_bytes"),
+				resource.TestCheckResourceAttr(resourceName, "readme.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "readme.0.content", "content2"),
+				resource.TestCheckResourceAttr(resourceName, "readme.0.format", "TEXT_PLAIN"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", Optional, Update, containerRepositoryDataSourceRepresentation) +
-					compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttr(datasourceName, "is_public", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", Optional, Update, containerRepositoryDataSourceRepresentation) +
+				compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(datasourceName, "is_public", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "container_repository_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "container_repository_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "container_repository_collection.0.image_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "container_repository_collection.0.layer_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "container_repository_collection.0.layers_size_in_bytes"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositorySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ContainerRepositoryResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
+				resource.TestCheckResourceAttr(datasourceName, "container_repository_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "container_repository_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "container_repository_collection.0.image_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "container_repository_collection.0.layer_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "container_repository_collection.0.layers_size_in_bytes"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositorySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ContainerRepositoryResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_immutable", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_public", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "layer_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "layers_size_in_bytes"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "readme.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "readme.0.content", "content2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "readme.0.format", "TEXT_PLAIN"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ContainerRepositoryResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_immutable", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_public", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "layer_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "layers_size_in_bytes"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "readme.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "readme.0.content", "content2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "readme.0.format", "TEXT_PLAIN"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

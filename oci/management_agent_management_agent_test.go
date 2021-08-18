@@ -53,7 +53,6 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -74,121 +73,114 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ManagementAgentResourceDependencies+
 		generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Create, managementAgentRepresentation), "managementagent", "managementAgent", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckManagementAgentManagementAgentDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckManagementAgentManagementAgentDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agents", "test_management_agents", Optional, Update, managementAgentDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agents", "test_management_agents", Optional, Update, managementAgentDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "management_agents.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.availability_status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentSingularDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "platform_type", "LINUX"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "management_agents.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.availability_status"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_version"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentSingularDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "platform_type", "LINUX"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_status"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "install_key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "install_path"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_agent_auto_upgradable"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_heartbeat"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       false,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_key_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_path"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_agent_auto_upgradable"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_heartbeat"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       false,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

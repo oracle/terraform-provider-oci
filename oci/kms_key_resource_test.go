@@ -20,7 +20,6 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyResource_ResourceDiscovery")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -31,35 +30,29 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 
 	resourceName := "oci_kms_key.test_key"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify resource discovery for KMS Keys
-			// Our vault is in root compartment, so we need to run Keys resource discovery in root compartment, as first RD tries to find the vault and then keys inside the vault
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify resource discovery for KMS Keys
+		// Our vault is in root compartment, so we need to run Keys resource discovery in root compartment, as first RD tries to find the vault and then keys inside the vault
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					func(s *terraform.State) (err error) {
-						managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
-						if errRead != nil {
-							return errRead
-						}
+				func(s *terraform.State) (err error) {
+					managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
+					if errRead != nil {
+						return errRead
+					}
 
-						compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId
-						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
-								return errExport
-							}
+					compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId
+					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

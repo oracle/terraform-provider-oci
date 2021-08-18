@@ -59,7 +59,6 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeBackupPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -76,147 +75,140 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyResourceDependencies+destinationRegionVariableStr+
 		generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation), "core", "volumeBackupPolicy", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreVolumeBackupPolicyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreVolumeBackupPolicyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
+				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "schedules", map[string]string{
+					"backup_type":       "INCREMENTAL",
+					"day_of_month":      "10",
+					"day_of_week":       "MONDAY",
+					"hour_of_day":       "10",
+					"month":             "JANUARY",
+					"offset_seconds":    "0",
+					"offset_type":       "STRUCTURED",
+					"period":            "ONE_DAY",
+					"retention_seconds": "604800",
+					"time_zone":         "UTC",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "schedules", map[string]string{
-						"backup_type":       "INCREMENTAL",
-						"day_of_month":      "10",
-						"day_of_week":       "MONDAY",
-						"hour_of_day":       "10",
-						"month":             "JANUARY",
-						"offset_seconds":    "0",
-						"offset_type":       "STRUCTURED",
-						"period":            "ONE_DAY",
-						"retention_seconds": "604800",
-						"time_zone":         "UTC",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "schedules", map[string]string{
-						"backup_type":       "FULL",
-						"day_of_month":      "11",
-						"day_of_week":       "TUESDAY",
-						"hour_of_day":       "11",
-						"month":             "FEBRUARY",
-						"offset_seconds":    "46800",
-						"offset_type":       "NUMERIC_SECONDS",
-						"period":            "ONE_YEAR",
-						"retention_seconds": "2592000",
-						"time_zone":         "REGIONAL_DATA_CENTER_TIME",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
+				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "schedules", map[string]string{
+					"backup_type":       "FULL",
+					"day_of_month":      "11",
+					"day_of_week":       "TUESDAY",
+					"hour_of_day":       "11",
+					"month":             "FEBRUARY",
+					"offset_seconds":    "46800",
+					"offset_type":       "NUMERIC_SECONDS",
+					"period":            "ONE_YEAR",
+					"retention_seconds": "2592000",
+					"time_zone":         "REGIONAL_DATA_CENTER_TIME",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Optional, Update, volumeBackupPolicyDataSourceRepresentation) +
-					compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-					generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Optional, Update, volumeBackupPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
+				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.destination_region"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.display_name", "BackupPolicy2"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.schedules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "volume_backup_policies.0.schedules", map[string]string{
-						"backup_type":       "FULL",
-						"day_of_month":      "11",
-						"day_of_week":       "TUESDAY",
-						"hour_of_day":       "11",
-						"month":             "FEBRUARY",
-						"offset_seconds":    "46800",
-						"offset_type":       "NUMERIC_SECONDS",
-						"period":            "ONE_YEAR",
-						"retention_seconds": "2592000",
-						"time_zone":         "REGIONAL_DATA_CENTER_TIME",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.destination_region"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.display_name", "BackupPolicy2"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.schedules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(datasourceName, "volume_backup_policies.0.schedules", map[string]string{
+					"backup_type":       "FULL",
+					"day_of_month":      "11",
+					"day_of_week":       "TUESDAY",
+					"hour_of_day":       "11",
+					"month":             "FEBRUARY",
+					"offset_seconds":    "46800",
+					"offset_type":       "NUMERIC_SECONDS",
+					"period":            "ONE_YEAR",
+					"retention_seconds": "2592000",
+					"time_zone":         "REGIONAL_DATA_CENTER_TIME",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

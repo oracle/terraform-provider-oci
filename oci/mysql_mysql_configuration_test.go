@@ -11,7 +11,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/oracle/oci-go-sdk/v46/common"
 	oci_mysql "github.com/oracle/oci-go-sdk/v46/mysql"
@@ -41,7 +40,6 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -52,94 +50,88 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", Required, Create, mysqlConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlConfigurationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "configurations.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.shape_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.type"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", Required, Create, mysqlConfigurationDataSourceRepresentation) +
-					compartmentIdVariableStr + MysqlConfigurationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", Required, Create, mysqlConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlConfigurationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "configurations.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.shape_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "configurations.0.type"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", Required, Create, mysqlConfigurationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + MysqlConfigurationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default Standalone configuration for the VM.Standard.E2.2 MySQL Shape"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "VM.Standard.E2.2.Standalone"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.autocommit", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.completion_type", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.connect_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.cte_max_recursion_depth", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.default_authentication_plugin", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.foreign_key_checks", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.generated_random_password_length", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.group_replication_consistency", "BEFORE_ON_PRIMARY_FAILOVER"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.information_schema_stats_expiry", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_instances", "4"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_size", "10200547328"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_enable_stopword", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_max_token_size", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_min_token_size", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_num_word_optimize", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_result_cache_limit", "33554432"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_server_stopword_table", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_lock_wait_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag_delay", "300000"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.local_infile", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mandatory_roles", "public"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_connections", "1000"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_execution_time", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_prepared_stmt_count", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysql_firewall_mode", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_connect_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_deflate_default_compression_level", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_deflate_max_client_compression_level", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_document_id_unique_prefix", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_enable_hello_notice", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_idle_worker_thread_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_interactive_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_lz4default_compression_level", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_lz4max_client_compression_level", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_max_allowed_packet", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_min_worker_threads", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_read_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_wait_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_write_timeout", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_zstd_max_client_compression_level", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.parser_max_mem_size", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.query_alloc_block_size", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.query_prealloc_size", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_mode", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_require_primary_key", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_warnings", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.transaction_isolation", ""),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default Standalone configuration for the VM.Standard.E2.2 MySQL Shape"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "VM.Standard.E2.2.Standalone"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.autocommit", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.completion_type", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.connect_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.cte_max_recursion_depth", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.default_authentication_plugin", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.foreign_key_checks", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.generated_random_password_length", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.group_replication_consistency", "BEFORE_ON_PRIMARY_FAILOVER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.information_schema_stats_expiry", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_instances", "4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_buffer_pool_size", "10200547328"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_enable_stopword", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_max_token_size", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_min_token_size", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_num_word_optimize", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_result_cache_limit", "33554432"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_ft_server_stopword_table", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_lock_wait_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.innodb_max_purge_lag_delay", "300000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.local_infile", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mandatory_roles", "public"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_connections", "1000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_execution_time", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.max_prepared_stmt_count", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysql_firewall_mode", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_connect_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_deflate_default_compression_level", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_deflate_max_client_compression_level", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_document_id_unique_prefix", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_enable_hello_notice", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_idle_worker_thread_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_interactive_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_lz4default_compression_level", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_lz4max_client_compression_level", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_max_allowed_packet", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_min_worker_threads", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_read_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_wait_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_write_timeout", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.mysqlx_zstd_max_client_compression_level", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.parser_max_mem_size", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.query_alloc_block_size", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.query_prealloc_size", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_mode", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_require_primary_key", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.sql_warnings", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.transaction_isolation", ""),
+			),
 		},
 	})
 }

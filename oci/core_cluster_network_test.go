@@ -106,7 +106,6 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -130,251 +129,244 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	saveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
 		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreClusterNetworkDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
+				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreClusterNetworkDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
-					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config,
+		},
+		// verify create with optionals
+		{
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
+					"display_name": "backend-servers",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-			// delete before next create
-			{
-				Config: config,
-			},
-			// verify create with optionals
-			{
-				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
-						"display_name": "backend-servers",
-					},
-						[]string{
-							"subnet_id",
-						}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create,
-						representationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
-						"display_name": "backend-servers",
-					},
-						[]string{
-							"subnet_id",
-						}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create,
+					representationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
+					"display_name": "backend-servers",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool2"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
-						"display_name": "backend-servers",
-					},
-						[]string{
-							"subnet_id",
-						}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify updates to updatable parameters
+		{
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool2"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
+					"display_name": "backend-servers",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", Optional, Update, clusterNetworkDataSourceRepresentation) +
-					logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					//resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", Optional, Update, clusterNetworkDataSourceRepresentation) +
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				//resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
 
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.display_name", "hpc-cluster-network-pool2"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.placement_configurations.#", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.size", "2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkSingularDataSourceRepresentation) +
-					logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.display_name", "hpc-cluster-network-pool2"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.placement_configurations.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.instance_pools.0.size", "2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.instance_pools.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkSingularDataSourceRepresentation) +
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.load_balancers.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.placement_configurations.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.size", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configuration.0.availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
-						"display_name": "backend-servers",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.load_balancers.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.placement_configurations.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.size", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
+					"display_name": "backend-servers",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

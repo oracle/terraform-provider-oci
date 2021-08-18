@@ -53,7 +53,6 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerBackendResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -67,116 +66,109 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BackendResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Create, backendRepresentation), "loadbalancer", "backend", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckLoadBalancerBackendDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
+	ResourceTest(t, testAccCheckLoadBalancerBackendDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BackendResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Create, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
-					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
-					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "name"),
-					resource.TestCheckResourceAttr(resourceName, "offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
-					resource.TestCheckResourceAttr(resourceName, "backup", "true"),
-					resource.TestCheckResourceAttr(resourceName, "drain", "true"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "name"),
-					resource.TestCheckResourceAttr(resourceName, "offline", "true"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "11"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_backends", "test_backends", Optional, Update, backendDataSourceRepresentation) +
-					compartmentIdVariableStr + BackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "backendset_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "backends.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.backup", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.drain", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backends.0.name"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.offline", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.port", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "backends.0.weight", "11"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"backendset_name",
-					"state",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BackendResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Create, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
+				resource.TestCheckResourceAttr(resourceName, "backup", "false"),
+				resource.TestCheckResourceAttr(resourceName, "drain", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "name"),
+				resource.TestCheckResourceAttr(resourceName, "offline", "false"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "weight", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
+				resource.TestCheckResourceAttr(resourceName, "backup", "true"),
+				resource.TestCheckResourceAttr(resourceName, "drain", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "name"),
+				resource.TestCheckResourceAttr(resourceName, "offline", "true"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "weight", "11"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_backends", "test_backends", Optional, Update, backendDataSourceRepresentation) +
+				compartmentIdVariableStr + BackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "backendset_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backends.0.backup", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backends.0.drain", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backends.0.ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backends.0.name"),
+				resource.TestCheckResourceAttr(datasourceName, "backends.0.offline", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backends.0.port", "10"),
+				resource.TestCheckResourceAttr(datasourceName, "backends.0.weight", "11"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"backendset_name",
+				"state",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

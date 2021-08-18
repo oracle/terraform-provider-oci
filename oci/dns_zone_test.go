@@ -85,7 +85,6 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsZoneResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -104,235 +103,228 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
 			representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil), "dns", "zone", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDnsZoneDestroy, []resource.TestStep{
+		// test PRIMARY zone creation
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+
+				func(s *terraform.State) (err error) {
+					_, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDnsZoneDestroy,
-		Steps: []resource.TestStep{
-			// test PRIMARY zone creation
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
-					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies, nil),
+		},
+		// verify create with optionals
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
+					representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "nameservers.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "self"),
+				resource.TestCheckResourceAttrSet(resourceName, "serial"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
+				resource.TestCheckResourceAttrSet(resourceName, "view_id"),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
-			// delete before next create
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies, nil),
-			},
-			// verify create with optionals
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
-						representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "nameservers.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "self"),
-					resource.TestCheckResourceAttrSet(resourceName, "serial"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
-					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					// Resource discovery is not supported for Zone resources created using scope field
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						// Resource discovery is not supported for Zone resources created using scope field
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+compartmentIdUVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"}), map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "self"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "serial"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
+				resource.TestCheckResourceAttrSet(resourceName, "view_id"),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+compartmentIdUVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"}), map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-					resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "self"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "serial"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
-					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Update,
+					representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "self"),
+				resource.TestCheckResourceAttrSet(resourceName, "serial"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
+				resource.TestCheckResourceAttrSet(resourceName, "view_id"),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Update,
-						representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-					resource.TestCheckResourceAttr(resourceName, "nameservers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "self"),
-					resource.TestCheckResourceAttrSet(resourceName, "serial"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
-					resource.TestCheckResourceAttrSet(resourceName, "view_id"),
-					resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationRequiredOnlyWithFilter)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "view_id"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.is_protected"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.self"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.serial"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.version"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.view_id"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.zone_type", "PRIMARY"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.0.nameservers.#"),
-				),
-			},
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameOptional)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-					resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-				),
-			},
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameContainsOptional)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-zone-test"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-				),
-			},
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithStateOptional)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-				),
-			},
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithZoneTypeOptional)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "zone_type", "PRIMARY"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-				),
-			},
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedGreaterThanOrEqualToOptional)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-				),
-			},
-			{
-				Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedLessThanOptional)+
-					compartmentIdVariableStr+ZoneResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            tokenFn(config, nil),
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: getZoneImportId(resourceName),
-				ResourceName:      resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationRequiredOnlyWithFilter)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "view_id"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.is_protected"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.self"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.serial"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.view_id"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.zone_type", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.nameservers.#"),
+			),
+		},
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameOptional)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+				resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+			),
+		},
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameContainsOptional)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-zone-test"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+			),
+		},
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithStateOptional)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+			),
+		},
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithZoneTypeOptional)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "zone_type", "PRIMARY"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+			),
+		},
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedGreaterThanOrEqualToOptional)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+			),
+		},
+		{
+			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedLessThanOptional)+
+				compartmentIdVariableStr+ZoneResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            tokenFn(config, nil),
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateIdFunc: getZoneImportId(resourceName),
+			ResourceName:      resourceName,
 		},
 	})
 }

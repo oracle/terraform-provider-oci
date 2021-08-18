@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -24,7 +23,6 @@ func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasEdgeSubnetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -34,25 +32,19 @@ func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_edge_subnets", "test_edge_subnets", Required, Create, edgeSubnetDataSourceRepresentation) +
-					compartmentIdVariableStr + EdgeSubnetResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_edge_subnets", "test_edge_subnets", Required, Create, edgeSubnetDataSourceRepresentation) +
+				compartmentIdVariableStr + EdgeSubnetResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.cidr"),
-					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.region"),
-					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.time_modified"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.cidr"),
+				resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.region"),
+				resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.time_modified"),
+			),
 		},
 	})
 }

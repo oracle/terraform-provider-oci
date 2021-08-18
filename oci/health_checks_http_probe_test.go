@@ -38,7 +38,6 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksHttpProbeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -51,53 +50,47 @@ func TestHealthChecksHttpProbeResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+HttpProbeResourceDependencies+
 		generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Optional, Create, httpProbeRepresentation), "healthchecks", "httpProbe", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Required, Create, httpProbeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Required, Create, httpProbeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Optional, Create, httpProbeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "method", "GET"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + HttpProbeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_probe", "test_http_probe", Optional, Create, httpProbeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "method", "GET"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/"),
+				resource.TestCheckResourceAttr(resourceName, "port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

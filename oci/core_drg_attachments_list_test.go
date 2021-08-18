@@ -36,7 +36,6 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentsListResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -49,47 +48,40 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DrgAttachmentsListResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation), "core", "drgAttachmentsList", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreDrgAttachmentDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+			),
 		},
-		CheckDestroy: testAccCheckCoreDrgAttachmentDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "attachment_type", "VCN"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_all_attachments.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "is_cross_tenancy", "false"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "attachment_type", "VCN"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_all_attachments.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "is_cross_tenancy", "false"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

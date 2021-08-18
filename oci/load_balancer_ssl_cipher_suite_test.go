@@ -50,7 +50,6 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerSslCipherSuiteResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -65,86 +64,79 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SslCipherSuiteResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation), "loadbalancer", "sslCipherSuite", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckLoadBalancerSslCipherSuiteDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
+			),
 		},
-		CheckDestroy: testAccCheckLoadBalancerSslCipherSuiteDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", Optional, Update, sslCipherSuiteDataSourceRepresentation) +
-					compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "ssl_cipher_suites.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "ssl_cipher_suites.0.name", "example_cipher_suite"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SslCipherSuiteResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SslCipherSuiteResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"state",
-					"ciphers",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", Optional, Update, sslCipherSuiteDataSourceRepresentation) +
+				compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "ssl_cipher_suites.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ssl_cipher_suites.0.name", "example_cipher_suite"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SslCipherSuiteResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"state",
+				"ciphers",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

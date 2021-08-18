@@ -71,7 +71,6 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteDistributionStatementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -88,125 +87,119 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DrgRouteDistributionStatementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create, drgRouteDistributionStatementRepresentation), "core", "drgRouteDistributionStatement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create,
+					drgRouteDistributionStatementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
+				resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "match_criteria.0.attachment_type", "VCN"),
+				resource.TestCheckResourceAttr(resourceName, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+				resource.TestCheckResourceAttr(resourceName, "priority", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create,
-						drgRouteDistributionStatementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
-					resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "match_criteria.0.attachment_type", "VCN"),
-					resource.TestCheckResourceAttr(resourceName, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
-					resource.TestCheckResourceAttr(resourceName, "priority", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
+				resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "match_criteria.0.attachment_type", "VIRTUAL_CIRCUIT"),
+				resource.TestCheckResourceAttr(resourceName, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+				resource.TestCheckResourceAttr(resourceName, "priority", "15"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
-					resource.TestCheckResourceAttr(resourceName, "match_criteria.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "match_criteria.0.attachment_type", "VIRTUAL_CIRCUIT"),
-					resource.TestCheckResourceAttr(resourceName, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
-					resource.TestCheckResourceAttr(resourceName, "priority", "15"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
+					}
+					return err
+				},
+			),
+		},
+		//verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", Optional, Create, drgRouteDistributionStatementDataSourceRepresentation) +
+				compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.action", "ACCEPT"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.0.attachment_type", "VIRTUAL_CIRCUIT"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.priority", "15"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updatedr")
-						}
-						return err
-					},
-				),
-			},
-			//verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", Optional, Create, drgRouteDistributionStatementDataSourceRepresentation) +
-					compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.action", "ACCEPT"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.0.attachment_type", "VIRTUAL_CIRCUIT"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
-					resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.priority", "15"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				),
-			},
-
-			//verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
-			},
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", Optional, Create, drgRouteDistributionStatementRepresentation) +
-					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", Required, Create, drgRouteDistributionStatementRepresentation2) +
-					generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", Required, Create, drgRouteDistributionStatementRepresentation3),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					//check first resource
-					resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(resourceName1, "action", "ACCEPT"),
-					resource.TestCheckResourceAttr(resourceName1, "match_criteria.#", "1"),
-					resource.TestCheckResourceAttr(resourceName1, "match_criteria.0.attachment_type", "VCN"),
-					resource.TestCheckResourceAttr(resourceName1, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
-					resource.TestCheckResourceAttr(resourceName1, "priority", "10"),
-					resource.TestCheckResourceAttrSet(resourceName1, "id"),
-					//check second resource
-					resource.TestCheckResourceAttrSet(resourceName2, "drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(resourceName2, "action", "ACCEPT"),
-					resource.TestCheckResourceAttr(resourceName2, "match_criteria.#", "1"),
-					resource.TestCheckResourceAttr(resourceName2, "match_criteria.0.attachment_type", "REMOTE_PEERING_CONNECTION"),
-					resource.TestCheckResourceAttr(resourceName2, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
-					resource.TestCheckResourceAttr(resourceName2, "priority", "20"),
-					resource.TestCheckResourceAttrSet(resourceName2, "id"),
-					// check third resource
-					resource.TestCheckResourceAttrSet(resourceName3, "drg_route_distribution_id"),
-					resource.TestCheckResourceAttr(resourceName3, "action", "ACCEPT"),
-					resource.TestCheckResourceAttr(resourceName3, "match_criteria.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName3, "match_criteria.0.drg_attachment_id"),
-					resource.TestCheckResourceAttr(resourceName3, "match_criteria.0.match_type", "DRG_ATTACHMENT_ID"),
-					resource.TestCheckResourceAttr(resourceName3, "priority", "30"),
-					resource.TestCheckResourceAttrSet(resourceName3, "id"),
-				),
-			},
-			// delete
-			{
-				Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
-			},
+		//verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
+		},
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", Optional, Create, drgRouteDistributionStatementRepresentation) +
+				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", Required, Create, drgRouteDistributionStatementRepresentation2) +
+				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", Required, Create, drgRouteDistributionStatementRepresentation3),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				//check first resource
+				resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName1, "action", "ACCEPT"),
+				resource.TestCheckResourceAttr(resourceName1, "match_criteria.#", "1"),
+				resource.TestCheckResourceAttr(resourceName1, "match_criteria.0.attachment_type", "VCN"),
+				resource.TestCheckResourceAttr(resourceName1, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+				resource.TestCheckResourceAttr(resourceName1, "priority", "10"),
+				resource.TestCheckResourceAttrSet(resourceName1, "id"),
+				//check second resource
+				resource.TestCheckResourceAttrSet(resourceName2, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName2, "action", "ACCEPT"),
+				resource.TestCheckResourceAttr(resourceName2, "match_criteria.#", "1"),
+				resource.TestCheckResourceAttr(resourceName2, "match_criteria.0.attachment_type", "REMOTE_PEERING_CONNECTION"),
+				resource.TestCheckResourceAttr(resourceName2, "match_criteria.0.match_type", "DRG_ATTACHMENT_TYPE"),
+				resource.TestCheckResourceAttr(resourceName2, "priority", "20"),
+				resource.TestCheckResourceAttrSet(resourceName2, "id"),
+				// check third resource
+				resource.TestCheckResourceAttrSet(resourceName3, "drg_route_distribution_id"),
+				resource.TestCheckResourceAttr(resourceName3, "action", "ACCEPT"),
+				resource.TestCheckResourceAttr(resourceName3, "match_criteria.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName3, "match_criteria.0.drg_attachment_id"),
+				resource.TestCheckResourceAttr(resourceName3, "match_criteria.0.match_type", "DRG_ATTACHMENT_ID"),
+				resource.TestCheckResourceAttr(resourceName3, "priority", "30"),
+				resource.TestCheckResourceAttrSet(resourceName3, "id"),
+			),
+		},
+		// delete
+		{
+			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
 		},
 	})
 }

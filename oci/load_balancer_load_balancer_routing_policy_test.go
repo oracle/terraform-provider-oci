@@ -61,7 +61,6 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerLoadBalancerRoutingPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -73,115 +72,108 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckLoadBalancerLoadBalancerRoutingPolicyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.actions.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.name", "example_routing_rules"),
+	ResourceTest(t, testAccCheckLoadBalancerLoadBalancerRoutingPolicyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.name", "example_routing_rules"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.actions.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "rules.0.actions.0.backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.name", "name2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policies", "test_load_balancer_routing_policies", Optional, Update, loadBalancerRoutingPolicyDataSourceRepresentation) +
-					compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.condition_language_version", "V1"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.name", "example_routing_rules"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.actions.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "routing_policies.0.rules.0.actions.0.backend_set_name"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.condition", "all(http.request.url.path eq (i ''))"),
-					resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.name", "name2"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "routing_policy_name"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "condition_language_version", "V1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_routing_rules"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.actions.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.name", "name2"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"state",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.actions.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "rules.0.actions.0.backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.name", "name2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policies", "test_load_balancer_routing_policies", Optional, Update, loadBalancerRoutingPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.condition_language_version", "V1"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.name", "example_routing_rules"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.actions.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "routing_policies.0.rules.0.actions.0.backend_set_name"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.condition", "all(http.request.url.path eq (i ''))"),
+				resource.TestCheckResourceAttr(datasourceName, "routing_policies.0.rules.0.name", "name2"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "routing_policy_name"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "condition_language_version", "V1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_routing_rules"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.actions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.name", "name2"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"state",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

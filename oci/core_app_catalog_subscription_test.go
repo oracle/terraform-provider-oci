@@ -49,7 +49,6 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -63,70 +62,63 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AppCatalogSubscriptionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation), "core", "appCatalogSubscription", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreAppCatalogSubscriptionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "eula_link"),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_resource_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_retrieved"),
+	ResourceTest(t, testAccCheckCoreAppCatalogSubscriptionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "eula_link"),
+				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "listing_resource_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_retrieved"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", Optional, Create, appCatalogSubscriptionDataSourceRepresentation) +
-					compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "app_catalog_subscriptions.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "app_catalog_subscriptions.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_resource_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.summary"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"eula_link",
-					"oracle_terms_of_use_link",
-					"signature",
-					"time_retrieved",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", Optional, Create, appCatalogSubscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "app_catalog_subscriptions.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "app_catalog_subscriptions.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_resource_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.summary"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"eula_link",
+				"oracle_terms_of_use_link",
+				"signature",
+				"time_retrieved",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -27,7 +26,6 @@ func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksVantagePointResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -37,29 +35,23 @@ func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", Optional, Create, vantagePointDataSourceRepresentation) +
-					compartmentIdVariableStr + VantagePointResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "AWS Asia Pacific South 1"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "aws-bom"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", Optional, Create, vantagePointDataSourceRepresentation) +
+				compartmentIdVariableStr + VantagePointResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "AWS Asia Pacific South 1"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "aws-bom"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.display_name"),
-					resource.TestCheckResourceAttr(datasourceName, "health_checks_vantage_points.0.geo.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.provider_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.routing.#"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.display_name"),
+				resource.TestCheckResourceAttr(datasourceName, "health_checks_vantage_points.0.geo.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.provider_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.routing.#"),
+			),
 		},
 	})
 }

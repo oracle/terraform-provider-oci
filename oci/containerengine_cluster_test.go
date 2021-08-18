@@ -91,7 +91,6 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -105,158 +104,151 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ClusterResourceDependencies+
 		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation), "containerengine", "cluster", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckContainerengineClusterDestroy, []resource.TestStep{
+		//verify create
+		{
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckContainerengineClusterDestroy,
-		Steps: []resource.TestStep{
-			//verify create
-			{
-				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies,
+		},
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ClusterResourceDependencies,
-			},
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.nsg_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_policy_config.0.key_details.0.kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.is_policy_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "image_policy_config.0.key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_policy_config.0.key_details.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", Optional, Update, clusterDataSourceRepresentation) +
-					compartmentIdVariableStr + ClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(datasourceName, "state.#", "6"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", Optional, Update, clusterDataSourceRepresentation) +
+				compartmentIdVariableStr + ClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "state.#", "6"),
 
-					resource.TestCheckResourceAttr(datasourceName, "clusters.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.available_kubernetes_upgrades.#", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoint_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoint_config.0.is_public_ip_enabled", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.endpoint_config.0.subnet_id"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoints.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.is_policy_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.key_details.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.image_policy_config.0.key_details.0.kms_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.kubernetes_version"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.metadata.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.name", "name2"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.0.is_tiller_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.admission_controller_options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.admission_controller_options.0.is_pod_security_policy_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.vcn_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "clusters.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.available_kubernetes_upgrades.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoint_config.0.is_public_ip_enabled", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoints.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.is_policy_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.image_policy_config.0.key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.image_policy_config.0.key_details.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.metadata.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.0.is_tiller_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.admission_controller_options.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.admission_controller_options.0.is_pod_security_policy_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.vcn_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

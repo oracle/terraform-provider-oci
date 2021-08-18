@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -56,7 +55,6 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterRecommendedNetworkResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -66,43 +64,37 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config + VmClusterRecommendedNetworkDataSourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", Optional, Create, vmClusterRecommendedNetworkSingularDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.cidr", "192.168.19.2/16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.domain", "oracle.com"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.gateway", "192.168.20.1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.netmask", "255.255.0.0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.network_type", "CLIENT"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.prefix", "myprefix1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "networks.0.vlan_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp", "1521"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp_ssl", "2484"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config + VmClusterRecommendedNetworkDataSourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", Optional, Create, vmClusterRecommendedNetworkSingularDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.cidr", "192.168.19.2/16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.domain", "oracle.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.gateway", "192.168.20.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.netmask", "255.255.0.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.network_type", "CLIENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "networks.0.prefix", "myprefix1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "networks.0.vlan_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp", "1521"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp_ssl", "2484"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "scans.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scans.#", "1"),
+			),
 		},
 	})
 }

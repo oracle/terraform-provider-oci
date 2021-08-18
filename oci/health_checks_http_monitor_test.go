@@ -64,7 +64,6 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksHttpMonitorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,194 +81,187 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+HttpMonitorResourceDependencies+
 		generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation), "healthchecks", "httpMonitor", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckHealthChecksHttpMonitorDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckHealthChecksHttpMonitorDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "method", "GET"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/"),
+				resource.TestCheckResourceAttr(resourceName, "port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "method", "GET"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create,
-						representationCopyWithNewProperties(httpMonitorRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "method", "GET"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/"),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpMonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create,
+					representationCopyWithNewProperties(httpMonitorRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "method", "GET"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/"),
+				resource.TestCheckResourceAttr(resourceName, "port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "30"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "method", "GET"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/"),
-					resource.TestCheckResourceAttr(resourceName, "port", "443"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "method", "GET"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/"),
+				resource.TestCheckResourceAttr(resourceName, "port", "443"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_health_checks_http_monitors", "test_http_monitors", Optional, Update, httpMonitorDataSourceRepresentation) +
-					compartmentIdVariableStr + HttpMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "home_region"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_health_checks_http_monitors", "test_http_monitors", Optional, Update, httpMonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + HttpMonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "home_region"),
 
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.home_region"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.interval_in_seconds", "30"),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.is_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.results_url"),
-					resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + HttpMonitorResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.home_region"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.interval_in_seconds", "30"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.results_url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + HttpMonitorResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "headers.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "home_region"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "interval_in_seconds", "30"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "method", "GET"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "path", "/"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "port", "443"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "HTTPS"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "results_url"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "targets.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "30"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vantage_point_names.#", "1"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + HttpMonitorResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "headers.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "home_region"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "interval_in_seconds", "30"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "method", "GET"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "path", "/"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "port", "443"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "HTTPS"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "results_url"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "30"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_point_names.#", "1"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + HttpMonitorResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

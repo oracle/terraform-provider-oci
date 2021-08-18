@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -28,7 +27,6 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityFaultDomainResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -38,34 +36,28 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
-					compartmentIdVariableStr + FaultDomainResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
-					resource.TestMatchResourceAttr(datasourceName, "compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
+				compartmentIdVariableStr + FaultDomainResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
+				resource.TestMatchResourceAttr(datasourceName, "compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
 
-					resource.TestCheckResourceAttr(datasourceName, "fault_domains.#", "3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.name"),
-					resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
-					resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
-					resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.id", regexp.MustCompile(`.*?faultdomain.*?`)),
-					resource.TestCheckResourceAttr(datasourceName, "fault_domains.0.name", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(datasourceName, "fault_domains.1.name", "FAULT-DOMAIN-2"),
-					resource.TestCheckResourceAttr(datasourceName, "fault_domains.2.name", "FAULT-DOMAIN-3"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "fault_domains.#", "3"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.name"),
+				resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
+				resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
+				resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.id", regexp.MustCompile(`.*?faultdomain.*?`)),
+				resource.TestCheckResourceAttr(datasourceName, "fault_domains.0.name", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(datasourceName, "fault_domains.1.name", "FAULT-DOMAIN-2"),
+				resource.TestCheckResourceAttr(datasourceName, "fault_domains.2.name", "FAULT-DOMAIN-3"),
+			),
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -26,7 +25,6 @@ func TestDatabaseDbSystemPatchHistoryEntryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbSystemPatchHistoryEntryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,27 +34,21 @@ func TestDatabaseDbSystemPatchHistoryEntryResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_system_patch_history_entries", "test_db_system_patch_history_entries", Required, Create, dbSystemPatchHistoryEntryDataSourceRepresentation) +
-					compartmentIdVariableStr + DbSystemPatchHistoryEntryResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_system_patch_history_entries", "test_db_system_patch_history_entries", Required, Create, dbSystemPatchHistoryEntryDataSourceRepresentation) +
+				compartmentIdVariableStr + DbSystemPatchHistoryEntryResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.patch_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.time_started"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.patch_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patch_history_entries.0.time_started"),
+			),
 		},
 	})
 }
