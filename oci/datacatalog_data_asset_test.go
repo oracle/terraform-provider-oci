@@ -65,7 +65,6 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogDataAssetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -83,133 +82,126 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DataAssetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation), "datacatalog", "dataAsset", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatacatalogDataAssetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatacatalogDataAssetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "key"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "key"),
-					resource.TestCheckResourceAttr(resourceName, "properties.%", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_key"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
-						compositeId = getDataAssetCompositeId(catalogId, resId)
-						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
+					compositeId = getDataAssetCompositeId(catalogId, resId)
+					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "key"),
-					resource.TestCheckResourceAttr(resourceName, "properties.%", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_key"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "key"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datacatalog_data_assets", "test_data_assets", Optional, Update, dataAssetDataSourceRepresentation) +
-					compartmentIdVariableStr + DataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNam"),
-					resource.TestCheckResourceAttr(datasourceName, "fields.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "type_key"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datacatalog_data_assets", "test_data_assets", Optional, Update, dataAssetDataSourceRepresentation) +
+				compartmentIdVariableStr + DataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayNam"),
+				resource.TestCheckResourceAttr(datasourceName, "fields.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "type_key"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_asset_collection.0.items.0.key"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DataAssetResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_key"),
+				resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_asset_collection.0.items.0.key"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataAssetResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_key"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "external_key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "3"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "type_key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "uri"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DataAssetResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       getDataAssetImportId(resourceName),
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "3"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type_key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "uri"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DataAssetResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateIdFunc:       getDataAssetImportId(resourceName),
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

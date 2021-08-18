@@ -67,7 +67,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreImageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -85,191 +84,184 @@ func TestCoreImageResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ImageResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation), "core", "image", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreImageDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+	ResourceTest(t, testAccCheckCoreImageDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ImageResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ImageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create,
-						representationCopyWithNewProperties(imageRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_images", "test_images", Optional, Update, imageDataSourceRepresentation) +
-					compartmentIdVariableStr + ImageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "images.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.agent_features.#", "0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.base_image_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.billable_size_in_gbs"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.create_image_allowed"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "NATIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "images.0.launch_options.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system_version"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.size_in_mbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "images.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ImageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "agent_features.#", "0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "base_image_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "create_image_allowed"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "launch_mode", "NATIVE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "operating_system"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "operating_system_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_mbs"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ImageResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"image_source_details",
-					"instance_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ImageResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
+				resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ImageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create,
+					representationCopyWithNewProperties(imageRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
+				resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
+				resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_images", "test_images", Optional, Update, imageDataSourceRepresentation) +
+				compartmentIdVariableStr + ImageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "images.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.agent_features.#", "0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.base_image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.billable_size_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.create_image_allowed"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "images.0.launch_options.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.operating_system_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.size_in_mbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "images.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ImageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "agent_features.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "base_image_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "create_image_allowed"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "launch_mode", "NATIVE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "operating_system"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "operating_system_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ImageResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"image_source_details",
+				"instance_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

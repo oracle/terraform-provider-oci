@@ -50,7 +50,6 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePreemptibleInstanceConfigResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := `
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
@@ -63,79 +62,72 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	resourceName := "oci_core_instance.test_instance"
 	datasourceName := "data.oci_core_instances.test_instances"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
+				resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.0.preserve_boot_volume", "false"),
+				resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.0.type", "TERMINATE"),
+
+				func(s *terraform.State) (err error) {
+					_, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreInstanceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
-					resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.0.preserve_boot_volume", "false"),
-					resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.0.type", "TERMINATE"),
 
-					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
+				compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
-					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
-
-					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.0.preemption_action.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.0.preemption_action.0.preserve_boot_volume", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.0.preemption_action.0.type", "TERMINATE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.processor_description"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + InstanceWithPreemptibleInstanceConfigResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.0.preemption_action.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.0.preemption_action.0.preserve_boot_volume", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.preemptible_instance_config.0.preemption_action.0.type", "TERMINATE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.processor_description"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + InstanceWithPreemptibleInstanceConfigResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

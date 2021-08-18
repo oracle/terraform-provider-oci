@@ -64,7 +64,6 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceAcceptedAgreementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -79,137 +78,130 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AcceptedAgreementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation), "marketplace", "acceptedAgreement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckMarketplaceAcceptedAgreementDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "package_version"),
+	ResourceTest(t, testAccCheckMarketplaceAcceptedAgreementDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "package_version"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "package_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "package_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", Optional, Update, acceptedAgreementDataSourceRepresentation) +
-					compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreement_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "package_version"),
-
-					resource.TestCheckResourceAttr(datasourceName, "accepted_agreements.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.agreement_id"),
-					resource.TestCheckResourceAttr(datasourceName, "accepted_agreements.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "accepted_agreements.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.package_version"),
-					resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.time_accepted"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AcceptedAgreementResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "accepted_agreement_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AcceptedAgreementResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"signature",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "package_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "package_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", Optional, Update, acceptedAgreementDataSourceRepresentation) +
+				compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreement_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "package_version"),
+
+				resource.TestCheckResourceAttr(datasourceName, "accepted_agreements.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.agreement_id"),
+				resource.TestCheckResourceAttr(datasourceName, "accepted_agreements.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "accepted_agreements.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.listing_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.package_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreements.0.time_accepted"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AcceptedAgreementResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "accepted_agreement_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"signature",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

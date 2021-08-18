@@ -98,7 +98,6 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -115,183 +114,176 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VolumeGroupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create, volumeGroupRepresentation), "core", "volumeGroup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreVolumeGroupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
-					resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
+	ResourceTest(t, testAccCheckCoreVolumeGroupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
+				resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// We need to assert that the volume group created above did cause the source volume to have the volume
-			// group id property populated correctly. Since the TF framework doesn't have a RefreshOnly directive, we are
-			// using PlanOnly to trigger a refresh, and then assert on the value
-			{
-				Config:   config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
-				PlanOnly: true,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet("oci_core_volume.source_volume_list.0", "volume_group_id"),
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create, volumeGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create,
-						representationCopyWithNewProperties(volumeGroupRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify that the change in order of the volume ids doesn't result in a new resource
-			{
-				Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigJumbledVolumeIds,
-				PlanOnly:           true,
-				ExpectNonEmptyPlan: false,
-			},
-			// verify that the change in list of volume ids does cause a change in the plan
-			{
-				Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigSingleVolumeId,
-				PlanOnly:           true,
-				ExpectNonEmptyPlan: true,
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_volume_groups", "test_volume_groups", Optional, Update, volumeGroupDataSourceRepresentation) +
-					compartmentIdVariableStr + VolumeGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.is_hydrated"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.size_in_mbs"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.source_details.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.source_details.0.type", "volumeIds"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.volume_ids.#"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"backup_policy_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+		// We need to assert that the volume group created above did cause the source volume to have the volume
+		// group id property populated correctly. Since the TF framework doesn't have a RefreshOnly directive, we are
+		// using PlanOnly to trigger a refresh, and then assert on the value
+		{
+			Config:   config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
+			PlanOnly: true,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet("oci_core_volume.source_volume_list.0", "volume_group_id"),
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create, volumeGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create,
+					representationCopyWithNewProperties(volumeGroupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify that the change in order of the volume ids doesn't result in a new resource
+		{
+			Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigJumbledVolumeIds,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: false,
+		},
+		// verify that the change in list of volume ids does cause a change in the plan
+		{
+			Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigSingleVolumeId,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_volume_groups", "test_volume_groups", Optional, Update, volumeGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + VolumeGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.is_hydrated"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.size_in_mbs"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.source_details.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.source_details.0.type", "volumeIds"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.volume_ids.#"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"backup_policy_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

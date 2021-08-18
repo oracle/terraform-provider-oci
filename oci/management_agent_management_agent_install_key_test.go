@@ -59,7 +59,6 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentInstallKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -74,133 +73,126 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ManagementAgentInstallKeyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation), "managementagent", "managementAgentInstallKey", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckManagementAgentManagementAgentInstallKeyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckManagementAgentManagementAgentInstallKeyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_keys", "test_management_agent_install_keys", Optional, Update, managementAgentInstallKeyDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_keys", "test_management_agent_install_keys", Optional, Update, managementAgentInstallKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.allowed_key_install_count", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.created_by_principal_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.current_key_install_count"),
-					resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagementAgentInstallKeyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_install_key_id"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.allowed_key_install_count", "10"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.created_by_principal_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.current_key_install_count"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_install_keys.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_install_keys.0.time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagementAgentInstallKeyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_install_key_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "allowed_key_install_count", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by_principal_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_install_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expires"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "allowed_key_install_count", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by_principal_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_install_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expires"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

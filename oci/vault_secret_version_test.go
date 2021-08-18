@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -28,7 +27,6 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVaultSecretVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -38,30 +36,24 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", Required, Create, secretVersionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SecretVersionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", Required, Create, secretVersionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SecretVersionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
 
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "content_type"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "version_number"),
-				),
-			},
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "content_type"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "version_number"),
+			),
 		},
 	})
 }

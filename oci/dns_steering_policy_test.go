@@ -156,7 +156,6 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsSteeringPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -175,375 +174,368 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SteeringPolicyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation), "dns", "steeringPolicy", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDnsSteeringPolicyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDnsSteeringPolicyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
+				resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
+				resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
-					resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
-					resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SteeringPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create,
-						representationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
-					resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
-					resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SteeringPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create,
+					representationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
+				resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
+				resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
-					resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
-					resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
-					resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
-					resource.TestCheckResourceAttr(resourceName, "ttl", "11"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
+				resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
+				resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
+				resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
+				resource.TestCheckResourceAttr(resourceName, "ttl", "11"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameFilter) +
-					generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies2", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter) +
-					compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "health_check_monitor_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "template", "CUSTOM"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameFilter) +
+				generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies2", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter) +
+				compartmentIdVariableStr + SteeringPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "health_check_monitor_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "template", "CUSTOM"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.health_check_monitor_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.self"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.template", "CUSTOM"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.ttl", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.health_check_monitor_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.self"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.template", "CUSTOM"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policies.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policies.0.ttl", "11"),
 
-					resource.TestCheckResourceAttr(datasourceName+"2", "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName+"2", "display_name_contains", "displayName"),
-					resource.TestCheckResourceAttrSet(datasourceName+"2", "health_check_monitor_id"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "template", "CUSTOM"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "time_created_less_than", "2038-01-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName+"2", "display_name_contains", "displayName"),
+				resource.TestCheckResourceAttrSet(datasourceName+"2", "health_check_monitor_id"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "template", "CUSTOM"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "time_created_less_than", "2038-01-01T00:00:00.000Z"),
 
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName+"2", "steering_policies.0.health_check_monitor_id"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.template", "CUSTOM"),
-					resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.ttl", "11"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName+"2", "steering_policies.0.health_check_monitor_id"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.template", "CUSTOM"),
+				resource.TestCheckResourceAttr(datasourceName+"2", "steering_policies.0.ttl", "11"),
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SteeringPolicyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SteeringPolicyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "answers.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.is_disabled", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.name", "name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.pool", "pool"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.rdata", "192.0.2.1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.rtype", "A"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "5"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.default_answer_data.0.should_keep", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.description", "filter description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.rule_type", "FILTER"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.cases.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.description", "health description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.rule_type", "HEALTH"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.cases.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.cases.0.count", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.default_count", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.description", "limit description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.rule_type", "LIMIT"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.description", "priority description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.rule_type", "PRIORITY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.answer_data.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.default_answer_data.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.default_answer_data.0.value", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.description", "weighted description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.rule_type", "WEIGHTED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "template", "CUSTOM"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ttl", "11"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SteeringPolicyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "answers.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.name", "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.pool", "pool"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.rdata", "192.0.2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "answers.0.rtype", "A"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.default_answer_data.0.should_keep", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.description", "filter description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.0.rule_type", "FILTER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.cases.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.description", "health description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.1.rule_type", "HEALTH"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.cases.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.cases.0.count", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.default_count", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.description", "limit description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.2.rule_type", "LIMIT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.description", "priority description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.3.rule_type", "PRIORITY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.answer_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.default_answer_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.default_answer_data.0.value", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.description", "weighted description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.4.rule_type", "WEIGHTED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "template", "CUSTOM"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ttl", "11"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SteeringPolicyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

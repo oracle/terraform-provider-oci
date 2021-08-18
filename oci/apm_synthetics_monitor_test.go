@@ -78,7 +78,6 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsMonitorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -93,161 +92,154 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+MonitorResourceDependencies+
 		generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, monitorRepresentation), "apmsynthetics", "monitor", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckApmSyntheticsMonitorDestroy,
-		Steps: []resource.TestStep{
+	ResourceTest(t, testAccCheckApmSyntheticsMonitorDestroy, []resource.TestStep{
 
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + MonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, monitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.is_certificate_validation_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "false"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_name"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_overwritten"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_secret"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.0.monitor_script_parameter.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_name", "testName"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_value", "myTest"),
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
-					resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-ashburn-1.oraclecloud.com"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + MonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, monitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_certificate_validation_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "false"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_name"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_overwritten"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_secret"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.0.monitor_script_parameter.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_name", "testName"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_value", "myTest"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-ashburn-1.oraclecloud.com"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + MonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, monitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.is_certificate_validation_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "true"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_name"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_overwritten"),
-					resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_secret"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.0.monitor_script_parameter.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_name", "testName"),
-					resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_value", "myTest1"),
-					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", Optional, Update, monitorDataSourceRepresentation) +
-					compartmentIdVariableStr + MonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, monitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "monitor_type", "SCRIPTED_BROWSER"),
-					resource.TestCheckResourceAttrSet(datasourceName, "script_id"),
-					resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
-
-					resource.TestCheckResourceAttr(datasourceName, "monitor_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "monitor_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Required, Create, monitorSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + MonitorResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_certificate_validation_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "SCRIPTED_BROWSER"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "script_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "script_parameters.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "script_parameters.0.is_overwritten"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "script_parameters.0.is_secret"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "script_parameters.0.monitor_script_parameter.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_points.0"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + MonitorResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"apm_domain_id",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + MonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, monitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_certificate_validation_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SCRIPTED_BROWSER"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_name"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_overwritten"),
+				resource.TestCheckResourceAttrSet(resourceName, "script_parameters.0.is_secret"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.0.monitor_script_parameter.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_name", "testName"),
+				resource.TestCheckResourceAttr(resourceName, "script_parameters.0.param_value", "myTest1"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", Optional, Update, monitorDataSourceRepresentation) +
+				compartmentIdVariableStr + MonitorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, monitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_type", "SCRIPTED_BROWSER"),
+				resource.TestCheckResourceAttrSet(datasourceName, "script_id"),
+				resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
+
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Required, Create, monitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MonitorResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "SCRIPTED_BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_certificate_validation_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "SCRIPTED_BROWSER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "script_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "script_parameters.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "script_parameters.0.is_overwritten"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "script_parameters.0.is_secret"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "script_parameters.0.monitor_script_parameter.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_points.0"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + MonitorResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"apm_domain_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

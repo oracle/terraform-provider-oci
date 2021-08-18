@@ -86,7 +86,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -102,140 +101,134 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+TagResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation), "identity", "tag", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityTagDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + TagResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
+				resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
-					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + TagResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + TagResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "validator.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "validator.0.validator_type", "ENUM"),
+				resource.TestCheckResourceAttr(resourceName, "validator.0.values.#", "2"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + TagResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "validator.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "validator.0.validator_type", "ENUM"),
-					resource.TestCheckResourceAttr(resourceName, "validator.0.values.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
-					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + TagResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
+				resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
-					compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
+				compartmentIdVariableStr + TagResourceConfigWithoutValidator,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_retired", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "TFTestTag"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.0.is_retired", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "TFTestTag"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tags.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + TagResourceConfigWithoutValidator,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_cost_tracking", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_retired", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "TFTestTag"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportStateIdFunc:       getTagCompositeId(resourceName),
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_cost_tracking", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_retired", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "TFTestTag"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + TagResourceConfigWithoutValidator,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportStateIdFunc:       getTagCompositeId(resourceName),
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

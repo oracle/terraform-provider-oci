@@ -58,7 +58,6 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalPluggableDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -76,169 +75,162 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation), "database", "externalPluggableDatabase", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseExternalPluggableDatabaseDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseExternalPluggableDatabaseDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalPluggableDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create,
-						representationCopyWithNewProperties(externalPluggableDatabaseRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalPluggableDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create,
+					representationCopyWithNewProperties(externalPluggableDatabaseRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_external_pluggable_databases", "test_external_pluggable_databases", Optional, Update, externalPluggableDatabaseDataSourceRepresentation) +
-					compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_container_database_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "NOT_CONNECTED"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_external_pluggable_databases", "test_external_pluggable_databases", Optional, Update, externalPluggableDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_container_database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "NOT_CONNECTED"),
 
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.database_management_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.external_container_database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.database_management_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.external_container_database_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.operations_insights_config.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ExternalPluggableDatabaseResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.operations_insights_config.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ExternalPluggableDatabaseResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_pluggable_database_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_management_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "myTestExternalPdb"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "operations_insights_config.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_management_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "myTestExternalPdb"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "operations_insights_config.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

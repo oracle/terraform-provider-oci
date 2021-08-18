@@ -45,7 +45,6 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -59,70 +58,63 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BackupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation), "database", "backup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseBackupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+	ResourceTest(t, testAccCheckDatabaseBackupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", Optional, Update, backupDataSourceRepresentation) +
-					compartmentIdVariableStr + BackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Optional, Update, backupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_edition"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
-					resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
-					"database_size_in_gbs",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", Optional, Update, backupDataSourceRepresentation) +
+				compartmentIdVariableStr + BackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Optional, Update, backupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_edition"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
+				"database_size_in_gbs",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

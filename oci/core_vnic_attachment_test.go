@@ -73,7 +73,6 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVnicAttachmentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -87,99 +86,92 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VnicAttachmentResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation), "core", "vnicAttachment", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreVnicAttachmentDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+			),
 		},
-		CheckDestroy: testAccCheckCoreVnicAttachmentDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "attachvnictestinstance"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "nic_index", "0"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "attachvnictestinstance"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "nic_index", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation) +
-					compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Update, vnicAttachmentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.0.display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.instance_id"),
-					resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.0.nic_index", "0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vlan_tag"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vnic_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"create_vnic_details.0.assign_private_dns_record",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation) +
+				compartmentIdVariableStr + VnicAttachmentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Update, vnicAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.0.display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.instance_id"),
+				resource.TestCheckResourceAttr(datasourceName, "vnic_attachments.0.nic_index", "0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vlan_tag"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vnic_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"create_vnic_details.0.assign_private_dns_record",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

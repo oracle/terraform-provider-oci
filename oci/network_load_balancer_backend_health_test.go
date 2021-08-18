@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -32,7 +31,6 @@ func TestNetworkLoadBalancerBackendHealthResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerBackendHealthResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -40,26 +38,20 @@ func TestNetworkLoadBalancerBackendHealthResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_network_load_balancer_backend_health.test_backend_health"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_health", "test_backend_health", Required, Create, nlbBackendHealthSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + NlbBackendHealthResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_health", "test_backend_health", Required, Create, nlbBackendHealthSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NlbBackendHealthResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_results.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_results.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+			),
 		},
 	})
 }

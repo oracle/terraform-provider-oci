@@ -57,7 +57,6 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbNodeConsoleConnectionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -72,81 +71,74 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DbNodeConsoleConnectionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation), "database", "dbNodeConsoleConnection", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseDbNodeConsoleConnectionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "db_node_id"),
-					resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
+	ResourceTest(t, testAccCheckDatabaseDbNodeConsoleConnectionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "db_node_id"),
+				resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_node_console_connections", "test_db_node_console_connections", Optional, Update, dbNodeConsoleConnectionDataSourceRepresentation) +
-					compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "db_node_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "console_connections.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.connection_string"),
-					resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.db_node_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.fingerprint"),
-					resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.state"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_string"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "fingerprint"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"public_key",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_node_console_connections", "test_db_node_console_connections", Optional, Update, dbNodeConsoleConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "db_node_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "console_connections.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.connection_string"),
+				resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.db_node_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.fingerprint"),
+				resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "console_connections.0.state"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_string"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fingerprint"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"public_key",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

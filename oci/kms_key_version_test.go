@@ -50,7 +50,6 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 	os.Setenv("disable_kms_version_delete", "true")
 
@@ -66,82 +65,76 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+KeyVersionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation), "keymanagement", "keyVersion", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + KeyVersionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + KeyVersionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
 
-					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", Optional, Update, keyVersionDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyVersionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Optional, Update, keyVersionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
-
-					resource.TestCheckResourceAttr(datasourceName, "key_versions.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_version_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.vault_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyVersionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + KeyVersionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: keyVersionImportId,
-				ImportStateVerifyIgnore: []string{
-					"management_endpoint",
-					"time_of_deletion",
-					"replica_details",
+				func(s *terraform.State) (err error) {
+					_, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", Optional, Update, keyVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + KeyVersionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Optional, Update, keyVersionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
+
+				resource.TestCheckResourceAttr(datasourceName, "key_versions.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_version_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.vault_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KeyVersionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + KeyVersionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateIdFunc: keyVersionImportId,
+			ImportStateVerifyIgnore: []string{
+				"management_endpoint",
+				"time_of_deletion",
+				"replica_details",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

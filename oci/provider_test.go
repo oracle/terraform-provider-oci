@@ -1253,3 +1253,22 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 	}
 
 }
+
+// Method to execute tests
+func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps []resource.TestStep) {
+	// set Generic preconfiguration method if not explicitly set
+	for index, _ := range steps {
+		if steps[index].PreConfig == nil {
+			steps[index].PreConfig = GenericTestStepPreConfiguration(index)
+		}
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": testAccProvider,
+		},
+		CheckDestroy: checkDestroyFunc,
+		Steps:        steps,
+	})
+}

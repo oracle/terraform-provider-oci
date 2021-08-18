@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -26,7 +25,6 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsVaultUsageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,26 +34,20 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", Required, Create, vaultUsageSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VaultUsageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", Required, Create, vaultUsageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VaultUsageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "software_key_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "software_key_version_count"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_key_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_key_version_count"),
+			),
 		},
 	})
 }

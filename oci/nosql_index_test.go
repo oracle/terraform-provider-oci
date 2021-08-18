@@ -74,7 +74,6 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlIndexResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -91,93 +90,86 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+IndexResourceDependencies+
 		generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexRepresentation), "nosql", "index", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckNosqlIndexDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + IndexResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_index"),
+				resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
+			),
 		},
-		CheckDestroy: testAccCheckNosqlIndexDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + IndexResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_index"),
-					resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + IndexResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + IndexResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexOptionalRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "is_if_not_exists", "false"),
-					resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "info"),
-					resource.TestCheckResourceAttr(resourceName, "keys.0.json_field_type", "STRING"),
-					resource.TestCheckResourceAttr(resourceName, "keys.0.json_path", "info"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_index"),
-					resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + IndexResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + IndexResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexOptionalRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_if_not_exists", "false"),
+				resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "info"),
+				resource.TestCheckResourceAttr(resourceName, "keys.0.json_field_type", "STRING"),
+				resource.TestCheckResourceAttr(resourceName, "keys.0.json_path", "info"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_index"),
+				resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						indexName, err := fromInstanceState(s, resourceName, "id")
-						tableName, _ := fromInstanceState(s, resourceName, "table_name_or_id")
-						compositeId = "tables/" + tableName + "/indexes/" + indexName
-						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					indexName, err := fromInstanceState(s, resourceName, "id")
+					tableName, _ := fromInstanceState(s, resourceName, "table_name_or_id")
+					compositeId = "tables/" + tableName + "/indexes/" + indexName
+					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", Optional, Update, indexDataSourceRepresentation) +
-					compartmentIdVariableStr + IndexResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "test_index"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "table_name_or_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", Optional, Update, indexDataSourceRepresentation) +
+				compartmentIdVariableStr + IndexResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "test_index"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "table_name_or_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "index_collection.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "index_collection.#", "1"),
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + IndexResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "index_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + IndexResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "index_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "keys.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "keys.0.column_name", "name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_index"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "keys.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "keys.0.column_name", "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_index"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "table_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name"),
+			),
 		},
 	})
 }

@@ -53,7 +53,6 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerBackendResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -64,110 +63,103 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckNetworkLoadBalancerBackendDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckNetworkLoadBalancerBackendDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Create, nlbBackendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "is_backup", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_drain", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_offline", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Create, nlbBackendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(resourceName, "is_backup", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_drain", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_offline", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "10"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(resourceName, "is_backup", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_drain", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_offline", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "weight", "11"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "is_backup", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_drain", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_offline", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "weight", "11"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backends", "test_backends", Optional, Update, nlbBackendDataSourceRepresentation) +
-					compartmentIdVariableStr + NlbBackendResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "backend_set_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_network_load_balancer_backends", "test_backends", Optional, Update, nlbBackendDataSourceRepresentation) +
+				compartmentIdVariableStr + NlbBackendResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "backend_set_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "backend_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_collection.0.items.#", "1"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "backend_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_collection.0.items.#", "1"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

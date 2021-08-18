@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -35,7 +34,6 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceListingPackageAgreementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -46,44 +44,38 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify resource
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
+				compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "package_version"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "content_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "prompt"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify resource
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
-					compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "package_version"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
+				compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
 
-					resource.TestCheckResourceAttrSet(resourceName, "content_url"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "prompt"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
-					compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
-
-					resource.TestCheckResourceAttrSet(datasourceName, "agreements.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.author"),
-					resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.content_url"),
-					resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.prompt"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "agreements.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.author"),
+				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.content_url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "agreements.0.prompt"),
+			),
 		},
 	})
 }

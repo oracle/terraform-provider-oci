@@ -83,7 +83,6 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerBackendSetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -95,214 +94,208 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckNetworkLoadBalancerBackendSetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "3000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckNetworkLoadBalancerBackendSetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "0"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "3000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Create, nlbBackendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "SGVsbG9Xb3JsZA=="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "SGVsbG9Xb3JsZA=="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Create, nlbBackendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "SGVsbG9Xb3JsZA=="),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "SGVsbG9Xb3JsZA=="),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "QnllV29ybGQ="),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "QnllV29ybGQ="),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// update with HTTP health checker with optionals
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Create, nlbHttpBackendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(true)$"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "202"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath"),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
+		// update with HTTP health checker with optionals
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Create, nlbHttpBackendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(true)$"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "202"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// update with HTTPS health checker
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
+		// update with HTTPS health checker
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// update with backends
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation) +
-					`data "oci_network_load_balancer_backend_sets" "test_backend_sets" {
+		// update with backends
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation) +
+				`data "oci_network_load_balancer_backend_sets" "test_backend_sets" {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set", "oci_network_load_balancer_backend.test_backend"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 					}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
-					// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
-					//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
+				// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
+				//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-				ExpectNonEmptyPlan: true,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+			ExpectNonEmptyPlan: true,
+		},
 
-			// Force create new by changing backend port
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation) +
-					`resource "oci_network_load_balancer_backend" "test_backend" {
+		// Force create new by changing backend port
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation) +
+				`resource "oci_network_load_balancer_backend" "test_backend" {
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 						backend_set_name = "${oci_network_load_balancer_backend_set.test_backend_set.name}"
 						ip_address = "10.0.0.3"
@@ -313,133 +306,132 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set", "oci_network_load_balancer_backend.test_backend"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 					}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
-					// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
-					//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "QnllV29ybGQ="),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "QnllV29ybGQ="),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
+				// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
+				//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-				ExpectNonEmptyPlan: true,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+			ExpectNonEmptyPlan: true,
+		},
 
-			// Remove backends while updating backendset
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
-					`data "oci_network_load_balancer_backend_sets" "test_backend_sets" {
+		// Remove backends while updating backendset
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
+				`data "oci_network_load_balancer_backend_sets" "test_backend_sets" {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
 					}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
-					resource.TestCheckNoResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
-					resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
+				resource.TestCheckNoResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-				ExpectNonEmptyPlan: true,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+			ExpectNonEmptyPlan: true,
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_sets", "test_backend_sets", Optional, Update, nlbBackendSetDataSourceRepresentation) +
-					compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_sets", "test_backend_sets", Optional, Update, nlbBackendSetDataSourceRepresentation) +
+				compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbBackendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetSingularDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
+		// verify singular datasource
+		{
+			Config: config + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "backends.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.interval_in_millis", "30000"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.port", "8080"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.protocol", "HTTPS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.request_data", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_data", ""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.retries", "5"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.return_code", "204"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.timeout_in_millis", "30000"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.url_path", "/urlPath2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_backend_set"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "policy", "TWO_TUPLE"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.protocol", "HTTPS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.request_data", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_data", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.return_code", "204"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.url_path", "/urlPath2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "policy", "TWO_TUPLE"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation),
+		},
 
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

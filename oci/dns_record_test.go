@@ -65,7 +65,6 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -78,86 +77,79 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	saveConfigContent(tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
 		generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil), "dns", "record", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDnsRecordDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies, nil),
+		},
+		// verify create with optionals
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Create, recordRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
+				resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
+				resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttr(resourceName, "ttl", "3600"),
+				TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
 
-			// delete before next create
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies, nil),
-			},
-			// verify create with optionals
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Create, recordRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
-					resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
-					resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttr(resourceName, "ttl", "3600"),
-					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId == resId2 {
+						return fmt.Errorf("resource was not recreated after delete")
+					}
+					resId = resId2
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("resource was not recreated after delete")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Update, recordRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "rdata", "77.77.77.77"),
+				resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
+				resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttr(resourceName, "ttl", "1000"),
+				TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
 
-			// verify updates to updatable parameters
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Update, recordRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttr(resourceName, "is_protected", "false"),
-					resource.TestCheckResourceAttr(resourceName, "rdata", "77.77.77.77"),
-					resource.TestCheckResourceAttrSet(resourceName, "record_hash"),
-					resource.TestCheckResourceAttrSet(resourceName, "rrset_version"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttr(resourceName, "ttl", "1000"),
-					TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("record hash was the same after an update, it should be different")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId == resId2 {
+						return fmt.Errorf("record hash was the same after an update, it should be different")
+					}
+					return err
+				},
+			),
 		},
 	})
 }
@@ -170,7 +162,6 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 func TestDnsRecordsResource_datasources(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_datasources")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -179,14 +170,10 @@ func TestDnsRecordsResource_datasources(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("dns_data_source")
 	datasourceName := "data.oci_dns_records.test_records"
 
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 
@@ -196,13 +183,13 @@ data "oci_dns_records" "test_records" {
   sort_by = "ttl"
   sort_order = "DESC"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "records.0.rtype", "NS"),
-					resource.TestCheckResourceAttr(datasourceName, "records.0.ttl", "86400"),
-				),
-			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "records.0.rtype", "NS"),
+				resource.TestCheckResourceAttr(datasourceName, "records.0.ttl", "86400"),
+			),
+		},
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 data "oci_dns_records" "test_records" {
   zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
   domain = "${oci_dns_zone.test_global_zone.name}"
@@ -211,10 +198,9 @@ data "oci_dns_records" "test_records" {
 	  values = ["SOA"]
 	}
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "records.#", "1"),
-				),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "records.#", "1"),
+			),
 		},
 	})
 }
@@ -223,7 +209,6 @@ data "oci_dns_records" "test_records" {
 func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_diffSuppression")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -233,14 +218,29 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	resourceName := "oci_dns_record.test_record"
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify AAAA ipv6 shortening does not cause diffs
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+resource "oci_dns_record" "test_record" {
+	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
+	domain = "${oci_dns_zone.test_global_zone.name}"
+	rtype = "AAAA"
+	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+	ttl = "3600"
+}`, nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+				resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify AAAA ipv6 shortening does not cause diffs
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -248,40 +248,21 @@ resource "oci_dns_record" "test_record" {
 	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
 	ttl = "3600"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
-					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+				resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
-resource "oci_dns_record" "test_record" {
-	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
-	domain = "${oci_dns_zone.test_global_zone.name}"
-	rtype = "AAAA"
-	rdata = "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
-	ttl = "3600"
-}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
-					resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -289,12 +270,12 @@ resource "oci_dns_record" "test_record" {
 	rdata = "0000:0000:0000:0000:0000:8a2e:0370:0001"
 	ttl = "3600"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rdata", "::8a2e:370:1"),
-				),
-			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rdata", "::8a2e:370:1"),
+			),
+		},
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -302,12 +283,12 @@ resource "oci_dns_record" "test_record" {
 	rdata = "8a2e:0000:0000:0000:0000:0370:0000:0000"
 	ttl = "3600"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rdata", "8a2e::370:0:0"),
-				),
-			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rdata", "8a2e::370:0:0"),
+			),
+		},
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -315,13 +296,13 @@ resource "oci_dns_record" "test_record" {
 	rdata = "arbitrary text"
 	ttl = "3600"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rdata", "\"arbitrary\" \"text\""),
-				),
-			},
-			// this tests represents several record types where the service appends a `.` to the rdata
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rdata", "\"arbitrary\" \"text\""),
+			),
+		},
+		// this tests represents several record types where the service appends a `.` to the rdata
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -329,10 +310,9 @@ resource "oci_dns_record" "test_record" {
 	rdata = "other.tf-provider.oci-record-test"
 	ttl = "3600"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rdata", "other.tf-provider.oci-record-test."),
-				),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rdata", "other.tf-provider.oci-record-test."),
+			),
 		},
 	})
 }
@@ -341,7 +321,6 @@ resource "oci_dns_record" "test_record" {
 func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_badUpdate")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -350,13 +329,9 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("dns_bad_update")
 	resourceName := "oci_dns_record.test_record"
 
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+	ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -364,12 +339,12 @@ resource "oci_dns_record" "test_record" {
 	rdata = "192.168.0.1"
 	ttl = "3600"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
-				),
-			},
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
+			),
+		},
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+`
 resource "oci_dns_record" "test_record" {
 	zone_name_or_id = "${oci_dns_zone.test_global_zone.name}"
 	domain = "${oci_dns_zone.test_global_zone.name}"
@@ -377,13 +352,12 @@ resource "oci_dns_record" "test_record" {
 	rdata = "192.168.0.1"
 	ttl = "-1"
 }`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
-				// todo: this test was attempting to verify the resource is not changed if the update operation fails
-				// but this terraform testing library does not run "Checks" if you add an error expectation ;_;
-				),
-				ExpectError: regexp.MustCompile("-1 is not a valid value for TTL"),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+			//resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
+			// todo: this test was attempting to verify the resource is not changed if the update operation fails
+			// but this terraform testing library does not run "Checks" if you add an error expectation ;_;
+			),
+			ExpectError: regexp.MustCompile("-1 is not a valid value for TTL"),
 		},
 	})
 }

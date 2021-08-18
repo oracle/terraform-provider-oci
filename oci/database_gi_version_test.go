@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -27,7 +26,6 @@ func TestDatabaseGiVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseGiVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -37,24 +35,18 @@ func TestDatabaseGiVersionResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", Required, Create, giVersionDataSourceRepresentation) +
-					compartmentIdVariableStr + GiVersionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", Required, Create, giVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + GiVersionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "gi_versions.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "gi_versions.0.version"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "gi_versions.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "gi_versions.0.version"),
+			),
 		},
 	})
 }

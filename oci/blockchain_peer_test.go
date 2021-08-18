@@ -58,7 +58,6 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBlockchainPeerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,129 +76,122 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PeerResourceDependencies+
 		generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation), "blockchain", "peer", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckBlockchainPeerDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
+				resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckBlockchainPeerDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
-					resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
+				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "host"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_key"),
+				resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
-					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "host"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_key"),
-					resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
-						compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/peers/" + resId
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
+					compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/peers/" + resId
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
-					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "host"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.6"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_key"),
-					resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
+				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "host"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.6"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_key"),
+				resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", Optional, Update, peerDataSourceRepresentation) +
-					compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + PeerResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", Optional, Update, peerDataSourceRepresentation) +
+				compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + PeerResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "alias", "alias"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.6"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_key"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "role", "MEMBER"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PeerResourceConfig + idcsAccessTokenVariableStr,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateIdFunc:       getBlockchainPeerCompositeId(resourceName),
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "alias", "alias"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "0.6"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_key"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "role", "MEMBER"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + PeerResourceConfig + idcsAccessTokenVariableStr,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateIdFunc:       getBlockchainPeerCompositeId(resourceName),
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

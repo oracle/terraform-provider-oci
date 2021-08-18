@@ -94,7 +94,6 @@ func TestDatabaseDatabaseSoftwareImageResourceForExaccShape(t *testing.T) {
 		t.Skip("Skipping suppressed TestDatabaseDatabaseSoftwareImageResourceForExaccShape")
 	}
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -103,99 +102,92 @@ func TestDatabaseDatabaseSoftwareImageResourceForExaccShape(t *testing.T) {
 	datasourceName := "data.oci_database_database_software_images.test_database_software_images"
 	singularDatasourceName := "data.oci_database_database_software_image.test_database_software_image"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseDatabaseSoftwareImageDestroyForExaccShape,
-		Steps: []resource.TestStep{
+	ResourceTest(t, testAccCheckDatabaseDatabaseSoftwareImageDestroyForExaccShape, []resource.TestStep{
 
-			// verify creation of Database Software Image with EXACC_SHAPE
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentationForExaccShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
-					resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				),
-			},
-			// verify Update of Database Software Image created for shape EXACC_SHAPE
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExaccShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19_U1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
-					resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentationForExaccShape) +
-					compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExaccShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "DB_Image_V19"),
-					resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXACC_SHAPE"),
-					resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.display_name", "DB_Image_V19_U1"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "EXACC_SHAPE"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.is_upgrade_supported"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageSingularDataSourceRepresentationForExaccShape) +
-					compartmentIdVariableStr + DatabaseSoftwareImageResourceConfigForExaccShape,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "DB_Image_V19_U1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXACC_SHAPE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
+		// verify creation of Database Software Image with EXACC_SHAPE
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentationForExaccShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+		// verify Update of Database Software Image created for shape EXACC_SHAPE
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExaccShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19_U1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentationForExaccShape) +
+				compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExaccShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "DB_Image_V19"),
+				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.display_name", "DB_Image_V19_U1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.is_upgrade_supported"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageSingularDataSourceRepresentationForExaccShape) +
+				compartmentIdVariableStr + DatabaseSoftwareImageResourceConfigForExaccShape,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "DB_Image_V19_U1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXACC_SHAPE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
 		},
 	})
 }
@@ -333,7 +325,6 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 		t.Skip("Skipping suppressed TestDatabaseDatabaseSoftwareImageResourceExadata_basic")
 	}
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -351,217 +342,210 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DatabaseSoftwareImageResourceDependenciesForExaShape+
 		generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentationForExadataShape), "database", "databaseSoftwareImage", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseDatabaseSoftwareImageDestroyExa,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentationForExadataShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
-					resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
+	ResourceTest(t, testAccCheckDatabaseDatabaseSoftwareImageDestroyExa, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentationForExadataShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape,
-			},
-
-			//verify create with source_db_home
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForSourceDbHome +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentationForSourceDbHome),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape,
-			},
-
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentationForExadataShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create,
-						representationCopyWithNewProperties(databaseSoftwareImageRepresentationForExadataShape, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExadataShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19_U1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
-					databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentationForExadataShape) +
-					compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
-					generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExadataShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "DB_Image_V19"),
-					resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.display_name", "DB_Image_V19_U1"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.is_upgrade_supported"),
-					resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageSingularDataSourceRepresentationForExaccShape) +
-					compartmentIdVariableStr + DatabaseSoftwareImageResourceConfigForExadataShape,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_one_off_patches.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "database_version", "19.0.0.0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "DB_Image_V19_U1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXADATA_SHAPE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.7.0.0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceConfigForExadataShape,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{
-					//	"source_db_home_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape,
+		},
+
+		//verify create with source_db_home
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForSourceDbHome +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentationForSourceDbHome),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape,
+		},
+
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentationForExadataShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create,
+					representationCopyWithNewProperties(databaseSoftwareImageRepresentationForExadataShape, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExadataShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DB_Image_V19_U1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(resourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			PreConfig: waitTillCondition(testAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
+				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentationForExadataShape) +
+				compartmentIdVariableStr + DatabaseSoftwareImageResourceDependenciesForExaShape +
+				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentationForExadataShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "DB_Image_V19"),
+				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(datasourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_included_patches.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.display_name", "DB_Image_V19_U1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.is_upgrade_supported"),
+				resource.TestCheckResourceAttr(datasourceName, "database_software_images.0.patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_software_images.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageSingularDataSourceRepresentationForExaccShape) +
+				compartmentIdVariableStr + DatabaseSoftwareImageResourceConfigForExadataShape,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_included_patches.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_software_image_one_off_patches.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_version", "19.0.0.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "DB_Image_V19_U1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXADATA_SHAPE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_type", "DATABASE_IMAGE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patch_set", "19.7.0.0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceConfigForExadataShape,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{
+				//	"source_db_home_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -76,7 +76,6 @@ func TestLoggingLogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingLogResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -93,178 +92,171 @@ func TestLoggingLogResource_basic(t *testing.T) {
 
 	var compositeId string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckLoggingLogDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + LogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckLoggingLogDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + LogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + LogResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + LogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
+				resource.TestCheckResourceAttr(resourceName, "retention_duration", "30"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + LogResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + LogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
-					resource.TestCheckResourceAttr(resourceName, "retention_duration", "30"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							logGroupId, _ := fromInstanceState(s, resourceName, "log_group_id")
-							compositeId = getLogCompositeId(logGroupId, resId)
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						logGroupId, _ := fromInstanceState(s, resourceName, "log_group_id")
+						compositeId = getLogCompositeId(logGroupId, resId)
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + LogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
-					resource.TestCheckResourceAttr(resourceName, "retention_duration", "60"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + LogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
+				resource.TestCheckResourceAttr(resourceName, "retention_duration", "60"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, logDataSourceRepresentation) +
-					compartmentIdVariableStr + LogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(datasourceName, "log_type", "SERVICE"),
-					resource.TestCheckResourceAttr(datasourceName, "source_resource", testBucketName),
-					resource.TestCheckResourceAttr(datasourceName, "source_service", "objectstorage"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.category", "write"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.resource", testBucketName),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.service", "objectstorage"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.source_type", "OCISERVICE"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.log_group_id"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.log_type", "SERVICE"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.retention_duration", "60"),
-					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.time_last_modified"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + LogResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, logDataSourceRepresentation) +
+				compartmentIdVariableStr + LogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(datasourceName, "log_type", "SERVICE"),
+				resource.TestCheckResourceAttr(datasourceName, "source_resource", testBucketName),
+				resource.TestCheckResourceAttr(datasourceName, "source_service", "objectstorage"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.resource", testBucketName),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.source_type", "OCISERVICE"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.log_group_id"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.log_type", "SERVICE"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.retention_duration", "60"),
+				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "logs.0.time_last_modified"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LogResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.category", "write"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.resource", testBucketName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.service", "objectstorage"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "log_type", "SERVICE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "retention_duration", "60"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + LogResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ImportStateIdFunc:       GetLogResourceCompositeId(resourceName),
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.resource", testBucketName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.service", "objectstorage"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "log_type", "SERVICE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "retention_duration", "60"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + LogResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ImportStateIdFunc:       GetLogResourceCompositeId(resourceName),
+			ResourceName:            resourceName,
 		},
 	})
 }

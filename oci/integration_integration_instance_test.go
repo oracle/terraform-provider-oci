@@ -104,7 +104,6 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		t.Skip("Skipping suppressed TestIntegrationIntegrationInstanceResource_basic")
 	}
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -125,307 +124,300 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+IntegrationInstanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckIntegrationIntegrationInstanceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
+	ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr(),
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr +
-					tagVariablesStr() +
-					idcsAccessTokenVariableStr() +
-					vaultSecretIdStr +
-					IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap(
-						"oci_integration_integration_instance",
-						"test_integration_instance",
-						Optional,
-						Create,
-						integrationInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
-					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
-					// 	"hostname": "hostname",
-					// },
-					// 	[]string{
-					// 		"certificate_secret_id",
-					// 	}),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
-					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr +
-					tagVariablesStr() +
-					idcsAccessTokenVariableStr() +
-					compartmentIdUVariableStr +
-					vaultSecretIdStr +
-					IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap(
-						"oci_integration_integration_instance",
-						"test_integration_instance",
-						Optional,
-						Create,
-						representationCopyWithNewProperties(integrationInstanceRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
-					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
-					// 	"hostname": "hostname",
-					// },
-					// 	[]string{
-					// 		"certificate_secret_id",
-					// 	}),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
-					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
-					// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
-					// 	"hostname": "hostname2",
-					// },
-					// 	[]string{
-					// 		"certificate_secret_id",
-					// 	}),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
-					resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "ENTERPRISE"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "message_packs", "2"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.#", "1"),
-					// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.alternate_custom_endpoints.#", "1"),
-					// CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.alternate_custom_endpoints", map[string]string{
-					// 	"hostname": "hostname2",
-					// },
-					// 	[]string{
-					// 		"certificate_secret_id",
-					// 		"certificate_secret_version",
-					// 	}),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2-updated.com"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.integration_instance_type", "ENTERPRISE"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_byol", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_file_server_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_visual_builder_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.message_packs", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
-					// CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
-					// 	"hostname": "hostname2",
-					// },
-					// 	[]string{
-					// 		"certificate_secret_version",
-					// 	}),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", "ENTERPRISE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_file_server_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_visual_builder_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "message_packs", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-						"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.0.id",
-						getEnvSettingWithBlankDefault("allow_listed_http_vcn")),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"idcs_at",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr(),
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr +
+				tagVariablesStr() +
+				idcsAccessTokenVariableStr() +
+				vaultSecretIdStr +
+				IntegrationInstanceResourceDependencies +
+				generateResourceFromRepresentationMap(
+					"oci_integration_integration_instance",
+					"test_integration_instance",
+					Optional,
+					Create,
+					integrationInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
+				// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
+				// 	"hostname": "hostname",
+				// },
+				// 	[]string{
+				// 		"certificate_secret_id",
+				// 	}),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr +
+				tagVariablesStr() +
+				idcsAccessTokenVariableStr() +
+				compartmentIdUVariableStr +
+				vaultSecretIdStr +
+				IntegrationInstanceResourceDependencies +
+				generateResourceFromRepresentationMap(
+					"oci_integration_integration_instance",
+					"test_integration_instance",
+					Optional,
+					Create,
+					representationCopyWithNewProperties(integrationInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
+				// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
+				// 	"hostname": "hostname",
+				// },
+				// 	[]string{
+				// 		"certificate_secret_id",
+				// 	}),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
+				// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
+				// 	"hostname": "hostname2",
+				// },
+				// 	[]string{
+				// 		"certificate_secret_id",
+				// 	}),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "ENTERPRISE"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "message_packs", "2"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.#", "1"),
+				// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.alternate_custom_endpoints.#", "1"),
+				// CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.alternate_custom_endpoints", map[string]string{
+				// 	"hostname": "hostname2",
+				// },
+				// 	[]string{
+				// 		"certificate_secret_id",
+				// 		"certificate_secret_version",
+				// 	}),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2-updated.com"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.integration_instance_type", "ENTERPRISE"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_byol", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_file_server_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.message_packs", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
+				// CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
+				// 	"hostname": "hostname2",
+				// },
+				// 	[]string{
+				// 		"certificate_secret_version",
+				// 	}),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", "ENTERPRISE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_file_server_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "message_packs", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.0.id",
+					getEnvSettingWithBlankDefault("allow_listed_http_vcn")),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"idcs_at",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

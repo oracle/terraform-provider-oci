@@ -64,7 +64,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeOnPremConnectorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -79,165 +78,158 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDataSafeOnPremConnectorDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDataSafeOnPremConnectorDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create, onPremConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create, onPremConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OnPremConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create,
+					representationCopyWithNewProperties(onPremConnectorRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OnPremConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create,
-						representationCopyWithNewProperties(onPremConnectorRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", Optional, Update, onPremConnectorDataSourceRepresentation) +
+				compartmentIdVariableStr + OnPremConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connector_id"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connector_lifecycle_state", "INACTIVE"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.created_version"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OnPremConnectorResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "on_prem_connector_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", Optional, Update, onPremConnectorDataSourceRepresentation) +
-					compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connector_id"),
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connector_lifecycle_state", "INACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.created_version"),
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + OnPremConnectorResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "on_prem_connector_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "available_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + OnPremConnectorResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + OnPremConnectorResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

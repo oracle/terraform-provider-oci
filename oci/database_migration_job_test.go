@@ -72,7 +72,6 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationJobResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -87,113 +86,106 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+
 		generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Create, jobRepresentation), "databasemigration", "job", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseMigrationJobDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "job_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "job_id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseMigrationJobDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "job_id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Create, jobRepresentation2),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "type"),
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "job_id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Create, jobRepresentation2),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "job_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "job_id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Update, jobRepresentation2),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "type"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "job_id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_jobs", "test_jobs", Optional, Update, jobDataSourceRepresentation) +
-					compartmentIdVariableStr + //JobResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Update, jobRepresentation2),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "Succeeded"),
-					resource.TestCheckResourceAttr(datasourceName, "job_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "job_collection.0.items.#", "0"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + JobResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_displayName2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + JobResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       false,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Update, jobRepresentation2),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "job_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "migration_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "job_id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_jobs", "test_jobs", Optional, Update, jobDataSourceRepresentation) +
+				compartmentIdVariableStr + //JobResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Optional, Update, jobRepresentation2),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "Succeeded"),
+				resource.TestCheckResourceAttr(datasourceName, "job_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "job_collection.0.items.#", "0"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + JobResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + JobResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       false,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

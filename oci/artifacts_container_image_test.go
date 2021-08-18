@@ -11,7 +11,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	oci_artifacts "github.com/oracle/oci-go-sdk/v46/artifacts"
 	"github.com/oracle/oci-go-sdk/v46/common"
@@ -48,7 +47,6 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerImageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	datasourceName := "data.oci_artifacts_container_images.test_container_images"
@@ -56,53 +54,47 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", Optional, Create, containerImageDataSourceRepresentation) +
+				ContainerImageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
+				resource.TestCheckResourceAttr(datasourceName, "is_versioned", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.#", "1"),
+
+				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.remaining_items_count", "0"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", Optional, Create, containerImageDataSourceRepresentation) +
-					ContainerImageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
-					resource.TestCheckResourceAttr(datasourceName, "is_versioned", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation) +
+				ContainerImageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "container_image_collection.#", "1"),
-
-					resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.remaining_items_count", "0"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation) +
-					ContainerImageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "digest"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "layers.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "layers_size_in_bytes"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "manifest_size_in_bytes"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "pull_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "versions.#"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "digest"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "layers.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "layers_size_in_bytes"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "manifest_size_in_bytes"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "pull_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "versions.#"),
+			),
 		},
 	})
 }

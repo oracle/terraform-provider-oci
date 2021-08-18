@@ -51,7 +51,6 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementManagedInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -66,152 +65,146 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ManagedInstanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation), "osmanagement", "managedInstance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// create dependencies
+		{
+			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies,
+			Check: func(s *terraform.State) (err error) {
+				log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent takes time to activate")
+				time.Sleep(5 * time.Minute)
+				return nil
+			},
 		},
-		Steps: []resource.TestStep{
-			// create dependencies
-			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies,
-				Check: func(s *terraform.State) (err error) {
-					log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent takes time to activate")
-					time.Sleep(5 * time.Minute)
-					return nil
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-			},
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_data_collection_authorized", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_data_collection_authorized", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_data_collection_authorized", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instances", "test_managed_instances", Optional, Update, managedInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "os_family", "LINUX"),
-
-					resource.TestCheckResourceAttr(datasourceName, "managed_instances.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.is_reboot_required"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.last_boot"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.last_checkin"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.os_family"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.status"),
-					resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.updates_available"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagedInstanceResourceConfig +
-					generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "autonomous.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bug_updates_available"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "enhancement_updates_available"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_data_collection_authorized", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reboot_required"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ksplice_effective_kernel_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "last_boot"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "last_checkin"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_family"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_kernel_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "other_updates_available"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "scheduled_job_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "security_updates_available"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "updates_available"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_count"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ManagedInstanceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"managed_instance_id",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_data_collection_authorized", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instances", "test_managed_instances", Optional, Update, managedInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagedInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "os_family", "LINUX"),
+
+				resource.TestCheckResourceAttr(datasourceName, "managed_instances.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.is_reboot_required"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.last_boot"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.last_checkin"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.os_family"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_instances.0.updates_available"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagedInstanceResourceConfig +
+				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bug_updates_available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "enhancement_updates_available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_data_collection_authorized", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reboot_required"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ksplice_effective_kernel_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_boot"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_checkin"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_family"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_kernel_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "other_updates_available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "scheduled_job_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_updates_available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "updates_available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "work_request_count"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ManagedInstanceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"managed_instance_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -47,7 +47,6 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityApiKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -62,76 +61,69 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ApiKeyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation), "identity", "apiKey", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityApiKeyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
+				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+			),
 		},
-		CheckDestroy: testAccCheckIdentityApiKeyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies,
-			},
-			// verify create with export
-			{
-				Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies,
+		},
+		// verify create with export
+		{
+			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
+				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
-					func(s *terraform.State) (err error) {
-						fingerprint, _ = fromInstanceState(s, resourceName, "fingerprint")
-						userId, _ := fromInstanceState(s, resourceName, "user_id")
-						compositeId = "oci_identity_api_key:users/" + userId + "/apiKeys/" + fingerprint
-						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					fingerprint, _ = fromInstanceState(s, resourceName, "fingerprint")
+					userId, _ := fromInstanceState(s, resourceName, "user_id")
+					compositeId = "oci_identity_api_key:users/" + userId + "/apiKeys/" + fingerprint
+					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
-					compartmentIdVariableStr + ApiKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + ApiKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.fingerprint"),
-					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.id"),
-					resource.TestMatchResourceAttr(datasourceName, "api_keys.0.key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
-					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.user_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       getApiKeyImportId(resourceName),
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.fingerprint"),
+				resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.id"),
+				resource.TestMatchResourceAttr(datasourceName, "api_keys.0.key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
+				resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.user_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateIdFunc:       getApiKeyImportId(resourceName),
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

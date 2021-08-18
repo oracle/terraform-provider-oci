@@ -203,7 +203,6 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDataGuardAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -218,137 +217,131 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DataGuardAssociationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create NewDbSystem
+		{
+			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependenciesNewDbSystem +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationNewDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.backup_network_nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
+				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create NewDbSystem
-			{
-				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependenciesNewDbSystem +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationNewDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.backup_network_nsg_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
-					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies,
+		},
+		// verify create with optionals on Existing DbSystem
+		{
+			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
+				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies,
-			},
-			// verify create with optionals on Existing DbSystem
-			{
-				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
-					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(resourceName, "role"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
-					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "delete_standby_db_home_on_delete", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(resourceName, "role"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
+				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "delete_standby_db_home_on_delete", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", Optional, Update, dataGuardAssociationDataSourceRepresentation) +
-					compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", Optional, Update, dataGuardAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.peer_role"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.role"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_guard_associations.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "data_guard_associations.0.transport_type", "ASYNC"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_db_system_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_data_guard_association_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_data_guard_association_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
+			),
 		},
 	})
 }

@@ -79,7 +79,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayGatewayResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -100,215 +99,208 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+vaultSecretIdStr+GatewayResourceDependencies+
 		generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation), "apigateway", "gateway", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckApigatewayGatewayDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckApigatewayGatewayDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + GatewayResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(3 * time.Minute)
+					return err
+				},
+			),
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + GatewayResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					func(s *terraform.State) (err error) {
-						time.Sleep(3 * time.Minute)
-						return err
-					},
-				),
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create,
-						representationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create,
+					representationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "11"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "11"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "11"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host2"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "response_cache_details.0.authentication_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.connect_timeout_in_ms", "11"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.is_ssl_verify_disabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.read_timeout_in_ms", "11"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.send_timeout_in_ms", "11"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.host", "host2"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.servers.0.port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", Optional, Update, gatewayDataSourceRepresentation) +
-					compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", Optional, Update, gatewayDataSourceRepresentation) +
+				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "gateway_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "gateway_collection.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.freeform_tags.%", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewaySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "gateway_collection.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.freeform_tags.%", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewaySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_type", "PUBLIC"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "response_cache_details.0.authentication_secret_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.connect_timeout_in_ms", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.is_ssl_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.is_ssl_verify_disabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.read_timeout_in_ms", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.send_timeout_in_ms", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.0.host", "host2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.0.port", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"lifecycle_details"},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "response_cache_details.0.authentication_secret_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.authentication_secret_version_number", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.connect_timeout_in_ms", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.is_ssl_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.is_ssl_verify_disabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.read_timeout_in_ms", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.send_timeout_in_ms", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.0.host", "host2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.servers.0.port", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "response_cache_details.0.type", "EXTERNAL_RESP_CACHE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"lifecycle_details"},
+			ResourceName:            resourceName,
 		},
 	})
 }

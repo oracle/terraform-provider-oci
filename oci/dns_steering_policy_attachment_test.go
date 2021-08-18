@@ -76,7 +76,6 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsSteeringPolicyAttachmentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -92,179 +91,172 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	saveConfigContent(tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
 		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil), "dns", "steeringPolicyAttachment", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDnsSteeringPolicyAttachmentDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDnsSteeringPolicyAttachmentDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies, nil),
+		},
+		// verify create with optionals
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
-			// delete before next create
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies, nil),
-			},
-			// verify create with optionals
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
+		// verify updates to updatable parameters
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: tokenFn(config+
-					generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentation)+
-					compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestMatchResourceAttr(datasourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2038-01-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zone_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: tokenFn(config+
+				generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentation)+
+				compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestMatchResourceAttr(datasourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2038-01-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zone_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.0.display_name", "displayName2"),
-					resource.TestMatchResourceAttr(datasourceName, "steering_policy_attachments.0.domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.steering_policy_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.zone_id"),
-				),
-			},
-			// verify datasource with domain_contains query param
-			{
-				Config: tokenFn(config+
-					generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentationWithDomainContains)+
-					compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestMatchResourceAttr(datasourceName, "domain_contains", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
-					resource.TestCheckResourceAttrSet(datasourceName, "zone_id"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.0.display_name", "displayName2"),
+				resource.TestMatchResourceAttr(datasourceName, "steering_policy_attachments.0.domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.steering_policy_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.zone_id"),
+			),
+		},
+		// verify datasource with domain_contains query param
+		{
+			Config: tokenFn(config+
+				generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentationWithDomainContains)+
+				compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestMatchResourceAttr(datasourceName, "domain_contains", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+				resource.TestCheckResourceAttrSet(datasourceName, "zone_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.self"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.state"),
-					resource.TestMatchResourceAttr(datasourceName, "steering_policy_attachments.0.domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.steering_policy_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.zone_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: tokenFn(config+
-					generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentSingularDataSourceRepresentation)+
-					compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_attachment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "steering_policy_attachments.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.self"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.state"),
+				resource.TestMatchResourceAttr(datasourceName, "steering_policy_attachments.0.domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.steering_policy_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "steering_policy_attachments.0.zone_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: tokenFn(config+
+				generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentSingularDataSourceRepresentation)+
+				compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_attachment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestMatchResourceAttr(singularDatasourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestMatchResourceAttr(singularDatasourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
 
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-					generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update,
-						getUpdatedRepresentationCopy("domain_name", Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
-					resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update,
+					getUpdatedRepresentationCopy("domain_name", Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
+				resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -66,7 +66,6 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiHostInsightResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -90,172 +89,165 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+HostInsightResourceDependencies+
 		generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create, hostInsightRepresentation), "opsi", "hostInsight", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOpsiHostInsightDestroy, []resource.TestStep{
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create, hostInsightRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOpsiHostInsightDestroy,
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create, hostInsightRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "host_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "status"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + compartmentIdUVariableStr + HostInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create,
+					representationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + compartmentIdUVariableStr + HostInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create,
-						representationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "host_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "status"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttr(resourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "host_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "management_agent_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "status"),
-					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_opsi_host_insights", "test_host_insights", Optional, Update, hostInsightDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "host_type.#", "1"),
+				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), //id is not list and it is a string So ignoring this field
+				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_opsi_host_insights", "test_host_insights", Optional, Update, hostInsightDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "host_type.#", "1"),
-					//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), //id is not list and it is a string So ignoring this field
-					resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "host_insight_summary_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "host_insight_summary_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_insight_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "host_insight_summary_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "host_insight_summary_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_insight_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"), // Not Supported currently
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_type"), // Not Supported currently
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_version"), //Not Supported currently
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "processor_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceConfig,
+		},
+		// Verify enable operation
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update,
+					representationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
+						"status": Representation{repType: Required, update: `ENABLED`},
+					})),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "MACS_MANAGED_EXTERNAL_HOST"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"), // Not Supported currently
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_type"), // Not Supported currently
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_version"), //Not Supported currently
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "processor_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceConfig,
-			},
-			// Verify enable operation
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update,
-						representationCopyWithNewProperties(hostInsightRepresentation, map[string]interface{}{
-							"status": Representation{repType: Required, update: `ENABLED`},
-						})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -104,7 +104,6 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -126,300 +125,293 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ObjectResourceDependencies+
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation), "objectstorage", "object", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
-					// New SDK doesn't set omitted values from response, check they are missing from state.
-					resource.TestCheckNoResourceAttr(resourceName, "content"),
-					resource.TestCheckNoResourceAttr(resourceName, "content_language"),
-					resource.TestCheckNoResourceAttr(resourceName, "content_encoding"),
-					resource.TestCheckResourceAttr(resourceName, "content_length", "0"),
-					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
+	ResourceTest(t, testAccCheckObjectStorageObjectDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
+				// New SDK doesn't set omitted values from response, check they are missing from state.
+				resource.TestCheckNoResourceAttr(resourceName, "content"),
+				resource.TestCheckNoResourceAttr(resourceName, "content_language"),
+				resource.TestCheckNoResourceAttr(resourceName, "content_encoding"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
-			},
-
-			// verify create empty
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectEmptyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-empty-object"),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
-					// New SDK doesn't set omitted values from response, check they are missing from state.
-					resource.TestCheckNoResourceAttr(resourceName, "content"),
-					resource.TestCheckNoResourceAttr(resourceName, "content_language"),
-					resource.TestCheckNoResourceAttr(resourceName, "content_encoding"),
-					resource.TestCheckResourceAttr(resourceName, "content_length", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
-			},
-
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
-					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
-					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
-					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
-					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "false"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "content"),
-					resource.TestCheckResourceAttr(resourceName, "content", md5sum),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
-					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
-					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
-					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
-					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "InfrequentAccess"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "content"),
-					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify either a hex or a base64 equivalent content_md5 makes no diff
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
-						getUpdatedRepresentationCopy("content_md5", Representation{repType: Optional, create: Md5Base64Encoded2, update: `${md5("<a1>content</a1>")}`}, objectRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
-					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
-					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
-					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
-					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "content"),
-					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to name alone
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
-						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
-					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
-					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
-					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
-					resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "content"),
-					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-3"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
-						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectSingularDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "attachment; filename=\"filename.html\""),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "version_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "InfrequentAccess"),
-				),
-			},
-			// verify base64 encoding in singular datasource
-			{
-				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
-						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSingularDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "inline"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-US"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "http_response_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content", base64.StdEncoding.EncodeToString([]byte("<a1>content</a1>"))),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Required, Update, objectDataSourceRepresentation) +
-					compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-
-					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "objects.0.etag"),
-					resource.TestCheckResourceAttr(datasourceName, "objects.0.storage_tier", "InfrequentAccess"),
-				),
-			},
-			// verify datasource for delimiter and prefix
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Optional, Update, objectDataSourceRepresentation) +
-					compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
-					resource.TestCheckResourceAttr(datasourceName, "end", "x"),
-					resource.TestCheckResourceAttr(datasourceName, "prefix", "my-test"),
-					resource.TestCheckResourceAttrSet(datasourceName, "start"),
-					resource.TestCheckResourceAttr(datasourceName, "start_after", "a"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					// TODO: Terraform exhibits abnormal behavior when importing fields that need to be converted via StateFunc
-					// before storing in state.
-					//
-					// In this case, we were able to retrieve the content and set it using ResourceData.Set. But when converting
-					// ResourceData to a state, Terraform strips it (possibly because ResourceData.Set stores it as a byte
-					// array, while the schema expects a string?) Ignore this check as part of import tests for now.
-					"content",
-					"state",
-					"work_request_id",
-					"delete_all_object_versions",
-					"metadata",
-					"storage_tier",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+		},
+
+		// verify create empty
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectEmptyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-empty-object"),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
+				// New SDK doesn't set omitted values from response, check they are missing from state.
+				resource.TestCheckNoResourceAttr(resourceName, "content"),
+				resource.TestCheckNoResourceAttr(resourceName, "content_language"),
+				resource.TestCheckNoResourceAttr(resourceName, "content_encoding"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+		},
+
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+				resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
+				resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
+				resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+				resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "false"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "content"),
+				resource.TestCheckResourceAttr(resourceName, "content", md5sum),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+				resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
+				resource.TestCheckResourceAttr(resourceName, "storage_tier", "InfrequentAccess"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "content"),
+				resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify either a hex or a base64 equivalent content_md5 makes no diff
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+					getUpdatedRepresentationCopy("content_md5", Representation{repType: Optional, create: Md5Base64Encoded2, update: `${md5("<a1>content</a1>")}`}, objectRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+				resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "content"),
+				resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to name alone
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+					getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+				resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "content_md5", *md5B64Encode2),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "content"),
+				resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-3"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+					getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectSingularDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "version_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "InfrequentAccess"),
+			),
+		},
+		// verify base64 encoding in singular datasource
+		{
+			Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+					getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSingularDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "inline"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-US"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_md5", *md5B64Encode2),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/plain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "http_response_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content", base64.StdEncoding.EncodeToString([]byte("<a1>content</a1>"))),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Required, Update, objectDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+
+				resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "objects.0.etag"),
+				resource.TestCheckResourceAttr(datasourceName, "objects.0.storage_tier", "InfrequentAccess"),
+			),
+		},
+		// verify datasource for delimiter and prefix
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Optional, Update, objectDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+				resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
+				resource.TestCheckResourceAttr(datasourceName, "end", "x"),
+				resource.TestCheckResourceAttr(datasourceName, "prefix", "my-test"),
+				resource.TestCheckResourceAttrSet(datasourceName, "start"),
+				resource.TestCheckResourceAttr(datasourceName, "start_after", "a"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				// TODO: Terraform exhibits abnormal behavior when importing fields that need to be converted via StateFunc
+				// before storing in state.
+				//
+				// In this case, we were able to retrieve the content and set it using ResourceData.Set. But when converting
+				// ResourceData to a state, Terraform strips it (possibly because ResourceData.Set stores it as a byte
+				// array, while the schema expects a string?) Ignore this check as part of import tests for now.
+				"content",
+				"state",
+				"work_request_id",
+				"delete_all_object_versions",
+				"metadata",
+				"storage_tier",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

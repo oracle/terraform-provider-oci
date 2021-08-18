@@ -55,7 +55,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageSnapshotResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -70,131 +69,124 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SnapshotResourceDependencies+
 		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation), "filestorage", "snapshot", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckFileStorageSnapshotDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckFileStorageSnapshotDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", Optional, Update, snapshotDataSourceRepresentation) +
-					compartmentIdVariableStr + SnapshotResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", Optional, Update, snapshotDataSourceRepresentation) +
+				compartmentIdVariableStr + SnapshotResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.is_clone_source"),
-					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "snapshot-1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.provenance_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SnapshotResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.is_clone_source"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "snapshot-1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.provenance_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SnapshotResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "snapshot-1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "provenance_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SnapshotResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "snapshot-1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "provenance_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SnapshotResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

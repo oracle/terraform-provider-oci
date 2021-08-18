@@ -43,7 +43,6 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 	httpreplay.SetScenario("TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -59,69 +58,62 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstancePrivateAccessChannelResourceDependencies+
 		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation), "analytics", "analyticsInstancePrivateAccessChannel", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.dns_zone", "terraformtest.oraclevcn.com"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel"),
-					resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.dns_zone", "terraformtest.oraclevcn.com"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel2"),
+				resource.TestCheckResourceAttr(resourceName, "egress_source_ip_addresses.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "key"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.description", "Tenant VCN DNS Zone 2"),
+				resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.dns_zone", "terraformtest2.oraclevcn.com"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel2"),
-					resource.TestCheckResourceAttr(resourceName, "egress_source_ip_addresses.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttrSet(resourceName, "key"),
-					resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.description", "Tenant VCN DNS Zone 2"),
-					resource.TestCheckResourceAttr(resourceName, "private_source_dns_zones.0.dns_zone", "terraformtest2.oraclevcn.com"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -64,7 +64,6 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsScriptResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -81,145 +80,138 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
 		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation), "apmsynthetics", "script", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckApmSyntheticsScriptDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "SIDE"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+	ResourceTest(t, testAccCheckApmSyntheticsScriptDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "SIDE"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "SIDE"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "parameters.0.is_overwritten"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.is_secret", "false"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.param_name", "testName"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.param_value", "myTest"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.script_parameter.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "content", scriptContentUpdate),
-					resource.TestCheckResourceAttr(resourceName, "content_type", "SIDE"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "parameters.0.is_overwritten"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.is_secret", "true"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.param_name", "testName"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.script_parameter.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", Optional, Update, scriptDataSourceRepresentation) +
-					compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(datasourceName, "content_type", "SIDE"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-
-					resource.TestCheckResourceAttr(datasourceName, "script_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "script_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ScriptResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "script_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "content", scriptContentUpdate),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "SIDE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "parameters.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "parameters.0.is_overwritten"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "parameters.0.script_parameter.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_uploaded"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ScriptResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"apm_domain_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ScriptResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "SIDE"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "parameters.0.is_overwritten"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.is_secret", "false"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.param_name", "testName"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.param_value", "myTest"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.script_parameter.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "content", scriptContentUpdate),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "SIDE"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "parameters.0.is_overwritten"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.is_secret", "true"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.param_name", "testName"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.script_parameter.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", Optional, Update, scriptDataSourceRepresentation) +
+				compartmentIdVariableStr + ScriptResourceDependencies +
+				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(datasourceName, "content_type", "SIDE"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+
+				resource.TestCheckResourceAttr(datasourceName, "script_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "script_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ScriptResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "script_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "content", scriptContentUpdate),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "SIDE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "parameters.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "parameters.0.is_overwritten"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "parameters.0.script_parameter.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_uploaded"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ScriptResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"apm_domain_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

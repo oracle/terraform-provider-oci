@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -45,7 +44,6 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseWalletResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -59,65 +57,59 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseWalletResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation), "database", "autonomousDatabaseWallet", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "base64_encode_content", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "content"),
-					resource.TestCheckResourceAttr(resourceName, "generate_type", "ALL"),
-					resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "base64_encode_content", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "content"),
+				resource.TestCheckResourceAttr(resourceName, "generate_type", "ALL"),
+				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "SINGLE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
-				),
-			},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "SINGLE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+			),
+		},
 
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "ALL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
-					testCheckAttributeBase64Encoded(singularDatasourceName, "content", true),
-				),
-			},
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "ALL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
+				testCheckAttributeBase64Encoded(singularDatasourceName, "content", true),
+			),
 		},
 	})
 }

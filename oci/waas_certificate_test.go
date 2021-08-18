@@ -67,7 +67,6 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasCertificateResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -85,181 +84,174 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
 		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, certificateRepresentation), "waas", "certificate", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckWaasCertificateDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckWaasCertificateDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, waasCertificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_trust_verification_disabled", "true"),
+				resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
+				resource.TestCheckResourceAttr(resourceName, "public_key_info.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "serial_number"),
+				//resource.TestCheckResourceAttrSet(resourceName, "signature_algorithm"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_before"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, waasCertificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_trust_verification_disabled", "true"),
-					resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
-					resource.TestCheckResourceAttr(resourceName, "public_key_info.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "serial_number"),
-					//resource.TestCheckResourceAttrSet(resourceName, "signature_algorithm"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_before"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasCertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create,
-						representationCopyWithNewProperties(waasCertificateRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_trust_verification_disabled", "true"),
-					resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
-					resource.TestCheckResourceAttr(resourceName, "public_key_info.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "serial_number"),
-					//resource.TestCheckResourceAttrSet(resourceName, "signature_algorithm"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_before"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasCertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create,
+					representationCopyWithNewProperties(waasCertificateRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_trust_verification_disabled", "true"),
+				resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
+				resource.TestCheckResourceAttr(resourceName, "public_key_info.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "serial_number"),
+				//resource.TestCheckResourceAttrSet(resourceName, "signature_algorithm"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_before"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_trust_verification_disabled", "true"),
-					resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
-					resource.TestCheckResourceAttr(resourceName, "public_key_info.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "serial_number"),
-					//resource.TestCheckResourceAttrSet(resourceName, "signature_algorithm"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_before"),
-					resource.TestCheckResourceAttrSet(resourceName, "version"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_trust_verification_disabled", "true"),
+				resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
+				resource.TestCheckResourceAttr(resourceName, "public_key_info.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "serial_number"),
+				//resource.TestCheckResourceAttrSet(resourceName, "signature_algorithm"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_before"),
+				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", Optional, Update, waasCertificateDataSourceRepresentation) +
-					compartmentIdVariableStr + WaasCertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "states.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", Optional, Update, waasCertificateDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasCertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "states.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
-					resource.TestCheckResourceAttr(datasourceName, "certificates.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "certificates.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "certificates.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "certificates.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "certificates.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.time_not_valid_after"),
-					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.version"),
-				),
-				// Non empty plan expected because the data source input relies on interpolation syntax
-				ExpectNonEmptyPlan: true,
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + WaasCertificateResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
+				resource.TestCheckResourceAttr(datasourceName, "certificates.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "certificates.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "certificates.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "certificates.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "certificates.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.time_not_valid_after"),
+				resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.version"),
+			),
+			// Non empty plan expected because the data source input relies on interpolation syntax
+			ExpectNonEmptyPlan: true,
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WaasCertificateResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "certificate_data", "-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_trust_verification_disabled", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "issued_by"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "issuer_name.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "public_key_info.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "serial_number"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "subject_name.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_not_valid_after"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_not_valid_before"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "certificate_data", "-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_trust_verification_disabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "issued_by"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "issuer_name.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "public_key_info.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "serial_number"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "subject_name.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_not_valid_after"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_not_valid_before"),
+			),
 		},
 	})
 }

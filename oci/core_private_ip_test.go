@@ -70,7 +70,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePrivateIpResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -85,133 +84,126 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PrivateIpResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation), "core", "privateIp", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCorePrivateIpDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCorePrivateIpDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", Optional, Update, privateIpDataSourceRepresentation) +
-					compartmentIdVariableStr + PrivateIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", Optional, Update, privateIpDataSourceRepresentation) +
+				compartmentIdVariableStr + PrivateIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
-					//commenting until service issue resolved
-					//resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_reserved"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + PrivateIpResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
+				//commenting until service issue resolved
+				//resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_reserved"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + PrivateIpResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reserved"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PrivateIpResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reserved"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + PrivateIpResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -52,7 +52,6 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerPathRouteSetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -66,88 +65,81 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PathRouteSetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation), "loadbalancer", "pathRouteSet", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckLoadBalancerPathRouteSetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "/example/video/123"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
+	ResourceTest(t, testAccCheckLoadBalancerPathRouteSetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "/example/video/123"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "path2"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_path_route_sets", "test_path_route_sets", Optional, Update, pathRouteSetDataSourceRepresentation) +
-					compartmentIdVariableStr + PathRouteSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.name", "example_path_route_set"),
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "path_route_sets.0.path_routes.0.backend_set_name"),
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path", "path2"),
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"state",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PathRouteSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_path_route_set"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "path_routes.0.backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.0.path", "path2"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_path_route_sets", "test_path_route_sets", Optional, Update, pathRouteSetDataSourceRepresentation) +
+				compartmentIdVariableStr + PathRouteSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Optional, Update, pathRouteSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "path_route_sets.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.name", "example_path_route_set"),
+				resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "path_route_sets.0.path_routes.0.backend_set_name"),
+				resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path", "path2"),
+				resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "path_route_sets.0.path_routes.0.path_match_type.0.match_type", "EXACT_MATCH"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"state",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

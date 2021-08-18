@@ -106,7 +106,6 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsInvokeFunctionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -131,104 +130,97 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 		t.Fatalf("Unable to create files for invocation. Error: %q", err)
 	}
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Required, Create, invokeFunctionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 World\"}\n"),
+			),
 		},
-		CheckDestroy: testAccCheckFunctionsInvokeFunctionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Required, Create, invokeFunctionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "function_id"),
-					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 World\"}\n"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create, invokeFunctionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create, invokeFunctionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
-						getUpdatedRepresentationCopy("fn_intent", Representation{repType: Optional, create: `cloudevent`}, invokeFunctionRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
-				),
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
-						getUpdatedRepresentationCopy("fn_invoke_type", Representation{repType: Optional, create: `detached`}, invokeFunctionRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "function_id"),
-				),
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
-						getUpdatedRepresentationCopy("fn_intent", Representation{repType: Optional, create: `cloudevent`}, getUpdatedRepresentationCopy("fn_invoke_type", Representation{repType: Optional, create: `detached`}, invokeFunctionRepresentation))),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "function_id"),
-				),
-			},
-			// verify create with source path
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
-							"input_body_source_path": Representation{repType: Optional, create: sourceFilePath},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
-				),
-			},
-			// verify create with base64 encoded input
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
-							"invoke_function_body_base64_encoded": Representation{repType: Optional, create: "eyJuYW1lIjoiQm9iIn0="},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
-				),
-			},
-			// verify base64 encoded content
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
-						representationCopyWithNewProperties(invokeFunctionRepresentation, map[string]interface{}{
-							"base64_encode_content": Representation{repType: Optional, create: `true`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "content", "eyJtZXNzYWdlIjoiSGVsbG8gdjMgQm9iIn0K"),
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
+					getUpdatedRepresentationCopy("fn_intent", Representation{repType: Optional, create: `cloudevent`}, invokeFunctionRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+			),
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
+					getUpdatedRepresentationCopy("fn_invoke_type", Representation{repType: Optional, create: `detached`}, invokeFunctionRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
+			),
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
+					getUpdatedRepresentationCopy("fn_intent", Representation{repType: Optional, create: `cloudevent`}, getUpdatedRepresentationCopy("fn_invoke_type", Representation{repType: Optional, create: `detached`}, invokeFunctionRepresentation))),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "function_id"),
+			),
+		},
+		// verify create with source path
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
+						"input_body_source_path": Representation{repType: Optional, create: sourceFilePath},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+			),
+		},
+		// verify create with base64 encoded input
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(invokeFunctionRepresentation, []string{"invoke_function_body"}), map[string]interface{}{
+						"invoke_function_body_base64_encoded": Representation{repType: Optional, create: "eyJuYW1lIjoiQm9iIn0="},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
+			),
+		},
+		// verify base64 encoded content
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + InvokeFunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_invoke_function", "test_invoke_function", Optional, Create,
+					representationCopyWithNewProperties(invokeFunctionRepresentation, map[string]interface{}{
+						"base64_encode_content": Representation{repType: Optional, create: `true`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "content", "eyJtZXNzYWdlIjoiSGVsbG8gdjMgQm9iIn0K"),
+			),
 		},
 	})
 }

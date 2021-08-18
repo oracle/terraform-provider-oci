@@ -156,7 +156,6 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVirtualCircuitResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -174,373 +173,366 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+
 		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreVirtualCircuitDestroy,
-		Steps: []resource.TestStep{
-			// verify create - PUBLIC Virtual Circuit
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
-					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
-						"cidr_block": "11.0.0.0/24",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
-							map[string]interface{}{
-								"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsPublicRequiredOnlyRepresentation},
-								"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
-							})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
-					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// verify update from customer_bgp_asn to customer_asn
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
-					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
-						"cidr_block": "11.0.0.0/24",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify update - PUBLIC Virtual Circuit
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
-					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
-						"cidr_block": "11.0.1.0/24",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
-			},
-			// verify create - PRIVATE Virtual Circuit with Provider
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitWithProviderRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
-					resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// verify update - PRIVATE Virtual Circuit with Provider
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitWithProviderRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
-					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
-					resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
-			},
-
-			// verify create - PRIVATE Virtual Circuit
-			{
-				Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
-			},
-
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
-					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
-						representationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
-					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
-					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
-					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
-					resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
-					compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.bandwidth_shape_name", "20 Gbps"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_ipv6session_state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_management"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_session_state"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.customer_asn", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.gateway_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.oracle_bgp_asn"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.routing_policy.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.service_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.state", "PROVISIONED"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.type", "PRIVATE"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "bandwidth_shape_name", "20 Gbps"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_ipv6session_state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_management"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_session_state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_asn", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_bgp_asn"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "routing_policy.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "oracle_bgp_asn", "31898"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "COLOCATED"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "PROVISIONED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRIVATE"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"region",
+	ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
+		// verify create - PUBLIC Virtual Circuit
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+				resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+				resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
+					"cidr_block": "11.0.0.0/24",
 				},
-				ResourceName: resourceName,
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
+						map[string]interface{}{
+							"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsPublicRequiredOnlyRepresentation},
+							"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+						})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify update from customer_bgp_asn to customer_asn
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+				resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
+					"cidr_block": "11.0.0.0/24",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify update - PUBLIC Virtual Circuit
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
+				resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
+					"cidr_block": "11.0.1.0/24",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+		},
+		// verify create - PRIVATE Virtual Circuit with Provider
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitWithProviderRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
+				resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify update - PRIVATE Virtual Circuit with Provider
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitWithProviderRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
+				resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+		},
+
+		// verify create - PRIVATE Virtual Circuit
+		{
+			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+		},
+
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
+					representationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
+				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.bandwidth_shape_name", "20 Gbps"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_ipv6session_state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_management"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.bgp_session_state"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.vlan", "300"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.customer_asn", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.gateway_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.oracle_bgp_asn"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.routing_policy.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.service_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.state", "PROVISIONED"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.type", "PRIVATE"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "bandwidth_shape_name", "20 Gbps"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_ipv6session_state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_management"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bgp_session_state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.vlan", "300"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_asn", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_bgp_asn"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "routing_policy.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "oracle_bgp_asn", "31898"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "COLOCATED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "PROVISIONED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRIVATE"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"region",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

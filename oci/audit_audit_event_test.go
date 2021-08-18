@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -28,7 +27,6 @@ func TestAuditAuditEventResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAuditAuditEventResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -38,27 +36,21 @@ func TestAuditAuditEventResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
-					compartmentIdVariableStr + AuditEventResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "end_time"),
-					resource.TestCheckResourceAttrSet(datasourceName, "start_time"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
+				compartmentIdVariableStr + AuditEventResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "end_time"),
+				resource.TestCheckResourceAttrSet(datasourceName, "start_time"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "audit_events.#"),
-				),
-				// Non empty plan expected because the data source input relies on interpolation syntax
-				ExpectNonEmptyPlan: true,
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "audit_events.#"),
+			),
+			// Non empty plan expected because the data source input relies on interpolation syntax
+			ExpectNonEmptyPlan: true,
 		},
 	})
 }

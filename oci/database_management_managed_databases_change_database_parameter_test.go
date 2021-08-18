@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -39,7 +38,6 @@ func TestDatabaseManagementManagedDatabasesChangeDatabaseParameterResource_basic
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabasesChangeDatabaseParameterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -51,25 +49,19 @@ func TestDatabaseManagementManagedDatabasesChangeDatabaseParameterResource_basic
 	saveConfigContent(config+compartmentIdVariableStr+
 		generateResourceFromRepresentationMap("oci_database_management_managed_databases_change_database_parameter", "test_managed_databases_change_database_parameter", Required, Create, managedDatabasesChangeDatabaseParameterRepresentation), "databasemanagement", "managedDatabasesChangeDatabaseParameter", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_management_managed_databases_change_database_parameter", "test_managed_databases_change_database_parameter", Required, Create, managedDatabasesChangeDatabaseParameterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "open_cursors"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "305"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "BOTH"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_database_management_managed_databases_change_database_parameter", "test_managed_databases_change_database_parameter", Required, Create, managedDatabasesChangeDatabaseParameterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "open_cursors"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "305"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "BOTH"),
+			),
 		},
 	})
 }

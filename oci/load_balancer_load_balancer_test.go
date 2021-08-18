@@ -133,7 +133,6 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerLoadBalancerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -150,166 +149,159 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+LoadBalancerResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation), "loadbalancer", "loadBalancer", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckLoadBalancerLoadBalancerDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+	ResourceTest(t, testAccCheckLoadBalancerLoadBalancerDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
-						representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-					resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
-					resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
-					compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
-					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.ip_address_details.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "400Mbps"),
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"ip_mode",
-					"reserved_ips",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoadBalancerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
+					representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
+				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
+				compartmentIdVariableStr + LoadBalancerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
+				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
+				//resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.ip_address_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "400Mbps"),
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"ip_mode",
+				"reserved_ips",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

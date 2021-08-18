@@ -39,7 +39,6 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGenericArtifactsContentArtifactByPathResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -54,56 +53,50 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ArtifactByPathResourceDependencies+
 		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation), "genericartifactscontent", "artifactByPath", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
+				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-					generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
+				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-					generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ArtifactByPathResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "artifact_path", "artifactPath"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "version", "1.0"),
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ArtifactByPathResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "artifact_path", "artifactPath"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "version", "1.0"),
+			),
 		},
 	})
 }

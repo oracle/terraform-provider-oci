@@ -69,7 +69,6 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdentityProviderResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -93,136 +92,129 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("identity_provider")
 	IdentityProviderResourceDependencies = tokenFn(IdentityProviderResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityIdentityProviderDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
+				resource.TestCheckResourceAttr(resourceName, "metadata_url", "metadataUrl"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
+				resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckIdentityIdentityProviderDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
-					resource.TestCheckResourceAttr(resourceName, "metadata_url", "metadataUrl"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
-					resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies,
+		},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies,
-			},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
+				resource.TestCheckResourceAttr(resourceName, "metadata_url", "metadataUrl"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
+				resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
+				resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
-					resource.TestCheckResourceAttr(resourceName, "metadata_url", "metadataUrl"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
-					resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
-					resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
-					resource.TestCheckResourceAttr(resourceName, "metadata_url", "metadataUrl2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
-					resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
-					resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
+				resource.TestCheckResourceAttr(resourceName, "metadata_url", "metadataUrl2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test-idp-saml2-adfs"),
+				resource.TestCheckResourceAttr(resourceName, "product_type", "ADFS"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
+				resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
-					compartmentIdVariableStr + IdentityProviderResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
-					resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityProviderResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
+				resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_attributes.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.metadata"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.metadata_url", "metadataUrl2"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.name", "test-idp-saml2-adfs"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.product_type", "ADFS"),
-					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.protocol", "SAML2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.redirect_url"),
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_attributes.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.metadata"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.metadata_url", "metadataUrl2"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.name", "test-idp-saml2-adfs"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.product_type", "ADFS"),
+				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.protocol", "SAML2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.redirect_url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

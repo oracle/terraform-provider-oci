@@ -59,7 +59,6 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasAddressListResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,156 +76,149 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AddressListResourceDependencies+
 		generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation), "waas", "addressList", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckWaasAddressListDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckWaasAddressListDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AddressListResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AddressListResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AddressListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create,
-						representationCopyWithNewProperties(addressListRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AddressListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create,
+					representationCopyWithNewProperties(addressListRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", Optional, Update, addressListDataSourceRepresentation) +
-					compartmentIdVariableStr + AddressListResourceDependencies +
-					generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "names.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "states.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", Optional, Update, addressListDataSourceRepresentation) +
+				compartmentIdVariableStr + AddressListResourceDependencies +
+				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "names.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "states.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
-					resource.TestCheckResourceAttr(datasourceName, "address_lists.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.address_count"),
-					resource.TestCheckResourceAttr(datasourceName, "address_lists.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "address_lists.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "address_lists.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "address_lists.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AddressListResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "address_list_id"),
+				resource.TestCheckResourceAttr(datasourceName, "address_lists.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.address_count"),
+				resource.TestCheckResourceAttr(datasourceName, "address_lists.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "address_lists.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "address_lists.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "address_lists.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "address_lists.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AddressListResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "address_list_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "address_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "addresses.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AddressListResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "address_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "addresses.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AddressListResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

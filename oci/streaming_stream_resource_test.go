@@ -34,7 +34,6 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -49,199 +48,192 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckStreamingStreamDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streampoolidRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckStreamingStreamDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streampoolidRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// Verify that stream's stream_pool_id can be removed and compartment_id can be used
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create,
-						representationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
-					resource.TestCheckResourceAttr(resourceName, "retention_in_hours", "24"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "stream_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+		// Verify that stream's stream_pool_id can be removed and compartment_id can be used
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create,
+					representationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
 						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-					})) +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
-			// verify stream move to compartment_id_for_update when stream_pool_id is updated which is also present in compartment_id_for_update
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-					})) +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, representationCopyWithNewProperties(streampoolidRepresentation, map[string]interface{}{
-						"stream_pool_id": Representation{repType: Required, create: `${oci_streaming_stream_pool.test_stream_pool_new.id}`},
 					})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
-					resource.TestCheckResourceAttr(resourceName, "retention_in_hours", "24"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "stream_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters and switch stream back to test_stream_pool in compartment_ocid
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-					})) +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
-					resource.TestCheckResourceAttr(resourceName, "retention_in_hours", "24"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "stream_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_in_hours", "24"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "stream_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", Optional, Update, streampoolidDataSourceRepresentation) +
-					compartmentIdVariableStr + StreampoolidResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "stream_pool_id"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+					"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				})) +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			),
+		},
+		// verify stream move to compartment_id_for_update when stream_pool_id is updated which is also present in compartment_id_for_update
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+					"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				})) +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, representationCopyWithNewProperties(streampoolidRepresentation, map[string]interface{}{
+					"stream_pool_id": Representation{repType: Required, create: `${oci_streaming_stream_pool.test_stream_pool_new.id}`},
+				})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_in_hours", "24"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "stream_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					resource.TestCheckResourceAttr(datasourceName, "streams.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "streams.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "streams.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "streams.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "streams.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "streams.0.messages_endpoint"),
-					resource.TestCheckResourceAttr(datasourceName, "streams.0.name", "mynewstream"),
-					resource.TestCheckResourceAttr(datasourceName, "streams.0.partitions", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "streams.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "streams.0.stream_pool_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "streams.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streampoolidSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + StreampoolidResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_id"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "messages_endpoint"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "mynewstream"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "partitions", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "retention_in_hours", "24"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + StreampoolidResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// verify updates to updatable parameters and switch stream back to test_stream_pool in compartment_ocid
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool_new", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+					"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				})) +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_in_hours", "24"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "stream_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", Optional, Update, streampoolidDataSourceRepresentation) +
+				compartmentIdVariableStr + StreampoolidResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "stream_pool_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "streams.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "streams.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "streams.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "streams.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.messages_endpoint"),
+				resource.TestCheckResourceAttr(datasourceName, "streams.0.name", "mynewstream"),
+				resource.TestCheckResourceAttr(datasourceName, "streams.0.partitions", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.stream_pool_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streampoolidSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + StreampoolidResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "messages_endpoint"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "mynewstream"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "partitions", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "retention_in_hours", "24"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + StreampoolidResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

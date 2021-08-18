@@ -78,7 +78,6 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamPoolResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -96,195 +95,188 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+StreamPoolResourceDependencies+
 		generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create, streamPoolRepresentation), "streaming", "streamPool", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckStreamingStreamPoolDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckStreamingStreamPoolDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create, streamPoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.auto_create_topics_enable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "25"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "10"),
+				resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create, streamPoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.auto_create_topics_enable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "25"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "10"),
-					resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
-					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamPoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create,
-						representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.auto_create_topics_enable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "25"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "10"),
-					resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
-					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamPoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Create,
+					representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.auto_create_topics_enable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "25"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "10"),
+				resource.TestCheckResourceAttr(resourceName, "name", "MyStreamPool"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.auto_create_topics_enable", "true"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "30"),
-					resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "11"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + StreamPoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "custom_encryption_key.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.auto_create_topics_enable", "true"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.log_retention_hours", "30"),
+				resource.TestCheckResourceAttr(resourceName, "kafka_settings.0.num_partitions", "11"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_settings.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_streaming_stream_pools", "test_stream_pools", Optional, Update, streamPoolDataSourceRepresentation) +
-					compartmentIdVariableStr + StreamPoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_streaming_stream_pools", "test_stream_pools", Optional, Update, streamPoolDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamPoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Optional, Update, streamPoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "stream_pools.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.is_private"),
-					resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.name", "name2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + StreamPoolResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_pool_id"),
+				resource.TestCheckResourceAttr(datasourceName, "stream_pools.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.is_private"),
+				resource.TestCheckResourceAttr(datasourceName, "stream_pools.0.name", "name2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "stream_pools.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, streamPoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + StreamPoolResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_pool_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_encryption_key.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_encryption_key.0.key_state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "endpoint_fqdn"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_private"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.auto_create_topics_enable", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "kafka_settings.0.bootstrap_servers"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.log_retention_hours", "30"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.num_partitions", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + StreamPoolResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_encryption_key.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_encryption_key.0.key_state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "endpoint_fqdn"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_private"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.auto_create_topics_enable", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kafka_settings.0.bootstrap_servers"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.log_retention_hours", "30"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "kafka_settings.0.num_partitions", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_settings.0.private_endpoint_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + StreamPoolResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

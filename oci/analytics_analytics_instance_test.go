@@ -87,7 +87,6 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAnalyticsAnalyticsInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -107,347 +106,340 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation), "analytics", "analyticsInstance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckAnalyticsAnalyticsInstanceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, getUpdatedRepresentationCopy("name", Representation{repType: Required, create: analyticsinstanceName}, analyticsInstanceRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceName),
+	ResourceTest(t, testAccCheckAnalyticsAnalyticsInstanceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, getUpdatedRepresentationCopy("name", Representation{repType: Required, create: analyticsinstanceName}, analyticsInstanceRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceName),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create,
-						representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify up scaling
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(analyticsInstanceRepresentation, []string{"capacity"}), map[string]interface{}{
-							"capacity": RepresentationGroup{Required, analyticsInstanceCapacityUpdateRepresentation},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "4"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify down scaling
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify stop
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
-						"state": Representation{repType: Required, create: `INACTIVE`},
-					})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify start
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
-						"state": Representation{repType: Required, create: `ACTIVE`},
-					})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", Optional, Update, analyticsInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(datasourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.capacity.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.network_endpoint_details.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.network_endpoint_details.0.vcn_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.service_url"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "analytics_instance_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "capacity.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "capacity.0.capacity_value", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "email_notification", "emailNotification2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", analyticsinstanceOptionalName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"idcs_access_token",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create,
+					representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify up scaling
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update,
+					representationCopyWithNewProperties(representationCopyWithRemovedProperties(analyticsInstanceRepresentation, []string{"capacity"}), map[string]interface{}{
+						"capacity": RepresentationGroup{Required, analyticsInstanceCapacityUpdateRepresentation},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "4"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify down scaling
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify stop
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+					"state": Representation{repType: Required, create: `INACTIVE`},
+				})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify start
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+					"state": Representation{repType: Required, create: `ACTIVE`},
+				})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", Optional, Update, analyticsInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(datasourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.capacity.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "analytics_instances.0.network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.network_endpoint_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.network_endpoint_details.0.vcn_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.service_url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "analytics_instances.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "analytics_instance_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "email_notification", "emailNotification2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "license_type", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"idcs_access_token",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

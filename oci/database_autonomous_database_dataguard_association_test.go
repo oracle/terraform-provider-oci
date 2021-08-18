@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -38,7 +37,6 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -49,54 +47,48 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDedicatedRepresentationForDataguard) +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_associations", "test_autonomous_database_dataguard_associations", Required, Create, autonomousDatabaseDataguardAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.autonomous_database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_autonomous_database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_autonomous_database_life_cycle_state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_role"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.protection_mode"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.role"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.time_created"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDedicatedRepresentationForDataguard) +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_associations", "test_autonomous_database_dataguard_associations", Required, Create, autonomousDatabaseDataguardAssociationDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDedicatedRepresentationForDataguard) +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_associations", "test_autonomous_database_dataguard_associations", Required, Create, autonomousDatabaseDataguardAssociationDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_association", "test_autonomous_database_dataguard_association", Required, Create, autonomousDatabaseDataguardAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_dataguard_association_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.autonomous_database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_autonomous_database_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_autonomous_database_life_cycle_state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.peer_role"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.protection_mode"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.role"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_dataguard_associations.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseDedicatedRepresentationForDataguard) +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_associations", "test_autonomous_database_dataguard_associations", Required, Create, autonomousDatabaseDataguardAssociationDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_dataguard_association", "test_autonomous_database_dataguard_association", Required, Create, autonomousDatabaseDataguardAssociationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_dataguard_association_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_autonomous_database_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_autonomous_database_life_cycle_state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_mode"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_autonomous_database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_autonomous_database_life_cycle_state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_mode"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
 		},
 	})
 }

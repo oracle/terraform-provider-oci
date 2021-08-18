@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,7 +33,6 @@ func TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic(
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -45,22 +43,16 @@ func TestDatabaseManagementManagedDatabasesResetDatabaseParameterResource_basic(
 	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	saveConfigContent(config+compartmentIdVariableStr+generateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", Required, Create, managedDatabasesResetDatabaseParameterRepresentation), "databasemanagement", "managedDatabasesResetDatabaseParameter", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", Required, Create, managedDatabasesResetDatabaseParameterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "BOTH"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_database_management_managed_databases_reset_database_parameter", "test_managed_databases_reset_database_parameter", Required, Create, managedDatabasesResetDatabaseParameterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "managed_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "BOTH"),
+			),
 		},
 	})
 }

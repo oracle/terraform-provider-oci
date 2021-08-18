@@ -144,7 +144,6 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePoolResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -162,352 +161,345 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+InstancePoolResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation), "core", "instancePool", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreInstancePoolDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependenciesWithoutSecondaryVnic +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreInstancePoolDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependenciesWithoutSecondaryVnic +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "2"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create,
-						representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify attach
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
-						"load_balancers": []RepresentationGroup{{Optional, instancePoolLoadBalancersRepresentation}, {Optional, instancePoolLoadBalancers2Representation}},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create,
+					representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 					})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.instance_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.1.port", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.state"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.1.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify detach
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify stop the Instance Pool
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update,
-						getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "Stopped"}, instancePoolRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify start the Instance Pool
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify attach
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
+					"load_balancers": []RepresentationGroup{{Optional, instancePoolLoadBalancersRepresentation}, {Optional, instancePoolLoadBalancers2Representation}},
+				})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.1.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.1.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource the state will be updated to RUNNING
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", Optional, Update, instancePoolDataSourceRepresentation) +
-					compartmentIdVariableStr + InstancePoolResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify detach
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					resource.TestCheckResourceAttr(datasourceName, "instance_pools.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.size", "3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + InstancePoolResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify stop the Instance Pool
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update,
+					getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "Stopped"}, instancePoolRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.instance_pool_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.port", "10"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.fault_domains.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "size", "3"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config + compartmentIdVariableStr + InstancePoolResourceConfig,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify start the Instance Pool
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource the state will be updated to RUNNING
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", Optional, Update, instancePoolDataSourceRepresentation) +
+				compartmentIdVariableStr + InstancePoolResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.size", "3"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + InstancePoolResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "size", "3"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config + compartmentIdVariableStr + InstancePoolResourceConfig,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

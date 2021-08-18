@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -69,7 +68,6 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceKmsKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,42 +75,36 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 
 	resourceName := "oci_kms_key.test_key"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify restore key from file
+		{
+			Config: config + compartmentIdVariableStr + DefinedTagsDependencies + keyRestoreFileContentObject +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					representationCopyWithNewProperties(keyRestorekeyRepresentation, map[string]interface{}{
+						"restore_from_file": RepresentationGroup{Required, keyRestoreFromFileRepresentation}})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify restore key from file
-			{
-				Config: config + compartmentIdVariableStr + DefinedTagsDependencies + keyRestoreFileContentObject +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-						representationCopyWithNewProperties(keyRestorekeyRepresentation, map[string]interface{}{
-							"restore_from_file": RepresentationGroup{Required, keyRestoreFromFileRepresentation}})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
-			// verify restore from object store
-			{
-				Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-						representationCopyWithNewProperties(keyRestorekeyRepresentationUpdate2, map[string]interface{}{
-							"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectBackupLocationRepresentation}})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
-			// verify restore from Pre-Authenticated-uri
-			{
-				Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-						representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
-							"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectUriBackupLocationRepresentation}})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
+		// verify restore from object store
+		{
+			Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					representationCopyWithNewProperties(keyRestorekeyRepresentationUpdate2, map[string]interface{}{
+						"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectBackupLocationRepresentation}})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			),
+		},
+		// verify restore from Pre-Authenticated-uri
+		{
+			Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+						"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectUriBackupLocationRepresentation}})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			),
 		},
 	})
 }
