@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v45/core"
+	oci_core "github.com/oracle/oci-go-sdk/v46/core"
 )
 
 func init() {
@@ -245,8 +245,8 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Get() error {
 	if err != nil {
 		return err
 	}
-	s.Res = &response.Items[0]
-	if len(response.Items) > 0 {
+
+	if response.Items != nil && len(response.Items) > 0 {
 		s.Res = &response.Items[0]
 
 	}

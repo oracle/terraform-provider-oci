@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"reflect"
 	"sort"
 	"strconv"
@@ -21,9 +22,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v45/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v45/loadbalancer"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v45/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v46/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v46/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -578,6 +579,20 @@ func dbVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 		return oldVersionNumber == newVersionNumber
 	}
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
+}
+
+func adDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	const float64EqualityThreshold = 1e-6
+	oldf, err := strconv.ParseFloat(old, 64)
+	if err != nil {
+		return false
+	}
+	newf, err := strconv.ParseFloat(new, 64)
+	if err != nil {
+		return false
+	}
+
+	return math.Abs(oldf-newf) <= float64EqualityThreshold
 }
 
 func giVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {

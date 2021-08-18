@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v45/common"
-	oci_core "github.com/oracle/oci-go-sdk/v45/core"
+	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_core "github.com/oracle/oci-go-sdk/v46/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -46,6 +46,7 @@ var (
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"dns_label":      Representation{repType: Optional, create: `dnslabel`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
 	VcnRequiredOnlyResourceDependencies = ``

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_migration "github.com/oracle/oci-go-sdk/v45/databasemigration"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v46/databasemigration"
 )
 
 func init() {
