@@ -115,6 +115,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
 * `list_export_services_path` - Path to output list of supported services in json format, must include json file name
 * `output_path` - Absolute path to output generated configurations and state files of the exported compartment
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
+    * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
@@ -266,6 +267,13 @@ The list of supported resources can also be retrieved by running this command:
 ```
 terraform-provider-oci -command=list_export_resources
 ```
+
+ai_anomaly_detection
+    
+* oci\_ai\_anomaly\_detection\_data\_asset
+* oci\_ai\_anomaly\_detection\_model
+* oci\_ai\_anomaly\_detection\_project
+* oci\_ai\_anomaly\_detection\_ai\_private\_endpoint
 
 analytics
     
@@ -653,13 +661,8 @@ vulnerability_scanning
     
 * oci\_vulnerability\_scanning\_host\_scan\_recipe
 * oci\_vulnerability\_scanning\_host\_scan\_target
-* oci\_vulnerability\_scanning\_host\_agent\_scan\_result
-* oci\_vulnerability\_scanning\_host\_port\_scan\_result
-* oci\_vulnerability\_scanning\_host\_cis\_benchmark\_scan\_result
-* oci\_vulnerability\_scanning\_host\_endpoint\_protection\_scan\_result
 * oci\_vulnerability\_scanning\_container\_scan\_recipe
 * oci\_vulnerability\_scanning\_container\_scan\_target
-* oci\_vulnerability\_scanning\_container\_scan\_result
 
 waas
     
