@@ -644,6 +644,7 @@ optimizer
 
 osmanagement
     
+* oci\_osmanagement\_managed\_instance
 * oci\_osmanagement\_managed\_instance\_group
 * oci\_osmanagement\_software\_source
 

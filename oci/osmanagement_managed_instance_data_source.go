@@ -15,151 +15,12 @@ func init() {
 }
 
 func OsmanagementManagedInstanceDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularOsmanagementManagedInstance,
-		Schema: map[string]*schema.Schema{
-			"managed_instance_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"bug_updates_available": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"child_software_sources": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"enhancement_updates_available": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"is_reboot_required": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"last_boot": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"last_checkin": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"managed_instance_groups": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"os_family": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"os_kernel_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"os_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"os_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"other_updates_available": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"parent_software_source": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"scheduled_job_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"security_updates_available": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"status": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"updates_available": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"work_request_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["managed_instance_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(OsmanagementManagedInstanceResource(), fieldMap, readSingularOsmanagementManagedInstance)
 }
 
 func readSingularOsmanagementManagedInstance(d *schema.ResourceData, m interface{}) error {
@@ -206,6 +67,12 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.Autonomous != nil {
+		s.D.Set("autonomous", []interface{}{AutonomousSettingsToMap(s.Res.Autonomous)})
+	} else {
+		s.D.Set("autonomous", nil)
+	}
+
 	if s.Res.BugUpdatesAvailable != nil {
 		s.D.Set("bug_updates_available", *s.Res.BugUpdatesAvailable)
 	}
@@ -232,8 +99,16 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 		s.D.Set("enhancement_updates_available", *s.Res.EnhancementUpdatesAvailable)
 	}
 
+	if s.Res.IsDataCollectionAuthorized != nil {
+		s.D.Set("is_data_collection_authorized", *s.Res.IsDataCollectionAuthorized)
+	}
+
 	if s.Res.IsRebootRequired != nil {
 		s.D.Set("is_reboot_required", *s.Res.IsRebootRequired)
+	}
+
+	if s.Res.KspliceEffectiveKernelVersion != nil {
+		s.D.Set("ksplice_effective_kernel_version", *s.Res.KspliceEffectiveKernelVersion)
 	}
 
 	if s.Res.LastBoot != nil {
@@ -249,6 +124,10 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) SetData() error {
 		managedInstanceGroups = append(managedInstanceGroups, IdToMap(item))
 	}
 	s.D.Set("managed_instance_groups", managedInstanceGroups)
+
+	if s.Res.NotificationTopicId != nil {
+		s.D.Set("notification_topic_id", *s.Res.NotificationTopicId)
+	}
 
 	s.D.Set("os_family", s.Res.OsFamily)
 
