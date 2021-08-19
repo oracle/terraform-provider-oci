@@ -1,28 +1,28 @@
 ---
 subcategory: "OS Management"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_osmanagement_managed_instances"
-sidebar_current: "docs-oci-datasource-osmanagement-managed_instances"
+page_title: "Oracle Cloud Infrastructure: oci_osmanagement_managed_instance"
+sidebar_current: "docs-oci-resource-osmanagement-managed_instance"
 description: |-
-  Provides the list of Managed Instances in Oracle Cloud Infrastructure OS Management service
+  Provides the Managed Instance resource in Oracle Cloud Infrastructure OS Management service
 ---
 
-# Data Source: oci_osmanagement_managed_instances
-This data source provides the list of Managed Instances in Oracle Cloud Infrastructure OS Management service.
+# oci_osmanagement_managed_instance
+This resource provides the Managed Instance resource in Oracle Cloud Infrastructure OS Management service.
 
-Returns a list of all Managed Instances.
+Updates a specific Managed Instance.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_osmanagement_managed_instances" "test_managed_instances" {
+resource "oci_osmanagement_managed_instance" "test_managed_instance" {
 	#Required
-	compartment_id = var.compartment_id
+	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
 
 	#Optional
-	display_name = var.managed_instance_display_name
-	os_family = var.managed_instance_os_family
+	is_data_collection_authorized = var.managed_instance_is_data_collection_authorized
+	notification_topic_id = oci_ons_notification_topic.test_notification_topic.id
 }
 ```
 
@@ -30,18 +30,15 @@ data "oci_osmanagement_managed_instances" "test_managed_instances" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment in which to list resources.
-* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.  Example: `My new resource` 
-* `os_family` - (Optional) The OS family for which to list resources.
+* `is_data_collection_authorized` - (Optional) (Updatable) True if user allow data collection for this instance
+* `managed_instance_id` - (Required) OCID for the managed instance
+* `notification_topic_id` - (Optional) (Updatable) OCID of the ONS topic used to send notification to users
 
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
-
-The following attributes are exported:
-
-* `managed_instances` - The list of managed_instances.
-
-### ManagedInstance Reference
 
 The following attributes are exported:
 
@@ -78,4 +75,20 @@ The following attributes are exported:
 * `status` - status of the managed instance.
 * `updates_available` - Number of updates available to be installed
 * `work_request_count` - Number of work requests associated with this instance
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Managed Instance
+	* `update` - (Defaults to 20 minutes), when updating the Managed Instance
+	* `delete` - (Defaults to 20 minutes), when destroying the Managed Instance
+
+
+## Import
+
+ManagedInstances can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_osmanagement_managed_instance.test_managed_instance "id"
+```
 

@@ -122,8 +122,8 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation,
 				Check: func(s *terraform.State) (err error) {
-					log.Printf("[DEBUG] OS Management Resource should be created after 5 minutes as OS Agent takes time to activate")
-					time.Sleep(5 * time.Minute)
+					log.Printf("[DEBUG] OS Management Resource should be created after 2 minutes as OS Agent takes time to activate")
+					time.Sleep(2 * time.Minute)
 					return nil
 				},
 			},
