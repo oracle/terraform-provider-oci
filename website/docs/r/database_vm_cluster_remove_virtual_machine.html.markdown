@@ -1,30 +1,28 @@
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_vm_clusters"
-sidebar_current: "docs-oci-datasource-database-vm_clusters"
+page_title: "Oracle Cloud Infrastructure: oci_database_vm_cluster_remove_virtual_machine"
+sidebar_current: "docs-oci-resource-database-vm_cluster_remove_virtual_machine"
 description: |-
-  Provides the list of Vm Clusters in Oracle Cloud Infrastructure Database service
+  Provides the Vm Cluster Remove Virtual Machine resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_vm_clusters
-This data source provides the list of Vm Clusters in Oracle Cloud Infrastructure Database service.
+# oci_database_vm_cluster_remove_virtual_machine
+This resource provides the Vm Cluster Remove Virtual Machine resource in Oracle Cloud Infrastructure Database service.
 
-Lists the VM clusters in the specified compartment. Applies to Exadata Cloud@Customer instances only.
-To list the cloud VM clusters in an Exadata Cloud Service instance, use the [ListCloudVmClusters ](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/ListCloudVmClusters) operation.
+Remove Virtual Machines from the VM cluster. Applies to Exadata Cloud@Customer instances only.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_database_vm_clusters" "test_vm_clusters" {
+resource "oci_database_vm_cluster_remove_virtual_machine" "test_vm_cluster_remove_virtual_machine" {
 	#Required
-	compartment_id = var.compartment_id
-
-	#Optional
-	display_name = var.vm_cluster_display_name
-	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-	state = var.vm_cluster_state
+	db_servers {
+		#Required
+		db_server_id = oci_database_db_server.test_db_server.id
+	}
+	vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
 ```
 
@@ -32,19 +30,15 @@ data "oci_database_vm_clusters" "test_vm_clusters" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
-* `exadata_infrastructure_id` - (Optional) If provided, filters the results for the given Exadata Infrastructure.
-* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `db_servers` - (Required) The list of Exacc DB servers for the cluster to be removed.
+	* `db_server_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Exacc Db server.
+* `vm_cluster_id` - (Required) The VM cluster [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
-
-The following attributes are exported:
-
-* `vm_clusters` - The list of vm_clusters.
-
-### VmCluster Reference
 
 The following attributes are exported:
 
@@ -72,4 +66,20 @@ The following attributes are exported:
 * `time_created` - The date and time that the VM cluster was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Vm Cluster Remove Virtual Machine
+	* `update` - (Defaults to 20 minutes), when updating the Vm Cluster Remove Virtual Machine
+	* `delete` - (Defaults to 20 minutes), when destroying the Vm Cluster Remove Virtual Machine
+
+
+## Import
+
+VmClusterRemoveVirtualMachine can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_vm_cluster_remove_virtual_machine.test_vm_cluster_remove_virtual_machine "id"
+```
 

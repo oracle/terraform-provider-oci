@@ -133,6 +133,8 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
 		}
 
+		vmCluster["db_servers"] = r.DbServers
+
 		if r.DefinedTags != nil {
 			vmCluster["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

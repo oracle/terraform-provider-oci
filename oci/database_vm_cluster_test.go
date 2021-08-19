@@ -49,14 +49,15 @@ var (
 		"gi_version":                  Representation{RepType: Required, Create: `19.0.0.0.0`},
 		"ssh_public_keys":             Representation{RepType: Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
 		"vm_cluster_network_id":       Representation{RepType: Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
-		"data_storage_size_in_tbs":    Representation{RepType: Optional, Create: `84`, Update: `85`},
-		"db_node_storage_size_in_gbs": Representation{RepType: Optional, Create: `120`, Update: `121`},
+		"data_storage_size_in_tbs":    Representation{RepType: Optional, Create: `84`, Update: `86`},
+		"db_node_storage_size_in_gbs": Representation{RepType: Optional, Create: `120`, Update: `160`},
+		"db_servers":                  Representation{RepType: Required, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
 		"defined_tags":                Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_local_backup_enabled":     Representation{RepType: Optional, Create: `false`},
 		"is_sparse_diskgroup_enabled": Representation{RepType: Optional, Create: `false`},
 		"license_model":               Representation{RepType: Optional, Create: `LICENSE_INCLUDED`},
-		"memory_size_in_gbs":          Representation{RepType: Optional, Create: `60`, Update: `61`},
+		"memory_size_in_gbs":          Representation{RepType: Optional, Create: `60`, Update: `90`},
 		"time_zone":                   Representation{RepType: Optional, Create: `US/Pacific`},
 	}
 
@@ -89,6 +90,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -112,12 +114,14 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create, vmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
+				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -145,6 +149,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VmClusterResourceDependencies +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create,
 					RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
 						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
@@ -154,6 +159,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
 				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
+				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -179,12 +185,14 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "85"),
-				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "121"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "86"),
+				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "160"),
+				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -193,7 +201,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "61"),
+				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "90"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -211,6 +219,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_database_vm_clusters", "test_vm_clusters", Optional, Update, vmClusterDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterResourceDependencies +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -221,8 +230,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "85"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "121"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "86"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "160"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_servers.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
@@ -232,7 +242,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_local_backup_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.memory_size_in_gbs", "61"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.memory_size_in_gbs", "90"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
@@ -244,14 +254,17 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 		{
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VmClusterResourceConfig,
+				compartmentIdVariableStr + VmClusterResourceDependencies +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "85"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "121"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "86"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "160"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -260,7 +273,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_local_backup_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "61"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "90"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -269,7 +282,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + VmClusterResourceConfig,
+			Config: config + compartmentIdVariableStr +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", Required, Create, dbServerDataSourceRepresentation) +
+				VmClusterResourceConfig,
 		},
 		// verify resource import
 		{
