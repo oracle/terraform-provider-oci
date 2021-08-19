@@ -431,6 +431,8 @@ database
 * oci\_database\_external\_non\_container\_database
 * oci\_database\_external\_database\_connector
 * oci\_database\_pluggable\_database
+* oci\_database\_vm\_cluster\_add\_virtual\_machine
+* oci\_database\_vm\_cluster\_remove\_virtual\_machine
 
 database_migration
     

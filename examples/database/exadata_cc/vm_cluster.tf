@@ -90,7 +90,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
   ssh_public_keys           = [var.ssh_public_key]
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
-
+  db_servers                = [data.oci_database_db_servers.test_db_servers.db_servers.0.id, data.oci_database_db_servers.test_db_servers.db_servers.1.id]
   #Optional
   defined_tags = {
     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedvalue"
@@ -106,6 +106,12 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   data_storage_size_in_tbs    = "84"
   db_node_storage_size_in_gbs = "120"
   memory_size_in_gbs          = "60"
+}
+
+data "oci_database_db_servers" "test_db_servers" {
+  #Required
+  compartment_id            = var.compartment_id
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }
 
 data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_network" {

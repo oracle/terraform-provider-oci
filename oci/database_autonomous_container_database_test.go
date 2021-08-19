@@ -135,11 +135,11 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// delete before next create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,

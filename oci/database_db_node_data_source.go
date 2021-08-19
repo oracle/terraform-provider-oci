@@ -39,6 +39,18 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"db_node_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"db_server_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -57,6 +69,10 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 			},
 			"maintenance_type": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"memory_size_in_gbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"software_storage_size_in_gb": {
@@ -151,6 +167,18 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("backup_vnic_id", *s.Res.BackupVnicId)
 	}
 
+	if s.Res.CpuCoreCount != nil {
+		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
+	}
+
+	if s.Res.DbNodeStorageSizeInGBs != nil {
+		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
+	}
+
+	if s.Res.DbServerId != nil {
+		s.D.Set("db_server_id", *s.Res.DbServerId)
+	}
+
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
@@ -168,6 +196,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("maintenance_type", s.Res.MaintenanceType)
+
+	if s.Res.MemorySizeInGBs != nil {
+		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
+	}
 
 	if s.Res.SoftwareStorageSizeInGB != nil {
 		s.D.Set("software_storage_size_in_gb", *s.Res.SoftwareStorageSizeInGB)

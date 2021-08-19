@@ -23,6 +23,10 @@ func DatabaseDbNodesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"db_server_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -38,7 +42,99 @@ func DatabaseDbNodesDataSource() *schema.Resource {
 			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DatabaseDbNodeDataSource()),
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"additional_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_ip_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_vnic2id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_vnic_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"cpu_core_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"db_node_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"db_server_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"fault_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"host_ip_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"hostname": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"maintenance_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"memory_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"software_storage_size_in_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_window_end": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_window_start": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vnic2id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vnic_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -68,6 +164,11 @@ func (s *DatabaseDbNodesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbServerId, ok := s.D.GetOkExists("db_server_id"); ok {
+		tmp := dbServerId.(string)
+		request.DbServerId = &tmp
 	}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -137,6 +238,22 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["backup_vnic_id"] = *r.BackupVnicId
 		}
 
+		if r.CpuCoreCount != nil {
+			dbNode["cpu_core_count"] = *r.CpuCoreCount
+		}
+
+		if r.DbNodeStorageSizeInGBs != nil {
+			dbNode["db_node_storage_size_in_gbs"] = *r.DbNodeStorageSizeInGBs
+		}
+
+		if r.DbServerId != nil {
+			dbNode["db_server_id"] = *r.DbServerId
+		}
+
+		if r.DbSystemId != nil {
+			dbNode["db_system_id"] = *r.DbSystemId
+		}
+
 		if r.FaultDomain != nil {
 			dbNode["fault_domain"] = *r.FaultDomain
 		}
@@ -155,6 +272,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 		}
 
 		dbNode["maintenance_type"] = r.MaintenanceType
+
+		if r.MemorySizeInGBs != nil {
+			dbNode["memory_size_in_gbs"] = *r.MemorySizeInGBs
+		}
 
 		if r.SoftwareStorageSizeInGB != nil {
 			dbNode["software_storage_size_in_gb"] = *r.SoftwareStorageSizeInGB

@@ -40,6 +40,9 @@ The following attributes are exported:
 
 	**Note:** Applies only to Exadata Cloud Service. 
 * `backup_vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup VNIC.
+* `cpu_core_count` - The number of CPU cores enabled on the Db node.
+* `db_node_storage_size_in_gbs` - The allocated local node storage in GBs on the Db node.
+* `db_server_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `fault_domain` - The name of the Fault Domain the instance is contained in.
 * `host_ip_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host IP address associated with the database node.
@@ -48,6 +51,7 @@ The following attributes are exported:
 * `hostname` - The host name for the database node.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database node.
 * `maintenance_type` - The type of database node maintenance.
+* `memory_size_in_gbs` - The allocated memory in GBs on the Db node.
 * `software_storage_size_in_gb` - The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems. 
 * `state` - The current state of the database node.
 * `time_created` - The date and time that the database node was created.
