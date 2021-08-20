@@ -5,6 +5,7 @@
 - Support retry for Eventually consistency failure
 - Support for Count API added to `os_management` resource
 - Support for cloud databases in Database Management
+- Support for Metrics and Perfhub for BM/VM and ExaCS 
 
 ## 4.42.0 (September 01, 2021)
 

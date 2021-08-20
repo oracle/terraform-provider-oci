@@ -81,6 +81,12 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("connection_strings", nil)
 	}
 
+	if s.Res.DatabaseManagementConfig != nil {
+		s.D.Set("database_management_config", []interface{}{CloudDatabaseManagementConfigToMap(s.Res.DatabaseManagementConfig)})
+	} else {
+		s.D.Set("database_management_config", nil)
+	}
+
 	if s.Res.DatabaseSoftwareImageId != nil {
 		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
 	}
