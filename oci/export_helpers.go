@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
 	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
 	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
 	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
@@ -55,6 +56,21 @@ func init() {
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+}
+
+// Custom overrides for generating composite IDs within the resource discovery framework
+
+func getApmConfigConfigId(resource *OCIResource) (string, error) {
+
+	configId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find configId for ApmConfig Config")
+	}
+	apmDomainId, ok := resource.sourceAttributes["apm_domain_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmConfig Config")
+	}
+	return getConfigCompositeId(configId, apmDomainId), nil
 }
 
 func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
