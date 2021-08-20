@@ -31,6 +31,7 @@ resource "oci_core_drg_attachment_management" "test_drg_rpc_attachment" {
   attachment_type = "REMOTE_PEERING_CONNECTION"
   compartment_id = var.compartment_ocid
   network_id = oci_core_remote_peering_connection.test_rpc.id
+  drg_id = oci_core_drg.test_drg.id
 
   #Optional
   display_name = "MyTestDrgAttachmentForRpc"
@@ -47,7 +48,7 @@ The following arguments are supported:
 * `network_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource (virtual circuit, VCN, IPSec tunnel, or remote peering connection) attached to the DRG.
 * `defined_tags` - (Optional)(Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `display_name` - (Optional)(Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-* `drg_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+* `drg_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 * `drg_route_table_id` - (Optional)(Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table assigned to the DRG attachment.
 * `freeform_tags` - (Optional)(Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `network_details` - (Optional)(Updatable)
