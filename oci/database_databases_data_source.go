@@ -139,6 +139,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["connection_strings"] = nil
 		}
 
+		if r.DatabaseManagementConfig != nil {
+			database["database_management_config"] = []interface{}{CloudDatabaseManagementConfigToMap(r.DatabaseManagementConfig)}
+		} else {
+			database["database_management_config"] = nil
+		}
+
 		if r.DatabaseSoftwareImageId != nil {
 			database["database_software_image_id"] = *r.DatabaseSoftwareImageId
 		}
