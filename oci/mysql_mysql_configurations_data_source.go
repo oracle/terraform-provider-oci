@@ -111,6 +111,21 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"binlog_row_metadata": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"binlog_row_value_options": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"binlog_transaction_compression": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
 									"completion_type": {
 										Type:     schema.TypeString,
 										Optional: true,
