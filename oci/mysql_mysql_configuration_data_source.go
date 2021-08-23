@@ -88,6 +88,21 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"binlog_row_metadata": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"binlog_row_value_options": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"binlog_transaction_compression": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"completion_type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -444,6 +459,16 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 
 	if obj.BinlogExpireLogsSeconds != nil {
 		result["binlog_expire_logs_seconds"] = int(*obj.BinlogExpireLogsSeconds)
+	}
+
+	result["binlog_row_metadata"] = string(obj.BinlogRowMetadata)
+
+	if obj.BinlogRowValueOptions != nil {
+		result["binlog_row_value_options"] = string(*obj.BinlogRowValueOptions)
+	}
+
+	if obj.BinlogTransactionCompression != nil {
+		result["binlog_transaction_compression"] = bool(*obj.BinlogTransactionCompression)
 	}
 
 	result["completion_type"] = string(obj.CompletionType)
