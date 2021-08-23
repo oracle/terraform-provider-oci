@@ -1,3 +1,8 @@
+## 4.45.0 (Unreleased)
+
+### Added
+- Support for source path based upload in `oci_generic_artifacts_content_artifact_by_path` 
+
 ## 4.44.0 (September 15, 2021)
 
 ### Added
