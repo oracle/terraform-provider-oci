@@ -5,6 +5,8 @@ package oci
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 	"strconv"
 	"testing"
 
@@ -32,6 +34,8 @@ var (
 	}
 
 	ArtifactByPathResourceDependencies = generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
+	// the deletion of oci_generic_artifacts_content_artifact_by_path is done by oci_artifacts_generic_artifact
+	GenericArtifactManager = generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation)
 )
 
 // issue-routing-tag: generic_artifacts_content/default
@@ -57,7 +61,7 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 		// verify create
 		{
 			Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation),
+				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation) + GenericArtifactManager,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
@@ -75,7 +79,7 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation),
+				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation) + GenericArtifactManager,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
@@ -87,16 +91,95 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify singular datasource
 		{
 			Config: config +
 				generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ArtifactByPathResourceConfig,
+				compartmentIdVariableStr + ArtifactByPathResourceConfig + GenericArtifactManager,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "artifact_path", "artifactPath"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "version", "1.0"),
 			),
+		},
+	})
+}
+
+const (
+	tempFilePrefix = "small-"
+	tempFileSize   = 2e5
+	tempFileSha256 = "4cbbd9be0cba685835755f827758705db5a413c5494c34262cd25946a73e7582"
+)
+
+func createTmpFile() (string, error) {
+	tempFile, err := ioutil.TempFile(os.TempDir(), tempFilePrefix)
+	if err != nil {
+		return "", err
+	}
+	if err := tempFile.Truncate(tempFileSize); err != nil {
+		return "", err
+	}
+	return tempFile.Name(), nil
+}
+
+var (
+	artifactByPathSourceRepresentation = map[string]interface{}{
+		"artifact_path": Representation{repType: Required, create: `artifactPath`},
+		"repository_id": Representation{repType: Required, create: `${oci_artifacts_repository.test_repository.id}`},
+		"version":       Representation{repType: Required, create: `1.0`},
+		"source":        Representation{repType: Required, create: ``},
+	}
+)
+
+// issue-routing-tag: generic_artifacts_content/default
+func TestGenericArtifactsContentArtifactByPathResource_uploadFile(t *testing.T) {
+	httpreplay.SetScenario("TestGenericArtifactsContentArtifactByPathResource_uploadFile")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_generic_artifacts_content_artifact_by_path.test_artifact_by_path"
+
+	tempFilePath, err := createTmpFile()
+	if err != nil {
+		t.Fatalf("Unable to create file to upload. Error: %q", err)
+	}
+
+	var resId, _ string
+	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	saveConfigContent(config+compartmentIdVariableStr+ArtifactByPathResourceDependencies+
+		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation), "genericartifactscontent", "artifactByPath", t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
+					generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create,
+						getUpdatedRepresentationCopy("source", Representation{repType: Required, create: tempFilePath}, artifactByPathSourceRepresentation)) + GenericArtifactManager,
+				Check: ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "sha256", tempFileSha256),
+					resource.TestCheckResourceAttr(resourceName, "size_in_bytes", strconv.Itoa(tempFileSize)),
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
 		},
 	})
 }
