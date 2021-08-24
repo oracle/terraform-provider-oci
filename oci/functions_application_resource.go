@@ -469,7 +469,6 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
 
-
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)

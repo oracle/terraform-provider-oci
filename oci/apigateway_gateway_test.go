@@ -42,14 +42,15 @@ var (
 	}
 
 	gatewayRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"endpoint_type":          Representation{repType: Required, create: `PUBLIC`},
-		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"certificate_id":         Representation{repType: Optional, create: `${oci_apigateway_certificate.test_certificate.id}`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"response_cache_details": RepresentationGroup{Optional, gatewayResponseCacheDetailsRepresentation},
+		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
+		"endpoint_type":              Representation{repType: Required, create: `PUBLIC`},
+		"subnet_id":                  Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"certificate_id":             Representation{repType: Optional, create: `${oci_apigateway_certificate.test_certificate.id}`},
+		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"response_cache_details":     RepresentationGroup{Optional, gatewayResponseCacheDetailsRepresentation},
 	}
 	gatewayResponseCacheDetailsRepresentation = map[string]interface{}{
 		"type":                                 Representation{repType: Required, create: `EXTERNAL_RESP_CACHE`},
@@ -68,6 +69,8 @@ var (
 	}
 
 	GatewayResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies +
