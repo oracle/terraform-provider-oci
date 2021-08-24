@@ -58,6 +58,7 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `network_security_group_ids` - An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - Base Gateway response cache. 
 	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
 	* `authentication_secret_version_number` - The version number of the authentication secret to use. 
