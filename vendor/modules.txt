@@ -256,7 +256,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v46 v46.0.0 => ./vendor/github.com/oracle/oci-go-sdk
+# github.com/oracle/oci-go-sdk/v46 v46.1.0
 github.com/oracle/oci-go-sdk/v46/aianomalydetection
 github.com/oracle/oci-go-sdk/v46/analytics
 github.com/oracle/oci-go-sdk/v46/apigateway
