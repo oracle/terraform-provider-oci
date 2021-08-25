@@ -8,6 +8,7 @@
 ### Added
 - Support InstanceConsoleConnection API with new serviceHostKeyFingerprint Property 
 - Support for Data science ML jobs added
+- Support for Logging Analytics Import Custom Content
 
 ### Notes
 - Disabled resource discovery on resource `oci_core_drg_route_distribution_statement`
