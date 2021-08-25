@@ -34,7 +34,7 @@ var (
 		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
 		"host_type":      Representation{repType: Optional, create: []string{`EXTERNAL-HOST`}},
 		"id":             Representation{repType: Optional, create: `${oci_opsi_host_insight.test_host_insight.id}`},
-		"state":          Representation{repType: Optional, create: []string{`Active`}},
+		"state":          Representation{repType: Optional, create: []string{`ACTIVE`}},
 		"status":         Representation{repType: Optional, create: []string{`Enabled`}, update: []string{`DISABLED`}},
 		"filter":         RepresentationGroup{Required, hostInsightDataSourceFilterRepresentation},
 	}

@@ -13,6 +13,8 @@ import (
 	"strings"
 	"testing"
 
+	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+
 	oci_budget "github.com/oracle/oci-go-sdk/v46/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -435,21 +437,6 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 			assert.Equal(t, err, nil)
 			return
 		}
-	case authInstancePrincipalSetting:
-		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
-		assert.False(t, ok)
-		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", strings.Join(apiKeyConfigVariablesToUnset, ", ")), err.Error())
-		return
-	case authInstancePrincipalWithCertsSetting:
-		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
-		assert.False(t, ok)
-		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", strings.Join(apiKeyConfigVariablesToUnset, ", ")), err.Error())
-		return
-	case authSecurityToken:
-		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
-		assert.False(t, ok)
-		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", strings.Join(apiKeyConfigVariablesToUnset, ", ")), err.Error())
-		return
 	default:
 		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting))
 		return
@@ -935,6 +922,45 @@ func TestUnitReadOboTokenFromFile(t *testing.T) {
 	client.ListBudgets(context.Background(), request)
 }
 
+func TestUnitOboTokenAndApiKey(t *testing.T) {
+	t.Skip("Run manual with a valid obo token")
+
+	os.Setenv("use_obo_token", "true")
+	os.Setenv(oboTokenAttrName, "fake-token")
+	defer os.Unsetenv(oboTokenAttrName)
+	assert.Equal(t, "true", getEnvSettingWithBlankDefault("use_obo_token"))
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", "InstancePrincipal")
+	d.Set("region", "us-phoenix-1")
+
+	// Set API key with auth=InstancePrincipal, the API should be unset
+	d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
+	d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
+	d.Set("private_key_path", getEnvSettingWithBlankDefault("private_key_path"))
+	d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
+	d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
+
+	client := GetTestClients(d).budgetClient()
+	assert.NotEmpty(t, client.Host)
+
+	request := oci_budget.ListBudgetsRequest{}
+	compartmentId := getEnvSettingWithBlankDefault("compartment_id")
+	request.CompartmentId = &compartmentId
+	fmt.Println("======= First List call with token fake-token ======")
+
+	// manual verify request that contains "Opc-Obo-Token: fake-token"
+	client.ListBudgets(context.Background(), request)
+
+	fmt.Println("======= Second List call with token another-token ======")
+	os.Setenv(oboTokenAttrName, "another-token")
+	// manual verify request that contains "Opc-Obo-Token: another-token"
+	client.ListBudgets(context.Background(), request)
+}
+
 // issue-routing-tag: terraform/default
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
@@ -1028,24 +1054,30 @@ func TestUnitHomeDirectoryPrivateKeyPath_basic(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitSecurityToken_basic(t *testing.T) {
 	t.Skip("Run manual with a valid security token")
-	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
-		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
-		if apiKeyConfigAttributeEnvValue != "" {
-			t.Skip("apiKeyConfigAttributes are set through environment variables, skip the test")
-		}
-	}
+
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
 	d := r.Data(nil)
 	d.SetId("tenancy_ocid")
 	d.Set("auth", authSecurityToken)
-	d.Set(configFileProfileAttrName, "PROFILE4") // Run CLI command "oci session authenticate" to get token and profile
+	d.Set(configFileProfileAttrName, "DEFAULT")
+
+	// Set API key, should be removed by auth=SecurityToken
+	d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
+	d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
+	d.Set("private_key_path", getEnvSettingWithBlankDefault("private_key_path"))
+	d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
+	d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
+	// Run CLI command "oci session authenticate" to get token and profile
 	clients := &OracleClients{
 		sdkClientMap:  make(map[string]interface{}, len(oracleClientRegistrations.registeredClients)),
 		configuration: make(map[string]string),
 	}
 	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	_, empty := checkIncompatibleAttrsForApiKeyAuth(d)
+	// API key should be removed
+	assert.True(t, true, empty)
 	assert.NoError(t, err)
 	finger, _ := sdkConfigProvider.KeyFingerprint()
 	assert.NotNil(t, finger)
@@ -1057,18 +1089,11 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	assert.NotNil(t, region)
 	privateKey, _ := sdkConfigProvider.PrivateRSAKey()
 	assert.NotNil(t, privateKey)
-	client, err := oci_budget.NewBudgetClientWithConfigurationProvider(sdkConfigProvider)
+	client, err := oci_identity.NewIdentityClientWithConfigurationProvider(sdkConfigProvider)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, client.Host)
 
-	request := oci_budget.ListBudgetsRequest{}
-	compartmentId, ok := d.GetOk("compartment_id")
-	assert.True(t, ok)
-	compartmentIdString := compartmentId.(string)
-
-	request.CompartmentId = &compartmentIdString
-
-	_, err = client.ListBudgets(context.Background(), request)
+	_, err = client.ListRegions(context.Background())
 	assert.NoError(t, err)
 }
 

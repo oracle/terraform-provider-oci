@@ -151,3 +151,6 @@ ifdef version
 else
 	@echo Error! replace_sdk_version requires a version argument
 endif
+
+check-untagged-tests:
+	@sh -c "'$(CURDIR)/scripts/check-untagged-tests.sh' -s ''$(SERVICE)"

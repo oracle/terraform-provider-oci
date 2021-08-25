@@ -37,6 +37,8 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 	dns = var.vm_cluster_recommended_network_dns
 	freeform_tags = var.vm_cluster_recommended_network_freeform_tags
 	ntp = var.vm_cluster_recommended_network_ntp
+	scan_listener_port_tcp = var.vm_cluster_recommended_network_scan_listener_port_tcp
+	scan_listener_port_tcp_ssl = var.vm_cluster_recommended_network_scan_listener_port_tcp_ssl
 }
 ```
 
@@ -59,6 +61,8 @@ The following arguments are supported:
 	* `prefix` - (Required) The network domain name.
 	* `vlan_id` - (Required) The network VLAN ID.
 * `ntp` - (Optional) The list of NTP server IP addresses. Maximum of 3 allowed.
+* `scan_listener_port_tcp` - (Optional) The SCAN TCPIP port. Default is 1521.
+* `scan_listener_port_tcp_ssl` - (Optional) The SCAN TCPIP SSL port. Default is 2484.
 
 
 ## Attributes Reference
@@ -75,6 +79,8 @@ The following attributes are exported:
 	* `hostname` - The SCAN hostname.
 	* `ips` - The list of SCAN IP addresses. Three addresses should be provided.
 	* `port` - The SCAN TCPIP port. Default is 1521.
+	* `scan_listener_port_tcp` - The SCAN TCPIP port. Default is 1521.
+	* `scan_listener_port_tcp_ssl` - The SCAN TCPIP SSL port. Default is 2484.
 * `vm_networks` - Details of the client and backup networks.
 	* `domain_name` - The network domain name.
 	* `gateway` - The network gateway.
