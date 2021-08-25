@@ -1,4 +1,4 @@
-## 4.41.0 (Unreleased)
+## 4.41.0 (August 25, 2021)
 
 ### Added
 - Support for Custom Listener Port added to `database`
