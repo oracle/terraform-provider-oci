@@ -25,6 +25,12 @@ type GenerateRecommendedNetworkDetails struct {
 	// List of parameters for generation of the client and backup networks.
 	Networks []InfoForNetworkGenDetails `mandatory:"true" json:"networks"`
 
+	// The SCAN TCPIP port. Default is 1521.
+	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`
+
+	// The SCAN TCPIP SSL port. Default is 2484.
+	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
+
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	Dns []string `mandatory:"false" json:"dns"`
 

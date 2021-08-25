@@ -104,6 +104,14 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"scan_listener_port_tcp": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"scan_listener_port_tcp_ssl": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"scans": {
@@ -128,6 +136,14 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 							},
 						},
 						"port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"scan_listener_port_tcp": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"scan_listener_port_tcp_ssl": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -289,6 +305,16 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 		if len(tmp) != 0 || s.D.HasChange("ntp") {
 			request.Ntp = tmp
 		}
+	}
+
+	if scanListenerPortTcp, ok := s.D.GetOkExists("scan_listener_port_tcp"); ok {
+		tmp := scanListenerPortTcp.(int)
+		request.ScanListenerPortTcp = &tmp
+	}
+
+	if scanListenerPortTcpSsl, ok := s.D.GetOkExists("scan_listener_port_tcp_ssl"); ok {
+		tmp := scanListenerPortTcpSsl.(int)
+		request.ScanListenerPortTcpSsl = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
