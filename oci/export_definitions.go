@@ -1975,6 +1975,18 @@ var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &TerraformResource
 	},
 }
 
+var exportLogAnalyticsNamespaceScheduledTaskHints = &TerraformResourceHints{
+	resourceClass:          "oci_log_analytics_namespace_scheduled_task",
+	datasourceClass:        "oci_log_analytics_namespace_scheduled_tasks",
+	datasourceItemsAttr:    "scheduled_task_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "namespace_scheduled_task",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_log_analytics.ScheduledTaskLifecycleStateActive),
+	},
+}
+
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",
