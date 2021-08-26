@@ -1,45 +1,39 @@
 // Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-# Defines the number of instances to deploy
-variable "num_platform_config_instances" {
-  default = "1"
+
+variable "vm_shielded_instance_shape" {
+  default = "VM.Standard2.1"
 }
 
-variable "platform_config_instance_shape" {
-  default = "BM.DenseIO.E4.128"
+variable "vm_shielded_instance_platform_config_type" {
+  default = "INTEL_VM"
 }
 
-variable "instance_platform_config_numa_nodes_per_socket" {
-  default = "NPS1"
-}
-
-variable "instance_platform_config_type" {
-  default = "AMD_MILAN_BM"
-}
-
-resource "oci_core_instance" "test_instance_with_platform_config" {
-  count               = var.num_platform_config_instances
+resource "oci_core_instance" "test_vm_shielded_instance_with_platform_config" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "TestInstance${count.index}"
-  shape               = var.platform_config_instance_shape
+  display_name        = "TestShieldedInstance"
+  shape               = var.vm_shielded_instance_shape
+
 
   platform_config {
-    type = "${var.instance_platform_config_type}"
-    numa_nodes_per_socket = "${var.instance_platform_config_numa_nodes_per_socket}"
+    type = var.vm_shielded_instance_platform_config_type
+    is_measured_boot_enabled = true
+    is_secure_boot_enabled = true
+    is_trusted_platform_module_enabled = true
   }
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
     assign_public_ip = true
-    hostname_label   = "tfexampleinstancepc${count.index}"
+    hostname_label   = "tfexampleshinstance"
   }
 
   source_details {
     source_type = "image"
-    source_id   = data.oci_core_images.supported_platform_config_shape_images.images[0]["id"]
+    source_id   = data.oci_core_images.supported_vm_shielded_instances_shape_images.images[0]["id"]
   }
 
   # Apply the following flag only if you wish to preserve the attached boot volume upon destroying this instance
@@ -56,17 +50,18 @@ resource "oci_core_instance" "test_instance_with_platform_config" {
   }
 
   freeform_tags = {
-    "freeformkey${count.index}" = "freeformvalue${count.index}"
+    "freeformkey" = "freeformvalue"
   }
   timeouts {
     create = "60m"
   }
 }
 
-# Gets a list of all images that support a given Instance shape
-data "oci_core_images" "supported_platform_config_shape_images" {
+# Gets a list of all images that support a given VM Instance shape
+data "oci_core_images" "supported_vm_shielded_instances_shape_images" {
   compartment_id   = var.tenancy_ocid
-  shape            = var.platform_config_instance_shape
+  shape            = var.vm_shielded_instance_shape
   operating_system = "Oracle Linux"
 
 }
+

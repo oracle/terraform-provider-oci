@@ -394,10 +394,32 @@ func CoreInstanceResource() *schema.Resource {
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"AMD_MILAN_BM",
+								"AMD_ROME_BM",
+								"AMD_VM",
+								"INTEL_SKYLAKE_BM",
+								"INTEL_VM",
 							}, true),
 						},
 
 						// Optional
+						"is_measured_boot_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_secure_boot_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_trusted_platform_module_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"numa_nodes_per_socket": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1854,6 +1876,78 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
 			details.NumaNodesPerSocket = oci_core.AmdMilanBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
 		}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("AMD_ROME_BM"):
+		details := oci_core.AmdRomeBmLaunchInstancePlatformConfig{}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("AMD_VM"):
+		details := oci_core.AmdVmLaunchInstancePlatformConfig{}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("INTEL_SKYLAKE_BM"):
+		details := oci_core.IntelSkylakeBmLaunchInstancePlatformConfig{}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("INTEL_VM"):
+		details := oci_core.IntelVmLaunchInstancePlatformConfig{}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
@@ -1864,14 +1958,78 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_core.AmdMilanBmLaunchInstancePlatformConfig:
-		result["type"] = "AMD_MILAN_BM"
-
-		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
 	case oci_core.AmdMilanBmPlatformConfig:
 		result["type"] = "AMD_MILAN_BM"
 
 		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
+	case oci_core.AmdRomeBmPlatformConfig:
+		result["type"] = "AMD_ROME_BM"
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
+	case oci_core.AmdVmPlatformConfig:
+		result["type"] = "AMD_VM"
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
+	case oci_core.IntelSkylakeBmPlatformConfig:
+		result["type"] = "INTEL_SKYLAKE_BM"
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
+	case oci_core.IntelVmPlatformConfig:
+		result["type"] = "INTEL_VM"
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
