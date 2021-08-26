@@ -209,6 +209,129 @@ func CoreShapesDataSource() *schema.Resource {
 							Type:     schema.TypeFloat,
 							Computed: true,
 						},
+						"platform_config_options": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"measured_boot_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"numa_nodes_per_socket_platform_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"default_value": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"secure_boot_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"trusted_platform_module_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"allowed_values": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeBool,
+													},
+												},
+												"is_default_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"processor_description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -369,6 +492,12 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 			shape["ocpus"] = *r.Ocpus
 		}
 
+		if r.PlatformConfigOptions != nil {
+			shape["platform_config_options"] = []interface{}{ShapePlatformConfigOptionsToMap(r.PlatformConfigOptions)}
+		} else {
+			shape["platform_config_options"] = nil
+		}
+
 		if r.ProcessorDescription != nil {
 			shape["processor_description"] = *r.ProcessorDescription
 		}
@@ -400,6 +529,18 @@ func ShapeMaxVnicAttachmentOptionsToMap(obj *oci_core.ShapeMaxVnicAttachmentOpti
 
 	if obj.Min != nil {
 		result["min"] = int(*obj.Min)
+	}
+
+	return result
+}
+
+func ShapeMeasuredBootOptionsToMap(obj *oci_core.ShapeMeasuredBootOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
 	}
 
 	return result
@@ -449,6 +590,18 @@ func ShapeNetworkingBandwidthOptionsToMap(obj *oci_core.ShapeNetworkingBandwidth
 	return result
 }
 
+func ShapeNumaNodesPerSocketPlatformOptionsToMap(obj *oci_core.ShapeNumaNodesPerSocketPlatformOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.DefaultValue != nil {
+		result["default_value"] = string(*obj.DefaultValue)
+	}
+
+	return result
+}
+
 func ShapeOcpuOptionsToMap(obj *oci_core.ShapeOcpuOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -458,6 +611,54 @@ func ShapeOcpuOptionsToMap(obj *oci_core.ShapeOcpuOptions) map[string]interface{
 
 	if obj.Min != nil {
 		result["min"] = float32(*obj.Min)
+	}
+
+	return result
+}
+
+func ShapePlatformConfigOptionsToMap(obj *oci_core.ShapePlatformConfigOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MeasuredBootOptions != nil {
+		result["measured_boot_options"] = []interface{}{ShapeMeasuredBootOptionsToMap(obj.MeasuredBootOptions)}
+	}
+
+	if obj.NumaNodesPerSocketPlatformOptions != nil {
+		result["numa_nodes_per_socket_platform_options"] = []interface{}{ShapeNumaNodesPerSocketPlatformOptionsToMap(obj.NumaNodesPerSocketPlatformOptions)}
+	}
+
+	if obj.SecureBootOptions != nil {
+		result["secure_boot_options"] = []interface{}{ShapeSecureBootOptionsToMap(obj.SecureBootOptions)}
+	}
+
+	if obj.TrustedPlatformModuleOptions != nil {
+		result["trusted_platform_module_options"] = []interface{}{ShapeTrustedPlatformModuleOptionsToMap(obj.TrustedPlatformModuleOptions)}
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
+func ShapeSecureBootOptionsToMap(obj *oci_core.ShapeSecureBootOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
+	}
+
+	return result
+}
+
+func ShapeTrustedPlatformModuleOptionsToMap(obj *oci_core.ShapeTrustedPlatformModuleOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_values"] = obj.AllowedValues
+
+	if obj.IsDefaultEnabled != nil {
+		result["is_default_enabled"] = bool(*obj.IsDefaultEnabled)
 	}
 
 	return result

@@ -56,6 +56,19 @@ variable "InstanceImageOCID" {
 	}
 
 `
+	DefinedShieldedImageOCIDs = `
+      variable "InstanceImageOCIDShieldedCompatible" {
+	  type = "map"
+	  default = {
+		// See https://docs.us-phoenix-1.oraclecloud.com/images/
+		// Oracle-provided image "Oracle-Linux-8.4-2021.07.27-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaalw6v7wxgiuedh36jzy5ilbnfjezsxey2glgg3jtlodwzltxregba"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaay7qb3q2bttzhvzzacdpweqo2mvj43tfkm5b4j46xf6pzazspz6aq"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaasehd3xu75nmbxp6lbaaontfgmowlszrx5c72mw4kks5f75euj7gq"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa7fgs4dpcjkkeemyfzyo3yo5lezqfskac45dblmgnfq5az4jmgcza"
+	  }
+	}`
+
 	FlexVmImageIdsVariable = `
 	variable "FlexInstanceImageOCID" {
 	  type = "map"
