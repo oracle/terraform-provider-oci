@@ -42,6 +42,8 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
 	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
 	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
+	exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
 	exportLoggingLogHints.getIdFn = getLoggingLogId
 	exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
 	exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
@@ -415,6 +417,32 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer RuleSet")
 	}
 	return getRuleSetCompositeId(loadBalancerId, name), nil
+}
+
+func getLogAnalyticsLogAnalyticsObjectCollectionRuleId(resource *OCIResource) (string, error) {
+
+	logAnalyticsObjectCollectionRuleId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find logAnalyticsObjectCollectionRuleId for LogAnalytics LogAnalyticsObjectCollectionRule")
+	}
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics LogAnalyticsObjectCollectionRule")
+	}
+	return getLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace), nil
+}
+
+func getLogAnalyticsNamespaceScheduledTaskId(resource *OCIResource) (string, error) {
+
+	namespace, ok := resource.sourceAttributes["namespace"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics NamespaceScheduledTask")
+	}
+	scheduledTaskId, ok := resource.sourceAttributes["scheduled_task_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find scheduledTaskId for LogAnalytics NamespaceScheduledTask")
+	}
+	return getNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
 }
 
 func getLoggingLogId(resource *OCIResource) (string, error) {

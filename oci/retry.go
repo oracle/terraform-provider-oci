@@ -25,6 +25,7 @@ const (
 	waasService          = "waas"
 	kmsService           = "kms"
 	objectstorageService = "object_storage"
+	logAnalyticsService  = "log_analytics"
 	deleteResource       = "delete"
 	updateResource       = "update"
 	createResource       = "create"
@@ -41,6 +42,7 @@ var serviceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFun
 	identityService:      getIdentityExpectedRetryDuration,
 	objectstorageService: getObjectstorageServiceExpectedRetryDuration,
 	waasService:          getWaasExpectedRetryDuration,
+	logAnalyticsService:  getLogAnalyticsExpectedRetryDuration,
 }
 var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
 	kmsService: kmsGetRetryPolicy,
@@ -306,6 +308,21 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 		} else {
 			defaultRetryTime = longRetryTime
 		}
+	}
+
+	return defaultRetryTime
+}
+
+func getLogAnalyticsExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
+	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+
+	statusCode := response.Response.HTTPResponse().StatusCode
+	// 304 (Not Modified) is a successful return code for Log Analytics. don't retry.
+	if statusCode == 304 {
+		return 0
 	}
 
 	return defaultRetryTime
