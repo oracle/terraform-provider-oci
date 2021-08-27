@@ -745,5 +745,10 @@ func (s *CoreVolumeResourceCrud) updateCompartment(compartment interface{}) erro
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

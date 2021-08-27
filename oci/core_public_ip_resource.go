@@ -384,5 +384,10 @@ func (s *CorePublicIpResourceCrud) updateCompartment(compartment interface{}) er
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
