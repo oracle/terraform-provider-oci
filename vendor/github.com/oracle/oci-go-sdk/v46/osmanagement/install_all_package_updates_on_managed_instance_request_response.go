@@ -19,6 +19,9 @@ type InstallAllPackageUpdatesOnManagedInstanceRequest struct {
 	// OCID for the managed instance
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
+	// The type of updates to be applied
+	UpdateType InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum `mandatory:"false" contributesTo:"query" name:"updateType" omitEmpty:"true"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -78,4 +81,35 @@ func (response InstallAllPackageUpdatesOnManagedInstanceResponse) String() strin
 // HTTPResponse implements the OCIResponse interface
 func (response InstallAllPackageUpdatesOnManagedInstanceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum Enum with underlying type: string
+type InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum string
+
+// Set of constants representing the allowable values for InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum
+const (
+	InstallAllPackageUpdatesOnManagedInstanceUpdateTypeSecurity    InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum = "SECURITY"
+	InstallAllPackageUpdatesOnManagedInstanceUpdateTypeBugfix      InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum = "BUGFIX"
+	InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnhancement InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum = "ENHANCEMENT"
+	InstallAllPackageUpdatesOnManagedInstanceUpdateTypeOther       InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum = "OTHER"
+	InstallAllPackageUpdatesOnManagedInstanceUpdateTypeKsplice     InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum = "KSPLICE"
+	InstallAllPackageUpdatesOnManagedInstanceUpdateTypeAll         InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum = "ALL"
+)
+
+var mappingInstallAllPackageUpdatesOnManagedInstanceUpdateType = map[string]InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum{
+	"SECURITY":    InstallAllPackageUpdatesOnManagedInstanceUpdateTypeSecurity,
+	"BUGFIX":      InstallAllPackageUpdatesOnManagedInstanceUpdateTypeBugfix,
+	"ENHANCEMENT": InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnhancement,
+	"OTHER":       InstallAllPackageUpdatesOnManagedInstanceUpdateTypeOther,
+	"KSPLICE":     InstallAllPackageUpdatesOnManagedInstanceUpdateTypeKsplice,
+	"ALL":         InstallAllPackageUpdatesOnManagedInstanceUpdateTypeAll,
+}
+
+// GetInstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnumValues Enumerates the set of values for InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum
+func GetInstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnumValues() []InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum {
+	values := make([]InstallAllPackageUpdatesOnManagedInstanceUpdateTypeEnum, 0)
+	for _, v := range mappingInstallAllPackageUpdatesOnManagedInstanceUpdateType {
+		values = append(values, v)
+	}
+	return values
 }

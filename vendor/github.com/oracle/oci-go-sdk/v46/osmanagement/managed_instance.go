@@ -66,6 +66,18 @@ type ManagedInstance struct {
 	// Indicates whether a reboot is required to complete installation of updates.
 	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
 
+	// OCID of the ONS topic used to send notification to users
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	// The ksplice effective kernel version
+	KspliceEffectiveKernelVersion *string `mandatory:"false" json:"kspliceEffectiveKernelVersion"`
+
+	// True if user allow data collection for this instance
+	IsDataCollectionAuthorized *bool `mandatory:"false" json:"isDataCollectionAuthorized"`
+
+	// if present, indicates the Managed Instance is an autonomous instance. Holds all the Autonomous specific information
+	Autonomous *AutonomousSettings `mandatory:"false" json:"autonomous"`
+
 	// Number of security type updates available to be installed
 	SecurityUpdatesAvailable *int `mandatory:"false" json:"securityUpdatesAvailable"`
 
