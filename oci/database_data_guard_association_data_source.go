@@ -84,6 +84,10 @@ func (s *DatabaseDataGuardAssociationDataSourceCrud) SetData() error {
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
 	}
 
+	if s.Res.IsActiveDataGuardEnabled != nil {
+		s.D.Set("is_active_data_guard_enabled", *s.Res.IsActiveDataGuardEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

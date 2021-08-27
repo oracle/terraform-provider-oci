@@ -62,6 +62,7 @@ var (
 	autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation = map[string]interface{}{
 		"preference": Representation{RepType: Required, Create: `NO_PREFERENCE`},
 	}
+
 	autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation = map[string]interface{}{
 		"preference":     Representation{RepType: Required, Create: `CUSTOM_PREFERENCE`},
 		"days_of_week":   RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation},

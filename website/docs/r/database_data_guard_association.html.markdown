@@ -38,6 +38,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	display_name = var.data_guard_association_display_name
 	hostname = var.data_guard_association_hostname
+	is_active_data_guard_enabled = var.data_guard_association_is_active_data_guard_enabled
 	nsg_ids = var.data_guard_association_nsg_ids
 	peer_db_home_id = oci_database_db_home.test_db_home.id
 	peer_db_system_id = oci_database_db_system.test_db_system.id
@@ -70,6 +71,7 @@ The following arguments are supported:
 * `delete_standby_db_home_on_delete` - (Required) (Updatable) if set to true the destroy operation will destroy the standby dbHome/dbSystem that is referenced in the Data Guard Association. The Data Guard Association gets destroyed when standby dbHome/dbSystem is terminated. Only `true` is supported at this time. If you change an argument that is used during the delete operation you must run `terraform apply` first so that that the change in the value is registered in the statefile before running `terraform destroy`. `terraform destroy` only looks at what is currently on the statefile and ignores the terraform configuration files. 
 * `display_name` - (Applicable when creation_type=NewDbSystem) The user-friendly name of the DB system that will contain the the standby database. The display name does not have to be unique.
 * `hostname` - (Applicable when creation_type=NewDbSystem) The hostname for the DB node.
+* `is_active_data_guard_enabled` - (Optional) (Updatable) True if active Data Guard is enabled.
 * `nsg_ids` - (Applicable when creation_type=NewDbSystem) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `peer_db_home_id` - (Applicable when creation_type=ExistingDbSystem | ExistingVmCluster) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB home in which to create the standby database. You must supply this value to create standby database with an existing DB home 
@@ -108,6 +110,7 @@ The following attributes are exported:
 * `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `180 Mb per second` 
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the reporting database.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Data Guard association.
+* `is_active_data_guard_enabled` - True if active Data Guard is enabled.
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_data_guard_association_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
 * `peer_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated peer database.
