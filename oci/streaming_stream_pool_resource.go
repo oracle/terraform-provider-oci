@@ -607,6 +607,10 @@ func (s *StreamingStreamPoolResourceCrud) updateCompartment(compartment interfac
 	if err != nil {
 		return err
 	}
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_streaming.StreamPoolLifecycleStateActive }
-	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
 }

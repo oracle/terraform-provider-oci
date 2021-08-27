@@ -347,5 +347,10 @@ func (s *OnsNotificationTopicResourceCrud) updateCompartment(compartment interfa
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

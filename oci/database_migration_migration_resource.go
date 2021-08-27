@@ -2444,5 +2444,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) updateCompartment(compartment i
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

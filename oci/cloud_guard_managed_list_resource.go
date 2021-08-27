@@ -460,5 +460,10 @@ func (s *CloudGuardManagedListResourceCrud) updateCompartment(compartment interf
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
