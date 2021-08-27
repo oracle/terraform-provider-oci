@@ -5,6 +5,7 @@
 // Data Catalog API
 //
 // Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+// For more information, see Data Catalog (https://docs.oracle.com/iaas/data-catalog/home.htm).
 //
 
 package datacatalog
@@ -37,6 +38,9 @@ type AttributeSummary struct {
 
 	// Max allowed length of the attribute value.
 	Length *int64 `mandatory:"false" json:"length"`
+
+	// Position of the attribute in the record definition.
+	Position *int `mandatory:"false" json:"position"`
 
 	// Precision of the attribute value usually applies to float data type.
 	Precision *int `mandatory:"false" json:"precision"`
@@ -94,6 +98,13 @@ type AttributeSummary struct {
 
 	// The last time that any change was made to the attribute. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// A map of maps that contains the properties which are specific to the attribute type. Each attribute type
+	// definition defines it's set of required and optional properties. The map keys are category names and the
+	// values are maps of property name to property value. Every property is contained inside of a category. Most
+	// attributes have required properties within the "default" category.
+	// Example: `{"properties": { "default": { "key1": "value1"}}}`
+	Properties map[string]map[string]string `mandatory:"false" json:"properties"`
 }
 
 func (m AttributeSummary) String() string {

@@ -5,6 +5,7 @@
 // Data Catalog API
 //
 // Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+// For more information, see Data Catalog (https://docs.oracle.com/iaas/data-catalog/home.htm).
 //
 
 package datacatalog

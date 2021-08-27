@@ -19,6 +19,9 @@ type InstallAllWindowsUpdatesOnManagedInstanceRequest struct {
 	// OCID for the managed instance
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
+	// The type of updates to be applied
+	UpdateType InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum `mandatory:"false" contributesTo:"query" name:"updateType" omitEmpty:"true"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -78,4 +81,35 @@ func (response InstallAllWindowsUpdatesOnManagedInstanceResponse) String() strin
 // HTTPResponse implements the OCIResponse interface
 func (response InstallAllWindowsUpdatesOnManagedInstanceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum Enum with underlying type: string
+type InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum string
+
+// Set of constants representing the allowable values for InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum
+const (
+	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeSecurity    InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "SECURITY"
+	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeBugfix      InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "BUGFIX"
+	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnhancement InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "ENHANCEMENT"
+	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeOther       InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "OTHER"
+	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeKsplice     InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "KSPLICE"
+	InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeAll         InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum = "ALL"
+)
+
+var mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateType = map[string]InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum{
+	"SECURITY":    InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeSecurity,
+	"BUGFIX":      InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeBugfix,
+	"ENHANCEMENT": InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnhancement,
+	"OTHER":       InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeOther,
+	"KSPLICE":     InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeKsplice,
+	"ALL":         InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeAll,
+}
+
+// GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumValues Enumerates the set of values for InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum
+func GetInstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnumValues() []InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum {
+	values := make([]InstallAllWindowsUpdatesOnManagedInstanceUpdateTypeEnum, 0)
+	for _, v := range mappingInstallAllWindowsUpdatesOnManagedInstanceUpdateType {
+		values = append(values, v)
+	}
+	return values
 }
