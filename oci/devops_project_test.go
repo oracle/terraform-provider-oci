@@ -32,6 +32,8 @@ var (
 
 	devopsProjectName = RandomString(10, charsetWithoutDigits)
 
+	devopsLogGroupName = RandomString(10, charsetWithoutDigits)
+
 	devopsProjectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"id":             Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
@@ -50,9 +52,10 @@ var (
 		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":         Representation{RepType: Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":           RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 	projectLoggingConfigRepresentation = map[string]interface{}{
-		"log_group_id":             Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_group_id":             Representation{RepType: Required, Create: `${oci_logging_log_group.test_devops_log_group.id}`},
 		"retention_period_in_days": Representation{RepType: Required, Create: `30`, Update: `60`},
 		"display_name_prefix":      Representation{RepType: Optional, Create: `displayNamePrefix`, Update: `displayNamePrefix2`},
 		"is_archiving_enabled":     Representation{RepType: Optional, Create: `false`, Update: `true`},
@@ -61,8 +64,12 @@ var (
 		"topic_id": Representation{RepType: Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 
+	devopsLogGroupRepresentation = RepresentationCopyWithNewProperties(logGroupRepresentation, map[string]interface{}{
+		"display_name": Representation{RepType: Required, Create: devopsLogGroupName},
+	})
+
 	DevopsProjectResourceDependencies = DefinedTagsDependencies +
-		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", Required, Create, devopsLogGroupRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
