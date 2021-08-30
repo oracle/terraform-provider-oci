@@ -111,8 +111,8 @@ data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 	variable "OsManagedImageOCID" {
 	  type = "map"
 	  default = {
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaarjbcsqt4pg2hmuspw7rhpvjvua32yfjiajakehcd2nxskdnxrcia"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaa6bftra47564ph2uowoooiexeyfmyxokcu7bxaenldni3t7frm3ia"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaavxm3s4jskx5rcoi63rekg54e3a27v2b7tiuuumnx5owzhkul6ufq"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaaqhzgbezuoq5fz7haq5p7uyydfipffclz6w7fwyzge7tcxbbloz3q"
 		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaulz7xiht632iidvdm4iezy33fofulmerq2nkllwnkjy335qkswza"
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaayt6ppuyj6q4dwb4pkkyy3llrhxntywewfk4ssd365d4cn22i6yxa"
 	  }
