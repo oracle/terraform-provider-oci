@@ -148,6 +148,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 						},
 
 						// Computed
+						"ogg_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -166,6 +170,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_sub_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -191,6 +199,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_upgrade_required": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -245,12 +257,15 @@ func (s *GoldenGateDeploymentResourceCrud) ID() string {
 func (s *GoldenGateDeploymentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateCreating),
+		string(oci_golden_gate.LifecycleStateInProgress),
 	}
 }
 
 func (s *GoldenGateDeploymentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	}
 }
 
@@ -684,6 +699,8 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	nsgIds := []interface{}{}
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
@@ -720,6 +737,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TimeUpgradeRequired != nil {
+		s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
 	}
 
 	return nil
@@ -812,6 +833,10 @@ func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema
 		result["deployment_name"] = string(*obj.DeploymentName)
 	}
 
+	if obj.OggVersion != nil {
+		result["ogg_version"] = string(*obj.OggVersion)
+	}
+
 	return result
 }
 
@@ -872,6 +897,8 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	result["lifecycle_sub_state"] = string(obj.LifecycleSubState)
+
 	if obj.PrivateIpAddress != nil {
 		result["private_ip_address"] = string(*obj.PrivateIpAddress)
 	}
@@ -896,6 +923,10 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.TimeUpgradeRequired != nil {
+		result["time_upgrade_required"] = obj.TimeUpgradeRequired.String()
 	}
 
 	return result

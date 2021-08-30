@@ -27,6 +27,14 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"fqdn": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"lifecycle_sub_state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -78,6 +86,15 @@ func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if fqdn, ok := s.D.GetOkExists("fqdn"); ok {
+		tmp := fqdn.(string)
+		request.Fqdn = &tmp
+	}
+
+	if lifecycleSubState, ok := s.D.GetOkExists("lifecycle_sub_state"); ok {
+		request.LifecycleSubState = oci_golden_gate.ListDeploymentsLifecycleSubStateEnum(lifecycleSubState.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
