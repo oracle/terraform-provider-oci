@@ -66,6 +66,10 @@ func CoreInstanceConsoleConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"service_host_key_fingerprint": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -265,6 +269,10 @@ func (s *CoreInstanceConsoleConnectionResourceCrud) SetData() error {
 
 	if s.Res.InstanceId != nil {
 		s.D.Set("instance_id", *s.Res.InstanceId)
+	}
+
+	if s.Res.ServiceHostKeyFingerprint != nil {
+		s.D.Set("service_host_key_fingerprint", *s.Res.ServiceHostKeyFingerprint)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

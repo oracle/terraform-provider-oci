@@ -1,5 +1,8 @@
 ## 4.44.0 (Unreleased)
 
+### Added
+- Support InstanceConsoleConnection API with new serviceHostKeyFingerprint Property 
+
 ### Notes
 - Disabled resource discovery on resource `oci_core_drg_route_distribution_statement`
 
