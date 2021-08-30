@@ -206,12 +206,15 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) ID() string {
 func (s *GoldenGateDatabaseRegistrationResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateCreating),
+		string(oci_golden_gate.LifecycleStateInProgress),
 	}
 }
 
 func (s *GoldenGateDatabaseRegistrationResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	}
 }
 

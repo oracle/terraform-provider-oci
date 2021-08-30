@@ -1557,6 +1557,8 @@ var exportGoldenGateDatabaseRegistrationHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	},
 }
 
@@ -1569,6 +1571,8 @@ var exportGoldenGateDeploymentHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	},
 }
 
@@ -1581,6 +1585,8 @@ var exportGoldenGateDeploymentBackupHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	},
 }
 

@@ -60,12 +60,11 @@ var (
 		"alias_name":        Representation{repType: Required, create: `aliasName1`, update: `aliasName2`},
 		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":      Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"fqdn":              Representation{repType: Required, create: `fqdn`, update: `fqdn2`},
+		"fqdn":              Representation{repType: Required, create: `fqdn.example.com`, update: `fqdn2.example.com`},
 		"password":          Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
 		"username":          Representation{repType: Required, create: `username`, update: `username2`},
 		"connection_string": Representation{repType: Optional, create: `connectionString`, update: `connectionString2`},
 		"database_id":       Representation{repType: Optional, create: `${data.oci_database_databases.t.databases.0.id}`},
-		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":       Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		//IP address from db Nodes need vnic_id, which is null because of using test header purposes
@@ -75,10 +74,15 @@ var (
 		"subnet_id":             Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
 		"vault_id":              Representation{repType: Optional, create: `${var.kms_vault_id}`},
 		"wallet":                Representation{repType: Optional, create: `wallet`, update: `wallet2`},
+		"lifecycle":             RepresentationGroup{Required, ignoreGGSDefinedTagsChangesRepresentation},
+	}
+
+	ignoreGGSDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
 	}
 
 	goldenGateDbSystemRepresentation = map[string]interface{}{
-		"availability_domain":     Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name}")}`},
+		"availability_domain":     Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
 		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
 		"database_edition":        Representation{repType: Required, create: `ENTERPRISE_EDITION`},
 		"db_home":                 RepresentationGroup{Required, goldenGateDbSystemDbHomeRepresentation},
@@ -99,7 +103,7 @@ var (
 
 	goldenGateDbSystemDbHomeRepresentation = map[string]interface{}{
 		"database":   RepresentationGroup{Required, goldenGateDatabaseRepresentation},
-		"db_version": Representation{repType: Required, create: `21.1.0.0`},
+		"db_version": Representation{repType: Required, create: `21.3.0.0`},
 	}
 
 	goldenGateDatabaseRepresentation = map[string]interface{}{
@@ -153,7 +157,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn.example.com"),
 				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "username", "username"),
 
@@ -177,10 +181,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn.example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
@@ -216,10 +219,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn.example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
@@ -249,10 +251,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString2"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn2"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn2.example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
@@ -298,10 +299,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "alias_name", "aliasName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string", "connectionString2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "fqdn", "fqdn2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "fqdn", "fqdn2.example.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "ipAddress"),

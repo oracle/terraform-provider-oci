@@ -125,6 +125,8 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
 	if s.Res.OggData != nil {
@@ -157,6 +159,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TimeUpgradeRequired != nil {
+		s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
 	}
 
 	return nil
