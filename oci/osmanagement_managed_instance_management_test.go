@@ -37,6 +37,18 @@ var (
 		"id":   Representation{repType: Required, create: `${oci_osmanagement_software_source.test_child_software_source.id}`},
 	}
 
+	osmsInstanceAgentConfigRepresentation = map[string]interface{}{
+		"are_all_plugins_disabled": Representation{repType: Required, create: `false`, update: `false`},
+		"is_management_disabled":   Representation{repType: Required, create: `false`, update: `false`},
+		"is_monitoring_disabled":   Representation{repType: Required, create: `false`, update: `false`},
+		"plugins_config":           RepresentationGroup{Required, autonomousInstanceAgentConfigPluginsConfigRepresentation},
+    }
+
+	autonomousInstanceAgentConfigPluginsConfigRepresentation = map[string]interface{}{
+		"desired_state": Representation{repType: Required, create: `ENABLED`},
+		"name":          Representation{repType: Required, create: `Oracle Autonomous Linux`},
+	}
+
 	managedInstanceGroupsRepresentation = map[string]interface{}{
 		"display_name": Representation{repType: Required, create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.display_name}`},
 		"id":           Representation{repType: Required, create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
@@ -83,6 +95,7 @@ var (
 	ManagedInstanceManagementResourceDependencies = generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Required, vnicDetailsRepresentation},
 		"source_details":      RepresentationGroup{Required, sourceDetailsRepresentation},
+		"agent_config":        RepresentationGroup{Required, osmsInstanceAgentConfigRepresentation},
 		"image":               Representation{repType: Required, create: `${var.OsManagedImageOCID[var.region]}`},
 	})) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
@@ -123,7 +136,7 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation,
 				Check: func(s *terraform.State) (err error) {
 					log.Printf("[DEBUG] OS Management Resource should be created after 2 minutes as OS Agent takes time to activate")
-					time.Sleep(2 * time.Minute)
+					time.Sleep(5 * time.Minute)
 					return nil
 				},
 			},
