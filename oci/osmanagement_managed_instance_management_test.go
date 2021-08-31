@@ -42,7 +42,7 @@ var (
 		"is_management_disabled":   Representation{repType: Required, create: `false`, update: `false`},
 		"is_monitoring_disabled":   Representation{repType: Required, create: `false`, update: `false`},
 		"plugins_config":           RepresentationGroup{Required, autonomousInstanceAgentConfigPluginsConfigRepresentation},
-    }
+	}
 
 	autonomousInstanceAgentConfigPluginsConfigRepresentation = map[string]interface{}{
 		"desired_state": Representation{repType: Required, create: `ENABLED`},
