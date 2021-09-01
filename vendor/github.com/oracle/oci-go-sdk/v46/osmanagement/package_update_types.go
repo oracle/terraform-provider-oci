@@ -18,6 +18,8 @@ const (
 	PackageUpdateTypesSecurity    PackageUpdateTypesEnum = "SECURITY"
 	PackageUpdateTypesBugfix      PackageUpdateTypesEnum = "BUGFIX"
 	PackageUpdateTypesEnhancement PackageUpdateTypesEnum = "ENHANCEMENT"
+	PackageUpdateTypesOther       PackageUpdateTypesEnum = "OTHER"
+	PackageUpdateTypesKsplice     PackageUpdateTypesEnum = "KSPLICE"
 	PackageUpdateTypesAll         PackageUpdateTypesEnum = "ALL"
 )
 
@@ -25,6 +27,8 @@ var mappingPackageUpdateTypes = map[string]PackageUpdateTypesEnum{
 	"SECURITY":    PackageUpdateTypesSecurity,
 	"BUGFIX":      PackageUpdateTypesBugfix,
 	"ENHANCEMENT": PackageUpdateTypesEnhancement,
+	"OTHER":       PackageUpdateTypesOther,
+	"KSPLICE":     PackageUpdateTypesKsplice,
 	"ALL":         PackageUpdateTypesAll,
 }
 

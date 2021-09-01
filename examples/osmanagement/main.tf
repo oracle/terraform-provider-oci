@@ -47,8 +47,8 @@ variable "instance_image_ocid" {
   default = {
     # See https://docs.us-phoenix-1.oraclecloud.com/images/
     # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaarjbcsqt4pg2hmuspw7rhpvjvua32yfjiajakehcd2nxskdnxrcia"
+    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaa6bftra47564ph2uowoooiexeyfmyxokcu7bxaenldni3t7frm3ia"
     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
     uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
   }
@@ -282,6 +282,12 @@ data "oci_identity_availability_domain" "ad" {
 data "oci_osmanagement_managed_instance" "test_managed_instance" {
   #Required
   managed_instance_id = oci_osmanagement_managed_instance_management.test_managed_instance_management.id
+}
+
+data "oci_osmanagement_managed_instance_event_report" "test_managed_instance_event_report" {
+  #Required
+  managed_instance_id = oci_osmanagement_managed_instance_management.test_managed_instance_management.id
+  compartment_id = var.tenancy_ocid
 }
 
 output "managed_instance_output" {

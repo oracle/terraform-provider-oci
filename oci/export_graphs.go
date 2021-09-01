@@ -987,6 +987,7 @@ var optimizerResourceGraph = TerraformResourceGraph{
 
 var osmanagementResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportOsmanagementManagedInstanceHints},
 		{TerraformResourceHints: exportOsmanagementManagedInstanceGroupHints},
 		{TerraformResourceHints: exportOsmanagementSoftwareSourceHints},
 	},

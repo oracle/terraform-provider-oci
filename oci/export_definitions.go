@@ -2273,6 +2273,14 @@ var exportOptimizerProfileHints = &TerraformResourceHints{
 	},
 }
 
+var exportOsmanagementManagedInstanceHints = &TerraformResourceHints{
+	resourceClass:          "oci_osmanagement_managed_instance",
+	datasourceClass:        "oci_osmanagement_managed_instances",
+	datasourceItemsAttr:    "managed_instances",
+	resourceAbbreviation:   "managed_instance",
+	requireResourceRefresh: true,
+}
+
 var exportOsmanagementManagedInstanceGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_osmanagement_managed_instance_group",
 	datasourceClass:      "oci_osmanagement_managed_instance_groups",

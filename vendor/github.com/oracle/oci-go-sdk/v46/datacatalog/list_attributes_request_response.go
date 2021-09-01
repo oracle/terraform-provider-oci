@@ -86,7 +86,7 @@ type ListAttributesRequest struct {
 	// Specifies the fields to return in an entity attribute summary response.
 	Fields []ListAttributesFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. If no value is specified TIMECREATED is default.
+	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. Default order for POSITION is ascending. If no value is specified POSITION is default.
 	SortBy ListAttributesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
@@ -214,6 +214,7 @@ const (
 	ListAttributesFieldsExternaldatatypeentitykey  ListAttributesFieldsEnum = "externalDatatypeEntityKey"
 	ListAttributesFieldsParentattributekey         ListAttributesFieldsEnum = "parentAttributeKey"
 	ListAttributesFieldsExternalparentattributekey ListAttributesFieldsEnum = "externalParentAttributeKey"
+	ListAttributesFieldsPosition                   ListAttributesFieldsEnum = "position"
 )
 
 var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
@@ -237,6 +238,7 @@ var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
 	"externalDatatypeEntityKey":  ListAttributesFieldsExternaldatatypeentitykey,
 	"parentAttributeKey":         ListAttributesFieldsParentattributekey,
 	"externalParentAttributeKey": ListAttributesFieldsExternalparentattributekey,
+	"position":                   ListAttributesFieldsPosition,
 }
 
 // GetListAttributesFieldsEnumValues Enumerates the set of values for ListAttributesFieldsEnum
@@ -255,11 +257,13 @@ type ListAttributesSortByEnum string
 const (
 	ListAttributesSortByTimecreated ListAttributesSortByEnum = "TIMECREATED"
 	ListAttributesSortByDisplayname ListAttributesSortByEnum = "DISPLAYNAME"
+	ListAttributesSortByPosition    ListAttributesSortByEnum = "POSITION"
 )
 
 var mappingListAttributesSortBy = map[string]ListAttributesSortByEnum{
 	"TIMECREATED": ListAttributesSortByTimecreated,
 	"DISPLAYNAME": ListAttributesSortByDisplayname,
+	"POSITION":    ListAttributesSortByPosition,
 }
 
 // GetListAttributesSortByEnumValues Enumerates the set of values for ListAttributesSortByEnum

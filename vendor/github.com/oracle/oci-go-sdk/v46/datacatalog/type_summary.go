@@ -5,6 +5,7 @@
 // Data Catalog API
 //
 // Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+// For more information, see Data Catalog (https://docs.oracle.com/iaas/data-catalog/home.htm).
 //
 
 package datacatalog
@@ -37,6 +38,12 @@ type TypeSummary struct {
 
 	// State of the folder.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Unique key of the parent type.
+	ParentTypeKey *string `mandatory:"false" json:"parentTypeKey"`
+
+	// Name of the parent type.
+	ParentTypeName *string `mandatory:"false" json:"parentTypeName"`
 }
 
 func (m TypeSummary) String() string {

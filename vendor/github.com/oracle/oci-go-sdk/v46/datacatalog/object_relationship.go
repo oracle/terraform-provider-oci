@@ -5,6 +5,7 @@
 // Data Catalog API
 //
 // Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+// For more information, see Data Catalog (https://docs.oracle.com/iaas/data-catalog/home.htm).
 //
 
 package datacatalog
@@ -37,6 +38,15 @@ type ObjectRelationship struct {
 
 	// The last time a change was made to this reference. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// Full path of the object.
+	Path *string `mandatory:"false" json:"path"`
+
+	// Key of the parent object for the resource.
+	ParentKey *string `mandatory:"false" json:"parentKey"`
+
+	// Full path of the parent object.
+	ParentPath *string `mandatory:"false" json:"parentPath"`
 }
 
 func (m ObjectRelationship) String() string {

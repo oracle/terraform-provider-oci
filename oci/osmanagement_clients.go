@@ -10,7 +10,28 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_osmanagement.EventClient", &OracleClient{initClientFn: initOsmanagementEventClient})
 	RegisterOracleClient("oci_osmanagement.OsManagementClient", &OracleClient{initClientFn: initOsmanagementOsManagementClient})
+}
+
+func initOsmanagementEventClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_osmanagement.NewEventClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.hostUrlOverride != "" {
+		client.Host = serviceClientOverrides.hostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) eventClient() *oci_osmanagement.EventClient {
+	return m.GetClient("oci_osmanagement.EventClient").(*oci_osmanagement.EventClient)
 }
 
 func initOsmanagementOsManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

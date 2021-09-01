@@ -53,6 +53,9 @@ type ListScheduledJobsRequest struct {
 	// The OS family for which to list resources.
 	OsFamily ListScheduledJobsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
+	// If true, will only filter out restricted Autonomous Linux Scheduled Job
+	IsRestricted *bool `mandatory:"false" contributesTo:"query" name:"isRestricted"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
