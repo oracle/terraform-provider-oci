@@ -1,4 +1,4 @@
-## 4.42.0 (Unreleased)
+## 4.42.0 (September 01, 2021)
 
 ### Added
 - Support for reporting in osmanagement
