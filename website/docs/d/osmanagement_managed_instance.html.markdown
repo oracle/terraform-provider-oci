@@ -33,6 +33,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `autonomous` - if present, indicates the Managed Instance is an autonomous instance. Holds all the Autonomous specific information
+	* `is_auto_update_enabled` - True if daily updates are enabled
 * `bug_updates_available` - Number of bug fix type updates available to be installed
 * `child_software_sources` - list of child Software Sources attached to the Managed Instance
 	* `id` - software source identifier
@@ -42,12 +44,15 @@ The following attributes are exported:
 * `display_name` - Managed Instance identifier
 * `enhancement_updates_available` - Number of enhancement type updates available to be installed
 * `id` - OCID for the managed instance
+* `is_data_collection_authorized` - True if user allow data collection for this instance
 * `is_reboot_required` - Indicates whether a reboot is required to complete installation of updates.
+* `ksplice_effective_kernel_version` - The ksplice effective kernel version
 * `last_boot` - Time at which the instance last booted
 * `last_checkin` - Time at which the instance last checked in
 * `managed_instance_groups` - The ids of the managed instance groups of which this instance is a member. 
 	* `display_name` - User friendly name
 	* `id` - unique identifier that is immutable on creation
+* `notification_topic_id` - OCID of the ONS topic used to send notification to users
 * `os_family` - The Operating System type of the managed instance.
 * `os_kernel_version` - Operating System Kernel Version
 * `os_name` - Operating System Name

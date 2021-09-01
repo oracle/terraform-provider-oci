@@ -57,6 +57,9 @@ type ScheduledJobSummary struct {
 
 	// The Operating System type of the managed instance.
 	OsFamily OsFamiliesEnum `mandatory:"false" json:"osFamily,omitempty"`
+
+	// true, if the schedule job has its update capabilities restricted. (Used to track Autonomous Scheduled Job)
+	IsRestricted *bool `mandatory:"false" json:"isRestricted"`
 }
 
 func (m ScheduledJobSummary) String() string {

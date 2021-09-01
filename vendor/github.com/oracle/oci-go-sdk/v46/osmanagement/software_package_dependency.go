@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v46/common"
 )
 
-// SoftwarePackageDependency A dependecy for a software package
+// SoftwarePackageDependency A dependency for a software package
 type SoftwarePackageDependency struct {
 
 	// the software package's dependency

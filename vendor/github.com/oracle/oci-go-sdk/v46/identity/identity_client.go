@@ -15,6 +15,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v46/common"
 	"github.com/oracle/oci-go-sdk/v46/common/auth"
 	"net/http"
+	"time"
 )
 
 //IdentityClient a client for Identity
@@ -111,6 +112,7 @@ func (client IdentityClient) ActivateMfaTotpDevice(ctx context.Context, request 
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ActivateMfaTotpDeviceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into ActivateMfaTotpDeviceResponse")
@@ -173,6 +175,7 @@ func (client IdentityClient) AddUserToGroup(ctx context.Context, request AddUser
 		return
 	}
 	if convertedResponse, ok := ociResponse.(AddUserToGroupResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into AddUserToGroupResponse")
@@ -295,6 +298,7 @@ func (client IdentityClient) BulkDeleteResources(ctx context.Context, request Bu
 		return
 	}
 	if convertedResponse, ok := ociResponse.(BulkDeleteResourcesResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into BulkDeleteResourcesResponse")
@@ -370,6 +374,7 @@ func (client IdentityClient) BulkDeleteTags(ctx context.Context, request BulkDel
 		return
 	}
 	if convertedResponse, ok := ociResponse.(BulkDeleteTagsResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into BulkDeleteTagsResponse")
@@ -440,6 +445,7 @@ func (client IdentityClient) BulkEditTags(ctx context.Context, request BulkEditT
 		return
 	}
 	if convertedResponse, ok := ociResponse.(BulkEditTagsResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into BulkEditTagsResponse")
@@ -504,6 +510,7 @@ func (client IdentityClient) BulkMoveResources(ctx context.Context, request Bulk
 		return
 	}
 	if convertedResponse, ok := ociResponse.(BulkMoveResourcesResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into BulkMoveResourcesResponse")
@@ -576,6 +583,7 @@ func (client IdentityClient) CascadeDeleteTagNamespace(ctx context.Context, requ
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CascadeDeleteTagNamespaceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CascadeDeleteTagNamespaceResponse")
@@ -639,6 +647,7 @@ func (client IdentityClient) ChangeTagNamespaceCompartment(ctx context.Context, 
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ChangeTagNamespaceCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into ChangeTagNamespaceCompartmentResponse")
@@ -706,6 +715,7 @@ func (client IdentityClient) CreateAuthToken(ctx context.Context, request Create
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateAuthTokenResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateAuthTokenResponse")
@@ -779,6 +789,7 @@ func (client IdentityClient) CreateCompartment(ctx context.Context, request Crea
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateCompartmentResponse")
@@ -847,6 +858,7 @@ func (client IdentityClient) CreateCustomerSecretKey(ctx context.Context, reques
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateCustomerSecretKeyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateCustomerSecretKeyResponse")
@@ -920,6 +932,7 @@ func (client IdentityClient) CreateDynamicGroup(ctx context.Context, request Cre
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateDynamicGroupResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateDynamicGroupResponse")
@@ -995,6 +1008,7 @@ func (client IdentityClient) CreateGroup(ctx context.Context, request CreateGrou
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateGroupResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateGroupResponse")
@@ -1068,6 +1082,7 @@ func (client IdentityClient) CreateIdentityProvider(ctx context.Context, request
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateIdentityProviderResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateIdentityProviderResponse")
@@ -1129,6 +1144,7 @@ func (client IdentityClient) CreateIdpGroupMapping(ctx context.Context, request 
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateIdpGroupMappingResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateIdpGroupMappingResponse")
@@ -1189,6 +1205,7 @@ func (client IdentityClient) CreateMfaTotpDevice(ctx context.Context, request Cr
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateMfaTotpDeviceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateMfaTotpDeviceResponse")
@@ -1264,6 +1281,7 @@ func (client IdentityClient) CreateNetworkSource(ctx context.Context, request Cr
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateNetworkSourceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateNetworkSourceResponse")
@@ -1324,6 +1342,7 @@ func (client IdentityClient) CreateOAuthClientCredential(ctx context.Context, re
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateOAuthClientCredentialResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateOAuthClientCredentialResponse")
@@ -1392,6 +1411,7 @@ func (client IdentityClient) CreateOrResetUIPassword(ctx context.Context, reques
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateOrResetUIPasswordResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateOrResetUIPasswordResponse")
@@ -1463,6 +1483,7 @@ func (client IdentityClient) CreatePolicy(ctx context.Context, request CreatePol
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreatePolicyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreatePolicyResponse")
@@ -1523,6 +1544,7 @@ func (client IdentityClient) CreateRegionSubscription(ctx context.Context, reque
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateRegionSubscriptionResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateRegionSubscriptionResponse")
@@ -1586,6 +1608,7 @@ func (client IdentityClient) CreateSmtpCredential(ctx context.Context, request C
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateSmtpCredentialResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateSmtpCredentialResponse")
@@ -1654,6 +1677,7 @@ func (client IdentityClient) CreateSwiftPassword(ctx context.Context, request Cr
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateSwiftPasswordResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateSwiftPasswordResponse")
@@ -1730,6 +1754,7 @@ func (client IdentityClient) CreateTag(ctx context.Context, request CreateTagReq
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateTagResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateTagResponse")
@@ -1795,6 +1820,7 @@ func (client IdentityClient) CreateTagDefault(ctx context.Context, request Creat
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateTagDefaultResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateTagDefaultResponse")
@@ -1865,6 +1891,7 @@ func (client IdentityClient) CreateTagNamespace(ctx context.Context, request Cre
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateTagNamespaceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateTagNamespaceResponse")
@@ -1953,6 +1980,7 @@ func (client IdentityClient) CreateUser(ctx context.Context, request CreateUserR
 		return
 	}
 	if convertedResponse, ok := ociResponse.(CreateUserResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into CreateUserResponse")
@@ -3023,6 +3051,7 @@ func (client IdentityClient) GenerateTotpSeed(ctx context.Context, request Gener
 		return
 	}
 	if convertedResponse, ok := ociResponse.(GenerateTotpSeedResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into GenerateTotpSeedResponse")
@@ -5859,6 +5888,7 @@ func (client IdentityClient) MoveCompartment(ctx context.Context, request MoveCo
 		return
 	}
 	if convertedResponse, ok := ociResponse.(MoveCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into MoveCompartmentResponse")
@@ -5914,6 +5944,7 @@ func (client IdentityClient) RecoverCompartment(ctx context.Context, request Rec
 		return
 	}
 	if convertedResponse, ok := ociResponse.(RecoverCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into RecoverCompartmentResponse")
@@ -6024,6 +6055,7 @@ func (client IdentityClient) ResetIdpScimClient(ctx context.Context, request Res
 		return
 	}
 	if convertedResponse, ok := ociResponse.(ResetIdpScimClientResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into ResetIdpScimClientResponse")
@@ -6079,6 +6111,7 @@ func (client IdentityClient) UpdateAuthToken(ctx context.Context, request Update
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateAuthTokenResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateAuthTokenResponse")
@@ -6134,6 +6167,7 @@ func (client IdentityClient) UpdateAuthenticationPolicy(ctx context.Context, req
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateAuthenticationPolicyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateAuthenticationPolicyResponse")
@@ -6189,6 +6223,7 @@ func (client IdentityClient) UpdateCompartment(ctx context.Context, request Upda
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateCompartmentResponse")
@@ -6244,6 +6279,7 @@ func (client IdentityClient) UpdateCustomerSecretKey(ctx context.Context, reques
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateCustomerSecretKeyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateCustomerSecretKeyResponse")
@@ -6299,6 +6335,7 @@ func (client IdentityClient) UpdateDynamicGroup(ctx context.Context, request Upd
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateDynamicGroupResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateDynamicGroupResponse")
@@ -6354,6 +6391,7 @@ func (client IdentityClient) UpdateGroup(ctx context.Context, request UpdateGrou
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateGroupResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateGroupResponse")
@@ -6409,6 +6447,7 @@ func (client IdentityClient) UpdateIdentityProvider(ctx context.Context, request
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateIdentityProviderResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateIdentityProviderResponse")
@@ -6464,6 +6503,7 @@ func (client IdentityClient) UpdateIdpGroupMapping(ctx context.Context, request 
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateIdpGroupMappingResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateIdpGroupMappingResponse")
@@ -6519,6 +6559,7 @@ func (client IdentityClient) UpdateNetworkSource(ctx context.Context, request Up
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateNetworkSourceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateNetworkSourceResponse")
@@ -6574,6 +6615,7 @@ func (client IdentityClient) UpdateOAuthClientCredential(ctx context.Context, re
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateOAuthClientCredentialResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateOAuthClientCredentialResponse")
@@ -6630,6 +6672,7 @@ func (client IdentityClient) UpdatePolicy(ctx context.Context, request UpdatePol
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdatePolicyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdatePolicyResponse")
@@ -6685,6 +6728,7 @@ func (client IdentityClient) UpdateSmtpCredential(ctx context.Context, request U
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateSmtpCredentialResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateSmtpCredentialResponse")
@@ -6741,6 +6785,7 @@ func (client IdentityClient) UpdateSwiftPassword(ctx context.Context, request Up
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateSwiftPasswordResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateSwiftPasswordResponse")
@@ -6803,6 +6848,7 @@ func (client IdentityClient) UpdateTag(ctx context.Context, request UpdateTagReq
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateTagResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateTagResponse")
@@ -6862,6 +6908,7 @@ func (client IdentityClient) UpdateTagDefault(ctx context.Context, request Updat
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateTagDefaultResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateTagDefaultResponse")
@@ -6923,6 +6970,7 @@ func (client IdentityClient) UpdateTagNamespace(ctx context.Context, request Upd
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateTagNamespaceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateTagNamespaceResponse")
@@ -6978,6 +7026,7 @@ func (client IdentityClient) UpdateUser(ctx context.Context, request UpdateUserR
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateUserResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateUserResponse")
@@ -7033,6 +7082,7 @@ func (client IdentityClient) UpdateUserCapabilities(ctx context.Context, request
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateUserCapabilitiesResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateUserCapabilitiesResponse")
@@ -7088,6 +7138,7 @@ func (client IdentityClient) UpdateUserState(ctx context.Context, request Update
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UpdateUserStateResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UpdateUserStateResponse")
@@ -7159,6 +7210,7 @@ func (client IdentityClient) UploadApiKey(ctx context.Context, request UploadApi
 		return
 	}
 	if convertedResponse, ok := ociResponse.(UploadApiKeyResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
 		response = convertedResponse
 	} else {
 		err = fmt.Errorf("failed to convert OCIResponse into UploadApiKeyResponse")

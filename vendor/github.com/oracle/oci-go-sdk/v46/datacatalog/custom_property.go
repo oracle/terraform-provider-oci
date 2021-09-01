@@ -5,6 +5,7 @@
 // Data Catalog API
 //
 // Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+// For more information, see Data Catalog (https://docs.oracle.com/iaas/data-catalog/home.htm).
 //
 
 package datacatalog
@@ -80,11 +81,14 @@ type CustomProperty struct {
 	// If an OCI Event will be emitted when the custom property is modified.
 	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
 
-	// Type or scope of the custom property belongs to. This will be an array of type id it will be belongs to
+	// The set of object types to which the custom property applies.
 	Scope []CustomPropertyTypeUsage `mandatory:"false" json:"scope"`
 
 	// Allowed values for the custom property if any
 	AllowedValues []string `mandatory:"false" json:"allowedValues"`
+
+	// Event configuration for this custom property, against the desired subset of object types to which the property applies.
+	Events []EventConfig `mandatory:"false" json:"events"`
 
 	// A map of maps that contains the properties which are specific to the asset type. Each data asset type
 	// definition defines it's set of required and optional properties. The map keys are category names and the

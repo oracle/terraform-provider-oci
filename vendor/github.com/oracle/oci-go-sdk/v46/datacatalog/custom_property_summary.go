@@ -5,6 +5,7 @@
 // Data Catalog API
 //
 // Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+// For more information, see Data Catalog (https://docs.oracle.com/iaas/data-catalog/home.htm).
 //
 
 package datacatalog
@@ -82,6 +83,9 @@ type CustomPropertySummary struct {
 
 	// If an OCI Event will be emitted when the custom property is modified.
 	IsEventEnabled *bool `mandatory:"false" json:"isEventEnabled"`
+
+	// Event configuration for this custom property, against the desired subset of object types to which the property applies.
+	Events []EventConfig `mandatory:"false" json:"events"`
 }
 
 func (m CustomPropertySummary) String() string {
