@@ -21,7 +21,7 @@ type GetAwrDbSqlReportRequest struct {
 
 	// The parameter to filter the database by internal ID.
 	// Note that the internal ID of the database can be retrieved from the following endpoint:
-	// /managedDatabases/{managedDatabaseId}/awrDbs:
+	// /managedDatabases/{managedDatabaseId}/awrDbs
 	AwrDbId *string `mandatory:"true" contributesTo:"path" name:"awrDbId"`
 
 	// The parameter to filter SQL by ID. Note that the SQL ID is generated internally by Oracle for each SQL statement and can be retrieved from AWR Report API (/managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbReport) or Performance Hub API (/internal/managedDatabases/{managedDatabaseId}/actions/retrievePerformanceData)

@@ -28,6 +28,12 @@ type ListManagedDatabasesRequest struct {
 	// A filter to return only resources that match the entire name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
+	// A filter to return Managed Databases with the specified management option.
+	ManagementOption ListManagedDatabasesManagementOptionEnum `mandatory:"false" contributesTo:"query" name:"managementOption" omitEmpty:"true"`
+
+	// A filter to return Managed Databases of the specified deployment type.
+	DeploymentType ListManagedDatabasesDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"deploymentType" omitEmpty:"true"`
+
 	// The page token representing the page, from where the next set of paginated results
 	// are retrieved. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
@@ -40,7 +46,7 @@ type ListManagedDatabasesRequest struct {
 	// The ‘NAME’ sort order is case-sensitive.
 	SortBy ListManagedDatabasesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the the default order.
+	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
 	SortOrder ListManagedDatabasesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -96,6 +102,58 @@ func (response ListManagedDatabasesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListManagedDatabasesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListManagedDatabasesManagementOptionEnum Enum with underlying type: string
+type ListManagedDatabasesManagementOptionEnum string
+
+// Set of constants representing the allowable values for ListManagedDatabasesManagementOptionEnum
+const (
+	ListManagedDatabasesManagementOptionBasic    ListManagedDatabasesManagementOptionEnum = "BASIC"
+	ListManagedDatabasesManagementOptionAdvanced ListManagedDatabasesManagementOptionEnum = "ADVANCED"
+)
+
+var mappingListManagedDatabasesManagementOption = map[string]ListManagedDatabasesManagementOptionEnum{
+	"BASIC":    ListManagedDatabasesManagementOptionBasic,
+	"ADVANCED": ListManagedDatabasesManagementOptionAdvanced,
+}
+
+// GetListManagedDatabasesManagementOptionEnumValues Enumerates the set of values for ListManagedDatabasesManagementOptionEnum
+func GetListManagedDatabasesManagementOptionEnumValues() []ListManagedDatabasesManagementOptionEnum {
+	values := make([]ListManagedDatabasesManagementOptionEnum, 0)
+	for _, v := range mappingListManagedDatabasesManagementOption {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListManagedDatabasesDeploymentTypeEnum Enum with underlying type: string
+type ListManagedDatabasesDeploymentTypeEnum string
+
+// Set of constants representing the allowable values for ListManagedDatabasesDeploymentTypeEnum
+const (
+	ListManagedDatabasesDeploymentTypeOnpremise ListManagedDatabasesDeploymentTypeEnum = "ONPREMISE"
+	ListManagedDatabasesDeploymentTypeBm        ListManagedDatabasesDeploymentTypeEnum = "BM"
+	ListManagedDatabasesDeploymentTypeVm        ListManagedDatabasesDeploymentTypeEnum = "VM"
+	ListManagedDatabasesDeploymentTypeExadata   ListManagedDatabasesDeploymentTypeEnum = "EXADATA"
+	ListManagedDatabasesDeploymentTypeExadataCc ListManagedDatabasesDeploymentTypeEnum = "EXADATA_CC"
+)
+
+var mappingListManagedDatabasesDeploymentType = map[string]ListManagedDatabasesDeploymentTypeEnum{
+	"ONPREMISE":  ListManagedDatabasesDeploymentTypeOnpremise,
+	"BM":         ListManagedDatabasesDeploymentTypeBm,
+	"VM":         ListManagedDatabasesDeploymentTypeVm,
+	"EXADATA":    ListManagedDatabasesDeploymentTypeExadata,
+	"EXADATA_CC": ListManagedDatabasesDeploymentTypeExadataCc,
+}
+
+// GetListManagedDatabasesDeploymentTypeEnumValues Enumerates the set of values for ListManagedDatabasesDeploymentTypeEnum
+func GetListManagedDatabasesDeploymentTypeEnumValues() []ListManagedDatabasesDeploymentTypeEnum {
+	values := make([]ListManagedDatabasesDeploymentTypeEnum, 0)
+	for _, v := range mappingListManagedDatabasesDeploymentType {
+		values = append(values, v)
+	}
+	return values
 }
 
 // ListManagedDatabasesSortByEnum Enum with underlying type: string

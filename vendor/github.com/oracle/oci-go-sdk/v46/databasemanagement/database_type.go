@@ -18,11 +18,15 @@ type DatabaseTypeEnum string
 const (
 	DatabaseTypeExternalSidb DatabaseTypeEnum = "EXTERNAL_SIDB"
 	DatabaseTypeExternalRac  DatabaseTypeEnum = "EXTERNAL_RAC"
+	DatabaseTypeCloudSidb    DatabaseTypeEnum = "CLOUD_SIDB"
+	DatabaseTypeCloudRac     DatabaseTypeEnum = "CLOUD_RAC"
 )
 
 var mappingDatabaseType = map[string]DatabaseTypeEnum{
 	"EXTERNAL_SIDB": DatabaseTypeExternalSidb,
 	"EXTERNAL_RAC":  DatabaseTypeExternalRac,
+	"CLOUD_SIDB":    DatabaseTypeCloudSidb,
+	"CLOUD_RAC":     DatabaseTypeCloudRac,
 }
 
 // GetDatabaseTypeEnumValues Enumerates the set of values for DatabaseTypeEnum

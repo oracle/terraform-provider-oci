@@ -41,6 +41,8 @@ type CreateSqlJobDetails struct {
 
 	ResultLocation JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
 
+	ScheduleDetails *JobScheduleDetails `mandatory:"false" json:"scheduleDetails"`
+
 	// The SQL text to be executed as part of the job.
 	SqlText *string `mandatory:"false" json:"sqlText"`
 
@@ -51,6 +53,9 @@ type CreateSqlJobDetails struct {
 
 	// The password for the database user name used to execute the SQL job.
 	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
+	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// The schedule type of the job.
 	ScheduleType JobScheduleTypeEnum `mandatory:"true" json:"scheduleType"`
@@ -112,6 +117,11 @@ func (m CreateSqlJobDetails) GetResultLocation() JobExecutionResultLocation {
 	return m.ResultLocation
 }
 
+//GetScheduleDetails returns ScheduleDetails
+func (m CreateSqlJobDetails) GetScheduleDetails() *JobScheduleDetails {
+	return m.ScheduleDetails
+}
+
 func (m CreateSqlJobDetails) String() string {
 	return common.PointerString(m)
 }
@@ -139,10 +149,12 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 		DatabaseSubType        DatabaseSubTypeEnum        `json:"databaseSubType"`
 		Timeout                *string                    `json:"timeout"`
 		ResultLocation         jobexecutionresultlocation `json:"resultLocation"`
+		ScheduleDetails        *JobScheduleDetails        `json:"scheduleDetails"`
 		SqlText                *string                    `json:"sqlText"`
 		SqlType                SqlJobSqlTypeEnum          `json:"sqlType"`
 		UserName               *string                    `json:"userName"`
 		Password               *string                    `json:"password"`
+		SecretId               *string                    `json:"secretId"`
 		Role                   SqlJobRoleEnum             `json:"role"`
 		Name                   *string                    `json:"name"`
 		CompartmentId          *string                    `json:"compartmentId"`
@@ -175,6 +187,8 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ResultLocation = nil
 	}
 
+	m.ScheduleDetails = model.ScheduleDetails
+
 	m.SqlText = model.SqlText
 
 	m.SqlType = model.SqlType
@@ -182,6 +196,8 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.UserName = model.UserName
 
 	m.Password = model.Password
+
+	m.SecretId = model.SecretId
 
 	m.Role = model.Role
 

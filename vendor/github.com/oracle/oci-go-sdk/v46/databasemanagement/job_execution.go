@@ -52,6 +52,18 @@ type JobExecution struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group where the parent job has to be executed.
 	ManagedDatabaseGroupId *string `mandatory:"false" json:"managedDatabaseGroupId"`
 
+	// The type of Oracle Database installation.
+	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
+
+	// The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database.
+	DatabaseSubType DatabaseSubTypeEnum `mandatory:"false" json:"databaseSubType,omitempty"`
+
+	// A list of the supported infrastructure that can be used to deploy the database.
+	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
+
+	// Indicates whether the Oracle Database is part of a cluster.
+	IsCluster *bool `mandatory:"false" json:"isCluster"`
+
 	// The error message that is returned if the job execution fails. Null is returned if the job is
 	// still running or if the job execution is successful.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
@@ -60,6 +72,14 @@ type JobExecution struct {
 
 	// The date and time when the job execution completed.
 	TimeCompleted *common.SDKTime `mandatory:"false" json:"timeCompleted"`
+
+	// The database user name used to execute the SQL job.
+	UserName *string `mandatory:"false" json:"userName"`
+
+	// The SQL text executed as part of the job.
+	SqlText *string `mandatory:"false" json:"sqlText"`
+
+	ScheduleDetails *JobScheduleDetails `mandatory:"false" json:"scheduleDetails"`
 }
 
 func (m JobExecution) String() string {
@@ -70,9 +90,16 @@ func (m JobExecution) String() string {
 func (m *JobExecution) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		ManagedDatabaseGroupId *string                   `json:"managedDatabaseGroupId"`
+		DatabaseType           DatabaseTypeEnum          `json:"databaseType"`
+		DatabaseSubType        DatabaseSubTypeEnum       `json:"databaseSubType"`
+		DeploymentType         DeploymentTypeEnum        `json:"deploymentType"`
+		IsCluster              *bool                     `json:"isCluster"`
 		ErrorMessage           *string                   `json:"errorMessage"`
 		ResultDetails          jobexecutionresultdetails `json:"resultDetails"`
 		TimeCompleted          *common.SDKTime           `json:"timeCompleted"`
+		UserName               *string                   `json:"userName"`
+		SqlText                *string                   `json:"sqlText"`
+		ScheduleDetails        *JobScheduleDetails       `json:"scheduleDetails"`
 		Id                     *string                   `json:"id"`
 		Name                   *string                   `json:"name"`
 		CompartmentId          *string                   `json:"compartmentId"`
@@ -92,6 +119,14 @@ func (m *JobExecution) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.ManagedDatabaseGroupId = model.ManagedDatabaseGroupId
 
+	m.DatabaseType = model.DatabaseType
+
+	m.DatabaseSubType = model.DatabaseSubType
+
+	m.DeploymentType = model.DeploymentType
+
+	m.IsCluster = model.IsCluster
+
 	m.ErrorMessage = model.ErrorMessage
 
 	nn, e = model.ResultDetails.UnmarshalPolymorphicJSON(model.ResultDetails.JsonData)
@@ -105,6 +140,12 @@ func (m *JobExecution) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.TimeCompleted = model.TimeCompleted
+
+	m.UserName = model.UserName
+
+	m.SqlText = model.SqlText
+
+	m.ScheduleDetails = model.ScheduleDetails
 
 	m.Id = model.Id
 

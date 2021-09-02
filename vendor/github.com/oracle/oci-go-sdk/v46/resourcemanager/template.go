@@ -4,10 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service.
-// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
+// Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -27,6 +27,7 @@ type Template struct {
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Unique identifier for the category where the template is located.
+	// Possible values are `0` (Quick Starts), `1` (Service), `2` (Architecture), and `3` (Private).
 	CategoryId *string `mandatory:"false" json:"categoryId"`
 
 	// Human-readable name of the template.
@@ -37,6 +38,9 @@ type Template struct {
 
 	// Detailed description of the template. This description is displayed in the Console page listing templates when the template is expanded. Avoid entering confidential information.
 	LongDescription *string `mandatory:"false" json:"longDescription"`
+
+	// whether the template will work for free tier tenancy.
+	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
 	// The date and time at which the template was created.
 	// Format is defined by RFC3339.
@@ -71,6 +75,7 @@ func (m *Template) UnmarshalJSON(data []byte) (e error) {
 		DisplayName          *string                           `json:"displayName"`
 		Description          *string                           `json:"description"`
 		LongDescription      *string                           `json:"longDescription"`
+		IsFreeTier           *bool                             `json:"isFreeTier"`
 		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
 		TemplateConfigSource templateconfigsource              `json:"templateConfigSource"`
 		LifecycleState       TemplateLifecycleStateEnum        `json:"lifecycleState"`
@@ -93,6 +98,8 @@ func (m *Template) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.LongDescription = model.LongDescription
+
+	m.IsFreeTier = model.IsFreeTier
 
 	m.TimeCreated = model.TimeCreated
 

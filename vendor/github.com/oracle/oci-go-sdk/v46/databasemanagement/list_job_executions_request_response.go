@@ -52,8 +52,11 @@ type ListJobExecutionsRequest struct {
 	// The ‘NAME’ sort order is case-sensitive.
 	SortBy ListJobExecutionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the the default order.
+	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
 	SortOrder ListJobExecutionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// The identifier of the job run.
+	JobRunId *string `mandatory:"false" contributesTo:"query" name:"jobRunId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

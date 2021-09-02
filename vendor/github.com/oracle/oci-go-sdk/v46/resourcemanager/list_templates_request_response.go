@@ -24,12 +24,16 @@ type ListTemplatesRequest struct {
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Unique identifier of the template category.
+	// Possible values are `0` (Quick Starts), `1` (Service), `2` (Architecture), and `3` (Private).
 	TemplateCategoryId *string `mandatory:"false" contributesTo:"query" name:"templateCategoryId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the template.
 	TemplateId *string `mandatory:"false" contributesTo:"query" name:"templateId"`
 
-	// A filter to return only resources that match the specified display name.
+	// A filter to return only resources that match the given display name exactly.
+	// Use this filter to list a resource by name.
+	// Requires `sortBy` set to `DISPLAYNAME`.
+	// Alternatively, when you know the resource OCID, use the related Get operation.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The field to use when sorting returned resources.

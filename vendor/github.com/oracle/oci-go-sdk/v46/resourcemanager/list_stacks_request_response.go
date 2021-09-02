@@ -29,7 +29,7 @@ type ListStacksRequest struct {
 	// A filter that returns only those resources that match the specified
 	// lifecycle state. The state value is case-insensitive.
 	// For more information about stack lifecycle states, see
-	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#StackStates).
+	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates).
 	// Allowable values:
 	// - CREATING
 	// - ACTIVE
@@ -38,7 +38,10 @@ type ListStacksRequest struct {
 	// - FAILED
 	LifecycleState StackLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the specified display name.
+	// A filter to return only resources that match the given display name exactly.
+	// Use this filter to list a resource by name.
+	// Requires `sortBy` set to `DISPLAYNAME`.
+	// Alternatively, when you know the resource OCID, use the related Get operation.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The field to use when sorting returned resources.

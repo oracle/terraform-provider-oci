@@ -200,10 +200,9 @@ func (client DashxApisClient) changeManagementSavedSearchesCompartment(ctx conte
 	return response, err
 }
 
-// CreateManagementDashboard Creates a new dashboard.  Limit for number of saved searches in a dashboard is 20. To get an example of what needs to be passed to CREATE, one can use GET API.
-// oci management-dashboard dashboard get --management-dashboard-id  "ocid1.managementdashboard.oc1..dashboardId1" --query data > Create.json
-// Modify the Create.json by removing "id" attribute and other desired changes, then do
-// oci management-dashboard dashboard create  --from-json file://Create.json
+// CreateManagementDashboard Creates a new dashboard.  Limit for number of saved searches in a dashboard is 20. Here's an example of how you can use CLI to create a dashboard. For information on the details that must be passed to CREATE, you can use the GET API to obtain the Create.json file:
+// oci management-dashboard dashboard get --management-dashboard-id  "ocid1.managementdashboard.oc1..dashboardId1" --query data > Create.json.
+// You can then modify the Create.json file by removing the"id" attribute and making other required changes, and use the oci management-dashboard dashboard create command.
 //
 // See also
 //
@@ -263,10 +262,9 @@ func (client DashxApisClient) createManagementDashboard(ctx context.Context, req
 	return response, err
 }
 
-// CreateManagementSavedSearch Creates a new saved search. To get an example of what needs to be passed to CREATE, one can use GET API.
-// oci management-dashboard saved-search get --management-saved-search-id ocid1.managementsavedsearch.oc1..savedsearchId1 --query data > Create.json
-// Modify the Create.json by removing "id" attribute and other desired changes, then do
-// oci management-dashboard saved-search create  --from-json file://Create.json
+// CreateManagementSavedSearch Creates a new saved search. Here's an example of how you can use CLI to create a saved search. For information on the details that must be passed to CREATE, you can use the GET API to obtain the Create.json file:
+// oci management-dashboard saved-search get --management-saved-search-id ocid1.managementsavedsearch.oc1..savedsearchId1 --query data > Create.json.
+// You can then modify the Create.json file by removing the "id" attribute and making other required changes, and use the oci management-dashboard saved-search create command.
 //
 // See also
 //
@@ -436,7 +434,7 @@ func (client DashxApisClient) deleteManagementSavedSearch(ctx context.Context, r
 	return response, err
 }
 
-// ExportDashboard Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard. An example using OCI CLI is $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json $oci management-dashboard dashboard import --from-json file://dashboards.json
+// ExportDashboard Exports an array of dashboards and their saved searches. Export is designed to work with importDashboard. Here's an example of how you can use CLI to export a dashboard. $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json
 //
 // See also
 //
@@ -616,9 +614,11 @@ func (client DashxApisClient) getManagementSavedSearch(ctx context.Context, requ
 	return response, err
 }
 
-// ImportDashboard Imports an array of dashboards and their saved searches. Import is designed to work with exportDashboard. An example using OCI CLI is
-//     $oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > dashboards.json
-//     $oci management-dashboard dashboard import --from-json file://dashboards.json
+// ImportDashboard Imports an array of dashboards and their saved searches. Here's an example of how you can use CLI to import a dashboard. For information on the details that must be passed to IMPORT, you can use the EXPORT API to obtain the Import.json file:
+// oci management-dashboard dashboard export --query data --export-dashboard-id "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}"  > Import.json.
+// Note that import API updates the resource if it already exist, and creates a new resource if it does not exist. To import to a different compartment, edit and change the compartmentId to the desired compartment OCID.
+// Here is an example of how you can use CLI to do import:
+// oci management-dashboard dashboard import --from-json file://Import.json
 //
 // See also
 //

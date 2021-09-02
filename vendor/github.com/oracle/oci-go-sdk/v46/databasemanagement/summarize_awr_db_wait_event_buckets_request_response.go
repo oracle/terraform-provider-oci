@@ -21,7 +21,7 @@ type SummarizeAwrDbWaitEventBucketsRequest struct {
 
 	// The parameter to filter the database by internal ID.
 	// Note that the internal ID of the database can be retrieved from the following endpoint:
-	// /managedDatabases/{managedDatabaseId}/awrDbs:
+	// /managedDatabases/{managedDatabaseId}/awrDbs
 	AwrDbId *string `mandatory:"true" contributesTo:"path" name:"awrDbId"`
 
 	// The required single value query parameter to filter the entity name.
@@ -66,7 +66,7 @@ type SummarizeAwrDbWaitEventBucketsRequest struct {
 	// The option to sort distribution data.
 	SortBy SummarizeAwrDbWaitEventBucketsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the the default order.
+	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
 	SortOrder SummarizeAwrDbWaitEventBucketsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The client request ID for tracing.

@@ -23,6 +23,18 @@ type JobDatabase struct {
 
 	// The name of the Managed Database.
 	Name *string `mandatory:"true" json:"name"`
+
+	// The type of Oracle Database installation.
+	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
+
+	// The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database.
+	DatabaseSubType DatabaseSubTypeEnum `mandatory:"false" json:"databaseSubType,omitempty"`
+
+	// A list of the supported infrastructure that can be used to deploy the database.
+	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
+
+	// Indicates whether the Oracle Database is part of a cluster.
+	IsCluster *bool `mandatory:"false" json:"isCluster"`
 }
 
 func (m JobDatabase) String() string {

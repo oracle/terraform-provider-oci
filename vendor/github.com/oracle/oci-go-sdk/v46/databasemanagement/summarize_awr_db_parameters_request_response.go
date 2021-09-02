@@ -21,7 +21,7 @@ type SummarizeAwrDbParametersRequest struct {
 
 	// The parameter to filter the database by internal ID.
 	// Note that the internal ID of the database can be retrieved from the following endpoint:
-	// /managedDatabases/{managedDatabaseId}/awrDbs:
+	// /managedDatabases/{managedDatabaseId}/awrDbs
 	AwrDbId *string `mandatory:"true" contributesTo:"path" name:"awrDbId"`
 
 	// The optional single value query parameter to filter the database instance number.
@@ -69,7 +69,7 @@ type SummarizeAwrDbParametersRequest struct {
 	// The option to sort the AWR database parameter change history data.
 	SortBy SummarizeAwrDbParametersSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Descending order is the the default order.
+	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Descending order is the default order.
 	SortOrder SummarizeAwrDbParametersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The client request ID for tracing.

@@ -4,10 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service.
-// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
+// Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -40,14 +40,14 @@ type Stack struct {
 
 	// The current lifecycle state of the stack.
 	// For more information about stack lifecycle states in Resource Manager, see
-	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#StackStates).
+	// Key Concepts (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates).
 	LifecycleState StackLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	ConfigSource ConfigSource `mandatory:"false" json:"configSource"`
 
 	// Terraform variables associated with this resource.
 	// Maximum number of variables supported is 250.
-	// The maximum size of each variable, including both name and value, is 4096 bytes.
+	// The maximum size of each variable, including both name and value, is 8192 bytes.
 	// Example: `{"CompartmentId": "compartment-id-value"}`
 	Variables map[string]string `mandatory:"false" json:"variables"`
 

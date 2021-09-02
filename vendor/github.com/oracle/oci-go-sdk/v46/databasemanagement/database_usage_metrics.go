@@ -30,6 +30,12 @@ type DatabaseUsageMetrics struct {
 	// The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database.
 	DatabaseSubType DatabaseSubTypeEnum `mandatory:"false" json:"databaseSubType,omitempty"`
 
+	// The infrastructure used to deploy the Oracle Database.
+	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
+
+	// The Oracle Database version.
+	DatabaseVersion *string `mandatory:"false" json:"databaseVersion"`
+
 	// The display name of the Managed Database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 

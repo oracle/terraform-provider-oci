@@ -60,6 +60,8 @@ type Job interface {
 
 	GetResultLocation() JobExecutionResultLocation
 
+	GetScheduleDetails() *JobScheduleDetails
+
 	// The error message that is returned if the job submission fails. Null is returned in all other scenarios.
 	GetSubmissionErrorMessage() *string
 }
@@ -80,6 +82,7 @@ type job struct {
 	DatabaseSubType         DatabaseSubTypeEnum        `mandatory:"false" json:"databaseSubType,omitempty"`
 	Timeout                 *string                    `mandatory:"false" json:"timeout"`
 	ResultLocation          JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
+	ScheduleDetails         *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
 	SubmissionErrorMessage  *string                    `mandatory:"false" json:"submissionErrorMessage"`
 	JobType                 string                     `json:"jobType"`
 }
@@ -109,6 +112,7 @@ func (m *job) UnmarshalJSON(data []byte) error {
 	m.DatabaseSubType = s.Model.DatabaseSubType
 	m.Timeout = s.Model.Timeout
 	m.ResultLocation = s.Model.ResultLocation
+	m.ScheduleDetails = s.Model.ScheduleDetails
 	m.SubmissionErrorMessage = s.Model.SubmissionErrorMessage
 	m.JobType = s.Model.JobType
 
@@ -203,6 +207,11 @@ func (m job) GetResultLocation() JobExecutionResultLocation {
 	return m.ResultLocation
 }
 
+//GetScheduleDetails returns ScheduleDetails
+func (m job) GetScheduleDetails() *JobScheduleDetails {
+	return m.ScheduleDetails
+}
+
 //GetSubmissionErrorMessage returns SubmissionErrorMessage
 func (m job) GetSubmissionErrorMessage() *string {
 	return m.SubmissionErrorMessage
@@ -218,10 +227,12 @@ type JobScheduleTypeEnum string
 // Set of constants representing the allowable values for JobScheduleTypeEnum
 const (
 	JobScheduleTypeImmediate JobScheduleTypeEnum = "IMMEDIATE"
+	JobScheduleTypeLater     JobScheduleTypeEnum = "LATER"
 )
 
 var mappingJobScheduleType = map[string]JobScheduleTypeEnum{
 	"IMMEDIATE": JobScheduleTypeImmediate,
+	"LATER":     JobScheduleTypeLater,
 }
 
 // GetJobScheduleTypeEnumValues Enumerates the set of values for JobScheduleTypeEnum

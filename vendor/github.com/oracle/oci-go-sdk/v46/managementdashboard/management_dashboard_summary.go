@@ -32,6 +32,15 @@ type ManagementDashboardSummary struct {
 	// OCID of the compartment in which the dashboard resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// ID of the service (for example, log-analytics) that owns the dashboard. Each service has a unique ID.
+	ProviderId *string `mandatory:"true" json:"providerId"`
+
+	// Name of the service (for example, Logging Analytics) that owns the dashboard.
+	ProviderName *string `mandatory:"true" json:"providerName"`
+
+	// Version of the service that owns the dashboard.
+	ProviderVersion *string `mandatory:"true" json:"providerVersion"`
+
 	// Determines whether the dashboard is an Out-of-the-Box (OOB) dashboard. Note that OOB dashboards are only provided by Oracle and cannot be modified.
 	IsOobDashboard *bool `mandatory:"true" json:"isOobDashboard"`
 

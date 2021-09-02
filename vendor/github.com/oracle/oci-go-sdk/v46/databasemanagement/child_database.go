@@ -30,6 +30,9 @@ type ChildDatabase struct {
 	// The date and time the Managed Database was added to the group.
 	TimeAdded *common.SDKTime `mandatory:"true" json:"timeAdded"`
 
+	// The infrastructure used to deploy the Oracle Database.
+	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
+
 	// The type of Oracle Database installation.
 	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
 

@@ -39,6 +39,12 @@ type ManagedDatabase struct {
 	// The date and time the Managed Database was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The infrastructure used to deploy the Oracle Database.
+	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
+
+	// The management option used when enabling Database Management.
+	ManagementOption ManagementOptionEnum `mandatory:"false" json:"managementOption,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the parent Container Database
 	// if Managed Database is a Pluggable Database.
 	ParentContainerId *string `mandatory:"false" json:"parentContainerId"`
