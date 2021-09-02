@@ -43,6 +43,12 @@ type GetDatabaseFleetHealthMetricsRequest struct {
 	// The filter used to filter the databases in the fleet by a specific Oracle Database subtype.
 	FilterByDatabaseSubType *string `mandatory:"false" contributesTo:"query" name:"filterByDatabaseSubType"`
 
+	// The filter used to filter the databases in the fleet by a specific Oracle Database deployment type.
+	FilterByDatabaseDeploymentType *string `mandatory:"false" contributesTo:"query" name:"filterByDatabaseDeploymentType"`
+
+	// The filter used to filter the databases in the fleet by a specific Oracle Database version.
+	FilterByDatabaseVersion *string `mandatory:"false" contributesTo:"query" name:"filterByDatabaseVersion"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

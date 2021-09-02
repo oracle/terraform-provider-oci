@@ -30,7 +30,7 @@ type AwrDbMetricSummary struct {
 	// The minimum value of the sampling period.
 	MinValue *float64 `mandatory:"false" json:"minValue"`
 
-	// The maximum value of the sampling period.v
+	// The maximum value of the sampling period.
 	MaxValue *float64 `mandatory:"false" json:"maxValue"`
 }
 

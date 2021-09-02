@@ -4,10 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service.
-// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
+// Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -85,6 +85,9 @@ func (client *ResourceManagerClient) ConfigurationProvider() *common.Configurati
 // CancelJob Indicates the intention to cancel the specified job.
 // Cancellation of the job is not immediate, and may be delayed,
 // or may not happen at all.
+// You can optionally choose forced cancellation by setting `isForced` to true.
+// A forced cancellation can result in an incorrect state file.
+// For example, the state file might not reflect the exact state of the provisioned resources.
 //
 // See also
 //
@@ -325,7 +328,7 @@ func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Contex
 
 // CreateConfigurationSourceProvider Creates a configuration source provider in the specified compartment.
 // For more information, see
-// To create a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#CreateConfigurationSourceProvider).
+// To create a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingconfigurationsourceproviders.htm#CreateConfigurationSourceProvider).
 //
 // See also
 //
@@ -451,7 +454,7 @@ func (client ResourceManagerClient) createJob(ctx context.Context, request commo
 // You can also create a stack from an existing compartment.
 // You can also upload the Terraform configuration from an Object Storage bucket.
 // For more information, see
-// To create a stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#CreateStack).
+// To create a stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#createstack-all).
 //
 // See also
 //
@@ -511,7 +514,7 @@ func (client ResourceManagerClient) createStack(ctx context.Context, request com
 	return response, err
 }
 
-// CreateTemplate Creates a custom template in the specified compartment.
+// CreateTemplate Creates a private template in the specified compartment.
 //
 // See also
 //
@@ -906,7 +909,62 @@ func (client ResourceManagerClient) getJob(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetJobLogs Returns log entries for the specified job in JSON format.
+// GetJobDetailedLogContent Returns the Terraform detailed log content for the specified job in plain text. Learn about Terraform detailed log. (https://www.terraform.io/docs/internals/debugging.html)
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobDetailedLogContent.go.html to see an example of how to use GetJobDetailedLogContent API.
+func (client ResourceManagerClient) GetJobDetailedLogContent(ctx context.Context, request GetJobDetailedLogContentRequest) (response GetJobDetailedLogContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getJobDetailedLogContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJobDetailedLogContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJobDetailedLogContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetJobDetailedLogContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetJobDetailedLogContentResponse")
+	}
+	return
+}
+
+// getJobDetailedLogContent implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) getJobDetailedLogContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/detailedLogContent", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetJobDetailedLogContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetJobLogs Returns console log entries for the specified job in JSON format.
 //
 // See also
 //
@@ -961,8 +1019,7 @@ func (client ResourceManagerClient) getJobLogs(ctx context.Context, request comm
 	return response, err
 }
 
-// GetJobLogsContent Returns raw log file for the specified job in text format.
-// Returns a maximum of 100,000 log entries.
+// GetJobLogsContent Returns a raw log file for the specified job. The raw log file contains console log entries in text format. The maximum number of entries in a file is 100,000.
 //
 // See also
 //
@@ -1852,6 +1909,7 @@ func (client ResourceManagerClient) listTemplateCategories(ctx context.Context, 
 }
 
 // ListTemplates Lists templates according to the specified filter.
+// The attributes `compartmentId` and `templateCategoryId` are required unless `templateId` is specified.
 //
 // See also
 //
@@ -2128,7 +2186,7 @@ func (client ResourceManagerClient) listWorkRequests(ctx context.Context, reques
 
 // UpdateConfigurationSourceProvider Updates the properties of the specified configuration source provider.
 // For more information, see
-// To update a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingstacksandjobs.htm#UpdateConfigurationSourceProvider).
+// To edit a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingconfigurationsourceproviders.htm#EditConfigurationSourceProvider).
 //
 // See also
 //

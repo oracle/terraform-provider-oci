@@ -40,7 +40,10 @@ type ListJobsRequest struct {
 	// - CANCELED
 	LifecycleState JobLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the specified display name.
+	// A filter to return only resources that match the given display name exactly.
+	// Use this filter to list a resource by name.
+	// Requires `sortBy` set to `DISPLAYNAME`.
+	// Alternatively, when you know the resource OCID, use the related Get operation.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The field to use when sorting returned resources.

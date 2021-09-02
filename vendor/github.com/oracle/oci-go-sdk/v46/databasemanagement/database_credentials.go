@@ -24,6 +24,9 @@ type DatabaseCredentials struct {
 	// The password for the database user name.
 	Password *string `mandatory:"false" json:"password"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
+	SecretId *string `mandatory:"false" json:"secretId"`
+
 	// The role of the database user. Indicates whether the database user is a normal user or sysdba.
 	Role DatabaseCredentialsRoleEnum `mandatory:"false" json:"role,omitempty"`
 }

@@ -4,10 +4,10 @@
 
 // Resource Manager API
 //
-// API for the Resource Manager service.
-// Use this API to install, configure, and manage resources via the "infrastructure-as-code" model.
+// Use the Resource Manager API to automate deployment and operations for all Oracle Cloud Infrastructure resources.
+// Using the infrastructure-as-code (IaC) model, the service is based on Terraform, an open source industry standard that lets DevOps engineers develop and deploy their infrastructure anywhere.
 // For more information, see
-// Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+// the Resource Manager documentation (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/home.htm).
 //
 
 package resourcemanager
@@ -21,6 +21,9 @@ type TerraformVersionSummary struct {
 
 	// A supported Terraform version. Example: `0.12.x`
 	Name *string `mandatory:"false" json:"name"`
+
+	// Indicates whether this Terraform version is used by default in CreateStack.
+	IsDefault *bool `mandatory:"false" json:"isDefault"`
 }
 
 func (m TerraformVersionSummary) String() string {

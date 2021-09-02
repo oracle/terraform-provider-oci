@@ -30,9 +30,6 @@ type CreateTemplateRequest struct {
 	// creation request may be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// This is to enable limit/quota support through splat
-	OciSplatGeneratedOcids *string `mandatory:"false" contributesTo:"header" name:"oci-splat-generated-ocids"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

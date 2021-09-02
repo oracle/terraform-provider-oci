@@ -26,11 +26,17 @@ type ManagementSavedSearchSummary struct {
 	// Determines whether the saved search is an Out-of-the-Box (OOB) saved search. Note that OOB saved searches are only provided by Oracle and cannot be modified.
 	IsOobSavedSearch *bool `mandatory:"true" json:"isOobSavedSearch"`
 
+	// OCID of the compartment in which the saved search resides.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// ID of the service (for example log-analytics) that owns the saved search. Each service has a unique ID.
 	ProviderId *string `mandatory:"true" json:"providerId"`
 
-	// OCID of the compartment in which the saved search resides.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// Version of the service that owns this saved search.
+	ProviderVersion *string `mandatory:"true" json:"providerVersion"`
+
+	// Name of the service (for example, Logging Analytics) that owns the saved search.
+	ProviderName *string `mandatory:"true" json:"providerName"`
 
 	// Description of the saved search.
 	Description *string `mandatory:"true" json:"description"`

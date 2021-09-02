@@ -46,6 +46,8 @@ type CreateJobDetails interface {
 	GetTimeout() *string
 
 	GetResultLocation() JobExecutionResultLocation
+
+	GetScheduleDetails() *JobScheduleDetails
 }
 
 type createjobdetails struct {
@@ -59,6 +61,7 @@ type createjobdetails struct {
 	DatabaseSubType        DatabaseSubTypeEnum        `mandatory:"false" json:"databaseSubType,omitempty"`
 	Timeout                *string                    `mandatory:"false" json:"timeout"`
 	ResultLocation         JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
+	ScheduleDetails        *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
 	JobType                string                     `json:"jobType"`
 }
 
@@ -82,6 +85,7 @@ func (m *createjobdetails) UnmarshalJSON(data []byte) error {
 	m.DatabaseSubType = s.Model.DatabaseSubType
 	m.Timeout = s.Model.Timeout
 	m.ResultLocation = s.Model.ResultLocation
+	m.ScheduleDetails = s.Model.ScheduleDetails
 	m.JobType = s.Model.JobType
 
 	return err
@@ -148,6 +152,11 @@ func (m createjobdetails) GetTimeout() *string {
 //GetResultLocation returns ResultLocation
 func (m createjobdetails) GetResultLocation() JobExecutionResultLocation {
 	return m.ResultLocation
+}
+
+//GetScheduleDetails returns ScheduleDetails
+func (m createjobdetails) GetScheduleDetails() *JobScheduleDetails {
+	return m.ScheduleDetails
 }
 
 func (m createjobdetails) String() string {
