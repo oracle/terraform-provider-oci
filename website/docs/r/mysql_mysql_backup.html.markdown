@@ -54,7 +54,7 @@ The following attributes are exported:
 * `backup_size_in_gbs` - The size of the backup in base-2 (IEC) gibibytes. (GiB).
 * `backup_type` - The type of backup.
 * `compartment_id` - The OCID of the compartment.
-* `creation_type` - If the backup was created automatically, or by a manual request.
+* `creation_type` - Indicates how the backup was created: manually, automatic, or by an Operator. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs. 
 * `db_system_id` - The OCID of the DB System the backup is associated with.
 * `db_system_snapshot` - Snapshot of the DbSystem details at the time of the backup 
