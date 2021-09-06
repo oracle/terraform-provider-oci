@@ -857,11 +857,6 @@ var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "drg_route_table_route_rule",
 }
 
-var exportCoreDrgRouteDistributionStatementHints = &TerraformResourceHints{
-	resourceClass:        "oci_core_drg_route_distribution_statement",
-	resourceAbbreviation: "drg_route_distribution_statement",
-}
-
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
 	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",

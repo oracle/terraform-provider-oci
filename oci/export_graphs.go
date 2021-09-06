@@ -382,14 +382,6 @@ var coreResourceGraph = TerraformResourceGraph{
 			},
 		},
 	},
-	"oci_core_drg_route_distribution": {
-		{
-			TerraformResourceHints: exportCoreDrgRouteDistributionStatementHints,
-			datasourceQueryParams: map[string]string{
-				"drg_route_distribution_id": "id",
-			},
-		},
-	},
 }
 
 var dataSafeResourceGraph = TerraformResourceGraph{

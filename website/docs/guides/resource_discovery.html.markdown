@@ -388,7 +388,6 @@ core
 * oci\_core\_drg\_route\_table
 * oci\_core\_drg\_route\_distribution
 * oci\_core\_drg\_route\_table\_route\_rule
-* oci\_core\_drg\_route\_distribution\_statement
 
 data_safe
     

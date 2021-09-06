@@ -21,7 +21,6 @@ func init() {
 	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
-	exportCoreDrgRouteDistributionStatementHints.getIdFn = getCoreDrgRouteDistributionStatementId
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
@@ -164,16 +163,6 @@ func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find drgRouteTableId for Core DrgRouteTableRouteRule")
 	}
 	return getDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
-}
-
-func getCoreDrgRouteDistributionStatementId(resource *OCIResource) (string, error) {
-
-	drgRouteDistributionId := resource.parent.id
-	statementId, ok := resource.sourceAttributes["id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find id for Core DrgRouteDistributionStatementId")
-	}
-	return getDrgRouteDistributionStatementCompositeId(drgRouteDistributionId, statementId), nil
 }
 
 func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
