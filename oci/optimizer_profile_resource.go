@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_optimizer "github.com/oracle/oci-go-sdk/v46/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v47/optimizer"
 )
 
 func init() {

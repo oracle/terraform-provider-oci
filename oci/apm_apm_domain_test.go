@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apm "github.com/oracle/oci-go-sdk/v46/apmcontrolplane"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_apm "github.com/oracle/oci-go-sdk/v47/apmcontrolplane"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
