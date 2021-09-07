@@ -153,7 +153,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + BackupDestinationNFSResourceConfig,
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ResourceName:      resourceName,

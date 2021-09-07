@@ -99,9 +99,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config +
-				compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

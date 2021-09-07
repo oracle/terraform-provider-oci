@@ -118,7 +118,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + ApiKeyResourceDependencies + generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getApiKeyImportId(resourceName),

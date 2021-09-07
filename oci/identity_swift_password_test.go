@@ -115,9 +115,7 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config +
-				compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getSwiftPasswordImportId(resourceName),

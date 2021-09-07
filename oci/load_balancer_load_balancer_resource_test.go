@@ -495,8 +495,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
+				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

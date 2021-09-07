@@ -188,9 +188,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config +
-				compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

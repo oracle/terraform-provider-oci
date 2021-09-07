@@ -115,7 +115,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + AuthTokenResourceDependencies + generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getAuthTokenImportId(resourceName),

@@ -119,7 +119,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies + generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getCustomerKeyImportId(resourceName),
