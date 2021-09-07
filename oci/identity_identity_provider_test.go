@@ -210,7 +210,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + compartmentIdVariableStr + IdentityProviderResourceDependencies + generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

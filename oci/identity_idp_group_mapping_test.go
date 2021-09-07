@@ -134,7 +134,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies + generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateIdFunc:       getIdpGroupMappingImportId(resourceName),

@@ -229,7 +229,7 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + compartmentIdVariableStr + StreampoolidResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

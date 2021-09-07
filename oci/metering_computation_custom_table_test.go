@@ -165,7 +165,7 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + compartmentIdVariableStr + CustomTableResourceConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

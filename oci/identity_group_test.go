@@ -185,7 +185,8 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + compartmentIdVariableStr + GroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

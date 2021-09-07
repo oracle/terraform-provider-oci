@@ -175,7 +175,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + matchingRule2VariableStr + compartmentIdVariableStr + DynamicGroupResourceDependencies + generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

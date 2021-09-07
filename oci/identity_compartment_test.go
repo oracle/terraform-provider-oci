@@ -212,7 +212,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + compartmentIdVariableStr + CompartmentResourceConfig,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

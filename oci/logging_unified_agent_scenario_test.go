@@ -530,7 +530,7 @@ func TestLoggingUnifiedAgentConfigurationLogTailResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + compartmentIdVariableStr + UnifiedAgentConfigurationLogTailResourceConfig,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

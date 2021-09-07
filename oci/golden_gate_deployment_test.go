@@ -288,7 +288,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + goldenGateDeploymentResourceConfig,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
