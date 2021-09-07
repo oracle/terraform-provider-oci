@@ -319,7 +319,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

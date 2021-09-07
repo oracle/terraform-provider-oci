@@ -150,7 +150,10 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + compartmentIdVariableStr + VcnResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+					"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+				})),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

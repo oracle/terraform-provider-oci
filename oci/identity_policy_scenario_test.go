@@ -136,7 +136,24 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 			},
 			// verify resource import
 			{
-				Config:                  s.Config,
+				Config:                  s.Config + s.TokenFn(`
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${var.tenancy_ocid}"
+					name = "{{.token}}"
+					description = "automated test policy (updated)"
+					version_date = "2018-04-18"
+					statements = [
+						"Allow group ${oci_identity_group.t.name} to inspect instances in tenancy",
+						"Allow group ${oci_identity_group.t.name} to read instances in tenancy"
+					]
+				}
+				data "oci_identity_policies" "p" {
+					compartment_id = "${var.tenancy_ocid}"
+					filter {
+						name   = "statements"
+						values = ["Allow group ${oci_identity_group.t.name} to inspect instances in tenancy"]
+					}
+				}`, nil),
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

@@ -159,7 +159,8 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config,
+			Config:            config + compartmentIdVariableStr + BootVolumeBackupCopyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup_copy", Optional, Update, bootVolumeBackupWithSourceDetailsRepresentation),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
