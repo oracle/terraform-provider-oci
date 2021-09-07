@@ -488,7 +488,7 @@ func TestResourceCoreDedicatedVmHost_E2ShapeDVH(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + DedicatedVmHostResourceConfig,
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -688,7 +688,7 @@ func TestResourceCoreDedicatedVmHost_E3ShapeDVH(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + DedicatedVmHostResourceConfig,
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

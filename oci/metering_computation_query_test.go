@@ -220,7 +220,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + tenancyIdVariableStr + QueryResourceConfig,
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

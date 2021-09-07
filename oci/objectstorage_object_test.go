@@ -394,8 +394,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + ObjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

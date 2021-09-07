@@ -111,8 +111,7 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + HostnameResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

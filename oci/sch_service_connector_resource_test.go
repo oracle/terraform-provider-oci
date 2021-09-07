@@ -229,7 +229,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + ServiceConnectorResourceConfig + imageVariableStr,
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

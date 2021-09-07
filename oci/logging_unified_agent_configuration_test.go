@@ -298,7 +298,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceConfig,
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

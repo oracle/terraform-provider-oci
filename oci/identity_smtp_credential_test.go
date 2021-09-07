@@ -116,7 +116,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + SmtpCredentialResourceDependencies + generateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getSmtpCredentialImportId(resourceName),

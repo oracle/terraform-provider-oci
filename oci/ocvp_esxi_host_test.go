@@ -189,7 +189,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + EsxiHostResourceConfig,
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

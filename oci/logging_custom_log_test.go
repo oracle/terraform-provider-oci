@@ -200,7 +200,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + compartmentIdVariableStr + CustomLogResourceConfig,
+				Config:                  config,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

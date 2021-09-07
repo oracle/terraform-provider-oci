@@ -427,8 +427,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + NlbBackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Optional, Update, nlbHttpBackendSetRepresentation),
+			Config:                  config,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

@@ -164,7 +164,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + PolicyResourceDependencies + generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

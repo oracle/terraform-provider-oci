@@ -124,8 +124,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + compartmentIdVariableStr + CertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Update, certificateRepresentation),
+			Config:            config,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
