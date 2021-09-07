@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v46/managementagent"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v47/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )

@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v46/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v47/aianomalydetection"
 
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 )
 
 func init() {

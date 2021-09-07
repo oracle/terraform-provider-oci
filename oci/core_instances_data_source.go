@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 )
 
 func init() {
