@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v46/databasemanagement"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v47/databasemanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -82,7 +82,6 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabaseGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -100,229 +99,222 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ManagedDatabaseGroupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create, managedDatabaseGroupRepresentation), "databasemanagement", "managedDatabaseGroup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseManagementManagedDatabaseGroupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Required, Create, managedDatabaseGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseManagementManagedDatabaseGroupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Required, Create, managedDatabaseGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create, managedDatabaseGroupRepresentationWithManagedDatabases),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create, managedDatabaseGroupRepresentationWithManagedDatabases),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify update with updated managed_databases list
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
-						representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
-							"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId3Representation}},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					}
+					return err
+				},
+			),
+		},
+		// verify update with updated managed_databases list
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
+					representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
+						"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId3Representation}},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify update after removing entry from managed_databases
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
-						representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
-							"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId3Representation}},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					}
+					return err
+				},
+			),
+		},
+		// verify update after removing entry from managed_databases
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
+					representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
+						"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId3Representation}},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify update after adding entry to managed_databases
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
-						representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
-							"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId4Representation}},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					}
+					return err
+				},
+			),
+		},
+		// verify update after adding entry to managed_databases
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
+					representationCopyWithNewProperties(managedDatabaseGroupRepresentationWithManagedDatabases, map[string]interface{}{
+						"managed_databases": []RepresentationGroup{{Optional, managedDatabaseId2Representation}, {Optional, managedDatabaseId4Representation}},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
-						representationCopyWithNewProperties(managedDatabaseGroupRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					}
+					return err
+				},
+			),
+		},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Create,
+					representationCopyWithNewProperties(managedDatabaseGroupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database group"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Update, managedDatabaseGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Update, managedDatabaseGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_managed_database_groups", "test_managed_database_groups", Optional, Update, managedDatabaseGroupDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Update, managedDatabaseGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_management_managed_database_groups", "test_managed_database_groups", Optional, Update, managedDatabaseGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagedDatabaseGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Optional, Update, managedDatabaseGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "managed_database_group_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "managed_database_group_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Required, Create, managedDatabaseGroupSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagedDatabaseGroupResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_group_id"),
+				resource.TestCheckResourceAttr(datasourceName, "managed_database_group_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "managed_database_group_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", Required, Create, managedDatabaseGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagedDatabaseGroupResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_group_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "managed_databases.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "TestGroup"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "managed_databases.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "TestGroup"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ManagedDatabaseGroupResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

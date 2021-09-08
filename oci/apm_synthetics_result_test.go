@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -29,7 +28,6 @@ func TestApmSyntheticsResultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsResultResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -52,31 +50,25 @@ func TestApmSyntheticsResultResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config + apmDomainIdVariableStr + monitorIdVariableStr + executionTimeVariableStr +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_result", "test_result", Required, Create, resultSingularDataSourceRepresentation) +
-					compartmentIdVariableStr, //+ ResultResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_time"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "result_content_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "result_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config + apmDomainIdVariableStr + monitorIdVariableStr + executionTimeVariableStr +
+				generateDataSourceFromRepresentationMap("oci_apm_synthetics_result", "test_result", Required, Create, resultSingularDataSourceRepresentation) +
+				compartmentIdVariableStr, //+ ResultResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_time"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "result_content_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "result_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_time"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "result_content_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "result_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_time"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "result_content_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "result_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point"),
+			),
 		},
 	})
 }

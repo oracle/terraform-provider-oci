@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -30,7 +29,6 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringAlarmHistoryCollectionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -40,29 +38,23 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", Optional, Create, alarmHistoryCollectionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AlarmHistoryCollectionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "alarm_historytype", "STATE_TRANSITION_HISTORY"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "timestamp_greater_than_or_equal_to", "2018-12-01T01:00:00.001Z"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "timestamp_less_than"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", Optional, Create, alarmHistoryCollectionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AlarmHistoryCollectionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "alarm_historytype", "STATE_TRANSITION_HISTORY"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timestamp_greater_than_or_equal_to", "2018-12-01T01:00:00.001Z"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "timestamp_less_than"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "entries.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_enabled"),
-				),
-				// Non empty plan expected because the data source input relies on interpolation syntax
-				ExpectNonEmptyPlan: true,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "entries.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_enabled"),
+			),
+			// Non empty plan expected because the data source input relies on interpolation syntax
+			ExpectNonEmptyPlan: true,
 		},
 	})
 }

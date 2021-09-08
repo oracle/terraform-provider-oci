@@ -52,7 +52,6 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAuthenticationPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -68,115 +67,109 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AuthenticationPolicyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation), "identity", "authenticationPolicy", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_lowercase_characters_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_numeric_characters_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_special_characters_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_uppercase_characters_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_username_containment_allowed", "false"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "11"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_lowercase_characters_required", "true"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_numeric_characters_required", "true"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_special_characters_required", "true"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_uppercase_characters_required", "true"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_username_containment_allowed", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "11"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Update, authenticationPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_lowercase_characters_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_numeric_characters_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_special_characters_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_uppercase_characters_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_username_containment_allowed", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "8"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Update, authenticationPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_lowercase_characters_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_numeric_characters_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_special_characters_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_uppercase_characters_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_username_containment_allowed", "false"),
+				resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "8"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Required, Create, authenticationPolicySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AuthenticationPolicyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Required, Create, authenticationPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AuthenticationPolicyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_policy.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_policy.0.network_source_ids.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_lowercase_characters_required", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_numeric_characters_required", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_special_characters_required", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_uppercase_characters_required", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_username_containment_allowed", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.minimum_password_length", "8"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_policy.0.network_source_ids.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_lowercase_characters_required", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_numeric_characters_required", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_special_characters_required", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_uppercase_characters_required", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_username_containment_allowed", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.minimum_password_length", "8"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

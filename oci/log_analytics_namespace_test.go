@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -44,7 +43,6 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsNamespaceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -57,56 +55,50 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource also works as a dependency for next step
+		{
+			Config: config + compartmentIdVariableStr +
+				generateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace_collection.#"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource also works as a dependency for next step
-			{
-				Config: config + compartmentIdVariableStr +
-					generateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+		// verify onboard
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation) +
+				compartmentIdVariableStr + NameSpaceResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "is_onboarded", "true"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation2) +
+				compartmentIdVariableStr + NameSpaceSingularDataSourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace_collection.#"),
-				),
-			},
-			// verify onboard
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation) +
-					compartmentIdVariableStr + NameSpaceResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "is_onboarded", "true"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation2) +
-					compartmentIdVariableStr + NameSpaceSingularDataSourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_onboarded"),
-				),
-			},
-			// verify offboard
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOffBoardRepresentation) +
-					compartmentIdVariableStr + NameSpaceResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "is_onboarded", "false"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_onboarded"),
+			),
+		},
+		// verify offboard
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOffBoardRepresentation) +
+				compartmentIdVariableStr + NameSpaceResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "is_onboarded", "false"),
+			),
 		},
 	})
 }

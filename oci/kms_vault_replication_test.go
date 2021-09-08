@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -25,7 +24,6 @@ func TestKmsVaultReplicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsVaultReplicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -37,31 +35,25 @@ func TestKmsVaultReplicationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+KmsVaultReplicationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Create, vaultReplicaRepresentation), "keymanagement", "vaultReplica", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + KmsVaultReplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Create, vaultReplicaRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "replica_region", "uk-cardiff-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + KmsVaultReplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Create, vaultReplicaRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "replica_region", "uk-cardiff-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-				),
-			},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + KmsVaultReplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Update, vaultReplicaRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "replica_region", "sa-santiago-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + KmsVaultReplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_vault_replication", "test_replica", Required, Update, vaultReplicaRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "replica_region", "sa-santiago-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+			),
 		},
 	})
 }

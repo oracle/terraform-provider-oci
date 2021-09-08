@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v46/usageapi"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v47/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -89,7 +89,6 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationQueryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -101,138 +100,131 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckMeteringComputationQueryDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + tenancyIdVariableStr + QueryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, queryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.granularity", "DAILY"),
+				resource.TestCheckResourceAttrSet(resourceName, "query_definition.0.report_query.0.tenant_id"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckMeteringComputationQueryDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + tenancyIdVariableStr + QueryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, queryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.granularity", "DAILY"),
-					resource.TestCheckResourceAttrSet(resourceName, "query_definition.0.report_query.0.tenant_id"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + tenancyIdVariableStr + QueryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.0.graph", "LINES"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.0.is_cumulative_graph", "true"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.forecast_type", "BASIC"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_ended", timeForecastEnded.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_started", timeUsageEnded.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.compartment_depth", "2"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.filter", "{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.granularity", "MONTHLY"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.0.value", "value2"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.is_aggregate_by_time", "true"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.query_type", "COST"),
+				resource.TestCheckResourceAttrSet(resourceName, "query_definition.0.report_query.0.tenant_id"),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_ended", timeUsageEnded.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_started", timeUsageStarted.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + tenancyIdVariableStr + QueryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.0.graph", "LINES"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.cost_analysis_ui.0.is_cumulative_graph", "true"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.forecast_type", "BASIC"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_ended", timeForecastEnded.Format(time.RFC3339Nano)),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_started", timeUsageEnded.Format(time.RFC3339Nano)),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.compartment_depth", "2"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.filter", "{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.granularity", "MONTHLY"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.0.key", "key2"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.0.namespace", "namespace2"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.group_by_tag.0.value", "value2"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.is_aggregate_by_time", "true"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.query_type", "COST"),
-					resource.TestCheckResourceAttrSet(resourceName, "query_definition.0.report_query.0.tenant_id"),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_ended", timeUsageEnded.Format(time.RFC3339Nano)),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.report_query.0.time_usage_started", timeUsageStarted.Format(time.RFC3339Nano)),
-					resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", Optional, Update, queryDataSourceRepresentation) +
+				tenancyIdVariableStr + QueryResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", Optional, Update, queryDataSourceRepresentation) +
-					tenancyIdVariableStr + QueryResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "query_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "query_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, querySingularDataSourceRepresentation) +
+				tenancyIdVariableStr + QueryResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "query_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "query_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "query_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, querySingularDataSourceRepresentation) +
-					tenancyIdVariableStr + QueryResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.0.graph", "LINES"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.0.is_cumulative_graph", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.forecast.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.forecast_type", "BASIC"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_ended"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_started"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.compartment_depth", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.filter", "{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.granularity", "MONTHLY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.0.key", "key2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.0.namespace", "namespace2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.0.value", "value2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.is_aggregate_by_time", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.query_type", "COST"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.version", "1"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + tenancyIdVariableStr + QueryResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.0.graph", "LINES"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.cost_analysis_ui.0.is_cumulative_graph", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.forecast.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.forecast_type", "BASIC"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_ended"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "query_definition.0.report_query.0.forecast.0.time_forecast_started"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.compartment_depth", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.filter", "{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.granularity", "MONTHLY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.group_by_tag.0.value", "value2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.is_aggregate_by_time", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.report_query.0.query_type", "COST"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_definition.0.version", "1"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + tenancyIdVariableStr + QueryResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

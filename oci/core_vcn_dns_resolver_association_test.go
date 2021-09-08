@@ -28,7 +28,6 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVcnDnsResolverAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -38,33 +37,27 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// create dependencies
+		{
+			Config: config + compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
+			Check: func(s *terraform.State) (err error) {
+				log.Printf("Wait for 2 minutes for oci_dns_resolver resource to get created first")
+				time.Sleep(2 * time.Minute)
+				return nil
+			},
 		},
-		Steps: []resource.TestStep{
-			// create dependencies
-			{
-				Config: config + compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
-				Check: func(s *terraform.State) (err error) {
-					log.Printf("Wait for 2 minutes for oci_dns_resolver resource to get created first")
-					time.Sleep(2 * time.Minute)
-					return nil
-				},
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_resolver_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_resolver_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+			),
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -55,7 +55,6 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCrossConnectGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -73,147 +72,140 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CrossConnectGroupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation), "core", "crossConnectGroup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreCrossConnectGroupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreCrossConnectGroupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create,
-						representationCopyWithNewProperties(crossConnectGroupRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create,
+					representationCopyWithNewProperties(crossConnectGroupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", Optional, Update, crossConnectGroupDataSourceRepresentation) +
-					compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", Optional, Update, crossConnectGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
-					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.customer_reference_name", "customerReferenceName2"),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CrossConnectGroupResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.customer_reference_name", "customerReferenceName2"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_reference_name", "customerReferenceName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_reference_name", "customerReferenceName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

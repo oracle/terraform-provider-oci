@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -30,7 +29,6 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLimitsResourceAvailabilityResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -41,27 +39,21 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", Required, Create, resourceAvailabilitySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ResourceAvailabilityResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "limit_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "available"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_availability"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_usage"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "used"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", Required, Create, resourceAvailabilitySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ResourceAvailabilityResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "limit_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "available"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fractional_usage"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "used"),
+			),
 		},
 	})
 }

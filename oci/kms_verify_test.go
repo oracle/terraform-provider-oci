@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -43,7 +42,6 @@ func TestKmsVerifyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsVerifyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -55,45 +53,39 @@ func TestKmsVerifyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VerifyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Optional, Create, verifyRepresentation), "keymanagement", "verify", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Required, Create, verifyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_version_id"),
+				resource.TestCheckResourceAttr(resourceName, "message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+				resource.TestCheckResourceAttr(resourceName, "signing_algorithm", "SHA_224_RSA_PKCS1_V1_5"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Required, Create, verifyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_version_id"),
-					resource.TestCheckResourceAttr(resourceName, "message", "message"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-					resource.TestCheckResourceAttr(resourceName, "signing_algorithm", "SHA_224_RSA_PKCS1_V1_5"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VerifyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Optional, Create, verifyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "is_signature_valid"),
-					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_version_id"),
-					resource.TestCheckResourceAttr(resourceName, "message", "message"),
-					resource.TestCheckResourceAttr(resourceName, "message_type", "RAW"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-					resource.TestCheckResourceAttr(resourceName, "signing_algorithm", "SHA_224_RSA_PKCS1_V1_5"),
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VerifyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VerifyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_verify", "test_verify", Optional, Create, verifyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "is_signature_valid"),
+				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_version_id"),
+				resource.TestCheckResourceAttr(resourceName, "message", "message"),
+				resource.TestCheckResourceAttr(resourceName, "message_type", "RAW"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+				resource.TestCheckResourceAttr(resourceName, "signing_algorithm", "SHA_224_RSA_PKCS1_V1_5"),
+			),
 		},
 	})
 }

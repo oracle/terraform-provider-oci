@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -26,7 +25,6 @@ func TestCoreCrossConnectPortSpeedShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreCrossConnectPortSpeedShapeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,25 +34,19 @@ func TestCoreCrossConnectPortSpeedShapeResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_cross_connect_port_speed_shapes", "test_cross_connect_port_speed_shapes", Required, Create, crossConnectPortSpeedShapeDataSourceRepresentation) +
-					compartmentIdVariableStr + CrossConnectPortSpeedShapeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_cross_connect_port_speed_shapes", "test_cross_connect_port_speed_shapes", Required, Create, crossConnectPortSpeedShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + CrossConnectPortSpeedShapeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_port_speed_shapes.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_port_speed_shapes.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_port_speed_shapes.0.port_speed_in_gbps"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_port_speed_shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_port_speed_shapes.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_port_speed_shapes.0.port_speed_in_gbps"),
+			),
 		},
 	})
 }

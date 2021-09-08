@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_management "github.com/oracle/oci-go-sdk/v46/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v47/databasemanagement"
 )
 
 func init() {
@@ -43,6 +43,12 @@ func DatabaseManagementManagedDatabasesResetDatabaseParameterResource() *schema.
 							Sensitive: true,
 						},
 						"role": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"secret_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -175,6 +181,11 @@ func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) m
 		result.Role = oci_database_management.DatabaseCredentialsRoleEnum(role.(string))
 	}
 
+	if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+		tmp := secretId.(string)
+		result.SecretId = &tmp
+	}
+
 	if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
 		tmp := userName.(string)
 		result.UserName = &tmp
@@ -191,6 +202,10 @@ func DatabaseCredentialsToMap(obj *oci_database_management.DatabaseCredentials) 
 	}
 
 	result["role"] = string(obj.Role)
+
+	if obj.SecretId != nil {
+		result["secret_id"] = string(*obj.SecretId)
+	}
 
 	if obj.UserName != nil {
 		result["user_name"] = string(*obj.UserName)

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v46/filestorage"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v47/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -58,7 +58,6 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageFileSystemResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -75,157 +74,150 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+FileSystemResourceDependencies+
 		generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentation), "filestorage", "fileSystem", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckFileStorageFileSystemDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Required, Create, fileSystemRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckFileStorageFileSystemDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Required, Create, fileSystemRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create, fileSystemRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create, fileSystemRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create,
-						representationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create,
+					representationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
-					compartmentIdVariableStr + FileSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "parent_file_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "source_snapshot_id"),
-					TestCheckResourceAttributesEqual(datasourceName, "state", "oci_file_storage_file_system.test_file_system2", "state"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
+				compartmentIdVariableStr + FileSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "parent_file_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "source_snapshot_id"),
+				TestCheckResourceAttributesEqual(datasourceName, "state", "oci_file_storage_file_system.test_file_system2", "state"),
 
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
 
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system2", "id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_clone_parent"),
-					resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_hydrated"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.kms_key_id", "oci_file_storage_file_system.test_file_system2", "kms_key_id"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system2", "metered_bytes"),
-					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.source_details.#", "1"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.state", "oci_file_storage_file_system.test_file_system2", "state"),
-					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system2", "time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"source_snapshot_id", "parent_file_system_id"},
-				ResourceName:            resourceName,
-			},
+				TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system2", "id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_clone_parent"),
+				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.is_hydrated"),
+				TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.kms_key_id", "oci_file_storage_file_system.test_file_system2", "kms_key_id"),
+				TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system2", "metered_bytes"),
+				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.source_details.#", "1"),
+				TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.state", "oci_file_storage_file_system.test_file_system2", "state"),
+				TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system2", "time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"source_snapshot_id", "parent_file_system_id"},
+			ResourceName:            resourceName,
 		},
 	})
 }

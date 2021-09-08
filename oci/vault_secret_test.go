@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -33,7 +32,6 @@ func TestVaultSecretResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVaultSecretResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -44,55 +42,49 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Optional, Update, secretDataSourceRepresentation) +
+				compartmentIdVariableStr + SecretResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "name"),
+				//resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vault_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "secrets.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.secret_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_created"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_of_current_version_expiry"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_of_deletion"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.vault_id"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Optional, Update, secretDataSourceRepresentation) +
-					compartmentIdVariableStr + SecretResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "name"),
-					//resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vault_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", Required, Create, secretSingularDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "secrets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "secrets.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.secret_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_created"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_of_current_version_expiry"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.time_of_deletion"),
-					resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.vault_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", Required, Create, secretSingularDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_version_number"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.#", "0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_version_number"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
+			),
 		},
 	})
 }

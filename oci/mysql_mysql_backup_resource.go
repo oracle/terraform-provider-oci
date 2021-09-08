@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v46/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v47/mysql"
 )
 
 func init() {
@@ -763,5 +763,10 @@ func (s *MysqlMysqlBackupResourceCrud) updateCompartment(compartment interface{}
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -35,7 +34,6 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogListingResourceVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -46,42 +44,36 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_resource_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_resource_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.time_published"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
-					compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_version", "test_app_catalog_listing_resource_version", Required, Create, appCatalogListingResourceVersionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_version"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_resource_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_resource_version"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.time_published"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_version", "test_app_catalog_listing_resource_version", Required, Create, appCatalogListingResourceVersionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_version"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_published"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_published"),
+			),
 		},
 	})
 }

@@ -48,7 +48,6 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMaintenanceRunResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	maintenanceRunId := getEnvSettingWithBlankDefault("maintenance_run_id")
@@ -68,122 +67,116 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+MaintenanceRunResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation), "database", "maintenanceRun", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies,
-			},
-
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
-					resource.TestCheckResourceAttr(resourceName, "patching_mode", "ROLLING"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
-					resource.TestCheckResourceAttr(resourceName, "patching_mode", "NONROLLING"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_scheduled"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_subtype"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_failure_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_maintenance_run_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"is_enabled",
-					"is_patch_now_enabled",
-					// In GET request `maintenance_run_id` is mapped to `id`
-					"maintenance_run_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies,
+		},
+
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", "ROLLING"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_subtype"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_failure_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_maintenance_run_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"is_enabled",
+				"is_patch_now_enabled",
+				// In GET request `maintenance_run_id` is mapped to `id`
+				"maintenance_run_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

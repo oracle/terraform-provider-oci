@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v46/opsi"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v47/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -70,7 +70,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiDatabaseInsightResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -97,198 +96,191 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
 		generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation), "opsi", "databaseInsight", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOpsiDatabaseInsightDestroy, []resource.TestStep{
+		// verify create with optional
+		{
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
+				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
+				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
+				resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOpsiDatabaseInsightDestroy,
-		Steps: []resource.TestStep{
-			// verify create with optional
-			{
-				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-					//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-					//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
-					resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "status"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + DatabaseInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create,
+					representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
+				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
+				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
+				resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + DatabaseInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create,
-						representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-					//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-					//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
-					resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "status"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
+				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
+				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
+				resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
-					//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-					//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
-					resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "status"),
-					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", Optional, Update, databaseInsightDataSourceRepresentation) +
+				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
+				resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
+				resource.TestCheckResourceAttr(datasourceName, "fields.#", "7"),
+				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), // id is no more list. It is a string
+				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", Optional, Update, databaseInsightDataSourceRepresentation) +
-					compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
-					resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
-					resource.TestCheckResourceAttr(datasourceName, "fields.#", "7"),
-					//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), // id is no more list. It is a string
-					resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_insights_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_insights_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "connection_credential_details.#", "1"), //Won't be available for EM managed databses
+				//resource.TestCheckResourceAttr(singularDatasourceName, "connection_details.#", "1"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_id"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_display_name"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_resource_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_additional_details"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
+				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "processor_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
+		},
+		// verify enable
+		{
+			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
+				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update,
+					representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
+						"status": Representation{repType: Required, update: `ENABLED`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
-					resource.TestCheckResourceAttr(datasourceName, "database_insights_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "database_insights_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "connection_credential_details.#", "1"), //Won't be available for EM managed databses
-					//resource.TestCheckResourceAttr(singularDatasourceName, "connection_details.#", "1"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_id"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_display_name"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_resource_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_additional_details"),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_type"),
-					resource.TestCheckResourceAttr(resourceName, "enterprise_manager_identifier", enterpriseManagerId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "EM_MANAGED_EXTERNAL_DATABASE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_id"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "processor_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
-			},
-			// verify enable
-			{
-				Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update,
-						representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
-							"status": Representation{repType: Required, update: `ENABLED`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

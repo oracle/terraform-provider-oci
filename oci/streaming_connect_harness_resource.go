@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v46/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v47/streaming"
 )
 
 func init() {
@@ -295,6 +295,10 @@ func (s *StreamingConnectHarnessResourceCrud) updateCompartment(compartment inte
 	if err != nil {
 		return err
 	}
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_streaming.ConnectHarnessLifecycleStateActive }
-	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
 }

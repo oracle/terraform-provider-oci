@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_jms "github.com/oracle/oci-go-sdk/v46/jms"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_jms "github.com/oracle/oci-go-sdk/v47/jms"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -57,7 +57,6 @@ func TestJmsFleetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestJmsFleetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -75,170 +74,163 @@ func TestJmsFleetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+FleetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation), "jms", "fleet", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckJmsFleetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckJmsFleetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + FleetResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + FleetResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FleetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create,
-						representationCopyWithNewProperties(fleetRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FleetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create,
+					representationCopyWithNewProperties(fleetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Created Fleet"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_jre_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_managed_instance_count"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_jms_fleets", "test_fleets", Optional, Update, fleetDataSourceRepresentation) +
-					compartmentIdVariableStr + FleetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_jms_fleets", "test_fleets", Optional, Update, fleetDataSourceRepresentation) +
+				compartmentIdVariableStr + FleetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "fleet_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "fleet_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + FleetResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "fleet_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "fleet_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + FleetResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_application_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_installation_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_jre_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_managed_instance_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + FleetResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_application_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_installation_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_jre_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_managed_instance_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + FleetResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

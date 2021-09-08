@@ -109,7 +109,6 @@ func TestCoreInstancePoolInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePoolInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -122,49 +121,43 @@ func TestCoreInstancePoolInstanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+InstancePoolInstanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation), "core", "instancePoolInstance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + InstancePoolInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_pool_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + InstancePoolInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pool_id"),
 
-					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance_pool_instances", "test_instance_pool_instances", Required, Create, instancePoolInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + InstancePoolInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// only verify the number of instance pool instances because after detach, there will be no instance pool instances
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.#"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.#", "0"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"instance_id",
+				func(s *terraform.State) (err error) {
+					_, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instance_pool_instances", "test_instance_pool_instances", Required, Create, instancePoolInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + InstancePoolInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_pool_instance", "test_instance_pool_instance", Required, Create, instancePoolInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// only verify the number of instance pool instances because after detach, there will be no instance pool instances
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.#"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.#", "0"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"instance_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

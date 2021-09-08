@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v46/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v47/artifacts"
 )
 
 func init() {
@@ -442,5 +442,10 @@ func (s *ArtifactsContainerRepositoryResourceCrud) updateCompartment(compartment
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 )
 
 func init() {
@@ -420,6 +420,11 @@ func (s *CoreLocalPeeringGatewayResourceCrud) updateCompartment(compartment inte
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

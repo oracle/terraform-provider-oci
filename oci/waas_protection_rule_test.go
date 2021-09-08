@@ -45,7 +45,6 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasProtectionRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -60,84 +59,78 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ProtectionRuleResourceConfig+
 		generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation), "waas", "protectionRule", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
-					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "key", "933161"),
-					resource.TestCheckResourceAttr(resourceName, "action", "BLOCK"),
-					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "labels.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "mod_security_rule_ids.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "name"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
+				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "key", "933161"),
+				resource.TestCheckResourceAttr(resourceName, "action", "BLOCK"),
+				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "labels.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "mod_security_rule_ids.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "name"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
-					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "key", "933111"),
-					resource.TestCheckResourceAttr(resourceName, "action", "DETECT"),
-					resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "labels.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "name"),
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
+				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "key", "933111"),
+				resource.TestCheckResourceAttr(resourceName, "action", "DETECT"),
+				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "labels.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "name"),
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", Optional, Update, protectionRuleDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
-					compartmentIdVariableStr + ProtectionRuleResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "action.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "waas_policy_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", Optional, Update, protectionRuleDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
+				compartmentIdVariableStr + ProtectionRuleResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "action.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "waas_policy_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.action"),
-					resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.description"),
-					resource.TestCheckResourceAttr(datasourceName, "protection_rules.0.exclusions.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.key"),
-					resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.name"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleSingularDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
-					compartmentIdVariableStr + ProtectionRuleResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_rule_key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "waas_policy_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.action"),
+				resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.description"),
+				resource.TestCheckResourceAttr(datasourceName, "protection_rules.0.exclusions.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.key"),
+				resource.TestCheckResourceAttrSet(datasourceName, "protection_rules.0.name"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleSingularDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
+				compartmentIdVariableStr + ProtectionRuleResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_rule_key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "waas_policy_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "action"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "exclusions.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "labels.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "action"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "exclusions.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "labels.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+			),
 		},
 	})
 }

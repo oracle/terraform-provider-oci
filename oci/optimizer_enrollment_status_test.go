@@ -42,7 +42,6 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerEnrollmentStatusResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -57,100 +56,94 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+EnrollmentStatusResourceDependencies+
 		generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation), "optimizer", "enrollmentStatus", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "INACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
-					resource.TestCheckResourceAttr(resourceName, "status", "INACTIVE"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ACTIVE"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "status", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Optional, Update, enrollmentStatusDataSourceRepresentation) +
+				compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.status", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "enrollment_status_collection.0.items.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "enrollment_status_collection.0.items.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "enrollment_status_collection.0.items.0.time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Optional, Update, enrollmentStatusDataSourceRepresentation) +
-					compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.status", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "enrollment_status_collection.0.items.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "enrollment_status_collection.0.items.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "enrollment_status_collection.0.items.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + EnrollmentStatusResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "enrollment_status_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + EnrollmentStatusResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "enrollment_status_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + EnrollmentStatusResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + EnrollmentStatusResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

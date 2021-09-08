@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v46/functions"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v47/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -71,7 +71,6 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -98,160 +97,153 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+FunctionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation), "functions", "function", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckFunctionsFunctionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(resourceName, "image", image),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckFunctionsFunctionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
-					resource.TestCheckResourceAttr(resourceName, "image", image),
-					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image", image),
+				resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigest),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
-					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image", image),
-					resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigest),
-					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
-					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image", imageU),
-					resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigestU),
-					resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "31"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "image", imageU),
+				resource.TestCheckResourceAttr(resourceName, "image_digest", imageDigestU),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "256"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "31"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_functions_functions", "test_functions", Optional, Update, functionDataSourceRepresentation) +
-					compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),
-					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_functions_functions", "test_functions", Optional, Update, functionDataSourceRepresentation) +
+				compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),
+				//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "functions.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.display_name", "ExampleFunction"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.image", imageU),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.image_digest", imageDigestU),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.invoke_endpoint"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.memory_in_mbs", "256"),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_updated"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.timeout_in_seconds", "31"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.trace_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "functions.0.trace_config.0.is_enabled", "true"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "function_id"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.image", imageU),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.image_digest", imageDigestU),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.invoke_endpoint"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.memory_in_mbs", "256"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.timeout_in_seconds", "31"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.trace_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "functions.0.trace_config.0.is_enabled", "true"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "function_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleFunction"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "image", imageU),
-					resource.TestCheckResourceAttr(singularDatasourceName, "image_digest", imageDigestU),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "invoke_endpoint"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "memory_in_mbs", "256"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "31"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.0.is_enabled", "true"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleFunction"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image", imageU),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_digest", imageDigestU),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "invoke_endpoint"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "memory_in_mbs", "256"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "31"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.0.is_enabled", "true"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -36,7 +35,6 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplaceListingPackageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -47,50 +45,44 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_listing_packages", "test_listing_packages", Required, Create, listingPackageDataSourceRepresentation) +
+				compartmentIdVariableStr + ListingPackageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.listing_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.resource_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.package_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.package_version"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_listing_packages", "test_listing_packages", Required, Create, listingPackageDataSourceRepresentation) +
-					compartmentIdVariableStr + ListingPackageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_listing_package", "test_listing_package", Required, Create, listingPackageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ListingPackageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.resource_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.package_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listing_packages.0.package_version"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_listing_package", "test_listing_package", Required, Create, listingPackageSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ListingPackageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "app_catalog_listing_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "app_catalog_listing_resource_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "operating_system.#", "0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "pricing.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.rate"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "app_catalog_listing_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "app_catalog_listing_resource_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "operating_system.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "pricing.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.rate"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "pricing.0.type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
+			),
 		},
 	})
 }

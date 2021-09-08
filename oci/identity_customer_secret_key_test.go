@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -40,7 +40,6 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityCustomerSecretKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -56,85 +55,78 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CustomerSecretKeyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation), "identity", "customerSecretKey", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckIdentityCustomerSecretKeyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "key"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+	ResourceTest(t, testAccCheckIdentityCustomerSecretKeyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "key"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						userId, _ := fromInstanceState(s, resourceName, "user_id")
-						compositeId = "users/" + userId + "/customerSecretKeys/" + resId
-						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					userId, _ := fromInstanceState(s, resourceName, "user_id")
+					compositeId = "users/" + userId + "/customerSecretKeys/" + resId
+					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", Optional, Update, customerSecretKeyDataSourceRepresentation) +
-					compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.user_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: getCustomerKeyImportId(resourceName),
-				ImportStateVerifyIgnore: []string{
-					"key",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", Optional, Update, customerSecretKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.user_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateIdFunc: getCustomerKeyImportId(resourceName),
+			ImportStateVerifyIgnore: []string{
+				"key",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

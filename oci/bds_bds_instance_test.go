@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_bds "github.com/oracle/oci-go-sdk/v46/bds"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v47/bds"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -105,7 +105,6 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBdsBdsInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -123,258 +122,251 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BdsInstanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation), "bds", "bdsInstance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckBdsBdsInstanceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
-					resource.TestCheckResourceAttr(resourceName, "nodes.#", "5"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+	ResourceTest(t, testAccCheckBdsBdsInstanceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "5"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
-					resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "5"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BdsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create,
-						representationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
-					resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "nodes.#", "5"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "5"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
-					resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "nodes.#", "6"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "6"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard2.8"),
-					resource.TestCheckResourceAttr(resourceName, "worker_node.0.shape", "VM.Standard2.4"),
-					resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.8"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", Optional, Update, bdsInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + BdsInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "CDH6"),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.is_cloud_sql_configured"),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.is_high_availability", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.is_secure", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.number_of_nodes"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BdsInstanceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "CDH6"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bd_cell_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bds_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.csql_cell_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.db_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.os_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"), //empty
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cloud_sql_configured"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_high_availability", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_secure", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "network_config.0.is_nat_gateway_required", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "nodes.#", "6"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.fault_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.hostname"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.image_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.instance_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.node_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.shape"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "number_of_nodes"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + BdsInstanceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"cluster_admin_password",
-					"cluster_public_key",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "5"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BdsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create,
+					representationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "5"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "5"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "6"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "6"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard2.8"),
+				resource.TestCheckResourceAttr(resourceName, "worker_node.0.shape", "VM.Standard2.4"),
+				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.8"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", Optional, Update, bdsInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.is_high_availability", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.is_secure", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.number_of_nodes"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bds_instances.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsInstanceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bd_cell_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bds_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.csql_cell_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.db_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.os_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"), //empty
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_high_availability", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_secure", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.0.is_nat_gateway_required", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.#", "6"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.fault_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.hostname"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.image_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.instance_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "number_of_nodes"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"cluster_admin_password",
+				"cluster_public_key",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

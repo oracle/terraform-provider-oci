@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,7 +30,6 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreImageShapeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -42,37 +40,31 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_image_shapes", "test_image_shapes", Required, Create, imageShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + ImageShapeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.0.image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.0.shape"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_image_shapes", "test_image_shapes", Required, Create, imageShapeDataSourceRepresentation) +
-					compartmentIdVariableStr + ImageShapeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_image_shape", "test_image_shape", Required, Create, imageShapeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ImageShapeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.0.image_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "image_shape_compatibilities.0.shape"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_image_shape", "test_image_shape", Required, Create, imageShapeSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ImageShapeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
+			),
 		},
 	})
 }

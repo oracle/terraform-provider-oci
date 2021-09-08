@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 )
 
 func init() {
@@ -137,6 +137,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
 			database["connection_strings"] = nil
+		}
+
+		if r.DatabaseManagementConfig != nil {
+			database["database_management_config"] = []interface{}{CloudDatabaseManagementConfigToMap(r.DatabaseManagementConfig)}
+		} else {
+			database["database_management_config"] = nil
 		}
 
 		if r.DatabaseSoftwareImageId != nil {

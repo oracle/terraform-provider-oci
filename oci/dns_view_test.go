@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v46/dns"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v47/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -64,7 +64,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsViewResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,176 +81,169 @@ func TestDnsViewResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ViewResourceDependencies+
 		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation), "dns", "view", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDnsViewDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+	ResourceTest(t, testAccCheckDnsViewDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ViewResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "self"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						// Resource discovery is disabled for Views
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ViewResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create,
-						representationCopyWithNewProperties(viewRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "self"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(resourceName, "self"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_views", "test_views", Optional, Update, viewDataSourceRepresentation) +
-					compartmentIdVariableStr + ViewResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "views.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "views.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "views.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "views.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "views.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "views.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "views.0.is_protected"),
-					resource.TestCheckResourceAttrSet(datasourceName, "views.0.self"),
-					resource.TestCheckResourceAttrSet(datasourceName, "views.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "views.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "views.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ViewResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_protected"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ViewResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: getDnsViewImportId(resourceName),
-				ImportStateVerifyIgnore: []string{
-					"scope",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ViewResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "self"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					// Resource discovery is disabled for Views
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ViewResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create,
+					representationCopyWithNewProperties(viewRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "self"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(resourceName, "self"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_views", "test_views", Optional, Update, viewDataSourceRepresentation) +
+				compartmentIdVariableStr + ViewResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "views.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "views.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "views.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "views.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "views.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "views.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "views.0.is_protected"),
+				resource.TestCheckResourceAttrSet(datasourceName, "views.0.self"),
+				resource.TestCheckResourceAttrSet(datasourceName, "views.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "views.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "views.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ViewResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_protected"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ViewResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateIdFunc: getDnsViewImportId(resourceName),
+			ImportStateVerifyIgnore: []string{
+				"scope",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

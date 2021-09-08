@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 )
 
 func init() {
@@ -2442,5 +2442,10 @@ func (s *CoreInstanceConfigurationResourceCrud) updateCompartment(compartment in
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

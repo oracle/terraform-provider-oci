@@ -38,7 +38,6 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -53,61 +52,55 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseInstanceWalletManagementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Optional, Create, autonomousDatabaseInstanceWalletManagementRepresentation), "database", "autonomousDatabaseInstanceWalletManagement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Required, Create, autonomousDatabaseInstanceWalletManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Required, Create, autonomousDatabaseInstanceWalletManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Optional, Update, autonomousDatabaseInstanceWalletManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Optional, Update, autonomousDatabaseInstanceWalletManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Required, Create, autonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_rotated"),
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Required, Create, autonomousDatabaseInstanceWalletManagementSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseInstanceWalletManagementResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_rotated"),
+			),
 		},
 	})
 }

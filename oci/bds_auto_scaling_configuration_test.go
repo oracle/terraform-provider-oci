@@ -86,7 +86,6 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBdsAutoScalingConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -101,229 +100,223 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AutoScalingConfigurationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation), "bds", "autoScalingConfiguration", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "node_type", "WORKER"),
-					resource.TestCheckResourceAttr(resourceName, "policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
-					resource.TestCheckResourceAttr(resourceName, "policy.0.rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_UP",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "25",
-						"metric.0.threshold.0.operator":            "GT",
-						"metric.0.threshold.0.value":               "80",
-					},
-						[]string{}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_DOWN",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "25",
-						"metric.0.threshold.0.operator":            "LT",
-						"metric.0.threshold.0.value":               "15",
-					},
-						[]string{}),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, bdsAutoScalingConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "node_type", "WORKER"),
-					resource.TestCheckResourceAttr(resourceName, "policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
-					resource.TestCheckResourceAttr(resourceName, "policy.0.rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_UP",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "25",
-						"metric.0.threshold.0.operator":            "GT",
-						"metric.0.threshold.0.value":               "80",
-					},
-						[]string{}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_DOWN",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "25",
-						"metric.0.threshold.0.operator":            "LT",
-						"metric.0.threshold.0.value":               "15",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "node_type", "WORKER"),
-					resource.TestCheckResourceAttr(resourceName, "policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
-					resource.TestCheckResourceAttr(resourceName, "policy.0.rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_UP",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "50",
-						"metric.0.threshold.0.operator":            "GT",
-						"metric.0.threshold.0.value":               "90",
-					},
-						[]string{}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_DOWN",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "50",
-						"metric.0.threshold.0.operator":            "LT",
-						"metric.0.threshold.0.value":               "20",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationDataSourceRepresentation) +
-					compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.node_type", "WORKER"),
-					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "node_type", "WORKER"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "policy.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "policy.0.rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_UP",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "50",
-						"metric.0.threshold.0.operator":            "GT",
-						"metric.0.threshold.0.value":               "90",
-					},
-						[]string{}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
-						"action":               "CHANGE_SHAPE_SCALE_DOWN",
-						"metric.#":             "1",
-						"metric.0.metric_type": "CPU_UTILIZATION",
-						"metric.0.threshold.#": "1",
-						"metric.0.threshold.0.duration_in_minutes": "50",
-						"metric.0.threshold.0.operator":            "LT",
-						"metric.0.threshold.0.value":               "20",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateIdFunc: getBdsAutoScalingConfigurationCompositeId(resourceName),
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"cluster_admin_password",
-					"is_enabled",
-					"time_updated",
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "node_type", "WORKER"),
+				resource.TestCheckResourceAttr(resourceName, "policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "policy.0.rules.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_UP",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "25",
+					"metric.0.threshold.0.operator":            "GT",
+					"metric.0.threshold.0.value":               "80",
 				},
-				ResourceName: resourceName,
+					[]string{}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_DOWN",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "25",
+					"metric.0.threshold.0.operator":            "LT",
+					"metric.0.threshold.0.value":               "15",
+				},
+					[]string{}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, bdsAutoScalingConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "node_type", "WORKER"),
+				resource.TestCheckResourceAttr(resourceName, "policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "policy.0.rules.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_UP",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "25",
+					"metric.0.threshold.0.operator":            "GT",
+					"metric.0.threshold.0.value":               "80",
+				},
+					[]string{}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_DOWN",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "25",
+					"metric.0.threshold.0.operator":            "LT",
+					"metric.0.threshold.0.value":               "15",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "node_type", "WORKER"),
+				resource.TestCheckResourceAttr(resourceName, "policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "policy.0.rules.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_UP",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "50",
+					"metric.0.threshold.0.operator":            "GT",
+					"metric.0.threshold.0.value":               "90",
+				},
+					[]string{}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_DOWN",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "50",
+					"metric.0.threshold.0.operator":            "LT",
+					"metric.0.threshold.0.value":               "20",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.node_type", "WORKER"),
+				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_type", "WORKER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "policy.0.policy_type", "THRESHOLD_BASED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "policy.0.rules.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_UP",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "50",
+					"metric.0.threshold.0.operator":            "GT",
+					"metric.0.threshold.0.value":               "90",
+				},
+					[]string{}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "policy.0.rules", map[string]string{
+					"action":               "CHANGE_SHAPE_SCALE_DOWN",
+					"metric.#":             "1",
+					"metric.0.metric_type": "CPU_UTILIZATION",
+					"metric.0.threshold.#": "1",
+					"metric.0.threshold.0.duration_in_minutes": "50",
+					"metric.0.threshold.0.operator":            "LT",
+					"metric.0.threshold.0.value":               "20",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateIdFunc: getBdsAutoScalingConfigurationCompositeId(resourceName),
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"cluster_admin_password",
+				"is_enabled",
+				"time_updated",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v46/databasemigration"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v47/databasemigration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -150,7 +150,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationMigrationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -168,299 +167,292 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+MigrationResourceDependenciesMig+
 		generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig), "databasemigration", "migration", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseMigrationMigrationDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
-					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
-					resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr, //+ MigrationResourceDependenciesMig,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
-					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
-						"new_value": "DATA",
-						"old_value": "USERS",
-						"type":      "TABLESPACE",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "n5j2LRy0X%A2VRxY"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "GG$$admin128"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "ORcl##4567890"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "LOW"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "10"),
-
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MigrationResourceDependenciesMig +
-					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create,
-						representationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.new_value", "DATA"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.old_value", "USERS"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "n5j2LRy0X%A2VRxY"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "GG$$admin128"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "ORcl##4567890"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "LOW"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "10"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "10"),
-
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
-					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
-						"new_value": "DATA",
-						"old_value": "USERS",
-						"type":      "TABLESPACE",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "n5j2LRy0X%A2VRxY"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "GG$$admin128"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "ORcl##4567890"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "11"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "11"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "11"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "11"),
-					resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "11"),
-
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", Optional, Update, migrationDataSourceRepresentation) +
-					compartmentIdVariableStr + MigrationResourceDependenciesMig +
-					generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "migration_collection.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + MigrationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.new_value", "DATA"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.old_value", "USERS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_ONLINE_MIG"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.acceptable_lag", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.extract.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "11"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type", "ONLINE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.0.compartment_id", compartmentId),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + MigrationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				//ImportStateVerifyIgnore: []string{},
-				ImportStateVerifyIgnore: []string{
-					"golden_gate_details.0.hub.0.rest_admin_credentials.0.password",
-					"golden_gate_details.0.hub.0.source_container_db_admin_credentials.0.password",
-					"golden_gate_details.0.hub.0.source_db_admin_credentials.0.password",
-					"golden_gate_details.0.hub.0.target_db_admin_credentials.0.password",
+	ResourceTest(t, testAccCheckDatabaseMigrationMigrationDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
+				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr, //+ MigrationResourceDependenciesMig,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
+				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
+					"new_value": "DATA",
+					"old_value": "USERS",
+					"type":      "TABLESPACE",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "n5j2LRy0X%A2VRxY"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "GG$$admin128"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "ORcl##4567890"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "LOW"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "10"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MigrationResourceDependenciesMig +
+				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create,
+					representationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.new_value", "DATA"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.old_value", "USERS"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "n5j2LRy0X%A2VRxY"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "GG$$admin128"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "ORcl##4567890"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "LOW"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "10"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "10"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
+				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
+					"new_value": "DATA",
+					"old_value": "USERS",
+					"type":      "TABLESPACE",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "n5j2LRy0X%A2VRxY"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "GG$$admin128"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "ORcl##4567890"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "11"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "11"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "11"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "11"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "11"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", Optional, Update, migrationDataSourceRepresentation) +
+				compartmentIdVariableStr + MigrationResourceDependenciesMig +
+				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "migration_collection.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MigrationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.new_value", "DATA"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.old_value", "USERS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.url", "https://130.35.83.125"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.acceptable_lag", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.extract.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.0.map_parallelism", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.0.max_apply_parallelism", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "11"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "ONLINE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vault_details.0.compartment_id", compartmentId),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + MigrationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			//ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{
+				"golden_gate_details.0.hub.0.rest_admin_credentials.0.password",
+				"golden_gate_details.0.hub.0.source_container_db_admin_credentials.0.password",
+				"golden_gate_details.0.hub.0.source_db_admin_credentials.0.password",
+				"golden_gate_details.0.hub.0.target_db_admin_credentials.0.password",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -69,7 +69,6 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerResourceActionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -84,144 +83,138 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ResourceActionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation), "optimizer", "resourceAction", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
-					resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "action.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "estimated_cost_saving"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "action.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "category_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "estimated_cost_saving"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "resource_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "category_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "estimated_cost_saving"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "resource_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "status", "DISMISSED"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "estimated_cost_saving"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISMISSED"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.recommendation_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.resource_type"),
-					resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.status", "DISMISSED"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.recommendation_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.0.resource_type"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_action_collection.0.items.0.status", "DISMISSED"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.#"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config + ResourceActionResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_action_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_action_collection.0.items.#"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + ResourceActionResourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_action_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "action.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_cost_saving"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISMISSED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_status_begin"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ResourceActionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "action.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_cost_saving"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISMISSED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_status_begin"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ResourceActionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

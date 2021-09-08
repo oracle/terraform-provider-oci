@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v46/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v47/loganalytics"
 )
 
 func init() {
@@ -654,6 +654,11 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) updateCompart
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

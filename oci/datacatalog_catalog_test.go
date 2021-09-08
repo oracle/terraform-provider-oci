@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v46/datacatalog"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v47/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -59,7 +59,6 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogCatalogResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,158 +76,151 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CatalogResourceDependencies+
 		generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation), "datacatalog", "catalog", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatacatalogCatalogDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatacatalogCatalogDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + CatalogResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + CatalogResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CatalogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create,
-						representationCopyWithNewProperties(catalogRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CatalogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create,
+					representationCopyWithNewProperties(catalogRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", Optional, Update, catalogDataSourceRepresentation) +
-					compartmentIdVariableStr + CatalogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", Optional, Update, catalogDataSourceRepresentation) +
+				compartmentIdVariableStr + CatalogResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "catalogs.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.attached_catalog_private_endpoints.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "catalogs.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.number_of_objects"),
-					resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CatalogResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.attached_catalog_private_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.number_of_objects"),
+				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CatalogResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "attached_catalog_private_endpoints.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "number_of_objects"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_api_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + CatalogResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "attached_catalog_private_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "number_of_objects"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_api_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + CatalogResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

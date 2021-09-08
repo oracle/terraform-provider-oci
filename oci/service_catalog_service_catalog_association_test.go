@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v46/servicecatalog"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v47/servicecatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -55,7 +55,6 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogServiceCatalogAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -70,91 +69,84 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ServiceCatalogAssociationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation), "servicecatalog", "serviceCatalogAssociation", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckServiceCatalogServiceCatalogAssociationDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
+			),
 		},
-		CheckDestroy: testAccCheckServiceCatalogServiceCatalogAssociationDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
-					resource.TestCheckResourceAttr(resourceName, "entity_type", "privateapplication"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
+				resource.TestCheckResourceAttr(resourceName, "entity_type", "privateapplication"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", Optional, Update, serviceCatalogAssociationDataSourceRepresentation) +
-					compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
-					resource.TestCheckResourceAttr(datasourceName, "entity_type", "privateapplication"),
-					resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_association_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", Optional, Update, serviceCatalogAssociationDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
+				resource.TestCheckResourceAttr(datasourceName, "entity_type", "privateapplication"),
+				resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_association_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "service_catalog_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "service_catalog_association_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "service_catalog_association_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_association_id"),
+				resource.TestCheckResourceAttr(datasourceName, "service_catalog_association_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "service_catalog_association_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_association_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "entity_type", "privateapplication"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "entity_type", "privateapplication"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

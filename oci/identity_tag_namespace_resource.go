@@ -12,7 +12,7 @@ import (
 
 	"strconv"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 )
 
 func init() {
@@ -352,5 +352,10 @@ func (s *IdentityTagNamespaceResourceCrud) updateCompartment(compartment interfa
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

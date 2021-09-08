@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -24,7 +23,6 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationAgentImageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -34,23 +32,17 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", Required, Create, agentImageDataSourceRepresentation) +
-					compartmentIdVariableStr + AgentImageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", Required, Create, agentImageDataSourceRepresentation) +
+				compartmentIdVariableStr + AgentImageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttrSet(datasourceName, "agent_image_collection.#"),
-					resource.TestCheckResourceAttr(datasourceName, "agent_image_collection.0.items.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "agent_image_collection.#"),
+				resource.TestCheckResourceAttr(datasourceName, "agent_image_collection.0.items.#", "1"),
+			),
 		},
 	})
 }

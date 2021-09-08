@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -26,7 +25,6 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceNotebookSessionShapeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,27 +34,21 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", Required, Create, notebookSessionShapeDataSourceRepresentation) +
-					compartmentIdVariableStr + NotebookSessionShapeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", Required, Create, notebookSessionShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + NotebookSessionShapeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.core_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.memory_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.shape_series"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.core_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notebook_session_shapes.0.shape_series"),
+			),
 		},
 	})
 }

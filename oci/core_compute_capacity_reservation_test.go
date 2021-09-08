@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -70,7 +70,6 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeCapacityReservationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -88,205 +87,198 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ComputeCapacityReservationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreComputeCapacityReservationDestroy, []resource.TestStep{
+		// Step 0: verify create
+		{
+			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreComputeCapacityReservationDestroy,
-		Steps: []resource.TestStep{
-			// Step 0: verify create
-			{
-				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// Step 1: delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies,
+		},
+		// Step 2: verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameResourceCreate"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.reserved_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_reservation_configs.0.used_count"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_reservation", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// Step 1: delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies,
-			},
-			// Step 2: verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameResourceCreate"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.reserved_count", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_reservation_configs.0.used_count"),
-					resource.TestCheckResourceAttr(resourceName, "is_default_reservation", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// Step 3: verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeCapacityReservationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create,
-						representationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameResourceCreate"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.reserved_count", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_reservation_configs.0.used_count"),
-					resource.TestCheckResourceAttr(resourceName, "is_default_reservation", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// Step 3: verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeCapacityReservationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create,
+					representationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameResourceCreate"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.reserved_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_reservation_configs.0.used_count"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_reservation", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// Step 4: verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameResourceUpdate"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.reserved_count", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_reservation_configs.0.used_count"),
-					resource.TestCheckResourceAttr(resourceName, "is_default_reservation", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// Step 4: verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameResourceUpdate"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_reservation_configs.0.reserved_count", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_reservation_configs.0.used_count"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_reservation", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// Step 5: verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", Optional, Update, computeCapacityReservationDataSourceRepresentation) +
-					compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayNameDataSourceUpdate"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// Step 5: verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", Optional, Update, computeCapacityReservationDataSourceRepresentation) +
+				compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayNameDataSourceUpdate"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.display_name", "displayNameResourceUpdate"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.is_default_reservation", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.reserved_instance_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.used_instance_count"),
-				),
-			},
-			// Step 6: verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
-				// Check: ComposeAggregateTestCheckFuncWrapper(),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.display_name", "displayNameResourceUpdate"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_capacity_reservations.0.is_default_reservation", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.reserved_instance_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_capacity_reservations.0.used_instance_count"),
+			),
+		},
+		// Step 6: verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
+			// Check: ComposeAggregateTestCheckFuncWrapper(),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "capacity_reservation_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayNameResourceUpdate"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.reserved_count", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_reservation_configs.0.used_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_default_reservation", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_instance_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					// TODO: investigate why time_updated is not set
-					// resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "used_instance_count"),
-				),
-			},
-			// Step 7: remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
-			},
-			// Step 8: verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayNameResourceUpdate"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape_config.0.memory_in_gbs", "15"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.instance_shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_reservation_configs.0.reserved_count", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_reservation_configs.0.used_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_default_reservation", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_instance_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				// TODO: investigate why time_updated is not set
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "used_instance_count"),
+			),
+		},
+		// Step 7: remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
+		},
+		// Step 8: verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

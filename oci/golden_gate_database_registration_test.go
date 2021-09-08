@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v46/goldengate"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v47/goldengate"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -127,7 +127,6 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDatabaseRegistrationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -145,199 +144,192 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DatabaseRegistrationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation), "goldengate", "databaseRegistration", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckGoldenGateDatabaseRegistrationDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
-					resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "username", "username"),
+	ResourceTest(t, testAccCheckGoldenGateDatabaseRegistrationDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "username", "username"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "username", "username"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-					resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseRegistrationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create,
-						representationCopyWithNewProperties(databaseRegistrationRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "username", "username"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-					resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString2"),
-					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
-					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttr(resourceName, "username", "username2"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-					resource.TestCheckResourceAttr(resourceName, "wallet", "wallet2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_golden_gate_database_registrations", "test_database_registrations", Optional, Update, databaseRegistrationDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "database_registration_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "database_registration_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_registration_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "alias_name", "aliasName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_string", "connectionString2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "fqdn", "fqdn2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "ipAddress"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "rce_private_ip"), //needs ip_address to be set
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "username", "username2"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"password",
-					"wallet",
-					"key_id",
-					"secret_compartment_id",
-					"vault_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "username", "username"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseRegistrationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create,
+					representationCopyWithNewProperties(databaseRegistrationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "username", "username"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "connection_string", "connectionString2"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				// resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "username", "username2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_golden_gate_database_registrations", "test_database_registrations", Optional, Update, databaseRegistrationDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "database_registration_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "database_registration_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_registration_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "alias_name", "aliasName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string", "connectionString2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "fqdn", "fqdn2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "ipAddress"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "rce_private_ip"), //needs ip_address to be set
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "username", "username2"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"password",
+				"wallet",
+				"key_id",
+				"secret_compartment_id",
+				"vault_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

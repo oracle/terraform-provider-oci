@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v46/filestorage"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v47/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -63,7 +63,6 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageExportResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,118 +76,111 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ExportResourceDependencies+
 		generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation), "filestorage", "export", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckFileStorageExportDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ExportResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckFileStorageExportDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ExportResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ExportResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "10"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_uid", "10"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.identity_squash", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.require_privileged_source_port", "false"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.source", "0.0.0.0/0"),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ExportResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "10"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_uid", "10"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.identity_squash", "NONE"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.require_privileged_source_port", "false"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.source", "0.0.0.0/0"),
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_ONLY"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "11"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_uid", "11"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.identity_squash", "ALL"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.require_privileged_source_port", "true"),
-					resource.TestCheckResourceAttr(resourceName, "export_options.0.source", "0.0.0.0/0"),
-					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ExportResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_ONLY"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_gid", "11"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.anonymous_uid", "11"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.identity_squash", "ALL"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.require_privileged_source_port", "true"),
+				resource.TestCheckResourceAttr(resourceName, "export_options.0.source", "0.0.0.0/0"),
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_exports", "test_exports", Optional, Update, exportDataSourceRepresentation) +
-					compartmentIdVariableStr + ExportResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_file_storage_exports", "test_exports", Optional, Update, exportDataSourceRepresentation) +
+				compartmentIdVariableStr + ExportResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttr(datasourceName, "exports.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.export_set_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.file_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "exports.0.path", "/files-5"),
-					resource.TestCheckResourceAttr(datasourceName, "exports.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "exports.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "exports.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exports.0.export_set_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exports.0.file_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exports.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "exports.0.path", "/files-5"),
+				resource.TestCheckResourceAttr(datasourceName, "exports.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exports.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -21,7 +21,10 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	availability_status = var.management_agent_availability_status
 	display_name = var.management_agent_display_name
+	host_id = oci_management_agent_host.test_host.id
+	is_customer_deployed = var.management_agent_is_customer_deployed
 	platform_type = var.management_agent_platform_type
 	plugin_name = var.management_agent_plugin_name
 	state = var.management_agent_state
@@ -33,10 +36,13 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment from which the Management Agents to be listed.
+* `availability_status` - (Optional) Filter to return only Management Agents in the particular availability status.
+* `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `display_name` - (Optional) Filter to return only Management Agents having the particular display name.
-* `platform_type` - (Optional) Filter to return only Management Agents having the particular platform type.
-* `plugin_name` - (Optional) Filter to return only Management Agents having the particular Plugin installed.
+* `host_id` - (Optional) Filter to return only Management Agents having the particular agent host id.
+* `is_customer_deployed` - (Optional) true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
+* `platform_type` - (Optional) Filter to return only results having the particular platform type.
+* `plugin_name` - (Optional) Filter to return only Management Agents having the particular Plugin installed. A special pluginName of 'None' can be provided and this will return only Management Agents having no plugin installed.
 * `state` - (Optional) Filter to return only Management Agents in the particular lifecycle state.
 * `version` - (Optional) Filter to return only Management Agents having the particular agent version.
 
@@ -57,15 +63,18 @@ The following attributes are exported:
 * `display_name` - Management Agent Name
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host` - Management Agent host machine name
+* `host_id` - Host resource ocid
 * `id` - agent identifier
 * `install_key_id` - agent install key identifier
 * `install_path` - Path where Management Agent is installed
-* `is_agent_auto_upgradable` - true if the agent can be upgraded automatically; false if it must be upgraded manually. true is currently unsupported.
+* `is_agent_auto_upgradable` - true if the agent can be upgraded automatically; false if it must be upgraded manually.
+* `is_customer_deployed` - true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `platform_name` - Platform Name
 * `platform_type` - Platform Type
 * `platform_version` - Platform Version
 * `plugin_list` - list of managementAgentPlugins associated with the agent
+	* `is_enabled` - flag indicating whether the plugin is in enabled mode or disabled mode.
 	* `plugin_display_name` - Management Agent Plugin Identifier, can be renamed
 	* `plugin_id` - Plugin Id
 	* `plugin_name` - Management Agent Plugin Name
@@ -73,6 +82,6 @@ The following attributes are exported:
 * `state` - The current state of managementAgent
 * `time_created` - The time the Management Agent was created. An RFC3339 formatted datetime string
 * `time_last_heartbeat` - The time the Management Agent has last recorded its health status in telemetry. This value will be null if the agent has not recorded its health status in last 7 days. An RFC3339 formatted datetime string
-* `time_updated` - The time the Management Agent was updated. An RFC3339 formatted datetime string
+* `time_updated` - The time the Management Agent was last updated. An RFC3339 formatted datetime string
 * `version` - Management Agent Version
 

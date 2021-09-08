@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v46/nosql"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v47/nosql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -65,7 +65,6 @@ func TestNosqlTableResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlTableResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -84,174 +83,167 @@ func TestNosqlTableResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+TableResourceDependencies+
 		generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation), "nosql", "table", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckNosqlTableDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + TableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckNosqlTableDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + TableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + TableResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + TableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + TableResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + TableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create,
-						representationCopyWithNewProperties(tableRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create,
+					representationCopyWithNewProperties(tableRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "10"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "10"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + TableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "11"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "11"),
-					resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "11"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + TableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_reclaimable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_table"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_read_units", "11"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_storage_in_gbs", "11"),
+				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "11"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", Optional, Update, tableDataSourceRepresentation) +
-					compartmentIdVariableStr + TableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "test_table"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", Optional, Update, tableDataSourceRepresentation) +
+				compartmentIdVariableStr + TableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "test_table"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "table_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "table_collection.0.id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + TableResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
+				resource.TestCheckResourceAttr(datasourceName, "table_collection.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "table_collection.0.id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + TableResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "table_name_or_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "ddl_statement", ddlStatement),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_reclaimable", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_table"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "schema.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_read_units", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_storage_in_gbs", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_write_units", "11"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + TableResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "ddl_statement", ddlStatement),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_reclaimable", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_table"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_read_units", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_storage_in_gbs", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "table_limits.0.max_write_units", "11"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + TableResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

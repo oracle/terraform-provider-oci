@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v46/usageapi"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v47/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,7 +61,6 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationCustomTableResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -76,108 +75,101 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CustomTableResourceDependencies+
 		generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation), "usageapi", "customTable", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckMeteringComputationCustomTableDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "saved_report_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckMeteringComputationCustomTableDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "saved_report_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.column_group_by.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.compartment_depth", "2"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.group_by_tag.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.group_by_tag.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.version", "1"),
+				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.row_group_by.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "saved_report_id"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.column_group_by.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.compartment_depth", "2"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.group_by_tag.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.group_by_tag.0.key", "key2"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.version", "1"),
-					resource.TestCheckResourceAttr(resourceName, "saved_custom_table.0.row_group_by.#", "0"),
-					resource.TestCheckResourceAttrSet(resourceName, "saved_report_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_metering_computation_custom_tables", "test_custom_tables", Optional, Update, customTableDataSourceRepresentation) +
+				compartmentIdVariableStr + CustomTableResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "saved_report_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_metering_computation_custom_tables", "test_custom_tables", Optional, Update, customTableDataSourceRepresentation) +
-					compartmentIdVariableStr + CustomTableResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "saved_report_id"),
+				resource.TestCheckResourceAttr(datasourceName, "custom_table_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "custom_table_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CustomTableResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_table_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "custom_table_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "custom_table_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CustomTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_table_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.column_group_by.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.compartment_depth", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.0.key", "key2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.0.namespace", "namespace2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.0.value", "value2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.version", "1"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + CustomTableResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.column_group_by.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.compartment_depth", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.group_by_tag.0.value", "value2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "saved_custom_table.0.version", "1"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + CustomTableResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

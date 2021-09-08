@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -24,7 +23,6 @@ func TestCoreServiceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreServiceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -34,26 +32,20 @@ func TestCoreServiceResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-					compartmentIdVariableStr + ServiceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+				compartmentIdVariableStr + ServiceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttrSet(datasourceName, "services.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "services.0.cidr_block"),
-					resource.TestCheckResourceAttrSet(datasourceName, "services.0.description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "services.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "services.0.name"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "services.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "services.0.cidr_block"),
+				resource.TestCheckResourceAttrSet(datasourceName, "services.0.description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "services.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "services.0.name"),
+			),
 		},
 	})
 }

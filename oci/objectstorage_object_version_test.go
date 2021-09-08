@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -36,7 +35,6 @@ func TestObjectStorageObjectVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -46,30 +44,24 @@ func TestObjectStorageObjectVersionResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_object_versions", "test_object_versions", Optional, Create, objectVersionDataSourceRepresentation) +
-					compartmentIdVariableStr + ObjectVersionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", testVersioningBucketName),
-					resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
-					resource.TestCheckResourceAttr(datasourceName, "end", "z"),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-					resource.TestCheckResourceAttr(datasourceName, "prefix", "my-test-object-2"),
-					resource.TestCheckResourceAttr(datasourceName, "start", "my-test-object-2"),
-					resource.TestCheckResourceAttr(datasourceName, "start_after", "a"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_object_versions", "test_object_versions", Optional, Create, objectVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectVersionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "bucket", testVersioningBucketName),
+				resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
+				resource.TestCheckResourceAttr(datasourceName, "end", "z"),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+				resource.TestCheckResourceAttr(datasourceName, "prefix", "my-test-object-2"),
+				resource.TestCheckResourceAttr(datasourceName, "start", "my-test-object-2"),
+				resource.TestCheckResourceAttr(datasourceName, "start_after", "a"),
 
-					resource.TestCheckResourceAttr(datasourceName, "items.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "items.0.storage_tier", "InfrequentAccess"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "items.0.storage_tier", "InfrequentAccess"),
+			),
 		},
 	})
 }

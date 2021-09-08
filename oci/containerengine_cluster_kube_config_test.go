@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -35,7 +34,6 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineClusterKubeConfigResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -45,24 +43,18 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_cluster_kube_config", "test_cluster_kube_config", Optional, Create, clusterKubeConfigSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "LEGACY_KUBERNETES"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "token_version", "2.0.0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_containerengine_cluster_kube_config", "test_cluster_kube_config", Optional, Create, clusterKubeConfigSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "LEGACY_KUBERNETES"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "token_version", "2.0.0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+			),
 		},
 	})
 }

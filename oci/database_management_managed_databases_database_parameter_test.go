@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -35,7 +34,6 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -46,39 +44,33 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", Required, Create, managedDatabasesDatabaseParameterDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_sub_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_version"),
+				resource.TestCheckResourceAttr(datasourceName, "database_parameters_collection.0.items.#", "1"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", Required, Create, managedDatabasesDatabaseParameterDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_sub_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.0.database_version"),
-					resource.TestCheckResourceAttr(datasourceName, "database_parameters_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", Required, Create, managedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_sub_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
-				),
-			},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", Required, Create, managedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_sub_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
+			),
 		},
 	})
 }

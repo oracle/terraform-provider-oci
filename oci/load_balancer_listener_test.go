@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v46/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v47/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -68,7 +68,6 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerListenerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -81,102 +80,95 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create, listenerRepresentation), "loadbalancer", "listener", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckLoadBalancerListenerDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckLoadBalancerListenerDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create,
+					getUpdatedRepresentationCopy("hostname_names", Representation{repType: Optional, create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}, update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.1", "example_hostname_0012"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
+				resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
+				resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ListenerResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create,
-						getUpdatedRepresentationCopy("hostname_names", Representation{repType: Optional, create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}, update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.1", "example_hostname_0012"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
-					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Update, listenerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
-					resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
-					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Update, listenerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
+				resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
+				resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
+				resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }

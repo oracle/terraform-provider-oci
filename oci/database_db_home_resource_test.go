@@ -66,34 +66,28 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 	}`
 
 	var resId string
-	provider := testAccProvider
 	resourceName := "oci_database_db_home.test_db_home_source_database"
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-
-		Steps: []resource.TestStep{
-			// create
-			{
-				Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
+	ResourceTest(t, nil, []resource.TestStep{
+		// create
+		{
+			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
 				data "oci_database_databases" "db" {
 					compartment_id = "${var.compartment_id}"
 					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
-						return err
-					},
-				),
-			},
-			// wait for backup and create new db from it
-			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
-					listBackupsFetchOperation, "database", false),
-				Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
-					`
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
+					return err
+				},
+			),
+		},
+		// wait for backup and create new db from it
+		{
+			PreConfig: waitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
+				listBackupsFetchOperation, "database", false),
+			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
+				`
 				data "oci_database_databases" "db" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -115,18 +109,17 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 					source = "DATABASE"
 				}
 				`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// DB System Resource tests
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database.0.database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2.200714"),
-					resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
-					resource.TestCheckResourceAttrSet(resourceName, "database.0.time_stamp_for_point_in_time_recovery"),
-				),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// DB System Resource tests
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "database.0.database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2.200714"),
+				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
+				resource.TestCheckResourceAttrSet(resourceName, "database.0.time_stamp_for_point_in_time_recovery"),
+			),
 		},
 	})
 }
@@ -137,7 +130,6 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomeResource_createFromCloudVmCluster")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -150,41 +142,34 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 
 	var resId string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseCloudVmClusterDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-					generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceCloudVmClusterNew),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
-					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
+	ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceCloudVmClusterNew),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
+				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"database.0.admin_password", "source"}, // Db passwords and Source of Db Home creation are not made visible by services
-				ResourceName:            resourceName,
-			},
+					}
+					return err
+				},
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"database.0.admin_password", "source"}, // Db passwords and Source of Db Home creation are not made visible by services
+			ResourceName:            resourceName,
 		},
 	})
 }

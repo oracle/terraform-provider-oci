@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_ons "github.com/oracle/oci-go-sdk/v46/ons"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_ons "github.com/oracle/oci-go-sdk/v47/ons"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -67,7 +67,6 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOnsNotificationTopicResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -85,164 +84,157 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+NotificationTopicResourceDependencies+
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation), "ons", "notificationTopic", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOnsNotificationTopicDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + NotificationTopicRequiredOnlyResource,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", topicNameRequiredOnly),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOnsNotificationTopicDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + NotificationTopicRequiredOnlyResource,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", topicNameRequiredOnly),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Channel for admin messages"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", topicName),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "Channel for admin messages"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", topicName),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NotificationTopicResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create,
-						representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "Channel for admin messages"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", topicName),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NotificationTopicResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create,
+					representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Channel for admin messages"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", topicName),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", topicName),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", topicName),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ons_notification_topics", "test_notification_topics", Optional, Update, notificationTopicDataSourceRepresentation) +
-					compartmentIdVariableStr + NotificationTopicResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", topicName),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ons_notification_topics", "test_notification_topics", Optional, Update, notificationTopicDataSourceRepresentation) +
+				compartmentIdVariableStr + NotificationTopicResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "name", topicName),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "notification_topics.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.api_endpoint"),
-					resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.name", topicName),
-					resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.topic_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + NotificationTopicResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "notification_topics.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.api_endpoint"),
+				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.name", topicName),
+				resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.topic_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NotificationTopicResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "api_endpoint"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", topicName),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "topic_id"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + NotificationTopicResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_endpoint"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", topicName),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "topic_id"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + NotificationTopicResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

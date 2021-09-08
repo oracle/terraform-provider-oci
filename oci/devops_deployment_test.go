@@ -80,7 +80,6 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeploymentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -95,136 +94,130 @@ func TestDevopsDeploymentResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DevopsDeploymentResourceDependencies+
 		generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsDeploymentRepresentation), "devops", "deployment", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsDeploymentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsDeploymentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsDeploymentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsDeploymentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.value", "value"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsDeploymentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.value", "value"),
-					resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsDeploymentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_arguments.0.items.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", Optional, Update, devopsDeploymentDataSourceRepresentation) +
-					compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsDeploymentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", Optional, Update, devopsDeploymentDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeploymentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsDeploymentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "0"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsDeploymentSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DevopsDeploymentResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "0"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsDeploymentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DevopsDeploymentResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.0.name", "name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.0.value", "value"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_execution_progress.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DevopsDeploymentResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.0.name", "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_arguments.0.items.0.value", "value"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_execution_progress.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "PIPELINE_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DevopsDeploymentResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -1,3 +1,12 @@
+## 4.43.0 (Unreleased)
+
+### Added
+- Support change compartment using lifecycle state
+- Support retry for Eventually consistency failure
+- Support for Count API added to `os_management` resource
+- Support for cloud databases in Database Management
+- Support for Metrics and Perfhub for BM/VM and ExaCS 
+
 ## 4.42.0 (September 01, 2021)
 
 ### Added
@@ -19,6 +28,7 @@
 
 ### Added
 - Support for network error retry
+- Documentation updated for Log Analytics Management Dashboard
 
 ### Fixed
 - Removed default value for `assign_private_dns_record` in `oci_core_vnic_attachment`

@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
 var (
@@ -44,8 +43,6 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 		t.Skip("Skipping suppressed TestAccCoreInstanceConfigurationResource_platformConfig")
 	}
 
-	provider := testAccProvider
-
 	config := `
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
@@ -57,61 +54,55 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 
 	resourceName := "oci_core_instance_configuration.test_instance_configuration"
 
-	resource.Test(t, resource.TestCase{
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
+		// create with platform config
+		{
+			Config: config + compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+					getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
+			),
 		},
-		CheckDestroy: testAccCheckCoreInstanceConfigurationDestroy,
-		Steps: []resource.TestStep{
-			// create with platform config
-			{
-				Config: config + compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
-					compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
-					compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
-				),
-			},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+					getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
+				compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
+				generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+					getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
+			),
 		},
 	})
 }

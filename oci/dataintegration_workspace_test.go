@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v46/dataintegration"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v47/dataintegration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -60,7 +60,6 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataintegrationWorkspaceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -78,163 +77,156 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+WorkspaceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation), "dataintegration", "workspace", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDataintegrationWorkspaceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, getUpdatedRepresentationCopy("is_private_network_enabled", Representation{repType: Required, create: `false`}, workspaceRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDataintegrationWorkspaceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, getUpdatedRepresentationCopy("is_private_network_enabled", Representation{repType: Required, create: `false`}, workspaceRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "false"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WorkspaceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create,
-						representationCopyWithNewProperties(workspaceRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WorkspaceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create,
+					representationCopyWithNewProperties(workspaceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", Optional, Update, workspaceDataSourceRepresentation) +
-					compartmentIdVariableStr + WorkspaceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", Optional, Update, workspaceDataSourceRepresentation) +
+				compartmentIdVariableStr + WorkspaceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "workspaces.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "workspaces.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "workspaces.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "workspaces.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "workspaces.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "workspaces.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + WorkspaceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "workspace_id"),
+				resource.TestCheckResourceAttr(datasourceName, "workspaces.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "workspaces.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "workspaces.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "workspaces.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "workspaces.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "workspaces.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "workspaces.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + WorkspaceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "workspace_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_private_network_enabled", "true"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "state_message"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + WorkspaceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"is_private_network_enabled", "state_message"},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_private_network_enabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "state_message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + WorkspaceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{"is_private_network_enabled", "state_message"},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,7 +33,6 @@ func TestLoadBalancerListenerRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerListenerRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -44,26 +42,20 @@ func TestLoadBalancerListenerRuleResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_listener_rules", "test_listener_rules", Required, Create, listenerRuleDataSourceRepresentation) +
-					compartmentIdVariableStr + ListenerRuleResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "listener_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_listener_rules", "test_listener_rules", Required, Create, listenerRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + ListenerRuleResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "listener_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "listener_rules.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "listener_rules.0.name"),
-					resource.TestCheckResourceAttr(datasourceName, "listener_rules.0.rule.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "listener_rules.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "listener_rules.0.name"),
+				resource.TestCheckResourceAttr(datasourceName, "listener_rules.0.rule.#", "1"),
+			),
 		},
 	})
 }

@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 )
 
 func init() {
@@ -687,5 +687,10 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) updateCompartment(compa
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

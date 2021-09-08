@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,7 +52,6 @@ func TestCoreShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreShapeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -64,95 +62,89 @@ func TestCoreShapeResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify Add Compatible Image Shape
+		{
+			Config: config + compartmentIdVariableStr + commonShapeResourceConfig + OciImageIdsVariable +
+				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+				generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.1"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify Add Compatible Image Shape
-			{
-				Config: config + compartmentIdVariableStr + commonShapeResourceConfig + OciImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-					generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.1"),
-				),
-			},
-			// verify Delete Compatible Image Shape
-			{
-				Config: config + compartmentIdVariableStr,
-			},
+		// verify Delete Compatible Image Shape
+		{
+			Config: config + compartmentIdVariableStr,
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disk_description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_live_migration_supported"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks_total_size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.max_vnic_attachments"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.networking_bandwidth_in_gbps"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.ocpus"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disk_description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_live_migration_supported"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks_total_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.max_vnic_attachments"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.networking_bandwidth_in_gbps"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.ocpus"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
+			),
+		},
 
-			// Delete before re-recreate
-			{
-				Config: config + compartmentIdVariableStr,
-			},
+		// Delete before re-recreate
+		{
+			Config: config + compartmentIdVariableStr,
+		},
 
-			// ------------------ tests for E3.flex shape -------------------
-			// verify Add Compatible Image Shape
-			{
-				Config: config + compartmentIdVariableStr + commonShapeResourceConfig + FlexVmImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape) +
-					generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentationForFlexShape),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E3.Flex"),
-				),
-			},
+		// ------------------ tests for E3.flex shape -------------------
+		// verify Add Compatible Image Shape
+		{
+			Config: config + compartmentIdVariableStr + commonShapeResourceConfig + FlexVmImageIdsVariable +
+				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape) +
+				generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentationForFlexShape),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E3.Flex"),
+			),
+		},
 
-			// verify Delete Compatible Image Shape
-			{
-				Config: config + compartmentIdVariableStr,
-			},
+		// verify Delete Compatible Image Shape
+		{
+			Config: config + compartmentIdVariableStr,
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentationForFlexShape) +
-					compartmentIdVariableStr,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentationForFlexShape) +
+				compartmentIdVariableStr,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttr(datasourceName, "shapes.#", "3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.baseline_ocpu_utilizations.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks_total_size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.max_vnic_attachments"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_in_gbs"),
-					resource.TestCheckResourceAttr(datasourceName, "shapes.0.memory_options.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.min_total_baseline_ocpus_required"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.networking_bandwidth_in_gbps"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.ocpus"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "shapes.#", "3"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.baseline_ocpu_utilizations.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.local_disks_total_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.max_vnic_attachments"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "shapes.0.memory_options.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.min_total_baseline_ocpus_required"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.networking_bandwidth_in_gbps"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.ocpus"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
+			),
 		},
 	})
 }

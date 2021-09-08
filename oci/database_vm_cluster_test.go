@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -68,7 +68,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -86,208 +85,201 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VmClusterResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create, vmClusterRepresentation), "database", "vmCluster", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseVmClusterDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
-					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+	ResourceTest(t, testAccCheckDatabaseVmClusterDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr,
-			},
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create, vmClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
-					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VmClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create,
-						representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
-					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "85"),
-					resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "121"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "61"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_vm_clusters", "test_vm_clusters", Optional, Update, vmClusterDataSourceRepresentation) +
-					compartmentIdVariableStr + VmClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "vmCluster"),
-					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "85"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "121"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.gi_version", "19.0.0.0.0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_local_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_sparse_diskgroup_enabled", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.memory_size_in_gbs", "61"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.time_zone", "US/Pacific"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.vm_cluster_network_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VmClusterResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "85"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "121"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "gi_version", "19.0.0.0.0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_local_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "61"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + VmClusterResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"cpu_core_count",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create, vmClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
+				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VmClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Create,
+					representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "84"),
+				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "120"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + VmClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "85"),
+				resource.TestCheckResourceAttr(resourceName, "db_node_storage_size_in_gbs", "121"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
+				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "61"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_vm_clusters", "test_vm_clusters", Optional, Update, vmClusterDataSourceRepresentation) +
+				compartmentIdVariableStr + VmClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Optional, Update, vmClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_storage_size_in_tbs", "85"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_node_storage_size_in_gbs", "121"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.gi_version", "19.0.0.0.0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_local_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.memory_size_in_gbs", "61"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.vm_cluster_network_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VmClusterResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "85"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "121"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "gi_version", "19.0.0.0.0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_local_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "61"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + VmClusterResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"cpu_core_count",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

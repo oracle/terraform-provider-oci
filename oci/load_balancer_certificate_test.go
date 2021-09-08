@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v46/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v47/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -55,7 +55,6 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerCertificateResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -69,78 +68,71 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation), "loadbalancer", "certificate", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckLoadBalancerCertificateDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+			),
 		},
-		CheckDestroy: testAccCheckLoadBalancerCertificateDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + CertificateResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestMatchResourceAttr(resourceName, "ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
-					resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "passphrase", "Mysecretunlockingcode42!1!"),
-					resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN RSA.*")),
-					resource.TestMatchResourceAttr(resourceName, "public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + CertificateResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestMatchResourceAttr(resourceName, "ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
+				resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "passphrase", "Mysecretunlockingcode42!1!"),
+				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN RSA.*")),
+				resource.TestMatchResourceAttr(resourceName, "public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_certificates", "test_certificates", Optional, Update, certificateDataSourceRepresentation) +
-					compartmentIdVariableStr + CertificateResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Update, certificateRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "certificates.#", "1"),
-					resource.TestMatchResourceAttr(datasourceName, "certificates.0.ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
-					resource.TestCheckResourceAttr(datasourceName, "certificates.0.certificate_name", "example_certificate_bundle"),
-					resource.TestMatchResourceAttr(datasourceName, "certificates.0.public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"passphrase",
-					"private_key",
-					"state",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_certificates", "test_certificates", Optional, Update, certificateDataSourceRepresentation) +
+				compartmentIdVariableStr + CertificateResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Update, certificateRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "certificates.#", "1"),
+				resource.TestMatchResourceAttr(datasourceName, "certificates.0.ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
+				resource.TestCheckResourceAttr(datasourceName, "certificates.0.certificate_name", "example_certificate_bundle"),
+				resource.TestMatchResourceAttr(datasourceName, "certificates.0.public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"passphrase",
+				"private_key",
+				"state",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

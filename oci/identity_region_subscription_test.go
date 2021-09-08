@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,32 +30,25 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityRegionSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	datasourceName := "data.oci_identity_region_subscriptions.test_region_subscriptions"
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
-					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.is_home_region", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.region_key"),
-					resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.region_name", getRequiredEnvSetting("region")),
-					resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.state"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
+				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.is_home_region", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.region_key"),
+				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.region_name", getRequiredEnvSetting("region")),
+				resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.state"),
+			),
 		},
 	})
 }

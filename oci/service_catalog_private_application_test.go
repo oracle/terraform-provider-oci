@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v46/servicecatalog"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v47/servicecatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,7 +61,6 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogPrivateApplicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -79,186 +78,179 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+
 		generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation), "servicecatalog", "privateApplication", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckServiceCatalogPrivateApplicationDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
+	ResourceTest(t, testAccCheckServiceCatalogPrivateApplicationDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "logo_file_base64encoded", "data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc="),
-					resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
-					resource.TestCheckResourceAttrSet(resourceName, "package_type"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PrivateApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create,
-						representationCopyWithNewProperties(privateApplicationRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "logo_file_base64encoded", "data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc="),
-					resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
-					resource.TestCheckResourceAttrSet(resourceName, "package_type"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "logo_file_base64encoded", "data:image/jpeg;base64,VXBkYXRlZEljb25Gb3JUZXJyYWZvcm1UZXN0aW5n"),
-					resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription2"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
-					resource.TestCheckResourceAttrSet(resourceName, "package_type"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", Optional, Update, privateApplicationDataSourceRepresentation) +
-					compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_application_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "private_application_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "private_application_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + PrivateApplicationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "logo.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "long_description", "longDescription2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "short_description", "shortDescription2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PrivateApplicationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"logo_file_base64encoded",
-					"package_details",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "logo_file_base64encoded", "data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc="),
+				resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
+				resource.TestCheckResourceAttrSet(resourceName, "package_type"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PrivateApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create,
+					representationCopyWithNewProperties(privateApplicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "logo_file_base64encoded", "data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc="),
+				resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
+				resource.TestCheckResourceAttrSet(resourceName, "package_type"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "logo_file_base64encoded", "data:image/jpeg;base64,VXBkYXRlZEljb25Gb3JUZXJyYWZvcm1UZXN0aW5n"),
+				resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription2"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "STACK"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.version", "version"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.zip_file_base64encoded", "data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0="),
+				resource.TestCheckResourceAttrSet(resourceName, "package_type"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", Optional, Update, privateApplicationDataSourceRepresentation) +
+				compartmentIdVariableStr + PrivateApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_application_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "private_application_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "private_application_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + PrivateApplicationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "logo.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "long_description", "longDescription2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "short_description", "shortDescription2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + PrivateApplicationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"logo_file_base64encoded",
+				"package_details",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

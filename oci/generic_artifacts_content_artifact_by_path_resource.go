@@ -11,7 +11,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v46/genericartifactscontent"
+	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v47/genericartifactscontent"
 )
 
 func init() {

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v46/mysql"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v47/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -72,7 +72,6 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlHeatWaveClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -84,109 +83,102 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckMysqlHeatWaveClusterDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Required, Create, heatWaveClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckMysqlHeatWaveClusterDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Required, Create, heatWaveClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies,
+		},
+		// verify create & stop
+		{
+			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Optional, Create, heatWaveClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies,
-			},
-			// verify create & stop
-			{
-				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Optional, Create, heatWaveClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify start & updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Optional, Update, heatWaveClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+		// verify start & updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Optional, Update, heatWaveClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Required, Create, heatWaveClusterSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + HeatWaveClusterResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", Required, Create, heatWaveClusterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + HeatWaveClusterResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_size", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + HeatWaveClusterResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_size", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "MySQL.HeatWave.VM.Standard.E3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + HeatWaveClusterResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

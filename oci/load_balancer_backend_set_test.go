@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v46/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v47/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -89,7 +89,6 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerBackendSetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -104,355 +103,348 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BackendSetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation), "loadbalancer", "backendSet", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckLoadBalancerBackendSetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+	ResourceTest(t, testAccCheckLoadBalancerBackendSetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation) +
-					// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
-					},
-						[]string{
-							"name",
-						}),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
-					compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.backup", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.drain", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.offline", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.port", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.weight", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.response_body_regex", "responseBodyRegex2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.retries", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.return_code", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.timeout_in_millis", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.url_path", "urlPath2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.disable_fallback", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_peer_certificate", "false"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"state",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
-			},
-			// verify update with LB session persistence
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "false"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "false"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "false"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
-					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "0"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation) +
+				// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
+					"backup":     "true",
+					"drain":      "true",
+					"ip_address": "10.0.0.3",
+					"offline":    "true",
+					"port":       "10",
+					"weight":     "11",
+				},
+					[]string{
+						"name",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
+				compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.backup", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.drain", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.offline", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.port", "10"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.weight", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.response_body_regex", "responseBodyRegex2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.retries", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.return_code", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.timeout_in_millis", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.url_path", "urlPath2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.disable_fallback", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_peer_certificate", "false"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"state",
+			},
+			ResourceName: resourceName,
+		},
+		// verify update with LB session persistence
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
+		},
+		// verify create with LB session persistence
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
+				// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
-			},
-			// verify create with LB session persistence
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
-					// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "false"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "false"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "false"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
+					"backup":     "true",
+					"drain":      "true",
+					"ip_address": "10.0.0.3",
+					"offline":    "true",
+					"port":       "10",
+					"weight":     "11",
+				},
+					[]string{
+						"name",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "cookieName2"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "domain2"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "true"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "11"),
+				resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example2"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
-					},
-						[]string{
-							"name",
-						}),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "responseBodyRegex2"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "11"),
-					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "urlPath2"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "cookieName2"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "domain2"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "true"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "true"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "11"),
-					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example2"),
-					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
-					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
+				compartmentIdVariableStr + BackendSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
+				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
-					compartmentIdVariableStr + BackendSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
-					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "backendsets.0.backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
-					},
-						[]string{
-							"backup",
-							"drain",
-							"ip_address",
-							"name",
-							"offline",
-							"port",
-							"weight",
-						}),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.response_body_regex", "responseBodyRegex2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.retries", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.return_code", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.timeout_in_millis", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.url_path", "urlPath2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.cookie_name", "cookieName2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.domain", "domain2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.is_http_only", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.is_secure", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.path", "/tmp/example2"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_peer_certificate", "false"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
+				CheckResourceSetContainsElementWithProperties(datasourceName, "backendsets.0.backend", map[string]string{
+					"backup":     "true",
+					"drain":      "true",
+					"ip_address": "10.0.0.3",
+					"offline":    "true",
+					"port":       "10",
+					"weight":     "11",
+				},
+					[]string{
+						"backup",
+						"drain",
+						"ip_address",
+						"name",
+						"offline",
+						"port",
+						"weight",
+					}),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.protocol", "HTTP"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.response_body_regex", "responseBodyRegex2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.retries", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.return_code", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.timeout_in_millis", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.url_path", "urlPath2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.cookie_name", "cookieName2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.domain", "domain2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.is_http_only", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.is_secure", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.path", "/tmp/example2"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_peer_certificate", "false"),
+			),
 		},
 	})
 }

@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -30,7 +29,6 @@ func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "ClusterNetwork") {
 		t.Skip("ClusterNetwork test not supported due to limited host capacity")
 	}
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -40,35 +38,29 @@ func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_cluster_network_instances", "test_cluster_network_instances", Required, Create, clusterNetworkInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + ClusterNetworkInstanceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_network_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_cluster_network_instances", "test_cluster_network_instances", Required, Create, clusterNetworkInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + ClusterNetworkInstanceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_network_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.fault_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.instance_configuration_id"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.load_balancer_backends.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.fault_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.load_balancer_backends.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
+			),
 		},
 	})
 }

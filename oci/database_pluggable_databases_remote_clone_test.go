@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -166,7 +165,6 @@ func TestDatabasePluggableDatabasesRemoteCloneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabasePluggableDatabasesRemoteCloneResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -178,27 +176,21 @@ func TestDatabasePluggableDatabasesRemoteCloneResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+PluggableDatabaseResourceCloneDependencies+
 		generateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation), "database", "pluggableDatabasesRemoteClone", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
+	ResourceTest(t, nil, []resource.TestStep{
 
-			//Remote Clone
-			{
-				Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies + AvailabilityDomainConfigClone + PluggableDatabaseResourceCloneDependencies +
-					generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
-					resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "source_container_db_admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_container_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_tde_wallet_password", "BEstrO0ng_#11"),
-				),
-			},
+		//Remote Clone
+		{
+			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies + AvailabilityDomainConfigClone + PluggableDatabaseResourceCloneDependencies +
+				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
+				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "source_container_db_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_tde_wallet_password", "BEstrO0ng_#11"),
+			),
 		},
 	})
 }

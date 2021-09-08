@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -76,7 +76,6 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalDatabaseConnectorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -91,189 +90,182 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation), "database", "externalDatabaseConnector", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseExternalDatabaseConnectorDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "myHost.test"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "testService"),
-					resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestConn"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
+	ResourceTest(t, testAccCheckDatabaseExternalDatabaseConnectorDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "myHost.test"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "testService"),
+				resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestConn"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies,
-			},
-
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "DETAILS"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "myHost.test"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "testService"),
-					resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
-					resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "myTestConn"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "DETAILS"),
-					resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "NORMAL"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "hostname2"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "service2"),
-					resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
-					resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", Optional, Update, externalDatabaseConnectorDataSourceRepresentation) +
-					compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_name", "credential.name"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_type", "DETAILS"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.role", "NORMAL"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.hostname", "hostname2"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.port", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.service", "service2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.connector_agent_id"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connector_type", "MACS"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.external_database_id"),
-					resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "external_database_connector_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_name", "credential.name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_type", "DETAILS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.role", "NORMAL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.hostname", "hostname2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.port", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.service", "service2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connector_type", "MACS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"connection_credentials.0.username",
-					"connection_credentials.0.password",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies,
+		},
+
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "SYSDBA"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "myHost.test"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "testService"),
+				resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestConn"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.role", "NORMAL"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.hostname", "hostname2"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "connection_string.0.service", "service2"),
+				resource.TestCheckResourceAttrSet(resourceName, "connector_agent_id"),
+				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", Optional, Update, externalDatabaseConnectorDataSourceRepresentation) +
+				compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_name", "credential.name"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_credentials.0.role", "NORMAL"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.hostname", "hostname2"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.port", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connection_string.0.service", "service2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.connector_agent_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.connector_type", "MACS"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.external_database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_database_connectors.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "external_database_connectors.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_database_connector_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_name", "credential.name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.credential_type", "DETAILS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_credentials.0.role", "NORMAL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.hostname", "hostname2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.port", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_string.0.service", "service2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connector_type", "MACS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"connection_credentials.0.username",
+				"connection_credentials.0.password",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -38,7 +38,7 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
   #Optional
   allowed_key_install_count = "200"
   display_name              = "displayName"
-  time_expires              = "2021-05-27T17:27:44.398Z"
+  time_expires              = "2022-05-27T17:27:44.398Z"
 }
 
 data "oci_management_agent_management_agent_install_keys" "test_management_agent_install_keys" {
@@ -67,5 +67,6 @@ data "oci_management_agent_management_agent_available_histories" "test_managemen
 
   #Optional
   time_availability_status_ended_greater_than      = "2020-01-15T01:01:01.000Z"
-  time_availability_status_started_less_than       = "2020-09-28T01:01:01.000Z"
+  time_availability_status_started_less_than       = "2029-09-28T01:01:01.000Z"
+
 }

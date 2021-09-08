@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v46/artifacts"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v47/artifacts"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -79,7 +79,6 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerImageSignatureResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	resourceName := "oci_artifacts_container_image_signature.test_container_image_signature"
@@ -88,103 +87,96 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 
 	var resId string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckArtifactsContainerImageSignatureDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
-					containerImageResourceConfig +
-					containerImageSignatureKmsSignResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "message"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "signing_algorithm", signingAlgorithm),
+	ResourceTest(t, testAccCheckArtifactsContainerImageSignatureDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
+				containerImageResourceConfig +
+				containerImageSignatureKmsSignResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "signature"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "signing_algorithm", signingAlgorithm),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
-					containerImageResourceConfig +
-					containerImageSignatureKmsSignResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signatures", "test_container_image_signatures", Optional, Update, containerImageSignatureDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "image_digest"),
-					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "kms_key_version_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "repository_name"),
-					resource.TestCheckResourceAttr(datasourceName, "signing_algorithm", signingAlgorithm),
+		// verify datasource
+		{
+			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
+				containerImageResourceConfig +
+				containerImageSignatureKmsSignResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signatures", "test_container_image_signatures", Optional, Update, containerImageSignatureDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "image_digest"),
+				resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "kms_key_version_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "repository_name"),
+				resource.TestCheckResourceAttr(datasourceName, "signing_algorithm", signingAlgorithm),
 
-					resource.TestCheckResourceAttr(datasourceName, "container_image_signature_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "container_image_signature_collection.0.items.#", "1"),
-				),
-			},
+				resource.TestCheckResourceAttr(datasourceName, "container_image_signature_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "container_image_signature_collection.0.items.#", "1"),
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
-					containerImageResourceConfig +
-					containerImageSignatureKmsSignResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureSingularDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_signature_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "message", encodedMessage),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "signature"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "signing_algorithm", signingAlgorithm),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
+		// verify singular datasource
+		{
+			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
+				containerImageResourceConfig +
+				containerImageSignatureKmsSignResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureSingularDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_signature_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "message", encodedMessage),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "signature"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "signing_algorithm", signingAlgorithm),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
 
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
-					containerImageResourceConfig +
-					containerImageSignatureKmsSignResourceDependencies +
-					generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation),
-			},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
+				containerImageResourceConfig +
+				containerImageSignatureKmsSignResourceDependencies +
+				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation),
+		},
 
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

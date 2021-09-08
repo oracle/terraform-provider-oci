@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -38,7 +37,6 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerCategoryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -49,47 +47,41 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
-					compartmentIdVariableStr + OptimizerCategoryResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "category_collection.0.items.0.state"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", Required, Create, categorySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "category_collection.#"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", Required, Create, categorySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + OptimizerCategoryResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_cost_saving"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "recommendation_counts.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_counts.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_cost_saving"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "recommendation_counts.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_counts.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
 		},
 	})
 }

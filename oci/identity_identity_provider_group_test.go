@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,7 +33,6 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdentityProviderGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -47,25 +45,19 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 	_, tokenFn := tokenizeWithHttpReplay("identity_group_resource")
 	IdentityProviderGroupResourceConfig = tokenFn(IdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
-					compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_groups.#"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_groups.#"),
+			),
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v46/datasafe"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v47/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -65,7 +65,6 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeDataSafePrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -83,178 +82,171 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DataSafePrivateEndpointResourceDependencies+
 		generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation), "datasafe", "dataSafePrivateEndpoint", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDataSafeDataSafePrivateEndpointDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDataSafeDataSafePrivateEndpointDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafePrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create,
-						representationCopyWithNewProperties(dataSafePrivateEndpointRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafePrivateEndpointResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create,
+					representationCopyWithNewProperties(dataSafePrivateEndpointRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoints", "test_data_safe_private_endpoints", Optional, Update, dataSafePrivateEndpointDataSourceRepresentation) +
-					compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoints", "test_data_safe_private_endpoints", Optional, Update, dataSafePrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
+				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.defined_tags.%", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.freeform_tags.%", "0"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.private_endpoint_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.vcn_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DataSafePrivateEndpointResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_safe_private_endpoint_id"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.defined_tags.%", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.freeform_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.private_endpoint_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.vcn_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataSafePrivateEndpointResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_safe_private_endpoint_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

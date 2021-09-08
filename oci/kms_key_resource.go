@@ -20,8 +20,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v46/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v47/keymanagement"
 )
 
 func init() {
@@ -699,6 +699,11 @@ func (s *KmsKeyResourceCrud) updateCompartment(compartment interface{}) error {
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

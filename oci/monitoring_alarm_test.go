@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v46/monitoring"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v47/monitoring"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -76,7 +76,6 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringAlarmResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -94,239 +93,232 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AlarmResourceDependencies+
 		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation), "monitoring", "alarm", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckMonitoringAlarmDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
+				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
+				resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
+				resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckMonitoringAlarmDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
-					resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
-					resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AlarmResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
+				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
+				resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT5M"),
+				resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT2H"),
+				resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
+				resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup"),
+				resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "System Maintenance"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2126-02-01T18:00:00.001Z"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2126-02-01T19:00:00.001Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AlarmResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
-					resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT5M"),
-					resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT2H"),
-					resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
-					resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup"),
-					resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "System Maintenance"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2126-02-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2126-02-01T19:00:00.001Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AlarmResourceDependencies +
-					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create,
-						representationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
-					resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT5M"),
-					resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT2H"),
-					resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
-					resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup"),
-					resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "System Maintenance"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2126-02-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2126-02-01T19:00:00.001Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AlarmResourceDependencies +
+				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create,
+					representationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
+				resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT5M"),
+				resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT2H"),
+				resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
+				resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup"),
+				resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "System Maintenance"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2126-02-01T18:00:00.001Z"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2126-02-01T19:00:00.001Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "body", "body2"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttr(resourceName, "namespace", "oci_lbaas"),
-					resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT10M"),
-					resource.TestCheckResourceAttr(resourceName, "query", "AcceptedConnections[10m].count() <= 0"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT10M"),
-					resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
-					resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup2"),
-					resource.TestCheckResourceAttr(resourceName, "severity", "INFO"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
+				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "body", "body2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_lbaas"),
+				resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT10M"),
+				resource.TestCheckResourceAttr(resourceName, "query", "AcceptedConnections[10m].count() <= 0"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT10M"),
+				resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
+				resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(resourceName, "severity", "INFO"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
+				resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", Optional, Update, alarmDataSourceRepresentation) +
-					compartmentIdVariableStr + AlarmResourceDependencies +
-					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", Optional, Update, alarmDataSourceRepresentation) +
+				compartmentIdVariableStr + AlarmResourceDependencies +
+				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "alarms.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.destinations.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.metric_compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.namespace", "oci_lbaas"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.query", "AcceptedConnections[10m].count() <= 0"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.severity", "INFO"),
-					resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AlarmResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "metric_compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.destinations.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.metric_compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.namespace", "oci_lbaas"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.query", "AcceptedConnections[10m].count() <= 0"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.severity", "INFO"),
+				resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
+				resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AlarmResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "metric_compartment_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "body", "body2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "destinations.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metric_compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "namespace", "oci_lbaas"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "pending_duration", "PT10M"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "query", "AcceptedConnections[10m].count() <= 0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "repeat_notification_duration", "PT10M"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "resolution", "1m"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "resource_group", "resourceGroup2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "severity", "INFO"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.description", "description2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression.0.time_suppress_from"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression.0.time_suppress_until"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AlarmResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "body", "body2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "destinations.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metric_compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "namespace", "oci_lbaas"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "pending_duration", "PT10M"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query", "AcceptedConnections[10m].count() <= 0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "repeat_notification_duration", "PT10M"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resolution", "1m"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "severity", "INFO"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "suppression.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.description", "description2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression.0.time_suppress_from"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression.0.time_suppress_until"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AlarmResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -11,9 +11,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
-	oci_kms "github.com/oracle/oci-go-sdk/v46/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v47/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -133,7 +133,6 @@ func TestKmsKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -151,199 +150,192 @@ func TestKmsKeyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+KeyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation), "keymanagement", "key", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		CheckDestroy: testAccCheckKMSKeyDestroy,
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
-					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-						representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
-					resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", Optional, Update, keyDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
-					resource.TestCheckResourceAttr(datasourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttr(datasourceName, "length", "16"),
-
-					resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "keys.0.protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.vault_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "SOFTWARE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
-			},
-			// revert the updates
-			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ENABLED"),
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateIdFunc: keyImportId,
-				ImportStateVerifyIgnore: []string{
-					"desired_state",
-					"time_of_deletion",
-					"replica_details",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "SOFTWARE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", Optional, Update, keyDataSourceRepresentation) +
+				compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
+				resource.TestCheckResourceAttr(datasourceName, "protection_mode", "SOFTWARE"),
+				resource.TestCheckResourceAttr(datasourceName, "length", "16"),
+
+				resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.protection_mode", "SOFTWARE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.vault_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "SOFTWARE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
+		},
+		// revert the updates
+		{
+			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ENABLED"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateIdFunc: keyImportId,
+			ImportStateVerifyIgnore: []string{
+				"desired_state",
+				"time_of_deletion",
+				"replica_details",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

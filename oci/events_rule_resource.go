@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_events "github.com/oracle/oci-go-sdk/v46/events"
+	oci_events "github.com/oracle/oci-go-sdk/v47/events"
 )
 
 func init() {
@@ -662,5 +662,10 @@ func (s *EventsRuleResourceCrud) updateCompartment(compartment interface{}) erro
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

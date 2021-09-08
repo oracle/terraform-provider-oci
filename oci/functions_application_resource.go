@@ -13,7 +13,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v46/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v47/functions"
 )
 
 func init() {
@@ -430,6 +430,11 @@ func (s *FunctionsApplicationResourceCrud) updateCompartment(compartment interfa
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

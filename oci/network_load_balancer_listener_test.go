@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v46/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v47/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -50,7 +50,6 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerListenerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -62,94 +61,87 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckNetworkLoadBalancerListenerDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckNetworkLoadBalancerListenerDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "10"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
+				generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
-					resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
-					resource.TestCheckResourceAttr(resourceName, "port", "11"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", Optional, Update, nlbListenerDataSourceRepresentation) +
+				compartmentIdVariableStr + NlbListenerResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", Optional, Update, nlbListenerDataSourceRepresentation) +
-					compartmentIdVariableStr + NlbListenerResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(datasourceName, "listener_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "listener_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NlbListenerResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "listener_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "listener_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + NlbListenerResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_listener"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "port", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "TCP"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + NlbListenerResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "port", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "TCP"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

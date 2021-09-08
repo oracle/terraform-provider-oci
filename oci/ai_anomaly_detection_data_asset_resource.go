@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v46/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v47/aianomalydetection"
 )
 
 func init() {
@@ -888,5 +888,10 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) updateCompartment(compartment 
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -12,12 +12,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/oracle/oci-go-sdk/v46/common"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v46/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v47/datascience"
 )
 
 func init() {
@@ -680,6 +680,11 @@ func (s *DatascienceModelResourceCrud) updateCompartment(compartment interface{}
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

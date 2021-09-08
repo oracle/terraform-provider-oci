@@ -30,7 +30,7 @@ data "oci_management_agent_management_agent_images" "test_management_agent_image
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment from which the Management Agents to be listed.
+* `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `name` - (Optional) A filter to return only resources that match the entire platform name given.
 * `state` - (Optional) Filter to return only Management Agents in the particular lifecycle state.
 

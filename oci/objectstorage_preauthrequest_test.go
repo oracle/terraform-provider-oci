@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v46/objectstorage"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v47/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -67,7 +67,6 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStoragePreauthenticatedRequestResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -83,115 +82,108 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PreauthenticatedRequestResourceDependencies+
 		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Create, preauthenticatedRequestRepresentation), "objectstorage", "preauthenticatedRequest", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckObjectStoragePreauthenticatedRequestDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
+				resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
+			),
 		},
-		CheckDestroy: testAccCheckObjectStoragePreauthenticatedRequestDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
-					resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
-					resource.TestCheckResourceAttr(resourceName, "bucket_listing_action", ""),
-					resource.TestCheckResourceAttrSet(resourceName, "access_uri"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
+				resource.TestCheckResourceAttr(resourceName, "bucket_listing_action", ""),
+				resource.TestCheckResourceAttrSet(resourceName, "access_uri"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
-					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-					resource.TestCheckResourceAttr(datasourceName, "object_name_prefix", "my-test-object"),
-
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.access_type", "ObjectRead"),
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.bucket_listing_action", ""),
-					resource.TestCheckResourceAttrSet(datasourceName, "preauthenticated_requests.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.name", "-tf-par"),
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.object", "my-test-object-1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "preauthenticated_requests.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.time_expires", expirationTimeForPar.String()),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
-
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testPreAuthBucketName),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "par_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket_listing_action", ""),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "-tf-par"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "time_expires", expirationTimeForPar.String()),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
-			},
-			//verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"access_uri",
-					"time_expires",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
+				compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+				resource.TestCheckResourceAttr(datasourceName, "object_name_prefix", "my-test-object"),
+
+				resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.access_type", "ObjectRead"),
+				resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.bucket_listing_action", ""),
+				resource.TestCheckResourceAttrSet(datasourceName, "preauthenticated_requests.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.name", "-tf-par"),
+				resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.object", "my-test-object-1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "preauthenticated_requests.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.time_expires", expirationTimeForPar.String()),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
+
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testPreAuthBucketName),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "par_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket_listing_action", ""),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "-tf-par"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "time_expires", expirationTimeForPar.String()),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
+		},
+		//verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"access_uri",
+				"time_expires",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,7 +61,6 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDhcpOptionsResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -78,188 +77,181 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DhcpOptionsResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create, dhcpOptionsRepresentation), "core", "dhcpOptions", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCoreDhcpOptionsDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					ComposeAggregateTestCheckFuncWrapper(
-						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-							"type":        "DomainNameServer",
-							"server_type": "VcnLocalPlusInternet",
-						}, []string{}),
-					),
+	ResourceTest(t, testAccCheckCoreDhcpOptionsDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
+				ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-						"type":                  "SearchDomain",
-						"search_domain_names.0": "test.com",
-					}, []string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create, dhcpOptionsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
-					resource.TestCheckResourceAttr(resourceName, "domain_name_type", "CUSTOM_DOMAIN"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					ComposeAggregateTestCheckFuncWrapper(
-						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-							"type":        "DomainNameServer",
-							"server_type": "VcnLocalPlusInternet",
-						}, []string{}),
-					),
-					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-						"type":                  "SearchDomain",
-						"search_domain_names.0": "test.com",
-					}, []string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DhcpOptionsResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create,
-						representationCopyWithNewProperties(dhcpOptionsRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
-					resource.TestCheckResourceAttr(resourceName, "domain_name_type", "CUSTOM_DOMAIN"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-						"server_type": "VcnLocalPlusInternet",
 						"type":        "DomainNameServer",
-					},
-						[]string{}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-						"type":                  "SearchDomain",
-						"search_domain_names.0": "test.com",
+						"server_type": "VcnLocalPlusInternet",
 					}, []string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
 				),
-			},
+				CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+					"type":                  "SearchDomain",
+					"search_domain_names.0": "test.com",
+				}, []string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "domain_name_type", "VCN_DOMAIN"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					ComposeAggregateTestCheckFuncWrapper(
-						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-							"type":        "DomainNameServer",
-							"server_type": "VcnLocalPlusInternet",
-						}, []string{}),
-					),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create, dhcpOptionsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
+				resource.TestCheckResourceAttr(resourceName, "domain_name_type", "CUSTOM_DOMAIN"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
+				ComposeAggregateTestCheckFuncWrapper(
 					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
-						"type":                  "SearchDomain",
-						"search_domain_names.0": "test.com",
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
 					}, []string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				),
+				CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+					"type":                  "SearchDomain",
+					"search_domain_names.0": "test.com",
+				}, []string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsDataSourceRepresentation) +
-					compartmentIdVariableStr + DhcpOptionsResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+					}
+					return err
+				},
+			),
+		},
 
-					resource.TestCheckResourceAttr(datasourceName, "options.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.domain_name_type", "VCN_DOMAIN"),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "options.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.options.#", "2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "options.0.options.0.type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "options.0.options.1.type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "options.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "options.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "options.0.vcn_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DhcpOptionsResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create,
+					representationCopyWithNewProperties(dhcpOptionsRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
+				resource.TestCheckResourceAttr(resourceName, "domain_name_type", "CUSTOM_DOMAIN"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+					"server_type": "VcnLocalPlusInternet",
+					"type":        "DomainNameServer",
+				},
+					[]string{}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+					"type":                  "SearchDomain",
+					"search_domain_names.0": "test.com",
+				}, []string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "domain_name_type", "VCN_DOMAIN"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				ComposeAggregateTestCheckFuncWrapper(
+					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
 				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+					"type":                  "SearchDomain",
+					"search_domain_names.0": "test.com",
+				}, []string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsDataSourceRepresentation) +
+				compartmentIdVariableStr + DhcpOptionsResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "options.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "options.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "options.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "options.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "options.0.domain_name_type", "VCN_DOMAIN"),
+				resource.TestCheckResourceAttr(datasourceName, "options.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "options.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "options.0.options.#", "2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "options.0.options.0.type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "options.0.options.1.type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "options.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "options.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "options.0.vcn_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

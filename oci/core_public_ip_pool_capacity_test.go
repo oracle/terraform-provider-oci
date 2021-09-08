@@ -34,7 +34,6 @@ func TestResourceCorePublicIpPoolCapacity_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePublicIpPoolCapacityResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -42,33 +41,27 @@ func TestResourceCorePublicIpPoolCapacity_basic(t *testing.T) {
 
 	resourceName := "oci_core_public_ip_pool_capacity.test_public_ip_pool_capacity"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + PublicIpPoolAddCapacityResourceDependencies + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", publicIpPoolCidrBlock),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + PublicIpPoolAddCapacityResourceDependencies + compartmentIdVariableStr +
+				generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cidr_block", publicIpPoolCidrBlock),
 
-					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					_, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

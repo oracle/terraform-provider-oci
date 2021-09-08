@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v46/servicecatalog"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v47/servicecatalog"
 )
 
 func init() {
@@ -307,5 +307,10 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) updateCompartment(compartment
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -55,7 +55,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityUserResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -71,144 +70,137 @@ func TestIdentityUserResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+UserResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation), "identity", "user", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityUserDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + UserResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
+				resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckIdentityUserDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + UserResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
-					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + UserResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + UserResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
+				resource.TestCheckResourceAttr(resourceName, "email", "email"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + UserResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + UserResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
-					resource.TestCheckResourceAttr(resourceName, "email", "email"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + UserResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email", "email2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + UserResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "email", "email2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_users", "test_users", Optional, Update, userDataSourceRepresentation) +
-					compartmentIdVariableStr + UserResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "JohnSmith@example.com"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_users", "test_users", Optional, Update, userDataSourceRepresentation) +
+				compartmentIdVariableStr + UserResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "JohnSmith@example.com"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "users.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "users.0.email_verified"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "users.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.name", "JohnSmith@example.com"),
-					resource.TestCheckResourceAttrSet(datasourceName, "users.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "users.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.capabilities.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + UserResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
+				resource.TestCheckResourceAttr(datasourceName, "users.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "users.0.email_verified"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "users.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.name", "JohnSmith@example.com"),
+				resource.TestCheckResourceAttrSet(datasourceName, "users.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "users.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "users.0.capabilities.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + UserResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "email_verified"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "JohnSmith@example.com"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.#", "1"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + UserResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "email_verified"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "JohnSmith@example.com"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.#", "1"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + UserResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -26,7 +25,6 @@ func TestDatabaseDbHomePatchHistoryEntryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomePatchHistoryEntryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,22 +34,16 @@ func TestDatabaseDbHomePatchHistoryEntryResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_home_patch_history_entries", "test_db_home_patch_history_entries", Required, Create, dbHomePatchHistoryEntryDataSourceRepresentation) +
-					compartmentIdVariableStr + DbHomePatchHistoryEntryResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
-					resource.TestCheckResourceAttr(datasourceName, "patch_history_entries.#", "0"),
-				),
-			},
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_home_patch_history_entries", "test_db_home_patch_history_entries", Required, Create, dbHomePatchHistoryEntryDataSourceRepresentation) +
+				compartmentIdVariableStr + DbHomePatchHistoryEntryResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(datasourceName, "patch_history_entries.#", "0"),
+			),
 		},
 	})
 }
