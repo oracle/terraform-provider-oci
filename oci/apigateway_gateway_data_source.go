@@ -67,6 +67,12 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	caBundles := []interface{}{}
+	for _, item := range s.Res.CaBundles {
+		caBundles = append(caBundles, CaBundleToMap(item))
+	}
+	s.D.Set("ca_bundles", caBundles)
+
 	if s.Res.CertificateId != nil {
 		s.D.Set("certificate_id", *s.Res.CertificateId)
 	}

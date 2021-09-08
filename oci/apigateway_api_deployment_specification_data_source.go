@@ -310,6 +310,32 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 								},
 							},
 						},
+						"mutual_tls": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"allowed_sans": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"is_verified_certificate_required": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"rate_limiting": {
 							Type:     schema.TypeList,
 							Computed: true,
