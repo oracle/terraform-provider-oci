@@ -21,6 +21,7 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v49/dataintegration"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v49/datalabelingservice"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
@@ -865,6 +866,19 @@ var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
+	},
+}
+
+var exportDataLabelingServiceDatasetHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_labeling_service_dataset",
+	datasourceClass:        "oci_data_labeling_service_datasets",
+	datasourceItemsAttr:    "dataset_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "dataset",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_labeling_service.DatasetLifecycleStateActive),
+		string(oci_data_labeling_service.DatasetLifecycleStateNeedsAttention),
 	},
 }
 
