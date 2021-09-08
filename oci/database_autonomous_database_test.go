@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -100,7 +100,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -118,601 +117,594 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseAutonomousDatabaseDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					// verify computed field db_workload to be defaulted to OLTP
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+	ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"open_mode":        Representation{repType: Optional, create: `READ_ONLY`, update: `READ_ONLY`},
-							"permission_level": Representation{repType: Optional, create: `RESTRICTED`, update: `RESTRICTED`},
-						}),
-					),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
-					resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "NOT_ENABLED"),
-					resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-						representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-							"compartment_id":   Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-							"open_mode":        Representation{repType: Optional, create: `READ_WRITE`, update: `READ_WRITE`},
-							"permission_level": Representation{repType: Optional, create: `UNRESTRICTED`, update: `UNRESTRICTED`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
-					resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
-					resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
-					resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify stop the autonomous database
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "STOPPED"}, autonomousDatabaseRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify start the autonomous database
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "AVAILABLE"}, autonomousDatabaseRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to whitelisted_ips
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}}, autonomousDatabaseRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify remove whitelisted_ips
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify autoscaling
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_urls.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.customer_contacts.0.email", "test2@oracle.com"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.data_storage_size_in_gb"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbName),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.kms_key_id"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.permission_level"),
-					// @Codegen: Can't test private_endpoint with fake resource
-					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint_ip"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.all_connection_strings.%"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_urls.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.machine_learning_user_management_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.sql_dev_web_url"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.graph_studio_url"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "data_safe_status", "NOT_REGISTERED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
-					// @Codegen: Can't test private_endpointTestResourceDatabaseAutonomousDatabaseResource_preview with fake resource
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_begin"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_end"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"admin_password",
-					"autonomous_database_backup_id",
-					"clone_type",
-					"is_preview_version_with_service_terms_accepted",
-					"source",
-					"source_id",
-					"lifecycle_details",
-					"timestamp",
-					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
-					"used_data_storage_size_in_tbs",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr,
-			},
-			// test ADW db_workload
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
-							[]interface{}{Representation{repType: Optional, create: "DW"},
-								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be re-created.")
-						}
-						return err
-					},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"open_mode":        Representation{repType: Optional, create: `READ_ONLY`, update: `READ_ONLY`},
+						"permission_level": Representation{repType: Optional, create: `RESTRICTED`, update: `RESTRICTED`},
+					}),
 				),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
+				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "NOT_ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
-							[]interface{}{Representation{repType: Optional, create: "DW"},
-								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify autoscaling with DW workload
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version"},
-							[]interface{}{Representation{repType: Optional, create: "DW"},
-								Representation{repType: Optional, update: `true`},
-								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"compartment_id":   Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						"open_mode":        Representation{repType: Optional, create: `READ_WRITE`, update: `READ_WRITE`},
+						"permission_level": Representation{repType: Optional, create: `UNRESTRICTED`, update: `UNRESTRICTED`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
+				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// remove any previously created resources
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
-			},
-			// verify ADB clone from a source ADB
-			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentationForClone),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbCloneName),
-					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
-					resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
-					resource.TestCheckResourceAttrSet(resourceName, "source_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
+				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be re-created.")
-						}
-						return err
-					},
-				),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify stop the autonomous database
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "STOPPED"}, autonomousDatabaseRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify start the autonomous database
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "AVAILABLE"}, autonomousDatabaseRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to whitelisted_ips
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}}, autonomousDatabaseRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify remove whitelisted_ips
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify autoscaling
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_urls.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.data_storage_size_in_gb"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbName),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.is_preview"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.kms_key_id"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.permission_level"),
+				// @Codegen: Can't test private_endpoint with fake resource
+				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint_ip"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.all_connection_strings.%"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "connection_urls.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.machine_learning_user_management_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.sql_dev_web_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.graph_studio_url"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_preview"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
+				// @Codegen: Can't test private_endpointTestResourceDatabaseAutonomousDatabaseResource_preview with fake resource
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_begin"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_end"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"admin_password",
+				"autonomous_database_backup_id",
+				"clone_type",
+				"is_preview_version_with_service_terms_accepted",
+				"source",
+				"source_id",
+				"lifecycle_details",
+				"timestamp",
+				// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
+				"used_data_storage_size_in_tbs",
 			},
+			ResourceName: resourceName,
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+		// test ADW db_workload
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+						[]interface{}{Representation{repType: Optional, create: "DW"},
+							Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be re-created.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+						[]interface{}{Representation{repType: Optional, create: "DW"},
+							Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify autoscaling with DW workload
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version"},
+						[]interface{}{Representation{repType: Optional, create: "DW"},
+							Representation{repType: Optional, update: `true`},
+							Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// remove any previously created resources
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+		},
+		// verify ADB clone from a source ADB
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRepresentation) +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentationForClone),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbCloneName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be re-created.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }

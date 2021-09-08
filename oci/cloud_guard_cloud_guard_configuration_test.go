@@ -43,7 +43,6 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardCloudGuardConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	//Enable/Disable CG is a tenant-level operation
@@ -59,86 +58,80 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CloudGuardConfigurationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation), "cloudguard", "cloudGuardConfiguration", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
+				resource.TestCheckResourceAttr(resourceName, "self_manage_resources", "false"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
-					resource.TestCheckResourceAttr(resourceName, "self_manage_resources", "false"),
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
-					resource.TestCheckResourceAttr(resourceName, "self_manage_resources", "false"),
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
+				resource.TestCheckResourceAttr(resourceName, "self_manage_resources", "false"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CloudGuardConfigurationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardConfigurationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "reporting_region", reportingRegion),
-					resource.TestCheckResourceAttr(singularDatasourceName, "self_manage_resources", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "ENABLED"),
-				),
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "reporting_region", reportingRegion),
+				resource.TestCheckResourceAttr(singularDatasourceName, "self_manage_resources", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "ENABLED"),
+			),
 		},
 	})
 }

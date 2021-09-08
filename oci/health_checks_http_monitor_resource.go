@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_health_checks "github.com/oracle/oci-go-sdk/v46/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v47/healthchecks"
 )
 
 func init() {
@@ -475,5 +475,10 @@ func (s *HealthChecksHttpMonitorResourceCrud) updateCompartment(compartment inte
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

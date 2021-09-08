@@ -88,7 +88,6 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreNetworkSecurityGroupSecurityRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -103,154 +102,148 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 		generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
 			representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)), "core", "networkSecurityGroupSecurityRule", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination"),
+				resource.TestCheckResourceAttr(resourceName, "destination_type", "CIDR_BLOCK"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "protocol"),
+				resource.TestCheckResourceAttrSet(resourceName, "stateless"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					networkSecurityGroupId, _ := fromInstanceState(s, resourceName, "network_security_group_id")
+					compositeId = "networkSecurityGroups/" + networkSecurityGroupId + "/securityRules/" + resId
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "description"),
-					resource.TestCheckResourceAttrSet(resourceName, "destination"),
-					resource.TestCheckResourceAttr(resourceName, "destination_type", "CIDR_BLOCK"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
-					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
-					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						networkSecurityGroupId, _ := fromInstanceState(s, resourceName, "network_security_group_id")
-						compositeId = "networkSecurityGroups/" + networkSecurityGroupId + "/securityRules/" + resId
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination"),
+				resource.TestCheckResourceAttr(resourceName, "destination_type", "SERVICE_CIDR_BLOCK"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "protocol"),
+				resource.TestCheckResourceAttrSet(resourceName, "stateless"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
-					resource.TestCheckResourceAttrSet(resourceName, "destination"),
-					resource.TestCheckResourceAttr(resourceName, "destination_type", "SERVICE_CIDR_BLOCK"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
-					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
-					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+		},
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "source"),
+				resource.TestCheckResourceAttr(resourceName, "source_type", "CIDR_BLOCK"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "protocol"),
+				resource.TestCheckResourceAttrSet(resourceName, "stateless"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updatedr")
-						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
-			},
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "description"),
-					resource.TestCheckResourceAttrSet(resourceName, "source"),
-					resource.TestCheckResourceAttr(resourceName, "source_type", "CIDR_BLOCK"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
-					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
-					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
+				resource.TestCheckResourceAttrSet(resourceName, "source"),
+				resource.TestCheckResourceAttr(resourceName, "source_type", "SERVICE_CIDR_BLOCK"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "protocol"),
+				resource.TestCheckResourceAttrSet(resourceName, "stateless"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
-					resource.TestCheckResourceAttrSet(resourceName, "source"),
-					resource.TestCheckResourceAttr(resourceName, "source_type", "SERVICE_CIDR_BLOCK"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
-					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
-					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_network_security_group_security_rules", "test_network_security_group_security_rules", Optional, Update, networkSecurityGroupSecurityRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "direction"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updatedr")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_network_security_group_security_rules", "test_network_security_group_security_rules", Optional, Update, networkSecurityGroupSecurityRuleDataSourceRepresentation) +
-					compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-						representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "direction"),
-					resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),
-
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.direction"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.is_valid"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.protocol"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.stateless"),
-					resource.TestCheckResourceAttr(datasourceName, "security_rules.0.tcp_options.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       getNetworkSecurityGroupSecurityRuleImportId(resourceName),
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.direction"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.is_valid"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.protocol"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.stateless"),
+				resource.TestCheckResourceAttr(datasourceName, "security_rules.0.tcp_options.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateIdFunc:       getNetworkSecurityGroupSecurityRuleImportId(resourceName),
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

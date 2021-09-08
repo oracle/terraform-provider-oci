@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,7 +53,6 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeGroupBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -70,151 +69,144 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VolumeGroupBackupResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation), "core", "volumeGroupBackup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreVolumeGroupBackupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Required, Create, volumeGroupBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreVolumeGroupBackupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Required, Create, volumeGroupBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeGroupBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create,
-						representationCopyWithNewProperties(volumeGroupBackupRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeGroupBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create,
+					representationCopyWithNewProperties(volumeGroupBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", Optional, Update, volumeGroupBackupDataSourceRepresentation) +
-					compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", Optional, Update, volumeGroupBackupDataSourceRepresentation) +
+				compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.size_in_mbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.source_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_request_received"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.unique_size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.unique_size_in_mbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.volume_backup_ids.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.volume_group_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.size_in_mbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.source_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_request_received"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.type", "INCREMENTAL"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.unique_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.unique_size_in_mbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.volume_backup_ids.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.volume_group_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

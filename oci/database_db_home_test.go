@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -283,7 +283,6 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -298,304 +297,297 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DbHomeResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Create, dbHomeRepresentation), "database", "dbHome", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseDbHomeDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Required, Create, dbHomeRepresentationSourceDatabase),
+
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
+				resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2\.[0-9]+$`)),
+
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
+				resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2\.[0-9]+$`)),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseDbHomeDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Required, Create, dbHomeRepresentationSourceDatabase),
 
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-					resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2\.[0-9]+$`)),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
 
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
-					resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2\.[0-9]+$`)),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+				resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
+				resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
 
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.db_name", "dbBackup"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "display_name", "createdDbHomeBackup"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_name", "dbVMClus"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
+				resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
 
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.db_name", "dbDb"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "display_name", "createdDbHomeDatabase"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 
-					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-					resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
-
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.db_name", "dbBackup"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "display_name", "createdDbHomeBackup"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
-
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_name", "dbVMClus"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
-					resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
-
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.db_name", "dbDb"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "display_name", "createdDbHomeDatabase"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
-					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-					resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
-
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.db_name", "dbBackup"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "display_name", "createdDbHomeBackup"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
-
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_name", "dbVMClus"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
-					resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
-
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.db_name", "dbDb"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "display_name", "createdDbHomeDatabase"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
-					resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "true"),
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", Optional, Update, dbHomeDataSourceRepresentation) +
-					compartmentIdVariableStr + DbHomeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "createdDbHomeNone"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "db_homes.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.db_system_id"),
-					resource.TestMatchResourceAttr(datasourceName, "db_homes.0.db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
-					resource.TestCheckResourceAttr(datasourceName, "db_homes.0.display_name", "createdDbHomeNone"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_id"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_version_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DbHomeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestMatchResourceAttr(singularDatasourceName, "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "createdDbHomeNone"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config +
-					compartmentIdVariableStr + DbHomeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"database",
-					"is_desupported_version",
-					"database.0.admin_password",
-					"kms_key_version_id",
+					}
+					return err
 				},
-				ResourceName: resourceName + "_source_none",
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
+				resource.TestMatchResourceAttr(resourceName+"_source_none", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_version_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
+
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.db_name", "dbBackup"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "display_name", "createdDbHomeBackup"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
+
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_name", "dbVMClus"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
+				resource.TestMatchResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
+
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "database.0.database_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.0.db_name", "dbDb"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "db_system_id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "display_name", "createdDbHomeDatabase"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "id"),
+				resource.TestCheckResourceAttr(resourceName+"_source_database", "source", "DATABASE"),
+				resource.TestCheckResourceAttrSet(resourceName+"_source_database", "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "true"),
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", Optional, Update, dbHomeDataSourceRepresentation) +
+				compartmentIdVariableStr + DbHomeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "createdDbHomeNone"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "db_homes.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.db_system_id"),
+				resource.TestMatchResourceAttr(datasourceName, "db_homes.0.db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+				resource.TestCheckResourceAttr(datasourceName, "db_homes.0.display_name", "createdDbHomeNone"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_version_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DbHomeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestMatchResourceAttr(singularDatasourceName, "db_version", regexp.MustCompile(`^12\.1\.0\.2(\.[0-9]+)?$`)),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "createdDbHomeNone"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config +
+				compartmentIdVariableStr + DbHomeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"database",
+				"is_desupported_version",
+				"database.0.admin_password",
+				"kms_key_version_id",
 			},
+			ResourceName: resourceName + "_source_none",
 		},
 	})
 }

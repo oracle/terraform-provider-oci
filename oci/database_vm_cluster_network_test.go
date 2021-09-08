@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -112,7 +112,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -128,238 +127,231 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VmClusterNetworkResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation), "database", "vmClusterNetwork", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatabaseVmClusterNetworkDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
-						"hostname": "myprefix1-ivmmj-scan",
-						"ips.#":    "3",
-						"port":     "1521",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-						"domain_name":  "oracle.com",
-						"gateway":      "192.168.20.1",
-						"netmask":      "255.255.0.0",
-						"network_type": "CLIENT",
-						"nodes.#":      "2",
-					},
-						[]string{
-							"vlan_id",
-						}),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
-						"hostname":                   "myprefix1-ivmmj-scan",
-						"ips.#":                      "3",
-						"port":                       "1521",
-						"scan_listener_port_tcp":     "1521",
-						"scan_listener_port_tcp_ssl": "2484",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-						"domain_name":  "oracle.com",
-						"gateway":      "192.168.20.1",
-						"netmask":      "255.255.0.0",
-						"network_type": "CLIENT",
-						"nodes.#":      "2",
-					},
-						[]string{
-							"vlan_id",
-						}),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						exadataInfrastructureId, _ := fromInstanceState(s, resourceName, "exadata_infrastructure_id")
-						compositeId = "exadataInfrastructures/" + exadataInfrastructureId + "/vmClusterNetworks/" + resId
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
-						"hostname":                   "myprefix2-ivmmj-scan",
-						"ips.#":                      "3",
-						"port":                       "1522",
-						"scan_listener_port_tcp":     "1522",
-						"scan_listener_port_tcp_ssl": "2484",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
-						"domain_name":  "oracle.com",
-						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.192.0",
-						"network_type": "BACKUP",
-						"nodes.#":      "2",
-					},
-						[]string{
-							"vlan_id",
-						}),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_networks", "test_vm_cluster_networks", Optional, Update, vmClusterNetworkDataSourceRepresentation) +
-					compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_VALIDATION"),
-
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dns.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.exadata_infrastructure_id"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.ntp.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.scans.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.scans", map[string]string{
-						"hostname":                   "myprefix2-ivmmj-scan",
-						"ips.#":                      "3",
-						"port":                       "1522",
-						"scan_listener_port_tcp":     "1522",
-						"scan_listener_port_tcp_ssl": "2484",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.vm_networks.#", "2"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.vm_networks", map[string]string{
-						"domain_name":  "oracle.com",
-						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.192.0",
-						"network_type": "BACKUP",
-						"nodes.#":      "2",
-					},
-						[]string{
-							"vlan_id",
-						}),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VmClusterNetworkResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "scans.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "scans", map[string]string{
-						"hostname":                   "myprefix2-ivmmj-scan",
-						"ips.#":                      "3",
-						"port":                       "1522",
-						"scan_listener_port_tcp":     "1522",
-						"scan_listener_port_tcp_ssl": "2484",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vm_networks.#", "2"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "vm_networks", map[string]string{
-						"domain_name":  "oracle.com",
-						"gateway":      "192.169.20.2",
-						"netmask":      "255.255.192.0",
-						"network_type": "BACKUP",
-						"nodes.#":      "2",
-					},
-						[]string{}),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + VmClusterNetworkResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateIdFunc: getVmClusterNetworkImportId(resourceName),
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"validate_vm_cluster_network",
+	ResourceTest(t, testAccCheckDatabaseVmClusterNetworkDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
+					"hostname": "myprefix1-ivmmj-scan",
+					"ips.#":    "3",
+					"port":     "1521",
 				},
-				ResourceName: resourceName,
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
+					"domain_name":  "oracle.com",
+					"gateway":      "192.168.20.1",
+					"netmask":      "255.255.0.0",
+					"network_type": "CLIENT",
+					"nodes.#":      "2",
+				},
+					[]string{
+						"vlan_id",
+					}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
+					"hostname":                   "myprefix1-ivmmj-scan",
+					"ips.#":                      "3",
+					"port":                       "1521",
+					"scan_listener_port_tcp":     "1521",
+					"scan_listener_port_tcp_ssl": "2484",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
+					"domain_name":  "oracle.com",
+					"gateway":      "192.168.20.1",
+					"netmask":      "255.255.0.0",
+					"network_type": "CLIENT",
+					"nodes.#":      "2",
+				},
+					[]string{
+						"vlan_id",
+					}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					exadataInfrastructureId, _ := fromInstanceState(s, resourceName, "exadata_infrastructure_id")
+					compositeId = "exadataInfrastructures/" + exadataInfrastructureId + "/vmClusterNetworks/" + resId
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ntp.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scans.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "scans", map[string]string{
+					"hostname":                   "myprefix2-ivmmj-scan",
+					"ips.#":                      "3",
+					"port":                       "1522",
+					"scan_listener_port_tcp":     "1522",
+					"scan_listener_port_tcp_ssl": "2484",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "vm_networks.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "vm_networks", map[string]string{
+					"domain_name":  "oracle.com",
+					"gateway":      "192.169.20.2",
+					"netmask":      "255.255.192.0",
+					"network_type": "BACKUP",
+					"nodes.#":      "2",
+				},
+					[]string{
+						"vlan_id",
+					}),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_networks", "test_vm_cluster_networks", Optional, Update, vmClusterNetworkDataSourceRepresentation) +
+				compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_VALIDATION"),
+
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dns.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.ntp.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.scans.#", "1"),
+				CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.scans", map[string]string{
+					"hostname":                   "myprefix2-ivmmj-scan",
+					"ips.#":                      "3",
+					"port":                       "1522",
+					"scan_listener_port_tcp":     "1522",
+					"scan_listener_port_tcp_ssl": "2484",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.vm_networks.#", "2"),
+				CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.vm_networks", map[string]string{
+					"domain_name":  "oracle.com",
+					"gateway":      "192.169.20.2",
+					"netmask":      "255.255.192.0",
+					"network_type": "BACKUP",
+					"nodes.#":      "2",
+				},
+					[]string{
+						"vlan_id",
+					}),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VmClusterNetworkResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ntp.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scans.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "scans", map[string]string{
+					"hostname":                   "myprefix2-ivmmj-scan",
+					"ips.#":                      "3",
+					"port":                       "1522",
+					"scan_listener_port_tcp":     "1522",
+					"scan_listener_port_tcp_ssl": "2484",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vm_networks.#", "2"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "vm_networks", map[string]string{
+					"domain_name":  "oracle.com",
+					"gateway":      "192.169.20.2",
+					"netmask":      "255.255.192.0",
+					"network_type": "BACKUP",
+					"nodes.#":      "2",
+				},
+					[]string{}),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateIdFunc: getVmClusterNetworkImportId(resourceName),
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"validate_vm_cluster_network",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

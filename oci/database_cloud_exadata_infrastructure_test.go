@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -88,7 +88,6 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseCloudExadataInfrastructureResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -106,237 +105,230 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+CloudExadataInfrastructureResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Create, cloudExadataInfrastructureRepresentation), "database", "cloudExadataInfrastructure", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseCloudExadataInfrastructureDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseCloudExadataInfrastructureDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Create, cloudExadataInfrastructureRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Create, cloudExadataInfrastructureRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Create,
-						representationCopyWithNewProperties(cloudExadataInfrastructureRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudExadataInfrastructureResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Create,
+					representationCopyWithNewProperties(cloudExadataInfrastructureRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "10"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Update, cloudExadataInfrastructureRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "JUNE"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Update, cloudExadataInfrastructureRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "JUNE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructures", "test_cloud_exadata_infrastructures", Optional, Update, cloudExadataInfrastructureDataSourceRepresentation) +
-					compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Update, cloudExadataInfrastructureRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructures", "test_cloud_exadata_infrastructures", Optional, Update, cloudExadataInfrastructureDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudExadataInfrastructureResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Optional, Update, cloudExadataInfrastructureRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.available_storage_size_in_gbs"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compute_count", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.0.email", "test2@oracle.com"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.id"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.last_maintenance_run_id"), // null for fake resource
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.days_of_week.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.#", "4"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.0.name", "JUNE"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.weeks_of_month.#", "1"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.next_maintenance_run_id"), // null for fake resource
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.shape", "Exadata.X8M"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.storage_count", "3"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.total_storage_size_in_gbs"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + CloudExadataInfrastructureResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.available_storage_size_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compute_count", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.id"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.last_maintenance_run_id"), // null for fake resource
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.lead_time_in_weeks", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.months.0.name", "JUNE"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.0.weeks_of_month.#", "1"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.next_maintenance_run_id"), // null for fake resource
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.shape", "Exadata.X8M"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.storage_count", "3"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.total_storage_size_in_gbs"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudExadataInfrastructureResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_exadata_infrastructure_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "available_storage_size_in_gbs"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_maintenance_run_id"), // null for fake resource
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "JUNE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "next_maintenance_run_id"), // null for fake resource
-					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "Exadata.X8M"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "storage_count", "3"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_storage_size_in_gbs"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_storage_size_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_maintenance_run_id"), // null for fake resource
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "JUNE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "next_maintenance_run_id"), // null for fake resource
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "Exadata.X8M"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_count", "3"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_storage_size_in_gbs"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + CloudExadataInfrastructureResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

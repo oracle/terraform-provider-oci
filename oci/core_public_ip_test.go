@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -149,7 +149,6 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePublicIpResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -169,17 +168,11 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PublicIpResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation), "core", "publicIp", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckCorePublicIpDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation) + `
+	ResourceTest(t, testAccCheckCorePublicIpDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation) + `
 					data "oci_core_public_ip" "test_oci_core_public_ip_by_id" {
 						id = "${oci_core_public_ip.test_public_ip.id}"
 					}
@@ -187,237 +180,236 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					data "oci_core_public_ip" "test_oci_core_public_ip_by_ip" {
 						ip_address = "${oci_core_public_ip.test_public_ip.ip_address}"
 					}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-					resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckNoResourceAttr(resourceName, "private_ip_id"),
-					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				resource.TestCheckNoResourceAttr(resourceName, "private_ip_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
 
-					// check oci_core_public_ip by id
-					resource.TestCheckResourceAttr(sDatasourceNameById, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(sDatasourceNameById, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckResourceAttrSet(sDatasourceNameById, "id"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameById, "ip_address"),
-					resource.TestCheckNoResourceAttr(sDatasourceNameById, "private_ip_id"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameById, "display_name"),
-					resource.TestCheckNoResourceAttr(sDatasourceNameById, "availability_domain"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameById, "time_created"),
-					resource.TestCheckResourceAttr(sDatasourceNameById, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(sDatasourceNameById, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
+				// check oci_core_public_ip by id
+				resource.TestCheckResourceAttr(sDatasourceNameById, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(sDatasourceNameById, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				resource.TestCheckResourceAttrSet(sDatasourceNameById, "id"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameById, "ip_address"),
+				resource.TestCheckNoResourceAttr(sDatasourceNameById, "private_ip_id"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameById, "display_name"),
+				resource.TestCheckNoResourceAttr(sDatasourceNameById, "availability_domain"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameById, "time_created"),
+				resource.TestCheckResourceAttr(sDatasourceNameById, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(sDatasourceNameById, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
 
-					// check oci_core_public_ip by public ip
-					resource.TestCheckResourceAttr(sDatasourceNameByIp, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(sDatasourceNameByIp, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "id"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "ip_address"),
-					resource.TestCheckNoResourceAttr(sDatasourceNameByIp, "private_ip_id"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "display_name"),
-					resource.TestCheckNoResourceAttr(sDatasourceNameByIp, "availability_domain"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "time_created"),
-					resource.TestCheckResourceAttr(sDatasourceNameByIp, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(sDatasourceNameByIp, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
-				),
-			},
+				// check oci_core_public_ip by public ip
+				resource.TestCheckResourceAttr(sDatasourceNameByIp, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(sDatasourceNameByIp, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "id"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "ip_address"),
+				resource.TestCheckNoResourceAttr(sDatasourceNameByIp, "private_ip_id"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "display_name"),
+				resource.TestCheckNoResourceAttr(sDatasourceNameByIp, "availability_domain"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByIp, "time_created"),
+				resource.TestCheckResourceAttr(sDatasourceNameByIp, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(sDatasourceNameByIp, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
+			),
+		},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
-					resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
-					TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId),
-					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+				resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
+				TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId),
+				resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
-						representationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
+					representationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_ip_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters (partial update)
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
-						getUpdatedRepresentationCopy("display_name", Representation{repType: Optional, create: displayName2}, publicIpRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", displayName2),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId),
-					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters (partial update)
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
+					getUpdatedRepresentationCopy("display_name", Representation{repType: Optional, create: displayName2}, publicIpRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", displayName2),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId),
+				resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters (full update)
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip-updated"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
-					resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
-					TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId2),
-					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters (full update)
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-public-ip-updated"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
+				resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
+				TestCheckResourceAttributesEqual(resourceName, "private_ip_id", "data.oci_core_private_ips.test_private_ips", privateIpId2),
+				resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters (unassign private ip id)
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicUnassignedIpRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", displayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckResourceAttr(resourceName, "private_ip_id", ""), // Still defined, but now empty.
-					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters (unassign private ip id)
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicUnassignedIpRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", displayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_id", ""), // Still defined, but now empty.
+				resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip2", Optional, Update, publicIpRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Required, Create, publicIpDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_core_public_ip", "test_oci_core_public_ip_by_private_ip_id", Optional, Update, publicIpSingularDataSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.assigned_entity_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.assigned_entity_type"),
-					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.display_name", "-tf-public-ip-updated"),
-					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.ip_address"),
-					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.private_ip_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.public_ip_pool_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip2", Optional, Update, publicIpRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Required, Create, publicIpDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_core_public_ip", "test_oci_core_public_ip_by_private_ip_id", Optional, Update, publicIpSingularDataSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.assigned_entity_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.assigned_entity_type"),
+				resource.TestCheckResourceAttr(datasourceName, "public_ips.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "public_ips.0.display_name", "-tf-public-ip-updated"),
+				resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.ip_address"),
+				resource.TestCheckResourceAttr(datasourceName, "public_ips.0.lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.private_ip_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.public_ip_pool_id"),
 
-					// check oci_core_public_ip by private ip id
-					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "id"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "ip_address"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "private_ip_id"),
-					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "display_name"),
-					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "freeform_tags.%", "1"),
-					resource.TestCheckNoResourceAttr(sDatasourceNameByPrivateIpId, "availability_domain"),
-					resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "time_created"),
-					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "scope", string(oci_core.PublicIpScopeRegion)),
-					resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
-				),
-			},
-			// Test client-side filtering.
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Optional, Update,
-						getUpdatedRepresentationCopy("filter", RepresentationGroup{Required, publicIpDataSourceNameFilterRepresentation}, publicIpDataSourceRepresentation)) +
-					compartmentIdVariableStr + PublicIpResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeAvailabilityDomain)),
-					resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "0"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				// check oci_core_public_ip by private ip id
+				resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "id"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "ip_address"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "private_ip_id"),
+				resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "display_name"),
+				resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "freeform_tags.%", "1"),
+				resource.TestCheckNoResourceAttr(sDatasourceNameByPrivateIpId, "availability_domain"),
+				resource.TestCheckResourceAttrSet(sDatasourceNameByPrivateIpId, "time_created"),
+				resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "scope", string(oci_core.PublicIpScopeRegion)),
+				resource.TestCheckResourceAttr(sDatasourceNameByPrivateIpId, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
+			),
+		},
+		// Test client-side filtering.
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Optional, Update,
+					getUpdatedRepresentationCopy("filter", RepresentationGroup{Required, publicIpDataSourceNameFilterRepresentation}, publicIpDataSourceRepresentation)) +
+				compartmentIdVariableStr + PublicIpResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeAvailabilityDomain)),
+				resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "0"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

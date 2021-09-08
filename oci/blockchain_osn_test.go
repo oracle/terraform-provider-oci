@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v46/blockchain"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v47/blockchain"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -56,7 +56,6 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBlockchainOsnResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -75,119 +74,112 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+OsnResourceDependencies+
 		generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation), "blockchain", "osn", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckBlockchainOsnDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckBlockchainOsnDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
+				//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "1.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "osn_key"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
-					//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "1.0"),
-					resource.TestCheckResourceAttrSet(resourceName, "osn_key"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
-						compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + resId
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
+					compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + resId
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
-					resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
-					//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
-					//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "1.1"),
-					resource.TestCheckResourceAttrSet(resourceName, "osn_key"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
+				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
+				//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "1.1"),
+				resource.TestCheckResourceAttrSet(resourceName, "osn_key"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", Optional, Update, osnDataSourceRepresentation) +
-					compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-					generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", Optional, Update, osnDataSourceRepresentation) +
+				compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
+				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 
-					resource.TestCheckResourceAttr(datasourceName, "osn_collection.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "osn_id"),
+				resource.TestCheckResourceAttr(datasourceName, "osn_collection.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "osn_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "ad", "AD1"),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.#", "1"),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "1.1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "osn_key"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateIdFunc:       getBlockchainOsnCompositeId(resourceName),
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "ad", "AD1"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.#", "1"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_allocation_param.0.ocpu_allocation_number", "1.1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "osn_key"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateIdFunc:       getBlockchainOsnCompositeId(resourceName),
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

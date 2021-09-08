@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_management "github.com/oracle/oci-go-sdk/v46/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v47/databasemanagement"
 )
 
 func init() {
@@ -70,6 +70,10 @@ func DatabaseManagementManagedDatabaseGroupResource() *schema.Resource {
 							Computed: true,
 						},
 						"database_sub_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"deployment_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -476,6 +480,8 @@ func ChildDatabaseToMap(obj oci_database_management.ChildDatabase) map[string]in
 
 	result["database_type"] = string(obj.DatabaseType)
 
+	result["deployment_type"] = string(obj.DeploymentType)
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -534,5 +540,10 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) updateCompartment(c
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -72,7 +72,6 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpv6Resource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -87,132 +86,125 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+Ipv6ResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation), "core", "ipv6", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreIpv6Destroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreIpv6Destroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", Optional, Update, ipv6DataSourceRepresentation) +
-					compartmentIdVariableStr + Ipv6ResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", Optional, Update, ipv6DataSourceRepresentation) +
+				compartmentIdVariableStr + Ipv6ResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "ipv6s.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.ip_address"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.vnic_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6SingularDataSourceRepresentation) +
-					compartmentIdVariableStr + Ipv6ResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
+				resource.TestCheckResourceAttr(datasourceName, "ipv6s.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.ip_address"),
+				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.vnic_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6SingularDataSourceRepresentation) +
+				compartmentIdVariableStr + Ipv6ResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + Ipv6ResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + Ipv6ResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,7 +30,6 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 	httpreplay.SetScenario("TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -44,69 +42,63 @@ func TestDatabaseExternalPluggableDatabaseOperationsInsightsManagementResource_b
 	saveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation), "database", "externalPluggableDatabaseOperationsInsightsManagement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
-				),
-			},
 
-			// Verify Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies,
-			},
-			// Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Enablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
-				),
-			},
+		// Verify Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies,
+		},
+		// Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// Verify Enablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Required, Create, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
+			),
+		},
 
-			// Disablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Optional, Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Disablement of PDB
-			{
-				Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Optional, Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "NOT_ENABLED"),
-				),
-			},
+		// Disablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Optional, Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// Verify Disablement of PDB
+		{
+			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseOperationsInsightsManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_pluggable_database_operations_insights_management", "test_external_pluggable_database_operations_insights_management", Optional, Update, externalPluggableDatabaseOperationsInsightsManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourcePDB, "operations_insights_config.0.operations_insights_status", "NOT_ENABLED"),
+			),
 		},
 	})
 }

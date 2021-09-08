@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v46/mysql"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v47/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -91,7 +91,6 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -106,236 +105,229 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+MysqlDbSystemResourceDependencies+
 		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation), "mysql", "mysqlDbSystem", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckMysqlMysqlDbSystemDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+	ResourceTest(t, testAccCheckMysqlMysqlDbSystemDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "MySQL Database Service"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "DBSystem001"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
-					resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "11"),
-					resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
-					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(resourceName, "port", "3306"),
-					resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", Optional, Update, mysqlDbSystemDataSourceRepresentation) +
-					compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "is_analytics_cluster_attached", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "is_heat_wave_cluster_attached", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "is_up_to_date", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.endpoints.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.heat_wave_cluster.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_analytics_cluster_attached", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_heat_wave_cluster_attached", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_highly_available", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + MysqlDbSystemResourceConfig +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
-					generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "analytics_cluster.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.is_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.retention_in_days", "11"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "current_placement.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "endpoints.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "heat_wave_cluster.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "hostnameLabel"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_analytics_cluster_attached", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_heat_wave_cluster_attached", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.0.window_start_time", "sun 01:00"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "source.0.source_type", "NONE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + MysqlDbSystemResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"admin_password",
-					"admin_username",
-					"shutdown_type",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlDbSystemRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "01:00-00:00"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "MySQL Database Service"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "DBSystem001"),
+				resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
+				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.retention_in_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
+				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", Optional, Update, mysqlDbSystemDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlDbSystemResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, mysqlDbSystemRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "is_analytics_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "is_heat_wave_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "is_up_to_date", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.endpoints.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.heat_wave_cluster.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_analytics_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_heat_wave_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_highly_available", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + MysqlDbSystemResourceConfig +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation) +
+				generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "analytics_cluster.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.retention_in_days", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.window_start_time", "02:00-00:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "channels.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "current_placement.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "heat_wave_cluster.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_analytics_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_heat_wave_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.0.window_start_time", "sun 01:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.source_type", "NONE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"admin_password",
+				"admin_username",
+				"shutdown_type",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v46/objectstorage"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v47/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -62,7 +62,6 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,139 +76,132 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ObjectLifecyclePolicyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation), "objectstorage", "objectLifecyclePolicy", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckObjectStorageObjectLifecyclePolicyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckObjectStorageObjectLifecyclePolicyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "0"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "rules", map[string]string{
+					"action":               "ARCHIVE",
+					"is_enabled":           "false",
+					"name":                 "sampleRule",
+					"object_name_filter.#": "1",
+					"object_name_filter.0.inclusion_prefixes.#": "2",
+					"object_name_filter.0.exclusion_patterns.#": "2",
+					"object_name_filter.0.inclusion_patterns.#": "2",
+					"target":      "objects",
+					"time_amount": "10",
+					"time_unit":   "DAYS",
+				},
+					[]string{}),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "rules", map[string]string{
-						"action":               "ARCHIVE",
-						"is_enabled":           "false",
-						"name":                 "sampleRule",
-						"object_name_filter.#": "1",
-						"object_name_filter.0.inclusion_prefixes.#": "2",
-						"object_name_filter.0.exclusion_patterns.#": "2",
-						"object_name_filter.0.inclusion_patterns.#": "2",
-						"target":      "objects",
-						"time_amount": "10",
-						"time_unit":   "DAYS",
-					},
-						[]string{}),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "rules", map[string]string{
-						"action":               "DELETE",
-						"is_enabled":           "true",
-						"name":                 "name2",
-						"object_name_filter.#": "1",
-						"object_name_filter.0.inclusion_prefixes.#": "3",
-						"object_name_filter.0.exclusion_patterns.#": "3",
-						"object_name_filter.0.inclusion_patterns.#": "3",
-						"target":      "objects",
-						"time_amount": "11",
-						"time_unit":   "YEARS",
-					},
-						[]string{}),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bucket", bucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "rules", map[string]string{
+					"action":               "DELETE",
+					"is_enabled":           "true",
+					"name":                 "name2",
+					"object_name_filter.#": "1",
+					"object_name_filter.0.inclusion_prefixes.#": "3",
+					"object_name_filter.0.exclusion_patterns.#": "3",
+					"object_name_filter.0.inclusion_patterns.#": "3",
+					"target":      "objects",
+					"time_amount": "11",
+					"time_unit":   "YEARS",
+				},
+					[]string{}),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", bucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "rules", map[string]string{},
-						[]string{}),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", bucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "rules", map[string]string{},
+					[]string{}),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "rules", map[string]string{
-						"action":               "DELETE",
-						"is_enabled":           "true",
-						"name":                 "name2",
-						"object_name_filter.#": "1",
-						"object_name_filter.0.inclusion_prefixes.#": "3",
-						"object_name_filter.0.exclusion_patterns.#": "3",
-						"object_name_filter.0.inclusion_patterns.#": "3",
-						"target":      "objects",
-						"time_amount": "11",
-						"time_unit":   "YEARS",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "rules", map[string]string{
+					"action":               "DELETE",
+					"is_enabled":           "true",
+					"name":                 "name2",
+					"object_name_filter.#": "1",
+					"object_name_filter.0.inclusion_prefixes.#": "3",
+					"object_name_filter.0.exclusion_patterns.#": "3",
+					"object_name_filter.0.inclusion_patterns.#": "3",
+					"target":      "objects",
+					"time_amount": "11",
+					"time_unit":   "YEARS",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

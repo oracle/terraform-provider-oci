@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v46/objectstorage"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v47/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -56,7 +56,6 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageReplicationPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -71,87 +70,80 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ReplicationPolicyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation), "objectstorage", "replicationPolicy", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckObjectStorageReplicationPolicyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "destination_bucket_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "destination_region_name"),
-					resource.TestCheckResourceAttr(resourceName, "name", "mypolicy"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+	ResourceTest(t, testAccCheckObjectStorageReplicationPolicyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "destination_bucket_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "destination_region_name"),
+				resource.TestCheckResourceAttr(resourceName, "name", "mypolicy"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
-					compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
-
-					resource.TestCheckResourceAttr(datasourceName, "replication_policies.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.destination_bucket_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.destination_region_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "replication_policies.0.name", "mypolicy"),
-					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.status"),
-					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.status_message"),
-					resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.time_created"),
-				),
-			},
-
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ReplicationPolicyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "mypolicy"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status_message"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ReplicationPolicyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"time_last_sync",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
+				compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
+
+				resource.TestCheckResourceAttr(datasourceName, "replication_policies.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.destination_bucket_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.destination_region_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "replication_policies.0.name", "mypolicy"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.status_message"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replication_policies.0.time_created"),
+			),
+		},
+
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ReplicationPolicyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "mypolicy"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status_message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ReplicationPolicyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"time_last_sync",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

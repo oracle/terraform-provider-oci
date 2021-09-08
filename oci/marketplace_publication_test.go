@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v46/marketplace"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v47/marketplace"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -81,7 +81,6 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplacePublicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -96,259 +95,252 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckMarketplacePublicationDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
-					resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
-						"eula_type": "TEXT",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
-					resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{},
-						[]string{}),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PublicationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
-					resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
-						"eula_type":    "TEXT",
-						"license_text": "licenseText",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "package_details.0.image_id"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.0.name", "Oracle Linux"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{
-						"email":   "email",
-						"name":    "name",
-						"phone":   "phone",
-						"subject": "subject",
-					},
-						[]string{}),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create,
-						representationCopyWithNewProperties(publicationRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
-					resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
-						"eula_type":    "TEXT",
-						"license_text": "licenseText",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "package_details.0.image_id"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.0.name", "Oracle Linux"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{
-						"email":   "email",
-						"name":    "name",
-						"phone":   "phone",
-						"subject": "subject",
-					},
-						[]string{}),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
-					resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription2"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
-						"eula_type":    "TEXT",
-						"license_text": "licenseText",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttrSet(resourceName, "package_details.0.image_id"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.0.name", "Oracle Linux"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
-					resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
-					resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{
-						"email":   "email2",
-						"name":    "name2",
-						"phone":   "phone2",
-						"subject": "subject2",
-					},
-						[]string{}),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", Optional, Update, publicationDataSourceRepresentation) +
-					compartmentIdVariableStr + PublicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(datasourceName, "name.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "operating_systems.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "publication_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "publications.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "publications.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "publications.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "publications.0.listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(datasourceName, "publications.0.name", "name2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "publications.0.package_type"),
-					resource.TestCheckResourceAttr(datasourceName, "publications.0.short_description", "shortDescription2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "publications.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "publications.0.supported_operating_systems.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "publications.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + PublicationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "listing_type", "COMMUNITY"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "long_description", "longDescription2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "short_description", "shortDescription2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "support_contacts.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "support_contacts", map[string]string{
-						"email":   "email2",
-						"name":    "name2",
-						"phone":   "phone2",
-						"subject": "subject2",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(singularDatasourceName, "supported_operating_systems.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + PublicationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"is_agreement_acknowledged",
-					"package_details",
+	ResourceTest(t, testAccCheckMarketplacePublicationDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
+				resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
+					"eula_type": "TEXT",
 				},
-				ResourceName: resourceName,
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
+				resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{},
+					[]string{}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PublicationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
+				resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
+					"eula_type":    "TEXT",
+					"license_text": "licenseText",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "package_details.0.image_id"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.0.name", "Oracle Linux"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{
+					"email":   "email",
+					"name":    "name",
+					"phone":   "phone",
+					"subject": "subject",
+				},
+					[]string{}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create,
+					representationCopyWithNewProperties(publicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
+				resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
+					"eula_type":    "TEXT",
+					"license_text": "licenseText",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "package_details.0.image_id"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.0.name", "Oracle Linux"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{
+					"email":   "email",
+					"name":    "name",
+					"phone":   "phone",
+					"subject": "subject",
+				},
+					[]string{}),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
+				resource.TestCheckResourceAttr(resourceName, "listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(resourceName, "long_description", "longDescription2"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.eula.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "package_details.0.eula", map[string]string{
+					"eula_type":    "TEXT",
+					"license_text": "licenseText",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttrSet(resourceName, "package_details.0.image_id"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.operating_system.0.name", "Oracle Linux"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_type", "IMAGE"),
+				resource.TestCheckResourceAttr(resourceName, "package_details.0.package_version", "packageVersion"),
+				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "support_contacts.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "support_contacts", map[string]string{
+					"email":   "email2",
+					"name":    "name2",
+					"phone":   "phone2",
+					"subject": "subject2",
+				},
+					[]string{}),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", Optional, Update, publicationDataSourceRepresentation) +
+				compartmentIdVariableStr + PublicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(datasourceName, "name.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "operating_systems.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "publication_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "publications.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "publications.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.name", "name2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "publications.0.package_type"),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.short_description", "shortDescription2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "publications.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.supported_operating_systems.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "publications.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + PublicationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "listing_type", "COMMUNITY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "long_description", "longDescription2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "short_description", "shortDescription2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "support_contacts.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "support_contacts", map[string]string{
+					"email":   "email2",
+					"name":    "name2",
+					"phone":   "phone2",
+					"subject": "subject2",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(singularDatasourceName, "supported_operating_systems.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + PublicationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"is_agreement_acknowledged",
+				"package_details",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

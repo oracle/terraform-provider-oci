@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_waas "github.com/oracle/oci-go-sdk/v46/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v47/waas"
 )
 
 func init() {
@@ -630,5 +630,10 @@ func (s *WaasCertificateResourceCrud) updateCompartment(compartment interface{})
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

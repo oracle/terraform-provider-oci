@@ -154,7 +154,6 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -164,200 +163,194 @@ func TestResourceDnsRrsetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create,
+					getUpdatedRepresentationCopy("items", []RepresentationGroup{{Optional, rrsetItemsRepresentation}, {Optional, rrsetItemsRepresentation2}}, rrsetRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					// Resource discovery is not supported for Rrset resources created using scope field
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create,
-						getUpdatedRepresentationCopy("items", []RepresentationGroup{{Optional, rrsetItemsRepresentation}, {Optional, rrsetItemsRepresentation2}}, rrsetRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+		// verify update
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						// Resource discovery is not supported for Rrset resources created using scope field
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
-			// verify update
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
-			},
-
-			// verify create AAAA
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAAAA),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
-			// verify update AAAA
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationAAAA),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
-			},
-			// verify create CNAME
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationCname),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", "el."+dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "CNAME"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
-			},
-			// verify create TXT
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationTxt),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "TXT"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-						//		return errExport
-						//	}
-						//}
-						return err
-					},
-				),
-			},
-			/* TODO PN: Alias records are not yet supported
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
-			},
-			// verify create ALIAS
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAlias),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "ALIAS"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			}, */
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
+		},
+
+		// verify create AAAA
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAAAA),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
+		},
+		// verify update AAAA
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationAAAA),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
+		},
+		// verify create CNAME
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationCname),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", "el."+dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "CNAME"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
+		},
+		// verify create TXT
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationTxt),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "TXT"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
+					return err
+				},
+			),
+		},
+		/* TODO PN: Alias records are not yet supported
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies,
+		},
+		// verify create ALIAS
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAlias),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "ALIAS"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		}, */
 	})
 }
 
@@ -366,7 +359,6 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_default")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -376,231 +368,225 @@ func TestResourceDnsRrsetResource_default(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create,
+					getUpdatedRepresentationCopy("items", []RepresentationGroup{{Optional, rrsetItemsRepresentation}, {Optional, rrsetItemsRepresentation2}}, rrsetRepresentationDefault)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create,
-						getUpdatedRepresentationCopy("items", []RepresentationGroup{{Optional, rrsetItemsRepresentation}, {Optional, rrsetItemsRepresentation2}}, rrsetRepresentationDefault)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+		// verify update
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
+		},
+
+		// verify create AAAA
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAAAADefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "2001:db8:85a3::8a2e:370:7334",
+					"rtype":  "AAAA",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify update
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+					}
+					return err
+				},
+			),
+		},
+		// verify update AAAA
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationAAAADefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "::8a2e:370:1",
+					"rtype":  "AAAA",
+					"ttl":    "1000",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
-			},
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
+		},
+		// verify create CNAME
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationCnameDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", "el."+dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": "el." + dnsDomainName,
+					"rdata":  dnsDomainName + ".",
+					"rtype":  "CNAME",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "CNAME"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-			// verify create AAAA
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAAAADefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "2001:db8:85a3::8a2e:370:7334",
-						"rtype":  "AAAA",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// verify update AAAA
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationAAAADefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "::8a2e:370:1",
-						"rtype":  "AAAA",
-						"ttl":    "1000",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "AAAA"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
+		},
+		// verify create TXT
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationTxtDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "\"arbitrary\" \"text\"",
+					"rtype":  "TXT",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "TXT"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
-			},
-			// verify create CNAME
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationCnameDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", "el."+dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": "el." + dnsDomainName,
-						"rdata":  dnsDomainName + ".",
-						"rtype":  "CNAME",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "CNAME"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+					}
+					return err
+				},
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
+		},
+		// verify create ALIAS
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAliasDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "other.tf-provider.oci-record-test.",
+					"rtype":  "ALIAS",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "ALIAS"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
-			},
-			// verify create TXT
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationTxtDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "\"arbitrary\" \"text\"",
-						"rtype":  "TXT",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "TXT"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
-			},
-			// verify create ALIAS
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationAliasDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "other.tf-provider.oci-record-test.",
-						"rtype":  "ALIAS",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "ALIAS"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }
@@ -610,7 +596,6 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_iterative_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -620,16 +605,11 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					`
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				`
 					locals {
 						test_ips = ["192.168.0.1", "192.168.0.2"]
 					}
@@ -652,31 +632,31 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 						}
 					}
 					`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-			// verify update
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
-					`
+		// verify update
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependencies +
+				`
 					locals {
 						test_ips = ["192.168.0.2"]
 					}
@@ -699,29 +679,28 @@ func TestResourceDnsRrsetResource_iterative_basic(t *testing.T) {
 						}
 					}
 					`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.2",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.2",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }
@@ -731,7 +710,6 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDnsRrsetResource_iterative_default")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -741,16 +719,11 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					`
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				`
 					locals {
 						test_ips = ["192.168.0.1", "192.168.0.2"]
 					}
@@ -771,31 +744,31 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 						}
 					}
 					`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-			// verify update
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					`
+		// verify update
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				`
 					locals {
 						test_ips = ["192.168.0.2"]
 					}
@@ -816,29 +789,28 @@ func TestResourceDnsRrsetResource_iterative_default(t *testing.T) {
 						}
 					}
 					`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.2",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.2",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
 		},
 	})
 }
@@ -848,7 +820,6 @@ func TestDnsRrsetResource_default(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRrsetResource_default")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -860,127 +831,121 @@ func TestDnsRrsetResource_default(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetRepresentationDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetRepresentationDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "192.168.0.1",
-						"rtype":  "A",
-						"ttl":    "3600",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
-					generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationDefault),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "77.77.77.77",
-						"rtype":  "A",
-						"ttl":    "1000",
-					},
-						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetSingularDataSourceRepresentationDefault) +
-					compartmentIdVariableStr + RrsetResourceConfigDefault,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_name_or_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
-					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{
-						"domain": dnsDomainName,
-						"rdata":  "77.77.77.77",
-						"rtype":  "A",
-						"ttl":    "1000",
-					},
-						[]string{
-							"is_protected",
-							"record_hash",
-							"rrset_version",
-						}),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + RrsetResourceConfigDefault,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"compartment_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Create, rrsetRepresentationDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "192.168.0.1",
+					"rtype":  "A",
+					"ttl":    "3600",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceDependenciesDefault +
+				generateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Optional, Update, rrsetRepresentationDefault),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "77.77.77.77",
+					"rtype":  "A",
+					"ttl":    "1000",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_rrset", "test_rrset", Required, Create, rrsetSingularDataSourceRepresentationDefault) +
+				compartmentIdVariableStr + RrsetResourceConfigDefault,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "domain", dnsDomainName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rtype", "A"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_name_or_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
+				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "77.77.77.77",
+					"rtype":  "A",
+					"ttl":    "1000",
+				},
+					[]string{
+						"is_protected",
+						"record_hash",
+						"rrset_version",
+					}),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + RrsetResourceConfigDefault,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"compartment_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

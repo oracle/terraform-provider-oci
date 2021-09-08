@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,7 +61,6 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,154 +81,147 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 				"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 			})), "core", "bootVolumeBackup", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreBootVolumeBackupDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreBootVolumeBackupDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BootVolumeBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
+					representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BootVolumeBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
-						representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentIdU, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentIdU, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update,
-						representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update,
+					representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", Optional, Update, bootVolumeBackupDataSourceRepresentation) +
-					compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", Optional, Update, bootVolumeBackupDataSourceRepresentation) +
+				compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.boot_volume_id"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.image_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.kms_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.source_type"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.time_request_received"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.unique_size_in_gbs"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BootVolumeBackupResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_backup_id"),
+				resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.boot_volume_id"),
+				resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.source_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.time_request_received"),
+				resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.type", "INCREMENTAL"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.unique_size_in_gbs"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_backup_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_gbs"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_request_received"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "unique_size_in_gbs"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_gbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_request_received"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "INCREMENTAL"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "unique_size_in_gbs"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

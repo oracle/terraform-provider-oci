@@ -63,7 +63,6 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowApplicationResource_SparkSubmit")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -93,236 +92,229 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDataflowApplicationDestroy, []resource.TestStep{
+		// verify create with execute only
+		{
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
+				resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
+				resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
+				resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDataflowApplicationDestroy,
-		Steps: []resource.TestStep{
-			// verify create with execute only
-			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
-					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
-					resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
-					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
-					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies,
+		},
+		// verify create with execute, and other optionals
+		{
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
+					"execute": Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"}})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
+				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
+				resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
+				resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
+				resource.TestCheckResourceAttr(resourceName, "metastore_id", metastoreId),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies,
-			},
-			// verify create with execute, and other optionals
-			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-						"execute": Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"}})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
-					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
-					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
-					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
-					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
-					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
-					resource.TestCheckResourceAttr(resourceName, "metastore_id", metastoreId),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create,
-						representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-							"execute":        Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
-					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
-					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
-					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
-					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
-					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update,
-						dataFlowApplicationSubmitRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
-					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit2"),
-					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments2"),
-					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
-					resource.TestCheckResourceAttr(resourceName, "num_executors", "2"),
-					resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
-					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4.4"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications_submit", Optional, Update, dataFlowApplicationSubmitDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Create,
+					representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						"execute":        Representation{repType: Optional, create: "--conf spark.shuffle.io.maxRetries=10 " + fileUri + " arguments"},
 					})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "test_wordcount_app_submit2"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", "test_wordcount_app_submit2"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.language", "PYTHON"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_principal_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_user_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
-					})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
+				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
+				resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
+				resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "arguments.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_wordcount_app_submit2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "file_uri", fileUri),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "logs_bucket_uri", logsBucketUri),
-					resource.TestCheckResourceAttr(singularDatasourceName, "num_executors", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_user_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "spark_version", "2.4.4"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
-						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
-					})),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update,
+					dataFlowApplicationSubmitRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
+				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app_submit2"),
+				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments2"),
+				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
+				resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
+				resource.TestCheckResourceAttr(resourceName, "num_executors", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4.4"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications_submit", Optional, Update, dataFlowApplicationSubmitDataSourceRepresentation) +
+				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
+					"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "test_wordcount_app_submit2"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", "test_wordcount_app_submit2"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.language", "PYTHON"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_principal_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_user_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Required, Create, dataFlowApplicationSubmitSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
+					"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "archive_uri"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "arguments.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_wordcount_app_submit2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_uri", fileUri),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "language", "PYTHON"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "logs_bucket_uri", logsBucketUri),
+				resource.TestCheckResourceAttr(singularDatasourceName, "num_executors", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_user_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "spark_version", "2.4.4"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationSubmitResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application_submit", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationSubmitRepresentation, map[string]interface{}{
+					"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				})),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -13,9 +13,9 @@ import (
 	"strings"
 	"testing"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v46/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v47/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -28,7 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -1252,4 +1252,23 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
 	}
 
+}
+
+// Method to execute tests
+func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps []resource.TestStep) {
+	// set Generic preconfiguration method if not explicitly set
+	for index, _ := range steps {
+		if steps[index].PreConfig == nil {
+			steps[index].PreConfig = GenericTestStepPreConfiguration(index)
+		}
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": testAccProvider,
+		},
+		CheckDestroy: checkDestroyFunc,
+		Steps:        steps,
+	})
 }

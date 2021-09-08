@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,52 +60,43 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 	httpreplay.SetScenario("TestResourceKmsVaultRestore_virtual")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_kms_vault.private-vault-kms"
-	var c = config + compartmentIdVariableStr + VaultResourceDependencies + vaultRestoreConfig
-	fmt.Println(c)
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+
+	ResourceTest(t, testAccCheckKMSVaultDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", Optional, Create,
+					representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
+						"restore_from_file": RepresentationGroup{Optional, vaultRestoreFromFileRepresentation}})),
+
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "content_length", "10"),
+			),
 		},
-		CheckDestroy: testAccCheckKMSVaultDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", Optional, Create,
-						representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
-							"restore_from_file": RepresentationGroup{Optional, vaultRestoreFromFileRepresentation}})),
+		{
+			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", Optional, Create,
+					representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
+						"restore_from_object_store": RepresentationGroup{Optional, vaultRestoreFromObjectBackupLocationRepresentation}})),
 
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "content_length", "10"),
-				),
-			},
-			{
-				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", Optional, Create,
-						representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
-							"restore_from_object_store": RepresentationGroup{Optional, vaultRestoreFromObjectBackupLocationRepresentation}})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+				generateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", Optional, Create,
+					representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
+						"restore_from_object_store": RepresentationGroup{Optional, vaultRestoreFromObjecUriBackupLocationRepresentation}})),
 
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
-			{
-				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-					generateResourceFromRepresentationMap("oci_kms_vault", "private-vault-kms", Optional, Create,
-						representationCopyWithNewProperties(vaultRestoreRepresentation, map[string]interface{}{
-							"restore_from_object_store": RepresentationGroup{Optional, vaultRestoreFromObjecUriBackupLocationRepresentation}})),
-
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			),
 		},
 	})
 }

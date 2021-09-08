@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -181,7 +181,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -197,192 +196,185 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DatabaseResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseRepresentation), "database", "database", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseDatabaseDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
-					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
-				),
-			},
-			// verify migrate kms_key
-			{
-				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentationMigration),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "10"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
-					resource.TestCheckResourceAttr(resourceName, "db_unique_name", "myTestDb_12"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+		// verify migrate kms_key
+		{
+			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseRepresentationMigration),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
+				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "myTestDb_12"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
-					//resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_THREE"),
-					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "30"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
-					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", Optional, Update, databaseDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
-					resource.TestCheckResourceAttr(datasourceName, "db_name", "myTestDb"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.character_set"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "databases.0.db_backup_config.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_home_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_unique_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_workload"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.kms_key_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.ncharacter_set"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.pdb_name"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
-
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "character_set"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_backup_config.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_unique_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_workload"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DatabaseResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"database",
-					"db_version",
-					"kms_key_migration",
-					"kms_key_rotation",
-					"kms_key_version_id",
-					"source",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
+				//resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_THREE"),
+				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "30"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", Optional, Update, databaseDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(datasourceName, "db_name", "myTestDb"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.character_set"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "databases.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_home_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_unique_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.db_workload"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.ncharacter_set"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.pdb_name"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "character_set"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_backup_config.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_unique_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_workload"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DatabaseResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"database",
+				"db_version",
+				"kms_key_migration",
+				"kms_key_rotation",
+				"kms_key_version_id",
+				"source",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

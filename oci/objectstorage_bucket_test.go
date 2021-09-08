@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v46/objectstorage"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v47/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -68,7 +68,6 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageBucketResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -86,206 +85,199 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BucketResourceDependencies+
 		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation), "objectstorage", "bucket", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckObjectStorageBucketDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckObjectStorageBucketDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BucketResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
+				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
+				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "etag"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "versioning", "Enabled"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
-					resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
-					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "etag"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "versioning", "Enabled"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// verify updates to compartment
-			{
-				Config: config + compartmentId2VariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
-					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "etag"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
-					resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to compartment
+		{
+			Config: config + compartmentId2VariableStr + BucketResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
+				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "etag"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
+				resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
-					resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
-					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "etag"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
-					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", testBucketName2),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "versioning", "Disabled"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
+				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
+				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "etag"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", testBucketName2),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "versioning", "Disabled"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						// The id changes when the name changes
-						if resId == resId2 {
-							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", Optional, Update, bucketDataSourceRepresentation) +
-					compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					// The id changes when the name changes
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", Optional, Update, bucketDataSourceRepresentation) +
+				compartmentIdVariableStr + BucketResourceDependencies +
+				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.created_by"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.etag"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.name", testBucketName2),
-					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.namespace"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BucketResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.created_by"),
+				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.etag"),
+				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.name", testBucketName2),
+				resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.namespace"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BucketResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "auto_tiering", "InfrequentAccess"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
-					// This is difficult to test because TF is eager in creating the datasource and gives stale results.
-					// If a depends_on is added, we get an error like "After applying this step and refreshing, the plan was not empty:"
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "object_events_enabled", "true"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "versioning", "Disabled"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + BucketResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "auto_tiering", "InfrequentAccess"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+				// This is difficult to test because TF is eager in creating the datasource and gives stale results.
+				// If a depends_on is added, we get an error like "After applying this step and refreshing, the plan was not empty:"
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "object_events_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "versioning", "Disabled"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + BucketResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

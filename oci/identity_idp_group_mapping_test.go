@@ -12,8 +12,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -48,7 +48,6 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdpGroupMappingResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
@@ -67,87 +66,80 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+IdpGroupMappingResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Required, Create, idpGroupMappingRepresentation), "identity", "idpGroupMapping", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityIdpGroupMappingDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Required, Create, idpGroupMappingRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
+				resource.TestCheckResourceAttr(resourceName, "idp_group_name", "idpGroupName"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					identityProviderId, _ := fromInstanceState(s, resourceName, "identity_provider_id")
+					compositeId = "identityProviders/" + identityProviderId + "/groupMappings/" + resId
+					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckIdentityIdpGroupMappingDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Required, Create, idpGroupMappingRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
-					resource.TestCheckResourceAttr(resourceName, "idp_group_name", "idpGroupName"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						identityProviderId, _ := fromInstanceState(s, resourceName, "identity_provider_id")
-						compositeId = "identityProviders/" + identityProviderId + "/groupMappings/" + resId
-						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
+				resource.TestCheckResourceAttr(resourceName, "idp_group_name", "idpGroupName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
-					resource.TestCheckResourceAttr(resourceName, "idp_group_name", "idpGroupName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_idp_group_mappings", "test_idp_group_mappings", Optional, Update, idpGroupMappingDataSourceRepresentation) +
+				compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_idp_group_mappings", "test_idp_group_mappings", Optional, Update, idpGroupMappingDataSourceRepresentation) +
-					compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "idp_group_mappings.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.group_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.identity_provider_id"),
-					resource.TestCheckResourceAttr(datasourceName, "idp_group_mappings.0.idp_group_name", "idpGroupName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       getIdpGroupMappingImportId(resourceName),
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "idp_group_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.group_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.identity_provider_id"),
+				resource.TestCheckResourceAttr(datasourceName, "idp_group_mappings.0.idp_group_name", "idpGroupName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "idp_group_mappings.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateIdFunc:       getIdpGroupMappingImportId(resourceName),
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

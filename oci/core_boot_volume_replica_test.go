@@ -45,7 +45,6 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeReplicaResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -55,44 +54,38 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// create volume and enable replicas
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
+				compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(2 * time.Minute)
+					return
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// create volume and enable replicas
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
-					compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					func(s *terraform.State) (err error) {
-						time.Sleep(2 * time.Minute)
-						return
-					},
-				),
-			},
 
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
-					compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "boot_volume_replicas.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_replicas.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_replicas.0.boot_volume_replica_id"),
-					resource.TestCheckResourceAttr(resourceName, "boot_volume_replicas.0.display_name", "displayName"),
-				),
-			},
-			// disabled replicas
-			{
-				Config: config +
-					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update,
-						representationCopyWithRemovedNestedProperties("boot_volume_replicas", dependenceBootVolumeRepresentation)) +
-					compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
-			},
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
+				compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "boot_volume_replicas.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_replicas.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_replicas.0.boot_volume_replica_id"),
+				resource.TestCheckResourceAttr(resourceName, "boot_volume_replicas.0.display_name", "displayName"),
+			),
+		},
+		// disabled replicas
+		{
+			Config: config +
+				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update,
+					representationCopyWithRemovedNestedProperties("boot_volume_replicas", dependenceBootVolumeRepresentation)) +
+				compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
 		},
 	})
 }

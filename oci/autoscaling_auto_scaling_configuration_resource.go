@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/v46/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v47/autoscaling"
 )
 
 func init() {
@@ -1166,5 +1166,10 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) updateCompartment(comp
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

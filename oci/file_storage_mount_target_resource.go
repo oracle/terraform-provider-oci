@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v46/filestorage"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v47/filestorage"
 )
 
 func init() {
@@ -416,6 +416,11 @@ func (s *FileStorageMountTargetResourceCrud) updateCompartment(compartment inter
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

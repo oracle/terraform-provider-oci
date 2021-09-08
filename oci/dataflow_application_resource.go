@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dataflow "github.com/oracle/oci-go-sdk/v46/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v47/dataflow"
 )
 
 func init() {
@@ -698,5 +698,10 @@ func (s *DataflowApplicationResourceCrud) updateCompartment(compartment interfac
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v46/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v47/dns"
 )
 
 func init() {
@@ -1171,5 +1171,10 @@ func (s *DnsSteeringPolicyResourceCrud) updateCompartment(compartment interface{
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

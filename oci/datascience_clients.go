@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_datascience "github.com/oracle/oci-go-sdk/v46/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v47/datascience"
 
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 )
 
 func init() {

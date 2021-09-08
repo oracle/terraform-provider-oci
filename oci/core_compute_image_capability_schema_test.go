@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -91,7 +91,6 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeImageCapabilitySchemaResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -109,170 +108,163 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ComputeImageCapabilitySchemaResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation), "core", "computeImageCapabilitySchema", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreComputeImageCapabilitySchemaDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreComputeImageCapabilitySchemaDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create,
-						representationCopyWithNewProperties(computeImageCapabilitySchemaRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create,
+					representationCopyWithNewProperties(computeImageCapabilitySchemaRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+				resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", Optional, Update, computeImageCapabilitySchemaDataSourceRepresentation) +
-					compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", Optional, Update, computeImageCapabilitySchemaDataSourceRepresentation) +
+				compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.compute_global_image_capability_schema_version_name"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.image_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_image_capability_schema_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_merge_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.compute_global_image_capability_schema_version_name"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_image_capability_schemas.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_image_capability_schemas.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_image_capability_schema_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_merge_enabled", "false"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_version_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "schema_data.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_version_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "schema_data.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

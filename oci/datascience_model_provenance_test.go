@@ -44,7 +44,6 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceModelProvenanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -59,100 +58,94 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ModelProvenanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation), "datascience", "modelProvenance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "model_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		{
+			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch"),
+				resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_id"),
+				resource.TestCheckResourceAttr(resourceName, "repository_url", "repositoryUrl"),
+				resource.TestCheckResourceAttr(resourceName, "script_dir", "scriptDir"),
+				resource.TestCheckResourceAttrSet(resourceName, "training_id"),
+				resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript"),
 
-			{
-				Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch"),
-					resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit"),
-					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
-					resource.TestCheckResourceAttr(resourceName, "repository_url", "repositoryUrl"),
-					resource.TestCheckResourceAttr(resourceName, "script_dir", "scriptDir"),
-					resource.TestCheckResourceAttrSet(resourceName, "training_id"),
-					resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch2"),
-					resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit2"),
-					resource.TestCheckResourceAttrSet(resourceName, "model_id"),
-					resource.TestCheckResourceAttr(resourceName, "repository_url", "repositoryUrl2"),
-					resource.TestCheckResourceAttr(resourceName, "script_dir", "scriptDir2"),
-					resource.TestCheckResourceAttrSet(resourceName, "training_id"),
-					resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript2"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch2"),
+				resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit2"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_id"),
+				resource.TestCheckResourceAttr(resourceName, "repository_url", "repositoryUrl2"),
+				resource.TestCheckResourceAttr(resourceName, "script_dir", "scriptDir2"),
+				resource.TestCheckResourceAttrSet(resourceName, "training_id"),
+				resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript2"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ModelProvenanceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ModelProvenanceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "git_branch", "gitBranch2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "git_commit", "gitCommit2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "repository_url", "repositoryUrl2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "script_dir", "scriptDir2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "training_script", "trainingScript2"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ModelProvenanceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportStateIdFunc:       getDatascienceModelProvenanceCompositeIdForImport(resourceName),
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "git_branch", "gitBranch2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "git_commit", "gitCommit2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "repository_url", "repositoryUrl2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "script_dir", "scriptDir2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "training_script", "trainingScript2"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ModelProvenanceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportStateIdFunc:       getDatascienceModelProvenanceCompositeIdForImport(resourceName),
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

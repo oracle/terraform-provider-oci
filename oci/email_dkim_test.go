@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_email "github.com/oracle/oci-go-sdk/v46/email"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_email "github.com/oracle/oci-go-sdk/v47/email"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -57,7 +57,6 @@ func TestEmailDkimResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEmailDkimResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -72,125 +71,118 @@ func TestEmailDkimResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DkimResourceDependencies+
 		generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation), "email", "dkim", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckEmailDkimDestroy, []resource.TestStep{
+		//verify create
+		{
+			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
+				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckEmailDkimDestroy,
-		Steps: []resource.TestStep{
-			//verify create
-			{
-				Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-					generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DkimResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
+				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "testselector1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DkimResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-					generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "testselector1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-					generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "testselector1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
+				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "testselector1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			//verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_email_dkims", "test_dkims", Optional, Update, dkimDataSourceRepresentation) +
-					compartmentIdVariableStr + DkimResourceDependencies +
-					generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "email_domain_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "testselector1"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "NEEDS_ATTENTION"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_email_dkims", "test_dkims", Optional, Update, dkimDataSourceRepresentation) +
+				compartmentIdVariableStr + DkimResourceDependencies +
+				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(datasourceName, "email_domain_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "testselector1"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "NEEDS_ATTENTION"),
 
-					resource.TestCheckResourceAttr(datasourceName, "dkim_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "dkim_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DkimResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "dkim_id"),
+				resource.TestCheckResourceAttr(datasourceName, "dkim_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "dkim_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DkimResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "dkim_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cname_record_value"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_subdomain_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "testselector1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "txt_record_value"),
-				),
-			},
-			//remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DkimResourceConfig,
-			},
-			//verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cname_record_value"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_subdomain_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "testselector1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "txt_record_value"),
+			),
+		},
+		//remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DkimResourceConfig,
+		},
+		//verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

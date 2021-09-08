@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v46/analytics"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v47/analytics"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -76,7 +76,6 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAnalyticsAnalyticsInstanceVanityUrlResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -94,93 +93,86 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceVanityUrlResourceDependencies+
 		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2), "analytics", "analyticsInstanceVanityUrl", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckAnalyticsAnalyticsInstanceVanityUrlDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
-					resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "private_key", private_key_1_no_pass_val),
-					resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_1_no_pass_val),
+	ResourceTest(t, testAccCheckAnalyticsAnalyticsInstanceVanityUrlDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
+				resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_key", private_key_1_no_pass_val),
+				resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_1_no_pass_val),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert2_val),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "passphrase", passphrase_2_val),
-					resource.TestCheckResourceAttr(resourceName, "private_key", private_key_2_pass_val),
-					resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_2_pass_val),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
-					generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Update, analyticsInstanceVanityUrlRepresentation2),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "passphrase", ``),
-					resource.TestCheckResourceAttr(resourceName, "private_key", private_key_1_no_pass_val),
-					resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_1_no_pass_val),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"ca_certificate",
-					"private_key",
-					"passphrase",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert2_val),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "passphrase", passphrase_2_val),
+				resource.TestCheckResourceAttr(resourceName, "private_key", private_key_2_pass_val),
+				resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_2_pass_val),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
+				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Update, analyticsInstanceVanityUrlRepresentation2),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "hosts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "passphrase", ``),
+				resource.TestCheckResourceAttr(resourceName, "private_key", private_key_1_no_pass_val),
+				resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_1_no_pass_val),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"ca_certificate",
+				"private_key",
+				"passphrase",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

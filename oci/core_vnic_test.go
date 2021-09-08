@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -37,7 +36,6 @@ func TestCoreVnicResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVnicResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -47,41 +45,35 @@ func TestCoreVnicResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config + `
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config + `
 
 data "oci_core_vnic_attachments" "t" {
 	compartment_id = "${var.compartment_id}"
 	instance_id = "${oci_core_instance.test_instance.id}"
 }` +
-					generateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", Required, Create, vnicSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VnicResourceConfig + VnicResourceConfigDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
+				generateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", Required, Create, vnicSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VnicResourceConfig + VnicResourceConfigDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname_label"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "mac_address"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "skip_source_dest_check"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hostname_label"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mac_address"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "skip_source_dest_check"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
 		},
 	})
 }

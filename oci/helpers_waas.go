@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 )
 
 const (

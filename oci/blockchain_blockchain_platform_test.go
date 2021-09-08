@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v46/blockchain"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v47/blockchain"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -73,7 +73,6 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBlockchainBlockchainPlatformResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -94,202 +93,195 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BlockchainPlatformResourceDependencies+
 		generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation), "blockchain", "blockchainPlatform", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckBlockchainBlockchainPlatformDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
-					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
-					resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+	ResourceTest(t, testAccCheckBlockchainBlockchainPlatformDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
-					resource.TestCheckResourceAttrSet(resourceName, "federated_user_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.0.ca_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.0.proxy_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + compartmentIdUVariableStr + BlockchainPlatformResourceDependencies +
-					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create,
-						representationCopyWithNewProperties(blockchainPlatformRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
-					resource.TestCheckResourceAttrSet(resourceName, "federated_user_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
-					resource.TestCheckResourceAttrSet(resourceName, "federated_user_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.0.ca_count", "4"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "replicas.0.proxy_count", "4"),
-					resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "2"),
-					resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "32"),
-					resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_400_MBPS"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", Optional, Update, blockchainPlatformDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-					generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", blockchainPlatformDisplayName),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "component_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", blockchainPlatformDisplayName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "false"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_multi_ad"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_shape"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "platform_role", "FOUNDER"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_shape_type"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "replicas.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.ca_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.console_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.proxy_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_endpoint"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "service_version"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "storage_size_in_tbs", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_used_in_tbs"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "total_ocpu_capacity", "32"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_shape", "LB_400_MBPS"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"ca_cert_archive_text",
-					"federated_user_id",
-					"idcs_access_token",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
+				resource.TestCheckResourceAttrSet(resourceName, "federated_user_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.0.ca_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.0.proxy_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + compartmentIdUVariableStr + BlockchainPlatformResourceDependencies +
+				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create,
+					representationCopyWithNewProperties(blockchainPlatformRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
+				resource.TestCheckResourceAttrSet(resourceName, "federated_user_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", blockchainPlatformDisplayName),
+				resource.TestCheckResourceAttrSet(resourceName, "federated_user_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.0.ca_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "replicas.0.proxy_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "2"),
+				resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "32"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_400_MBPS"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", Optional, Update, blockchainPlatformDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
+				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", blockchainPlatformDisplayName),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "blockchain_platform_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "component_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", blockchainPlatformDisplayName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_multi_ad"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_shape"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_shape_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replicas.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.ca_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.console_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.proxy_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_endpoint"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_size_in_tbs", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_used_in_tbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "total_ocpu_capacity", "32"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancer_shape", "LB_400_MBPS"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"ca_cert_archive_text",
+				"federated_user_id",
+				"idcs_access_token",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

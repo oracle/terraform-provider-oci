@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_oda "github.com/oracle/oci-go-sdk/v46/oda"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_oda "github.com/oracle/oci-go-sdk/v47/oda"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -62,7 +62,6 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOdaOdaInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -80,194 +79,187 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+OdaInstanceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation), "oda", "odaInstance", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOdaOdaInstanceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOdaOdaInstanceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OdaInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update,
+					representationCopyWithNewProperties(odaInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify switch back
+		{
+			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", Optional, Update, odaInstanceDataSourceRepresentation) +
+				compartmentIdVariableStr + OdaInstanceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OdaInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update,
-						representationCopyWithNewProperties(odaInstanceRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.shape_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + OdaInstanceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "oda_instance_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify switch back
-			{
-				Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", Optional, Update, odaInstanceDataSourceRepresentation) +
-					compartmentIdVariableStr + OdaInstanceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "oda_instances.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "oda_instances.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.shape_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "oda_instances.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + OdaInstanceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "oda_instance_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_url"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "web_app_url"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + OdaInstanceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connector_url"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "web_app_url"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + OdaInstanceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

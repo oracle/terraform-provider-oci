@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -29,7 +28,6 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlShapeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -39,44 +37,38 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + MySQLShapeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.cpu_core_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
-					compartmentIdVariableStr + MySQLShapeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+		// verify datasource with optionals
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Optional, Create, mysqlShapeDataSourceRepresentation) +
+				compartmentIdVariableStr + MySQLShapeResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "is_supported_for.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.cpu_core_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
-				),
-			},
-			// verify datasource with optionals
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Optional, Create, mysqlShapeDataSourceRepresentation) +
-					compartmentIdVariableStr + MySQLShapeResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "is_supported_for.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.cpu_core_count"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_supported_for.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_size_in_gbs"),
-					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.cpu_core_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_supported_for.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.memory_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
+			),
 		},
 	})
 }

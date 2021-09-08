@@ -101,7 +101,6 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationUsageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -119,60 +118,54 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+UsageResourceDependencies+
 		generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation), "usageapi", "usage", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			PreConfig: func() {
+				fmt.Printf("config is : %s", generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation))
+			},
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
+				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				PreConfig: func() {
-					fmt.Printf("config is : %s", generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation))
-				},
-				Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
-					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
-					resource.TestCheckResourceAttr(resourceName, "forecast.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "forecast.0.forecast_type", "BASIC"),
-					resource.TestCheckResourceAttr(resourceName, "forecast.0.time_forecast_ended", "2021-03-20T00:00:00Z"),
-					resource.TestCheckResourceAttr(resourceName, "forecast.0.time_forecast_started", "2021-03-19T00:00:00Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "filter"),
-					resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
-					resource.TestCheckResourceAttr(resourceName, "group_by.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "query_type", "COST"),
-					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
+				resource.TestCheckResourceAttr(resourceName, "forecast.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "forecast.0.forecast_type", "BASIC"),
+				resource.TestCheckResourceAttr(resourceName, "forecast.0.time_forecast_ended", "2021-03-20T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "forecast.0.time_forecast_started", "2021-03-19T00:00:00Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "filter"),
+				resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
+				resource.TestCheckResourceAttr(resourceName, "group_by.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_type", "COST"),
+				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_usage_ended"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

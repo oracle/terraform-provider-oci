@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v46/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
 )
 
 func init() {
@@ -538,5 +538,10 @@ func (s *CoreBootVolumeBackupResourceCrud) updateCompartment(compartment interfa
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

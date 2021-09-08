@@ -30,7 +30,6 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyVersionResource_ResourceDiscovery")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 	os.Setenv("disable_kms_version_delete", "true")
 
@@ -40,40 +39,34 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 
 	resourceName := "oci_kms_key_version.test_key_version"
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify resource discovery for KMS Key Versions
-			// Our vault is in root compartment, so we need to run resource discovery in root compartment, as first RD tries to find the vault and then keys, versions inside the vault
-			{
-				Config: config + kmsKeyIdVariableStr + KeyResourceVersionResourceDiscoveryDependencies,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify resource discovery for KMS Key Versions
+		// Our vault is in root compartment, so we need to run resource discovery in root compartment, as first RD tries to find the vault and then keys, versions inside the vault
+		{
+			Config: config + kmsKeyIdVariableStr + KeyResourceVersionResourceDiscoveryDependencies,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					func(s *terraform.State) (err error) {
-						managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
-						if errRead != nil {
-							return errRead
+				func(s *terraform.State) (err error) {
+					managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
+					if errRead != nil {
+						return errRead
+					}
+
+					keyVersionId, errRead := fromInstanceState(s, "data.oci_kms_key.test_key", "current_key_version")
+					if errRead != nil {
+						return errRead
+					}
+
+					compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId + "/keyVersions/" + keyVersionId
+
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
+							return errExport
 						}
-
-						keyVersionId, errRead := fromInstanceState(s, "data.oci_kms_key.test_key", "current_key_version")
-						if errRead != nil {
-							return errRead
-						}
-
-						compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId + "/keyVersions/" + keyVersionId
-
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

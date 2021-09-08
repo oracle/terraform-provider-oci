@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -32,7 +31,6 @@ func TestLoadBalancerBackendSetHealthResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerBackendSetHealthResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -42,29 +40,23 @@ func TestLoadBalancerBackendSetHealthResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_set_health", "test_backend_set_health", Required, Create, backendSetHealthSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BackendSetHealthResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_load_balancer_backend_set_health", "test_backend_set_health", Required, Create, backendSetHealthSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BackendSetHealthResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "critical_state_backend_names.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_backend_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "unknown_state_backend_names.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_state_backend_names.#"),
-				),
-				ExpectNonEmptyPlan: true,
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "critical_state_backend_names.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_backend_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "unknown_state_backend_names.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_state_backend_names.#"),
+			),
+			ExpectNonEmptyPlan: true,
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v46/mysql"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v47/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -50,7 +50,6 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlAnalyticsClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -64,110 +63,103 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AnalyticsClusterResourceDependencies+
 		generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation), "mysql", "analyticsCluster", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckMysqlAnalyticsClusterDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckMysqlAnalyticsClusterDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies,
+		},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies,
-			},
+		// verify create & stop
+		{
+			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.2"),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
-			// verify create & stop
-			{
-				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.2"),
-					resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify start & updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-					generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
-					resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.4"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+		// verify start & updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
+				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.4"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AnalyticsClusterResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AnalyticsClusterResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "cluster_size", "3"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "VM.Standard.E2.4"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AnalyticsClusterResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_size", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "VM.Standard.E2.4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

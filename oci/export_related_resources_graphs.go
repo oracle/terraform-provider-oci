@@ -1,7 +1,7 @@
 package oci
 
 import (
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 )
 
 /*

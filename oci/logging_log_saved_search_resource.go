@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_logging "github.com/oracle/oci-go-sdk/v46/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v47/logging"
 )
 
 func init() {
@@ -376,5 +376,10 @@ func (s *LoggingLogSavedSearchResourceCrud) updateCompartment(compartment interf
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -46,7 +46,6 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployStageResource_deployFunction")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -61,152 +60,145 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DeployFunctionStageResourceDependencies+
 		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation), "devops", "deployStage", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "DEPLOY_FUNCTION"),
+				resource.TestCheckResourceAttrSet(resourceName, "function_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "docker_image_deploy_artifact_id"),
+				resource.TestCheckResourceAttr(resourceName, "function_timeout_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "128"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDevopsDeployStageDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "DEPLOY_FUNCTION"),
-					resource.TestCheckResourceAttrSet(resourceName, "function_deploy_environment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "docker_image_deploy_artifact_id"),
-					resource.TestCheckResourceAttr(resourceName, "function_timeout_in_seconds", "30"),
-					resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "128"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "DEPLOY_FUNCTION"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "function_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "docker_image_deploy_artifact_id"),
+				resource.TestCheckResourceAttr(resourceName, "function_timeout_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "128"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "DEPLOY_FUNCTION"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "function_deploy_environment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "docker_image_deploy_artifact_id"),
-					resource.TestCheckResourceAttr(resourceName, "function_timeout_in_seconds", "30"),
-					resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "128"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "function_deploy_environment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "docker_image_deploy_artifact_id"),
-					resource.TestCheckResourceAttr(resourceName, "function_timeout_in_seconds", "20"),
-					resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "256"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "function_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "docker_image_deploy_artifact_id"),
+				resource.TestCheckResourceAttr(resourceName, "function_timeout_in_seconds", "20"),
+				resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "256"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
-					compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DeployFunctionStageResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_predecessor_collection.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_type", "DEPLOY_FUNCTION"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "function_deploy_environment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "docker_image_deploy_artifact_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "function_timeout_in_seconds", "20"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "max_memory_in_mbs", "256"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + DeployFunctionStageResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
+				compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DeployFunctionStageResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_predecessor_collection.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_predecessor_collection.0.items.0.id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_stage_type", "DEPLOY_FUNCTION"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "function_deploy_environment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "docker_image_deploy_artifact_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "function_timeout_in_seconds", "20"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "max_memory_in_mbs", "256"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

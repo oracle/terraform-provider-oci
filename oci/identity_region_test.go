@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -30,7 +29,6 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityRegionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -40,24 +38,18 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
-					compartmentIdVariableStr + RegionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
+				compartmentIdVariableStr + RegionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
 
-					resource.TestCheckResourceAttrSet(datasourceName, "regions.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "regions.0.key"),
-					resource.TestCheckResourceAttrSet(datasourceName, "regions.0.name"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "regions.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "regions.0.key"),
+				resource.TestCheckResourceAttrSet(datasourceName, "regions.0.name"),
+			),
 		},
 	})
 }

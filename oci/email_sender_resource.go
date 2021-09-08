@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_email "github.com/oracle/oci-go-sdk/v46/email"
+	oci_email "github.com/oracle/oci-go-sdk/v47/email"
 )
 
 func init() {
@@ -291,5 +291,10 @@ func (s *EmailSenderResourceCrud) updateCompartment(compartment interface{}) err
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

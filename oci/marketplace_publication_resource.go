@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_marketplace "github.com/oracle/oci-go-sdk/v46/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v47/marketplace"
 )
 
 func init() {
@@ -810,6 +810,11 @@ func (s *MarketplacePublicationResourceCrud) updateCompartment(compartment inter
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

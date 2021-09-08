@@ -35,7 +35,6 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksPingProbeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -48,50 +47,44 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+PingProbeResourceDependencies+
 		generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation), "healthchecks", "pingProbe", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + PingProbeResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
-					generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "port", "80"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
-					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + PingProbeResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
+				generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "port", "80"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
 		},
 	})
 }

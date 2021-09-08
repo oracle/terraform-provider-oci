@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,7 +30,6 @@ func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreFastConnectProviderServiceKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -41,26 +39,20 @@ func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service_key", "test_fast_connect_provider_service_key", Required, Create, fastConnectProviderServiceKeySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + FastConnectProviderServiceKeyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "provider_service_key_name", "d8f7a443-28c2-4dcf-996c-286351908c58"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service_key", "test_fast_connect_provider_service_key", Required, Create, fastConnectProviderServiceKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + FastConnectProviderServiceKeyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "provider_service_key_name", "d8f7a443-28c2-4dcf-996c-286351908c58"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bandwidth_shape_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "peering_location"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bandwidth_shape_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peering_location"),
+			),
 		},
 	})
 }

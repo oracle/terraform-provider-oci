@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 )
 
 func init() {
@@ -392,5 +392,10 @@ func (s *IdentityCompartmentResourceCrud) updateCompartment(compartment interfac
 	if err != nil {
 		return err
 	}
+
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

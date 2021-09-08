@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -39,7 +38,6 @@ func TestCoreInstancePoolLoadBalancerAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePoolLoadBalancerAttachmentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -49,29 +47,23 @@ func TestCoreInstancePoolLoadBalancerAttachmentResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance_pool_load_balancer_attachment", "test_instance_pool_load_balancer_attachment", Required, Create, instancePoolLoadBalancerAttachmentSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + InstancePoolLoadBalancerAttachmentResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_load_balancer_attachment_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_instance_pool_load_balancer_attachment", "test_instance_pool_load_balancer_attachment", Required, Create, instancePoolLoadBalancerAttachmentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + InstancePoolLoadBalancerAttachmentResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_load_balancer_attachment_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "port"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_selection"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "port"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_selection"),
+			),
 		},
 	})
 }

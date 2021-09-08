@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -59,7 +58,6 @@ func TestCoreDrgAttachmentManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -71,45 +69,39 @@ func TestCoreDrgAttachmentManagementResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+DrgAttachmentManagementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Required, Update, drgAttachmentManagementRepresentationRPC), "core", "drgAttachmentManagement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		//verify, updates to RPC management resource
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Optional, Update, drgAttachmentManagementRepresentationRPC),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyTestDrgAttachmentForRpc"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
+			),
 		},
-		Steps: []resource.TestStep{
-			//verify, updates to RPC management resource
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Optional, Update, drgAttachmentManagementRepresentationRPC),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyTestDrgAttachmentForRpc"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies,
-			},
-			//verify, updates to IPSec management resource
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ipsec_connection_tunnels", Required, Create, ipsecConnectionDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Optional, Update, drgAttachmentManagementRepresentationIpsec),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyTestDrgAttachmentForTunnel1"),
-					resource.TestCheckResourceAttrSet(resourceName, "network_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies,
+		},
+		//verify, updates to IPSec management resource
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies +
+				generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ipsec_connection_tunnels", Required, Create, ipsecConnectionDataSourceRepresentation) +
+				generateResourceFromRepresentationMap("oci_core_drg_attachment_management", "test_drg_attachment_management", Optional, Update, drgAttachmentManagementRepresentationIpsec),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyTestDrgAttachmentForTunnel1"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
+			),
+		},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies,
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentManagementResourceDependencies,
 		},
 	})
 }

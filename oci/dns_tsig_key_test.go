@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v46/dns"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v47/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -59,7 +59,6 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsTsigKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -77,161 +76,154 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+TsigKeyResourceDependencies+
 		generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation), "dns", "tsigKey", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDnsTsigKeyDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
+				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDnsTsigKeyDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
-					resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
+				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
-					resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TsigKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create,
-						representationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
-					resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TsigKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create,
+					representationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
+				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
-					resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
+				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", Optional, Update, tsigKeyDataSourceRepresentation) +
-					compartmentIdVariableStr + TsigKeyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
-					resource.TestCheckResourceAttr(datasourceName, "name", tsigKeyName),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", Optional, Update, tsigKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + TsigKeyResourceDependencies +
+				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "name", tsigKeyName),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "tsig_keys.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.algorithm", "hmac-sha1"),
-					resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.name", tsigKeyName),
-					resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.self"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + TsigKeyResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "tsig_key_id"),
+				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.algorithm", "hmac-sha1"),
+				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.name", tsigKeyName),
+				resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.self"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + TsigKeyResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "tsig_key_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "algorithm", "hmac-sha1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", tsigKeyName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "secret", "c2VjcmV0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + TsigKeyResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "algorithm", "hmac-sha1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", tsigKeyName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secret", "c2VjcmV0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "self"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + TsigKeyResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

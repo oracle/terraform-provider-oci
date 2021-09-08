@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -38,7 +37,6 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 	httpreplay.SetScenario("TestDatabaseExternalContainerDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -52,59 +50,53 @@ func TestDatabaseExternalContainerDatabaseManagementResource_basic(t *testing.T)
 	saveConfigContent(config+compartmentIdVariableStr+ExternalContainerDatabaseManagementResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation), "database", "externalContainerDatabaseManagement", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create (Enable Database Management)
+		{
+			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
 		},
-		Steps: []resource.TestStep{
-			// verify create (Enable Database Management)
-			{
-				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Enablement
-			{
-				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceCdb, "database_management_config.0.database_management_status", "ENABLED"),
-				),
-			},
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies,
-			},
-			// verify update (Enable Database Management)
-			{
-				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// verify update (Disable Database Management)
-			{
-				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
-				),
-			},
-			// Verify Disablement
-			{
-				Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceCdb, "database_management_config.0.database_management_status", "NOT_ENABLED"),
-				),
-			},
+		// Verify Enablement
+		{
+			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Required, Create, externalContainerDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceCdb, "database_management_config.0.database_management_status", "ENABLED"),
+			),
+		},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies,
+		},
+		// verify update (Enable Database Management)
+		{
+			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Create, externalContainerDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// verify update (Disable Database Management)
+		{
+			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
+			),
+		},
+		// Verify Disablement
+		{
+			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseManagementResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_external_container_database_management", "test_external_container_database_management", Optional, Update, externalContainerDatabaseManagementRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceCdb, "database_management_config.0.database_management_status", "NOT_ENABLED"),
+			),
 		},
 	})
 }

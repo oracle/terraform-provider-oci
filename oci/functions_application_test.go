@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v46/functions"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v47/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -69,7 +69,6 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsApplicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -87,180 +86,173 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ApplicationResourceDependencies+
 		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation), "functions", "application", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckFunctionsApplicationDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckFunctionsApplicationDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create,
-						representationCopyWithNewProperties(applicationRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create,
+					representationCopyWithNewProperties(applicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog.test:80"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog2.test:80"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "syslog_url", "tcp://syslog2.test:80"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "trace_config.0.domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", Optional, Update, applicationDataSourceRepresentation) +
-					compartmentIdVariableStr + ApplicationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
-					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", Optional, Update, applicationDataSourceRepresentation) +
+				compartmentIdVariableStr + ApplicationResourceDependencies +
+				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
+				//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", applicationDisplayName),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.trace_config.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "applications.0.trace_config.0.domain_id"),
-					resource.TestCheckResourceAttr(datasourceName, "applications.0.trace_config.0.is_enabled", "true"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ApplicationResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", applicationDisplayName),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.subnet_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.trace_config.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.trace_config.0.domain_id"),
+				resource.TestCheckResourceAttr(datasourceName, "applications.0.trace_config.0.is_enabled", "true"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApplicationResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", applicationDisplayName),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "syslog_url", "tcp://syslog2.test:80"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.0.is_enabled", "true"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + ApplicationResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", applicationDisplayName),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "syslog_url", "tcp://syslog2.test:80"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "trace_config.0.is_enabled", "true"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + ApplicationResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

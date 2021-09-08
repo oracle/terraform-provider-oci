@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v46/aianomalydetection"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v47/aianomalydetection"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -123,7 +123,6 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAiAnomalyDetectionDataAssetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -142,178 +141,171 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+AiAnomalyDetectionDataAssetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation), "aianomalydetection", "dataAsset", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckAiAnomalyDetectionDataAssetDestroy, []resource.TestStep{
+		// verify create
+		{
+			//print this
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckAiAnomalyDetectionDataAssetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				//print this
-				Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies,
+		},
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
+				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies,
-			},
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
-					// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create,
-						representationCopyWithNewProperties(aiAnomalyDetectionDataAssetRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
-					// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create,
+					representationCopyWithNewProperties(aiAnomalyDetectionDataAssetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
+				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
-					resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
-					// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.bucket", "bucket-test"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_type", "ORACLE_OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.namespace", "dxterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.object", "latest_training_data.json"),
+				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_assets", "test_data_assets", Optional, Update, aiAnomalyDetectionDataAssetDataSourceRepresentation) +
-					compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_assets", "test_data_assets", Optional, Update, aiAnomalyDetectionDataAssetDataSourceRepresentation) +
+				compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_id"),
+				resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "data_asset_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					// 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				// 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v46/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v47/managementagent"
 )
 
 func init() {
@@ -26,6 +26,13 @@ func ManagementAgentManagementAgentPluginsDataSource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"platform_type": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -112,6 +119,19 @@ func (s *ManagementAgentManagementAgentPluginsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if platformType, ok := s.D.GetOkExists("platform_type"); ok {
+		interfaces := platformType.([]interface{})
+		tmp := make([]oci_management_agent.PlatformTypesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_management_agent.PlatformTypesEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("platform_type") {
+			request.PlatformType = tmp
+		}
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

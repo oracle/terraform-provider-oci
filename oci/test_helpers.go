@@ -26,7 +26,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -393,6 +393,19 @@ func setEnvSetting(s, v string) error {
 }
 
 func testExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
+
+	// add logs for notifying execution
+	log.Println()
+	log.Printf("-------------------------------- Executing Resource Discovery Sub-Step --------------------------------")
+	log.Println()
+
+	defer func() {
+		// add logs for notifying execution
+		log.Println()
+		log.Printf("-------------------------------- Exiting Resource Discovery Sub-Step --------------------------------")
+		log.Println()
+	}()
+
 	var exportCommandArgs ExportCommandArgs
 	if strings.Contains(resourceName, ".") {
 		resourceName = strings.Split(resourceName, ".")[0]
@@ -614,4 +627,14 @@ func writeToFile(content string, service string, resource string) error {
 		return err
 	}
 	return nil
+}
+
+func GenericTestStepPreConfiguration(stepNumber int) func() {
+	return func() {
+
+		// add logs for notifying execution
+		log.Println()
+		log.Printf("====================== Executing Test Step %d ===================", stepNumber)
+		log.Println()
+	}
 }

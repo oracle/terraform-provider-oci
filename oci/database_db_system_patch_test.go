@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -26,7 +25,6 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbSystemPatchResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,27 +34,21 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 
 	saveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", Required, Create, dbSystemPatchDataSourceRepresentation) +
-					compartmentIdVariableStr + DbSystemPatchResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", Required, Create, dbSystemPatchDataSourceRepresentation) +
+				compartmentIdVariableStr + DbSystemPatchResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 
-					resource.TestCheckResourceAttrSet(datasourceName, "patches.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patches.0.description"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patches.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patches.0.time_released"),
-					resource.TestCheckResourceAttrSet(datasourceName, "patches.0.version"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(datasourceName, "patches.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patches.0.description"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patches.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patches.0.time_released"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patches.0.version"),
+			),
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_events "github.com/oracle/oci-go-sdk/v46/events"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_events "github.com/oracle/oci-go-sdk/v47/events"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -90,7 +90,6 @@ func TestEventsRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEventsRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -111,210 +110,203 @@ func TestEventsRuleResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+RuleResourceDependencies+
 		generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation), "events", "rule", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckEventsRuleDestroy, []resource.TestStep{
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
+					"action_type": "OSS",
+					"description": "description",
+					"is_enabled":  "false",
+				},
+					[]string{
+						"id",
+						"state",
+						"stream_id",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "condition", "{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "This rule sends a notification upon completion of DbaaS backup"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckEventsRuleDestroy,
-		Steps: []resource.TestStep{
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
-						"action_type": "OSS",
-						"description": "description",
-						"is_enabled":  "false",
-					},
-						[]string{
-							"id",
-							"state",
-							"stream_id",
-						}),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "condition", "{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "This rule sends a notification upon completion of DbaaS backup"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + compartmentIdUVariableStr + RuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create,
+					representationCopyWithNewProperties(ruleRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
+					"action_type": "OSS",
+					"description": "description",
+					"is_enabled":  "false",
+				},
+					[]string{
+						"id",
+						"state",
+						"stream_id",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "condition", "{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "This rule sends a notification upon completion of DbaaS backup"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + compartmentIdUVariableStr + RuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create,
-						representationCopyWithNewProperties(ruleRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
-						"action_type": "OSS",
-						"description": "description",
-						"is_enabled":  "false",
-					},
-						[]string{
-							"id",
-							"state",
-							"stream_id",
-						}),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "condition", "{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "This rule sends a notification upon completion of DbaaS backup"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update,
+					getUpdatedRepresentationCopy("actions", RepresentationGroup{Optional, ruleActionsUpdateRepresentation}, ruleRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "3"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
+					"action_type": "ONS",
+					"description": "rule type updated",
+					"is_enabled":  "true",
+				},
+					[]string{
+						"id",
+						"state",
+						"topic_id",
+					}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
+					"action_type": "ONS",
+					"description": "description2",
+					"is_enabled":  "true",
+				},
+					[]string{
+						"id",
+						"state",
+						"topic_id",
+					}),
+				CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
+					"action_type": "FAAS",
+					"description": "description2",
+					"is_enabled":  "true",
+				},
+					[]string{
+						"function_id",
+						"id",
+						"state",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "condition", "{}"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update,
-						getUpdatedRepresentationCopy("actions", RepresentationGroup{Optional, ruleActionsUpdateRepresentation}, ruleRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "3"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
-						"action_type": "ONS",
-						"description": "rule type updated",
-						"is_enabled":  "true",
-					},
-						[]string{
-							"id",
-							"state",
-							"topic_id",
-						}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
-						"action_type": "ONS",
-						"description": "description2",
-						"is_enabled":  "true",
-					},
-						[]string{
-							"id",
-							"state",
-							"topic_id",
-						}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "actions.0.actions", map[string]string{
-						"action_type": "FAAS",
-						"description": "description2",
-						"is_enabled":  "true",
-					},
-						[]string{
-							"function_id",
-							"id",
-							"state",
-						}),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "condition", "{}"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", Optional, Update, ruleDataSourceRepresentation) +
+				compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "INACTIVE"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", Optional, Update, ruleDataSourceRepresentation) +
-					compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.condition", "{}"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "rules.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "rules.0.is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "rules.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "rules.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "rule_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "rules.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.condition", "{}"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "rules.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "rules.0.is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "rules.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "rules.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "rule_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "actions.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.actions.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "condition", "{}"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "actions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.actions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "condition", "{}"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -58,7 +58,6 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpSecConnectionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -75,153 +74,146 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+IpSecConnectionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation), "core", "ipSecConnection", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreIpSecConnectionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCoreIpSecConnectionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+				resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
+				resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "IP_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
-					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "IP_ADDRESS"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IpSecConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create,
-						representationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
-					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "IP_ADDRESS"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IpSecConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create,
+					representationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+				resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
+				resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "IP_ADDRESS"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
-					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "fakehostname"),
-					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "HOSTNAME"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+				resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "fakehostname"),
+				resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "HOSTNAME"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", Optional, Update, ipSecConnectionDataSourceRepresentation) +
-					compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", Optional, Update, ipSecConnectionDataSourceRepresentation) +
+				compartmentIdVariableStr + IpSecConnectionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "connections.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.cpe_id"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.cpe_local_identifier", "fakehostname"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.cpe_local_identifier_type", "HOSTNAME"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.drg_id"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.state"),
-					resource.TestCheckResourceAttr(datasourceName, "connections.0.static_routes.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "connections.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "connections.0.cpe_id"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.cpe_local_identifier", "fakehostname"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.cpe_local_identifier_type", "HOSTNAME"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "connections.0.drg_id"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "connections.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "connections.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "connections.0.static_routes.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "connections.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
-	"github.com/oracle/oci-go-sdk/v46/database"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
+	"github.com/oracle/oci-go-sdk/v47/database"
 )
 
 // issue-routing-tag: database/default
@@ -71,33 +71,27 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 	}`
 
 	var resId string
-	provider := testAccProvider
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// create
-			{
-				Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
+	ResourceTest(t, nil, []resource.TestStep{
+		// create
+		{
+			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
-						return err
-					},
-				),
-			},
-			// wait for backup and create new db from it
-			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
-					listBackupsFetchOperation, "core", false),
-				Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
+					return err
+				},
+			),
+		},
+		// wait for backup and create new db from it
+		{
+			PreConfig: waitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
+				listBackupsFetchOperation, "core", false),
+			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -133,30 +127,29 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 						}
 					}
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					// DB System Resource tests
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "2"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "display_name", "tfDbSystemTestFromBackup"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "dbback"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
-				),
-			},
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				// DB System Resource tests
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "2"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "display_name", "tfDbSystemTestFromBackup"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
+				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "dbback"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
+			),
 		},
 	})
 }

@@ -68,7 +68,6 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExadataInfrastructureStorageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -83,183 +82,176 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, nil, []resource.TestStep{
+
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ExadataInfrastructureStorageResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
+					representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
+						"storage_count": 3,
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser1@testdomain.com"),
+				resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
+				resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567891"),
+				resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.1:80"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "dns_server.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "0"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
+				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		//CheckDestroy: testAccCheckDatabaseExadataInfrastructureDestroy,
-		Steps: []resource.TestStep{
 
-			//verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ExadataInfrastructureStorageResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
-						representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
-							"storage_count": 3,
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "contacts.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "contacts.0.email", "testuser1@testdomain.com"),
-					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_contact_mos_validated", "false"),
-					resource.TestCheckResourceAttr(resourceName, "contacts.0.is_primary", "true"),
-					resource.TestCheckResourceAttr(resourceName, "contacts.0.name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "contacts.0.phone_number", "1234567891"),
-					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.1:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.lead_time_in_weeks", "0"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
-					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+		// verify activation
+		{
+			Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
+				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
+					representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+						"activation_file":    Representation{repType: Optional, create: activationFilePath},
+						"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.1:80"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "dns_server.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
+				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
+				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify activation
-			{
-				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
-						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
-							"activation_file":    Representation{repType: Optional, create: activationFilePath},
-							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.3"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.1:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
-					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+		// update/ scale up infrastructure with additional storage servers
+		{
+			Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
+				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+					representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
+						//"activation_file":    Representation{repType: Optional, create: activationFilePath},
+						"additional_storage_count": Representation{repType: Optional, update: `3`},
+						"maintenance_window":       RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.6"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
+				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
+				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "additional_storage_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "activated_storage_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//activate additional storage cells
+		{
+			Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
+				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+					representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
+						"activation_file":    Representation{repType: Optional, create: activationFilePath},
+						"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
+				resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.6"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
+				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
+				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 
-			// update/ scale up infrastructure with additional storage servers
-			{
-				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-						representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
-							//"activation_file":    Representation{repType: Optional, create: activationFilePath},
-							"additional_storage_count": Representation{repType: Optional, update: `3`},
-							"maintenance_window":       RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.6"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
-					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(resourceName, "additional_storage_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "activated_storage_count", "0"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			//activate additional storage cells
-			{
-				Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-						representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
-							"activation_file":    Representation{repType: Optional, create: activationFilePath},
-							"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
-					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "10.32.88.4"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "corporate_proxy", "http://192.168.19.2:80"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
-					resource.TestCheckResourceAttr(resourceName, "dns_server.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "gateway", "10.32.88.6"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
-					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X8"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
-					resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
-					resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// delete
-			{
-				Config: config + compartmentIdVariableStr + ExadataInfrastructureStorageResourceDependencies,
-			},
+		// delete
+		{
+			Config: config + compartmentIdVariableStr + ExadataInfrastructureStorageResourceDependencies,
 		},
 	})
 }

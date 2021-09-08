@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v46/common"
+	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 )
 
 func init() {
@@ -260,6 +260,29 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"cdb_ip_default": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"database_management_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"management_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"management_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -526,6 +549,12 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("connection_strings", nil)
 	}
 
+	if s.Res.DatabaseManagementConfig != nil {
+		s.D.Set("database_management_config", []interface{}{CloudDatabaseManagementConfigToMap(s.Res.DatabaseManagementConfig)})
+	} else {
+		s.D.Set("database_management_config", nil)
+	}
+
 	if s.Res.DatabaseSoftwareImageId != nil {
 		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
 	}
@@ -640,6 +669,16 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 	if obj.VpcUser != nil {
 		result["vpc_user"] = string(*obj.VpcUser)
 	}
+
+	return result
+}
+
+func CloudDatabaseManagementConfigToMap(obj *oci_database.CloudDatabaseManagementConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["management_status"] = string(obj.ManagementStatus)
+
+	result["management_type"] = string(obj.ManagementType)
 
 	return result
 }
@@ -1005,6 +1044,10 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if obj.CharacterSet != nil {
 		result["character_set"] = string(*obj.CharacterSet)
+	}
+
+	if obj.DatabaseManagementConfig != nil {
+		result["database_management_config"] = []interface{}{CloudDatabaseManagementConfigToMap(obj.DatabaseManagementConfig)}
 	}
 
 	if obj.DbBackupConfig != nil {

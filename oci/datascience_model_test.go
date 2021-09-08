@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v46/datascience"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v47/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -77,7 +77,6 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceModelResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -95,222 +94,215 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ModelResourceDependencies+
 		generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation), "datascience", "model", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckDatascienceModelDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
-					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
-					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
+	ResourceTest(t, testAccCheckDatascienceModelDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + ModelResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
-					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
-					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.key", "BaseModel1"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.value", "xgb"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.key", "UseCaseType"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.value", "ner"),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
-					resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
-
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ModelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create,
-						representationCopyWithNewProperties(modelRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
-					resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
-					resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.key", "BaseModel1"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.value", "xgb"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.key", "UseCaseType"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.value", "ner"),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
-					resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.key", "BaseModel1"),
-					resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.value", "xgb"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.key", "UseCaseType"),
-					resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.value", "ner"),
-					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
-					resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
-					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", Optional, Update, modelDataSourceRepresentation) +
-					compartmentIdVariableStr + ModelResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
-					resource.TestCheckResourceAttr(datasourceName, "models.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "models.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "models.0.created_by"),
-					resource.TestCheckResourceAttr(datasourceName, "models.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "models.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "models.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "models.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "models.0.project_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "models.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "models.0.time_created"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ModelResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.category", "Performance"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.description", "description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.key", "BaseModel1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.value", "xgb"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.0.key", "UseCaseType"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.0.value", "ner"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "input_schema", "{}"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "output_schema", "{}"),
-					//resource.TestCheckResourceAttr(singularDatasourceName, "state", ACTIVE),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				),
-			},
-			// verify resource import
-			{Config: config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"artifact_content_disposition",
-					"artifact_content_md5",
-					"artifact_last_modified",
-					"artifact_content_length",
-					"empty_model",
-					"model_artifact",
-					"model_id",
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + ModelResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.key", "BaseModel1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.value", "xgb"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.key", "UseCaseType"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.value", "ner"),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
+				resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ModelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create,
+					representationCopyWithNewProperties(modelRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
+				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.key", "BaseModel1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.value", "xgb"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.key", "UseCaseType"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.value", "ner"),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
+				resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.key", "BaseModel1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.value", "xgb"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.key", "UseCaseType"),
+				resource.TestCheckResourceAttr(resourceName, "defined_metadata_list.0.value", "ner"),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
+				resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", Optional, Update, modelDataSourceRepresentation) +
+				compartmentIdVariableStr + ModelResourceDependencies +
+				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "models.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "models.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "models.0.created_by"),
+				resource.TestCheckResourceAttr(datasourceName, "models.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "models.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "models.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "models.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "models.0.project_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "models.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "models.0.time_created"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ModelResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.category", "Performance"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.description", "description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.key", "BaseModel1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_metadata_list.0.value", "xgb"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.0.key", "UseCaseType"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_metadata_list.0.value", "ner"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "input_schema", "{}"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "output_schema", "{}"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "state", ACTIVE),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// verify resource import
+		{Config: config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"artifact_content_disposition",
+				"artifact_content_md5",
+				"artifact_last_modified",
+				"artifact_content_length",
+				"empty_model",
+				"model_artifact",
+				"model_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

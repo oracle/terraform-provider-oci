@@ -48,7 +48,6 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageExportSetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -62,89 +61,83 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+ExportSetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation), "filestorage", "exportSet", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_bytes"),
-					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_files"),
-					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_bytes"),
+				resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_files"),
+				resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "export set display name"),
-					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
-					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_files", "9223372036854775807"),
-					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", Optional, Update, exportSetDataSourceRepresentation) +
-					compartmentIdVariableStr + ExportSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
-					resource.TestCheckResourceAttr(datasourceName, "export_sets.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.display_name"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "export_sets.0.state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.time_created"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"mount_target_id",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "export set display name"),
+				resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
+				resource.TestCheckResourceAttr(resourceName, "max_fs_stat_files", "9223372036854775807"),
+				resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", Optional, Update, exportSetDataSourceRepresentation) +
+				compartmentIdVariableStr + ExportSetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttr(datasourceName, "export_sets.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "export_sets.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.time_created"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"mount_target_id",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -23,6 +23,7 @@ resource "oci_database_management_managed_databases_reset_database_parameter" "t
 		#Optional
 		password = var.managed_databases_reset_database_parameter_credentials_password
 		role = var.managed_databases_reset_database_parameter_credentials_role
+		secret_id = oci_vault_secret.test_secret.id
 		user_name = oci_identity_user.test_user.name
 	}
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `credentials` - (Required) The database credentials used to perform management activity.
 	* `password` - (Optional) The password for the database user name. 
 	* `role` - (Optional) The role of the database user. Indicates whether the database user is a normal user or sysdba.
+	* `secret_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `user_name` - (Optional) The database user name used to perform management activity. 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `parameters` - (Required) A list of database parameter names.

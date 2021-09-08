@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_database "github.com/oracle/oci-go-sdk/v46/database"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -64,7 +64,6 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseKeyStoreResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -82,180 +81,173 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+KeyStoreResourceDependencies+
 		generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation), "database", "keyStore", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckDatabaseKeyStoreDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatabaseKeyStoreDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyStoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create,
-						representationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyStoreResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create,
+					representationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "adminUsername2"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
-					resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
-					resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "adminUsername2"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", Optional, Update, keyStoreDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyStoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", Optional, Update, keyStoreDataSourceRepresentation) +
+				compartmentIdVariableStr + KeyStoreResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_databases.#", "0"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.display_name", "Key Store1"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.0.admin_username", "adminUsername2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.type_details.0.secret_id"),
-					resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.0.type", "ORACLE_KEY_VAULT"),
-					resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.type_details.0.vault_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyStoreResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_store_id"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_databases.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.0.admin_username", "adminUsername2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.type_details.0.secret_id"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.type_details.0.type", "ORACLE_KEY_VAULT"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.type_details.0.vault_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KeyStoreResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_store_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Key Store1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type_details.0.admin_username", "adminUsername2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + KeyStoreResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type_details.0.admin_username", "adminUsername2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type_details.0.type", "ORACLE_KEY_VAULT"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + KeyStoreResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

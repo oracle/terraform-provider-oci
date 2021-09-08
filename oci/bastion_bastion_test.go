@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_bastion "github.com/oracle/oci-go-sdk/v46/bastion"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v47/bastion"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -62,7 +62,6 @@ func TestBastionBastionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBastionBastionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -80,183 +79,176 @@ func TestBastionBastionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+BastionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation), "bastion", "bastion", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckBastionBastionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckBastionBastionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + BastionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
+				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + BastionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
-					resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BastionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create,
-						representationCopyWithNewProperties(bastionRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
-					resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BastionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create,
+					representationCopyWithNewProperties(bastionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
+				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
-					resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "3600"),
-					resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "3600"),
+				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Update, bastionDataSourceRepresentation) +
-					compartmentIdVariableStr + BastionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
-					resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "bastionterraformtest"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Update, bastionDataSourceRepresentation) +
+				compartmentIdVariableStr + BastionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
+				resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "bastionterraformtest"),
 
-					resource.TestCheckResourceAttr(datasourceName, "bastions.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bastions.0.bastion_type", "STANDARD"),
-					resource.TestCheckResourceAttr(datasourceName, "bastions.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "bastions.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bastions.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", "bastionterraformtest"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_subnet_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_vcn_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + BastionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.bastion_type", "STANDARD"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", "bastionterraformtest"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_vcn_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + BastionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "bastion_type", "STANDARD"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "client_cidr_block_allow_list.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "max_session_ttl_in_seconds", "3600"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "max_sessions_allowed"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "bastionterraformtest"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip_address"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_vcn_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + BastionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "bastion_type", "STANDARD"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "client_cidr_block_allow_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "max_session_ttl_in_seconds", "3600"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "max_sessions_allowed"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip_address"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_vcn_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + BastionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

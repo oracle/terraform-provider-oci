@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_ons "github.com/oracle/oci-go-sdk/v46/ons"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_ons "github.com/oracle/oci-go-sdk/v47/ons"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -58,7 +58,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOnsSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -76,165 +75,158 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+SubscriptionResourceDependencies+
 		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation), "ons", "subscription", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckOnsSubscriptionDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckOnsSubscriptionDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create,
-						representationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create,
+					representationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
-					compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
+				compartmentIdVariableStr + SubscriptionResourceDependencies +
+				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.created_time"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.delivery_policy.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.etag"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.topic_id"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + SubscriptionResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.created_time"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.delivery_policy.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.endpoint", "john.smith@example.com"),
+				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.etag"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.protocol", "EMAIL"),
+				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.topic_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + SubscriptionResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_time"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SubscriptionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_time"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "john.smith@example.com"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "EMAIL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + SubscriptionResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

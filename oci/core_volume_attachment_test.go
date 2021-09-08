@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_core "github.com/oracle/oci-go-sdk/v46/core"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_core "github.com/oracle/oci-go-sdk/v47/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -59,7 +59,6 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeAttachmentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -73,102 +72,95 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+VolumeAttachmentResourceDependencies+
 		generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation), "core", "volumeAttachment", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCoreVolumeAttachmentDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
+			),
 		},
-		CheckDestroy: testAccCheckCoreVolumeAttachmentDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
-				),
-			},
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "device", "/dev/oracleoci/oraclevdb"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "encryption_in_transit_type", "NONE"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
-					resource.TestCheckResourceAttr(resourceName, "is_shareable", "false"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "device", "/dev/oracleoci/oraclevdb"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_in_transit_type", "NONE"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_shareable", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", Optional, Update, volumeAttachmentDataSourceRepresentation) +
-					compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Update, volumeAttachmentRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_id"),
-
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "iscsi"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.availability_domain"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.device", "/dev/oracleoci/oraclevdb"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.display_name", "displayName"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.encryption_in_transit_type", "NONE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.instance_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.ipv4"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.iqn"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.is_multipath"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "false"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.port"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.volume_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"use_chap",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", Optional, Update, volumeAttachmentDataSourceRepresentation) +
+				compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
+				generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Update, volumeAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "iscsi"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.device", "/dev/oracleoci/oraclevdb"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.encryption_in_transit_type", "NONE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.instance_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.ipv4"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.iqn"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.is_multipath"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.port"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.volume_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"use_chap",
 			},
+			ResourceName: resourceName,
 		},
 	})
 }

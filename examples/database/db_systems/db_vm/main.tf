@@ -82,7 +82,7 @@ variable "license_model" {
 }
 
 variable "node_count" {
-  default = "2"
+  default = "1"
 }
 
 provider "oci" {
@@ -95,7 +95,7 @@ provider "oci" {
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = 3
+  ad_number      = 1
 }
 
 # Get DB node list

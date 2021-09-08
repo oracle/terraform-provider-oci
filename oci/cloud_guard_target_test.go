@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v46/cloudguard"
-	"github.com/oracle/oci-go-sdk/v46/common"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v47/cloudguard"
+	"github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -103,7 +103,6 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardTargetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -118,273 +117,266 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+TargetResourceDependencies+
 		generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation), "cloudguard", "target", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckCloudGuardTargetDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckCloudGuardTargetDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + TargetResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "recipe_count"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_recipe_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.condition"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.is_enabled"),
+				//Not in I/P so can't be in O/P as well, but will be in effective_rules
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector_rule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.owner"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.description"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.owner"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_recipe_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.condition"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.config_key", "autoBackupWindowConfig"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.name", "Backup time window (Slot)"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.value", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.is_enabled"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.mode", "USERACTION"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.responder_rule_id"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + TargetResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "recipe_count"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_recipe_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.condition"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.is_enabled"),
-					//Not in I/P so can't be in O/P as well, but will be in effective_rules
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector_rule_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.owner"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.description"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.owner"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_recipe_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.condition"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.config_key", "autoBackupWindowConfig"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.name", "Backup time window (Slot)"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.value", "10"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.is_enabled"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.mode", "USERACTION"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.responder_rule_id"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "recipe_count"),
-					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_recipe_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.condition"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.is_enabled"),
-					//Not in I/P so can't be in O/P as well, but will be in effective_rules
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector_rule_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.owner"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.description"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.display_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.id"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.owner"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_recipe_id"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.condition"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.config_key", "recoveryWindowInDaysConfig"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.name", "Backup retention period in days"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.value", "20"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.is_enabled"),
-					resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.mode", "AUTOACTION"),
-					resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.responder_rule_id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "recipe_count"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_recipe_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.condition"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.details.0.is_enabled"),
+				//Not in I/P so can't be in O/P as well, but will be in effective_rules
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.detector_rule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_detector_recipes.0.owner"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.description"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.owner"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_recipe_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.condition"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.config_key", "recoveryWindowInDaysConfig"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.name", "Backup retention period in days"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.value", "20"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.is_enabled"),
+				resource.TestCheckResourceAttr(resourceName, "target_responder_recipes.0.responder_rules.0.details.0.mode", "AUTOACTION"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.responder_rule_id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_cloud_guard_targets", "test_targets", Optional, Update, targetDataSourceRepresentation) +
-					compartmentIdVariableStr + TargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_cloud_guard_targets", "test_targets", Optional, Update, targetDataSourceRepresentation) +
+				compartmentIdVariableStr + TargetResourceDependencies +
+				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "target_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "target_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + TargetResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_id"),
+				resource.TestCheckResourceAttr(datasourceName, "target_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "target_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + TargetResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					//This depends on where target is created, not a fixed value
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "inherited_by_compartments.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "recipe_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.condition"),
-					//These is not input so can't be in output (configuration)
-					//This will be in effective detector rules after applying defaults.
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.is_configuration_allowed"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.is_enabled"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.labels.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.detector"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.display_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.managed_list_types.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.recommendation"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.display_name"),
-					//Count will be more after applying defaults
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.owner"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_type", "COMPARTMENT"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.description"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.display_name"),
-					//Effective count will be more having defaults
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.effective_responder_rules.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.owner"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.description"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.condition"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.config_key", "recoveryWindowInDaysConfig"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.name", "Backup retention period in days"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.value", "20"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.is_enabled"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.mode", "AUTOACTION"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.display_name"),
-					//Changes from backend
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.policies.#", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.state"),
-					//2 supported modes possible as of now
-					resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.supported_modes.#", "2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.type"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + TargetResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				//This depends on where target is created, not a fixed value
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "inherited_by_compartments.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "recipe_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.0.condition_groups.0.condition"),
+				//These is not input so can't be in output (configuration)
+				//This will be in effective detector rules after applying defaults.
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.is_configuration_allowed"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.is_enabled"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.labels.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.0.details.0.risk_level"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.detector"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.managed_list_types.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.recommendation"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.resource_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.service_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.display_name"),
+				//Count will be more after applying defaults
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.effective_detector_rules.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.owner"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_resource_type", "COMPARTMENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.description"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.display_name"),
+				//Effective count will be more having defaults
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.effective_responder_rules.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.owner"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.condition"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.config_key", "recoveryWindowInDaysConfig"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.name", "Backup retention period in days"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.configurations.0.value", "20"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.is_enabled"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.details.0.mode", "AUTOACTION"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.display_name"),
+				//Changes from backend
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.policies.#", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.state"),
+				//2 supported modes possible as of now
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.supported_modes.#", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.responder_rules.0.type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_responder_recipes.0.time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + TargetResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

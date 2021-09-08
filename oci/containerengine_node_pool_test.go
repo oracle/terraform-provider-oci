@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v46/containerengine"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v47/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -75,7 +75,6 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineNodePoolResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -90,161 +89,154 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+NodePoolResourceDependencies+nodePoolResourceConfigForVMStandard+
 		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation), "containerengine", "nodePool", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckContainerengineNodePoolDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+				generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name"),
+				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
-					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
-					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
-					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
-					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
+				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
-					compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
-					generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
+				compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
+				generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.cluster_id"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
-					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.2"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.quantity_per_subnet", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool",
-						Required, Create,
-						nodePoolSingularDataSourceRepresentation) + nodePoolResourceConfigForVMStandard + compartmentIdVariableStr + NodePoolResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.cluster_id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.quantity_per_subnet", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool",
+					Required, Create,
+					nodePoolSingularDataSourceRepresentation) + nodePoolResourceConfigForVMStandard + compartmentIdVariableStr + NodePoolResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "node_source.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "2"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + NodePoolResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "quantity_per_subnet", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "subnet_ids.#", "2"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + NodePoolResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

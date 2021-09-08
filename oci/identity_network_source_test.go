@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -64,7 +64,6 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityNetworkSourceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -80,145 +79,138 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+NetworkSourceResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation), "identity", "networkSource", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckIdentityNetworkSourceDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
+				resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckIdentityNetworkSourceDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
-					resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
+				resource.TestCheckResourceAttr(resourceName, "public_source_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
-					resource.TestCheckResourceAttr(resourceName, "public_source_list.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
-					resource.TestCheckResourceAttr(resourceName, "public_source_list.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
+				resource.TestCheckResourceAttr(resourceName, "public_source_list.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", Optional, Update, networkSourceDataSourceRepresentation) +
-					compartmentIdVariableStr + NetworkSourceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "corpnet"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", Optional, Update, networkSourceDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkSourceResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "corpnet"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.name", "corpnet"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.public_source_list.#", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.services.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "network_sources.0.virtual_source_list.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + NetworkSourceResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "network_source_id"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.name", "corpnet"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.public_source_list.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.services.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.virtual_source_list.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + NetworkSourceResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_source_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "corpnet"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "public_source_list.#", "2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "services.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "virtual_source_list.#", "1"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + NetworkSourceResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "corpnet"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "public_source_list.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "services.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_source_list.#", "1"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + NetworkSourceResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

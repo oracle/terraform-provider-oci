@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v46/identity"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -42,7 +42,6 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityUserGroupMembershipResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -57,61 +56,54 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	saveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
 		generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation), "identity", "userGroupMembership", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckIdentityUserGroupMembershipDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+	ResourceTest(t, testAccCheckIdentityUserGroupMembershipDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
-					compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
-					resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
+				compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
+				generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "memberships.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.compartment_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.group_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.user_id"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(datasourceName, "memberships.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.group_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "memberships.0.user_id"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

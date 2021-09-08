@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v46/common"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v46/loganalytics"
+	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v47/loganalytics"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -79,7 +79,6 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -103,215 +102,208 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 	saveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+LogAnalyticsObjectCollectionRuleResourceDependencies+
 		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation), "loganalytics", "logAnalyticsObjectCollectionRule", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
+	ResourceTest(t, testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy, []resource.TestStep{
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy,
-		Steps: []resource.TestStep{
-			// verify create
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
+		// delete before next create
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies,
+		},
+		// verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
+				resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule create"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.0.property_name", "charEncoding"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.0.property_value", "utf-8"),
+				resource.TestCheckResourceAttr(resourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-			// delete before next create
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies,
-			},
-			// verify create with optionals
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
-					resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule create"),
-					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.0.property_name", "charEncoding"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.0.property_value", "utf-8"),
-					resource.TestCheckResourceAttr(resourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(resourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create,
-						representationCopyWithNewProperties(logAnalyticsObjectCollectionRuleRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						})),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
-					resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule create"),
-					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.0.property_name", "charEncoding"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.0.property_value", "utf-8"),
-					resource.TestCheckResourceAttr(resourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(resourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create,
+					representationCopyWithNewProperties(logAnalyticsObjectCollectionRuleRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
+				resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule create"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.0.property_name", "charEncoding"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.0.property_value", "utf-8"),
+				resource.TestCheckResourceAttr(resourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-16"),
-					resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule update"),
-					resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
-					resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
-					resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
-					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
-					resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.0.property_name", "charEncoding"),
-					resource.TestCheckResourceAttr(resourceName, "overrides.0.property_value", "utf-16"),
-					resource.TestCheckResourceAttr(resourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(resourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-16"),
+				resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule update"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.0.property_name", "charEncoding"),
+				resource.TestCheckResourceAttr(resourceName, "overrides.0.property_value", "utf-16"),
+				resource.TestCheckResourceAttr(resourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(resourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rules", "test_log_analytics_object_collection_rules", Optional, Update, logAnalyticsObjectCollectionRuleDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-					generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "name", "test_terraform_rule"),
-					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = fromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rules", "test_log_analytics_object_collection_rules", Optional, Update, logAnalyticsObjectCollectionRuleDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
+				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "name", "test_terraform_rule"),
+				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_object_collection_rule_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+				resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_object_collection_rule_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "char_encoding", "utf-16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "collection_type", "HISTORIC"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule update"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "log_source_name", "LinuxSyslogSource"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_terraform_rule"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "os_namespace"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "overrides.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "overrides.0.property_name", "charEncoding"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "overrides.0.property_value", "utf-16"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:                  config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateIdFunc:       getLogAnalyticsObjectCollectionRulesEndpointImportId(resourceName),
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "char_encoding", "utf-16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "collection_type", "HISTORIC"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule update"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "log_source_name", "LinuxSyslogSource"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "test_terraform_rule"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_namespace"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "overrides.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "overrides.0.property_name", "charEncoding"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "overrides.0.property_value", "utf-16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "poll_since", "2020-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "poll_till", "2021-04-01T00:00:00.000Z"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// remove singular datasource from previous step so that it doesn't conflict with import tests
+		{
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
+		},
+		// verify resource import
+		{
+			Config:                  config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateIdFunc:       getLogAnalyticsObjectCollectionRulesEndpointImportId(resourceName),
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }
