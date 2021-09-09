@@ -7,6 +7,8 @@ import (
 	"context"
 	"fmt"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v47/database"
@@ -485,6 +487,7 @@ func createDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	if e := CreateResource(d, sync); e != nil {
 		return e
@@ -504,6 +507,7 @@ func readDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -512,6 +516,7 @@ func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
 		err := sync.RotateContainerDatabaseEncryptionKey()
@@ -527,6 +532,7 @@ func deleteDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync := &DatabaseAutonomousContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -535,6 +541,7 @@ func deleteDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 type DatabaseAutonomousContainerDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.AutonomousContainerDatabase
 	DisableNotFoundRetries bool
 }
@@ -722,6 +729,13 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if err != nil {
 		return err
 	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
 
 	s.Res = &response.AutonomousContainerDatabase
 	return nil
@@ -812,6 +826,14 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 	response, err := s.Client.UpdateAutonomousContainerDatabase(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.AutonomousContainerDatabase
@@ -1222,6 +1244,13 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) RotateContainerDatabas
 	response, err := s.Client.RotateAutonomousContainerDatabaseEncryptionKey(context.Background(), request)
 	if err != nil {
 		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	val := s.D.Get("rotate_key_trigger")

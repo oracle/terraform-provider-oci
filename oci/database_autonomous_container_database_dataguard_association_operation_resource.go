@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v47/database"
@@ -58,6 +59,7 @@ func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *s
 	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -66,6 +68,7 @@ func readDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *sch
 	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -85,6 +88,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 type DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	DisableNotFoundRetries bool
 	Res                    *DatabaseAutonomousContainerDatabaseDataguardAssociationOperation
 }
@@ -109,9 +113,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			switchoverRequest.AutonomousContainerDatabaseId = &tmpId
 			switchoverRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 			switchoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
-			_, err := s.Client.SwitchoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), switchoverRequest)
+			response, err := s.Client.SwitchoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), switchoverRequest)
 			if err != nil {
 				return err
+			}
+			workId := response.OpcWorkRequestId
+			if workId != nil {
+				_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
 			}
 		}
 		if strings.ToLower(operation.(string)) == "failover" {
@@ -120,9 +131,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			failoverRequest.AutonomousContainerDatabaseId = &tmpId
 			failoverRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 			failoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
-			_, err := s.Client.FailoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), failoverRequest)
+			response, err := s.Client.FailoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), failoverRequest)
 			if err != nil {
 				return err
+			}
+			workId := response.OpcWorkRequestId
+			if workId != nil {
+				_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
 			}
 		}
 		if strings.ToLower(operation.(string)) == "reinstate" {
@@ -131,9 +149,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			reinstateRequest.AutonomousContainerDatabaseId = &tmpId
 			reinstateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 			reinstateRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
-			_, err := s.Client.ReinstateAutonomousContainerDatabaseDataguardAssociation(context.Background(), reinstateRequest)
+			response, err := s.Client.ReinstateAutonomousContainerDatabaseDataguardAssociation(context.Background(), reinstateRequest)
 			if err != nil {
 				return err
+			}
+			workId := response.OpcWorkRequestId
+			if workId != nil {
+				_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
