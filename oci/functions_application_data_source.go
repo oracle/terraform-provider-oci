@@ -85,6 +85,12 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 
 	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
 
+	if s.Res.ImagePolicyConfig != nil {
+		s.D.Set("image_policy_config", []interface{}{ImagePolicyConfigToMapFunctions(s.Res.ImagePolicyConfig)})
+	} else {
+		s.D.Set("image_policy_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)

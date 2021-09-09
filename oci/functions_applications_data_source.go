@@ -136,6 +136,12 @@ func (s *FunctionsApplicationsDataSourceCrud) SetData() error {
 
 		application["network_security_group_ids"] = r.NetworkSecurityGroupIds
 
+		if r.ImagePolicyConfig != nil {
+			application["image_policy_config"] = []interface{}{ImagePolicyConfigToMapFunctions(r.ImagePolicyConfig)}
+		} else {
+			application["image_policy_config"] = nil
+		}
+
 		application["state"] = r.LifecycleState
 
 		application["subnet_ids"] = r.SubnetIds

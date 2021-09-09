@@ -62,6 +62,16 @@ resource "oci_functions_application" "test_application" {
   config                     = var.config
   syslog_url                 = var.syslog_url
   network_security_group_ids = [oci_core_network_security_group.test_network_security_group.id]
+  image_policy_config {
+    #Required
+    is_policy_enabled = var.application_image_policy_config_is_policy_enabled
+
+    #Optional
+    key_details {
+      #Required
+      kms_key_id = var.kms_key_ocid
+    }
+  }
   trace_config {
     domain_id  = var.application_trace_config.domain_id
     is_enabled = var.application_trace_config.is_enabled
