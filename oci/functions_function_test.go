@@ -61,9 +61,9 @@ var (
 
 	FunctionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create,
-			getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: functionApplicationDisplayName}, applicationRepresentation)) +
-		DefinedTagsDependencies
+		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: functions/default

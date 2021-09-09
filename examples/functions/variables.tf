@@ -47,6 +47,10 @@ variable "syslog_url" {
   default = ""
 }
 
+variable "application_image_policy_config_is_policy_enabled" {
+  default = false
+}
+
 ##### Docker image ######
 # To use functions as a service, you need docker images of your functions in OCI registry which can be accessed by you
 #
@@ -85,4 +89,7 @@ variable "invoke_function_body" {
 }
 
 variable "invoke_function_body_source_path" {
+}
+
+variable "kms_key_ocid" {
 }

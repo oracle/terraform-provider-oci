@@ -70,6 +70,44 @@ func FunctionsApplicationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"image_policy_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_policy_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+
+						// Optional
+						"key_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"kms_key_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -225,6 +263,17 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
+		if tmpList := imagePolicyConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image_policy_config", 0)
+			tmp, err := s.mapToImagePolicyConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImagePolicyConfig = &tmp
+		}
+	}
+
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -327,6 +376,17 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
+		if tmpList := imagePolicyConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "image_policy_config", 0)
+			tmp, err := s.mapToImagePolicyConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImagePolicyConfig = &tmp
+		}
+	}
+
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -397,11 +457,18 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.ImagePolicyConfig != nil {
+		s.D.Set("image_policy_config", []interface{}{ImagePolicyConfigToMapFunctions(s.Res.ImagePolicyConfig)})
+	} else {
+		s.D.Set("image_policy_config", nil)
+	}
+
 	networkSecurityGroupIds := []interface{}{}
 	for _, item := range s.Res.NetworkSecurityGroupIds {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
+
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -453,6 +520,71 @@ func ApplicationTraceConfigToMap(obj *oci_functions.ApplicationTraceConfig) map[
 
 	if obj.IsEnabled != nil {
 		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
+}
+
+func (s *FunctionsApplicationResourceCrud) mapToImagePolicyConfig(fieldKeyFormat string) (oci_functions.ImagePolicyConfig, error) {
+	result := oci_functions.ImagePolicyConfig{}
+
+	if isPolicyEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_policy_enabled")); ok {
+		tmp := isPolicyEnabled.(bool)
+		result.IsPolicyEnabled = &tmp
+	}
+
+	if keyDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_details")); ok {
+		interfaces := keyDetails.([]interface{})
+		tmp := make([]oci_functions.KeyDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "key_details"), stateDataIndex)
+			converted, err := s.mapToKeyDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "key_details")) {
+			result.KeyDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ImagePolicyConfigToMapFunctions(obj *oci_functions.ImagePolicyConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsPolicyEnabled != nil {
+		result["is_policy_enabled"] = bool(*obj.IsPolicyEnabled)
+	}
+
+	keyDetails := []interface{}{}
+	for _, item := range obj.KeyDetails {
+		keyDetails = append(keyDetails, KeyDetailsToMapFunctions(item))
+	}
+	result["key_details"] = keyDetails
+
+	return result
+}
+
+func (s *FunctionsApplicationResourceCrud) mapToKeyDetails(fieldKeyFormat string) (oci_functions.KeyDetails, error) {
+	result := oci_functions.KeyDetails{}
+
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
+	return result, nil
+}
+
+func KeyDetailsToMapFunctions(obj oci_functions.KeyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
 	}
 
 	return result

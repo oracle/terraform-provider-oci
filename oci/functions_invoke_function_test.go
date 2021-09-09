@@ -43,6 +43,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
 		DefinedTagsDependencies +
+		KeyResourceDependencyConfig +
 		`
 	resource "oci_core_security_list" "test_security_list" {
 		compartment_id = "${var.compartment_id}"
@@ -73,7 +74,6 @@ var (
 		security_list_ids = ["${oci_core_security_list.test_security_list.id}"]
 		vcn_id = "${oci_core_vcn.test_vcn.id}"
 	}
-
 	`
 	sourceFile *os.File
 )
