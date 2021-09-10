@@ -25,11 +25,23 @@ import (
 // Each shape only supports certain configurable values. If the values that you provide are not valid for the
 // specified `shape`, an error is returned.
 type LaunchInstancePlatformConfig interface {
+
+	// Whether Secure Boot is enabled on the instance.
+	GetIsSecureBootEnabled() *bool
+
+	// Whether the Trusted Platform Module (TPM) is enabled on the instance.
+	GetIsTrustedPlatformModuleEnabled() *bool
+
+	// Whether the Measured Boot feature is enabled on the instance.
+	GetIsMeasuredBootEnabled() *bool
 }
 
 type launchinstanceplatformconfig struct {
-	JsonData []byte
-	Type     string `json:"type"`
+	JsonData                       []byte
+	IsSecureBootEnabled            *bool  `mandatory:"false" json:"isSecureBootEnabled"`
+	IsTrustedPlatformModuleEnabled *bool  `mandatory:"false" json:"isTrustedPlatformModuleEnabled"`
+	IsMeasuredBootEnabled          *bool  `mandatory:"false" json:"isMeasuredBootEnabled"`
+	Type                           string `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -43,6 +55,9 @@ func (m *launchinstanceplatformconfig) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.IsSecureBootEnabled = s.Model.IsSecureBootEnabled
+	m.IsTrustedPlatformModuleEnabled = s.Model.IsTrustedPlatformModuleEnabled
+	m.IsMeasuredBootEnabled = s.Model.IsMeasuredBootEnabled
 	m.Type = s.Model.Type
 
 	return err
@@ -57,6 +72,22 @@ func (m *launchinstanceplatformconfig) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Type {
+	case "AMD_ROME_BM":
+		mm := AmdRomeBmLaunchInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMD_VM":
+		mm := AmdVmLaunchInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTEL_VM":
+		mm := IntelVmLaunchInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTEL_SKYLAKE_BM":
+		mm := IntelSkylakeBmLaunchInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMD_MILAN_BM":
 		mm := AmdMilanBmLaunchInstancePlatformConfig{}
 		err = json.Unmarshal(data, &mm)
@@ -64,6 +95,21 @@ func (m *launchinstanceplatformconfig) UnmarshalPolymorphicJSON(data []byte) (in
 	default:
 		return *m, nil
 	}
+}
+
+//GetIsSecureBootEnabled returns IsSecureBootEnabled
+func (m launchinstanceplatformconfig) GetIsSecureBootEnabled() *bool {
+	return m.IsSecureBootEnabled
+}
+
+//GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
+func (m launchinstanceplatformconfig) GetIsTrustedPlatformModuleEnabled() *bool {
+	return m.IsTrustedPlatformModuleEnabled
+}
+
+//GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
+func (m launchinstanceplatformconfig) GetIsMeasuredBootEnabled() *bool {
+	return m.IsMeasuredBootEnabled
 }
 
 func (m launchinstanceplatformconfig) String() string {
@@ -75,11 +121,19 @@ type LaunchInstancePlatformConfigTypeEnum string
 
 // Set of constants representing the allowable values for LaunchInstancePlatformConfigTypeEnum
 const (
-	LaunchInstancePlatformConfigTypeAmdMilanBm LaunchInstancePlatformConfigTypeEnum = "AMD_MILAN_BM"
+	LaunchInstancePlatformConfigTypeAmdMilanBm     LaunchInstancePlatformConfigTypeEnum = "AMD_MILAN_BM"
+	LaunchInstancePlatformConfigTypeAmdRomeBm      LaunchInstancePlatformConfigTypeEnum = "AMD_ROME_BM"
+	LaunchInstancePlatformConfigTypeIntelSkylakeBm LaunchInstancePlatformConfigTypeEnum = "INTEL_SKYLAKE_BM"
+	LaunchInstancePlatformConfigTypeAmdVm          LaunchInstancePlatformConfigTypeEnum = "AMD_VM"
+	LaunchInstancePlatformConfigTypeIntelVm        LaunchInstancePlatformConfigTypeEnum = "INTEL_VM"
 )
 
 var mappingLaunchInstancePlatformConfigType = map[string]LaunchInstancePlatformConfigTypeEnum{
-	"AMD_MILAN_BM": LaunchInstancePlatformConfigTypeAmdMilanBm,
+	"AMD_MILAN_BM":     LaunchInstancePlatformConfigTypeAmdMilanBm,
+	"AMD_ROME_BM":      LaunchInstancePlatformConfigTypeAmdRomeBm,
+	"INTEL_SKYLAKE_BM": LaunchInstancePlatformConfigTypeIntelSkylakeBm,
+	"AMD_VM":           LaunchInstancePlatformConfigTypeAmdVm,
+	"INTEL_VM":         LaunchInstancePlatformConfigTypeIntelVm,
 }
 
 // GetLaunchInstancePlatformConfigTypeEnumValues Enumerates the set of values for LaunchInstancePlatformConfigTypeEnum

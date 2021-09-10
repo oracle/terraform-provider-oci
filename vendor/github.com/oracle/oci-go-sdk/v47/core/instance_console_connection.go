@@ -33,7 +33,7 @@ type InstanceConsoleConnection struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The SSH public key fingerprint for the console connection.
+	// The SSH public key's fingerprint for client authentication to the console connection.
 	Fingerprint *string `mandatory:"false" json:"fingerprint"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -49,6 +49,9 @@ type InstanceConsoleConnection struct {
 
 	// The current state of the console connection.
 	LifecycleState InstanceConsoleConnectionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The SSH public key's fingerprint for the console connection service host.
+	ServiceHostKeyFingerprint *string `mandatory:"false" json:"serviceHostKeyFingerprint"`
 
 	// The SSH connection string for the SSH tunnel used to
 	// connect to the console connection over VNC.
