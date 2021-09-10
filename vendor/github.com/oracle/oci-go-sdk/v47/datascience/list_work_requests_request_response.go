@@ -121,6 +121,7 @@ const (
 	ListWorkRequestsOperationTypeModelDeploymentUpdate     ListWorkRequestsOperationTypeEnum = "MODEL_DEPLOYMENT_UPDATE"
 	ListWorkRequestsOperationTypeProjectDelete             ListWorkRequestsOperationTypeEnum = "PROJECT_DELETE"
 	ListWorkRequestsOperationTypeWorkrequestCancel         ListWorkRequestsOperationTypeEnum = "WORKREQUEST_CANCEL"
+	ListWorkRequestsOperationTypeJobDelete                 ListWorkRequestsOperationTypeEnum = "JOB_DELETE"
 )
 
 var mappingListWorkRequestsOperationType = map[string]ListWorkRequestsOperationTypeEnum{
@@ -135,6 +136,7 @@ var mappingListWorkRequestsOperationType = map[string]ListWorkRequestsOperationT
 	"MODEL_DEPLOYMENT_UPDATE":     ListWorkRequestsOperationTypeModelDeploymentUpdate,
 	"PROJECT_DELETE":              ListWorkRequestsOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          ListWorkRequestsOperationTypeWorkrequestCancel,
+	"JOB_DELETE":                  ListWorkRequestsOperationTypeJobDelete,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum

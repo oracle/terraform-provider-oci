@@ -14,6 +14,7 @@
 package core
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
@@ -39,6 +40,9 @@ type ComputeImageCapabilitySchemaSummary struct {
 	// The OCID of the compartment containing the compute global image capability schema
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// A mapping of each capability name to its ImageCapabilityDescriptor.
+	SchemaData map[string]ImageCapabilitySchemaDescriptor `mandatory:"false" json:"schemaData"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -52,4 +56,55 @@ type ComputeImageCapabilitySchemaSummary struct {
 
 func (m ComputeImageCapabilitySchemaSummary) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ComputeImageCapabilitySchemaSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CompartmentId                                 *string                                    `json:"compartmentId"`
+		SchemaData                                    map[string]imagecapabilityschemadescriptor `json:"schemaData"`
+		DefinedTags                                   map[string]map[string]interface{}          `json:"definedTags"`
+		FreeformTags                                  map[string]string                          `json:"freeformTags"`
+		Id                                            *string                                    `json:"id"`
+		ComputeGlobalImageCapabilitySchemaVersionName *string                                    `json:"computeGlobalImageCapabilitySchemaVersionName"`
+		ImageId                                       *string                                    `json:"imageId"`
+		DisplayName                                   *string                                    `json:"displayName"`
+		TimeCreated                                   *common.SDKTime                            `json:"timeCreated"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CompartmentId = model.CompartmentId
+
+	m.SchemaData = make(map[string]ImageCapabilitySchemaDescriptor)
+	for k, v := range model.SchemaData {
+		nn, e = v.UnmarshalPolymorphicJSON(v.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.SchemaData[k] = nn.(ImageCapabilitySchemaDescriptor)
+		} else {
+			m.SchemaData[k] = nil
+		}
+	}
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	m.Id = model.Id
+
+	m.ComputeGlobalImageCapabilitySchemaVersionName = model.ComputeGlobalImageCapabilitySchemaVersionName
+
+	m.ImageId = model.ImageId
+
+	m.DisplayName = model.DisplayName
+
+	m.TimeCreated = model.TimeCreated
+
+	return
 }
