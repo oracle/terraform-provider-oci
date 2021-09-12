@@ -70,6 +70,15 @@ func FunctionsApplicationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"network_security_group_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"syslog_url": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -216,6 +225,20 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
+		set := networkSecurityGroupIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
+			request.NetworkSecurityGroupIds = tmp
+		}
+	}
+
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
 		interfaces := subnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -304,6 +327,20 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
+		set := networkSecurityGroupIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
+			request.NetworkSecurityGroupIds = tmp
+		}
+	}
+
 	if syslogUrl, ok := s.D.GetOkExists("syslog_url"); ok {
 		tmp := syslogUrl.(string)
 		request.SyslogUrl = &tmp
@@ -359,6 +396,12 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	networkSecurityGroupIds := []interface{}{}
+	for _, item := range s.Res.NetworkSecurityGroupIds {
+		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+	}
+	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

@@ -38,11 +38,13 @@ variable "application_trace_config" {
     is_enabled = bool
   })
   default = {
-    is_enabled = true
+    domain_id = ""
+    is_enabled = false
   }
 }
 
 variable "syslog_url" {
+  default = ""
 }
 
 ##### Docker image ######
@@ -53,7 +55,7 @@ variable "syslog_url" {
 #
 
 variable "application_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
 variable "function_image" {
@@ -67,7 +69,7 @@ variable "function_trace_config" {
     is_enabled = bool
   })
   default = {
-    is_enabled = true
+    is_enabled = false
   }
 }
 
@@ -84,4 +86,3 @@ variable "invoke_function_body" {
 
 variable "invoke_function_body_source_path" {
 }
-
