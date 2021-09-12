@@ -9,10 +9,6 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_identity_availability_domains" "test_availability_domains" {
-  compartment_id = var.tenancy_ocid
-}
-
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
@@ -37,10 +33,12 @@ resource "oci_core_route_table" "test_route_table" {
   vcn_id = oci_core_vcn.test_vcn.id
 }
 
+resource "oci_core_network_security_group" "test_network_security_group" {
+    compartment_id = var.compartment_ocid
+    vcn_id         = oci_core_vcn.test_vcn.id
+}
+
 resource "oci_core_subnet" "test_subnet" {
-  availability_domain = lower(
-    data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name,
-  )
   cidr_block                 = "10.0.0.0/16"
   compartment_id             = var.compartment_ocid
   dhcp_options_id            = oci_core_vcn.test_vcn.default_dhcp_options_id
@@ -61,8 +59,9 @@ resource "oci_functions_application" "test_application" {
   subnet_ids     = [oci_core_subnet.test_subnet.id]
 
   #Optional
-  config       = var.config
-  syslog_url   = var.syslog_url
+  config                     = var.config
+  syslog_url                 = var.syslog_url
+  network_security_group_ids = [oci_core_network_security_group.test_network_security_group.id]
   trace_config {
     domain_id  = var.application_trace_config.domain_id
     is_enabled = var.application_trace_config.is_enabled
@@ -102,10 +101,17 @@ data "oci_functions_functions" "test_functions" {
   #Optional
   display_name = "example-function"
   id           = oci_functions_function.test_function.id
-  state        = "AVAILABLE"
+  state        = "ACTIVE"
+}
+
+resource "time_sleep" "wait_function_provisioning" {
+  depends_on      = [oci_functions_function.test_function]
+
+  create_duration = "5s"
 }
 
 resource "oci_functions_invoke_function" "test_invoke_function" {
+  depends_on           = [time_sleep.wait_function_provisioning]
   fn_intent            = "httprequest"
   fn_invoke_type       = "sync"
   function_id          = oci_functions_function.test_function.id
@@ -113,6 +119,7 @@ resource "oci_functions_invoke_function" "test_invoke_function" {
 }
 
 resource "oci_functions_invoke_function" "test_invoke_function_source_path" {
+  depends_on             = [time_sleep.wait_function_provisioning]
   fn_intent              = "httprequest"
   fn_invoke_type         = "sync"
   function_id            = oci_functions_function.test_function.id
@@ -120,6 +127,7 @@ resource "oci_functions_invoke_function" "test_invoke_function_source_path" {
 }
 
 resource "oci_functions_invoke_function" "test_invoke_function_detached" {
+  depends_on           = [time_sleep.wait_function_provisioning]
   fn_intent            = "httprequest"
   fn_invoke_type       = "detached"
   function_id          = oci_functions_function.test_function.id
@@ -127,6 +135,7 @@ resource "oci_functions_invoke_function" "test_invoke_function_detached" {
 }
 
 resource "oci_functions_invoke_function" "test_invoke_function_encoded_body" {
+  depends_on                          = [time_sleep.wait_function_provisioning]
   fn_intent                           = "cloudevent"
   fn_invoke_type                      = "sync"
   function_id                         = oci_functions_function.test_function.id
@@ -134,6 +143,7 @@ resource "oci_functions_invoke_function" "test_invoke_function_encoded_body" {
 }
 
 resource "oci_functions_invoke_function" "test_invoke_function_encoded_body_detached" {
+  depends_on                          = [time_sleep.wait_function_provisioning]
   fn_intent                           = "httprequest"
   fn_invoke_type                      = "detached"
   function_id                         = oci_functions_function.test_function.id
@@ -141,6 +151,7 @@ resource "oci_functions_invoke_function" "test_invoke_function_encoded_body_deta
 }
 
 resource "oci_functions_invoke_function" "test_invoke_function_encoded_content" {
+  depends_on            = [time_sleep.wait_function_provisioning]
   fn_intent             = "httprequest"
   fn_invoke_type        = "sync"
   function_id           = oci_functions_function.test_function.id
@@ -164,4 +175,3 @@ output "test_invoke_function_encoded_content" {
     oci_functions_invoke_function.test_invoke_function_encoded_content.content,
   )
 }
-

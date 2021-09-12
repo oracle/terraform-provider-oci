@@ -83,6 +83,8 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("subnet_ids", s.Res.SubnetIds)

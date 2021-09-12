@@ -134,6 +134,8 @@ func (s *FunctionsApplicationsDataSourceCrud) SetData() error {
 			application["id"] = *r.Id
 		}
 
+		application["network_security_group_ids"] = r.NetworkSecurityGroupIds
+
 		application["state"] = r.LifecycleState
 
 		application["subnet_ids"] = r.SubnetIds

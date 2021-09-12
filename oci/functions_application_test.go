@@ -34,7 +34,7 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: applicationDisplayName},
 		"id":             Representation{repType: Optional, create: `${oci_functions_application.test_application.id}`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, applicationDataSourceFilterRepresentation}}
 	applicationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -44,21 +44,24 @@ var (
 	applicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	applicationRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: applicationDisplayName},
-		"subnet_ids":     Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.id}`}},
-		"config":         Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"syslog_url":     Representation{repType: Optional, create: `tcp://syslog.test:80`, update: `tcp://syslog2.test:80`},
-		"trace_config":   RepresentationGroup{Optional, applicationTraceConfigRepresentation},
+		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":               Representation{repType: Required, create: applicationDisplayName},
+		"subnet_ids":                 Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.id}`}},
+		"config":                     Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
+		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"syslog_url":                 Representation{repType: Optional, create: `tcp://syslog.test:80`, update: `tcp://syslog2.test:80`},
+		"trace_config":               RepresentationGroup{Optional, applicationTraceConfigRepresentation},
 	}
 	applicationTraceConfigRepresentation = map[string]interface{}{
 		"domain_id":  Representation{repType: Optional, create: "${oci_apm_apm_domain.test_apm_domain.id}"},
 		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
-	ApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+	ApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
 		DefinedTagsDependencies
@@ -202,7 +205,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
 				//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
