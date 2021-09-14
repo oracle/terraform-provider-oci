@@ -26,6 +26,9 @@ var (
 	CrossConnectGroupResourceConfig = CrossConnectGroupResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation)
 
+	CrossConnectGroupResourceConfigCopyForVC = CrossConnectGroupResourceDependencies +
+		GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentationCopyForVC)
+
 	crossConnectGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"cross_connect_group_id": Representation{RepType: Required, Create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
 	}
@@ -45,6 +48,21 @@ var (
 		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"macsec_properties":       RepresentationGroup{Optional, crossConnectGroupMacsecPropertiesRepresentation},
+	}
+
+	crossConnectGroupRepresentationCopyForVC = GetRepresentationCopyWithMultipleRemovedProperties([]string{"macsec_properties"}, crossConnectGroupRepresentation)
+
+	crossConnectGroupMacsecPropertiesRepresentation = map[string]interface{}{
+		"state":             Representation{RepType: Required, Create: `ENABLED`, Update: `ENABLED`},
+		"encryption_cipher": Representation{RepType: Optional, Create: `AES256_GCM`, Update: `AES256_GCM_XPN`},
+		"primary_key":       RepresentationGroup{Optional, crossConnectGroupMacsecPropertiesPrimaryKeyRepresentation},
+	}
+	crossConnectGroupMacsecPropertiesPrimaryKeyRepresentation = map[string]interface{}{
+		"connectivity_association_key_secret_id":       Representation{RepType: Required, Create: `${var.secret_ocid_ckn}`},
+		"connectivity_association_name_secret_id":      Representation{RepType: Required, Create: `${var.secret_ocid_cak}`},
+		"connectivity_association_key_secret_version":  Representation{RepType: Required, Create: `${var.secret_version_cak}`},
+		"connectivity_association_name_secret_version": Representation{RepType: Required, Create: `${var.secret_version_ckn}`},
 	}
 
 	CrossConnectGroupResourceDependencies = DefinedTagsDependencies
@@ -63,19 +81,31 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	secretIdCKN := getEnvSettingWithBlankDefault("secret_ocid_ckn")
+	secretIdVariableStrCKN := fmt.Sprintf("variable \"secret_ocid_ckn\" { default = \"%s\" }\n", secretIdCKN)
+
+	secretIdCAK := getEnvSettingWithBlankDefault("secret_ocid_cak")
+	secretIdVariableStrCAK := fmt.Sprintf("variable \"secret_ocid_cak\" { default = \"%s\" }\n", secretIdCAK)
+
+	secretVersionCAK := getEnvSettingWithBlankDefault("secret_version_cak")
+	secretVersionStrCAK := fmt.Sprintf("variable \"secret_version_cak\" { default = \"%s\" }\n", secretVersionCAK)
+
+	secretVersionCKN := getEnvSettingWithBlankDefault("secret_version_ckn")
+	secretVersionStrCKN := fmt.Sprintf("variable \"secret_version_ckn\" { default = \"%s\" }\n", secretVersionCKN)
+
 	resourceName := "oci_core_cross_connect_group.test_cross_connect_group"
 	datasourceName := "data.oci_core_cross_connect_groups.test_cross_connect_groups"
 	singularDatasourceName := "data.oci_core_cross_connect_group.test_cross_connect_group"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+CrossConnectGroupResourceDependencies+
+	SaveConfigContent(config+compartmentIdVariableStr+CrossConnectGroupResourceDependencies+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCKN+secretVersionStrCAK+
 		GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation), "core", "crossConnectGroup", t)
 
 	ResourceTest(t, testAccCheckCoreCrossConnectGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -93,7 +123,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
+				secretVersionStrCKN + secretVersionStrCAK +
 				GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -101,6 +132,14 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
@@ -116,7 +155,8 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
+				secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create,
 					RepresentationCopyWithNewProperties(crossConnectGroupRepresentation, map[string]interface{}{
 						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
@@ -125,6 +165,13 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = FromInstanceState(s, resourceName, "id")
@@ -138,14 +185,21 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
+
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = FromInstanceState(s, resourceName, "id")
@@ -160,7 +214,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		{
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", Optional, Update, crossConnectGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + CrossConnectGroupResourceDependencies +
+				compartmentIdVariableStr + CrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -173,13 +227,21 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.time_created"),
 			),
 		},
 		// verify singular datasource
 		{
-			Config: config +
+			Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CrossConnectGroupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -191,13 +253,19 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceConfig,
+			Config: config + compartmentIdVariableStr + CrossConnectGroupResourceConfig + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 		// verify resource import
 		{

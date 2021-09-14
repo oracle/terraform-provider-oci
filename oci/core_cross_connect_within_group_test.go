@@ -17,6 +17,9 @@ var (
 	CrossConnectWithGroupResourceConfig = CrossConnectWithGroupResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectWithGroupRepresentation)
 
+	CrossConnectWithGroupResourceConfigCopyForVC = CrossConnectWithGroupResourceDependenciesCopyForVC +
+		GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectWithGroupRepresentation)
+
 	crossConnectWithGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"cross_connect_group_id": Representation{RepType: Optional, Create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
@@ -35,7 +38,8 @@ var (
 		"is_active":               Representation{RepType: Optional, Create: `true`},
 	}
 
-	CrossConnectWithGroupResourceDependencies = CrossConnectGroupResourceConfig + GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
+	CrossConnectWithGroupResourceDependencies          = CrossConnectGroupResourceConfig + GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
+	CrossConnectWithGroupResourceDependenciesCopyForVC = CrossConnectGroupResourceConfigCopyForVC + GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -48,6 +52,18 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	secretIdCKN := getEnvSettingWithBlankDefault("secret_ocid_ckn")
+	secretIdVariableStrCKN := fmt.Sprintf("variable \"secret_ocid_ckn\" { default = \"%s\" }\n", secretIdCKN)
+
+	secretIdCAK := getEnvSettingWithBlankDefault("secret_ocid_cak")
+	secretIdVariableStrCAK := fmt.Sprintf("variable \"secret_ocid_cak\" { default = \"%s\" }\n", secretIdCAK)
+
+	secretVersionCAK := getEnvSettingWithBlankDefault("secret_version_cak")
+	secretVersionStrCAK := fmt.Sprintf("variable \"secret_version_cak\" { default = \"%s\" }\n", secretVersionCAK)
+
+	secretVersionCKN := getEnvSettingWithBlankDefault("secret_version_ckn")
+	secretVersionStrCKN := fmt.Sprintf("variable \"secret_version_ckn\" { default = \"%s\" }\n", secretVersionCKN)
 
 	resourceName := "oci_core_cross_connect.test_cross_connect"
 	datasourceName := "data.oci_core_cross_connects.test_cross_connects"
@@ -64,7 +80,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies +
+				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceDependenciesCopyForVC + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 					GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectWithGroupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -86,7 +102,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies +
+				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 					GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectWithGroupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -110,7 +126,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 			},
 			// verify datasource
 			{
-				Config: config +
+				Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 					GenerateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", Optional, Update, crossConnectWithGroupDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectWithGroupResourceDependencies +
 					GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectWithGroupRepresentation),
@@ -137,7 +153,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 			},
 			// verify singular datasource
 			{
-				Config: config +
+				Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 					GenerateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectWithGroupResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -160,12 +176,12 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectWithGroupResourceConfig + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 			},
 			// verify resource import
 			// import requires full configuration to handle cross connect dependency on cross connect Group during destroy
 			{
-				Config:            config + compartmentIdVariableStr + CrossConnectWithGroupResourceConfig,
+				Config:            config + compartmentIdVariableStr + CrossConnectWithGroupResourceConfig + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

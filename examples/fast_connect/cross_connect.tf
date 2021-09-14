@@ -33,3 +33,5 @@ output "cross_connects" {
   value = data.oci_core_cross_connects.cross_connects.cross_connects
 }
 
+
+

@@ -146,6 +146,12 @@ func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 			crossConnect["location_name"] = *r.LocationName
 		}
 
+		if r.MacsecProperties != nil {
+			crossConnect["macsec_properties"] = []interface{}{MacsecPropertiesToMap(r.MacsecProperties)}
+		} else {
+			crossConnect["macsec_properties"] = nil
+		}
+
 		if r.PortName != nil {
 			crossConnect["port_name"] = *r.PortName
 		}

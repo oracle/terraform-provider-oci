@@ -23,6 +23,10 @@ func CoreCrossConnectStatusDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"encryption_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"interface_state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -82,6 +86,8 @@ func (s *CoreCrossConnectStatusDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(GenerateDataSourceHashID("CoreCrossConnectStatusDataSource-", CoreCrossConnectStatusDataSource(), s.D))
+
+	s.D.Set("encryption_status", s.Res.EncryptionStatus)
 
 	s.D.Set("interface_state", s.Res.InterfaceState)
 

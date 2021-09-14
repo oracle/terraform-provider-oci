@@ -34,6 +34,14 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `cross_connect_id` - The OCID of the cross-connect.
+* `encryption_status` - Encryption status of the CrossConnect
+
+	Possible values:
+	* **UP** - Traffic is encrypted over this CrossConnect
+	* **DOWN** - Traffic is not encrypted over this CrossConnect
+	* **CIPHER_MISMATCH** - The MACSEC encryption cipher doesn't match the cipher on the CPE
+	* **CKN_MISMATCH** - The MACSEC Connectivity association Key Name (CKN) doesn't match the CKN on the CPE
+	* **CAK_MISMATCH** - The MACSEC Connectivity Association Key (CAK) doesn't match the CAK on the CPE 
 * `interface_state` - Whether Oracle's side of the interface is up or down.
 * `light_level_ind_bm` - The light level of the cross-connect (in dBm).  Example: `14.0` 
 * `light_level_indicator` - Status indicator corresponding to the light level.
