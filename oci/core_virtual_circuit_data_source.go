@@ -110,6 +110,8 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 		s.D.Set("gateway_id", *s.Res.GatewayId)
 	}
 
+	s.D.Set("ip_mtu", s.Res.IpMtu)
+
 	if s.Res.OracleBgpAsn != nil {
 		s.D.Set("oracle_bgp_asn", *s.Res.OracleBgpAsn)
 	}

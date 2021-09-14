@@ -154,6 +154,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["id"] = *r.Id
 		}
 
+		virtualCircuit["ip_mtu"] = r.IpMtu
+
 		if r.OracleBgpAsn != nil {
 			virtualCircuit["oracle_bgp_asn"] = *r.OracleBgpAsn
 		}

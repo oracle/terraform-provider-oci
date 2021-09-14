@@ -129,6 +129,12 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 			crossConnectGroup["id"] = *r.Id
 		}
 
+		if r.MacsecProperties != nil {
+			crossConnectGroup["macsec_properties"] = []interface{}{MacsecPropertiesToMap(r.MacsecProperties)}
+		} else {
+			crossConnectGroup["macsec_properties"] = nil
+		}
+
 		crossConnectGroup["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

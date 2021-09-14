@@ -93,6 +93,12 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 		s.D.Set("location_name", *s.Res.LocationName)
 	}
 
+	if s.Res.MacsecProperties != nil {
+		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
+	} else {
+		s.D.Set("macsec_properties", nil)
+	}
+
 	if s.Res.PortName != nil {
 		s.D.Set("port_name", *s.Res.PortName)
 	}

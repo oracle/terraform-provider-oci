@@ -56,6 +56,14 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect's Oracle ID (OCID).
 * `location_name` - The name of the FastConnect location where this cross-connect is installed. 
+* `macsec_properties` - Properties used for MACSEC (if capable)
+	* `encryption_cipher` - Type of encryption cipher suite to use for the MACSEC connection
+	* `primary_key` - An object defining the Secrets-in-Vault OCIDs representing the MACSEC key
+		* `connectivity_association_key_secret_id` - Secret OCID containing the Connectivity Association Key (CAK) of this MACSEC key
+		* `connectivity_association_key_secret_version` - The secret version of the connectivityAssociationKey secret in vault
+		* `connectivity_association_name_secret_id` - Secret OCID containing the Connectivity association Key Name (CKN) of this MACSEC key
+		* `connectivity_association_name_secret_version` - The secret version of the connectivityAssociationName secret in vault
+	* `state` - Current state of whether MACSEC is enabled or not
 * `port_name` - A string identifying the meet-me room port for this cross-connect.
 * `port_speed_shape_name` - The port speed for this cross-connect.  Example: `10 Gbps` 
 * `state` - The cross-connect's current state.
