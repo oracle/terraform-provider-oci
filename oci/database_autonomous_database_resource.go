@@ -832,6 +832,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.AutonomousDatabase
 	return nil
 }

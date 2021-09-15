@@ -127,6 +127,9 @@ resource "oci_core_instance" "test_instance" {
 		type = var.instance_platform_config_type
 
 		#Optional
+		is_measured_boot_enabled = var.instance_platform_config_is_measured_boot_enabled
+		is_secure_boot_enabled = var.instance_platform_config_is_secure_boot_enabled
+		is_trusted_platform_module_enabled = var.instance_platform_config_is_trusted_platform_module_enabled
 		numa_nodes_per_socket = var.instance_platform_config_numa_nodes_per_socket
 	}
 	preemptible_instance_config {
@@ -334,8 +337,11 @@ The following arguments are supported:
 	If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
 	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
-	* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket (NPS). 
-	* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
+	* `is_measured_boot_enabled` - (Optional) Whether the Measured Boot feature is enabled on the instance. 
+	* `is_secure_boot_enabled` - (Optional) Whether Secure Boot is enabled on the instance. 
+	* `is_trusted_platform_module_enabled` - (Optional) Whether the Trusted Platform Module (TPM) is enabled on the instance. 
+	* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM) The number of NUMA nodes per socket (NPS). 
+	* `type` - (Required) The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM])
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
@@ -462,8 +468,11 @@ The following attributes are exported:
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
 * `platform_config` - The platform configuration for the instance. 
+	* `is_measured_boot_enabled` - Whether the Measured Boot is to be enabled on the instance 
+	* `is_secure_boot_enabled` - Whether the Secure Boot is to be enabled on the instance 
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is to be enabled on the instance 
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
-	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM])
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 

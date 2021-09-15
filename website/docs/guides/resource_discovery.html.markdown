@@ -388,7 +388,6 @@ core
 * oci\_core\_drg\_route\_table
 * oci\_core\_drg\_route\_distribution
 * oci\_core\_drg\_route\_table\_route\_rule
-* oci\_core\_drg\_route\_distribution\_statement
 
 data_safe
     
@@ -449,6 +448,8 @@ datascience
 * oci\_datascience\_model
 * oci\_datascience\_model\_provenance
 * oci\_datascience\_model\_deployment
+* oci\_datascience\_job
+* oci\_datascience\_job\_run
 
 devops
     

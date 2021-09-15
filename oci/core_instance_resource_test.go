@@ -20,6 +20,43 @@ import (
 )
 
 var (
+	instancePlatformConfigRepresentation = map[string]interface{}{
+		"type":                               Representation{repType: Required, create: `INTEL_VM`},
+		"is_measured_boot_enabled":           Representation{repType: Optional, create: `false`},
+		"is_secure_boot_enabled":             Representation{repType: Optional, create: `false`},
+		"is_trusted_platform_module_enabled": Representation{repType: Optional, create: `false`},
+	}
+	instanceBMMilanPlatformConfigRepresentation = map[string]interface{}{
+		"type":                               Representation{repType: Required, create: `AMD_MILAN_BM`},
+		"is_measured_boot_enabled":           Representation{repType: Optional, create: `false`},
+		"is_secure_boot_enabled":             Representation{repType: Optional, create: `false`},
+		"is_trusted_platform_module_enabled": Representation{repType: Optional, create: `false`},
+		"numa_nodes_per_socket":              Representation{repType: Optional, create: `NPS1`},
+	}
+	instanceBMRomeShieldedPlatformConfigRepresentation = map[string]interface{}{
+		"type":                               Representation{repType: Required, create: `AMD_ROME_BM`},
+		"is_measured_boot_enabled":           Representation{repType: Required, create: `false`},
+		"is_secure_boot_enabled":             Representation{repType: Required, create: `true`},
+		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `true`},
+	}
+	instanceBMSkylakeShieldedPlatformConfigRepresentation = map[string]interface{}{
+		"type":                               Representation{repType: Required, create: `INTEL_SKYLAKE_BM`},
+		"is_measured_boot_enabled":           Representation{repType: Required, create: `false`},
+		"is_secure_boot_enabled":             Representation{repType: Required, create: `true`},
+		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `true`},
+	}
+	instanceVMIntelShieldedPlatformConfigRepresentation = map[string]interface{}{
+		"type":                               Representation{repType: Required, create: `INTEL_VM`},
+		"is_measured_boot_enabled":           Representation{repType: Required, create: `true`},
+		"is_secure_boot_enabled":             Representation{repType: Required, create: `true`},
+		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `true`},
+	}
+	instanceVMAmdShieldedPlatformConfigRepresentation = map[string]interface{}{
+		"type":                               Representation{repType: Required, create: `AMD_VM`},
+		"is_measured_boot_enabled":           Representation{repType: Required, create: `false`},
+		"is_secure_boot_enabled":             Representation{repType: Required, create: `false`},
+		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `false`},
+	}
 	// instance representation for testing update to launch_options and fault_domain
 	instanceRepresentationCore_ForLaunchOptionsUpdate = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
 		"launch_options": RepresentationGroup{Optional, instanceLaunchOptionsRepresentation_ForLaunchOptionsUpdate},
@@ -68,19 +105,47 @@ var (
 		"source_type": Representation{repType: Required, create: `image`},
 		"kms_key_id":  Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
-	instancePlatformConfigRepresentation = map[string]interface{}{
-		"type":                  Representation{repType: Required, create: `AMD_MILAN_BM`},
-		"numa_nodes_per_socket": Representation{repType: Optional, create: `NPS1`},
-	}
-	instanceWithPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"shape":           Representation{repType: Required, create: `BM.DenseIO.E4.128`},
-		"image":           Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
-		"platform_config": RepresentationGroup{Required, instancePlatformConfigRepresentation},
+	instanceWithBMMilanPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               Representation{repType: Required, create: `BM.Standard.E4.128`},
+		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"platform_config":     RepresentationGroup{Required, instanceBMMilanPlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
+	instanceWithBMRomeShieldedPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               Representation{repType: Required, create: `BM.Standard.E3.128`},
+		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"platform_config":     RepresentationGroup{Required, instanceBMRomeShieldedPlatformConfigRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	instanceWithBMSkylakeShieldedPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               Representation{repType: Required, create: `BM.Standard2.52`},
+		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"platform_config":     RepresentationGroup{Required, instanceBMSkylakeShieldedPlatformConfigRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	instanceWithVMIntelPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"platform_config":     RepresentationGroup{Required, instanceVMIntelShieldedPlatformConfigRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	instanceWithVMAmdPlatformConfigRepresentation = representationCopyWithRemovedProperties(
+		representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+			"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+			"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+			"platform_config":     RepresentationGroup{Required, instanceVMAmdShieldedPlatformConfigRepresentation},
+		}), []string{
+			"dedicated_vm_host_id",
+		})
 
-	InstanceResourceDependenciesWithoutDVHWithoutVlan = OciImageIdsVariable +
+	ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan = DefinedShieldedImageOCIDs +
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{repType: Required, create: `dnslabel`},
@@ -138,7 +203,7 @@ func (s *ResourceCoreInstanceTestSuite) SetupTest() {
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
 	  }
 	}
-	` + DefinedTagsDependencies + FlexVmImageIdsVariable
+	` + DefinedShieldedImageOCIDs + DefinedTagsDependencies + FlexVmImageIdsVariable
 
 	s.ResourceName = "oci_core_instance.t"
 }
@@ -1530,9 +1595,9 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 }
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
-func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_platformConfig") {
-		t.Skip("Skipping suppressed TestAccResourceCoreInstance_platformConfig")
+func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Milan_instance_resource") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Milan_instance_resource")
 	}
 
 	provider := testAccProvider
@@ -1547,6 +1612,8 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
 
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]terraform.ResourceProvider{
@@ -1556,13 +1623,16 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create with platform config
 			{
-				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create,
+						instanceWithBMMilanPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E4.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "false"),
 
 					func(ts *terraform.State) (err error) {
 						return err
@@ -1573,27 +1643,418 @@ func TestAccResourceCoreInstance_platformConfig(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
-					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMMilanPlatformConfigRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Standard.E4.128"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "false"),
 				),
 			},
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
-					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigRepresentation),
+					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMMilanPlatformConfigRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "shape", "BM.DenseIO.E4.128"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS1"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.Standard.E4.128"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "AMD_MILAN_BM"),
 				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource")
+	}
+
+	provider := testAccProvider
+
+	config := `
+        provider oci {
+            test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+        }
+    ` + commonTestVariables()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// create with platform config
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E3.128"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_ROME_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+
+					func(ts *terraform.State) (err error) {
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Standard.E3.128"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "AMD_ROME_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.Standard.E3.128"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "AMD_ROME_BM"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource")
+	}
+
+	provider := testAccProvider
+
+	config := `
+        provider oci {
+            test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+        }
+    ` + commonTestVariables()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// create with platform config
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard2.52"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "INTEL_SKYLAKE_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+
+					func(ts *terraform.State) (err error) {
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Standard2.52"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "INTEL_SKYLAKE_BM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "BM.Standard2.52"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "INTEL_SKYLAKE_BM"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource")
+	}
+
+	provider := testAccProvider
+
+	config := `
+        provider oci {
+            test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+        }
+    ` + commonTestVariables()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// create with platform config
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "INTEL_VM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+
+					func(ts *terraform.State) (err error) {
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.type", "INTEL_VM"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_measured_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "false"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.memory_in_gbs", "15"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_measured_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "INTEL_VM"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource") {
+		t.Skip("Skipping suppressed TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource")
+	}
+
+	provider := testAccProvider
+
+	config := `
+        provider oci {
+            test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+        }
+    ` + commonTestVariables()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMAmdPlatformConfigRepresentation),
+				ExpectError: regexp.MustCompile("VM.Standard2.1 does not support the provided platform configuration"),
 			},
 		},
 	})

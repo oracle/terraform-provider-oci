@@ -90,5 +90,19 @@ The following attributes are exported:
 	* `max` - The maximum number of OCPUs. 
 	* `min` - The minimum number of OCPUs. 
 * `ocpus` - The default number of OCPUs available for this shape. 
+* `platform_config_options` - The list of supported platform configuration options for this shape. 
+	* `measured_boot_options` - Available and default options for Measured Boot configuration 
+		* `allowed_values` - Possible boolean values indicating whether MeasuredBoot can be enabled or disabled 
+		* `is_default_enabled` - Indicates whether Measured Boot is to be enabled by default 
+	* `numa_nodes_per_socket_platform_options` - Available and default options for NUMA Nodes Per Socket configuration 
+		* `allowed_values` - The supported values for this platform configuration property. 
+		* `default_value` - Indicates the default NUMA Nodes Per Socket configuration 
+	* `secure_boot_options` - Available and default options for Secure Boot configuration 
+		* `allowed_values` - Possible boolean values indicating whether SecureBoot can be enabled or disabled 
+		* `is_default_enabled` - Indicates whether Secure Boot is to be enabled by default 
+	* `trusted_platform_module_options` - Available and default options for Trusted Platform Module (TPM) configuration 
+		* `allowed_values` - Possible boolean values indicating whether Trusted Platform Module (TPM) can be enabled or disabled 
+		* `is_default_enabled` - Indicates whether Trusted Platform Module is to be enabled by default 
+	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, INTEL_SKYLAKE_BM]) 
 * `processor_description` - A short description of the shape's processor (CPU). 
 
