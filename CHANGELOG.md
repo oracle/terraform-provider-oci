@@ -1,4 +1,4 @@
-## 4.44.0 (Unreleased)
+## 4.44.0 (September 15, 2021)
 
 ### Added
 - Support InstanceConsoleConnection API with new serviceHostKeyFingerprint Property 
