@@ -4,7 +4,7 @@
 
 // Data Science API
 //
-// Use the Data Science APIs to organize your data science work, access data and computing resources, and build, train, deploy, and manage models on Oracle Cloud.
+// Use the Data Science API to organize your data science work, access data and computing resources, and build, train, deploy and manage models and model deployments. For more information, see Data Science (https://docs.oracle.com/iaas/data-science/using/data-science.htm).
 //
 
 package datascience
@@ -25,6 +25,7 @@ const (
 	WorkRequestOperationTypeModelDeploymentUpdate     WorkRequestOperationTypeEnum = "MODEL_DEPLOYMENT_UPDATE"
 	WorkRequestOperationTypeProjectDelete             WorkRequestOperationTypeEnum = "PROJECT_DELETE"
 	WorkRequestOperationTypeWorkrequestCancel         WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
+	WorkRequestOperationTypeJobDelete                 WorkRequestOperationTypeEnum = "JOB_DELETE"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
@@ -39,6 +40,7 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"MODEL_DEPLOYMENT_UPDATE":     WorkRequestOperationTypeModelDeploymentUpdate,
 	"PROJECT_DELETE":              WorkRequestOperationTypeProjectDelete,
 	"WORKREQUEST_CANCEL":          WorkRequestOperationTypeWorkrequestCancel,
+	"JOB_DELETE":                  WorkRequestOperationTypeJobDelete,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

@@ -7,6 +7,8 @@ import (
 	"context"
 	"time"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v47/database"
@@ -101,6 +103,7 @@ func createDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{
 	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -109,6 +112,7 @@ func readDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{})
 	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -120,6 +124,7 @@ func deleteDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{
 type DatabaseAutonomousDatabaseBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.AutonomousDatabaseBackup
 	DisableNotFoundRetries bool
 }
@@ -170,6 +175,14 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.AutonomousDatabaseBackup

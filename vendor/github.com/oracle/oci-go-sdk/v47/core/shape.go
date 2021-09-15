@@ -76,6 +76,8 @@ type Shape struct {
 	NetworkingBandwidthOptions *ShapeNetworkingBandwidthOptions `mandatory:"false" json:"networkingBandwidthOptions"`
 
 	MaxVnicAttachmentOptions *ShapeMaxVnicAttachmentOptions `mandatory:"false" json:"maxVnicAttachmentOptions"`
+
+	PlatformConfigOptions *ShapePlatformConfigOptions `mandatory:"false" json:"platformConfigOptions"`
 }
 
 func (m Shape) String() string {

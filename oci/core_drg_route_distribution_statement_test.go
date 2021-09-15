@@ -5,7 +5,6 @@ package oci
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -104,11 +103,6 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = fromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -129,7 +123,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId2, err = fromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},

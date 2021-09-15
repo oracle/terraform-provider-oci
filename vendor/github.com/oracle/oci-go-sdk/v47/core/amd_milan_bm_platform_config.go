@@ -22,8 +22,32 @@ import (
 // (the AMD Milan platform).
 type AmdMilanBmPlatformConfig struct {
 
+	// Whether Secure Boot is enabled on the instance.
+	IsSecureBootEnabled *bool `mandatory:"false" json:"isSecureBootEnabled"`
+
+	// Whether the Trusted Platform Module (TPM) is enabled on the instance.
+	IsTrustedPlatformModuleEnabled *bool `mandatory:"false" json:"isTrustedPlatformModuleEnabled"`
+
+	// Whether the Measured Boot feature is enabled on the instance.
+	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
+
 	// The number of NUMA nodes per socket (NPS).
 	NumaNodesPerSocket AmdMilanBmPlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
+}
+
+//GetIsSecureBootEnabled returns IsSecureBootEnabled
+func (m AmdMilanBmPlatformConfig) GetIsSecureBootEnabled() *bool {
+	return m.IsSecureBootEnabled
+}
+
+//GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
+func (m AmdMilanBmPlatformConfig) GetIsTrustedPlatformModuleEnabled() *bool {
+	return m.IsTrustedPlatformModuleEnabled
+}
+
+//GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
+func (m AmdMilanBmPlatformConfig) GetIsMeasuredBootEnabled() *bool {
+	return m.IsMeasuredBootEnabled
 }
 
 func (m AmdMilanBmPlatformConfig) String() string {

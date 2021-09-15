@@ -125,6 +125,10 @@ func (s *CoreInstanceConsoleConnectionsDataSourceCrud) SetData() error {
 			instanceConsoleConnection["instance_id"] = *r.InstanceId
 		}
 
+		if r.ServiceHostKeyFingerprint != nil {
+			instanceConsoleConnection["service_host_key_fingerprint"] = *r.ServiceHostKeyFingerprint
+		}
+
 		instanceConsoleConnection["state"] = r.LifecycleState
 
 		if r.VncConnectionString != nil {

@@ -7,6 +7,8 @@ import (
 	"context"
 	"fmt"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v47/database"
@@ -294,6 +296,7 @@ func createDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m int
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -302,6 +305,7 @@ func readDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m inter
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -310,6 +314,7 @@ func updateDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m int
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -318,6 +323,7 @@ func deleteDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m int
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -326,6 +332,7 @@ func deleteDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m int
 type DatabaseAutonomousExadataInfrastructureResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.AutonomousExadataInfrastructure
 	DisableNotFoundRetries bool
 }
@@ -464,6 +471,13 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
 	s.Res = &response.AutonomousExadataInfrastructure
 	return nil
 }
@@ -547,6 +561,14 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 	response, err := s.Client.UpdateAutonomousExadataInfrastructure(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.AutonomousExadataInfrastructure

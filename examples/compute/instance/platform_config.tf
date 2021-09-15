@@ -34,7 +34,7 @@ resource "oci_core_instance" "test_instance_with_platform_config" {
     subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
     assign_public_ip = true
-    hostname_label   = "tfexampleinstance${count.index}"
+    hostname_label   = "tfexampleinstancepc${count.index}"
   }
 
   source_details {
