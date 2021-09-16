@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
@@ -27,7 +29,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("0h"),
+			Create: getTimeoutDuration("2h"),
 			Update: getTimeoutDuration("2h"),
 			Delete: getTimeoutDuration("2h"),
 		},
@@ -827,6 +829,7 @@ func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateDBSystemResource(d, sync)
 }
@@ -835,6 +838,7 @@ func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -843,6 +847,7 @@ func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -851,6 +856,7 @@ func deleteDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -859,6 +865,7 @@ func deleteDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 type DatabaseDbSystemResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.DbSystem
 	DbHome                 *oci_database.DbHome
 	Database               *oci_database.Database
@@ -930,6 +937,14 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 	}
 
 	s.Res = &response.DbSystem
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
 
 	err = s.getDbHomeInfo()
 	if err != nil {
@@ -1070,8 +1085,17 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.DbSystem
 
+	// Check lifecycle state of db system
 	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		err = s.SetData()
@@ -2915,6 +2939,14 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 		return err
 	}
 
+	workId := updateDatabaseResponse.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	getDatabaseRequest := oci_database.GetDatabaseRequest{}
 
 	getDatabaseRequest.DatabaseId = s.Database.Id
@@ -2945,6 +2977,14 @@ func (s *DatabaseDbSystemResourceCrud) sendUpdateForLicenseModel(dbSystemId stri
 	response, err := s.Client.UpdateDbSystem(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.DbSystem
