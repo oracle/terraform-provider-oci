@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
@@ -362,6 +364,7 @@ func createDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -370,6 +373,7 @@ func readDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -378,6 +382,7 @@ func deleteDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -386,6 +391,7 @@ func deleteDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 type DatabaseDbHomeResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.DbHome
 	Database               *oci_database.Database
 	DisableNotFoundRetries bool
@@ -448,6 +454,15 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	if err != nil {
 		return err
 	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.DbHome
 
 	err = s.getDatabaseInfo()
@@ -514,6 +529,14 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.DbHome
 	err = s.Get()
 	if err != nil {
@@ -545,6 +568,14 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId = response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	getDatabaseRequest := oci_database.GetDatabaseRequest{}
@@ -1093,6 +1124,7 @@ func updateDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -1144,7 +1176,15 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err = s.Client.DeleteDatabase(context.Background(), request)
+	response, err := s.Client.DeleteDatabase(context.Background(), request)
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
