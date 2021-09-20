@@ -75,15 +75,6 @@ func (region Region) secondLevelDomain() string {
 	return realm["oc1"]
 }
 
-// RealmID is used for getting realmID from region, if no region found, directly throw error
-func (region Region) RealmID() (string, error) {
-	if realmID, ok := regionRealm[region]; ok {
-		return realmID, nil
-	}
-
-	return "", fmt.Errorf("cannot find realm for region : %s", region)
-}
-
 //StringToRegion convert a string to Region type
 func StringToRegion(stringRegion string) (r Region) {
 	regionStr := strings.ToLower(stringRegion)
