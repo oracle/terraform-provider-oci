@@ -901,9 +901,9 @@ func valueFromJSONBody(response *http.Response, value *reflect.Value, unmarshale
 }
 
 func addFromBody(response *http.Response, value *reflect.Value, field reflect.StructField, unmarshaler PolymorphicJSONUnmarshaler) (err error) {
-	Debugln("Unmarshalling from body to field: ", field.Name)
+	Debugln("Unmarshaling from body to field: ", field.Name)
 	if response.Body == nil {
-		Debugln("Unmarshalling body skipped due to nil body content for field: ", field.Name)
+		Debugln("Unmarshaling body skipped due to nil body content for field: ", field.Name)
 		return nil
 	}
 
