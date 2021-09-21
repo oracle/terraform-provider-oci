@@ -10,6 +10,7 @@ description: |-
 # Data Source: oci_database_migration_agent_images
 This data source provides the list of Agent Images in Oracle Cloud Infrastructure Database Migration service.
 
+Note: Deprecated. This resource will be deprecated. A new resource model will be provided soon.
 Get details of the ODMS Agent Images available to install on-premises.
 
 
