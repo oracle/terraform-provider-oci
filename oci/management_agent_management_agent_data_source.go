@@ -99,6 +99,8 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 		s.D.Set("install_path", *s.Res.InstallPath)
 	}
 
+	s.D.Set("install_type", s.Res.InstallType)
+
 	if s.Res.IsAgentAutoUpgradable != nil {
 		s.D.Set("is_agent_auto_upgradable", *s.Res.IsAgentAutoUpgradable)
 	}
@@ -126,6 +128,10 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 		pluginList = append(pluginList, ManagementAgentPluginDetailsToMap(item))
 	}
 	s.D.Set("plugin_list", pluginList)
+
+	if s.Res.ResourceArtifactVersion != nil {
+		s.D.Set("resource_artifact_version", *s.Res.ResourceArtifactVersion)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

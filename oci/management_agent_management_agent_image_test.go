@@ -15,6 +15,7 @@ import (
 var (
 	managementAgentImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"install_type":   Representation{repType: Optional, create: `AGENT`},
 		"state":          Representation{repType: Optional, create: `ACTIVE`},
 	}
 
@@ -43,7 +44,6 @@ func TestManagementAgentManagementAgentImageResource_basic(t *testing.T) {
 				compartmentIdVariableStr + ManagementAgentImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.checksum"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.id"),
@@ -53,6 +53,7 @@ func TestManagementAgentManagementAgentImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.size"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.version"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_images.0.state", "ACTIVE"),
 			),
 		},
 	})

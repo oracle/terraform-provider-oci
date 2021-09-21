@@ -24,6 +24,7 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 	availability_status = var.management_agent_availability_status
 	display_name = var.management_agent_display_name
 	host_id = oci_management_agent_host.test_host.id
+	install_type = var.management_agent_install_type
 	is_customer_deployed = var.management_agent_is_customer_deployed
 	platform_type = var.management_agent_platform_type
 	plugin_name = var.management_agent_plugin_name
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `display_name` - (Optional) Filter to return only Management Agents having the particular display name.
 * `host_id` - (Optional) Filter to return only Management Agents having the particular agent host id.
+* `install_type` - (Optional) A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 * `is_customer_deployed` - (Optional) true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
 * `platform_type` - (Optional) Filter to return only results having the particular platform type.
 * `plugin_name` - (Optional) Filter to return only Management Agents having the particular Plugin installed. A special pluginName of 'None' can be provided and this will return only Management Agents having no plugin installed.
@@ -67,7 +69,8 @@ The following attributes are exported:
 * `id` - agent identifier
 * `install_key_id` - agent install key identifier
 * `install_path` - Path where Management Agent is installed
-* `is_agent_auto_upgradable` - true if the agent can be upgraded automatically; false if it must be upgraded manually.
+* `install_type` - The install type, either AGENT or GATEWAY
+* `is_agent_auto_upgradable` - true if the agent can be upgraded automatically; false if it must be upgraded manually. This flag is derived from the tenancy level auto upgrade preference.
 * `is_customer_deployed` - true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `platform_name` - Platform Name
@@ -79,6 +82,7 @@ The following attributes are exported:
 	* `plugin_id` - Plugin Id
 	* `plugin_name` - Management Agent Plugin Name
 	* `plugin_version` - Plugin Version
+* `resource_artifact_version` - Version of the deployment artifact instantiated by this Management Agent. The format for Standalone resourceMode is YYMMDD.HHMM, and the format for other modes (whose artifacts are based upon Standalone but can advance independently) is YYMMDD.HHMM.VVVVVVVVVVVV. VVVVVVVVVVVV is always a numeric value between 000000000000 and 999999999999 
 * `state` - The current state of managementAgent
 * `time_created` - The time the Management Agent was created. An RFC3339 formatted datetime string
 * `time_last_heartbeat` - The time the Management Agent has last recorded its health status in telemetry. This value will be null if the agent has not recorded its health status in last 7 days. An RFC3339 formatted datetime string
