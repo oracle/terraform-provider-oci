@@ -10,6 +10,7 @@ description: |-
 # Data Source: oci_database_migration_connection
 This data source provides details about a specific Connection resource in Oracle Cloud Infrastructure Database Migration service.
 
+Note: Deprecated. This resource will be deprecated. A new resource model will be provided soon.
 Display Database Connection details.
 
 
@@ -26,18 +27,18 @@ data "oci_database_migration_connection" "test_connection" {
 
 The following arguments are supported:
 
-* `connection_id` - (Required) The OCID of the job 
+* `connection_id` - (Required) The OCID of the database connection 
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `admin_credentials` - Database Admin Credentials details. 
-	* `username` - Admin username 
+* `admin_credentials` - Note: Deprecated. Use the new resource model APIs instead. Database Administrator Credentials details. 
+	* `username` - Administrator username 
 * `certificate_tdn` - This name is the distinguished name used while creating the certificate on target database. 
 * `compartment_id` - OCID of the compartment 
-* `connect_descriptor` - Connect Descriptor details. 
+* `connect_descriptor` - Note: Deprecated. Use the new resource model APIs instead. Connect Descriptor details. 
 	* `connect_string` - Connect string. 
 	* `database_service_name` - Database service name. 
 	* `host` - Host of the connect descriptor. 
@@ -50,20 +51,20 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
-* `private_endpoint` - Oracle Cloud Infrastructure Private Endpoint configuration details. 
+* `private_endpoint` - Note: Deprecated. Use the new resource model APIs instead. Oracle Cloud Infrastructure Private Endpoint configuration details. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
 	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
 	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
-* `ssh_details` - Details of the ssh key that will be used. 
-	* `host` - Name of the host the sshkey is valid for. 
+* `ssh_details` - Note: Deprecated. Use the new resource model APIs instead. Details of the SSH key that will be used. 
+	* `host` - Name of the host the SSH key is valid for. 
 	* `sudo_location` - Sudo location 
 	* `user` - SSH user 
 * `state` - The current state of the Connection resource. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Connection resource was created. An RFC3339 formatted datetime string. 
 * `time_updated` - The time of the last Connection resource details update. An RFC3339 formatted datetime string. 
-* `vault_details` - Oracle Cloud Infrastructure Vault details to store migration and connection credentials secrets 
+* `vault_details` - Note: Deprecated. Use the new resource model APIs instead. Oracle Cloud Infrastructure Vault details to store migration and connection credentials secrets 
 	* `compartment_id` - OCID of the compartment where the secret containing the credentials will be created. 
 	* `key_id` - OCID of the vault encryption key 
 	* `vault_id` - OCID of the vault 
