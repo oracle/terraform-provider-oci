@@ -68,6 +68,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"tagging":                taggingResourceGraph,
 	"vulnerability_scanning": vulnerabilityScanningResourceGraph,
 	"waas":                   waasResourceGraph,
+	"waf":                    wafResourceGraph,
 }
 
 var availabilityDomainResourceGraph = TerraformResourceGraph{
@@ -1025,6 +1026,14 @@ var waasResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportWaasCustomProtectionRuleHints},
 		{TerraformResourceHints: exportWaasHttpRedirectHints},
 		{TerraformResourceHints: exportWaasWaasPolicyHints},
+	},
+}
+
+var wafResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportWafWebAppFirewallPolicyHints},
+		{TerraformResourceHints: exportWafWebAppFirewallHints},
+		{TerraformResourceHints: exportWafNetworkAddressListHints},
 	},
 }
 

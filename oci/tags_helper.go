@@ -89,3 +89,21 @@ func toLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
 func systemTagsToMap(systemTags map[string]map[string]interface{}) map[string]interface{} {
 	return definedTagsToMap(systemTags)
 }
+
+func mapToSystemTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
+	systemTags := make(map[string]map[string]interface{})
+	if len(rawMap) > 0 {
+		for key, value := range rawMap {
+			var keyComponents = strings.Split(key, ".")
+			if len(keyComponents) != 2 {
+				return nil, fmt.Errorf("invalid key structure found %s", key)
+			}
+			var namespace = keyComponents[0]
+			if _, ok := systemTags[namespace]; !ok {
+				systemTags[namespace] = make(map[string]interface{})
+			}
+			systemTags[namespace][keyComponents[1]] = value
+		}
+	}
+	return systemTags, nil
+}

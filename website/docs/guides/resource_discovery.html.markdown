@@ -172,6 +172,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `streaming` - Discovers streaming resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
+    * `waf` - Discovers waf resources within the specified compartment
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
     * 0.12
@@ -679,3 +680,9 @@ waas
 * oci\_waas\_custom\_protection\_rule
 * oci\_waas\_http\_redirect
 * oci\_waas\_waas\_policy
+
+waf
+    
+* oci\_waf\_web\_app\_firewall\_policy
+* oci\_waf\_web\_app\_firewall
+* oci\_waf\_network\_address\_list
