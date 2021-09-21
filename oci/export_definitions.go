@@ -56,6 +56,7 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v49/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
+	oci_waf "github.com/oracle/oci-go-sdk/v49/waf"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -2504,5 +2505,41 @@ var exportWaasWaasPolicyHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_waas.WaasPolicyLifecycleStateActive),
+	},
+}
+
+var exportWafWebAppFirewallPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_waf_web_app_firewall_policy",
+	datasourceClass:        "oci_waf_web_app_firewall_policies",
+	datasourceItemsAttr:    "web_app_firewall_policy_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "web_app_firewall_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waf.WebAppFirewallPolicyLifecycleStateActive),
+	},
+}
+
+var exportWafWebAppFirewallHints = &TerraformResourceHints{
+	resourceClass:          "oci_waf_web_app_firewall",
+	datasourceClass:        "oci_waf_web_app_firewalls",
+	datasourceItemsAttr:    "web_app_firewall_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "web_app_firewall",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waf.WebAppFirewallLifecycleStateActive),
+	},
+}
+
+var exportWafNetworkAddressListHints = &TerraformResourceHints{
+	resourceClass:          "oci_waf_network_address_list",
+	datasourceClass:        "oci_waf_network_address_lists",
+	datasourceItemsAttr:    "network_address_list_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "network_address_list",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waf.NetworkAddressListLifecycleStateActive),
 	},
 }
