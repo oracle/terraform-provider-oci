@@ -70,3 +70,8 @@ data "oci_management_agent_management_agent_available_histories" "test_managemen
   time_availability_status_started_less_than       = "2029-09-28T01:01:01.000Z"
 
 }
+
+data "oci_management_agent_management_agent_get_auto_upgradable_config" "test_management_agent_get_auto_upgradable_config" {
+  #Required
+  compartment_id = var.tenancy_ocid
+}

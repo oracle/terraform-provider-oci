@@ -32,6 +32,7 @@ var (
 		"availability_status":  Representation{repType: Optional, create: `ACTIVE`},
 		"display_name":         Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"host_id":              Representation{repType: Optional, create: ``},
+		"install_type":         Representation{repType: Optional, create: `AGENT`},
 		"is_customer_deployed": Representation{repType: Optional, create: `true`},
 		"platform_type":        Representation{repType: Optional, create: []string{`LINUX`}},
 		"state":                Representation{repType: Optional, create: `ACTIVE`},
@@ -42,10 +43,9 @@ var (
 	}
 
 	managementAgentRepresentation = map[string]interface{}{
-		"managed_agent_id":         Representation{repType: Required, create: `${var.managed_agent_id}`},
-		"display_name":             Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"is_agent_auto_upgradable": Representation{repType: Optional, create: `false`},
-		"deploy_plugins_id":        Representation{repType: Optional, create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
+		"managed_agent_id":  Representation{repType: Required, create: `${var.managed_agent_id}`},
+		"display_name":      Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"deploy_plugins_id": Representation{repType: Optional, create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
 	}
 
 	ManagementAgentResourceDependencies = ""
@@ -127,6 +127,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "availability_status", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "install_type", "AGENT"),
 				resource.TestCheckResourceAttr(datasourceName, "is_customer_deployed", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "platform_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -138,6 +139,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_customer_deployed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
@@ -169,6 +171,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_path"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_agent_auto_upgradable"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_customer_deployed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"),

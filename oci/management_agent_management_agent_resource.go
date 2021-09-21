@@ -60,7 +60,6 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 			},
 			"is_agent_auto_upgradable": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"deploy_plugins_id": {
@@ -93,6 +92,10 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 				Computed: true,
 			},
 			"install_path": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"install_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -148,6 +151,10 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"resource_artifact_version": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -495,6 +502,8 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		s.D.Set("install_path", *s.Res.InstallPath)
 	}
 
+	s.D.Set("install_type", s.Res.InstallType)
+
 	if s.Res.IsAgentAutoUpgradable != nil {
 		s.D.Set("is_agent_auto_upgradable", *s.Res.IsAgentAutoUpgradable)
 	}
@@ -522,6 +531,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		pluginList = append(pluginList, ManagementAgentPluginDetailsToMap(item))
 	}
 	s.D.Set("plugin_list", pluginList)
+
+	if s.Res.ResourceArtifactVersion != nil {
+		s.D.Set("resource_artifact_version", *s.Res.ResourceArtifactVersion)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

@@ -23,6 +23,10 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"install_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,6 +108,10 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if installType, ok := s.D.GetOkExists("install_type"); ok {
+		request.InstallType = oci_management_agent.ListManagementAgentImagesInstallTypeEnum(installType.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

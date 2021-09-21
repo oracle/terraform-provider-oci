@@ -35,6 +35,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"install_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"is_customer_deployed": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -111,6 +115,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	if hostId, ok := s.D.GetOkExists("host_id"); ok {
 		tmp := hostId.(string)
 		request.HostId = &tmp
+	}
+
+	if installType, ok := s.D.GetOkExists("install_type"); ok {
+		request.InstallType = oci_management_agent.ListManagementAgentsInstallTypeEnum(installType.(string))
 	}
 
 	if isCustomerDeployed, ok := s.D.GetOkExists("is_customer_deployed"); ok {
@@ -225,6 +233,8 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 			managementAgent["install_key_id"] = *r.InstallKeyId
 		}
 
+		managementAgent["install_type"] = r.InstallType
+
 		if r.IsAgentAutoUpgradable != nil {
 			managementAgent["is_agent_auto_upgradable"] = *r.IsAgentAutoUpgradable
 		}
@@ -252,6 +262,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 			pluginList = append(pluginList, ManagementAgentPluginDetailsToMap(item))
 		}
 		managementAgent["plugin_list"] = pluginList
+
+		if r.ResourceArtifactVersion != nil {
+			managementAgent["resource_artifact_version"] = *r.ResourceArtifactVersion
+		}
 
 		managementAgent["state"] = r.LifecycleState
 

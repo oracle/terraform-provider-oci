@@ -24,6 +24,7 @@ data "oci_management_agent_management_agent_count" "test_management_agent_count"
 
 	#Optional
 	has_plugins = var.management_agent_count_has_plugins
+	install_type = var.management_agent_count_install_type
 }
 ```
 
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `group_by` - (Required) The field by which to group Management Agents. Currently, only one groupBy dimension is supported at a time.
 * `has_plugins` - (Optional) When set to true then agents that have at least one plugin deployed will be returned. When set to false only agents that have no plugins deployed will be returned.
+* `install_type` - (Optional) A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 
 
 ## Attributes Reference
@@ -45,6 +47,7 @@ The following attributes are exported:
 	* `dimensions` - The Aggregation of Management Agent Dimensions
 		* `availability_status` - The availability status of managementAgent
 		* `has_plugins` - Whether or not a managementAgent has at least one plugin
+		* `install_type` - The install type, either AGENT or GATEWAY
 		* `platform_type` - Platform Type
 		* `version` - Agent image version
 
