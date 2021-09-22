@@ -1,8 +1,14 @@
+## 4.45.0 (Unreleased)
+
+### Added
+- Support for source path based upload in `oci_generic_artifacts_content_artifact_by_path` 
+
 ## 4.44.0 (September 15, 2021)
 
 ### Added
 - Support InstanceConsoleConnection API with new serviceHostKeyFingerprint Property 
 - Support for Data science ML jobs added
+- Support for Logging Analytics Import Custom Content
 
 ### Notes
 - Disabled resource discovery on resource `oci_core_drg_route_distribution_statement`

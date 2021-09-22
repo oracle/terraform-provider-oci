@@ -334,7 +334,7 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 0 hours), when creating the Db System
+	* `create` - (Defaults to 2 hours), when creating the Db System
 	* `update` - (Defaults to 2 hours), when updating the Db System
 	* `delete` - (Defaults to 2 hours), when destroying the Db System
 

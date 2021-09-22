@@ -6,6 +6,8 @@ package oci
 import (
 	"context"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v47/database"
 )
@@ -308,6 +310,7 @@ func updateDatabaseExadataInfrastructureStorage(d *schema.ResourceData, m interf
 	sync := &DatabaseExadataInfrastructureStorageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -315,6 +318,7 @@ func updateDatabaseExadataInfrastructureStorage(d *schema.ResourceData, m interf
 type DatabaseExadataInfrastructureStorageResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.ExadataInfrastructure
 	DisableNotFoundRetries bool
 }
@@ -336,6 +340,14 @@ func (s *DatabaseExadataInfrastructureStorageResourceCrud) Update() error {
 	response, err := s.Client.AddStorageCapacityExadataInfrastructure(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.ExadataInfrastructure

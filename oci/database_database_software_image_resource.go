@@ -276,6 +276,11 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) Create() error {
 	}
 
 	s.Res = &response.DatabaseSoftwareImage
+
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -333,6 +338,11 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) Update() error {
 	response, err := s.Client.UpdateDatabaseSoftwareImage(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	// This update does not support work-request
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	s.Res = &response.DatabaseSoftwareImage

@@ -6,8 +6,12 @@ package oci
 import (
 	"bytes"
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -41,10 +45,29 @@ func GenericArtifactsContentArtifactByPathResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
 			"content": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
+				StateFunc: func(body interface{}) string {
+					v := body.(string)
+					if v == "" {
+						return ""
+					}
+					h := sha256.Sum256([]byte(v))
+					return hex.EncodeToString(h[:])
+				},
+				ConflictsWith: []string{"source"},
+			},
+			"source": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"content"},
+				StateFunc:     getSourceFileState,
+				ValidateFunc:  validateSourceValue,
 			},
 
 			// Computed
@@ -65,7 +88,7 @@ func GenericArtifactsContentArtifactByPathResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_bytes": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -172,12 +195,67 @@ func (s *GenericArtifactsContentArtifactByPathResourceCrud) Get() error {
 }
 
 func (s *GenericArtifactsContentArtifactByPathResourceCrud) Create() error {
+	if s.isSourceCreate() {
+		return s.createArtifactBySource()
+	}
+
+	return s.createArtifactByContent()
+}
+
+func (s *GenericArtifactsContentArtifactByPathResourceCrud) isSourceCreate() bool {
+	source, _ := s.D.GetOkExists("source")
+	return source != ""
+}
+
+func (s *GenericArtifactsContentArtifactByPathResourceCrud) createArtifactByContent() error {
 	request := oci_generic_artifacts_content.PutGenericArtifactContentByPathRequest{}
 
 	if genericArtifactContentBody, ok := s.D.GetOkExists("content"); ok {
 		tmp := []byte(genericArtifactContentBody.(string))
 		request.GenericArtifactContentBody = ioutil.NopCloser(bytes.NewBuffer(tmp))
 	}
+
+	if artifactPath, ok := s.D.GetOkExists("artifact_path"); ok {
+		tmp := artifactPath.(string)
+		request.ArtifactPath = &tmp
+	}
+
+	if repositoryId, ok := s.D.GetOkExists("repository_id"); ok {
+		tmp := repositoryId.(string)
+		request.RepositoryId = &tmp
+	}
+
+	if version, ok := s.D.GetOkExists("version"); ok {
+		tmp := version.(string)
+		request.Version = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
+
+	response, err := s.Client.PutGenericArtifactContentByPath(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	s.Res = &response
+	return nil
+}
+
+func (s *GenericArtifactsContentArtifactByPathResourceCrud) createArtifactBySource() error {
+	request := oci_generic_artifacts_content.PutGenericArtifactContentByPathRequest{}
+
+	source, ok := s.D.GetOkExists("source")
+	if !ok {
+		return fmt.Errorf("the source is not specified")
+	}
+	sourcePath := source.(string)
+	sourceFile, err := os.Open(sourcePath)
+	if err != nil {
+		return fmt.Errorf("the specified source is not available: %q", err)
+	}
+
+	defer safeClose(sourceFile, &err)
+
+	request.GenericArtifactContentBody = sourceFile
 
 	if artifactPath, ok := s.D.GetOkExists("artifact_path"); ok {
 		tmp := artifactPath.(string)
