@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	oci_common "github.com/oracle/oci-go-sdk/v47/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -407,6 +409,7 @@ func createDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -415,6 +418,7 @@ func readDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -423,6 +427,7 @@ func deleteDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -431,6 +436,7 @@ func deleteDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 type DatabaseDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.Database
 	DisableNotFoundRetries bool
 }
@@ -490,6 +496,13 @@ func (s *DatabaseDatabaseResourceCrud) Create() error {
 	response, err := s.Client.CreateDatabase(context.Background(), request)
 	if err != nil {
 		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.Database
@@ -918,6 +931,7 @@ func updateDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -955,6 +969,14 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 	response, err := s.Client.UpdateDatabase(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.Database
@@ -1088,8 +1110,18 @@ func (s *DatabaseDatabaseResourceCrud) kmsRotation(databaseId string) error {
 		rotateKeyRequest := oci_database.RotateVaultKeyRequest{}
 		rotateKeyRequest.DatabaseId = &databaseId
 		rotateKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-		_, err := s.Client.RotateVaultKey(context.Background(), rotateKeyRequest)
-		return err
+		response, err := s.Client.RotateVaultKey(context.Background(), rotateKeyRequest)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		if workId != nil {
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
 	}
 	return nil
 }
@@ -1115,9 +1147,15 @@ func (s *DatabaseDatabaseResourceCrud) kmsMigration(databaseId string) error {
 				migrationKeyRequest.KmsKeyVersionId = &temp
 			}
 		}
-		_, err := s.Client.MigrateVaultKey(context.Background(), migrationKeyRequest)
+		response, err := s.Client.MigrateVaultKey(context.Background(), migrationKeyRequest)
 		if err != nil {
 			return err
+		}
+		workId := response.OpcWorkRequestId
+		if workId != nil {
+			_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+			if err != nil {
+			}
 		}
 		migrateOperation = true
 	}

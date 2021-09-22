@@ -146,6 +146,11 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Create() error {
 	}
 
 	s.Res = &response.ConsoleConnection
+
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

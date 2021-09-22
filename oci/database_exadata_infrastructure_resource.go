@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v47/database"
@@ -313,6 +315,7 @@ func createDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
 }
@@ -321,6 +324,7 @@ func readDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) er
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return ReadResource(sync)
 }
@@ -329,6 +333,7 @@ func updateDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -337,6 +342,7 @@ func deleteDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient()
+	sync.WorkRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)
@@ -345,6 +351,7 @@ func deleteDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 type DatabaseExadataInfrastructureResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.ExadataInfrastructure
 	DisableNotFoundRetries bool
 }
@@ -743,10 +750,6 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		return waitErr
 	}
 
-	//if s.Res.Shape != s.D.Get("state") {
-	//	s.D.Set("shape", s.Res.Shape)
-	//}
-
 	return nil
 }
 
@@ -1136,6 +1139,14 @@ func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructur
 	response, err := s.Client.ActivateExadataInfrastructure(context.Background(), request)
 	if err != nil {
 		return nil, err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &response, nil

@@ -30,9 +30,20 @@ resource "oci_generic_artifacts_content_artifact_by_path" "test_artifact" {
   version = "1.0"
   content = "<a1>content</a1>"
 }
-
-resource "oci_artifacts_generic_artifact" "test_generic_artifact" {
+resource "oci_artifacts_generic_artifact" "test_artifact" {
   artifact_id = oci_generic_artifacts_content_artifact_by_path.test_artifact.id
+}
+
+
+resource "oci_generic_artifacts_content_artifact_by_path" "test_artifact_by_source" {
+  #Required
+  artifact_path  = "artifact_path"
+  repository_id    = oci_artifacts_repository.test_repository.id
+  version = "2.0"
+  source = "index.html"
+}
+resource "oci_artifacts_generic_artifact" "test_artifact_by_source" {
+  artifact_id = oci_generic_artifacts_content_artifact_by_path.test_artifact_by_source.id
 }
 
 data "oci_artifacts_repositories" "test_repositories" {
