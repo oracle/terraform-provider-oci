@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// ChangeMigrationCompartmentDetails Change Migration compartment details.
+// ChangeMigrationCompartmentDetails Note: Deprecated. Use the new resource model APIs instead.
+// Change Migration compartment details.
 type ChangeMigrationCompartmentDetails struct {
 
 	// The OCID of the compartment to move the resource to.

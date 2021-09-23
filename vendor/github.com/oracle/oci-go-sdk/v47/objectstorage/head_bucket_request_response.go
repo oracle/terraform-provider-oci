@@ -28,8 +28,9 @@ type HeadBucketRequest struct {
 	// the resource.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should
-	// fail if the resource already exists.
+	// The entity tag (ETag) to avoid matching. Wildcards ('*') are not allowed. If the specified ETag does not
+	// match the ETag of the existing resource, the request returns the expected response. If the ETag matches
+	// the ETag of the existing resource, the request returns an HTTP 304 status without a response body.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// The client request ID for tracing.

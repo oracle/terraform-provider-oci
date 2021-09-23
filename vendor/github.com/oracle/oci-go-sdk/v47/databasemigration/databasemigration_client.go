@@ -79,7 +79,8 @@ func (client *DatabaseMigrationClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// AbortJob Aborts a Migration Job (either Evaluation or Migration).
+// AbortJob Note: Deprecated. Use the new resource model APIs instead.
+// Aborts a Migration Job (either Evaluation or Migration).
 //
 // See also
 //
@@ -139,7 +140,8 @@ func (client DatabaseMigrationClient) abortJob(ctx context.Context, request comm
 	return response, err
 }
 
-// ChangeAgentCompartment Used to configure an ODMS Agent Compartment ID.
+// ChangeAgentCompartment Note: Deprecated. Use the new resource model APIs instead.
+// Used to configure an ODMS Agent Compartment ID.
 //
 // See also
 //
@@ -199,7 +201,8 @@ func (client DatabaseMigrationClient) changeAgentCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeConnectionCompartment Used to change the Database Connection compartment.
+// ChangeConnectionCompartment Note: Deprecated. Use the new resource model APIs instead.
+// Used to change the Database Connection compartment.
 //
 // See also
 //
@@ -259,7 +262,8 @@ func (client DatabaseMigrationClient) changeConnectionCompartment(ctx context.Co
 	return response, err
 }
 
-// ChangeMigrationCompartment Used to change the Migration compartment.
+// ChangeMigrationCompartment Note: Deprecated. Use the new resource model APIs instead.
+// Used to change the Migration compartment.
 //
 // See also
 //
@@ -319,7 +323,8 @@ func (client DatabaseMigrationClient) changeMigrationCompartment(ctx context.Con
 	return response, err
 }
 
-// CloneMigration Clone a configuration from an existing Migration.
+// CloneMigration Note: Deprecated. Use the new resource model APIs instead.
+// Clone a configuration from an existing Migration.
 //
 // See also
 //
@@ -379,7 +384,8 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 	return response, err
 }
 
-// CreateConnection Create a Database Connection resource that contains the details to connect to either a Source or Target Database
+// CreateConnection Note: Deprecated. Use the new resource model APIs instead.
+// Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 // in the migration.
 //
 // See also
@@ -440,7 +446,8 @@ func (client DatabaseMigrationClient) createConnection(ctx context.Context, requ
 	return response, err
 }
 
-// CreateMigration Create a Migration resource that contains all the details to perform the
+// CreateMigration Note: Deprecated. Use the new resource model APIs instead.
+// Create a Migration resource that contains all the details to perform the
 // database migration operation, such as source and destination database
 // details, credentials, etc.
 //
@@ -502,7 +509,8 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteAgent Delete the ODMS Agent represented by the specified ODMS Agent ID.
+// DeleteAgent Note: Deprecated. Use the new resource model APIs instead.
+// Delete the ODMS Agent represented by the specified ODMS Agent ID.
 //
 // See also
 //
@@ -557,7 +565,8 @@ func (client DatabaseMigrationClient) deleteAgent(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteConnection Deletes the Database Connection represented by the specified connection ID.
+// DeleteConnection Note: Deprecated. Use the new resource model APIs instead.
+// Deletes the Database Connection represented by the specified connection ID.
 //
 // See also
 //
@@ -612,7 +621,8 @@ func (client DatabaseMigrationClient) deleteConnection(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteJob Deletes the migration job represented by the given job ID.
+// DeleteJob Note: Deprecated. Use the new resource model APIs instead.
+// Deletes the migration job represented by the given job ID.
 //
 // See also
 //
@@ -667,7 +677,8 @@ func (client DatabaseMigrationClient) deleteJob(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteMigration Deletes the Migration represented by the specified migration ID.
+// DeleteMigration Note: Deprecated. Use the new resource model APIs instead.
+// Deletes the Migration represented by the specified migration ID.
 //
 // See also
 //
@@ -722,7 +733,8 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 	return response, err
 }
 
-// EvaluateMigration Start Validate Migration job.
+// EvaluateMigration Note: Deprecated. Use the new resource model APIs instead.
+// Start Validate Migration job.
 //
 // See also
 //
@@ -782,7 +794,8 @@ func (client DatabaseMigrationClient) evaluateMigration(ctx context.Context, req
 	return response, err
 }
 
-// GetAgent Display the ODMS Agent configuration.
+// GetAgent Note: Deprecated. Use the new resource model APIs instead.
+// Display the ODMS Agent configuration.
 //
 // See also
 //
@@ -837,7 +850,8 @@ func (client DatabaseMigrationClient) getAgent(ctx context.Context, request comm
 	return response, err
 }
 
-// GetConnection Display Database Connection details.
+// GetConnection Note: Deprecated. Use the new resource model APIs instead.
+// Display Database Connection details.
 //
 // See also
 //
@@ -892,7 +906,8 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 	return response, err
 }
 
-// GetJob Get a migration job.
+// GetJob Note: Deprecated. Use the new resource model APIs instead.
+// Get a migration job.
 //
 // See also
 //
@@ -947,7 +962,8 @@ func (client DatabaseMigrationClient) getJob(ctx context.Context, request common
 	return response, err
 }
 
-// GetJobOutputContent Get the migration Job Output content as a String.
+// GetJobOutputContent Note: Deprecated. Use the new resource model APIs instead.
+// Get the migration Job Output content as a String.
 //
 // See also
 //
@@ -1001,7 +1017,8 @@ func (client DatabaseMigrationClient) getJobOutputContent(ctx context.Context, r
 	return response, err
 }
 
-// GetMigration Display Migration details.
+// GetMigration Note: Deprecated. Use the new resource model APIs instead.
+// Display Migration details.
 //
 // See also
 //
@@ -1056,7 +1073,8 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 	return response, err
 }
 
-// GetWorkRequest Gets the details of a work request.
+// GetWorkRequest Note: Deprecated. Use the new resource model APIs instead.
+// Gets the details of a work request.
 //
 // See also
 //
@@ -1111,7 +1129,8 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
-// ListAgentImages Get details of the ODMS Agent Images available to install on-premises.
+// ListAgentImages Note: Deprecated. Use the new resource model APIs instead.
+// Get details of the ODMS Agent Images available to install on-premises.
 //
 // See also
 //
@@ -1166,7 +1185,8 @@ func (client DatabaseMigrationClient) listAgentImages(ctx context.Context, reque
 	return response, err
 }
 
-// ListAgents Display the name of all the existing ODMS Agents in the server.
+// ListAgents Note: Deprecated. Use the new resource model APIs instead.
+// Display the name of all the existing ODMS Agents in the server.
 //
 // See also
 //
@@ -1221,7 +1241,8 @@ func (client DatabaseMigrationClient) listAgents(ctx context.Context, request co
 	return response, err
 }
 
-// ListConnections List all Database Connections.
+// ListConnections Note: Deprecated. Use the new resource model APIs instead.
+// List all Database Connections.
 //
 // See also
 //
@@ -1276,7 +1297,8 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 	return response, err
 }
 
-// ListJobOutputs List the Job Outputs
+// ListJobOutputs Note: Deprecated. Use the new resource model APIs instead.
+// List the Job Outputs
 //
 // See also
 //
@@ -1331,7 +1353,8 @@ func (client DatabaseMigrationClient) listJobOutputs(ctx context.Context, reques
 	return response, err
 }
 
-// ListJobs List all the names of the Migration jobs associated to the specified
+// ListJobs Note: Deprecated. Use the new resource model APIs instead.
+// List all the names of the Migration jobs associated to the specified
 // migration site.
 //
 // See also
@@ -1387,7 +1410,8 @@ func (client DatabaseMigrationClient) listJobs(ctx context.Context, request comm
 	return response, err
 }
 
-// ListMigrations List all Migrations.
+// ListMigrations Note: Deprecated. Use the new resource model APIs instead.
+// List all Migrations.
 //
 // See also
 //
@@ -1442,7 +1466,8 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequestErrors Gets the errors for a work request.
+// ListWorkRequestErrors Note: Deprecated. Use the new resource model APIs instead.
+// Gets the errors for a work request.
 //
 // See also
 //
@@ -1497,7 +1522,8 @@ func (client DatabaseMigrationClient) listWorkRequestErrors(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestLogs Gets the logs for a work request.
+// ListWorkRequestLogs Note: Deprecated. Use the new resource model APIs instead.
+// Gets the logs for a work request.
 //
 // See also
 //
@@ -1552,7 +1578,8 @@ func (client DatabaseMigrationClient) listWorkRequestLogs(ctx context.Context, r
 	return response, err
 }
 
-// ListWorkRequests Lists the work requests in a compartment or for a specified resource.
+// ListWorkRequests Note: Deprecated. Use the new resource model APIs instead.
+// Lists the work requests in a compartment or for a specified resource.
 //
 // See also
 //
@@ -1607,7 +1634,8 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 	return response, err
 }
 
-// ResumeJob Resume a migration Job.
+// ResumeJob Note: Deprecated. Use the new resource model APIs instead.
+// Resume a migration Job.
 //
 // See also
 //
@@ -1667,7 +1695,8 @@ func (client DatabaseMigrationClient) resumeJob(ctx context.Context, request com
 	return response, err
 }
 
-// RetrieveSupportedPhases Display Migration Phases for a specified migration.
+// RetrieveSupportedPhases Note: Deprecated. Use the new resource model APIs instead.
+// Display Migration Phases for a specified migration.
 //
 // See also
 //
@@ -1722,7 +1751,8 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 	return response, err
 }
 
-// StartMigration Start Migration job.
+// StartMigration Note: Deprecated. Use the new resource model APIs instead.
+// Start Migration job.
 //
 // See also
 //
@@ -1782,7 +1812,8 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateAgent Modifies the ODMS Agent represented by the given ODMS Agent ID.
+// UpdateAgent Note: Deprecated. Use the new resource model APIs instead.
+// Modifies the ODMS Agent represented by the given ODMS Agent ID.
 //
 // See also
 //
@@ -1842,7 +1873,8 @@ func (client DatabaseMigrationClient) updateAgent(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateConnection Update Database Connection resource details.
+// UpdateConnection Note: Deprecated. Use the new resource model APIs instead.
+// Update Database Connection resource details.
 //
 // See also
 //
@@ -1897,7 +1929,8 @@ func (client DatabaseMigrationClient) updateConnection(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateJob Update Migration Job resource details.
+// UpdateJob Note: Deprecated. Use the new resource model APIs instead.
+// Update Migration Job resource details.
 //
 // See also
 //
@@ -1952,7 +1985,8 @@ func (client DatabaseMigrationClient) updateJob(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateMigration Update Migration resource details.
+// UpdateMigration Note: Deprecated. Use the new resource model APIs instead.
+// Update Migration resource details.
 //
 // See also
 //

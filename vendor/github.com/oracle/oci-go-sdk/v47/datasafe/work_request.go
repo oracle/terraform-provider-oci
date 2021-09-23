@@ -53,41 +53,87 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeEnableDataSafeConfiguration      WorkRequestOperationTypeEnum = "ENABLE_DATA_SAFE_CONFIGURATION"
-	WorkRequestOperationTypeCreatePrivateEndpoint            WorkRequestOperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
-	WorkRequestOperationTypeUpdatePrivateEndpoint            WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
-	WorkRequestOperationTypeDeletePrivateEndpoint            WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
-	WorkRequestOperationTypeChangePrivateEndpointCompartment WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_COMPARTMENT"
-	WorkRequestOperationTypeCreateOnpremConnector            WorkRequestOperationTypeEnum = "CREATE_ONPREM_CONNECTOR"
-	WorkRequestOperationTypeUpdateOnpremConnector            WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR"
-	WorkRequestOperationTypeDeleteOnpremConnector            WorkRequestOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
-	WorkRequestOperationTypeUpdateOnpremConnectorWallet      WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
-	WorkRequestOperationTypeChangeOnpremConnectorCompartment WorkRequestOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
-	WorkRequestOperationTypeCreateTargetDatabase             WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE"
-	WorkRequestOperationTypeUpdateTargetDatabase             WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE"
-	WorkRequestOperationTypeActivateTargetDatabase           WorkRequestOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
-	WorkRequestOperationTypeDeactivateTargetDatabase         WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
-	WorkRequestOperationTypeDeleteTargetDatabase             WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
-	WorkRequestOperationTypeChangeTargetDatabaseCompartment  WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestOperationTypeEnableDataSafeConfiguration           WorkRequestOperationTypeEnum = "ENABLE_DATA_SAFE_CONFIGURATION"
+	WorkRequestOperationTypeCreatePrivateEndpoint                 WorkRequestOperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeUpdatePrivateEndpoint                 WorkRequestOperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeDeletePrivateEndpoint                 WorkRequestOperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	WorkRequestOperationTypeChangePrivateEndpointCompartment      WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_COMPARTMENT"
+	WorkRequestOperationTypeCreateOnpremConnector                 WorkRequestOperationTypeEnum = "CREATE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeUpdateOnpremConnector                 WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeDeleteOnpremConnector                 WorkRequestOperationTypeEnum = "DELETE_ONPREM_CONNECTOR"
+	WorkRequestOperationTypeUpdateOnpremConnectorWallet           WorkRequestOperationTypeEnum = "UPDATE_ONPREM_CONNECTOR_WALLET"
+	WorkRequestOperationTypeChangeOnpremConnectorCompartment      WorkRequestOperationTypeEnum = "CHANGE_ONPREM_CONNECTOR_COMPARTMENT"
+	WorkRequestOperationTypeCreateTargetDatabase                  WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE"
+	WorkRequestOperationTypeUpdateTargetDatabase                  WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE"
+	WorkRequestOperationTypeActivateTargetDatabase                WorkRequestOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
+	WorkRequestOperationTypeDeactivateTargetDatabase              WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
+	WorkRequestOperationTypeDeleteTargetDatabase                  WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
+	WorkRequestOperationTypeChangeTargetDatabaseCompartment       WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestOperationTypeCreateUserAssessment                  WorkRequestOperationTypeEnum = "CREATE_USER_ASSESSMENT"
+	WorkRequestOperationTypeAssessUserAssessment                  WorkRequestOperationTypeEnum = "ASSESS_USER_ASSESSMENT"
+	WorkRequestOperationTypeCreateSnapshotUserAssessment          WorkRequestOperationTypeEnum = "CREATE_SNAPSHOT_USER_ASSESSMENT"
+	WorkRequestOperationTypeCreateScheduleUserAssessment          WorkRequestOperationTypeEnum = "CREATE_SCHEDULE_USER_ASSESSMENT"
+	WorkRequestOperationTypeCompareWithBaselineUserAssessment     WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_USER_ASSESSMENT"
+	WorkRequestOperationTypeDeleteUserAssessment                  WorkRequestOperationTypeEnum = "DELETE_USER_ASSESSMENT"
+	WorkRequestOperationTypeUpdateUserAssessment                  WorkRequestOperationTypeEnum = "UPDATE_USER_ASSESSMENT"
+	WorkRequestOperationTypeChangeUserAssessmentCompartment       WorkRequestOperationTypeEnum = "CHANGE_USER_ASSESSMENT_COMPARTMENT"
+	WorkRequestOperationTypeSetUserAssessmentBaseline             WorkRequestOperationTypeEnum = "SET_USER_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeUnsetUserAssessmentBaseline           WorkRequestOperationTypeEnum = "UNSET_USER_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeGenerateUserAssessmentReport          WorkRequestOperationTypeEnum = "GENERATE_USER_ASSESSMENT_REPORT"
+	WorkRequestOperationTypeCreateSecurityAssessment              WorkRequestOperationTypeEnum = "CREATE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCreateSecurityAssessmentNow           WorkRequestOperationTypeEnum = "CREATE_SECURITY_ASSESSMENT_NOW"
+	WorkRequestOperationTypeAssessSecurityAssessment              WorkRequestOperationTypeEnum = "ASSESS_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCreateSnapshotSecurityAssessment      WorkRequestOperationTypeEnum = "CREATE_SNAPSHOT_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCreateScheduleSecurityAssessment      WorkRequestOperationTypeEnum = "CREATE_SCHEDULE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeCompareWithBaselineSecurityAssessment WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeDeleteSecurityAssessment              WorkRequestOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeUpdateSecurityAssessment              WorkRequestOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeChangeSecurityAssessmentCompartment   WorkRequestOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
+	WorkRequestOperationTypeSetSecurityAssessmentBaseline         WorkRequestOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeUnsetSecurityAssessmentBaseline       WorkRequestOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
+	WorkRequestOperationTypeGenerateSecurityAssessmentReport      WorkRequestOperationTypeEnum = "GENERATE_SECURITY_ASSESSMENT_REPORT"
 )
 
 var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
-	"ENABLE_DATA_SAFE_CONFIGURATION":      WorkRequestOperationTypeEnableDataSafeConfiguration,
-	"CREATE_PRIVATE_ENDPOINT":             WorkRequestOperationTypeCreatePrivateEndpoint,
-	"UPDATE_PRIVATE_ENDPOINT":             WorkRequestOperationTypeUpdatePrivateEndpoint,
-	"DELETE_PRIVATE_ENDPOINT":             WorkRequestOperationTypeDeletePrivateEndpoint,
-	"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT": WorkRequestOperationTypeChangePrivateEndpointCompartment,
-	"CREATE_ONPREM_CONNECTOR":             WorkRequestOperationTypeCreateOnpremConnector,
-	"UPDATE_ONPREM_CONNECTOR":             WorkRequestOperationTypeUpdateOnpremConnector,
-	"DELETE_ONPREM_CONNECTOR":             WorkRequestOperationTypeDeleteOnpremConnector,
-	"UPDATE_ONPREM_CONNECTOR_WALLET":      WorkRequestOperationTypeUpdateOnpremConnectorWallet,
-	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT": WorkRequestOperationTypeChangeOnpremConnectorCompartment,
-	"CREATE_TARGET_DATABASE":              WorkRequestOperationTypeCreateTargetDatabase,
-	"UPDATE_TARGET_DATABASE":              WorkRequestOperationTypeUpdateTargetDatabase,
-	"ACTIVATE_TARGET_DATABASE":            WorkRequestOperationTypeActivateTargetDatabase,
-	"DEACTIVATE_TARGET_DATABASE":          WorkRequestOperationTypeDeactivateTargetDatabase,
-	"DELETE_TARGET_DATABASE":              WorkRequestOperationTypeDeleteTargetDatabase,
-	"CHANGE_TARGET_DATABASE_COMPARTMENT":  WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"ENABLE_DATA_SAFE_CONFIGURATION":            WorkRequestOperationTypeEnableDataSafeConfiguration,
+	"CREATE_PRIVATE_ENDPOINT":                   WorkRequestOperationTypeCreatePrivateEndpoint,
+	"UPDATE_PRIVATE_ENDPOINT":                   WorkRequestOperationTypeUpdatePrivateEndpoint,
+	"DELETE_PRIVATE_ENDPOINT":                   WorkRequestOperationTypeDeletePrivateEndpoint,
+	"CHANGE_PRIVATE_ENDPOINT_COMPARTMENT":       WorkRequestOperationTypeChangePrivateEndpointCompartment,
+	"CREATE_ONPREM_CONNECTOR":                   WorkRequestOperationTypeCreateOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR":                   WorkRequestOperationTypeUpdateOnpremConnector,
+	"DELETE_ONPREM_CONNECTOR":                   WorkRequestOperationTypeDeleteOnpremConnector,
+	"UPDATE_ONPREM_CONNECTOR_WALLET":            WorkRequestOperationTypeUpdateOnpremConnectorWallet,
+	"CHANGE_ONPREM_CONNECTOR_COMPARTMENT":       WorkRequestOperationTypeChangeOnpremConnectorCompartment,
+	"CREATE_TARGET_DATABASE":                    WorkRequestOperationTypeCreateTargetDatabase,
+	"UPDATE_TARGET_DATABASE":                    WorkRequestOperationTypeUpdateTargetDatabase,
+	"ACTIVATE_TARGET_DATABASE":                  WorkRequestOperationTypeActivateTargetDatabase,
+	"DEACTIVATE_TARGET_DATABASE":                WorkRequestOperationTypeDeactivateTargetDatabase,
+	"DELETE_TARGET_DATABASE":                    WorkRequestOperationTypeDeleteTargetDatabase,
+	"CHANGE_TARGET_DATABASE_COMPARTMENT":        WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"CREATE_USER_ASSESSMENT":                    WorkRequestOperationTypeCreateUserAssessment,
+	"ASSESS_USER_ASSESSMENT":                    WorkRequestOperationTypeAssessUserAssessment,
+	"CREATE_SNAPSHOT_USER_ASSESSMENT":           WorkRequestOperationTypeCreateSnapshotUserAssessment,
+	"CREATE_SCHEDULE_USER_ASSESSMENT":           WorkRequestOperationTypeCreateScheduleUserAssessment,
+	"COMPARE_WITH_BASELINE_USER_ASSESSMENT":     WorkRequestOperationTypeCompareWithBaselineUserAssessment,
+	"DELETE_USER_ASSESSMENT":                    WorkRequestOperationTypeDeleteUserAssessment,
+	"UPDATE_USER_ASSESSMENT":                    WorkRequestOperationTypeUpdateUserAssessment,
+	"CHANGE_USER_ASSESSMENT_COMPARTMENT":        WorkRequestOperationTypeChangeUserAssessmentCompartment,
+	"SET_USER_ASSESSMENT_BASELINE":              WorkRequestOperationTypeSetUserAssessmentBaseline,
+	"UNSET_USER_ASSESSMENT_BASELINE":            WorkRequestOperationTypeUnsetUserAssessmentBaseline,
+	"GENERATE_USER_ASSESSMENT_REPORT":           WorkRequestOperationTypeGenerateUserAssessmentReport,
+	"CREATE_SECURITY_ASSESSMENT":                WorkRequestOperationTypeCreateSecurityAssessment,
+	"CREATE_SECURITY_ASSESSMENT_NOW":            WorkRequestOperationTypeCreateSecurityAssessmentNow,
+	"ASSESS_SECURITY_ASSESSMENT":                WorkRequestOperationTypeAssessSecurityAssessment,
+	"CREATE_SNAPSHOT_SECURITY_ASSESSMENT":       WorkRequestOperationTypeCreateSnapshotSecurityAssessment,
+	"CREATE_SCHEDULE_SECURITY_ASSESSMENT":       WorkRequestOperationTypeCreateScheduleSecurityAssessment,
+	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT": WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
+	"DELETE_SECURITY_ASSESSMENT":                WorkRequestOperationTypeDeleteSecurityAssessment,
+	"UPDATE_SECURITY_ASSESSMENT":                WorkRequestOperationTypeUpdateSecurityAssessment,
+	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":    WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
+	"SET_SECURITY_ASSESSMENT_BASELINE":          WorkRequestOperationTypeSetSecurityAssessmentBaseline,
+	"UNSET_SECURITY_ASSESSMENT_BASELINE":        WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
+	"GENERATE_SECURITY_ASSESSMENT_REPORT":       WorkRequestOperationTypeGenerateSecurityAssessmentReport,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

@@ -16,7 +16,6 @@ import (
 )
 
 // UpdateAlarmDetails The configuration details for updating an alarm.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateAlarmDetails struct {
 
 	// A user-friendly name for the alarm. It does not have to be unique, and it's changeable.
@@ -44,7 +43,7 @@ type UpdateAlarmDetails struct {
 	// Example: `oci_computeagent`
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// Resource group that you want to use as a filter. The alarm retrieves metric data associated with the specified resource group only. Only one resource group can be applied per metric.
+	// Resource group that you want to match. A null value returns only metric data that has no resource groups. The alarm retrieves metric data associated with the specified resource group only. Only one resource group can be applied per metric.
 	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
 	// Avoid entering confidential information.
 	// Example: `frontend-fleet`
@@ -54,7 +53,8 @@ type UpdateAlarmDetails struct {
 	// the Monitoring service interprets results for each returned time series as Boolean values,
 	// where zero represents false and a non-zero value represents true. A true value means that the trigger
 	// rule condition has been met. The query must specify a metric, statistic, interval, and trigger
-	// rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally
+	// rule (threshold or absence). Supported values for interval depend on the specified time range. More
+	// interval values are supported for smaller time ranges. You can optionally
 	// specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.
 	// For details about Monitoring Query Language (MQL), see Monitoring Query Language (MQL) Reference (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
 	// For available dimensions, review the metric definition for the supported service.
@@ -95,6 +95,12 @@ type UpdateAlarmDetails struct {
 	// Example: `High CPU usage alert. Follow runbook instructions for resolution.`
 	Body *string `mandatory:"false" json:"body"`
 
+	// The format to use for notification messages sent from this alarm. The formats are:
+	// * `RAW` - Raw JSON blob. Default value.
+	// * `PRETTY_JSON`: JSON with new lines and indents.
+	// * `ONS_OPTIMIZED`: Simplified, user-friendly layout. Applies only to messages sent through the Notifications service to the following subscription types: Email.
+	MessageFormat UpdateAlarmDetailsMessageFormatEnum `mandatory:"false" json:"messageFormat,omitempty"`
+
 	// A list of destinations to which the notifications for this alarm will be delivered.
 	// Each destination is represented by an OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) related to the supported destination service.
 	// For example, a destination using the Notifications service is represented by a topic OCID.
@@ -126,4 +132,29 @@ type UpdateAlarmDetails struct {
 
 func (m UpdateAlarmDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UpdateAlarmDetailsMessageFormatEnum Enum with underlying type: string
+type UpdateAlarmDetailsMessageFormatEnum string
+
+// Set of constants representing the allowable values for UpdateAlarmDetailsMessageFormatEnum
+const (
+	UpdateAlarmDetailsMessageFormatRaw          UpdateAlarmDetailsMessageFormatEnum = "RAW"
+	UpdateAlarmDetailsMessageFormatPrettyJson   UpdateAlarmDetailsMessageFormatEnum = "PRETTY_JSON"
+	UpdateAlarmDetailsMessageFormatOnsOptimized UpdateAlarmDetailsMessageFormatEnum = "ONS_OPTIMIZED"
+)
+
+var mappingUpdateAlarmDetailsMessageFormat = map[string]UpdateAlarmDetailsMessageFormatEnum{
+	"RAW":           UpdateAlarmDetailsMessageFormatRaw,
+	"PRETTY_JSON":   UpdateAlarmDetailsMessageFormatPrettyJson,
+	"ONS_OPTIMIZED": UpdateAlarmDetailsMessageFormatOnsOptimized,
+}
+
+// GetUpdateAlarmDetailsMessageFormatEnumValues Enumerates the set of values for UpdateAlarmDetailsMessageFormatEnum
+func GetUpdateAlarmDetailsMessageFormatEnumValues() []UpdateAlarmDetailsMessageFormatEnum {
+	values := make([]UpdateAlarmDetailsMessageFormatEnum, 0)
+	for _, v := range mappingUpdateAlarmDetailsMessageFormat {
+		values = append(values, v)
+	}
+	return values
 }

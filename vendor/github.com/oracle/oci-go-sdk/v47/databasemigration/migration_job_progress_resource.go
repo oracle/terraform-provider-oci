@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// MigrationJobProgressResource Progress details of a Migration Job.
+// MigrationJobProgressResource Note: Deprecated. Use the new resource model APIs instead.
+// Progress details of a Migration Job.
 type MigrationJobProgressResource struct {
 
 	// Current status of the job.

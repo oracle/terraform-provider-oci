@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// UpdatePrivateEndpoint OCI Private Endpoint configuration details.
+// UpdatePrivateEndpoint Note: Deprecated. Use the new resource model APIs instead.
+// OCI Private Endpoint configuration details.
 // An empty object would result in the removal of the stored details.
 type UpdatePrivateEndpoint struct {
 

@@ -22,7 +22,7 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// Database Patch model preference.
 	PatchModel CreateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"true" json:"patchModel"`
 
-	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
+	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
 	// The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
@@ -51,7 +51,7 @@ type CreateAutonomousContainerDatabaseDetails struct {
 
 	PeerAutonomousContainerDatabaseBackupConfig *PeerAutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"peerAutonomousContainerDatabaseBackupConfig"`
 
-	// The `DB_UNIQUE_NAME` of the peer Autonomous Container Database in a Data Guard association.
+	// **Deprecated.** The `DB_UNIQUE_NAME` of the peer Autonomous Container Database in a Data Guard association is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	PeerDbUniqueName *string `mandatory:"false" json:"peerDbUniqueName"`
 
 	// The OCID of the Autonomous VM Cluster.

@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// UpdateVaultDetails OCI Vault details to store migration and connection credentials secrets. An empty object would result in the removal of the stored details.
+// UpdateVaultDetails Note: Deprecated. Use the new resource model APIs instead.
+// OCI Vault details to store migration and connection credentials secrets. An empty object would result in the removal of the stored details.
 type UpdateVaultDetails struct {
 
 	// OCID of the compartment where the secret containing the credentials will be created.

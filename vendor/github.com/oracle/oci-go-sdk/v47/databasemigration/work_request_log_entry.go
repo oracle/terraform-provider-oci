@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// WorkRequestLogEntry A log message from executing an operation that is tracked by a work request.
+// WorkRequestLogEntry Note: Deprecated. Use the new resource model APIs instead.
+// A log message from executing an operation that is tracked by a work request.
 type WorkRequestLogEntry struct {
 
 	// A human-readable log message.

@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreateMigrationDetails Create Migration resource parameters.
+// CreateMigrationDetails Note: Deprecated. Use the new resource model APIs instead.
+// Create Migration resource parameters.
 type CreateMigrationDetails struct {
 
 	// Migration type.

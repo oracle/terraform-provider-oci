@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service Query API
+// Java Management Service API
 //
-// API for the Java Management Service. Use this API to view and manage Fleets.
+// API for the Java Management Service. Use this API to view, create, and manage Fleets.
 //
 
 package jms
@@ -29,11 +29,13 @@ type InstallationUsage struct {
 	// The file system path of the installation.
 	Path *string `mandatory:"true" json:"path"`
 
-	// The Operating System for the installation.
+	// The Operating System for the installation. Deprecated, use `operatingSystem` instead.
 	Os *string `mandatory:"true" json:"os"`
 
-	// The architecture of the operating system for the installation.
+	// The architecture of the operating system for the installation. Deprecated, use `operatingSystem` instead.
 	Architecture *string `mandatory:"true" json:"architecture"`
+
+	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
 	// The approximate count of applications running on this installation
 	ApproximateApplicationCount *int `mandatory:"false" json:"approximateApplicationCount"`

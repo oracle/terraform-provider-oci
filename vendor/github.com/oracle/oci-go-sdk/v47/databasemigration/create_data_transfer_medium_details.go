@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreateDataTransferMediumDetails Data Transfer Medium details for the Migration. If not specified, it will default to Database Link. Only one type
+// CreateDataTransferMediumDetails Note: Deprecated. Use the new resource model APIs instead.
+// Data Transfer Medium details for the Migration. If not specified, it will default to Database Link. Only one type
 // of data transfer medium can be specified.
 type CreateDataTransferMediumDetails struct {
 	DatabaseLinkDetails *CreateDatabaseLinkDetails `mandatory:"false" json:"databaseLinkDetails"`

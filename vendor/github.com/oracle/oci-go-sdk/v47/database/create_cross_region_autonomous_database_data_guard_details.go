@@ -144,6 +144,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// Customer Contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
+	// Indicates whether the Autonomous Database requires mTLS connections.
+	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
+
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
@@ -305,6 +308,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbVersion() *str
 //GetCustomerContacts returns CustomerContacts
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
+}
+
+//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsMtlsConnectionRequired() *bool {
+	return m.IsMtlsConnectionRequired
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

@@ -144,6 +144,9 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// Customer Contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
+	// Indicates whether the Autonomous Database requires mTLS connections.
+	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
+
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
 
@@ -308,6 +311,11 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbVersion() *string 
 //GetCustomerContacts returns CustomerContacts
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
+}
+
+//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsMtlsConnectionRequired() *bool {
+	return m.IsMtlsConnectionRequired
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

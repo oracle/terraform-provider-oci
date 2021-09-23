@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// VaultDetails OCI Vault details to store migration and connection credentials secrets
+// VaultDetails Note: Deprecated. Use the new resource model APIs instead.
+// OCI Vault details to store migration and connection credentials secrets
 type VaultDetails struct {
 
 	// OCID of the compartment where the secret containing the credentials will be created.

@@ -152,6 +152,9 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// Customer Contacts. Setting this to an empty list removes all customer contacts of an Oracle Autonomous Database.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	// Indicates whether the Autonomous Database requires mTLS connections.
+	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {

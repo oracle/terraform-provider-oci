@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CloneMigrationDetails Details that will override an existing Migration configuration that will be cloned.
+// CloneMigrationDetails Note: Deprecated. Use the new resource model APIs instead.
+// Details that will override an existing Migration configuration that will be cloned.
 type CloneMigrationDetails struct {
 
 	// The OCID of the Source Database Connection.

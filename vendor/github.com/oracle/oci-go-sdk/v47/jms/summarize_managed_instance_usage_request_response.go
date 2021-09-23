@@ -43,12 +43,12 @@ type SummarizeManagedInstanceUsageRequest struct {
 	// Additional fields to include into the returned model on top of the required ones.
 	// This parameter can also include 'approximateJreCount', 'approximateInstallationCount' and 'approximateApplicationCount'.
 	// For example 'approximateJreCount,approximateInstallationCount'.
-	Fields []SummarizeManagedInstanceUsageFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
+	Fields []SummarizeManagedInstanceUsageFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The start of the time period during which resources are searched (formatted according to RFC3339).
+	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
 
-	// The end of the time period during which resources are searched (formatted according to RFC3339).
+	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
 
 	// The maximum number of items to return.
@@ -63,11 +63,15 @@ type SummarizeManagedInstanceUsageRequest struct {
 	// The field to sort managed instance views. Only one sort order may be provided.
 	// Default order for _timeFirstSeen_, _timeLastSeen_, approximateJreCount_, _approximateInstallationCount_
 	// and _approximateApplicationCount_  is **descending**.
+	// Default order for _osName_ is **ascending**.
 	// If no value is specified _timeLastSeen_ is default.
 	SortBy SummarizeManagedInstanceUsageSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// The operating system type.
+	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -178,6 +182,7 @@ const (
 	SummarizeManagedInstanceUsageSortByApproximatejrecount          SummarizeManagedInstanceUsageSortByEnum = "approximateJreCount"
 	SummarizeManagedInstanceUsageSortByApproximateinstallationcount SummarizeManagedInstanceUsageSortByEnum = "approximateInstallationCount"
 	SummarizeManagedInstanceUsageSortByApproximateapplicationcount  SummarizeManagedInstanceUsageSortByEnum = "approximateApplicationCount"
+	SummarizeManagedInstanceUsageSortByOsname                       SummarizeManagedInstanceUsageSortByEnum = "osName"
 )
 
 var mappingSummarizeManagedInstanceUsageSortBy = map[string]SummarizeManagedInstanceUsageSortByEnum{
@@ -186,6 +191,7 @@ var mappingSummarizeManagedInstanceUsageSortBy = map[string]SummarizeManagedInst
 	"approximateJreCount":          SummarizeManagedInstanceUsageSortByApproximatejrecount,
 	"approximateInstallationCount": SummarizeManagedInstanceUsageSortByApproximateinstallationcount,
 	"approximateApplicationCount":  SummarizeManagedInstanceUsageSortByApproximateapplicationcount,
+	"osName":                       SummarizeManagedInstanceUsageSortByOsname,
 }
 
 // GetSummarizeManagedInstanceUsageSortByEnumValues Enumerates the set of values for SummarizeManagedInstanceUsageSortByEnum

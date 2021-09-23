@@ -37,6 +37,9 @@ type CreateGatewayDetails struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// An array of Network Security Groups OCIDs associated with this API Gateway.
+	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource.
 	CertificateId *string `mandatory:"false" json:"certificateId"`
 
@@ -62,14 +65,15 @@ func (m CreateGatewayDetails) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName          *string                           `json:"displayName"`
-		CertificateId        *string                           `json:"certificateId"`
-		ResponseCacheDetails responsecachedetails              `json:"responseCacheDetails"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		EndpointType         GatewayEndpointTypeEnum           `json:"endpointType"`
-		SubnetId             *string                           `json:"subnetId"`
+		DisplayName             *string                           `json:"displayName"`
+		NetworkSecurityGroupIds []string                          `json:"networkSecurityGroupIds"`
+		CertificateId           *string                           `json:"certificateId"`
+		ResponseCacheDetails    responsecachedetails              `json:"responseCacheDetails"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		EndpointType            GatewayEndpointTypeEnum           `json:"endpointType"`
+		SubnetId                *string                           `json:"subnetId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -78,6 +82,11 @@ func (m *CreateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.NetworkSecurityGroupIds = make([]string, len(model.NetworkSecurityGroupIds))
+	for i, n := range model.NetworkSecurityGroupIds {
+		m.NetworkSecurityGroupIds[i] = n
+	}
 
 	m.CertificateId = model.CertificateId
 

@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// DatabaseObject Database objects to exclude from migration
+// DatabaseObject Note: Deprecated. Use the new resource model APIs instead.
+// Database objects to exclude from migration
 type DatabaseObject struct {
 
 	// Owner of the object (regular expression is allowed)

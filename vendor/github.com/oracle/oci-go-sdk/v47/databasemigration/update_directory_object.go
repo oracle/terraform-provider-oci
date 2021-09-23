@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// UpdateDirectoryObject Directory object details, used to define either import or export directory objects in Data Pump Settings.
+// UpdateDirectoryObject Note: Deprecated. Use the new resource model APIs instead.
+// Directory object details, used to define either import or export directory objects in Data Pump Settings.
 // Import directory is required for Non-Autonomous target connections. If specified for an autonomous target, it will show an error.
 // Export directory will error if there are database link details specified.
 // If an empty object is specified, the stored Directory Object details will be removed.

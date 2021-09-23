@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// Job Results of a Database Connection search. Contains DatabaseConnectionSummary items.
+// Job Note: Deprecated. Use the new resource model APIs instead.
+// Results of a Database Connection search. Contains DatabaseConnectionSummary items.
 type Job struct {
 
 	// The OCID of the Migration Job.
