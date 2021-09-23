@@ -19,7 +19,7 @@ import (
 // If the entry corresponds to a state transition, such as OK to Firing, then the entry also includes a transition timestamp.
 type AlarmHistoryEntry struct {
 
-	// Description for this alarm history entry. Avoid entering confidential information.
+	// Description for this alarm history entry.
 	// Example 1 - alarm state history entry: `The alarm state is FIRING`
 	// Example 2 - alarm state transition history entry: `State transitioned from OK to Firing`
 	Summary *string `mandatory:"true" json:"summary"`

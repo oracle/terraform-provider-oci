@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// GoldenGateHub Details about Oracle GoldenGate Microservices.
+// GoldenGateHub Note: Deprecated. Use the new resource model APIs instead.
+// Details about Oracle GoldenGate Microservices.
 type GoldenGateHub struct {
 	RestAdminCredentials *AdminCredentials `mandatory:"true" json:"restAdminCredentials"`
 

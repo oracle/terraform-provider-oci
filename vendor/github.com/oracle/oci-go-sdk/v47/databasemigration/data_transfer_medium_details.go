@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// DataTransferMediumDetails Data Transfer Medium details for the Migration.
+// DataTransferMediumDetails Note: Deprecated. Use the new resource model APIs instead.
+// Data Transfer Medium details for the Migration.
 type DataTransferMediumDetails struct {
 	DatabaseLinkDetails *DatabaseLinkDetails `mandatory:"false" json:"databaseLinkDetails"`
 

@@ -37,12 +37,12 @@ type SummarizeJreUsageRequest struct {
 	// Additional fields to include into the returned model on top of the required ones.
 	// This parameter can also include 'approximateApplicationCount', 'approximateInstallationCount' and 'approximateManagedInstanceCount'.
 	// For example 'approximateApplicationCount,approximateManagedInstanceCount'.
-	Fields []SummarizeJreUsageFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
+	Fields []SummarizeJreUsageFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The start of the time period during which resources are searched (formatted according to RFC3339).
+	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
 
-	// The end of the time period during which resources are searched (formatted according to RFC3339).
+	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
 
 	// The maximum number of items to return.
@@ -58,11 +58,15 @@ type SummarizeJreUsageRequest struct {
 	// Default order for _timeFirstSeen_, _timeLastSeen_, and _version_ is **descending**.
 	// Default order for _timeFirstSeen_, _timeLastSeen_, _version_, _approximateInstallationCount_,
 	// _approximateApplicationCount_ and _approximateManagedInstanceCount_  is **descending**.
-	// Default order for _distribution_ and _vendor_ is **ascending**. If no value is specified _timeLastSeen_ is default.
+	// Default order for _distribution_, _vendor_, and _osName_ is **ascending**.
+	// If no value is specified _timeLastSeen_ is default.
 	SortBy SummarizeJreUsageSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// The operating system type.
+	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -155,6 +159,7 @@ const (
 	SummarizeJreUsageSortByApproximateinstallationcount    SummarizeJreUsageSortByEnum = "approximateInstallationCount"
 	SummarizeJreUsageSortByApproximateapplicationcount     SummarizeJreUsageSortByEnum = "approximateApplicationCount"
 	SummarizeJreUsageSortByApproximatemanagedinstancecount SummarizeJreUsageSortByEnum = "approximateManagedInstanceCount"
+	SummarizeJreUsageSortByOsname                          SummarizeJreUsageSortByEnum = "osName"
 )
 
 var mappingSummarizeJreUsageSortBy = map[string]SummarizeJreUsageSortByEnum{
@@ -166,6 +171,7 @@ var mappingSummarizeJreUsageSortBy = map[string]SummarizeJreUsageSortByEnum{
 	"approximateInstallationCount":    SummarizeJreUsageSortByApproximateinstallationcount,
 	"approximateApplicationCount":     SummarizeJreUsageSortByApproximateapplicationcount,
 	"approximateManagedInstanceCount": SummarizeJreUsageSortByApproximatemanagedinstancecount,
+	"osName":                          SummarizeJreUsageSortByOsname,
 }
 
 // GetSummarizeJreUsageSortByEnumValues Enumerates the set of values for SummarizeJreUsageSortByEnum

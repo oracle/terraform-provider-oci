@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreateConnectDescriptor Connect Descriptor details. Required for Manual and UserManagerOci connection types.
+// CreateConnectDescriptor Note: Deprecated. Use the new resource model APIs instead.
+// Connect Descriptor details. Required for Manual and UserManagerOci connection types.
 // If a Private Endpoint was specified for the Connection, the host should contain a valid IP address.
 type CreateConnectDescriptor struct {
 

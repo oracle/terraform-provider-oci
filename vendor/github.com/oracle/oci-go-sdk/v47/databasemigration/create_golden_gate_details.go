@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreateGoldenGateDetails Details about Oracle GoldenGate Microservices. Required for online logical migration.
+// CreateGoldenGateDetails Note: Deprecated. Use the new resource model APIs instead.
+// Details about Oracle GoldenGate Microservices. Required for online logical migration.
 type CreateGoldenGateDetails struct {
 	Hub *CreateGoldenGateHub `mandatory:"true" json:"hub"`
 

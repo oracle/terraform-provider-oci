@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// ConnectionCollection Results of a Database Connection search. Contains DatabaseConnectionSummary items.
+// ConnectionCollection Note: Deprecated. Use the new resource model APIs instead.
+// Results of a Database Connection search. Contains DatabaseConnectionSummary items.
 type ConnectionCollection struct {
 
 	// Items in collection.

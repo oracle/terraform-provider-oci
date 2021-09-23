@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// UpdateConnectDescriptor Connect Descriptor details. If a Private Endpoint was specified in the Connection, the host entry should be a valid IP address.
+// UpdateConnectDescriptor Note: Deprecated. Use the new resource model APIs instead.
+// Connect Descriptor details. If a Private Endpoint was specified in the Connection, the host entry should be a valid IP address.
 type UpdateConnectDescriptor struct {
 
 	// Host or IP address of the connect descriptor.

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service Query API
+// Java Management Service API
 //
-// API for the Java Management Service. Use this API to view and manage Fleets.
+// API for the Java Management Service. Use this API to view, create, and manage Fleets.
 //
 
 package jms
@@ -37,13 +37,13 @@ type WorkRequest struct {
 	// The percentage complete of the operation tracked by this work request.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// The date and time the request was created (formatted according to RFC3339).
+	// The date and time the request was created (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the work request transitioned from _ACCEPTED_ to _IN_PROGRESS_ (formatted according to RFC3339).
+	// The date and time the work request transitioned from _ACCEPTED_ to _IN_PROGRESS_ (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the work request reached a terminal state, either _FAILED_ or _SUCCEEDED_ (formatted according to RFC3339).
+	// The date and time the work request reached a terminal state, either _FAILED_ or _SUCCEEDED_ (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// ChangeAgentCompartmentDetails Change Agent compartment details
+// ChangeAgentCompartmentDetails Note: Deprecated. Use the new resource model APIs instead.
+// Change Agent compartment details
 type ChangeAgentCompartmentDetails struct {
 
 	// The OCID of the compartment to move the resource to.

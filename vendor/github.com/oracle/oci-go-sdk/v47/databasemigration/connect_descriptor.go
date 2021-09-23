@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// ConnectDescriptor Connect Descriptor details.
+// ConnectDescriptor Note: Deprecated. Use the new resource model APIs instead.
+// Connect Descriptor details.
 type ConnectDescriptor struct {
 
 	// Host of the connect descriptor.

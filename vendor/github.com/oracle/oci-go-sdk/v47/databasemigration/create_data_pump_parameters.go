@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreateDataPumpParameters Optional parameters for Data Pump Export and Import. Refer to Configuring Optional Initial Load Advanced Settings (https://docs.us.oracle.com/en/cloud/paas/database-migration/dmsus/working-migration-resources.html#GUID-24BD3054-FDF8-48FF-8492-636C1D4B71ED)
+// CreateDataPumpParameters Note: Deprecated. Use the new resource model APIs instead.
+// Optional parameters for Data Pump Export and Import. Refer to Configuring Optional Initial Load Advanced Settings (https://docs.us.oracle.com/en/cloud/paas/database-migration/dmsus/working-migration-resources.html#GUID-24BD3054-FDF8-48FF-8492-636C1D4B71ED)
 type CreateDataPumpParameters struct {
 
 	// Set to false to force Data Pump worker process to run on one instance.

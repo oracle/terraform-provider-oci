@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// MigrationSummary Migration resource
+// MigrationSummary Note: Deprecated. Use the new resource model APIs instead.
+// Migration resource
 type MigrationSummary struct {
 
 	// The OCID of the resource

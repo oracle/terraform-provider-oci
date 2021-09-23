@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreateExtract Parameters for GoldenGate Extract processes.
+// CreateExtract Note: Deprecated. Use the new resource model APIs instead.
+// Parameters for GoldenGate Extract processes.
 type CreateExtract struct {
 
 	// Extract performance.

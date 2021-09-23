@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// WorkRequestCollection Results of a Work Request search. Contains WorkRequestSummary items.
+// WorkRequestCollection Note: Deprecated. Use the new resource model APIs instead.
+// Results of a Work Request search. Contains WorkRequestSummary items.
 type WorkRequestCollection struct {
 
 	// Items in collection.

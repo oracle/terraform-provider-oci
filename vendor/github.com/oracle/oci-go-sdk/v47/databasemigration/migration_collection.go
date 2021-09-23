@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// MigrationCollection Results of a Migration search. Contains MigrationSummary items.
+// MigrationCollection Note: Deprecated. Use the new resource model APIs instead.
+// Results of a Migration search. Contains MigrationSummary items.
 type MigrationCollection struct {
 
 	// Items in collection.

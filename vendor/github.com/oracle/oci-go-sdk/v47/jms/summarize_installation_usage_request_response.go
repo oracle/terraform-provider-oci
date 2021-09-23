@@ -40,12 +40,12 @@ type SummarizeInstallationUsageRequest struct {
 	// Additional fields to include into the returned model on top of the required ones.
 	// This parameter can also include 'approximateApplicationCount' and 'approximateManagedInstanceCount'.
 	// For example 'approximateApplicationCount,approximateManagedInstanceCount'.
-	Fields []SummarizeInstallationUsageFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
+	Fields []SummarizeInstallationUsageFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The start of the time period during which resources are searched (formatted according to RFC3339).
+	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
 
-	// The end of the time period during which resources are searched (formatted according to RFC3339).
+	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
 
 	// The maximum number of items to return.
@@ -65,6 +65,9 @@ type SummarizeInstallationUsageRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// The operating system type.
+	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -157,6 +160,7 @@ const (
 	SummarizeInstallationUsageSortByTimelastseen                    SummarizeInstallationUsageSortByEnum = "timeLastSeen"
 	SummarizeInstallationUsageSortByApproximateapplicationcount     SummarizeInstallationUsageSortByEnum = "approximateApplicationCount"
 	SummarizeInstallationUsageSortByApproximatemanagedinstancecount SummarizeInstallationUsageSortByEnum = "approximateManagedInstanceCount"
+	SummarizeInstallationUsageSortByOsname                          SummarizeInstallationUsageSortByEnum = "osName"
 )
 
 var mappingSummarizeInstallationUsageSortBy = map[string]SummarizeInstallationUsageSortByEnum{
@@ -168,6 +172,7 @@ var mappingSummarizeInstallationUsageSortBy = map[string]SummarizeInstallationUs
 	"timeLastSeen":                    SummarizeInstallationUsageSortByTimelastseen,
 	"approximateApplicationCount":     SummarizeInstallationUsageSortByApproximateapplicationcount,
 	"approximateManagedInstanceCount": SummarizeInstallationUsageSortByApproximatemanagedinstancecount,
+	"osName":                          SummarizeInstallationUsageSortByOsname,
 }
 
 // GetSummarizeInstallationUsageSortByEnumValues Enumerates the set of values for SummarizeInstallationUsageSortByEnum

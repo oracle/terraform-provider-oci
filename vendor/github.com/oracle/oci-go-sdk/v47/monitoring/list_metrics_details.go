@@ -29,15 +29,14 @@ type ListMetricsDetails struct {
 	// Example: `oci_computeagent`
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// Resource group that you want to use as a filter. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.
+	// Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.
 	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
-	// Avoid entering confidential information.
 	// Example: `frontend-fleet`
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
 
 	// Qualifiers that you want to use when searching for metric definitions.
 	// Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.
-	// Example: { "resourceId": "<var>&lt;instance_OCID&gt;</var>" }
+	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
 	DimensionFilters map[string]string `mandatory:"false" json:"dimensionFilters"`
 
 	// Group metrics by these fields in the response. For example, to list all metric namespaces available

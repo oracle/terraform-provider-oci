@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// UpdateMigrationDetails Update Migration resource parameters.
+// UpdateMigrationDetails Note: Deprecated. Use the new resource model APIs instead.
+// Update Migration resource parameters.
 type UpdateMigrationDetails struct {
 
 	// Migration type.

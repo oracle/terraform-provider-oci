@@ -31,6 +31,9 @@ type ApplicationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application.
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
+	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
+
 	TraceConfig *ApplicationTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -51,6 +54,8 @@ type ApplicationSummary struct {
 	// timestamp format.
 	// Example: `2018-09-12T22:47:12.613Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	ImagePolicyConfig *ImagePolicyConfig `mandatory:"false" json:"imagePolicyConfig"`
 }
 
 func (m ApplicationSummary) String() string {

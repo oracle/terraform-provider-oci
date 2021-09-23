@@ -159,6 +159,9 @@ type CreateAutonomousDatabaseBase interface {
 	// Customer Contacts.
 	GetCustomerContacts() []CustomerContact
 
+	// Indicates whether the Autonomous Database requires mTLS connections.
+	GetIsMtlsConnectionRequired() *bool
+
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
 	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
 	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
@@ -195,6 +198,7 @@ type createautonomousdatabasebase struct {
 	DefinedTags                              map[string]map[string]interface{}                                 `mandatory:"false" json:"definedTags"`
 	DbVersion                                *string                                                           `mandatory:"false" json:"dbVersion"`
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
+	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 	Source                                   string                                                            `json:"source"`
 }
@@ -239,6 +243,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.DbVersion = s.Model.DbVersion
 	m.CustomerContacts = s.Model.CustomerContacts
+	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.Source = s.Model.Source
 
@@ -426,6 +431,11 @@ func (m createautonomousdatabasebase) GetDbVersion() *string {
 //GetCustomerContacts returns CustomerContacts
 func (m createautonomousdatabasebase) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
+}
+
+//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+func (m createautonomousdatabasebase) GetIsMtlsConnectionRequired() *bool {
+	return m.IsMtlsConnectionRequired
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

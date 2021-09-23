@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// JobOutputSummary Job output summary line.
+// JobOutputSummary Note: Deprecated. Use the new resource model APIs instead.
+// Job output summary line.
 type JobOutputSummary struct {
 
 	// Job output line.

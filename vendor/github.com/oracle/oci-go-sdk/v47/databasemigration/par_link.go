@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// ParLink Pre-Authenticated Request Link for ODMS Agent log use.
+// ParLink Note: Deprecated. Use the new resource model APIs instead.
+// Pre-Authenticated Request Link for ODMS Agent log use.
 type ParLink struct {
 
 	// Pre-Authenticated Request URI.

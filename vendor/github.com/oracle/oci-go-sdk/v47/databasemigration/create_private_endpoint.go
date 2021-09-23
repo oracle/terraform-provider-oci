@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// CreatePrivateEndpoint OCI Private Endpoint configuration details.
+// CreatePrivateEndpoint Note: Deprecated. Use the new resource model APIs instead.
+// OCI Private Endpoint configuration details.
 // Not required for source container database connections, it will default to the specified Source Database Connection Private Endpoint.
 type CreatePrivateEndpoint struct {
 

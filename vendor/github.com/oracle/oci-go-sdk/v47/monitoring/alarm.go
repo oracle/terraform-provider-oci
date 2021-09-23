@@ -29,7 +29,6 @@ type Alarm struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name for the alarm. It does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
 	// This name is sent as the title for notifications related to this alarm.
 	// Example: `High CPU Utilization`
 	DisplayName *string `mandatory:"true" json:"displayName"`
@@ -49,7 +48,8 @@ type Alarm struct {
 	// the Monitoring service interprets results for each returned time series as Boolean values,
 	// where zero represents false and a non-zero value represents true. A true value means that the trigger
 	// rule condition has been met. The query must specify a metric, statistic, interval, and trigger
-	// rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally
+	// rule (threshold or absence). Supported values for interval depend on the specified time range. More
+	// interval values are supported for smaller time ranges. You can optionally
 	// specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.
 	// For details about Monitoring Query Language (MQL), see Monitoring Query Language (MQL) Reference (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
 	// For available dimensions, review the metric definition for the supported service.
@@ -98,9 +98,8 @@ type Alarm struct {
 	// Example: `true`
 	MetricCompartmentIdInSubtree *bool `mandatory:"false" json:"metricCompartmentIdInSubtree"`
 
-	// Resource group specified as a filter for metric data retrieved by the alarm. A resource group is a custom string that can be used as a filter. Only one resource group can be applied per metric.
+	// Resource group to match for metric data retrieved by the alarm. A resource group is a custom string that you can match when retrieving custom metrics. Only one resource group can be applied per metric.
 	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
-	// Avoid entering confidential information.
 	// Example: `frontend-fleet`
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
 
@@ -122,9 +121,15 @@ type Alarm struct {
 
 	// The human-readable content of the notification delivered. Oracle recommends providing guidance
 	// to operators for resolving the alarm condition. Consider adding links to standard runbook
-	// practices. Avoid entering confidential information.
+	// practices.
 	// Example: `High CPU usage alert. Follow runbook instructions for resolution.`
 	Body *string `mandatory:"false" json:"body"`
+
+	// The format to use for notification messages sent from this alarm. The formats are:
+	// * `RAW` - Raw JSON blob. Default value.
+	// * `PRETTY_JSON`: JSON with new lines and indents.
+	// * `ONS_OPTIMIZED`: Simplified, user-friendly layout. Applies only to messages sent through the Notifications service to the following subscription types: Email.
+	MessageFormat AlarmMessageFormatEnum `mandatory:"false" json:"messageFormat,omitempty"`
 
 	// The frequency at which notifications are re-submitted, if the alarm keeps firing without
 	// interruption. Format defined by ISO 8601. For example, `PT4H` indicates four hours.
@@ -171,6 +176,31 @@ var mappingAlarmSeverity = map[string]AlarmSeverityEnum{
 func GetAlarmSeverityEnumValues() []AlarmSeverityEnum {
 	values := make([]AlarmSeverityEnum, 0)
 	for _, v := range mappingAlarmSeverity {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AlarmMessageFormatEnum Enum with underlying type: string
+type AlarmMessageFormatEnum string
+
+// Set of constants representing the allowable values for AlarmMessageFormatEnum
+const (
+	AlarmMessageFormatRaw          AlarmMessageFormatEnum = "RAW"
+	AlarmMessageFormatPrettyJson   AlarmMessageFormatEnum = "PRETTY_JSON"
+	AlarmMessageFormatOnsOptimized AlarmMessageFormatEnum = "ONS_OPTIMIZED"
+)
+
+var mappingAlarmMessageFormat = map[string]AlarmMessageFormatEnum{
+	"RAW":           AlarmMessageFormatRaw,
+	"PRETTY_JSON":   AlarmMessageFormatPrettyJson,
+	"ONS_OPTIMIZED": AlarmMessageFormatOnsOptimized,
+}
+
+// GetAlarmMessageFormatEnumValues Enumerates the set of values for AlarmMessageFormatEnum
+func GetAlarmMessageFormatEnumValues() []AlarmMessageFormatEnum {
+	values := make([]AlarmMessageFormatEnum, 0)
+	for _, v := range mappingAlarmMessageFormat {
 		values = append(values, v)
 	}
 	return values

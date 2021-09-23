@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// PhaseStatus Job phase status details.
+// PhaseStatus Note: Deprecated. Use the new resource model APIs instead.
+// Job phase status details.
 type PhaseStatus struct {
 
 	// Phase name

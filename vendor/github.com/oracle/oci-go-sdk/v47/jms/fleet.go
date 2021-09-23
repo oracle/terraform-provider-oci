@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service Query API
+// Java Management Service API
 //
-// API for the Java Management Service. Use this API to view and manage Fleets.
+// API for the Java Management Service. Use this API to view, create, and manage Fleets.
 //
 
 package jms
@@ -44,7 +44,7 @@ type Fleet struct {
 	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
 	ApproximateManagedInstanceCount *int `mandatory:"true" json:"approximateManagedInstanceCount"`
 
-	// The creation date and time of the Fleet (formatted according to RFC3339).
+	// The creation date and time of the Fleet (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The lifecycle state of the Fleet.

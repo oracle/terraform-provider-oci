@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// DataPumpSettings Optional settings for Data Pump Export and Import jobs
+// DataPumpSettings Note: Deprecated. Use the new resource model APIs instead.
+// Optional settings for Data Pump Export and Import jobs
 type DataPumpSettings struct {
 
 	// Data Pump job mode.

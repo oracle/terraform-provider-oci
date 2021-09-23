@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v47/common"
 )
 
-// StartMigrationDetails Parameters to specify to a Migration job operation.
+// StartMigrationDetails Note: Deprecated. Use the new resource model APIs instead.
+// Parameters to specify to a Migration job operation.
 type StartMigrationDetails struct {
 
 	// Name of a migration phase. The Job will wait after executing this
