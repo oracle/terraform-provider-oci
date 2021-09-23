@@ -10,8 +10,7 @@ description: |-
 # Data Source: oci_ocvp_supported_skus
 This data source provides the list of Supported Skus in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
-Lists supported SKUs. Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
-HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+Lists supported SKUs.
 
 
 ## Example Usage
