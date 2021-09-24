@@ -1,3 +1,16 @@
+## 4.46.0 (Unreleased)
+
+### Added
+- Support for oneWay TLS support for ADBS
+- Support for Functions Network Security Group
+- Support for Signed Image Functions
+- Support for NSGs in API Gateway
+- Migrate Data Safe service console to OCI console
+- Publisher Map feature Monitoring added to Email
+
+### Deprecated
+-  Database Migration service will be deprecated
+
 ## 4.45.0 (September 22, 2021)
 
 ### Added
