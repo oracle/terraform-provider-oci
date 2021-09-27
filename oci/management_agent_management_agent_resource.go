@@ -417,10 +417,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if isAgentAutoUpgradable, ok := s.D.GetOkExists("is_agent_auto_upgradable"); ok {
+	/*if isAgentAutoUpgradable, ok := s.D.GetOkExists("is_agent_auto_upgradable"); ok {
 		tmp := isAgentAutoUpgradable.(bool)
 		request.IsAgentAutoUpgradable = &tmp
-	}
+	}*/
 
 	agentId := s.D.Id()
 	request.ManagementAgentId = &agentId

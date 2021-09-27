@@ -562,9 +562,9 @@ func getMigrationIds(compartment string) ([]string, error) {
 
 func migrationSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if migrationResponse, ok := response.Response.(oci_database_migration.GetMigrationResponse); ok {
+	/*if migrationResponse, ok := response.Response.(oci_database_migration.GetMigrationResponse); ok {
 		return migrationResponse.LifecycleState != oci_database_migration.LifecycleStatesDeleted
-	}
+	}*/
 	return false
 }
 
