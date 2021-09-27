@@ -175,10 +175,10 @@ func (s *DatabaseMigrationAgentResourceCrud) Create() error {
 		request.AgentId = &tmp
 	}
 
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	/*if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	}
+	}*/
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -255,10 +255,10 @@ func (s *DatabaseMigrationAgentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AgentId = &tmp
 
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	/*if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	}
+	}*/
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
