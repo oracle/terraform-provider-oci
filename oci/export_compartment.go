@@ -25,8 +25,8 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v47/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
 )
 
 const (

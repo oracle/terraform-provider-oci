@@ -16,7 +16,7 @@ import (
 
 	"fmt"
 
-	"github.com/oracle/oci-go-sdk/v47/identity"
+	"github.com/oracle/oci-go-sdk/v48/identity"
 	"github.com/stretchr/testify/suite"
 )
 

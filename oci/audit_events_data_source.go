@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_audit "github.com/oracle/oci-go-sdk/v47/audit"
-	oci_common "github.com/oracle/oci-go-sdk/v47/common"
+	oci_audit "github.com/oracle/oci-go-sdk/v48/audit"
+	oci_common "github.com/oracle/oci-go-sdk/v48/common"
 )
 
 func init() {
