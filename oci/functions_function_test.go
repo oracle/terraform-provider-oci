@@ -34,7 +34,7 @@ var (
 		"application_id": Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
 		"display_name":   Representation{repType: Optional, create: `ExampleFunction`},
 		"id":             Representation{repType: Optional, create: `${oci_functions_function.test_function.id}`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, functionDataSourceFilterRepresentation}}
 	functionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -186,7 +186,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),
 				//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "functions.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
