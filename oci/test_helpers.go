@@ -26,7 +26,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v47/common"
+	oci_common "github.com/oracle/oci-go-sdk/v48/common"
 )
 
 var tmpl template.Template = *template.New("tmpl")

@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v47/core"
+	"github.com/oracle/oci-go-sdk/v48/core"
 	"github.com/stretchr/testify/suite"
 )
 
