@@ -99,6 +99,8 @@ func createTmpSourceFile() (string, error) {
 
 // issue-routing-tag: functions/default
 func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
+	t.Skip("Skipping test until functions support async life cycle state transitions.")
+
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestFunctionsInvokeFunctionResource_basic in HttpReplay mode till json encoding is fixed.")
 	}
