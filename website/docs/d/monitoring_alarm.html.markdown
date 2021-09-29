@@ -13,8 +13,8 @@ This data source provides details about a specific Alarm resource in Oracle Clou
 Gets the specified alarm.
 For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 
-This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations. 
-Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests, 
+This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 or transactions, per second (TPS) for a given tenancy.
 
 
@@ -38,11 +38,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `body` - The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: `High CPU usage alert. Follow runbook instructions for resolution.` 
+* `body` - The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices.  Example: `High CPU usage alert. Follow runbook instructions for resolution.` 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm. 
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"Operations.CostCenter": "42"}` 
-* `destinations` - A list of destinations to which the notifications for this alarm will be delivered.  Each destination is represented by an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) related to the supported destination service. For example, a destination using the Notifications service is represented by a topic OCID.  Supported destination services: Notifications Service. Limit: One destination per supported destination service. 
-* `display_name` - A user-friendly name for the alarm. It does not have to be unique, and it's changeable. Avoid entering confidential information.
+* `destinations` - A list of destinations to which the notifications for this alarm will be delivered. Each destination is represented by an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) related to the supported destination service. For example, a destination using the Notifications service is represented by a topic OCID. Supported destination services: Notifications Service. Limit: One destination per supported destination service. 
+* `display_name` - A user-friendly name for the alarm. It does not have to be unique, and it's changeable.
 
 	This name is sent as the title for notifications related to this alarm.
 
@@ -50,19 +50,23 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm. 
 * `is_enabled` - Whether the alarm is enabled.  Example: `true` 
+* `message_format` - The format to use for notification messages sent from this alarm. The formats are:
+	* `RAW` - Raw JSON blob. Default value.
+	* `PRETTY_JSON`: JSON with new lines and indents.
+	* `ONS_OPTIMIZED`: Simplified, user-friendly layout. Applies only to messages sent through the Notifications service to the following subscription types: Email. 
 * `metric_compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric being evaluated by the alarm. 
 * `metric_compartment_id_in_subtree` - When true, the alarm evaluates metrics from all compartments and subcompartments. The parameter can only be set to true when metricCompartmentId is the tenancy OCID (the tenancy is the root compartment). A true value requires the user to have tenancy-level permissions. If this requirement is not met, then the call is rejected. When false, the alarm evaluates metrics from only the compartment specified in metricCompartmentId. Default is false.  Example: `true` 
 * `namespace` - The source service or application emitting the metric that is evaluated by the alarm.  Example: `oci_computeagent` 
-* `pending_duration` - The period of time that the condition defined in the alarm must persist before the alarm state  changes from "OK" to "FIRING". For example, a value of 5 minutes means that the  alarm must persist in breaching the condition for five minutes before the alarm updates its  state to "FIRING". 
+* `pending_duration` - The period of time that the condition defined in the alarm must persist before the alarm state changes from "OK" to "FIRING". For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to "FIRING".
 
 	The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H` for one hour). Minimum: PT1M. Maximum: PT1H. Default: PT1M.
 
-	Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to "FIRING". 
+	Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to "FIRING".
 
-	The alarm updates its status to "OK" when the breaching condition has been clear for  the most recent minute. 
+	The alarm updates its status to "OK" when the breaching condition has been clear for the most recent minute.
 
 	Example: `PT5M` 
-* `query` - The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of  the Monitoring service interprets results for each returned time series as Boolean values,  where zero represents false and a non-zero value represents true. A true value means that the trigger  rule condition has been met. The query must specify a metric, statistic, interval, and trigger  rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally  specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.  For details about Monitoring Query Language (MQL), see [Monitoring Query Language (MQL) Reference](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).  For available dimensions, review the metric definition for the supported service.  See [Supported Services](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
+* `query` - The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`. For details about Monitoring Query Language (MQL), see [Monitoring Query Language (MQL) Reference](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm). For available dimensions, review the metric definition for the supported service. See [Supported Services](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
 
 	Example of threshold alarm:
 
@@ -85,7 +89,7 @@ The following attributes are exported:
 
 	Example: `PT2H` 
 * `resolution` - The time between calculated aggregation windows for the alarm. Supported value: `1m` 
-* `resource_group` - Resource group specified as a filter for metric data retrieved by the alarm. A resource group is a custom string that can be used as a filter. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). Avoid entering confidential information.  Example: `frontend-fleet` 
+* `resource_group` - Resource group to match for metric data retrieved by the alarm. A resource group is a custom string that you can match when retrieving custom metrics. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).  Example: `frontend-fleet` 
 * `severity` - The perceived type of response required when the alarm is in the "FIRING" state.  Example: `CRITICAL` 
 * `state` - The current lifecycle state of the alarm.  Example: `DELETED` 
 * `suppression` - The configuration details for suppressing an alarm. 

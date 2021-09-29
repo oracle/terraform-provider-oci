@@ -48,6 +48,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	is_data_guard_enabled = var.autonomous_database_is_data_guard_enabled
 	is_dedicated = var.autonomous_database_is_dedicated
 	is_free_tier = var.autonomous_database_is_free_tier
+	is_mtls_connection_required = var.autonomous_database_is_mtls_connection_required
 	is_preview_version_with_service_terms_accepted = var.autonomous_database_is_preview_version_with_service_terms_accepted
 	kms_key_id = oci_kms_key.test_key.id
 	license_model = var.autonomous_database_license_model
@@ -110,6 +111,7 @@ The following arguments are supported:
 * `is_data_guard_enabled` - (Optional) (Updatable) Indicates whether the Autonomous Database has Data Guard enabled.
 * `is_dedicated` - (Optional) True if the database is on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `is_free_tier` - (Optional) (Updatable) Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. When `db_workload` is `AJD` or `APEX` it cannot be `true`.
+* `is_mtls_connection_required` - (Optional) (Updatable) Indicates whether the Autonomous Database requires mTLS connections.
 * `is_preview_version_with_service_terms_accepted` - (Optional) If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI). 
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `is_refreshable_clone` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) True for creating a refreshable clone and False for detaching the clone from source Autonomous Database. Detaching is one time operation and clone becomes a regular Autonomous Database.
@@ -181,6 +183,15 @@ The following attributes are exported:
 	* `high` - The High database service provides the highest level of resources to each SQL statement resulting in the highest performance, but supports the fewest number of concurrent SQL statements.
 	* `low` - The Low database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements.
 	* `medium` - The Medium database service provides a lower level of resources to each SQL statement potentially resulting a lower level of performance, but supports more concurrent SQL statements.
+	* `profiles` - A list of connection string profiles to allow clients to group, filter and select connection string values based on structured metadata. 
+		* `consumer_group` - Consumer group used by the connection.
+		* `display_name` - A user-friendly name for the connection.
+		* `host_format` - Host format used in connection string.
+		* `protocol` - Protocol used by the connection.
+		* `session_mode` - Specifies whether the listener performs a direct hand-off of the session, or redirects the session. In RAC deployments where SCAN is used, sessions are redirected to a Node VIP. Use `DIRECT` for direct hand-offs. Use `REDIRECT` to redirect the session.
+		* `syntax_format` - Specifies whether the connection string is using the long (`LONG`), Easy Connect (`EZCONNECT`), or Easy Connect Plus (`EZCONNECTPLUS`) format. Autonomous Databases on shared Exadata infrastructure always use the long format. 
+		* `tls_authentication` - Specifies whether the TLS handshake is using one-way (`SERVER`) or mutual (`MUTUAL`) authentication.
+		* `value` - Connection string value.
 * `connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}` 
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous Database.
@@ -214,6 +225,7 @@ The following attributes are exported:
 * `is_data_guard_enabled` - Indicates whether the Autonomous Database has Data Guard enabled.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. 
+* `is_mtls_connection_required` - Indicates whether the Autonomous Database requires mTLS connections.
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
 * `is_refreshable_clone` - Indicates whether the Autonomous Database is a refreshable clone.
 * `key_history_entry` - Key History Entry.

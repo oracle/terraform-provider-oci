@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v47/common"
-	oci_database "github.com/oracle/oci-go-sdk/v47/database"
+	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_database "github.com/oracle/oci-go-sdk/v48/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -49,7 +49,7 @@ var (
 		})
 
 	autonomousDatabaseDedicatedRepresentation = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id"}),
+		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
@@ -104,6 +104,7 @@ var (
 	autonomousDatabaseDataGuardRepresentation = representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
 		"db_version":                           Representation{repType: Optional, create: `19c`},
 		"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
+		"is_mtls_connection_required":          Representation{repType: Optional, create: `false`},
 	})
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
@@ -116,13 +117,14 @@ var (
 
 	autonomousDatabaseRefreshableCloneRepresentation = representationCopyWithNewProperties(
 		representationCopyWithRemovedProperties(autonomousDatabaseRepresentation, []string{"timeouts", "kms_key_id", "vault_id"}), map[string]interface{}{
-			"admin_password":       Representation{repType: Optional, create: ``},
-			"source":               Representation{repType: Required, create: `CLONE_TO_REFRESHABLE`},
-			"db_name":              Representation{repType: Required, create: adbDbRefreshableCloneName},
-			"source_id":            Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
-			"is_refreshable_clone": Representation{repType: Optional, create: `true`},
-			"refreshable_mode":     Representation{repType: Optional, create: `MANUAL`},
-			"db_version":           Representation{repType: Optional, create: `19c`},
+			"admin_password":              Representation{repType: Optional, create: ``},
+			"source":                      Representation{repType: Required, create: `CLONE_TO_REFRESHABLE`},
+			"db_name":                     Representation{repType: Required, create: adbDbRefreshableCloneName},
+			"source_id":                   Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+			"is_refreshable_clone":        Representation{repType: Optional, create: `true`},
+			"refreshable_mode":            Representation{repType: Optional, create: `MANUAL`},
+			"db_version":                  Representation{repType: Optional, create: `19c`},
+			"is_mtls_connection_required": Representation{repType: Optional, create: `false`},
 		})
 
 	autonomousDatabasesCloneDataSourceRepresentation2 = map[string]interface{}{
@@ -164,7 +166,7 @@ var (
 			"is_access_control_enabled":        Representation{repType: Optional, create: `false`, update: `true`},
 		})
 	autonomousDatabaseDGExaccRepresentation = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbExaccName}, autonomousDatabaseRepresentation), []string{"license_model", "db_version", "is_auto_scaling_enabled", "operations_insights_status", "admin_password", "kms_key_id", "vault_id"}),
+		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbExaccName}, autonomousDatabaseRepresentation), []string{"license_model", "db_version", "is_auto_scaling_enabled", "operations_insights_status", "admin_password", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "customer_contacts"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
@@ -1295,6 +1297,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				//resource.TestCheckResourceAttrSet(resourceName, "private_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = fromInstanceState(s, resourceName, "id")
@@ -1328,6 +1332,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = fromInstanceState(s, resourceName, "id")
@@ -1341,7 +1347,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabasePrivateEndpointRepresentation),
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					representationCopyWithRemovedProperties(autonomousDatabasePrivateEndpointRepresentation, []string{"is_mtls_connection_required"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -1359,6 +1366,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = fromInstanceState(s, resourceName, "id")
@@ -1402,6 +1411,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 			),
 		},
 		// verify singular datasource
@@ -1434,6 +1445,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_label", "xlx4fcli"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 			),
 		},
 		// delete before next create
@@ -1464,6 +1477,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = fromInstanceState(s, resourceName, "id")
@@ -1499,6 +1514,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = fromInstanceState(s, resourceName, "id")
@@ -1541,6 +1558,44 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				//resource.TestCheckResourceAttrSet(resourceName, "private_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = fromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//Enable mtls connection
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					representationCopyWithNewProperties(autonomousDatabasePrivateEndpointRepresentation, map[string]interface{}{
+						"db_version":                  Representation{repType: Optional, create: `19c`},
+						"is_mtls_connection_required": Representation{repType: Optional, create: `true`},
+					})),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fcli"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = fromInstanceState(s, resourceName, "id")
@@ -1576,6 +1631,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "null"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = fromInstanceState(s, resourceName, "id")
@@ -1606,7 +1663,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 			getUpdatedRepresentationCopy("defined_tags", Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 				getUpdatedRepresentationCopy("display_name", Representation{repType: Optional, create: `example_autonomous_database`},
 					getUpdatedRepresentationCopy("freeform_tags", Representation{repType: Optional, create: map[string]string{"Department": "Finance"}},
-						getUpdatedRepresentationCopy("db_version", Representation{repType: Optional, create: "${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}", update: `19c`}, autonomousDatabaseRepresentation))))))
+						getUpdatedRepresentationCopy("db_version", Representation{repType: Optional, create: "${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}", update: `19c`},
+							representationCopyWithRemovedProperties(autonomousDatabaseRepresentation, []string{"is_mtls_connection_required"})))))))
 
 	var resId, resId2 string
 
@@ -2633,10 +2691,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "operations_insights_status"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "operations_insights_status", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "AJD"},
 							Representation{repType: Optional, create: `19c`},
-							Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `NOT_ENABLED`},
+							Representation{repType: Optional, create: `false`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2667,11 +2726,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "AJD"},
 							Representation{repType: Optional, update: `true`},
 							Representation{repType: Optional, create: `19c`},
-							Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `NOT_ENABLED`},
+							Representation{repType: Optional, create: `false`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2702,11 +2762,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "OLTP"},
 							Representation{repType: Optional, update: `true`},
 							Representation{repType: Optional, create: `19c`},
-							Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `NOT_ENABLED`},
+							Representation{repType: Optional, create: `false`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2781,6 +2842,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 						"db_version":                           Representation{repType: Required, create: `19c`},
 						"is_free_tier":                         Representation{repType: Required, create: `true`},
 						"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
+						"is_mtls_connection_required":          Representation{repType: Required, create: `false`},
 					}), []string{"operations_insights_status"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -2820,6 +2882,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 						"db_workload":                          Representation{repType: Required, create: `AJD`},
 						"is_free_tier":                         Representation{repType: Required, create: `false`},
 						"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
+						"is_mtls_connection_required":          Representation{repType: Required, create: `false`},
 					}), []string{"operations_insights_status"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -2898,9 +2961,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Create,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "APEX"},
-							Representation{repType: Optional, create: `19c`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `19c`},
+							Representation{repType: Optional, create: `true`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2928,10 +2992,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "operations_insights_status"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "operations_insights_status", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "APEX"},
 							Representation{repType: Optional, create: `19c`},
-							Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `NOT_ENABLED`},
+							Representation{repType: Optional, create: `true`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2961,11 +3026,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "APEX"},
 							Representation{repType: Optional, update: `true`},
 							Representation{repType: Optional, create: `19c`},
-							Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `NOT_ENABLED`},
+							Representation{repType: Optional, create: `true`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -2997,11 +3063,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_apex", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status"},
+					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "operations_insights_status", "is_mtls_connection_required"},
 						[]interface{}{Representation{repType: Optional, create: "OLTP"},
 							Representation{repType: Optional, update: `true`},
 							Representation{repType: Optional, create: `19c`},
-							Representation{repType: Optional, create: `NOT_ENABLED`}}, autonomousDatabaseRepresentation)),
+							Representation{repType: Optional, create: `NOT_ENABLED`},
+							Representation{repType: Optional, create: `true`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -3040,6 +3107,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 						"db_version":                           Representation{repType: Required, create: `19c`},
 						"is_free_tier":                         Representation{repType: Required, create: `true`},
 						"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
+						"is_mtls_connection_required":          Representation{repType: Required, create: `true`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -3076,6 +3144,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 						"db_version":                           Representation{repType: Required, create: `19c`},
 						"is_free_tier":                         Representation{repType: Required, create: `true`},
 						"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
+						"is_mtls_connection_required":          Representation{repType: Optional, create: `true`},
 					}), []string{"operations_insights_status"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
@@ -3115,6 +3184,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 						"db_workload":                          Representation{repType: Required, create: `APEX`},
 						"is_free_tier":                         Representation{repType: Required, create: `false`},
 						"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `REGULAR`},
+						"is_mtls_connection_required":          Representation{repType: Required, create: `true`},
 					}), []string{"operations_insights_status"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),

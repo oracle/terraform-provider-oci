@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v47/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v47/functions"
+	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -61,9 +61,9 @@ var (
 
 	FunctionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create,
-			getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: functionApplicationDisplayName}, applicationRepresentation)) +
-		DefinedTagsDependencies
+		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 // issue-routing-tag: functions/default

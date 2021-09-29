@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v47/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
 )
 
 func init() {

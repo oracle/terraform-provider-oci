@@ -4,57 +4,57 @@
 package oci
 
 import (
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v47/aianomalydetection"
-	oci_analytics "github.com/oracle/oci-go-sdk/v47/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v47/apigateway"
-	oci_apm "github.com/oracle/oci-go-sdk/v47/apmcontrolplane"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v47/artifacts"
-	oci_bastion "github.com/oracle/oci-go-sdk/v47/bastion"
-	oci_bds "github.com/oracle/oci-go-sdk/v47/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v47/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v47/budget"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v47/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v47/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v47/core"
-	oci_database "github.com/oracle/oci-go-sdk/v47/database"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v47/databasemigration"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v47/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v47/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v47/dataintegration"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v47/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v47/datascience"
-	oci_devops "github.com/oracle/oci-go-sdk/v47/devops"
-	oci_dns "github.com/oracle/oci-go-sdk/v47/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v47/email"
-	oci_events "github.com/oracle/oci-go-sdk/v47/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v47/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v47/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v47/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v47/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v47/integration"
-	oci_jms "github.com/oracle/oci-go-sdk/v47/jms"
-	oci_kms "github.com/oracle/oci-go-sdk/v47/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v47/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v47/loadbalancer"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v47/loganalytics"
-	oci_logging "github.com/oracle/oci-go-sdk/v47/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v47/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v47/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v47/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v47/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v47/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v47/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v47/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v47/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v47/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v47/ons"
-	oci_opsi "github.com/oracle/oci-go-sdk/v47/opsi"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v47/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v47/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v47/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v47/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v47/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v47/waas"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
+	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v48/apmcontrolplane"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_bastion "github.com/oracle/oci-go-sdk/v48/bastion"
+	oci_bds "github.com/oracle/oci-go-sdk/v48/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v48/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v48/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v48/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v48/databasemigration"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v48/dataintegration"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	oci_events "github.com/oracle/oci-go-sdk/v48/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v48/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v48/integration"
+	oci_jms "github.com/oracle/oci-go-sdk/v48/jms"
+	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v48/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v48/loganalytics"
+	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v48/marketplace"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v48/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v48/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v48/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v48/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v48/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v48/ons"
+	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v48/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v48/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v48/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v48/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v48/vulnerabilityscanning"
+	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -887,6 +887,26 @@ var exportDataSafeTargetDatabaseHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
+	},
+}
+
+var exportDataSafeSecurityAssessmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_data_safe_security_assessment",
+	datasourceClass:      "oci_data_safe_security_assessments",
+	datasourceItemsAttr:  "security_assessments",
+	resourceAbbreviation: "security_assessment",
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.SecurityAssessmentLifecycleStateSucceeded),
+	},
+}
+
+var exportDataSafeUserAssessmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_data_safe_user_assessment",
+	datasourceClass:      "oci_data_safe_user_assessments",
+	datasourceItemsAttr:  "user_assessments",
+	resourceAbbreviation: "user_assessment",
+	discoverableLifecycleStates: []string{
+		string(oci_data_safe.UserAssessmentLifecycleStateSucceeded),
 	},
 }
 

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_functions "github.com/oracle/oci-go-sdk/v47/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
 )
 
 func init() {
@@ -82,6 +82,14 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
+
+	if s.Res.ImagePolicyConfig != nil {
+		s.D.Set("image_policy_config", []interface{}{ImagePolicyConfigToMapFunctions(s.Res.ImagePolicyConfig)})
+	} else {
+		s.D.Set("image_policy_config", nil)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

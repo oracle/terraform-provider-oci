@@ -71,7 +71,7 @@ The following attributes are exported:
 	* `db_system_id` - The OCID of the cloud database system registered as a target database in Data Safe.
 	* `infrastructure_type` - The infrastructure type the database is running on.
 	* `instance_id` - The OCID of the compute instance on which the database is running.
-	* `ip_addresses` - A List of either the IP Addresses or FQDN names of the database hosts. 
+	* `ip_addresses` - The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 
 	* `listener_port` - The port number of the database listener.
 	* `service_name` - The service name of the database registered as target database.
 	* `vm_cluster_id` - The OCID of the VM cluster in which the database is running.

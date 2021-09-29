@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v47/database"
+	oci_database "github.com/oracle/oci-go-sdk/v48/database"
 )
 
 func init() {
@@ -275,6 +275,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.IsFreeTier != nil {
 			autonomousDatabase["is_free_tier"] = *r.IsFreeTier
+		}
+
+		if r.IsMtlsConnectionRequired != nil {
+			autonomousDatabase["is_mtls_connection_required"] = *r.IsMtlsConnectionRequired
 		}
 
 		if r.IsPreview != nil {

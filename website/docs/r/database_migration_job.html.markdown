@@ -10,7 +10,8 @@ description: |-
 # oci_database_migration_job
 This resource provides the Job resource in Oracle Cloud Infrastructure Database Migration service.
 
-Update a Migration Job resource details.
+Note: Deprecated. This resource will be deprecated. A new resource model will be provided soon.
+Update Migration Job resource details.
 
 
 ## Example Usage
@@ -50,7 +51,7 @@ The following attributes are exported:
 * `id` - The OCID of the Migration Job. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `migration_id` - The OCID of the Migration that this job belongs to. 
-* `progress` - Progress details of a Migration Job. 
+* `progress` - Note: Deprecated. Use the new resource model APIs instead. Progress details of a Migration Job. 
 	* `current_phase` - Current phase of the job. 
 	* `current_status` - Current status of the job. 
 	* `phases` - List of phase status for the job. 
@@ -60,8 +61,8 @@ The following attributes are exported:
 		* `status` - Phase status 
 * `state` - The current state of the migration job. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The time the DB Migration Job was created. An RFC3339 formatted datetime string 
-* `time_updated` - The time the DB Migration Job was last updated. An RFC3339 formatted datetime string 
+* `time_created` - The time the Migration Job was created. An RFC3339 formatted datetime string 
+* `time_updated` - The time the Migration Job was last updated. An RFC3339 formatted datetime string 
 * `type` - The job type. 
 * `unsupported_objects` - Database objects not supported. 
 	* `object` - Name of the object (regular expression is allowed) 

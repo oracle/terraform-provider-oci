@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v47/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
 )
 
 func init() {
@@ -105,7 +105,7 @@ func (s *ApigatewayGatewaysDataSourceCrud) SetData() error {
 
 	resources := []map[string]interface{}{}
 	for _, item := range s.Res.Items {
-		resources = append(resources, GatewaySummaryToMap(item))
+		resources = append(resources, GatewaySummaryToMap(item, true))
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
