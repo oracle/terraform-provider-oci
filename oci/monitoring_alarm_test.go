@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v47/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v47/monitoring"
+	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -53,6 +53,7 @@ var (
 		"body":                             Representation{repType: Optional, create: `CPU utilization has reached high values.`, update: `body2`},
 		"defined_tags":                     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"message_format":                   Representation{repType: Optional, create: `ONS_OPTIMIZED`, update: `PRETTY_JSON`},
 		"metric_compartment_id_in_subtree": Representation{repType: Optional, create: `false`, update: `true`},
 		"pending_duration":                 Representation{repType: Optional, create: `PT5M`, update: `PT10M`},
 		"repeat_notification_duration":     Representation{repType: Optional, create: `PT2H`, update: `PT10M`},
@@ -132,6 +133,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "message_format", "ONS_OPTIMIZED"),
 				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
@@ -177,6 +179,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "message_format", "ONS_OPTIMIZED"),
 				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
@@ -217,6 +220,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "message_format", "PRETTY_JSON"),
 				resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(resourceName, "namespace", "oci_lbaas"),
@@ -291,6 +295,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "message_format", "PRETTY_JSON"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metric_compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "namespace", "oci_lbaas"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "pending_duration", "PT10M"),

@@ -10,6 +10,7 @@ description: |-
 # Data Source: oci_database_migration_agent
 This data source provides details about a specific Agent resource in Oracle Cloud Infrastructure Database Migration service.
 
+Note: Deprecated. This resource will be deprecated. A new resource model will be provided soon.
 Display the ODMS Agent configuration.
 
 
@@ -40,7 +41,7 @@ The following attributes are exported:
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `public_key` - ODMS Agent public key. 
-* `state` - The current state of the ODMS On Prem Agent. 
+* `state` - The current state of the ODMS on-premises Agent. 
 * `stream_id` - The OCID of the Stream 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Agent was created. An RFC3339 formatted datetime string. 

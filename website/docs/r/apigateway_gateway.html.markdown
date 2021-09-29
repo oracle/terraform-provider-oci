@@ -27,6 +27,7 @@ resource "oci_apigateway_gateway" "test_gateway" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
+	network_security_group_ids = var.gateway_network_security_group_ids
 	response_cache_details {
 		#Required
 		type = var.gateway_response_cache_details_type
@@ -59,6 +60,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `endpoint_type` - (Required) Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be accessible on a private IP address on the subnet.  Example: `PUBLIC` or `PRIVATE` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `network_security_group_ids` - (Optional) (Updatable) An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - (Optional) (Updatable) Base Gateway response cache. 
 	* `authentication_secret_id` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
 	* `authentication_secret_version_number` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The version number of the authentication secret to use. 
@@ -92,6 +94,7 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `network_security_group_ids` - An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - Base Gateway response cache. 
 	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
 	* `authentication_secret_version_number` - The version number of the authentication secret to use. 

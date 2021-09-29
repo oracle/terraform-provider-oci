@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v47/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v47/monitoring"
+	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
 )
 
 func init() {
@@ -84,6 +84,11 @@ func MonitoringAlarmResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"message_format": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"metric_compartment_id_in_subtree": {
 				Type:     schema.TypeBool,
@@ -273,6 +278,10 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
+	if messageFormat, ok := s.D.GetOkExists("message_format"); ok {
+		request.MessageFormat = oci_monitoring.CreateAlarmDetailsMessageFormatEnum(messageFormat.(string))
+	}
+
 	if metricCompartmentId, ok := s.D.GetOkExists("metric_compartment_id"); ok {
 		tmp := metricCompartmentId.(string)
 		request.MetricCompartmentId = &tmp
@@ -416,6 +425,10 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		request.IsEnabled = &tmp
 	}
 
+	if messageFormat, ok := s.D.GetOkExists("message_format"); ok {
+		request.MessageFormat = oci_monitoring.UpdateAlarmDetailsMessageFormatEnum(messageFormat.(string))
+	}
+
 	if metricCompartmentId, ok := s.D.GetOkExists("metric_compartment_id"); ok {
 		tmp := metricCompartmentId.(string)
 		request.MetricCompartmentId = &tmp
@@ -518,6 +531,8 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
+
+	s.D.Set("message_format", s.Res.MessageFormat)
 
 	if s.Res.MetricCompartmentId != nil {
 		s.D.Set("metric_compartment_id", *s.Res.MetricCompartmentId)

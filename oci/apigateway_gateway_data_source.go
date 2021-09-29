@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v47/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
 )
 
 func init() {
@@ -100,6 +100,8 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
 
 	if s.Res.ResponseCacheDetails != nil {
 		responseCacheDetailsArray := []interface{}{}

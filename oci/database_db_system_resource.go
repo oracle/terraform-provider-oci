@@ -10,13 +10,13 @@ import (
 	"strings"
 	"time"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v47/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v47/common"
-	oci_database "github.com/oracle/oci-go-sdk/v47/database"
+	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_database "github.com/oracle/oci-go-sdk/v48/database"
 )
 
 func init() {

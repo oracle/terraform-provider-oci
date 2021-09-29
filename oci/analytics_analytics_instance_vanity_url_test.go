@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v47/analytics"
-	"github.com/oracle/oci-go-sdk/v47/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
+	"github.com/oracle/oci-go-sdk/v48/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"

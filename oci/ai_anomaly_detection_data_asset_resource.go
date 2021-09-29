@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v47/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
 )
 
 func init() {
