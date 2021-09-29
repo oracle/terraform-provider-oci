@@ -1,4 +1,4 @@
-## 4.46.0 (Unreleased)
+## 4.46.0 (September 29, 2021)
 
 ### Added
 - Support for oneWay TLS support for ADBS
