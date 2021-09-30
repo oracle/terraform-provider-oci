@@ -67,6 +67,12 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AdvisorSettings != nil {
+		s.D.Set("advisor_settings", []interface{}{AdvisorSettingsToMap(s.Res.AdvisorSettings)})
+	} else {
+		s.D.Set("advisor_settings", nil)
+	}
+
 	if s.Res.AgentId != nil {
 		s.D.Set("agent_id", *s.Res.AgentId)
 	}
@@ -99,6 +105,12 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.DumpTransferDetails != nil {
+		s.D.Set("dump_transfer_details", []interface{}{DumpTransferDetailsToMap(s.Res.DumpTransferDetails)})
+	} else {
+		s.D.Set("dump_transfer_details", nil)
+	}
+
 	excludeObjects := []interface{}{}
 	for _, item := range s.Res.ExcludeObjects {
 		excludeObjects = append(excludeObjects, DatabaseObjectToMap(item))
@@ -117,6 +129,12 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("golden_gate_details", nil)
 	}
+
+	includeObjects := []interface{}{}
+	for _, item := range s.Res.IncludeObjects {
+		includeObjects = append(includeObjects, DatabaseObjectToMap(item))
+	}
+	s.D.Set("include_objects", includeObjects)
 
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 

@@ -10,7 +10,6 @@ description: |-
 # Data Source: oci_database_migration_agent
 This data source provides details about a specific Agent resource in Oracle Cloud Infrastructure Database Migration service.
 
-Note: Deprecated. This resource will be deprecated. A new resource model will be provided soon.
 Display the ODMS Agent configuration.
 
 

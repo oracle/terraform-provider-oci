@@ -10,13 +10,13 @@ variable "user_ocid" {
 variable "fingerprint" {
 }
 
+variable "region" {
+}
+
 variable "private_key_path" {
 }
 
 variable "compartment_ocid" {
-}
-
-variable "region" {
 }
 
 provider "oci" {
@@ -27,7 +27,6 @@ provider "oci" {
   region           = var.region
 
 }
-
 
 resource "random_string" "autonomous_database_admin_password" {
   length = 16
@@ -49,6 +48,9 @@ variable "ssh_public_keys" {
 }
 
 variable "compartment_id" {
+}
+
+variable "database_id" {
 }
 
 resource "oci_core_subnet" "test_subnet" {
@@ -83,7 +85,18 @@ data "oci_database_migration_agent" "test_agent" {
 
 data "oci_database_migration_migrations" "test_migrations" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id =  var.compartment_id
+}
+
+data "oci_database_migration_job_advisor_report" "test_job_advisor_report" {
+  job_id = "jobId"
+}
+
+data "oci_database_migration_job_output" "test_job_output" {
+  job_id = "jobId"
+}
+
+data "oci_database_migration_migration_object_types" "test_migration_object_types" {
 }
 
 data "oci_database_migration_agent_images" "test_agent_images" {}
@@ -93,24 +106,24 @@ resource "oci_database_migration_connection" "test_connection_target" {
     password = random_string.autonomous_database_admin_password.result
     username = "admin"
   }
-  compartment_id = "${var.compartment_id}"
-  database_id = "database_id"
+  compartment_id = var.compartment_id
+  database_id = var.database_id
   database_type = "AUTONOMOUS"
   display_name = "TF_display_test_create"
   private_endpoint {
     compartment_id = var.compartment_id
-    subnet_id = "subnet_id"
-    vcn_id = "vcn_id"
+    subnet_id = var.subnet_id
+    vcn_id = var.vcn_id
   }
   vault_details {
-    compartment_id = "${var.compartment_id}"
-    key_id = "${var.kms_key_id}"
-    vault_id = "${var.kms_vault_id}"
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
   }
 }
 
 data "oci_identity_availability_domains" "test_availability_domains" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
 }
 
 resource "oci_database_migration_connection" "test_connection_source" {
@@ -126,20 +139,26 @@ resource "oci_database_migration_connection" "test_connection_source" {
   display_name = "TF_display_test_create_source"
   ssh_details {
     host = "10.2.2.17"
-    sshkey = "ssh_key"
+    sshkey = var.ssh_key
     sudo_location = "/usr/bin/sudo"
     user = "opc"
   }
   vault_details {
-    compartment_id = "${var.compartment_id}"
-    key_id = "${var.kms_key_id}"
-    vault_id = "${var.kms_vault_id}"
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
   }
 }
 
 
 resource "oci_database_migration_migration" "test_migration" {
   compartment_id = var.compartment_id
+  data_transfer_medium_details {
+    object_storage_details {
+    bucket = "bucket"
+    namespace = "namespace"
+    }
+  }
   datapump_settings {
     export_directory_object {
       name = "test_export_dir"
@@ -174,14 +193,13 @@ resource "oci_database_migration_migration" "test_migration" {
       url = "https://130.35.83.125"
     }
   }
-  source_container_database_connection_id = "cdb_id"
   source_database_connection_id = "${oci_database_migration_connection.test_connection_source.id}"
   target_database_connection_id = "${oci_database_migration_connection.test_connection_target.id}"
   type = "ONLINE"
   vault_details {
     compartment_id = var.compartment_id
-    key_id = "${var.kms_key_id}"
-    vault_id = "${var.kms_vault_id}"
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
   }
 }
 

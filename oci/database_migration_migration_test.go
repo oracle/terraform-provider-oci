@@ -45,22 +45,42 @@ var (
 		"source_database_connection_id": Representation{RepType: Required, Create: `${oci_database_migration_connection.test_connection_source.id}`},
 		"target_database_connection_id": Representation{RepType: Required, Create: `${oci_database_migration_connection.test_connection.id}`},
 		"type":                          Representation{RepType: Required, Create: `ONLINE`},
+		"exclude_objects":               RepresentationGroup{Optional, migrationExcludeObjectsRepresentation},
+		"data_transfer_medium_details":  RepresentationGroup{Required, migrationDataTransferMediumDetailsRepresentation},
 		"datapump_settings":             RepresentationGroup{Required, migrationDatapumpSettingsRepresentation},
 		"display_name":                  Representation{RepType: Optional, Create: `TF_ONLINE_MIG`, Update: `TF_ONLINE_MIG`},
 		"golden_gate_details":           RepresentationGroup{Required, migrationGoldenGateDetailsRepresentation},
 		"vault_details":                 RepresentationGroup{Required, migrationVaultDetailsRepresentation},
 	}
 	migrationDataTransferMediumDetailsRepresentation = map[string]interface{}{
+		"object_storage_details": RepresentationGroup{Required, migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
+	}
+	migrationDataTransferMediumDetailsRepresentationBeforeCPAT = map[string]interface{}{
 		"database_link_details":  RepresentationGroup{Optional, migrationDataTransferMediumDetailsDatabaseLinkDetailsRepresentation},
-		"object_storage_details": RepresentationGroup{Optional, migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
+		"object_storage_details": RepresentationGroup{Required, migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
 	}
 	migrationDatapumpSettingsRepresentation = map[string]interface{}{
 		"export_directory_object": RepresentationGroup{Required, migrationDatapumpSettingsExportDirectoryObjectRepresentation},
 		"metadata_remaps":         RepresentationGroup{Required, migrationDatapumpSettingsMetadataRemapsRepresentation},
 	}
 	migrationExcludeObjectsRepresentation = map[string]interface{}{
-		"object": Representation{RepType: Required, Create: `object`, Update: `object2`},
+		"object": Representation{RepType: Required, Create: `.*`, Update: `object2`},
 		"owner":  Representation{RepType: Required, Create: `owner`, Update: `owner2`},
+		"type":   Representation{RepType: Optional, Create: `ALL`, Update: `TABLE`},
+	}
+
+	migrationDumpTransferRepresentation = map[string]interface{}{
+		"source": RepresentationGroup{Optional, migrationSourceHostDumpTransferDetailsRepresentation},
+		"target": RepresentationGroup{Optional, migrationTargetHostDumpTransferDetailsRepresentation},
+	}
+
+	migrationSourceHostDumpTransferDetailsRepresentation = map[string]interface{}{
+		"kind":     Representation{RepType: Required, Create: `OCI_CLI`},
+		"oci_home": Representation{RepType: Optional, Create: `/path/to/ociCli`},
+	}
+
+	migrationTargetHostDumpTransferDetailsRepresentation = map[string]interface{}{
+		"kind": Representation{RepType: Required, Create: `CURL`},
 	}
 	migrationGoldenGateDetailsRepresentation = map[string]interface{}{
 		"hub":      RepresentationGroup{Required, migrationGoldenGateDetailsHubRepresentation},
@@ -161,9 +181,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	resourceName := "oci_database_migration_migration.test_migration"
 	datasourceName := "data.oci_database_migration_migrations.test_migrations"
 	singularDatasourceName := "data.oci_database_migration_migration.test_migration"
-
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	SaveConfigContent(config+compartmentIdVariableStr+MigrationResourceDependenciesMig+
 		GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig), "databasemigration", "migration", t)
 
@@ -266,9 +284,12 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.new_value", "DATA"),
-				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.old_value", "USERS"),
-				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
+					"new_value": "DATA",
+					"old_value": "USERS",
+					"type":      "TABLESPACE",
+				},
+					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
@@ -333,7 +354,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 					"type":      "TABLESPACE",
 				},
 					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
@@ -405,9 +425,12 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.new_value", "DATA"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.old_value", "USERS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.metadata_remaps.0.type", "TABLESPACE"),
+				CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
+					"new_value": "DATA",
+					"old_value": "USERS",
+					"type":      "TABLESPACE",
+				},
+					[]string{}),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_ONLINE_MIG"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.#", "1"),

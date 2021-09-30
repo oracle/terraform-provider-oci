@@ -10,9 +10,7 @@ description: |-
 # oci_database_migration_agent
 This resource provides the Agent resource in Oracle Cloud Infrastructure Database Migration service.
 
-Note: Deprecated. This resource will be deprecated. A new resource model will be provided soon.
 Modifies the ODMS Agent represented by the given ODMS Agent ID.
-
 
 ## Example Usage
 
@@ -22,7 +20,6 @@ resource "oci_database_migration_agent" "test_agent" {
 	agent_id = oci_database_migration_agent.test_agent.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.agent_display_name
 	freeform_tags = {"bar-key"= "value"}
@@ -37,7 +34,7 @@ resource "oci_database_migration_agent" "test_agent" {
 The following arguments are supported:
 
 * `agent_id` - (Required) The OCID of the agent 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment. 
+* `compartment_id` - (Optional) (Updatable) OCID of the compartment 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) ODMS Agent name 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
